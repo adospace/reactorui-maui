@@ -5,7 +5,7 @@ namespace MauiReactor.Animations
 {
     public class RxDoubleAnimation : RxTweenAnimation
     {
-        public RxDoubleAnimation(double targetValue, Easing easing = null, double? duration = null) : base(easing, duration)
+        public RxDoubleAnimation(double targetValue, Easing? easing = null, double? duration = null) : base(easing, duration)
         {
             TargetValue = targetValue;
             //System.Diagnostics.Debug.WriteLine($"RxDoubleAnimation(TargetValue={TargetValue})");

@@ -102,7 +102,7 @@ namespace MauiReactor
             {
                 if (_children == null)
                 {
-                    _children = new List<VisualNode>(RenderChildren().Where(_ => _ != null));
+                    _children = new List<VisualNode>(RenderChildren().Where(_ => _ != null)!);
                     for (int i = 0; i < _children.Count; i++)
                     {
                         _children[i].ChildIndex = i;
@@ -377,7 +377,7 @@ namespace MauiReactor
             _stateChanged = false;
         }
 
-        protected abstract IEnumerable<VisualNode> RenderChildren();
+        protected abstract IEnumerable<VisualNode?> RenderChildren();
 
         private bool AnimateThis()
         {

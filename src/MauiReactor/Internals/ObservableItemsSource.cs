@@ -8,7 +8,7 @@ namespace MauiReactor.Internals
 {
     internal class ObservableItemsSource<T> : IEnumerable<T>, IEnumerable, INotifyCollectionChanged
     {
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
         private readonly bool _collectionWithNotifyEvent;
 
         public ObservableItemsSource(IEnumerable<T> itemsSource)
@@ -21,7 +21,7 @@ namespace MauiReactor.Internals
             }
         }
 
-        private void NotifyCollectionChanged_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void NotifyCollectionChanged_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             CollectionChanged?.Invoke(this, e);
         }

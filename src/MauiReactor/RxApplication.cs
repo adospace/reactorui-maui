@@ -6,24 +6,20 @@ namespace MauiReactor
 {
     public abstract class RxApplication : VisualNode, IRxHostElement
     { 
-        public static RxApplication Instance { get; private set; }
         protected readonly Application _application;
 
         internal IComponentLoader ComponentLoader { get; set; } = new LocalComponentLoader();
 
         protected RxApplication(Application application)
         {
-            //if (Instance != null)
-            //{
-            //    throw new InvalidOperationException("Only one instance of RxApplication is permitted");
-            //}
-
             Instance = this;
 
             _application = application ?? throw new ArgumentNullException(nameof(application));
         }
 
-        public Action<UnhandledExceptionEventArgs> UnhandledException { get; set; }
+        public static RxApplication? Instance { get; private set; }
+
+        public Action<UnhandledExceptionEventArgs>? UnhandledException { get; set; }
 
         internal void FireUnhandledExpectionEvent(Exception ex)
         {
@@ -50,17 +46,17 @@ namespace MauiReactor
             return this;
         }
 
-        public INavigation Navigation =>  _application.MainPage?.Navigation;
+        public INavigation? Navigation =>  _application.MainPage?.Navigation;
 
         public RxContext Context { get; } = new RxContext();
 
-        public Page ContainerPage => _application.MainPage;
+        public Page? ContainerPage => _application?.MainPage;
 
     }
 
     public class RxApplication<T> : RxApplication where T : RxComponent, new()
     {
-        private RxComponent _rootComponent;
+        private RxComponent? _rootComponent;
         private bool _sleeping = true;
 
 
@@ -99,7 +95,7 @@ namespace MauiReactor
             return this;
         }
 
-        private void OnComponentAssemblyChanged(object sender, EventArgs e)
+        private void OnComponentAssemblyChanged(object? sender, EventArgs e)
         {
             try
             {
@@ -152,7 +148,7 @@ namespace MauiReactor
             }
         }
 
-        protected override IEnumerable<VisualNode> RenderChildren()
+        protected override IEnumerable<VisualNode?> RenderChildren()
         {
             yield return _rootComponent;
         }

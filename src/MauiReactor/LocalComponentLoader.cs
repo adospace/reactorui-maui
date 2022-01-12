@@ -6,7 +6,7 @@ namespace MauiReactor
 {
     internal class LocalComponentLoader : IComponentLoader
     {
-        public event EventHandler ComponentAssemblyChanged;
+        public event EventHandler? ComponentAssemblyChanged;
 
         public RxComponent LoadComponent<T>() where T : RxComponent, new() => new T();
 

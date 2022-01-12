@@ -14,7 +14,7 @@ namespace MauiReactor.Animations
 
     public class RxSimpleColorAnimation : RxColorAnimation
     {
-        public RxSimpleColorAnimation(Color targetColor, ColorTransitionModel colorTransitionModel = ColorTransitionModel.HSL, Easing easing = null, double? duration = null)
+        public RxSimpleColorAnimation(Color targetColor, ColorTransitionModel colorTransitionModel = ColorTransitionModel.HSL, Easing? easing = null, double? duration = null)
             : base(easing, duration)
         {
             TargetColor = targetColor;

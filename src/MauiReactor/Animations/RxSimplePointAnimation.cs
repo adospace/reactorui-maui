@@ -7,7 +7,7 @@ namespace MauiReactor.Animations
 {
     public class RxSimplePointAnimation : RxPointAnimation
     {
-        public RxSimplePointAnimation(Point targetPoint, Easing easing = null, double? duration = null)
+        public RxSimplePointAnimation(Point targetPoint, Easing? easing = null, double? duration = null)
             : base(easing, duration)
         {
             TargetPoint = targetPoint;

@@ -21,7 +21,7 @@ namespace MauiReactor
         public void SetAttachedProperty(BindableProperty property, object value)
             => _attachedProperties[property] = value;
 
-        private BindableObject _nativeControl;
+        private BindableObject? _nativeControl;
 
         private readonly List<VisualNode> _children = new();
 
@@ -48,16 +48,16 @@ namespace MauiReactor
         protected new IReadOnlyList<VisualNode> Children()
             => _children;
 
-        private IRxHostElement GetPageHost()
+        private IRxHostElement? GetPageHost()
         {
             var current = Parent;
-            while (current != null && !(current is IRxHostElement))
+            while (current != null && current is not IRxHostElement)
                 current = current.Parent;
 
             return current as IRxHostElement;
         }
 
-        protected Page ContainerPage
+        protected Page? ContainerPage
         {
             get
             {
@@ -72,14 +72,14 @@ namespace MauiReactor
                 nativeControl.SetValue(attachedProperty.Key, attachedProperty.Value);
             }
 
-            Parent.AddChild(this, nativeControl);
+            Parent.ThrowIfNull().AddChild(this, nativeControl);
 
             _nativeControl = nativeControl;
         }
 
         protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
         {
-            Parent.RemoveChild(this, nativeControl);
+            Parent.ThrowIfNull().RemoveChild(this, nativeControl);
             
             foreach (var attachedProperty in _attachedProperties)
             {
@@ -160,11 +160,11 @@ namespace MauiReactor
         protected virtual void OnPropsChanged()
         { }
 
-        public INavigation Navigation
-            => RxApplication.Instance.Navigation;
+        public INavigation? Navigation
+            => RxApplication.Instance?.Navigation;
 
-        public RxContext Context
-            => RxApplication.Instance.Context;
+        public RxContext? Context
+            => RxApplication.Instance?.Context;
 
     }
 
@@ -203,7 +203,7 @@ namespace MauiReactor
 
     public abstract class RxComponentWithProps<P> : RxComponent, IRxComponentWithProps where P : class, IProps, new()
     {
-        public RxComponentWithProps(P props = null)
+        public RxComponentWithProps(P? props = null)
         {
             Props = props ?? new P();
         }
@@ -215,9 +215,9 @@ namespace MauiReactor
 
     public abstract class RxComponent<S, P> : RxComponentWithProps<P>, IRxComponentWithState where S : class, IState, new() where P : class, IProps, new()
     {
-        private IRxComponentWithState _newComponent;
+        private IRxComponentWithState? _newComponent;
 
-        protected RxComponent(S state = null, P props = null)
+        protected RxComponent(S? state = null, P? props = null)
             : base(props)
         {
             State = state ?? new S();
@@ -233,8 +233,10 @@ namespace MauiReactor
         {
             stateFromOldComponent.CopyPropertiesTo(State, StateProperties);
 
-            if (Application.Current.Dispatcher.IsDispatchRequired)
-                Application.Current.Dispatcher.Dispatch(Invalidate);
+            var currentApplication = Application.Current.ThrowIfNull();
+
+            if (currentApplication.Dispatcher.IsDispatchRequired)
+                currentApplication.Dispatcher.Dispatch(Invalidate);
             else
                 Invalidate();
         }
@@ -254,8 +256,10 @@ namespace MauiReactor
                 return;
             }
 
-            if (Application.Current.Dispatcher.IsDispatchRequired)
-                Application.Current.Dispatcher.Dispatch(Invalidate);
+            var currentApplication = Application.Current.ThrowIfNull();
+
+            if (currentApplication.Dispatcher.IsDispatchRequired)
+                currentApplication.Dispatcher.Dispatch(Invalidate);
             else
                 Invalidate();
         }
@@ -282,7 +286,7 @@ namespace MauiReactor
 
     public abstract class RxComponent<S> : RxComponent<S, EmptyProps> where S : class, IState, new()
     {
-        protected RxComponent(S state = null, EmptyProps props = null)
+        protected RxComponent(S? state = null, EmptyProps? props = null)
             : base(state, props)
         {
         }

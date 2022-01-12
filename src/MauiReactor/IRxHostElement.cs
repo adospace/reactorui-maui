@@ -8,6 +8,6 @@ namespace MauiReactor
 
         void Stop();
 
-        Page ContainerPage { get; }
+        Page? ContainerPage { get; }
     }
 }
