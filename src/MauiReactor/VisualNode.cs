@@ -219,7 +219,7 @@ namespace MauiReactor
             };
         }
 
-        internal virtual void Layout(RxTheme? theme = null)
+        internal virtual void Layout()
         {
             if (!IsLayoutCycleRequired)
                 return;
@@ -246,7 +246,7 @@ namespace MauiReactor
                 OnUpdate();
 
             foreach (var child in Children.Where(_ => _.IsLayoutCycleRequired))
-                child.Layout(theme);
+                child.Layout();
         }
 
         internal virtual void MergeChildrenFrom(IReadOnlyList<VisualNode> oldChildren)
