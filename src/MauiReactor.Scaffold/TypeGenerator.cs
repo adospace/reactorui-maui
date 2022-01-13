@@ -621,7 +621,7 @@ namespace MauiReactor
             
             #line default
             #line hidden
-            this.Write("    public class ");
+            this.Write("    public partial class ");
             
             #line 145 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
@@ -952,7 +952,7 @@ namespace MauiReactor
             
             #line default
             #line hidden
-            this.Write(" = ImageSource.FromFile(file);\r\n            return ");
+            this.Write(" = Microsoft.Maui.Controls.ImageSource.FromFile(file);\r\n            return ");
             
             #line 192 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLowerInvariant()));
@@ -994,8 +994,9 @@ namespace MauiReactor
             
             #line default
             #line hidden
-            this.Write(" = Device.RuntimePlatform == Device.Android ? ImageSource.FromFile(fileAndroid) :" +
-                    " ImageSource.FromFile(fileiOS);\r\n            return ");
+            this.Write(" = Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource" +
+                    ".FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS);\r" +
+                    "\n            return ");
             
             #line 197 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLowerInvariant()));
@@ -1037,7 +1038,8 @@ namespace MauiReactor
             
             #line default
             #line hidden
-            this.Write(" = ImageSource.FromResource(resourceName, sourceAssembly);\r\n            return ");
+            this.Write(" = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly)" +
+                    ";\r\n            return ");
             
             #line 202 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLowerInvariant()));
@@ -1079,7 +1081,7 @@ namespace MauiReactor
             
             #line default
             #line hidden
-            this.Write(" = ImageSource.FromUri(imageUri);\r\n            return ");
+            this.Write(" = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);\r\n            return ");
             
             #line 207 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLowerInvariant()));
@@ -1165,7 +1167,8 @@ namespace MauiReactor
             
             #line default
             #line hidden
-            this.Write(" = ImageSource.FromStream(imageStream);\r\n            return ");
+            this.Write(" = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);\r\n            retu" +
+                    "rn ");
             
             #line 222 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLowerInvariant()));

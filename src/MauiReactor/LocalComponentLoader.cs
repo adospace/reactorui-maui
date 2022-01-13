@@ -4,20 +4,20 @@ using System.Text;
 
 namespace MauiReactor
 {
-    internal class LocalComponentLoader : IComponentLoader
-    {
-        public event EventHandler? ComponentAssemblyChanged;
+    //internal class LocalComponentLoader : IComponentLoader
+    //{
+    //    public event EventHandler? ComponentAssemblyChanged;
 
-        public Component LoadComponent<T>() where T : Component, new() => new T();
+    //    public Component LoadComponent<T>() where T : Component, new() => new T();
 
-        public void Run()
-        {
+    //    public void Run()
+    //    {
             
-        }
+    //    }
 
-        public void Stop()
-        {
+    //    public void Stop()
+    //    {
             
-        }
-    }
+    //    }
+    //}
 }

@@ -4,14 +4,14 @@ using System.Text;
 
 namespace MauiReactor
 {
-    internal interface IComponentLoader
-    {
-        Component LoadComponent<T>() where T : Component, new();
+    //internal interface IComponentLoader
+    //{
+    //    Component LoadComponent<T>() where T : Component, new();
 
-        event EventHandler ComponentAssemblyChanged;
+    //    event EventHandler ComponentAssemblyChanged;
 
-        void Run();
+    //    void Run();
 
-        void Stop();
-    }
+    //    void Stop();
+    //}
 }

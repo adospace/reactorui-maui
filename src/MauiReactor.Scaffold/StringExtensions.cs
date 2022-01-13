@@ -55,7 +55,7 @@ namespace MauiReactor.Scaffold
                 "System.Decimal" => "decimal",
                 "System.String" => "string",
                 "System.Object" => "object",
-                _ => fulltypename,
+                _ => fulltypename.Replace('+', '.'),
             };
         }
     }

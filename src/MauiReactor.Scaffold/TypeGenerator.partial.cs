@@ -31,6 +31,9 @@ namespace MauiReactor.Scaffold
                 .Select(_ => propertiesMap[_])
                 //.Where(_ => _.GetCustomAttribute<ObsoleteAttribute>() == null)
                 .Where(_ => !_.PropertyType.IsGenericType)
+                .Where(_ => !typeof(BindableObject).IsAssignableFrom(_.PropertyType))
+                //Microsoft.Maui.Controls.LayoutOptions doesn't support ==
+                .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.LayoutOptions")
                 .Where(_ => (_.GetSetMethod()?.IsPublic).GetValueOrDefault())
                 .ToArray();
 
@@ -42,7 +45,7 @@ namespace MauiReactor.Scaffold
 
         public string TypeName() => _typeToScaffold.Name;
 
-        public string FullTypeName() => _typeToScaffold.FullName ?? throw new InvalidOperationException();
+        public string FullTypeName() => (_typeToScaffold.FullName ?? throw new InvalidOperationException()).Replace('+', '.');
 
         public string BaseTypeName() => (_typeToScaffold.BaseType ?? throw new InvalidOperationException()).Name == "BindableObject" ? "VisualNode" : $"{_typeToScaffold.BaseType.Name}";
 

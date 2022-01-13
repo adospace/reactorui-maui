@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor", "MauiReactor\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.TestApp", "MauiReactor.TestApp\MauiReactor.TestApp.csproj", "{67CE0554-D905-4F82-BCD2-A4BD497D5F65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiReactor.Scaffold", "MauiReactor.Scaffold\MauiReactor.Scaffold.csproj", "{EC54E688-EADD-4210-ABA4-C6C17B801DEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.Scaffold", "MauiReactor.Scaffold\MauiReactor.Scaffold.csproj", "{EC54E688-EADD-4210-ABA4-C6C17B801DEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiReactor.HotReloadConsole", "MauiReactor.HotReloadConsole\MauiReactor.HotReloadConsole.csproj", "{6CBDDDEC-54BD-4448-811E-1019D0465BC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{EC54E688-EADD-4210-ABA4-C6C17B801DEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC54E688-EADD-4210-ABA4-C6C17B801DEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC54E688-EADD-4210-ABA4-C6C17B801DEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CBDDDEC-54BD-4448-811E-1019D0465BC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CBDDDEC-54BD-4448-811E-1019D0465BC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CBDDDEC-54BD-4448-811E-1019D0465BC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CBDDDEC-54BD-4448-811E-1019D0465BC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

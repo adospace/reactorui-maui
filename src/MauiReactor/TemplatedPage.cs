@@ -53,7 +53,7 @@ namespace MauiReactor
 
     }
 
-    public class TemplatedPage : TemplatedPage<Microsoft.Maui.Controls.TemplatedPage>
+    public partial class TemplatedPage : TemplatedPage<Microsoft.Maui.Controls.TemplatedPage>
     {
         public TemplatedPage()
         {

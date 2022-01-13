@@ -12,7 +12,6 @@ namespace MauiReactor
 {
     public partial interface IContentPage
     {
-        Microsoft.Maui.Controls.View Content { get; set; }
 
 
     }
@@ -30,17 +29,11 @@ namespace MauiReactor
 
         }
 
-        Microsoft.Maui.Controls.View IContentPage.Content { get; set; } = (Microsoft.Maui.Controls.View)Microsoft.Maui.Controls.ContentPage.ContentProperty.DefaultValue;
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
-
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIContentPage = (IContentPage)this;
-            if (NativeControl.Content != thisAsIContentPage.Content) NativeControl.Content = thisAsIContentPage.Content;
-
 
             base.OnUpdate();
 
@@ -53,7 +46,7 @@ namespace MauiReactor
 
     }
 
-    public class ContentPage : ContentPage<Microsoft.Maui.Controls.ContentPage>
+    public partial class ContentPage : ContentPage<Microsoft.Maui.Controls.ContentPage>
     {
         public ContentPage()
         {
@@ -69,12 +62,6 @@ namespace MauiReactor
 
     public static partial class ContentPageExtensions
     {
-        public static T Content<T>(this T contentpage, Microsoft.Maui.Controls.View content) where T : IContentPage
-        {
-            contentpage.Content = content;
-            return contentpage;
-        }
-
 
     }
 }

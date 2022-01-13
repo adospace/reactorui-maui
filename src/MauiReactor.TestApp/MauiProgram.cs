@@ -6,7 +6,10 @@
         {
             var builder = MauiApp.CreateBuilder();
             builder
-                .UseMauiApp<App>()
+                .UseMauiReactorApp<HomePage>()
+#if DEBUG
+                .EnableMauiReactorHotReload()
+#endif
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

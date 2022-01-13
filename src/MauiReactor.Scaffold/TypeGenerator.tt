@@ -142,7 +142,7 @@ namespace MauiReactor
     }
 
     <# if (IsTypeNotAbstractWithEmptyConstructur()) { #>
-    public class <#= TypeName() #> : <#= TypeName() #><<#= FullTypeName() #>>
+    public partial class <#= TypeName() #> : <#= TypeName() #><<#= FullTypeName() #>>
     {
         public <#= TypeName() #>()
         { 
@@ -188,22 +188,22 @@ namespace MauiReactor
                var propertyName = property.Name.Length <= 6 ? property.Name : property.Name.Substring(0, property.Name.Length - 6); #>
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLowerInvariant() #>, string file) where T : I<#= TypeName() #>
         {
-            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = ImageSource.FromFile(file);
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromFile(file);
             return <#= TypeName().ToLowerInvariant() #>;
         }
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLowerInvariant() #>, string fileAndroid, string fileiOS) where T : I<#= TypeName() #>
         {
-            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = Device.RuntimePlatform == Device.Android ? ImageSource.FromFile(fileAndroid) : ImageSource.FromFile(fileiOS);
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS);
             return <#= TypeName().ToLowerInvariant() #>;
         }
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLowerInvariant() #>, string resourceName, Assembly sourceAssembly) where T : I<#= TypeName() #>
         {
-            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = ImageSource.FromResource(resourceName, sourceAssembly);
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
             return <#= TypeName().ToLowerInvariant() #>;
         }
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLowerInvariant() #>, Uri imageUri) where T : I<#= TypeName() #>
         {
-            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = ImageSource.FromUri(imageUri);
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
             return <#= TypeName().ToLowerInvariant() #>;
         }
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLowerInvariant() #>, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : I<#= TypeName() #>
@@ -218,7 +218,7 @@ namespace MauiReactor
         }
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLowerInvariant() #>, Func<Stream> imageStream) where T : I<#= TypeName() #>
         {
-            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = ImageSource.FromStream(imageStream);
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
             return <#= TypeName().ToLowerInvariant() #>;
         }
         <# } #>

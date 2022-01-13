@@ -4,5 +4,8 @@ Microsoft.Maui.Controls.VisualElement
 Microsoft.Maui.Controls.Page
 Microsoft.Maui.Controls.TemplatedPage
 Microsoft.Maui.Controls.ContentPage
+Microsoft.Maui.Controls.View
+Microsoft.Maui.Controls.Button
+Microsoft.Maui.Controls.Label
 
 

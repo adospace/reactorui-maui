@@ -164,7 +164,7 @@ namespace MauiReactor
         { }
 
         public INavigation? Navigation
-            => ReactorApplication.Instance?.Navigation;
+            => ReactorApplicationHost.Instance?.Navigation;
     }
 
     internal interface IComponentWithState

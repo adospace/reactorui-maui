@@ -1,23 +1,26 @@
-﻿using System;
+﻿using MauiReactor.HotReload;
+using MauiReactor.Internals;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace MauiReactor
 {
-    public abstract class ReactorApplication : VisualNode, IHostElement
+    internal abstract class ReactorApplicationHost : VisualNode, IHostElement
     { 
         protected readonly Application _application;
 
-        internal IComponentLoader ComponentLoader { get; set; } = new LocalComponentLoader();
+        //internal IComponentLoader ComponentLoader { get; set; } = new LocalComponentLoader();
 
-        protected ReactorApplication(Application application)
+        protected ReactorApplicationHost(Application application)
         {
             Instance = this;
 
             _application = application ?? throw new ArgumentNullException(nameof(application));
         }
 
-        public static ReactorApplication? Instance { get; private set; }
+        public static ReactorApplicationHost? Instance { get; private set; }
 
         public Action<UnhandledExceptionEventArgs>? UnhandledException { get; set; }
 
@@ -31,10 +34,7 @@ namespace MauiReactor
 
         public abstract void Stop();
 
-        public static ReactorApplication Create<T>(Application application) where T : Component, new() 
-            => new ReactorApplication<T>(application);
-
-        public ReactorApplication OnUnhandledException(Action<UnhandledExceptionEventArgs> action)
+        public ReactorApplicationHost OnUnhandledException(Action<UnhandledExceptionEventArgs> action)
         {
             UnhandledException = action;
             return this;
@@ -46,15 +46,19 @@ namespace MauiReactor
 
     }
 
-    public class ReactorApplication<T> : ReactorApplication where T : Component, new()
+    internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Component, new()
     {
         private Component? _rootComponent;
         private bool _sleeping = true;
+        private readonly HotReloadServer? _hotReloadServer;
 
-
-        internal ReactorApplication(Application application)
+        internal ReactorApplicationHost(Application application, bool enableHotReload)
             :base(application)
         {
+            if (enableHotReload)
+            {
+                _hotReloadServer = new HotReloadServer(OnComponentAssemblyChanged);
+            }
         }
 
         protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
@@ -77,21 +81,20 @@ namespace MauiReactor
         {
             if (_sleeping)
             {
-                _rootComponent ??= ComponentLoader.LoadComponent<T>();
-                ComponentLoader.ComponentAssemblyChanged += OnComponentAssemblyChanged;
+                _rootComponent ??= new T();
                 _sleeping = false;
                 OnLayout();
-                ComponentLoader.Run();
+                _hotReloadServer?.Run();
             }
 
             return this;
         }
 
-        private void OnComponentAssemblyChanged(object? sender, EventArgs e)
+        private void OnComponentAssemblyChanged(Assembly assembly)
         {
             try
             {
-                var newComponent = ComponentLoader.LoadComponent<T>();
+                var newComponent = ReactorApplicationHost<T>.LoadComponent(assembly);
                 if (newComponent != null)
                 {
                     _rootComponent = newComponent;
@@ -99,7 +102,7 @@ namespace MauiReactor
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine($"Unable to hot relead component {typeof(T).FullName}: type not found in received assembly");
+                    System.Diagnostics.Debug.WriteLine($"Unable to hot reload component {typeof(T).FullName}: type not found in received assembly");
                 }
             }
             catch (Exception ex)
@@ -108,13 +111,28 @@ namespace MauiReactor
             }
         }
 
+        public static Component? LoadComponent(Assembly assembly)
+        {
+            if (assembly == null)
+                return new T();
+
+            var type = assembly.GetType(Validate.EnsureNotNull(typeof(T).FullName));
+
+            if (type == null)
+            {
+                return null;
+                //throw new InvalidOperationException($"Unable to hot relead component {typeof(T).FullName}: type not found in received assembly");
+            }
+
+            return (Component?)Activator.CreateInstance(type);
+        }
+
         public override void Stop()
         {
             if (!_sleeping)
             {
-                ComponentLoader.ComponentAssemblyChanged -= OnComponentAssemblyChanged;
                 _sleeping = true;
-                ComponentLoader.Stop();
+                _hotReloadServer?.Stop();
             }
         }
 
@@ -157,6 +175,63 @@ namespace MauiReactor
             }
         }
 
+    }
+
+    public abstract class ReactorApplication : Application
+    { 
+        internal static bool HotReloadEnabled { get; set; }
+    }
+
+    public class ReactorApplication<T> : ReactorApplication where T : Component, new()
+    {
+
+        private ReactorApplicationHost<T>? _host;
+
+        protected override Window CreateWindow(IActivationState? activationState)
+        {
+            _host ??= new ReactorApplicationHost<T>(this, HotReloadEnabled);
+            _host.Run();
+            return base.CreateWindow(activationState);
+        }
+
+        public override void CloseWindow(Window window)
+        {
+            base.CloseWindow(window);
+        }
+
+        protected override void OnStart()
+        {
+            _host?.Run();
+            base.OnStart();
+        }
+
+        protected override void OnSleep()
+        {
+            _host?.Stop();
+            base.OnSleep();
+        }
+        protected override void CleanUp()
+        {
+            _host?.Stop();
+            base.CleanUp();
+        }
+    }
+
+    public static class MauiAppBuilderExtensions
+    {
+        public static MauiAppBuilder UseMauiReactorApp<TComponent>(this MauiAppBuilder appBuilder) where TComponent : Component, new() 
+            => appBuilder.UseMauiApp<ReactorApplication<TComponent>>();
+
+        public static MauiAppBuilder UseMauiReactorApp<TApplication, TComponent>(this MauiAppBuilder appBuilder)
+            where TApplication : ReactorApplication<TComponent>
+            where TComponent : Component, new()
+            => appBuilder.UseMauiApp<TApplication>();
+
+        public static MauiAppBuilder EnableMauiReactorHotReload(this MauiAppBuilder appBuilder)
+        {
+            ReactorApplication.HotReloadEnabled = true;
+            return appBuilder;
+        }
     }
 }
 

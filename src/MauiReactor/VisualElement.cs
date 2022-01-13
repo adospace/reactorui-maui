@@ -12,7 +12,6 @@ namespace MauiReactor
 {
     public partial interface IVisualElement
     {
-        Microsoft.Maui.Controls.Shadow Shadow { get; set; }
         Microsoft.Maui.Controls.Style Style { get; set; }
         bool InputTransparent { get; set; }
         bool IsEnabled { get; set; }
@@ -26,12 +25,10 @@ namespace MauiReactor
         double Scale { get; set; }
         double ScaleX { get; set; }
         double ScaleY { get; set; }
-        Microsoft.Maui.Controls.Shapes.Geometry Clip { get; set; }
         Microsoft.Maui.Controls.IVisual Visual { get; set; }
         bool IsVisible { get; set; }
         double Opacity { get; set; }
         Microsoft.Maui.Graphics.Color BackgroundColor { get; set; }
-        Microsoft.Maui.Controls.Brush Background { get; set; }
         double WidthRequest { get; set; }
         double HeightRequest { get; set; }
         double MinimumWidthRequest { get; set; }
@@ -66,7 +63,6 @@ namespace MauiReactor
 
         }
 
-        Microsoft.Maui.Controls.Shadow IVisualElement.Shadow { get; set; } = (Microsoft.Maui.Controls.Shadow)Microsoft.Maui.Controls.VisualElement.ShadowProperty.DefaultValue;
         Microsoft.Maui.Controls.Style IVisualElement.Style { get; set; } = (Microsoft.Maui.Controls.Style)Microsoft.Maui.Controls.VisualElement.StyleProperty.DefaultValue;
         bool IVisualElement.InputTransparent { get; set; } = (bool)Microsoft.Maui.Controls.VisualElement.InputTransparentProperty.DefaultValue;
         bool IVisualElement.IsEnabled { get; set; } = (bool)Microsoft.Maui.Controls.VisualElement.IsEnabledProperty.DefaultValue;
@@ -80,12 +76,10 @@ namespace MauiReactor
         double IVisualElement.Scale { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.ScaleProperty.DefaultValue;
         double IVisualElement.ScaleX { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.ScaleXProperty.DefaultValue;
         double IVisualElement.ScaleY { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.ScaleYProperty.DefaultValue;
-        Microsoft.Maui.Controls.Shapes.Geometry IVisualElement.Clip { get; set; } = (Microsoft.Maui.Controls.Shapes.Geometry)Microsoft.Maui.Controls.VisualElement.ClipProperty.DefaultValue;
         Microsoft.Maui.Controls.IVisual IVisualElement.Visual { get; set; } = (Microsoft.Maui.Controls.IVisual)Microsoft.Maui.Controls.VisualElement.VisualProperty.DefaultValue;
         bool IVisualElement.IsVisible { get; set; } = (bool)Microsoft.Maui.Controls.VisualElement.IsVisibleProperty.DefaultValue;
         double IVisualElement.Opacity { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.OpacityProperty.DefaultValue;
         Microsoft.Maui.Graphics.Color IVisualElement.BackgroundColor { get; set; } = (Microsoft.Maui.Graphics.Color)Microsoft.Maui.Controls.VisualElement.BackgroundColorProperty.DefaultValue;
-        Microsoft.Maui.Controls.Brush IVisualElement.Background { get; set; } = (Microsoft.Maui.Controls.Brush)Microsoft.Maui.Controls.VisualElement.BackgroundProperty.DefaultValue;
         double IVisualElement.WidthRequest { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.WidthRequestProperty.DefaultValue;
         double IVisualElement.HeightRequest { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.HeightRequestProperty.DefaultValue;
         double IVisualElement.MinimumWidthRequest { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.MinimumWidthRequestProperty.DefaultValue;
@@ -111,7 +105,6 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIVisualElement = (IVisualElement)this;
-            if (NativeControl.Shadow != thisAsIVisualElement.Shadow) NativeControl.Shadow = thisAsIVisualElement.Shadow;
             if (NativeControl.Style != thisAsIVisualElement.Style) NativeControl.Style = thisAsIVisualElement.Style;
             if (NativeControl.InputTransparent != thisAsIVisualElement.InputTransparent) NativeControl.InputTransparent = thisAsIVisualElement.InputTransparent;
             if (NativeControl.IsEnabled != thisAsIVisualElement.IsEnabled) NativeControl.IsEnabled = thisAsIVisualElement.IsEnabled;
@@ -125,12 +118,10 @@ namespace MauiReactor
             if (NativeControl.Scale != thisAsIVisualElement.Scale) NativeControl.Scale = thisAsIVisualElement.Scale;
             if (NativeControl.ScaleX != thisAsIVisualElement.ScaleX) NativeControl.ScaleX = thisAsIVisualElement.ScaleX;
             if (NativeControl.ScaleY != thisAsIVisualElement.ScaleY) NativeControl.ScaleY = thisAsIVisualElement.ScaleY;
-            if (NativeControl.Clip != thisAsIVisualElement.Clip) NativeControl.Clip = thisAsIVisualElement.Clip;
             if (NativeControl.Visual != thisAsIVisualElement.Visual) NativeControl.Visual = thisAsIVisualElement.Visual;
             if (NativeControl.IsVisible != thisAsIVisualElement.IsVisible) NativeControl.IsVisible = thisAsIVisualElement.IsVisible;
             if (NativeControl.Opacity != thisAsIVisualElement.Opacity) NativeControl.Opacity = thisAsIVisualElement.Opacity;
             if (NativeControl.BackgroundColor != thisAsIVisualElement.BackgroundColor) NativeControl.BackgroundColor = thisAsIVisualElement.BackgroundColor;
-            if (NativeControl.Background != thisAsIVisualElement.Background) NativeControl.Background = thisAsIVisualElement.Background;
             if (NativeControl.WidthRequest != thisAsIVisualElement.WidthRequest) NativeControl.WidthRequest = thisAsIVisualElement.WidthRequest;
             if (NativeControl.HeightRequest != thisAsIVisualElement.HeightRequest) NativeControl.HeightRequest = thisAsIVisualElement.HeightRequest;
             if (NativeControl.MinimumWidthRequest != thisAsIVisualElement.MinimumWidthRequest) NativeControl.MinimumWidthRequest = thisAsIVisualElement.MinimumWidthRequest;
@@ -227,12 +218,6 @@ namespace MauiReactor
 
     public static partial class VisualElementExtensions
     {
-        public static T Shadow<T>(this T visualelement, Microsoft.Maui.Controls.Shadow shadow) where T : IVisualElement
-        {
-            visualelement.Shadow = shadow;
-            return visualelement;
-        }
-
         public static T Style<T>(this T visualelement, Microsoft.Maui.Controls.Style style) where T : IVisualElement
         {
             visualelement.Style = style;
@@ -311,12 +296,6 @@ namespace MauiReactor
             return visualelement;
         }
 
-        public static T Clip<T>(this T visualelement, Microsoft.Maui.Controls.Shapes.Geometry clip) where T : IVisualElement
-        {
-            visualelement.Clip = clip;
-            return visualelement;
-        }
-
         public static T Visual<T>(this T visualelement, Microsoft.Maui.Controls.IVisual visual) where T : IVisualElement
         {
             visualelement.Visual = visual;
@@ -338,12 +317,6 @@ namespace MauiReactor
         public static T BackgroundColor<T>(this T visualelement, Microsoft.Maui.Graphics.Color backgroundColor) where T : IVisualElement
         {
             visualelement.BackgroundColor = backgroundColor;
-            return visualelement;
-        }
-
-        public static T Background<T>(this T visualelement, Microsoft.Maui.Controls.Brush background) where T : IVisualElement
-        {
-            visualelement.Background = background;
             return visualelement;
         }
 
