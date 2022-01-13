@@ -4,20 +4,20 @@ using System.Text;
 
 namespace MauiReactor
 {
-    public abstract class RxApplication : VisualNode, IRxHostElement
+    public abstract class ReactorApplication : VisualNode, IHostElement
     { 
         protected readonly Application _application;
 
         internal IComponentLoader ComponentLoader { get; set; } = new LocalComponentLoader();
 
-        protected RxApplication(Application application)
+        protected ReactorApplication(Application application)
         {
             Instance = this;
 
             _application = application ?? throw new ArgumentNullException(nameof(application));
         }
 
-        public static RxApplication? Instance { get; private set; }
+        public static ReactorApplication? Instance { get; private set; }
 
         public Action<UnhandledExceptionEventArgs>? UnhandledException { get; set; }
 
@@ -27,14 +27,14 @@ namespace MauiReactor
             System.Diagnostics.Debug.WriteLine(ex);
         }
 
-        public abstract IRxHostElement Run();
+        public abstract IHostElement Run();
 
         public abstract void Stop();
 
-        public static RxApplication Create<T>(Application application) where T : RxComponent, new() 
-            => new RxApplication<T>(application);
+        public static ReactorApplication Create<T>(Application application) where T : Component, new() 
+            => new ReactorApplication<T>(application);
 
-        public RxApplication OnUnhandledException(Action<UnhandledExceptionEventArgs> action)
+        public ReactorApplication OnUnhandledException(Action<UnhandledExceptionEventArgs> action)
         {
             UnhandledException = action;
             return this;
@@ -42,24 +42,24 @@ namespace MauiReactor
 
         public INavigation? Navigation =>  _application.MainPage?.Navigation;
 
-        public Page? ContainerPage => _application?.MainPage;
+        public Microsoft.Maui.Controls.Page? ContainerPage => _application?.MainPage;
 
     }
 
-    public class RxApplication<T> : RxApplication where T : RxComponent, new()
+    public class ReactorApplication<T> : ReactorApplication where T : Component, new()
     {
-        private RxComponent? _rootComponent;
+        private Component? _rootComponent;
         private bool _sleeping = true;
 
 
-        internal RxApplication(Application application)
+        internal ReactorApplication(Application application)
             :base(application)
         {
         }
 
         protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
         {
-            if (nativeControl is Page page)
+            if (nativeControl is Microsoft.Maui.Controls.Page page)
                 _application.MainPage = page;
             else
             {
@@ -73,11 +73,11 @@ namespace MauiReactor
             //_application.MainPage = null;
         }
 
-        public override IRxHostElement Run()
+        public override IHostElement Run()
         {
             if (_sleeping)
             {
-                _rootComponent = _rootComponent ?? ComponentLoader.LoadComponent<T>();
+                _rootComponent ??= ComponentLoader.LoadComponent<T>();
                 ComponentLoader.ComponentAssemblyChanged += OnComponentAssemblyChanged;
                 _sleeping = false;
                 OnLayout();

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
+
 using MauiReactor.Animations;
 //using MauiReactor.Shapes;
 using MauiReactor.Internals;
@@ -29,12 +31,6 @@ namespace MauiReactor
         Action<HandlerChangingEventArgs>? HandlerChangingActionWithArgs { get; set; }
         Action? HandlerChangedAction { get; set; }
         Action<EventArgs>? HandlerChangedActionWithArgs { get; set; }
-        Action? PropertyChangedAction { get; set; }
-        Action<EventArgs>? PropertyChangedActionWithArgs { get; set; }
-        Action? PropertyChangingAction { get; set; }
-        Action<EventArgs>? PropertyChangingActionWithArgs { get; set; }
-        Action? BindingContextChangedAction { get; set; }
-        Action<EventArgs>? BindingContextChangedActionWithArgs { get; set; }
 
     }
 
@@ -51,8 +47,8 @@ namespace MauiReactor
 
         }
 
-        string IElement.AutomationId { get; set; } = (string)Element.AutomationIdProperty.DefaultValue;
-        string IElement.ClassId { get; set; } = (string)Element.ClassIdProperty.DefaultValue;
+        string IElement.AutomationId { get; set; } = (string)Microsoft.Maui.Controls.Element.AutomationIdProperty.DefaultValue;
+        string IElement.ClassId { get; set; } = (string)Microsoft.Maui.Controls.Element.ClassIdProperty.DefaultValue;
 
         Action? IElement.ChildAddedAction { get; set; }
         Action<ElementEventArgs>? IElement.ChildAddedActionWithArgs { get; set; }
@@ -70,12 +66,6 @@ namespace MauiReactor
         Action<HandlerChangingEventArgs>? IElement.HandlerChangingActionWithArgs { get; set; }
         Action? IElement.HandlerChangedAction { get; set; }
         Action<EventArgs>? IElement.HandlerChangedActionWithArgs { get; set; }
-        Action? IElement.PropertyChangedAction { get; set; }
-        Action<EventArgs>? IElement.PropertyChangedActionWithArgs { get; set; }
-        Action? IElement.PropertyChangingAction { get; set; }
-        Action<EventArgs>? IElement.PropertyChangingActionWithArgs { get; set; }
-        Action? IElement.BindingContextChangedAction { get; set; }
-        Action<EventArgs>? IElement.BindingContextChangedActionWithArgs { get; set; }
 
         protected override void OnUpdate()
         {
@@ -132,18 +122,6 @@ namespace MauiReactor
             {
                 NativeControl.HandlerChanged += NativeControl_HandlerChanged;
             }
-            if (thisAsIElement.PropertyChangedAction != null || thisAsIElement.PropertyChangedActionWithArgs != null)
-            {
-                NativeControl.PropertyChanged += NativeControl_PropertyChanged;
-            }
-            if (thisAsIElement.PropertyChangingAction != null || thisAsIElement.PropertyChangingActionWithArgs != null)
-            {
-                NativeControl.PropertyChanging += NativeControl_PropertyChanging;
-            }
-            if (thisAsIElement.BindingContextChangedAction != null || thisAsIElement.BindingContextChangedActionWithArgs != null)
-            {
-                NativeControl.BindingContextChanged += NativeControl_BindingContextChanged;
-            }
 
             base.OnAttachNativeEvents();
         }
@@ -196,24 +174,6 @@ namespace MauiReactor
             thisAsIElement.HandlerChangedAction?.Invoke();
             thisAsIElement.HandlerChangedActionWithArgs?.Invoke(e);
         }
-        private void NativeControl_PropertyChanged(object? sender, EventArgs e)
-        {
-            var thisAsIElement = (IElement)this;
-            thisAsIElement.PropertyChangedAction?.Invoke();
-            thisAsIElement.PropertyChangedActionWithArgs?.Invoke(e);
-        }
-        private void NativeControl_PropertyChanging(object? sender, EventArgs e)
-        {
-            var thisAsIElement = (IElement)this;
-            thisAsIElement.PropertyChangingAction?.Invoke();
-            thisAsIElement.PropertyChangingActionWithArgs?.Invoke(e);
-        }
-        private void NativeControl_BindingContextChanged(object? sender, EventArgs e)
-        {
-            var thisAsIElement = (IElement)this;
-            thisAsIElement.BindingContextChangedAction?.Invoke();
-            thisAsIElement.BindingContextChangedActionWithArgs?.Invoke(e);
-        }
 
         protected override void OnDetachNativeEvents()
         {
@@ -227,9 +187,6 @@ namespace MauiReactor
                 NativeControl.ParentChanged -= NativeControl_ParentChanged;
                 NativeControl.HandlerChanging -= NativeControl_HandlerChanging;
                 NativeControl.HandlerChanged -= NativeControl_HandlerChanged;
-                NativeControl.PropertyChanged -= NativeControl_PropertyChanged;
-                NativeControl.PropertyChanging -= NativeControl_PropertyChanging;
-                NativeControl.BindingContextChanged -= NativeControl_BindingContextChanged;
             }
 
             base.OnDetachNativeEvents();
@@ -339,39 +296,6 @@ namespace MauiReactor
         public static T OnHandlerChanged<T>(this T element, Action<EventArgs> handlerchangedActionWithArgs) where T : IElement
         {
             element.HandlerChangedActionWithArgs = handlerchangedActionWithArgs;
-            return element;
-        }
-        public static T OnPropertyChanged<T>(this T element, Action propertychangedAction) where T : IElement
-        {
-            element.PropertyChangedAction = propertychangedAction;
-            return element;
-        }
-
-        public static T OnPropertyChanged<T>(this T element, Action<EventArgs> propertychangedActionWithArgs) where T : IElement
-        {
-            element.PropertyChangedActionWithArgs = propertychangedActionWithArgs;
-            return element;
-        }
-        public static T OnPropertyChanging<T>(this T element, Action propertychangingAction) where T : IElement
-        {
-            element.PropertyChangingAction = propertychangingAction;
-            return element;
-        }
-
-        public static T OnPropertyChanging<T>(this T element, Action<EventArgs> propertychangingActionWithArgs) where T : IElement
-        {
-            element.PropertyChangingActionWithArgs = propertychangingActionWithArgs;
-            return element;
-        }
-        public static T OnBindingContextChanged<T>(this T element, Action bindingcontextchangedAction) where T : IElement
-        {
-            element.BindingContextChangedAction = bindingcontextchangedAction;
-            return element;
-        }
-
-        public static T OnBindingContextChanged<T>(this T element, Action<EventArgs> bindingcontextchangedActionWithArgs) where T : IElement
-        {
-            element.BindingContextChangedActionWithArgs = bindingcontextchangedActionWithArgs;
             return element;
         }
     }

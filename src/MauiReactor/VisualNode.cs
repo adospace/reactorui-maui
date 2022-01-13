@@ -377,7 +377,10 @@ namespace MauiReactor
             _stateChanged = false;
         }
 
-        protected abstract IEnumerable<VisualNode?> RenderChildren();
+        protected virtual IEnumerable<VisualNode?> RenderChildren()
+        {
+            yield break;
+        }
 
         private bool AnimateThis()
         {

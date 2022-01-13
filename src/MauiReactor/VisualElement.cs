@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
+
 using MauiReactor.Animations;
 //using MauiReactor.Shapes;
 using MauiReactor.Internals;
@@ -48,28 +50,6 @@ namespace MauiReactor
         Action<EventArgs>? SizeChangedActionWithArgs { get; set; }
         Action? UnfocusedAction { get; set; }
         Action<FocusEventArgs>? UnfocusedActionWithArgs { get; set; }
-        Action? ChildAddedAction { get; set; }
-        Action<ElementEventArgs>? ChildAddedActionWithArgs { get; set; }
-        Action? ChildRemovedAction { get; set; }
-        Action<ElementEventArgs>? ChildRemovedActionWithArgs { get; set; }
-        Action? DescendantAddedAction { get; set; }
-        Action<ElementEventArgs>? DescendantAddedActionWithArgs { get; set; }
-        Action? DescendantRemovedAction { get; set; }
-        Action<ElementEventArgs>? DescendantRemovedActionWithArgs { get; set; }
-        Action? ParentChangingAction { get; set; }
-        Action<ParentChangingEventArgs>? ParentChangingActionWithArgs { get; set; }
-        Action? ParentChangedAction { get; set; }
-        Action<EventArgs>? ParentChangedActionWithArgs { get; set; }
-        Action? HandlerChangingAction { get; set; }
-        Action<HandlerChangingEventArgs>? HandlerChangingActionWithArgs { get; set; }
-        Action? HandlerChangedAction { get; set; }
-        Action<EventArgs>? HandlerChangedActionWithArgs { get; set; }
-        Action? PropertyChangedAction { get; set; }
-        Action<EventArgs>? PropertyChangedActionWithArgs { get; set; }
-        Action? PropertyChangingAction { get; set; }
-        Action<EventArgs>? PropertyChangingActionWithArgs { get; set; }
-        Action? BindingContextChangedAction { get; set; }
-        Action<EventArgs>? BindingContextChangedActionWithArgs { get; set; }
 
     }
 
@@ -86,33 +66,33 @@ namespace MauiReactor
 
         }
 
-        Microsoft.Maui.Controls.Shadow IVisualElement.Shadow { get; set; } = (Microsoft.Maui.Controls.Shadow)VisualElement.ShadowProperty.DefaultValue;
-        Microsoft.Maui.Controls.Style IVisualElement.Style { get; set; } = (Microsoft.Maui.Controls.Style)VisualElement.StyleProperty.DefaultValue;
-        bool IVisualElement.InputTransparent { get; set; } = (bool)VisualElement.InputTransparentProperty.DefaultValue;
-        bool IVisualElement.IsEnabled { get; set; } = (bool)VisualElement.IsEnabledProperty.DefaultValue;
-        double IVisualElement.AnchorX { get; set; } = (double)VisualElement.AnchorXProperty.DefaultValue;
-        double IVisualElement.AnchorY { get; set; } = (double)VisualElement.AnchorYProperty.DefaultValue;
-        double IVisualElement.TranslationX { get; set; } = (double)VisualElement.TranslationXProperty.DefaultValue;
-        double IVisualElement.TranslationY { get; set; } = (double)VisualElement.TranslationYProperty.DefaultValue;
-        double IVisualElement.Rotation { get; set; } = (double)VisualElement.RotationProperty.DefaultValue;
-        double IVisualElement.RotationX { get; set; } = (double)VisualElement.RotationXProperty.DefaultValue;
-        double IVisualElement.RotationY { get; set; } = (double)VisualElement.RotationYProperty.DefaultValue;
-        double IVisualElement.Scale { get; set; } = (double)VisualElement.ScaleProperty.DefaultValue;
-        double IVisualElement.ScaleX { get; set; } = (double)VisualElement.ScaleXProperty.DefaultValue;
-        double IVisualElement.ScaleY { get; set; } = (double)VisualElement.ScaleYProperty.DefaultValue;
-        Microsoft.Maui.Controls.Shapes.Geometry IVisualElement.Clip { get; set; } = (Microsoft.Maui.Controls.Shapes.Geometry)VisualElement.ClipProperty.DefaultValue;
-        Microsoft.Maui.Controls.IVisual IVisualElement.Visual { get; set; } = (Microsoft.Maui.Controls.IVisual)VisualElement.VisualProperty.DefaultValue;
-        bool IVisualElement.IsVisible { get; set; } = (bool)VisualElement.IsVisibleProperty.DefaultValue;
-        double IVisualElement.Opacity { get; set; } = (double)VisualElement.OpacityProperty.DefaultValue;
-        Microsoft.Maui.Graphics.Color IVisualElement.BackgroundColor { get; set; } = (Microsoft.Maui.Graphics.Color)VisualElement.BackgroundColorProperty.DefaultValue;
-        Microsoft.Maui.Controls.Brush IVisualElement.Background { get; set; } = (Microsoft.Maui.Controls.Brush)VisualElement.BackgroundProperty.DefaultValue;
-        double IVisualElement.WidthRequest { get; set; } = (double)VisualElement.WidthRequestProperty.DefaultValue;
-        double IVisualElement.HeightRequest { get; set; } = (double)VisualElement.HeightRequestProperty.DefaultValue;
-        double IVisualElement.MinimumWidthRequest { get; set; } = (double)VisualElement.MinimumWidthRequestProperty.DefaultValue;
-        double IVisualElement.MinimumHeightRequest { get; set; } = (double)VisualElement.MinimumHeightRequestProperty.DefaultValue;
-        double IVisualElement.MaximumWidthRequest { get; set; } = (double)VisualElement.MaximumWidthRequestProperty.DefaultValue;
-        double IVisualElement.MaximumHeightRequest { get; set; } = (double)VisualElement.MaximumHeightRequestProperty.DefaultValue;
-        Microsoft.Maui.FlowDirection IVisualElement.FlowDirection { get; set; } = (Microsoft.Maui.FlowDirection)VisualElement.FlowDirectionProperty.DefaultValue;
+        Microsoft.Maui.Controls.Shadow IVisualElement.Shadow { get; set; } = (Microsoft.Maui.Controls.Shadow)Microsoft.Maui.Controls.VisualElement.ShadowProperty.DefaultValue;
+        Microsoft.Maui.Controls.Style IVisualElement.Style { get; set; } = (Microsoft.Maui.Controls.Style)Microsoft.Maui.Controls.VisualElement.StyleProperty.DefaultValue;
+        bool IVisualElement.InputTransparent { get; set; } = (bool)Microsoft.Maui.Controls.VisualElement.InputTransparentProperty.DefaultValue;
+        bool IVisualElement.IsEnabled { get; set; } = (bool)Microsoft.Maui.Controls.VisualElement.IsEnabledProperty.DefaultValue;
+        double IVisualElement.AnchorX { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.AnchorXProperty.DefaultValue;
+        double IVisualElement.AnchorY { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.AnchorYProperty.DefaultValue;
+        double IVisualElement.TranslationX { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.TranslationXProperty.DefaultValue;
+        double IVisualElement.TranslationY { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.TranslationYProperty.DefaultValue;
+        double IVisualElement.Rotation { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.RotationProperty.DefaultValue;
+        double IVisualElement.RotationX { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.RotationXProperty.DefaultValue;
+        double IVisualElement.RotationY { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.RotationYProperty.DefaultValue;
+        double IVisualElement.Scale { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.ScaleProperty.DefaultValue;
+        double IVisualElement.ScaleX { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.ScaleXProperty.DefaultValue;
+        double IVisualElement.ScaleY { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.ScaleYProperty.DefaultValue;
+        Microsoft.Maui.Controls.Shapes.Geometry IVisualElement.Clip { get; set; } = (Microsoft.Maui.Controls.Shapes.Geometry)Microsoft.Maui.Controls.VisualElement.ClipProperty.DefaultValue;
+        Microsoft.Maui.Controls.IVisual IVisualElement.Visual { get; set; } = (Microsoft.Maui.Controls.IVisual)Microsoft.Maui.Controls.VisualElement.VisualProperty.DefaultValue;
+        bool IVisualElement.IsVisible { get; set; } = (bool)Microsoft.Maui.Controls.VisualElement.IsVisibleProperty.DefaultValue;
+        double IVisualElement.Opacity { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.OpacityProperty.DefaultValue;
+        Microsoft.Maui.Graphics.Color IVisualElement.BackgroundColor { get; set; } = (Microsoft.Maui.Graphics.Color)Microsoft.Maui.Controls.VisualElement.BackgroundColorProperty.DefaultValue;
+        Microsoft.Maui.Controls.Brush IVisualElement.Background { get; set; } = (Microsoft.Maui.Controls.Brush)Microsoft.Maui.Controls.VisualElement.BackgroundProperty.DefaultValue;
+        double IVisualElement.WidthRequest { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.WidthRequestProperty.DefaultValue;
+        double IVisualElement.HeightRequest { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.HeightRequestProperty.DefaultValue;
+        double IVisualElement.MinimumWidthRequest { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.MinimumWidthRequestProperty.DefaultValue;
+        double IVisualElement.MinimumHeightRequest { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.MinimumHeightRequestProperty.DefaultValue;
+        double IVisualElement.MaximumWidthRequest { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.MaximumWidthRequestProperty.DefaultValue;
+        double IVisualElement.MaximumHeightRequest { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.MaximumHeightRequestProperty.DefaultValue;
+        Microsoft.Maui.FlowDirection IVisualElement.FlowDirection { get; set; } = (Microsoft.Maui.FlowDirection)Microsoft.Maui.Controls.VisualElement.FlowDirectionProperty.DefaultValue;
 
         Action? IVisualElement.ChildrenReorderedAction { get; set; }
         Action<EventArgs>? IVisualElement.ChildrenReorderedActionWithArgs { get; set; }
@@ -124,28 +104,6 @@ namespace MauiReactor
         Action<EventArgs>? IVisualElement.SizeChangedActionWithArgs { get; set; }
         Action? IVisualElement.UnfocusedAction { get; set; }
         Action<FocusEventArgs>? IVisualElement.UnfocusedActionWithArgs { get; set; }
-        Action? IVisualElement.ChildAddedAction { get; set; }
-        Action<ElementEventArgs>? IVisualElement.ChildAddedActionWithArgs { get; set; }
-        Action? IVisualElement.ChildRemovedAction { get; set; }
-        Action<ElementEventArgs>? IVisualElement.ChildRemovedActionWithArgs { get; set; }
-        Action? IVisualElement.DescendantAddedAction { get; set; }
-        Action<ElementEventArgs>? IVisualElement.DescendantAddedActionWithArgs { get; set; }
-        Action? IVisualElement.DescendantRemovedAction { get; set; }
-        Action<ElementEventArgs>? IVisualElement.DescendantRemovedActionWithArgs { get; set; }
-        Action? IVisualElement.ParentChangingAction { get; set; }
-        Action<ParentChangingEventArgs>? IVisualElement.ParentChangingActionWithArgs { get; set; }
-        Action? IVisualElement.ParentChangedAction { get; set; }
-        Action<EventArgs>? IVisualElement.ParentChangedActionWithArgs { get; set; }
-        Action? IVisualElement.HandlerChangingAction { get; set; }
-        Action<HandlerChangingEventArgs>? IVisualElement.HandlerChangingActionWithArgs { get; set; }
-        Action? IVisualElement.HandlerChangedAction { get; set; }
-        Action<EventArgs>? IVisualElement.HandlerChangedActionWithArgs { get; set; }
-        Action? IVisualElement.PropertyChangedAction { get; set; }
-        Action<EventArgs>? IVisualElement.PropertyChangedActionWithArgs { get; set; }
-        Action? IVisualElement.PropertyChangingAction { get; set; }
-        Action<EventArgs>? IVisualElement.PropertyChangingActionWithArgs { get; set; }
-        Action? IVisualElement.BindingContextChangedAction { get; set; }
-        Action<EventArgs>? IVisualElement.BindingContextChangedActionWithArgs { get; set; }
 
         protected override void OnUpdate()
         {
@@ -215,50 +173,6 @@ namespace MauiReactor
             {
                 NativeControl.Unfocused += NativeControl_Unfocused;
             }
-            if (thisAsIVisualElement.ChildAddedAction != null || thisAsIVisualElement.ChildAddedActionWithArgs != null)
-            {
-                NativeControl.ChildAdded += NativeControl_ChildAdded;
-            }
-            if (thisAsIVisualElement.ChildRemovedAction != null || thisAsIVisualElement.ChildRemovedActionWithArgs != null)
-            {
-                NativeControl.ChildRemoved += NativeControl_ChildRemoved;
-            }
-            if (thisAsIVisualElement.DescendantAddedAction != null || thisAsIVisualElement.DescendantAddedActionWithArgs != null)
-            {
-                NativeControl.DescendantAdded += NativeControl_DescendantAdded;
-            }
-            if (thisAsIVisualElement.DescendantRemovedAction != null || thisAsIVisualElement.DescendantRemovedActionWithArgs != null)
-            {
-                NativeControl.DescendantRemoved += NativeControl_DescendantRemoved;
-            }
-            if (thisAsIVisualElement.ParentChangingAction != null || thisAsIVisualElement.ParentChangingActionWithArgs != null)
-            {
-                NativeControl.ParentChanging += NativeControl_ParentChanging;
-            }
-            if (thisAsIVisualElement.ParentChangedAction != null || thisAsIVisualElement.ParentChangedActionWithArgs != null)
-            {
-                NativeControl.ParentChanged += NativeControl_ParentChanged;
-            }
-            if (thisAsIVisualElement.HandlerChangingAction != null || thisAsIVisualElement.HandlerChangingActionWithArgs != null)
-            {
-                NativeControl.HandlerChanging += NativeControl_HandlerChanging;
-            }
-            if (thisAsIVisualElement.HandlerChangedAction != null || thisAsIVisualElement.HandlerChangedActionWithArgs != null)
-            {
-                NativeControl.HandlerChanged += NativeControl_HandlerChanged;
-            }
-            if (thisAsIVisualElement.PropertyChangedAction != null || thisAsIVisualElement.PropertyChangedActionWithArgs != null)
-            {
-                NativeControl.PropertyChanged += NativeControl_PropertyChanged;
-            }
-            if (thisAsIVisualElement.PropertyChangingAction != null || thisAsIVisualElement.PropertyChangingActionWithArgs != null)
-            {
-                NativeControl.PropertyChanging += NativeControl_PropertyChanging;
-            }
-            if (thisAsIVisualElement.BindingContextChangedAction != null || thisAsIVisualElement.BindingContextChangedActionWithArgs != null)
-            {
-                NativeControl.BindingContextChanged += NativeControl_BindingContextChanged;
-            }
 
             base.OnAttachNativeEvents();
         }
@@ -293,72 +207,6 @@ namespace MauiReactor
             thisAsIVisualElement.UnfocusedAction?.Invoke();
             thisAsIVisualElement.UnfocusedActionWithArgs?.Invoke(e);
         }
-        private void NativeControl_ChildAdded(object? sender, ElementEventArgs e)
-        {
-            var thisAsIVisualElement = (IVisualElement)this;
-            thisAsIVisualElement.ChildAddedAction?.Invoke();
-            thisAsIVisualElement.ChildAddedActionWithArgs?.Invoke(e);
-        }
-        private void NativeControl_ChildRemoved(object? sender, ElementEventArgs e)
-        {
-            var thisAsIVisualElement = (IVisualElement)this;
-            thisAsIVisualElement.ChildRemovedAction?.Invoke();
-            thisAsIVisualElement.ChildRemovedActionWithArgs?.Invoke(e);
-        }
-        private void NativeControl_DescendantAdded(object? sender, ElementEventArgs e)
-        {
-            var thisAsIVisualElement = (IVisualElement)this;
-            thisAsIVisualElement.DescendantAddedAction?.Invoke();
-            thisAsIVisualElement.DescendantAddedActionWithArgs?.Invoke(e);
-        }
-        private void NativeControl_DescendantRemoved(object? sender, ElementEventArgs e)
-        {
-            var thisAsIVisualElement = (IVisualElement)this;
-            thisAsIVisualElement.DescendantRemovedAction?.Invoke();
-            thisAsIVisualElement.DescendantRemovedActionWithArgs?.Invoke(e);
-        }
-        private void NativeControl_ParentChanging(object? sender, ParentChangingEventArgs e)
-        {
-            var thisAsIVisualElement = (IVisualElement)this;
-            thisAsIVisualElement.ParentChangingAction?.Invoke();
-            thisAsIVisualElement.ParentChangingActionWithArgs?.Invoke(e);
-        }
-        private void NativeControl_ParentChanged(object? sender, EventArgs e)
-        {
-            var thisAsIVisualElement = (IVisualElement)this;
-            thisAsIVisualElement.ParentChangedAction?.Invoke();
-            thisAsIVisualElement.ParentChangedActionWithArgs?.Invoke(e);
-        }
-        private void NativeControl_HandlerChanging(object? sender, HandlerChangingEventArgs e)
-        {
-            var thisAsIVisualElement = (IVisualElement)this;
-            thisAsIVisualElement.HandlerChangingAction?.Invoke();
-            thisAsIVisualElement.HandlerChangingActionWithArgs?.Invoke(e);
-        }
-        private void NativeControl_HandlerChanged(object? sender, EventArgs e)
-        {
-            var thisAsIVisualElement = (IVisualElement)this;
-            thisAsIVisualElement.HandlerChangedAction?.Invoke();
-            thisAsIVisualElement.HandlerChangedActionWithArgs?.Invoke(e);
-        }
-        private void NativeControl_PropertyChanged(object? sender, EventArgs e)
-        {
-            var thisAsIVisualElement = (IVisualElement)this;
-            thisAsIVisualElement.PropertyChangedAction?.Invoke();
-            thisAsIVisualElement.PropertyChangedActionWithArgs?.Invoke(e);
-        }
-        private void NativeControl_PropertyChanging(object? sender, EventArgs e)
-        {
-            var thisAsIVisualElement = (IVisualElement)this;
-            thisAsIVisualElement.PropertyChangingAction?.Invoke();
-            thisAsIVisualElement.PropertyChangingActionWithArgs?.Invoke(e);
-        }
-        private void NativeControl_BindingContextChanged(object? sender, EventArgs e)
-        {
-            var thisAsIVisualElement = (IVisualElement)this;
-            thisAsIVisualElement.BindingContextChangedAction?.Invoke();
-            thisAsIVisualElement.BindingContextChangedActionWithArgs?.Invoke(e);
-        }
 
         protected override void OnDetachNativeEvents()
         {
@@ -369,17 +217,6 @@ namespace MauiReactor
                 NativeControl.MeasureInvalidated -= NativeControl_MeasureInvalidated;
                 NativeControl.SizeChanged -= NativeControl_SizeChanged;
                 NativeControl.Unfocused -= NativeControl_Unfocused;
-                NativeControl.ChildAdded -= NativeControl_ChildAdded;
-                NativeControl.ChildRemoved -= NativeControl_ChildRemoved;
-                NativeControl.DescendantAdded -= NativeControl_DescendantAdded;
-                NativeControl.DescendantRemoved -= NativeControl_DescendantRemoved;
-                NativeControl.ParentChanging -= NativeControl_ParentChanging;
-                NativeControl.ParentChanged -= NativeControl_ParentChanged;
-                NativeControl.HandlerChanging -= NativeControl_HandlerChanging;
-                NativeControl.HandlerChanged -= NativeControl_HandlerChanged;
-                NativeControl.PropertyChanged -= NativeControl_PropertyChanged;
-                NativeControl.PropertyChanging -= NativeControl_PropertyChanging;
-                NativeControl.BindingContextChanged -= NativeControl_BindingContextChanged;
             }
 
             base.OnDetachNativeEvents();
@@ -606,127 +443,6 @@ namespace MauiReactor
         public static T OnUnfocused<T>(this T visualelement, Action<FocusEventArgs> unfocusedActionWithArgs) where T : IVisualElement
         {
             visualelement.UnfocusedActionWithArgs = unfocusedActionWithArgs;
-            return visualelement;
-        }
-        public static T OnChildAdded<T>(this T visualelement, Action childaddedAction) where T : IVisualElement
-        {
-            visualelement.ChildAddedAction = childaddedAction;
-            return visualelement;
-        }
-
-        public static T OnChildAdded<T>(this T visualelement, Action<ElementEventArgs> childaddedActionWithArgs) where T : IVisualElement
-        {
-            visualelement.ChildAddedActionWithArgs = childaddedActionWithArgs;
-            return visualelement;
-        }
-        public static T OnChildRemoved<T>(this T visualelement, Action childremovedAction) where T : IVisualElement
-        {
-            visualelement.ChildRemovedAction = childremovedAction;
-            return visualelement;
-        }
-
-        public static T OnChildRemoved<T>(this T visualelement, Action<ElementEventArgs> childremovedActionWithArgs) where T : IVisualElement
-        {
-            visualelement.ChildRemovedActionWithArgs = childremovedActionWithArgs;
-            return visualelement;
-        }
-        public static T OnDescendantAdded<T>(this T visualelement, Action descendantaddedAction) where T : IVisualElement
-        {
-            visualelement.DescendantAddedAction = descendantaddedAction;
-            return visualelement;
-        }
-
-        public static T OnDescendantAdded<T>(this T visualelement, Action<ElementEventArgs> descendantaddedActionWithArgs) where T : IVisualElement
-        {
-            visualelement.DescendantAddedActionWithArgs = descendantaddedActionWithArgs;
-            return visualelement;
-        }
-        public static T OnDescendantRemoved<T>(this T visualelement, Action descendantremovedAction) where T : IVisualElement
-        {
-            visualelement.DescendantRemovedAction = descendantremovedAction;
-            return visualelement;
-        }
-
-        public static T OnDescendantRemoved<T>(this T visualelement, Action<ElementEventArgs> descendantremovedActionWithArgs) where T : IVisualElement
-        {
-            visualelement.DescendantRemovedActionWithArgs = descendantremovedActionWithArgs;
-            return visualelement;
-        }
-        public static T OnParentChanging<T>(this T visualelement, Action parentchangingAction) where T : IVisualElement
-        {
-            visualelement.ParentChangingAction = parentchangingAction;
-            return visualelement;
-        }
-
-        public static T OnParentChanging<T>(this T visualelement, Action<ParentChangingEventArgs> parentchangingActionWithArgs) where T : IVisualElement
-        {
-            visualelement.ParentChangingActionWithArgs = parentchangingActionWithArgs;
-            return visualelement;
-        }
-        public static T OnParentChanged<T>(this T visualelement, Action parentchangedAction) where T : IVisualElement
-        {
-            visualelement.ParentChangedAction = parentchangedAction;
-            return visualelement;
-        }
-
-        public static T OnParentChanged<T>(this T visualelement, Action<EventArgs> parentchangedActionWithArgs) where T : IVisualElement
-        {
-            visualelement.ParentChangedActionWithArgs = parentchangedActionWithArgs;
-            return visualelement;
-        }
-        public static T OnHandlerChanging<T>(this T visualelement, Action handlerchangingAction) where T : IVisualElement
-        {
-            visualelement.HandlerChangingAction = handlerchangingAction;
-            return visualelement;
-        }
-
-        public static T OnHandlerChanging<T>(this T visualelement, Action<HandlerChangingEventArgs> handlerchangingActionWithArgs) where T : IVisualElement
-        {
-            visualelement.HandlerChangingActionWithArgs = handlerchangingActionWithArgs;
-            return visualelement;
-        }
-        public static T OnHandlerChanged<T>(this T visualelement, Action handlerchangedAction) where T : IVisualElement
-        {
-            visualelement.HandlerChangedAction = handlerchangedAction;
-            return visualelement;
-        }
-
-        public static T OnHandlerChanged<T>(this T visualelement, Action<EventArgs> handlerchangedActionWithArgs) where T : IVisualElement
-        {
-            visualelement.HandlerChangedActionWithArgs = handlerchangedActionWithArgs;
-            return visualelement;
-        }
-        public static T OnPropertyChanged<T>(this T visualelement, Action propertychangedAction) where T : IVisualElement
-        {
-            visualelement.PropertyChangedAction = propertychangedAction;
-            return visualelement;
-        }
-
-        public static T OnPropertyChanged<T>(this T visualelement, Action<EventArgs> propertychangedActionWithArgs) where T : IVisualElement
-        {
-            visualelement.PropertyChangedActionWithArgs = propertychangedActionWithArgs;
-            return visualelement;
-        }
-        public static T OnPropertyChanging<T>(this T visualelement, Action propertychangingAction) where T : IVisualElement
-        {
-            visualelement.PropertyChangingAction = propertychangingAction;
-            return visualelement;
-        }
-
-        public static T OnPropertyChanging<T>(this T visualelement, Action<EventArgs> propertychangingActionWithArgs) where T : IVisualElement
-        {
-            visualelement.PropertyChangingActionWithArgs = propertychangingActionWithArgs;
-            return visualelement;
-        }
-        public static T OnBindingContextChanged<T>(this T visualelement, Action bindingcontextchangedAction) where T : IVisualElement
-        {
-            visualelement.BindingContextChangedAction = bindingcontextchangedAction;
-            return visualelement;
-        }
-
-        public static T OnBindingContextChanged<T>(this T visualelement, Action<EventArgs> bindingcontextchangedActionWithArgs) where T : IVisualElement
-        {
-            visualelement.BindingContextChangedActionWithArgs = bindingcontextchangedActionWithArgs;
             return visualelement;
         }
     }

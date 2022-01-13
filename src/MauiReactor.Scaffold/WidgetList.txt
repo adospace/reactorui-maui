@@ -1,3 +1,8 @@
 ﻿Microsoft.Maui.Controls.Element
 Microsoft.Maui.Controls.NavigableElement
 Microsoft.Maui.Controls.VisualElement
+Microsoft.Maui.Controls.Page
+Microsoft.Maui.Controls.TemplatedPage
+Microsoft.Maui.Controls.ContentPage
+
+

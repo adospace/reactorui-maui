@@ -8,7 +8,7 @@ namespace MauiReactor
     {
         public event EventHandler? ComponentAssemblyChanged;
 
-        public RxComponent LoadComponent<T>() where T : RxComponent, new() => new T();
+        public Component LoadComponent<T>() where T : Component, new() => new T();
 
         public void Run()
         {

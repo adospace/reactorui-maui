@@ -17,6 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
+
 using MauiReactor.Animations;
 //using MauiReactor.Shapes;
 using MauiReactor.Internals;
@@ -67,7 +69,7 @@ namespace MauiReactor
     <# } #>
 
         <# foreach (var property in Properties) { #>
-        <#= property.PropertyType.FullName.ToResevedWordFullTypeName() #> I<#= TypeName() #>.<#= property.Name #> { get; set; } = (<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>)<#= TypeName() #>.<#= property.Name #>Property.DefaultValue;
+        <#= property.PropertyType.FullName.ToResevedWordFullTypeName() #> I<#= TypeName() #>.<#= property.Name #> { get; set; } = (<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>)<#= FullTypeName() #>.<#= property.Name #>Property.DefaultValue;
         <# } #>
 
         <# foreach (var ev in Events) {
@@ -147,7 +149,7 @@ namespace MauiReactor
         
         }
 
-        public <#= TypeName() #>(Action<<#= FullTypeName() #>> componentRefAction)
+        public <#= TypeName() #>(Action<<#= FullTypeName() #>?> componentRefAction)
             : base(componentRefAction)
         {
 

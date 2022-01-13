@@ -7,11 +7,11 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public interface IRxComponent
+    public interface IComponent
     {
     }
 
-    public abstract class RxComponent : VisualNode, IEnumerable<VisualNode>, IVisualNodeWithAttachedProperties
+    public abstract class Component : VisualNode, IEnumerable<VisualNode>, IVisualNodeWithAttachedProperties
     {
         private readonly Dictionary<BindableProperty, object> _attachedProperties = new();
 
@@ -47,16 +47,16 @@ namespace MauiReactor
         protected new IReadOnlyList<VisualNode> Children()
             => _children;
 
-        private IRxHostElement? GetPageHost()
+        private IHostElement? GetPageHost()
         {
             var current = Parent;
-            while (current != null && current is not IRxHostElement)
+            while (current != null && current is not IHostElement)
                 current = current.Parent;
 
-            return current as IRxHostElement;
+            return current as IHostElement;
         }
 
-        protected Page? ContainerPage
+        protected Microsoft.Maui.Controls.Page? ContainerPage
         {
             get
             {
@@ -119,10 +119,10 @@ namespace MauiReactor
         {
             if (newNode.GetType().FullName == GetType().FullName)
             {
-                ((RxComponent)newNode)._isMounted = true;
-                ((RxComponent)newNode)._nativeControl = _nativeControl;
+                ((Component)newNode)._isMounted = true;
+                ((Component)newNode)._nativeControl = _nativeControl;
                 _nativeControl = null;
-                ((RxComponent)newNode).OnPropsChanged();
+                ((Component)newNode).OnPropsChanged();
                 base.MergeWith(newNode);
             }
             else
@@ -164,10 +164,10 @@ namespace MauiReactor
         { }
 
         public INavigation? Navigation
-            => RxApplication.Instance?.Navigation;
+            => ReactorApplication.Instance?.Navigation;
     }
 
-    internal interface IRxComponentWithState
+    internal interface IComponentWithState
     {
         object State { get; }
 
@@ -176,7 +176,7 @@ namespace MauiReactor
         void ForwardState(object stateFromOldComponent);
     }
 
-    internal interface IRxComponentWithProps
+    internal interface IComponentWithProps
     {
         object Props { get; }
 
@@ -191,23 +191,23 @@ namespace MauiReactor
     {
     }
 
-    public abstract class RxComponentWithProps<P> : RxComponent, IRxComponentWithProps where P : class, IProps, new()
+    public abstract class ComponentWithProps<P> : Component, IComponentWithProps where P : class, IProps, new()
     {
-        public RxComponentWithProps(P? props = null)
+        public ComponentWithProps(P? props = null)
         {
             Props = props ?? new P();
         }
 
         public P Props { get; private set; }
-        object IRxComponentWithProps.Props => Props;
+        object IComponentWithProps.Props => Props;
         public PropertyInfo[] PropsProperties => typeof(P).GetProperties().Where(_ => _.CanWrite).ToArray();
     }
 
-    public abstract class RxComponent<S, P> : RxComponentWithProps<P>, IRxComponentWithState where S : class, IState, new() where P : class, IProps, new()
+    public abstract class Component<S, P> : ComponentWithProps<P>, IComponentWithState where S : class, IState, new() where P : class, IProps, new()
     {
-        private IRxComponentWithState? _newComponent;
+        private IComponentWithState? _newComponent;
 
-        protected RxComponent(S? state = null, P? props = null)
+        protected Component(S? state = null, P? props = null)
             : base(props)
         {
             State = state ?? new S();
@@ -217,9 +217,9 @@ namespace MauiReactor
 
         public PropertyInfo[] StateProperties => typeof(S).GetProperties().Where(_ => _.CanWrite).ToArray();
 
-        object IRxComponentWithState.State => State;
+        object IComponentWithState.State => State;
 
-        void IRxComponentWithState.ForwardState(object stateFromOldComponent)
+        void IComponentWithState.ForwardState(object stateFromOldComponent)
         {
             stateFromOldComponent.CopyPropertiesTo(State, StateProperties);
 
@@ -256,13 +256,13 @@ namespace MauiReactor
 
         internal override void MergeWith(VisualNode newNode)
         {
-            if (newNode is IRxComponentWithState newComponentWithState)
+            if (newNode is IComponentWithState newComponentWithState)
             {
                 _newComponent = newComponentWithState;
                 State.CopyPropertiesTo(newComponentWithState.State, newComponentWithState.StateProperties);
             }
 
-            if (newNode is IRxComponentWithProps newComponentWithProps)
+            if (newNode is IComponentWithProps newComponentWithProps)
             {
                 Props.CopyPropertiesTo(newComponentWithProps.Props, newComponentWithProps.PropsProperties);
             }
@@ -274,9 +274,9 @@ namespace MauiReactor
     public class EmptyProps : IProps
     { }
 
-    public abstract class RxComponent<S> : RxComponent<S, EmptyProps> where S : class, IState, new()
+    public abstract class Component<S> : Component<S, EmptyProps> where S : class, IState, new()
     {
-        protected RxComponent(S? state = null, EmptyProps? props = null)
+        protected Component(S? state = null, EmptyProps? props = null)
             : base(state, props)
         {
         }

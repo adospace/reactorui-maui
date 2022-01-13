@@ -34,7 +34,7 @@ namespace MauiReactor.Scaffold
                 .Where(_ => (_.GetSetMethod()?.IsPublic).GetValueOrDefault())
                 .ToArray();
 
-            Events = _typeToScaffold.GetEvents()
+            Events = _typeToScaffold.GetEvents(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
                 .Where(_ => _.GetCustomAttribute<EditorBrowsableAttribute>() == null)
                 .Distinct(new EventInfoEqualityComparer())
                 .ToArray();

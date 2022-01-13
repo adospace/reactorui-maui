@@ -6,7 +6,7 @@ namespace MauiReactor
 {
     internal interface IComponentLoader
     {
-        RxComponent LoadComponent<T>() where T : RxComponent, new();
+        Component LoadComponent<T>() where T : Component, new();
 
         event EventHandler ComponentAssemblyChanged;
 
