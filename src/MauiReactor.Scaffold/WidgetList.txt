@@ -1,0 +1,3 @@
+﻿Microsoft.Maui.Controls.Element
+Microsoft.Maui.Controls.NavigableElement
+Microsoft.Maui.Controls.VisualElement

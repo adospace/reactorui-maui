@@ -469,8 +469,9 @@ namespace MauiReactor
         {
             if (NativeControl != null)
             {
-                NativeControl.PropertyChanged -= NativeControl_PropertyChanged;
-                NativeControl.PropertyChanging -= NativeControl_PropertyChanging;
+                //NativeControl.PropertyChanged -= NativeControl_PropertyChanged;
+                //NativeControl.PropertyChanging -= NativeControl_PropertyChanging;
+                OnDetachNativeEvents();
 
                 foreach (var attachedProperty in _attachedProperties)
                 {
@@ -496,8 +497,10 @@ namespace MauiReactor
         {
             if (_nativeControl != null)
             {
-                _nativeControl.PropertyChanged -= NativeControl_PropertyChanged;
-                _nativeControl.PropertyChanging -= NativeControl_PropertyChanging;
+                OnDetachNativeEvents();
+
+                //_nativeControl.PropertyChanged -= NativeControl_PropertyChanged;
+                //_nativeControl.PropertyChanging -= NativeControl_PropertyChanging;
                 Parent?.RemoveChild(this, _nativeControl);
 
                 if (_nativeControl is Element element)
@@ -529,23 +532,36 @@ namespace MauiReactor
                 NativeControl.SetValue(attachedProperty.Key, attachedProperty.Value);
             }
 
-            if (PropertyChangedAction != null)
-                NativeControl.PropertyChanged += NativeControl_PropertyChanged;
-            if (PropertyChangingAction != null)
-                NativeControl.PropertyChanging += NativeControl_PropertyChanging;
+            //if (PropertyChangedAction != null)
+            //    NativeControl.PropertyChanged += NativeControl_PropertyChanged;
+            //if (PropertyChangingAction != null)
+            //    NativeControl.PropertyChanging += NativeControl_PropertyChanging;
+
+            OnAttachNativeEvents();
 
             base.OnUpdate();
         }
 
-        private void NativeControl_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        protected virtual void OnAttachNativeEvents()
         {
-            PropertyChangedAction?.Invoke(sender, e);
+
         }
 
-        private void NativeControl_PropertyChanging(object? sender, Microsoft.Maui.Controls.PropertyChangingEventArgs e)
+        protected virtual void OnDetachNativeEvents()
         {
-            PropertyChangingAction?.Invoke(sender, new System.ComponentModel.PropertyChangingEventArgs(e.PropertyName));
+
         }
+
+
+        //private void NativeControl_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        //{
+        //    PropertyChangedAction?.Invoke(sender, e);
+        //}
+
+        //private void NativeControl_PropertyChanging(object? sender, Microsoft.Maui.Controls.PropertyChangingEventArgs e)
+        //{
+        //    PropertyChangingAction?.Invoke(sender, new System.ComponentModel.PropertyChangingEventArgs(e.PropertyName));
+        //}
 
         TResult IVisualNodeWithNativeControl.GetNativeControl<TResult>()
         {

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MauiReactor.Scaffold": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Source\\github\\reactorui-maui\\src\\MauiReactor"
+    }
+  }
+}

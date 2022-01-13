@@ -9,7 +9,6 @@ namespace MauiReactor
 {
     public interface IRxComponent
     {
-        RxContext Context { get; }
     }
 
     public abstract class RxComponent : VisualNode, IEnumerable<VisualNode>, IVisualNodeWithAttachedProperties
@@ -72,18 +71,22 @@ namespace MauiReactor
                 nativeControl.SetValue(attachedProperty.Key, attachedProperty.Value);
             }
 
-            Parent.ThrowIfNull().AddChild(this, nativeControl);
+            Validate.EnsureNotNull(Parent);
+
+            Parent.AddChild(this, nativeControl);
 
             _nativeControl = nativeControl;
         }
 
         protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
         {
-            Parent.ThrowIfNull().RemoveChild(this, nativeControl);
+            Validate.EnsureNotNull(Parent);
+
+            Parent.RemoveChild(this, nativeControl);
             
             foreach (var attachedProperty in _attachedProperties)
             {
-                nativeControl.SetValue(attachedProperty.Key, attachedProperty.Key.DefaultValue);
+                nativeControl.ClearValue(attachedProperty.Key);
             }
 
             _nativeControl = null;
@@ -162,19 +165,6 @@ namespace MauiReactor
 
         public INavigation? Navigation
             => RxApplication.Instance?.Navigation;
-
-        public RxContext? Context
-            => RxApplication.Instance?.Context;
-
-    }
-
-    public static class RxComponentExtensions
-    {
-        public static T WithContext<T>(this T node, string key, object value) where T : IRxComponent
-        {
-            node.Context[key] = value;
-            return node;
-        }
     }
 
     internal interface IRxComponentWithState
@@ -233,10 +223,10 @@ namespace MauiReactor
         {
             stateFromOldComponent.CopyPropertiesTo(State, StateProperties);
 
-            var currentApplication = Application.Current.ThrowIfNull();
+            Validate.EnsureNotNull(Application.Current);
 
-            if (currentApplication.Dispatcher.IsDispatchRequired)
-                currentApplication.Dispatcher.Dispatch(Invalidate);
+            if (Application.Current.Dispatcher.IsDispatchRequired)
+                Application.Current.Dispatcher.Dispatch(Invalidate);
             else
                 Invalidate();
         }
@@ -256,10 +246,10 @@ namespace MauiReactor
                 return;
             }
 
-            var currentApplication = Application.Current.ThrowIfNull();
+            Validate.EnsureNotNull(Application.Current);
 
-            if (currentApplication.Dispatcher.IsDispatchRequired)
-                currentApplication.Dispatcher.Dispatch(Invalidate);
+            if (Application.Current.Dispatcher.IsDispatchRequired)
+                Application.Current.Dispatcher.Dispatch(Invalidate);
             else
                 Invalidate();
         }

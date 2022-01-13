@@ -34,12 +34,6 @@ namespace MauiReactor
         public static RxApplication Create<T>(Application application) where T : RxComponent, new() 
             => new RxApplication<T>(application);
 
-        public RxApplication WithContext(string key, object value)
-        {
-            Context[key] = value;
-            return this;
-        }
-
         public RxApplication OnUnhandledException(Action<UnhandledExceptionEventArgs> action)
         {
             UnhandledException = action;
@@ -47,8 +41,6 @@ namespace MauiReactor
         }
 
         public INavigation? Navigation =>  _application.MainPage?.Navigation;
-
-        public RxContext Context { get; } = new RxContext();
 
         public Page? ContainerPage => _application?.MainPage;
 
