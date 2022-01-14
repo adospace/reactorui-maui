@@ -12,8 +12,9 @@ namespace MauiReactor.TestApp
         {
             return new ContentPage("Title")
             {
-                new Label("Hello World!!!!!")
+                new Label("Hello World")
                     .VerticalOptions(LayoutOptions.Center)
+                    .HorizontalOptions(LayoutOptions.Center)
             };
         }
     }

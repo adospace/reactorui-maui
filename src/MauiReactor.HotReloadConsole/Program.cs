@@ -2,27 +2,19 @@
 using CommandLine;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace MauiReactor.HotReloadConsole
 {
     class Program
     {
-        public class Options
-        {
-            [Option('a', "assembly", Required = true, HelpText = "Assembly file name to monitor and send to xamarin-reactorui hot reload server.")]
-            public string AssemblyPath { get; set; } = null!;
-
-            [Option('p', "port", Required = false, HelpText = "xamarin-reactorui hot reload server port mapped to emulator port.")]
-            public int Port { get; set; } = 45820;
-
-            [Option('m', "monitor", Required = false, HelpText = "Monitor assembly.")]
-            public bool Monitor { get; set; } = true;
-        }
 
         private static async Task<int> Main(string[] args)
         {
-            //C:\Program Files (x86)\Android\android-sdk>adb forward tcp:45820 tcp:45821
+            Console.WriteLine($"MauiReactor Hot-Reload CLI");
+            Console.WriteLine($"Version {Assembly.GetExecutingAssembly().GetName().Version}");
+
             if (!ExecutePortForwardCommmand())
             {
                 return -1;
@@ -37,12 +29,15 @@ namespace MauiReactor.HotReloadConsole
 
         private static async Task RunMonitorAndConnectionClient(Options options)
         {
-            var hotReloadClient = new HotReloadClient(options.AssemblyPath);
+            var hotReloadClient = new HotReloadClient(options);
             
             Console.WriteLine("Press Ctrl+C or Ctrl+Break to quit");
 
             var tsc = new CancellationTokenSource();
-            Console.CancelKeyPress += (object? sender, ConsoleCancelEventArgs e) => tsc.Cancel();
+            if (!System.Diagnostics.Debugger.IsAttached)
+            {
+                Console.CancelKeyPress += (object? sender, ConsoleCancelEventArgs e) => tsc.Cancel();
+            }
 
             await hotReloadClient.Run(tsc.Token);            
         }

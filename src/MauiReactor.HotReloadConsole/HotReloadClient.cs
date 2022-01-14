@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,11 +14,46 @@ namespace MauiReactor.HotReloadConsole
     {
         private const int _serverPort = 45820;
 
-        private readonly string _assemblyFilePath;
+        private readonly Options _options;
+        private readonly string _workingDirectory;
+        private readonly string _projFileName;
 
-        public HotReloadClient(string assemblyFilePath)
+        public HotReloadClient(Options options)
         {
-            _assemblyFilePath = assemblyFilePath;
+            _options = options;
+            _workingDirectory = _options.WorkingDirectory ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException();
+            if (_options.ProjectFileName == null)
+            {
+                var projFiles = Directory.GetFiles(_workingDirectory, "*.csproj");
+                if (projFiles.Length == 1)
+                {
+                    _projFileName = projFiles[0];
+                }
+                else
+                {
+                    throw new InvalidOperationException($"Directory {_workingDirectory} contains {projFiles.Length} projects");
+                }
+            }
+            else
+            {
+                if (Path.IsPathFullyQualified(_options.ProjectFileName))
+                {
+                    _projFileName = _options.ProjectFileName;
+                }
+                else
+                {
+                    _projFileName = Path.Combine(_workingDirectory, _options.ProjectFileName);
+                }
+            }
+
+            if (Path.GetExtension(_projFileName) == ".csproj")
+            {
+                _projFileName = Path.GetFileNameWithoutExtension(_projFileName);
+            }
+            else
+            {
+                _projFileName = Path.GetFileName(_projFileName);
+            }
         }
 
         public async Task Run(CancellationToken cancellationToken)
@@ -29,43 +65,16 @@ namespace MauiReactor.HotReloadConsole
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                using var tcpClient = new TcpClient();
-
                 try
                 {
-                    Console.Write($"Connecting to HotReloadServer (Port: {_serverPort})...");
-                    await tcpClient.ConnectAsync(IPAddress.Loopback, _serverPort, cancellationToken);
-                }
-                catch (OperationCanceledException)
-                {
-                    break;
-                }
-                catch (Exception)
-                {
-                    if (!cancellationToken.IsCancellationRequested)
+                    await WaitFileChanged(cancellationToken);
+
+                    if (!await RunBuild(cancellationToken))
                     {
-                        await Task.Delay(10000, cancellationToken);
+                        continue;
                     }
 
-                    continue;
-                }
-
-                Console.WriteLine($"connected");
-
-                try
-                {
-                    using var networkStream = tcpClient.GetStream();
-
-                    //await SendAssemblyFileToServer(networkStream, cancellationToken);
-
-                    while (!cancellationToken.IsCancellationRequested)
-                    {
-                        await WaitFileChanged(cancellationToken);
-
-                        await Task.Delay(1000, cancellationToken);
-
-                        await SendAssemblyFileToServer(networkStream, cancellationToken);
-                    }
+                    await SendAssemblyFileToServer(cancellationToken);
                 }
                 catch (OperationCanceledException)
                 {
@@ -81,34 +90,86 @@ namespace MauiReactor.HotReloadConsole
 
         private Task WaitFileChanged(CancellationToken cancellationToken)
         {
-            FileSystemWatcher watcher = new(Path.GetDirectoryName(_assemblyFilePath) ?? throw new InvalidOperationException());
+            FileSystemWatcher watcher = new(_workingDirectory + Path.DirectorySeparatorChar, "*.cs")
+            { 
+                IncludeSubdirectories = true,
+                EnableRaisingEvents = true,
+                NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size | NotifyFilters.LastAccess | NotifyFilters.FileName,
+            };
 
             var tcs = new TaskCompletionSource<bool>();
 
             void changedHandler(object s, FileSystemEventArgs e)
             {
-                if (e.Name == Path.GetFileName(_assemblyFilePath))
-                {
-                    tcs?.TrySetResult(true);
-                    watcher.Created -= changedHandler;
-                    watcher.Dispose();
-                }
+                Console.WriteLine($"Detected changes to '{e.FullPath}'");
+                tcs?.TrySetResult(true);
+                watcher.Created -= changedHandler;
+                watcher.Dispose();
             }
 
             watcher.Changed += changedHandler;
-
-            watcher.EnableRaisingEvents = true;
+            watcher.Created += changedHandler;
+            watcher.Renamed += changedHandler;
+            watcher.Deleted += changedHandler;
 
             cancellationToken.Register(() => tcs.SetCanceled());
 
-            Console.WriteLine($"Monitoring assembly file '{_assemblyFilePath}'...");
+            Console.WriteLine($"Monitoring folder '{_workingDirectory}'...");
 
             return tcs.Task;
         }
 
-        private async Task SendAssemblyFileToServer(NetworkStream networkStream, CancellationToken cancellationToken)
+        private async Task<bool> RunBuild(CancellationToken cancellationToken)
         {
-            var assemblyRaw = await ReadAllFileAsync(_assemblyFilePath);
+            //dotnet build -f net6.0-android --no-restore
+            var process = new System.Diagnostics.Process();
+
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardInput = false;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.WorkingDirectory = _workingDirectory ?? ".";
+            process.StartInfo.Arguments = $"build -f {_options.Framework} --no-restore --no-dependencies";
+            process.StartInfo.FileName = "dotnet";
+
+            try
+            {
+                process.OutputDataReceived += (s, e) => Console.WriteLine(e.Data);
+                process.ErrorDataReceived += (s, e) => Console.WriteLine(e.Data);
+                process.Start();
+
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+
+                await process.WaitForExitAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(process.StandardOutput.ReadToEnd());
+                Console.WriteLine(process.StandardError.ReadToEnd());
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
+
+            return true;
+
+        }
+
+        private async Task SendAssemblyFileToServer(CancellationToken cancellationToken)
+        {
+            using var tcpClient = new TcpClient();
+
+            Console.Write($"Connecting to Hot-Reload server (Port: {_serverPort})...");
+            await tcpClient.ConnectAsync(IPAddress.Loopback, _serverPort, cancellationToken);
+
+            Console.WriteLine($"connected");
+
+            using NetworkStream networkStream = tcpClient.GetStream();
+
+            var assemblyFilePath = Path.Combine(_workingDirectory, "bin", "debug", _options.Framework, _projFileName + ".dll");
+
+            var assemblyRaw = await ReadAllFileAsync(assemblyFilePath);
 
             var lengthBytes = BitConverter.GetBytes(assemblyRaw.Length);
 
@@ -119,8 +180,8 @@ namespace MauiReactor.HotReloadConsole
             await networkStream.FlushAsync(cancellationToken);
 
             var assemblySymbolStorePath = Path.Combine(
-                Path.GetDirectoryName(_assemblyFilePath) ?? throw new InvalidOperationException(), 
-                Path.GetFileNameWithoutExtension(_assemblyFilePath) + ".pdb");
+                Path.GetDirectoryName(assemblyFilePath) ?? throw new InvalidOperationException(), 
+                Path.GetFileNameWithoutExtension(assemblyFilePath) + ".pdb");
 
             if (File.Exists(assemblySymbolStorePath))
             {
@@ -147,7 +208,7 @@ namespace MauiReactor.HotReloadConsole
             if (await networkStream.ReadAsync(booleanBuffer.AsMemory(0, 1), cancellationToken) == 0)
                 throw new SocketException();
 
-            Console.WriteLine($"Sent new assembly ({assemblyRaw.Length} bytes) to emulator");
+            Console.WriteLine($"Hot-Reload completed");
         }
 
         private static async Task<byte[]> ReadAllFileAsync(string filename)

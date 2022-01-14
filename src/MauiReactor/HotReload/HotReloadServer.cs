@@ -13,7 +13,6 @@ namespace MauiReactor.HotReload
     {
         private CancellationTokenSource? _cancellationTokenSource;
         private const int _listenPort = 45820;
-        private readonly List<HotReloadConnectedClient> _connectedClients = new();
         private readonly Action<Assembly> _newAssemblyReceived;
 
         public HotReloadServer(Action<Assembly> newAssemblyReceived)
@@ -86,23 +85,50 @@ namespace MauiReactor.HotReload
                         break;
                     }
 
-                    System.Diagnostics.Debug.WriteLine($"[MauiReactor] Hot-Reload connection accepted from {socketConnectedToClient.RemoteEndPoint}, begin connection loop");
+                    //System.Diagnostics.Debug.WriteLine($"[MauiReactor] Hot-Reload connection accepted from {socketConnectedToClient.RemoteEndPoint}, begin connection loop");
 
-                    //socketConnectedToClient.ReceiveTimeout = _options.SocketReceiveTimeout;
-                    //socketConnectedToClient.SendTimeout = _options.SocketSendTimeout;
+                    socketConnectedToClient.ReceiveTimeout = 10000;
+                    socketConnectedToClient.SendTimeout = 10000;
 
-                    var newClient = new HotReloadConnectedClient(_newAssemblyReceived, client =>
-                    {
-                        _connectedClients.Remove(client);
-                    });
+                    await StartConnectionLoop(socketConnectedToClient, cancellationToken);
 
-                    newClient.StartConnectionLoop(socketConnectedToClient, cancellationToken);
+                    System.Diagnostics.Debug.WriteLine($"[MauiReactor] Hot-Reload completed");
                 }
             }
 
             tcpListener.Stop();
         }
-    
-    
+
+        private async Task StartConnectionLoop(Socket socketConnectedToClient, CancellationToken cancellationToken)
+        {
+            using var socketStream = new NetworkStream(socketConnectedToClient);
+
+            var bufferedStream = new BufferedStream(socketStream);
+
+            int length = await bufferedStream.ReadInt32Async(cancellationToken);
+            if (length == -1)
+                return;
+
+            var assemblyRaw = await bufferedStream.ReadAsync(length, cancellationToken);
+
+            length = await bufferedStream.ReadInt32Async(cancellationToken);
+            if (length > 0)
+            {
+                var assemblySymbolStoreRaw = await bufferedStream.ReadAsync(length, cancellationToken);
+
+                _newAssemblyReceived?.Invoke(Assembly.Load(assemblyRaw, assemblySymbolStoreRaw));
+            }
+            else
+            {
+                _newAssemblyReceived?.Invoke(Assembly.Load(assemblyRaw));
+            }
+
+            await socketStream.WriteAsync(new byte[] { 0x1 }, cancellationToken);
+
+            await socketStream.FlushAsync(cancellationToken);
+
+            //System.Runtime.Loader.AssemblyLoadContext.Default.
+        }
+
     }
 }
