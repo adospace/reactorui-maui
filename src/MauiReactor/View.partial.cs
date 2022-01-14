@@ -35,18 +35,64 @@ namespace MauiReactor
 
     public static partial class ViewExtensions
     {
-        public static T VerticalOptions<T>(this T view, Microsoft.Maui.Controls.LayoutOptions verticalOptions) where T : IView
+        public static T HorizontalOptions<T>(this T view, LayoutOptions layoutOptions) where T : IView
         {
-            view.VerticalOptions = verticalOptions;
+            view.HorizontalOptions = layoutOptions;
             return view;
         }
 
-        public static T HorizontalOptions<T>(this T view, Microsoft.Maui.Controls.LayoutOptions horizontalOptions) where T : IView
+        public static T HStart<T>(this T view) where T : IView
         {
-            view.HorizontalOptions = horizontalOptions;
+            view.HorizontalOptions = LayoutOptions.Start;
             return view;
         }
 
+        public static T HCenter<T>(this T view) where T : IView
+        {
+            view.HorizontalOptions = LayoutOptions.Center;
+            return view;
+        }
 
+        public static T HEnd<T>(this T view) where T : IView
+        {
+            view.HorizontalOptions = LayoutOptions.End;
+            return view;
+        }
+
+        public static T HFill<T>(this T view) where T : IView
+        {
+            view.HorizontalOptions = LayoutOptions.Fill;
+            return view;
+        }
+
+        public static T VerticalOptions<T>(this T view, LayoutOptions layoutOptions) where T : IView
+        {
+            view.VerticalOptions = layoutOptions;
+            return view;
+        }
+
+        public static T VStart<T>(this T view) where T : IView
+        {
+            view.VerticalOptions = LayoutOptions.Start;
+            return view;
+        }
+
+        public static T VCenter<T>(this T view) where T : IView
+        {
+            view.VerticalOptions = LayoutOptions.Center;
+            return view;
+        }
+
+        public static T VEnd<T>(this T view) where T : IView
+        {
+            view.VerticalOptions = LayoutOptions.End;
+            return view;
+        }
+
+        public static T VFill<T>(this T view) where T : IView
+        {
+            view.VerticalOptions = LayoutOptions.Fill;
+            return view;
+        }
     }
 }

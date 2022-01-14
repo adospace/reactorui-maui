@@ -34,6 +34,9 @@ namespace MauiReactor.Scaffold
                 .Where(_ => !typeof(BindableObject).IsAssignableFrom(_.PropertyType))
                 //Microsoft.Maui.Controls.LayoutOptions doesn't support ==
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.LayoutOptions")
+                //Custom handling
+                .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.ColumnDefinitionCollection")
+                .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.RowDefinitionCollection")
                 .Where(_ => (_.GetSetMethod()?.IsPublic).GetValueOrDefault())
                 .ToArray();
 

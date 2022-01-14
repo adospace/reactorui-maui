@@ -171,7 +171,7 @@ namespace MauiReactor
     {
         object State { get; }
 
-        PropertyInfo[] StateProperties { get; }
+        //PropertyInfo[] StateProperties { get; }
 
         void ForwardState(object stateFromOldComponent);
     }
@@ -180,7 +180,7 @@ namespace MauiReactor
     {
         object Props { get; }
 
-        PropertyInfo[] PropsProperties { get; }
+        //PropertyInfo[] PropsProperties { get; }
     }
 
     public interface IState
@@ -200,7 +200,7 @@ namespace MauiReactor
 
         public P Props { get; private set; }
         object IComponentWithProps.Props => Props;
-        public PropertyInfo[] PropsProperties => typeof(P).GetProperties().Where(_ => _.CanWrite).ToArray();
+        //public PropertyInfo[] PropsProperties => typeof(P).GetProperties().Where(_ => _.CanWrite).ToArray();
     }
 
     public abstract class Component<S, P> : ComponentWithProps<P>, IComponentWithState where S : class, IState, new() where P : class, IProps, new()
@@ -215,13 +215,14 @@ namespace MauiReactor
 
         public S State { get; private set; }
 
-        public PropertyInfo[] StateProperties => typeof(S).GetProperties().Where(_ => _.CanWrite).ToArray();
+        //public PropertyInfo[] StateProperties => typeof(S).GetProperties().Where(_ => _.CanWrite).ToArray();
 
         object IComponentWithState.State => State;
 
         void IComponentWithState.ForwardState(object stateFromOldComponent)
         {
-            stateFromOldComponent.CopyPropertiesTo(State, StateProperties);
+            //stateFromOldComponent.CopyPropertiesTo(State, StateProperties);
+            CopyObjectExtensions.CopyProperties(stateFromOldComponent, State);
 
             Validate.EnsureNotNull(Application.Current);
 
@@ -259,12 +260,14 @@ namespace MauiReactor
             if (newNode is IComponentWithState newComponentWithState)
             {
                 _newComponent = newComponentWithState;
-                State.CopyPropertiesTo(newComponentWithState.State, newComponentWithState.StateProperties);
+                //State.CopyPropertiesTo(newComponentWithState.State, newComponentWithState.StateProperties);
+                CopyObjectExtensions.CopyProperties(State, newComponentWithState);
             }
 
             if (newNode is IComponentWithProps newComponentWithProps)
             {
-                Props.CopyPropertiesTo(newComponentWithProps.Props, newComponentWithProps.PropsProperties);
+                //Props.CopyPropertiesTo(newComponentWithProps.Props, newComponentWithProps.PropsProperties);
+                CopyObjectExtensions.CopyProperties(Props, newComponentWithProps.Props);
             }
 
             base.MergeWith(newNode);

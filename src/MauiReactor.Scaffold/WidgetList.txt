@@ -7,5 +7,18 @@ Microsoft.Maui.Controls.ContentPage
 Microsoft.Maui.Controls.View
 Microsoft.Maui.Controls.Button
 Microsoft.Maui.Controls.Label
-
+Microsoft.Maui.Controls.Layout
+Microsoft.Maui.Controls.StackBase
+Microsoft.Maui.Controls.StackLayout
+Microsoft.Maui.Controls.GridLayout
+Microsoft.Maui.Controls.Grid
+Microsoft.Maui.Controls.Shell
+Microsoft.Maui.Controls.BaseShellItem
+Microsoft.Maui.Controls.ShellGroupItem
+Microsoft.Maui.Controls.ShellItem
+Microsoft.Maui.Controls.FlyoutItem
+Microsoft.Maui.Controls.ShellContent
+Microsoft.Maui.Controls.TabBar
+Microsoft.Maui.Controls.Tab
+Microsoft.Maui.Controls.ShellSection
 

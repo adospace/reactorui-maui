@@ -219,13 +219,13 @@ namespace MauiReactor
 
     public static class MauiAppBuilderExtensions
     {
-        public static MauiAppBuilder UseMauiReactorApp<TComponent>(this MauiAppBuilder appBuilder) where TComponent : Component, new() 
-            => appBuilder.UseMauiApp<ReactorApplication<TComponent>>();
-
-        public static MauiAppBuilder UseMauiReactorApp<TApplication, TComponent>(this MauiAppBuilder appBuilder)
-            where TApplication : ReactorApplication<TComponent>
-            where TComponent : Component, new()
-            => appBuilder.UseMauiApp<TApplication>();
+        public static MauiAppBuilder UseMauiReactorApp<TComponent>(this MauiAppBuilder appBuilder, Action<Application>? configureApplication = null) where TComponent : Component, new()
+            => appBuilder.UseMauiApp(sp => 
+            {
+                var app = new ReactorApplication<TComponent>();
+                configureApplication?.Invoke(app);
+                return app;
+            });
 
         public static MauiAppBuilder EnableMauiReactorHotReload(this MauiAppBuilder appBuilder)
         {
