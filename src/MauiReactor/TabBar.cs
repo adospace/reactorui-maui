@@ -15,7 +15,6 @@ namespace MauiReactor
 
 
     }
-
     public partial class TabBar<T> : ShellItem<T>, ITabBar where T : Microsoft.Maui.Controls.TabBar, new()
     {
         public TabBar()

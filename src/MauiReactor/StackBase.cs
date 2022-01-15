@@ -16,7 +16,6 @@ namespace MauiReactor
 
 
     }
-
     public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Microsoft.Maui.Controls.StackBase, new()
     {
         protected StackBase()

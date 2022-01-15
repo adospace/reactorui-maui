@@ -10,19 +10,19 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IGrid
+    public partial interface IVerticalStackLayout
     {
 
 
     }
-    public partial class Grid<T> : GridLayout<T>, IGrid where T : Microsoft.Maui.Controls.Grid, new()
+    public partial class VerticalStackLayout<T> : StackBase<T>, IVerticalStackLayout where T : Microsoft.Maui.Controls.VerticalStackLayout, new()
     {
-        public Grid()
+        public VerticalStackLayout()
         {
 
         }
 
-        public Grid(Action<T?> componentRefAction)
+        public VerticalStackLayout(Action<T?> componentRefAction)
             : base(componentRefAction)
         {
 
@@ -45,21 +45,21 @@ namespace MauiReactor
 
     }
 
-    public partial class Grid : Grid<Microsoft.Maui.Controls.Grid>
+    public partial class VerticalStackLayout : VerticalStackLayout<Microsoft.Maui.Controls.VerticalStackLayout>
     {
-        public Grid()
+        public VerticalStackLayout()
         {
 
         }
 
-        public Grid(Action<Microsoft.Maui.Controls.Grid?> componentRefAction)
+        public VerticalStackLayout(Action<Microsoft.Maui.Controls.VerticalStackLayout?> componentRefAction)
             : base(componentRefAction)
         {
 
         }
     }
 
-    public static partial class GridExtensions
+    public static partial class VerticalStackLayoutExtensions
     {
 
     }

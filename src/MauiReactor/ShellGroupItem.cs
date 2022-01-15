@@ -16,7 +16,6 @@ namespace MauiReactor
 
 
     }
-
     public partial class ShellGroupItem<T> : BaseShellItem<T>, IShellGroupItem where T : Microsoft.Maui.Controls.ShellGroupItem, new()
     {
         public ShellGroupItem()

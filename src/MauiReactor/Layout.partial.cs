@@ -25,10 +25,6 @@ namespace MauiReactor
             {
                 NativeControl.Children.Insert(widget.ChildIndex, control);
             }
-            else
-            {
-                throw new InvalidOperationException($"Type '{childControl.GetType()}' not supported under '{GetType()}'");
-            }
 
             base.OnAddChild(widget, childControl);
         }

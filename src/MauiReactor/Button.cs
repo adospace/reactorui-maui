@@ -26,6 +26,7 @@ namespace MauiReactor
         double BorderWidth { get; set; }
         Microsoft.Maui.Graphics.Color BorderColor { get; set; }
         int CornerRadius { get; set; }
+        Microsoft.Maui.Controls.ImageSource ImageSource { get; set; }
         Microsoft.Maui.Thickness Padding { get; set; }
         Microsoft.Maui.LineBreakMode LineBreakMode { get; set; }
 
@@ -37,7 +38,6 @@ namespace MauiReactor
         Action<EventArgs>? ReleasedActionWithArgs { get; set; }
 
     }
-
     public partial class Button<T> : View<T>, IButton where T : Microsoft.Maui.Controls.Button, new()
     {
         public Button()
@@ -65,6 +65,7 @@ namespace MauiReactor
         double IButton.BorderWidth { get; set; } = (double)Microsoft.Maui.Controls.Button.BorderWidthProperty.DefaultValue;
         Microsoft.Maui.Graphics.Color IButton.BorderColor { get; set; } = (Microsoft.Maui.Graphics.Color)Microsoft.Maui.Controls.Button.BorderColorProperty.DefaultValue;
         int IButton.CornerRadius { get; set; } = (int)Microsoft.Maui.Controls.Button.CornerRadiusProperty.DefaultValue;
+        Microsoft.Maui.Controls.ImageSource IButton.ImageSource { get; set; } = (Microsoft.Maui.Controls.ImageSource)Microsoft.Maui.Controls.Button.ImageSourceProperty.DefaultValue;
         Microsoft.Maui.Thickness IButton.Padding { get; set; } = (Microsoft.Maui.Thickness)Microsoft.Maui.Controls.Button.PaddingProperty.DefaultValue;
         Microsoft.Maui.LineBreakMode IButton.LineBreakMode { get; set; } = (Microsoft.Maui.LineBreakMode)Microsoft.Maui.Controls.Button.LineBreakModeProperty.DefaultValue;
 
@@ -95,6 +96,7 @@ namespace MauiReactor
             if (NativeControl.BorderWidth != thisAsIButton.BorderWidth) NativeControl.BorderWidth = thisAsIButton.BorderWidth;
             if (NativeControl.BorderColor != thisAsIButton.BorderColor) NativeControl.BorderColor = thisAsIButton.BorderColor;
             if (NativeControl.CornerRadius != thisAsIButton.CornerRadius) NativeControl.CornerRadius = thisAsIButton.CornerRadius;
+            if (NativeControl.ImageSource != thisAsIButton.ImageSource) NativeControl.ImageSource = thisAsIButton.ImageSource;
             if (NativeControl.Padding != thisAsIButton.Padding) NativeControl.Padding = thisAsIButton.Padding;
             if (NativeControl.LineBreakMode != thisAsIButton.LineBreakMode) NativeControl.LineBreakMode = thisAsIButton.LineBreakMode;
 
@@ -263,6 +265,47 @@ namespace MauiReactor
         public static T CornerRadius<T>(this T button, int cornerRadius) where T : IButton
         {
             button.CornerRadius = cornerRadius;
+            return button;
+        }
+
+        public static T ImageSource<T>(this T button, Microsoft.Maui.Controls.ImageSource imageSource) where T : IButton
+        {
+            button.ImageSource = imageSource;
+            return button;
+        }
+        public static T Image<T>(this T button, string file) where T : IButton
+        {
+            button.ImageSource = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+            return button;
+        }
+        public static T Image<T>(this T button, string fileAndroid, string fileiOS) where T : IButton
+        {
+            button.ImageSource = Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS);
+            return button;
+        }
+        public static T Image<T>(this T button, string resourceName, Assembly sourceAssembly) where T : IButton
+        {
+            button.ImageSource = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+            return button;
+        }
+        public static T Image<T>(this T button, Uri imageUri) where T : IButton
+        {
+            button.ImageSource = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+            return button;
+        }
+        public static T Image<T>(this T button, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : IButton
+        {
+            button.ImageSource = new UriImageSource
+            {
+                Uri = imageUri,
+                CachingEnabled = cachingEnabled,
+                CacheValidity = cacheValidity
+            };
+            return button;
+        }
+        public static T Image<T>(this T button, Func<Stream> imageStream) where T : IButton
+        {
+            button.ImageSource = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
             return button;
         }
 

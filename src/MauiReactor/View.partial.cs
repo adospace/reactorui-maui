@@ -30,6 +30,30 @@ namespace MauiReactor
                 NativeControl.HorizontalOptions.Expands != thisAsIView.HorizontalOptions.Expands) 
                 NativeControl.HorizontalOptions = thisAsIView.HorizontalOptions;
         }
+
+        protected override void OnAddChild(VisualNode widget, BindableObject childControl)
+        {
+            Validate.EnsureNotNull(NativeControl);
+
+            if (childControl is Microsoft.Maui.Controls.GestureRecognizer gestureRecognizer)
+            {
+                NativeControl.GestureRecognizers.Add(gestureRecognizer);
+            }
+
+            base.OnAddChild(widget, childControl);
+        }
+
+        protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
+        {
+            Validate.EnsureNotNull(NativeControl);
+
+            if (childControl is Microsoft.Maui.Controls.GestureRecognizer gestureRecognizer)
+            {
+                NativeControl.GestureRecognizers.Remove(gestureRecognizer);
+            }
+
+            base.OnRemoveChild(widget, childControl);
+        }
     }
 
 

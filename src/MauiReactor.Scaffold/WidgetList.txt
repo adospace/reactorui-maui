@@ -10,6 +10,8 @@ Microsoft.Maui.Controls.Label
 Microsoft.Maui.Controls.Layout
 Microsoft.Maui.Controls.StackBase
 Microsoft.Maui.Controls.StackLayout
+Microsoft.Maui.Controls.VerticalStackLayout
+Microsoft.Maui.Controls.HorizontalStackLayout
 Microsoft.Maui.Controls.GridLayout
 Microsoft.Maui.Controls.Grid
 Microsoft.Maui.Controls.Shell
@@ -21,4 +23,11 @@ Microsoft.Maui.Controls.ShellContent
 Microsoft.Maui.Controls.TabBar
 Microsoft.Maui.Controls.Tab
 Microsoft.Maui.Controls.ShellSection
+Microsoft.Maui.Controls.BoxView
+Microsoft.Maui.Controls.ScrollView
+Microsoft.Maui.Controls.Image
+Microsoft.Maui.Controls.Compatibility.Layout
+Microsoft.Maui.Controls.GestureRecognizer
+Microsoft.Maui.Controls.TapGestureRecognizer
+
 

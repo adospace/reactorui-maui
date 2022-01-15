@@ -12,9 +12,11 @@ namespace MauiReactor
 {
     public partial interface IPage
     {
+        Microsoft.Maui.Controls.ImageSource BackgroundImageSource { get; set; }
         bool IsBusy { get; set; }
         Microsoft.Maui.Thickness Padding { get; set; }
         string Title { get; set; }
+        Microsoft.Maui.Controls.ImageSource IconImageSource { get; set; }
 
         Action? NavigatedToAction { get; set; }
         Action<NavigatedToEventArgs>? NavigatedToActionWithArgs { get; set; }
@@ -30,7 +32,6 @@ namespace MauiReactor
         Action<EventArgs>? DisappearingActionWithArgs { get; set; }
 
     }
-
     public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.Controls.Page, new()
     {
         public Page()
@@ -44,9 +45,11 @@ namespace MauiReactor
 
         }
 
+        Microsoft.Maui.Controls.ImageSource IPage.BackgroundImageSource { get; set; } = (Microsoft.Maui.Controls.ImageSource)Microsoft.Maui.Controls.Page.BackgroundImageSourceProperty.DefaultValue;
         bool IPage.IsBusy { get; set; } = (bool)Microsoft.Maui.Controls.Page.IsBusyProperty.DefaultValue;
         Microsoft.Maui.Thickness IPage.Padding { get; set; } = (Microsoft.Maui.Thickness)Microsoft.Maui.Controls.Page.PaddingProperty.DefaultValue;
         string IPage.Title { get; set; } = (string)Microsoft.Maui.Controls.Page.TitleProperty.DefaultValue;
+        Microsoft.Maui.Controls.ImageSource IPage.IconImageSource { get; set; } = (Microsoft.Maui.Controls.ImageSource)Microsoft.Maui.Controls.Page.IconImageSourceProperty.DefaultValue;
 
         Action? IPage.NavigatedToAction { get; set; }
         Action<NavigatedToEventArgs>? IPage.NavigatedToActionWithArgs { get; set; }
@@ -67,9 +70,11 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIPage = (IPage)this;
+            if (NativeControl.BackgroundImageSource != thisAsIPage.BackgroundImageSource) NativeControl.BackgroundImageSource = thisAsIPage.BackgroundImageSource;
             if (NativeControl.IsBusy != thisAsIPage.IsBusy) NativeControl.IsBusy = thisAsIPage.IsBusy;
             if (NativeControl.Padding != thisAsIPage.Padding) NativeControl.Padding = thisAsIPage.Padding;
             if (NativeControl.Title != thisAsIPage.Title) NativeControl.Title = thisAsIPage.Title;
+            if (NativeControl.IconImageSource != thisAsIPage.IconImageSource) NativeControl.IconImageSource = thisAsIPage.IconImageSource;
 
 
             base.OnUpdate();
@@ -183,6 +188,47 @@ namespace MauiReactor
 
     public static partial class PageExtensions
     {
+        public static T BackgroundImageSource<T>(this T page, Microsoft.Maui.Controls.ImageSource backgroundImageSource) where T : IPage
+        {
+            page.BackgroundImageSource = backgroundImageSource;
+            return page;
+        }
+        public static T BackgroundImage<T>(this T page, string file) where T : IPage
+        {
+            page.BackgroundImageSource = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+            return page;
+        }
+        public static T BackgroundImage<T>(this T page, string fileAndroid, string fileiOS) where T : IPage
+        {
+            page.BackgroundImageSource = Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS);
+            return page;
+        }
+        public static T BackgroundImage<T>(this T page, string resourceName, Assembly sourceAssembly) where T : IPage
+        {
+            page.BackgroundImageSource = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+            return page;
+        }
+        public static T BackgroundImage<T>(this T page, Uri imageUri) where T : IPage
+        {
+            page.BackgroundImageSource = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+            return page;
+        }
+        public static T BackgroundImage<T>(this T page, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : IPage
+        {
+            page.BackgroundImageSource = new UriImageSource
+            {
+                Uri = imageUri,
+                CachingEnabled = cachingEnabled,
+                CacheValidity = cacheValidity
+            };
+            return page;
+        }
+        public static T BackgroundImage<T>(this T page, Func<Stream> imageStream) where T : IPage
+        {
+            page.BackgroundImageSource = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+            return page;
+        }
+
         public static T IsBusy<T>(this T page, bool isBusy) where T : IPage
         {
             page.IsBusy = isBusy;
@@ -208,6 +254,47 @@ namespace MauiReactor
         public static T Title<T>(this T page, string title) where T : IPage
         {
             page.Title = title;
+            return page;
+        }
+
+        public static T IconImageSource<T>(this T page, Microsoft.Maui.Controls.ImageSource iconImageSource) where T : IPage
+        {
+            page.IconImageSource = iconImageSource;
+            return page;
+        }
+        public static T IconImage<T>(this T page, string file) where T : IPage
+        {
+            page.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+            return page;
+        }
+        public static T IconImage<T>(this T page, string fileAndroid, string fileiOS) where T : IPage
+        {
+            page.IconImageSource = Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS);
+            return page;
+        }
+        public static T IconImage<T>(this T page, string resourceName, Assembly sourceAssembly) where T : IPage
+        {
+            page.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+            return page;
+        }
+        public static T IconImage<T>(this T page, Uri imageUri) where T : IPage
+        {
+            page.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+            return page;
+        }
+        public static T IconImage<T>(this T page, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : IPage
+        {
+            page.IconImageSource = new UriImageSource
+            {
+                Uri = imageUri,
+                CachingEnabled = cachingEnabled,
+                CacheValidity = cacheValidity
+            };
+            return page;
+        }
+        public static T IconImage<T>(this T page, Func<Stream> imageStream) where T : IPage
+        {
+            page.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
             return page;
         }
 

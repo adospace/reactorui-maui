@@ -24,4 +24,5 @@ namespace MauiReactor
             base.OnChildAdded(child);
         }
     }
+
 }

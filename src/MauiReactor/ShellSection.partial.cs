@@ -34,16 +34,17 @@ namespace MauiReactor
             Validate.EnsureNotNull(NativeControl);
 
             if (childControl is Microsoft.Maui.Controls.ShellContent shellContent)
-                NativeControl.Items.Insert(widget.ChildIndex, shellContent);
-            else if (childControl is Microsoft.Maui.Controls.Page page)
-                NativeControl.Items.Insert(widget.ChildIndex, new Microsoft.Maui.Controls.ShellContent() { Content = page });
-            else
             {
-                throw new InvalidOperationException($"Type '{childControl.GetType()}' not supported under '{GetType()}'");
+                NativeControl.Items.Insert(widget.ChildIndex, shellContent);
+                _elementItemMap[childControl] = shellContent;
             }
-
-            _elementItemMap[childControl] = NativeControl.Items[NativeControl.Items.Count - 1];
-
+            else if (childControl is Microsoft.Maui.Controls.Page page)
+            {
+                var shellContentItem = new Microsoft.Maui.Controls.ShellContent() { Content = page };
+                NativeControl.Items.Insert(widget.ChildIndex, shellContentItem);
+                _elementItemMap[childControl] = shellContentItem;
+            }
+             
             base.OnAddChild(widget, childControl);
         }
 
@@ -51,7 +52,10 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
 
-            NativeControl.Items.Remove(_elementItemMap[childControl]);
+            if (_elementItemMap.TryGetValue(childControl, out var item))
+            {
+                NativeControl.Items.Remove(item);
+            }
 
             base.OnRemoveChild(widget, childControl);
         }

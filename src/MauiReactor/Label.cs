@@ -23,6 +23,7 @@ namespace MauiReactor
         bool FontAutoScalingEnabled { get; set; }
         Microsoft.Maui.TextTransform TextTransform { get; set; }
         Microsoft.Maui.TextDecorations TextDecorations { get; set; }
+        Microsoft.Maui.Controls.FormattedString FormattedText { get; set; }
         Microsoft.Maui.LineBreakMode LineBreakMode { get; set; }
         double LineHeight { get; set; }
         int MaxLines { get; set; }
@@ -31,7 +32,6 @@ namespace MauiReactor
 
 
     }
-
     public partial class Label<T> : View<T>, ILabel where T : Microsoft.Maui.Controls.Label, new()
     {
         public Label()
@@ -56,6 +56,7 @@ namespace MauiReactor
         bool ILabel.FontAutoScalingEnabled { get; set; } = (bool)Microsoft.Maui.Controls.Label.FontAutoScalingEnabledProperty.DefaultValue;
         Microsoft.Maui.TextTransform ILabel.TextTransform { get; set; } = (Microsoft.Maui.TextTransform)Microsoft.Maui.Controls.Label.TextTransformProperty.DefaultValue;
         Microsoft.Maui.TextDecorations ILabel.TextDecorations { get; set; } = (Microsoft.Maui.TextDecorations)Microsoft.Maui.Controls.Label.TextDecorationsProperty.DefaultValue;
+        Microsoft.Maui.Controls.FormattedString ILabel.FormattedText { get; set; } = (Microsoft.Maui.Controls.FormattedString)Microsoft.Maui.Controls.Label.FormattedTextProperty.DefaultValue;
         Microsoft.Maui.LineBreakMode ILabel.LineBreakMode { get; set; } = (Microsoft.Maui.LineBreakMode)Microsoft.Maui.Controls.Label.LineBreakModeProperty.DefaultValue;
         double ILabel.LineHeight { get; set; } = (double)Microsoft.Maui.Controls.Label.LineHeightProperty.DefaultValue;
         int ILabel.MaxLines { get; set; } = (int)Microsoft.Maui.Controls.Label.MaxLinesProperty.DefaultValue;
@@ -80,6 +81,7 @@ namespace MauiReactor
             if (NativeControl.FontAutoScalingEnabled != thisAsILabel.FontAutoScalingEnabled) NativeControl.FontAutoScalingEnabled = thisAsILabel.FontAutoScalingEnabled;
             if (NativeControl.TextTransform != thisAsILabel.TextTransform) NativeControl.TextTransform = thisAsILabel.TextTransform;
             if (NativeControl.TextDecorations != thisAsILabel.TextDecorations) NativeControl.TextDecorations = thisAsILabel.TextDecorations;
+            if (NativeControl.FormattedText != thisAsILabel.FormattedText) NativeControl.FormattedText = thisAsILabel.FormattedText;
             if (NativeControl.LineBreakMode != thisAsILabel.LineBreakMode) NativeControl.LineBreakMode = thisAsILabel.LineBreakMode;
             if (NativeControl.LineHeight != thisAsILabel.LineHeight) NativeControl.LineHeight = thisAsILabel.LineHeight;
             if (NativeControl.MaxLines != thisAsILabel.MaxLines) NativeControl.MaxLines = thisAsILabel.MaxLines;
@@ -182,6 +184,12 @@ namespace MauiReactor
         public static T TextDecorations<T>(this T label, Microsoft.Maui.TextDecorations textDecorations) where T : ILabel
         {
             label.TextDecorations = textDecorations;
+            return label;
+        }
+
+        public static T FormattedText<T>(this T label, Microsoft.Maui.Controls.FormattedString formattedText) where T : ILabel
+        {
+            label.FormattedText = formattedText;
             return label;
         }
 

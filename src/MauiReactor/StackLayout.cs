@@ -16,7 +16,6 @@ namespace MauiReactor
 
 
     }
-
     public partial class StackLayout<T> : StackBase<T>, IStackLayout where T : Microsoft.Maui.Controls.StackLayout, new()
     {
         public StackLayout()

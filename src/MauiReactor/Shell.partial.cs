@@ -12,6 +12,7 @@ namespace MauiReactor
     {
         private readonly List<VisualNode> _contents = new();
         private readonly Dictionary<BindableObject, Microsoft.Maui.Controls.ShellItem> _elementItemMap = new();
+        private readonly Dictionary<BindableObject, Microsoft.Maui.Controls.ToolbarItem> _elementToolbarItemMap = new();
 
         public void Add(VisualNode child)
         {
@@ -30,17 +31,19 @@ namespace MauiReactor
             if (childControl is Microsoft.Maui.Controls.ShellItem shellItem)
             {
                 NativeControl.Items.Insert(widget.ChildIndex, shellItem);
+                _elementItemMap[childControl] = shellItem;
             }
             else if (childControl is Microsoft.Maui.Controls.Page page)
             {
-                NativeControl.Items.Insert(widget.ChildIndex, new Microsoft.Maui.Controls.ShellContent() { Content = page });
+                var shellContentItem = new Microsoft.Maui.Controls.ShellContent() { Content = page };
+                NativeControl.Items.Insert(widget.ChildIndex, shellContentItem);
+                _elementItemMap[childControl] = shellContentItem;
             }
             else if (childControl is Microsoft.Maui.Controls.ToolbarItem toolbarItem)
             {
                 NativeControl.ToolbarItems.Add(toolbarItem);
+                _elementToolbarItemMap[childControl] = toolbarItem;
             }
-
-            _elementItemMap[childControl] = NativeControl.Items[NativeControl.Items.Count - 1];
 
             base.OnAddChild(widget, childControl);
         }
@@ -49,7 +52,10 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
 
-            NativeControl.Items.Remove(_elementItemMap[childControl]);
+            if (_elementItemMap.TryGetValue(childControl, out var item))
+                NativeControl.Items.Remove(item);
+            else if (_elementToolbarItemMap.TryGetValue(childControl, out var toolbarItem))
+                NativeControl.ToolbarItems.Remove(toolbarItem);
 
             base.OnRemoveChild(widget, childControl);
         }

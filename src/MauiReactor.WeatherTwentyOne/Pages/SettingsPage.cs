@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.WeatherTwentyOne.Pages
 {
-    internal class HomePage : Component
+    internal class SettingsPage : Component
     {
         public override VisualNode Render()
         {
-            return new ContentPage(title: "HomePage")
+            return new ContentPage(title: "SettingsPage")
             {
-                new Label("HomePage")
+                new Label("SettingsPage")
             };
         }
     }

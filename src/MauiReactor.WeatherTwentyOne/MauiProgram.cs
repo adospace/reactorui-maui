@@ -10,9 +10,18 @@ namespace MauiReactor.WeatherTwentyOne
         {
             var builder = MauiApp.CreateBuilder();
             builder
-                .UseMauiReactorApp<HomePage>(app => 
+                .UseMauiReactorApp<ShellPage>(app => 
                 {
-                    app.Resources.Add(new ResourceDictionary() { Source = new Uri("Resources/Styles/DefaultTheme.xaml", UriKind.Relative) });
+                    var resourceDictionary = new ResourceDictionary();
+                    resourceDictionary.SetAndLoadSource(
+                        new Uri("Resources/Styles/DefaultTheme.xaml", UriKind.Relative),
+                        "Resources/Styles/DefaultTheme.xaml", 
+                        typeof(MauiProgram).Assembly, 
+                        null);
+
+                    app.Resources.Add(resourceDictionary);
+
+                    Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific.Application.SetImageDirectory(app, "Assets");
                 })
 #if DEBUG
             .EnableMauiReactorHotReload()

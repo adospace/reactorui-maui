@@ -16,7 +16,6 @@ namespace MauiReactor
 
 
     }
-
     public partial class FlyoutItem<T> : ShellItem<T>, IFlyoutItem where T : Microsoft.Maui.Controls.FlyoutItem, new()
     {
         public FlyoutItem()

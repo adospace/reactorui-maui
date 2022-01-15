@@ -33,7 +33,6 @@ namespace MauiReactor
         Action<EventArgs>? HandlerChangedActionWithArgs { get; set; }
 
     }
-
     public abstract partial class Element<T> : VisualNode<T>, IElement where T : Microsoft.Maui.Controls.Element, new()
     {
         protected Element()

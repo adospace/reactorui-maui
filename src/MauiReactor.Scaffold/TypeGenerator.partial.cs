@@ -25,18 +25,17 @@ namespace MauiReactor.Scaffold
 
             Properties = _typeToScaffold.GetFields()
                 .Where(_ => _.FieldType == typeof(BindableProperty))
-                //.Where(_ => _.GetCustomAttribute<ObsoleteAttribute>() == null)
                 .Select(_ => _.Name.Substring(0, _.Name.Length - "Property".Length))
                 .Where(_ => propertiesMap.ContainsKey(_))
                 .Select(_ => propertiesMap[_])
-                //.Where(_ => _.GetCustomAttribute<ObsoleteAttribute>() == null)
                 .Where(_ => !_.PropertyType.IsGenericType)
-                .Where(_ => !typeof(BindableObject).IsAssignableFrom(_.PropertyType))
                 //Microsoft.Maui.Controls.LayoutOptions doesn't support ==
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.LayoutOptions")
                 //Custom handling
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.ColumnDefinitionCollection")
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.RowDefinitionCollection")
+                .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.Shell" && _.Name == "CurrentItem"))
+
                 .Where(_ => (_.GetSetMethod()?.IsPublic).GetValueOrDefault())
                 .ToArray();
 
@@ -46,13 +45,30 @@ namespace MauiReactor.Scaffold
                 .ToArray();
         }
 
+        public string Namespace() => Validate.EnsureNotNull(_typeToScaffold.Namespace).Replace("Microsoft.Maui.Controls", "MauiReactor");
+
         public string TypeName() => _typeToScaffold.Name;
 
-        public string FullTypeName() => (_typeToScaffold.FullName ?? throw new InvalidOperationException()).Replace('+', '.');
+        public string FullTypeName() => Validate.EnsureNotNull(_typeToScaffold.FullName)
+            .Replace('+', '.');
 
-        public string BaseTypeName() => (_typeToScaffold.BaseType ?? throw new InvalidOperationException()).Name == "BindableObject" ? "VisualNode" : $"{_typeToScaffold.BaseType.Name}";
+        public string BaseTypeName()
+        {
+            var baseType = Validate.EnsureNotNull(_typeToScaffold.BaseType);
+            if (baseType.Name == "BindableObject")
+            {
+                return "VisualNode";
+            }
 
-        public bool IsTypeNotAbstractWithEmptyConstructur() => !_typeToScaffold.IsAbstract && _typeToScaffold.GetConstructor(Array.Empty<Type>()) != null;
+            return Validate.EnsureNotNull(baseType.FullName)
+                .Replace("Microsoft.Maui.Controls.", string.Empty);
+        }
+
+        public bool IsTypeNotAbstractWithEmptyConstructur() 
+            => !_typeToScaffold.IsAbstract && _typeToScaffold.GetConstructor(Array.Empty<Type>()) != null;
+
+        public bool IsTypeSealed()
+            => _typeToScaffold.IsSealed;
 
         public PropertyInfo[] Properties { get; }
 

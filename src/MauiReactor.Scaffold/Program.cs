@@ -19,7 +19,7 @@ var types = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
 
 foreach (var classNameToGenerate in File
     .ReadAllLines("WidgetList.txt")
-    .Where(_ => !string.IsNullOrWhiteSpace(_)))
+    .Where(_ => !string.IsNullOrWhiteSpace(_) && !_.StartsWith("//")))
 {
     var typeToScaffold = types[classNameToGenerate];
 
@@ -31,7 +31,14 @@ Console.WriteLine("Done");
 void Scaffold(Type typeToScaffold, string outputPath)
 {
     var typeGenerator = new TypeGenerator(typeToScaffold);
-    Console.WriteLine($"Generating {typeToScaffold.Name}...");
-    File.WriteAllText(Path.Combine(outputPath, $"{typeToScaffold.Name}.cs"), typeGenerator.TransformAndPrettify());
+    var outputFileName = (typeToScaffold.FullName ?? throw new InvalidOperationException())
+                .Replace("Microsoft.Maui.Controls.", string.Empty);
+    var outputFileNameTokens = outputFileName.Split('.');
+
+    Console.WriteLine($"Generating {outputFileName}...");
+
+    File.WriteAllText(Path.Combine(outputPath, 
+        Path.Combine(outputFileNameTokens) + ".cs"),
+        typeGenerator.TransformAndPrettify());
 }
 

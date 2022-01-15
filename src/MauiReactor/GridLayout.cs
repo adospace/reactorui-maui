@@ -17,7 +17,6 @@ namespace MauiReactor
 
 
     }
-
     public partial class GridLayout<T> : Layout<T>, IGridLayout where T : Microsoft.Maui.Controls.GridLayout, new()
     {
         public GridLayout()

@@ -17,7 +17,7 @@ namespace MauiReactor.TestApp
         {
             return new ContentPage("Title")
             {
-                new HStack(spacing: 10)
+                new VerticalStackLayout(spacing: 10)
                 {
                     new Label($"Counter: {State.Counter}")
                         .VerticalOptions(LayoutOptions.Center)

@@ -10,19 +10,19 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IGrid
+    public partial interface IGestureRecognizer
     {
 
 
     }
-    public partial class Grid<T> : GridLayout<T>, IGrid where T : Microsoft.Maui.Controls.Grid, new()
+    public partial class GestureRecognizer<T> : Element<T>, IGestureRecognizer where T : Microsoft.Maui.Controls.GestureRecognizer, new()
     {
-        public Grid()
+        public GestureRecognizer()
         {
 
         }
 
-        public Grid(Action<T?> componentRefAction)
+        public GestureRecognizer(Action<T?> componentRefAction)
             : base(componentRefAction)
         {
 
@@ -45,21 +45,21 @@ namespace MauiReactor
 
     }
 
-    public partial class Grid : Grid<Microsoft.Maui.Controls.Grid>
+    public partial class GestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.GestureRecognizer>
     {
-        public Grid()
+        public GestureRecognizer()
         {
 
         }
 
-        public Grid(Action<Microsoft.Maui.Controls.Grid?> componentRefAction)
+        public GestureRecognizer(Action<Microsoft.Maui.Controls.GestureRecognizer?> componentRefAction)
             : base(componentRefAction)
         {
 
         }
     }
 
-    public static partial class GridExtensions
+    public static partial class GestureRecognizerExtensions
     {
 
     }

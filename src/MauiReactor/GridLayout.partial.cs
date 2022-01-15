@@ -103,4 +103,37 @@ namespace MauiReactor
             return true;
         }
     }
+
+    public static partial class GridLayoutExtensions
+    {
+        public static T GridRow<T>(this T visualNodeWithAttachedProperties, int rowIndex) where T : IVisualNodeWithAttachedProperties
+        {
+            visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.GridLayout.RowProperty, rowIndex);
+
+            return visualNodeWithAttachedProperties;
+        }
+
+        public static T GridRowSpan<T>(this T visualNodeWithAttachedProperties, int rowSpan) where T : IVisualNodeWithAttachedProperties
+        {
+            visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.GridLayout.RowSpanProperty, rowSpan);
+
+            return visualNodeWithAttachedProperties;
+        }
+
+        public static T GridColumn<T>(this T visualNodeWithAttachedProperties, int columnIndex) where T : IVisualNodeWithAttachedProperties
+        {
+            visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.GridLayout.ColumnProperty, columnIndex);
+
+            return visualNodeWithAttachedProperties;
+        }
+
+        public static T GridColumnSpan<T>(this T visualNodeWithAttachedProperties, int columnSpan) where T : IVisualNodeWithAttachedProperties
+        {
+            visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.GridLayout.ColumnSpanProperty, columnSpan);
+
+            return visualNodeWithAttachedProperties;
+        }
+
+    }
+
 }

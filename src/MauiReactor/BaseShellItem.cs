@@ -12,6 +12,8 @@ namespace MauiReactor
 {
     public partial interface IBaseShellItem
     {
+        Microsoft.Maui.Controls.ImageSource FlyoutIcon { get; set; }
+        Microsoft.Maui.Controls.ImageSource Icon { get; set; }
         bool IsEnabled { get; set; }
         string Title { get; set; }
         bool IsVisible { get; set; }
@@ -22,7 +24,6 @@ namespace MauiReactor
         Action<EventArgs>? DisappearingActionWithArgs { get; set; }
 
     }
-
     public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem where T : Microsoft.Maui.Controls.BaseShellItem, new()
     {
         public BaseShellItem()
@@ -36,6 +37,8 @@ namespace MauiReactor
 
         }
 
+        Microsoft.Maui.Controls.ImageSource IBaseShellItem.FlyoutIcon { get; set; } = (Microsoft.Maui.Controls.ImageSource)Microsoft.Maui.Controls.BaseShellItem.FlyoutIconProperty.DefaultValue;
+        Microsoft.Maui.Controls.ImageSource IBaseShellItem.Icon { get; set; } = (Microsoft.Maui.Controls.ImageSource)Microsoft.Maui.Controls.BaseShellItem.IconProperty.DefaultValue;
         bool IBaseShellItem.IsEnabled { get; set; } = (bool)Microsoft.Maui.Controls.BaseShellItem.IsEnabledProperty.DefaultValue;
         string IBaseShellItem.Title { get; set; } = (string)Microsoft.Maui.Controls.BaseShellItem.TitleProperty.DefaultValue;
         bool IBaseShellItem.IsVisible { get; set; } = (bool)Microsoft.Maui.Controls.BaseShellItem.IsVisibleProperty.DefaultValue;
@@ -51,6 +54,8 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIBaseShellItem = (IBaseShellItem)this;
+            if (NativeControl.FlyoutIcon != thisAsIBaseShellItem.FlyoutIcon) NativeControl.FlyoutIcon = thisAsIBaseShellItem.FlyoutIcon;
+            if (NativeControl.Icon != thisAsIBaseShellItem.Icon) NativeControl.Icon = thisAsIBaseShellItem.Icon;
             if (NativeControl.IsEnabled != thisAsIBaseShellItem.IsEnabled) NativeControl.IsEnabled = thisAsIBaseShellItem.IsEnabled;
             if (NativeControl.Title != thisAsIBaseShellItem.Title) NativeControl.Title = thisAsIBaseShellItem.Title;
             if (NativeControl.IsVisible != thisAsIBaseShellItem.IsVisible) NativeControl.IsVisible = thisAsIBaseShellItem.IsVisible;
@@ -123,6 +128,88 @@ namespace MauiReactor
 
     public static partial class BaseShellItemExtensions
     {
+        public static T FlyoutIcon<T>(this T baseshellitem, Microsoft.Maui.Controls.ImageSource flyoutIcon) where T : IBaseShellItem
+        {
+            baseshellitem.FlyoutIcon = flyoutIcon;
+            return baseshellitem;
+        }
+        public static T Flyo<T>(this T baseshellitem, string file) where T : IBaseShellItem
+        {
+            baseshellitem.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+            return baseshellitem;
+        }
+        public static T Flyo<T>(this T baseshellitem, string fileAndroid, string fileiOS) where T : IBaseShellItem
+        {
+            baseshellitem.FlyoutIcon = Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS);
+            return baseshellitem;
+        }
+        public static T Flyo<T>(this T baseshellitem, string resourceName, Assembly sourceAssembly) where T : IBaseShellItem
+        {
+            baseshellitem.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+            return baseshellitem;
+        }
+        public static T Flyo<T>(this T baseshellitem, Uri imageUri) where T : IBaseShellItem
+        {
+            baseshellitem.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+            return baseshellitem;
+        }
+        public static T Flyo<T>(this T baseshellitem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : IBaseShellItem
+        {
+            baseshellitem.FlyoutIcon = new UriImageSource
+            {
+                Uri = imageUri,
+                CachingEnabled = cachingEnabled,
+                CacheValidity = cacheValidity
+            };
+            return baseshellitem;
+        }
+        public static T Flyo<T>(this T baseshellitem, Func<Stream> imageStream) where T : IBaseShellItem
+        {
+            baseshellitem.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+            return baseshellitem;
+        }
+
+        public static T Icon<T>(this T baseshellitem, Microsoft.Maui.Controls.ImageSource icon) where T : IBaseShellItem
+        {
+            baseshellitem.Icon = icon;
+            return baseshellitem;
+        }
+        public static T Icon<T>(this T baseshellitem, string file) where T : IBaseShellItem
+        {
+            baseshellitem.Icon = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+            return baseshellitem;
+        }
+        public static T Icon<T>(this T baseshellitem, string fileAndroid, string fileiOS) where T : IBaseShellItem
+        {
+            baseshellitem.Icon = Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS);
+            return baseshellitem;
+        }
+        public static T Icon<T>(this T baseshellitem, string resourceName, Assembly sourceAssembly) where T : IBaseShellItem
+        {
+            baseshellitem.Icon = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+            return baseshellitem;
+        }
+        public static T Icon<T>(this T baseshellitem, Uri imageUri) where T : IBaseShellItem
+        {
+            baseshellitem.Icon = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+            return baseshellitem;
+        }
+        public static T Icon<T>(this T baseshellitem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : IBaseShellItem
+        {
+            baseshellitem.Icon = new UriImageSource
+            {
+                Uri = imageUri,
+                CachingEnabled = cachingEnabled,
+                CacheValidity = cacheValidity
+            };
+            return baseshellitem;
+        }
+        public static T Icon<T>(this T baseshellitem, Func<Stream> imageStream) where T : IBaseShellItem
+        {
+            baseshellitem.Icon = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+            return baseshellitem;
+        }
+
         public static T IsEnabled<T>(this T baseshellitem, bool isEnabled) where T : IBaseShellItem
         {
             baseshellitem.IsEnabled = isEnabled;
