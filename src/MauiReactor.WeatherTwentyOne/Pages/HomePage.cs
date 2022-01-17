@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MauiReactor.WeatherTwentyOne.Pages.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,44 @@ namespace MauiReactor.WeatherTwentyOne.Pages
         {
             return new ContentPage(title: "HomePage")
             {
-                new Label("HomePage")
+                new Grid(
+                    rows: "*",
+                    columns: Device.Idiom == TargetIdiom.Phone ? "*" : "*,500")
+                { 
+                    RenderMainContent()
+                }
+            };
+        }
+
+        private VisualNode RenderMainContent()
+        {
+            return new ScrollView
+            {
+                new VerticalStackLayout
+                {
+                    Device.Idiom != TargetIdiom.Phone ? 
+                        new FlexLayout
+                        { 
+                            new CurrentWidget(),
+
+                            new WindLiveWidget(),
+                        }
+                        .MinimumHeightRequest(360)
+                        .AlignItems(Microsoft.Maui.Layouts.FlexAlignItems.Center)
+                        .AlignContent(Microsoft.Maui.Layouts.FlexAlignContent.Center)
+                        .JustifyContent(Microsoft.Maui.Layouts.FlexJustify.SpaceEvenly)
+                    :
+                    new CurrentWidget(),
+
+                    new BoxView()
+                        .HeightRequest(1),
+
+                    new Next24HrWidget(),
+
+                    new Next7DWidget()
+                }
+                .Padding(Device.Idiom == TargetIdiom.Phone ? new Thickness(0,50) : new Thickness(0,50))
+                .Spacing(Device.Idiom == TargetIdiom.Phone ? 25 : 50)
             };
         }
     }

@@ -57,7 +57,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
                     .VCenter()
                     .HCenter()
                     .Clip(new EllipseGeometry()
-                        .Center(new Point(98,98))
+                        .Center(98,98)
                         .RadiusX(98)
                         .RadiusY(98)),
 
@@ -88,8 +88,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
                         new Image("fluent_weather_moon_16_filled.png")
                             .HeightRequest(115)
                             .Aspect(Aspect.AspectFit),
-                        new Label()
-                            .Text(() => State.Temperature)
+                        new Label(() => State.Temperature)
                             .HCenter()
                             .Class("Title1"),
                         new Border()

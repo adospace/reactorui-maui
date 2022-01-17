@@ -34,4 +34,5 @@ Microsoft.Maui.Controls.Shapes.Geometry
 Microsoft.Maui.Controls.Shapes.EllipseGeometry
 Microsoft.Maui.Controls.Shapes.RoundRectangle
 Microsoft.Maui.Controls.Border
+Microsoft.Maui.Controls.FlexLayout
 
