@@ -8,15 +8,8 @@ using System.Threading.Tasks;
 
 namespace MauiReactor
 {
-    public abstract partial class Layout<T> : IEnumerable
+    public abstract partial class Layout<T>
     {
-        private readonly List<VisualNode> _internalChildren = new List<VisualNode>();
-
-        protected override IEnumerable<VisualNode> RenderChildren()
-        {
-            return _internalChildren;
-        }
-
         protected override void OnAddChild(VisualNode widget, BindableObject childControl)
         {
             Validate.EnsureNotNull(NativeControl);
@@ -37,61 +30,5 @@ namespace MauiReactor
 
             base.OnRemoveChild(widget, childControl);
         }
-
-        public IEnumerator<VisualNode> GetEnumerator()
-        {
-            return _internalChildren.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _internalChildren.GetEnumerator();
-        }
-
-        public void Add(params VisualNode?[] nodes)
-        {
-            if (nodes is null)
-            {
-                throw new ArgumentNullException(nameof(nodes));
-            }
-
-            foreach (var node in nodes)
-            {
-                if (node != null)
-                {
-                    _internalChildren.Add(node);
-                    OnChildAdded(node);
-                }
-            }
-        }
-
-        public void Add(object? genericNode)
-        {
-            if (genericNode == null)
-            {
-                return;
-            }
-
-            if (genericNode is VisualNode visualNode)
-            {
-                _internalChildren.Add(visualNode);
-                OnChildAdded(visualNode);
-            }
-            else if (genericNode is IEnumerable nodes)
-            {
-                foreach (var node in nodes.Cast<VisualNode>())
-                {
-                    _internalChildren.Add(node);
-                    OnChildAdded(node);
-                }
-            }
-            else
-            {
-                throw new NotSupportedException($"Unable to add value of type '{genericNode.GetType()}' under {typeof(T)}");
-            }
-        }
-
-        protected virtual void OnChildAdded(VisualNode child)
-        { }
     }
 }

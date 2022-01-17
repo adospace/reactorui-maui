@@ -10,9 +10,9 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface ITemplatedPage
+    public partial interface ITemplatedPage : IPage
     {
-        Microsoft.Maui.Controls.ControlTemplate ControlTemplate { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.ControlTemplate>? ControlTemplate { get; set; }
 
 
     }
@@ -29,7 +29,7 @@ namespace MauiReactor
 
         }
 
-        Microsoft.Maui.Controls.ControlTemplate ITemplatedPage.ControlTemplate { get; set; } = (Microsoft.Maui.Controls.ControlTemplate)Microsoft.Maui.Controls.TemplatedPage.ControlTemplateProperty.DefaultValue;
+        PropertyValue<Microsoft.Maui.Controls.ControlTemplate>? ITemplatedPage.ControlTemplate { get; set; }
 
 
         protected override void OnUpdate()
@@ -38,7 +38,7 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsITemplatedPage = (ITemplatedPage)this;
-            if (NativeControl.ControlTemplate != thisAsITemplatedPage.ControlTemplate) NativeControl.ControlTemplate = thisAsITemplatedPage.ControlTemplate;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TemplatedPage.ControlTemplateProperty, thisAsITemplatedPage.ControlTemplate);
 
 
             base.OnUpdate();
@@ -70,9 +70,16 @@ namespace MauiReactor
     {
         public static T ControlTemplate<T>(this T templatedpage, Microsoft.Maui.Controls.ControlTemplate controlTemplate) where T : ITemplatedPage
         {
-            templatedpage.ControlTemplate = controlTemplate;
+            templatedpage.ControlTemplate = new PropertyValue<Microsoft.Maui.Controls.ControlTemplate>(controlTemplate);
             return templatedpage;
         }
+        public static T ControlTemplate<T>(this T templatedpage, Func<Microsoft.Maui.Controls.ControlTemplate> controlTemplateFunc) where T : ITemplatedPage
+        {
+            templatedpage.ControlTemplate = new PropertyValue<Microsoft.Maui.Controls.ControlTemplate>(controlTemplateFunc);
+            return templatedpage;
+        }
+
+
 
 
     }

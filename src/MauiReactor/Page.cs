@@ -10,13 +10,13 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IPage
+    public partial interface IPage : IVisualElement
     {
-        Microsoft.Maui.Controls.ImageSource BackgroundImageSource { get; set; }
-        bool IsBusy { get; set; }
-        Microsoft.Maui.Thickness Padding { get; set; }
-        string Title { get; set; }
-        Microsoft.Maui.Controls.ImageSource IconImageSource { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.ImageSource>? BackgroundImageSource { get; set; }
+        PropertyValue<bool>? IsBusy { get; set; }
+        PropertyValue<Microsoft.Maui.Thickness>? Padding { get; set; }
+        PropertyValue<string>? Title { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.ImageSource>? IconImageSource { get; set; }
 
         Action? NavigatedToAction { get; set; }
         Action<NavigatedToEventArgs>? NavigatedToActionWithArgs { get; set; }
@@ -45,11 +45,11 @@ namespace MauiReactor
 
         }
 
-        Microsoft.Maui.Controls.ImageSource IPage.BackgroundImageSource { get; set; } = (Microsoft.Maui.Controls.ImageSource)Microsoft.Maui.Controls.Page.BackgroundImageSourceProperty.DefaultValue;
-        bool IPage.IsBusy { get; set; } = (bool)Microsoft.Maui.Controls.Page.IsBusyProperty.DefaultValue;
-        Microsoft.Maui.Thickness IPage.Padding { get; set; } = (Microsoft.Maui.Thickness)Microsoft.Maui.Controls.Page.PaddingProperty.DefaultValue;
-        string IPage.Title { get; set; } = (string)Microsoft.Maui.Controls.Page.TitleProperty.DefaultValue;
-        Microsoft.Maui.Controls.ImageSource IPage.IconImageSource { get; set; } = (Microsoft.Maui.Controls.ImageSource)Microsoft.Maui.Controls.Page.IconImageSourceProperty.DefaultValue;
+        PropertyValue<Microsoft.Maui.Controls.ImageSource>? IPage.BackgroundImageSource { get; set; }
+        PropertyValue<bool>? IPage.IsBusy { get; set; }
+        PropertyValue<Microsoft.Maui.Thickness>? IPage.Padding { get; set; }
+        PropertyValue<string>? IPage.Title { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.ImageSource>? IPage.IconImageSource { get; set; }
 
         Action? IPage.NavigatedToAction { get; set; }
         Action<NavigatedToEventArgs>? IPage.NavigatedToActionWithArgs { get; set; }
@@ -70,11 +70,11 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIPage = (IPage)this;
-            if (NativeControl.BackgroundImageSource != thisAsIPage.BackgroundImageSource) NativeControl.BackgroundImageSource = thisAsIPage.BackgroundImageSource;
-            if (NativeControl.IsBusy != thisAsIPage.IsBusy) NativeControl.IsBusy = thisAsIPage.IsBusy;
-            if (NativeControl.Padding != thisAsIPage.Padding) NativeControl.Padding = thisAsIPage.Padding;
-            if (NativeControl.Title != thisAsIPage.Title) NativeControl.Title = thisAsIPage.Title;
-            if (NativeControl.IconImageSource != thisAsIPage.IconImageSource) NativeControl.IconImageSource = thisAsIPage.IconImageSource;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.BackgroundImageSourceProperty, thisAsIPage.BackgroundImageSource);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.IsBusyProperty, thisAsIPage.IsBusy);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.PaddingProperty, thisAsIPage.Padding);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.TitleProperty, thisAsIPage.Title);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.IconImageSourceProperty, thisAsIPage.IconImageSource);
 
 
             base.OnUpdate();
@@ -190,111 +190,146 @@ namespace MauiReactor
     {
         public static T BackgroundImageSource<T>(this T page, Microsoft.Maui.Controls.ImageSource backgroundImageSource) where T : IPage
         {
-            page.BackgroundImageSource = backgroundImageSource;
+            page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(backgroundImageSource);
             return page;
         }
+        public static T BackgroundImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> backgroundImageSourceFunc) where T : IPage
+        {
+            page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(backgroundImageSourceFunc);
+            return page;
+        }
+
+
         public static T BackgroundImage<T>(this T page, string file) where T : IPage
         {
-            page.BackgroundImageSource = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+            page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return page;
         }
         public static T BackgroundImage<T>(this T page, string fileAndroid, string fileiOS) where T : IPage
         {
-            page.BackgroundImageSource = Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS);
+            page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
             return page;
         }
         public static T BackgroundImage<T>(this T page, string resourceName, Assembly sourceAssembly) where T : IPage
         {
-            page.BackgroundImageSource = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+            page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
             return page;
         }
         public static T BackgroundImage<T>(this T page, Uri imageUri) where T : IPage
         {
-            page.BackgroundImageSource = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+            page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
             return page;
         }
         public static T BackgroundImage<T>(this T page, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : IPage
         {
-            page.BackgroundImageSource = new UriImageSource
+            page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource
             {
                 Uri = imageUri,
                 CachingEnabled = cachingEnabled,
                 CacheValidity = cacheValidity
-            };
+            });
             return page;
         }
         public static T BackgroundImage<T>(this T page, Func<Stream> imageStream) where T : IPage
         {
-            page.BackgroundImageSource = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+            page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
             return page;
         }
 
         public static T IsBusy<T>(this T page, bool isBusy) where T : IPage
         {
-            page.IsBusy = isBusy;
+            page.IsBusy = new PropertyValue<bool>(isBusy);
+            return page;
+        }
+        public static T IsBusy<T>(this T page, Func<bool> isBusyFunc) where T : IPage
+        {
+            page.IsBusy = new PropertyValue<bool>(isBusyFunc);
             return page;
         }
 
+
+
         public static T Padding<T>(this T page, Microsoft.Maui.Thickness padding) where T : IPage
         {
-            page.Padding = padding;
+            page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
+            return page;
+        }
+        public static T Padding<T>(this T page, Func<Microsoft.Maui.Thickness> paddingFunc) where T : IPage
+        {
+            page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
             return page;
         }
         public static T Padding<T>(this T page, double leftRight, double topBottom) where T : IPage
         {
-            page.Padding = new Thickness(leftRight, topBottom);
+            page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
             return page;
         }
         public static T Padding<T>(this T page, double uniformSize) where T : IPage
         {
-            page.Padding = new Thickness(uniformSize);
+            page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
             return page;
         }
+
+
 
         public static T Title<T>(this T page, string title) where T : IPage
         {
-            page.Title = title;
+            page.Title = new PropertyValue<string>(title);
+            return page;
+        }
+        public static T Title<T>(this T page, Func<string> titleFunc) where T : IPage
+        {
+            page.Title = new PropertyValue<string>(titleFunc);
             return page;
         }
 
+
+
         public static T IconImageSource<T>(this T page, Microsoft.Maui.Controls.ImageSource iconImageSource) where T : IPage
         {
-            page.IconImageSource = iconImageSource;
+            page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSource);
             return page;
         }
+        public static T IconImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> iconImageSourceFunc) where T : IPage
+        {
+            page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc);
+            return page;
+        }
+
+
         public static T IconImage<T>(this T page, string file) where T : IPage
         {
-            page.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+            page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return page;
         }
         public static T IconImage<T>(this T page, string fileAndroid, string fileiOS) where T : IPage
         {
-            page.IconImageSource = Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS);
+            page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
             return page;
         }
         public static T IconImage<T>(this T page, string resourceName, Assembly sourceAssembly) where T : IPage
         {
-            page.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+            page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
             return page;
         }
         public static T IconImage<T>(this T page, Uri imageUri) where T : IPage
         {
-            page.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+            page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
             return page;
         }
         public static T IconImage<T>(this T page, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : IPage
         {
-            page.IconImageSource = new UriImageSource
+            page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource
             {
                 Uri = imageUri,
                 CachingEnabled = cachingEnabled,
                 CacheValidity = cacheValidity
-            };
+            });
             return page;
         }
         public static T IconImage<T>(this T page, Func<Stream> imageStream) where T : IPage
         {
-            page.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+            page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
             return page;
         }
 

@@ -10,7 +10,7 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IGestureRecognizer
+    public partial interface IGestureRecognizer : IElement
     {
 
 

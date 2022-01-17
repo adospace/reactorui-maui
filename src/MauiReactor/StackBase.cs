@@ -10,9 +10,9 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IStackBase
+    public partial interface IStackBase : ILayout
     {
-        double Spacing { get; set; }
+        PropertyValue<double>? Spacing { get; set; }
 
 
     }
@@ -29,7 +29,7 @@ namespace MauiReactor
 
         }
 
-        double IStackBase.Spacing { get; set; } = (double)Microsoft.Maui.Controls.StackBase.SpacingProperty.DefaultValue;
+        PropertyValue<double>? IStackBase.Spacing { get; set; }
 
 
         protected override void OnUpdate()
@@ -38,7 +38,7 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIStackBase = (IStackBase)this;
-            if (NativeControl.Spacing != thisAsIStackBase.Spacing) NativeControl.Spacing = thisAsIStackBase.Spacing;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.StackBase.SpacingProperty, thisAsIStackBase.Spacing);
 
 
             base.OnUpdate();
@@ -57,9 +57,16 @@ namespace MauiReactor
     {
         public static T Spacing<T>(this T stackbase, double spacing) where T : IStackBase
         {
-            stackbase.Spacing = spacing;
+            stackbase.Spacing = new PropertyValue<double>(spacing);
             return stackbase;
         }
+        public static T Spacing<T>(this T stackbase, Func<double> spacingFunc) where T : IStackBase
+        {
+            stackbase.Spacing = new PropertyValue<double>(spacingFunc);
+            return stackbase;
+        }
+
+
 
 
     }

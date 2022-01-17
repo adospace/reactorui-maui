@@ -10,25 +10,25 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface ILabel
+    public partial interface ILabel : IView
     {
-        Microsoft.Maui.TextAlignment HorizontalTextAlignment { get; set; }
-        Microsoft.Maui.TextAlignment VerticalTextAlignment { get; set; }
-        Microsoft.Maui.Graphics.Color TextColor { get; set; }
-        double CharacterSpacing { get; set; }
-        string Text { get; set; }
-        string FontFamily { get; set; }
-        double FontSize { get; set; }
-        Microsoft.Maui.Controls.FontAttributes FontAttributes { get; set; }
-        bool FontAutoScalingEnabled { get; set; }
-        Microsoft.Maui.TextTransform TextTransform { get; set; }
-        Microsoft.Maui.TextDecorations TextDecorations { get; set; }
-        Microsoft.Maui.Controls.FormattedString FormattedText { get; set; }
-        Microsoft.Maui.LineBreakMode LineBreakMode { get; set; }
-        double LineHeight { get; set; }
-        int MaxLines { get; set; }
-        Microsoft.Maui.Thickness Padding { get; set; }
-        Microsoft.Maui.TextType TextType { get; set; }
+        PropertyValue<Microsoft.Maui.TextAlignment>? HorizontalTextAlignment { get; set; }
+        PropertyValue<Microsoft.Maui.TextAlignment>? VerticalTextAlignment { get; set; }
+        PropertyValue<Microsoft.Maui.Graphics.Color>? TextColor { get; set; }
+        PropertyValue<double>? CharacterSpacing { get; set; }
+        PropertyValue<string>? Text { get; set; }
+        PropertyValue<string>? FontFamily { get; set; }
+        PropertyValue<double>? FontSize { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.FontAttributes>? FontAttributes { get; set; }
+        PropertyValue<bool>? FontAutoScalingEnabled { get; set; }
+        PropertyValue<Microsoft.Maui.TextTransform>? TextTransform { get; set; }
+        PropertyValue<Microsoft.Maui.TextDecorations>? TextDecorations { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.FormattedString>? FormattedText { get; set; }
+        PropertyValue<Microsoft.Maui.LineBreakMode>? LineBreakMode { get; set; }
+        PropertyValue<double>? LineHeight { get; set; }
+        PropertyValue<int>? MaxLines { get; set; }
+        PropertyValue<Microsoft.Maui.Thickness>? Padding { get; set; }
+        PropertyValue<Microsoft.Maui.TextType>? TextType { get; set; }
 
 
     }
@@ -45,23 +45,23 @@ namespace MauiReactor
 
         }
 
-        Microsoft.Maui.TextAlignment ILabel.HorizontalTextAlignment { get; set; } = (Microsoft.Maui.TextAlignment)Microsoft.Maui.Controls.Label.HorizontalTextAlignmentProperty.DefaultValue;
-        Microsoft.Maui.TextAlignment ILabel.VerticalTextAlignment { get; set; } = (Microsoft.Maui.TextAlignment)Microsoft.Maui.Controls.Label.VerticalTextAlignmentProperty.DefaultValue;
-        Microsoft.Maui.Graphics.Color ILabel.TextColor { get; set; } = (Microsoft.Maui.Graphics.Color)Microsoft.Maui.Controls.Label.TextColorProperty.DefaultValue;
-        double ILabel.CharacterSpacing { get; set; } = (double)Microsoft.Maui.Controls.Label.CharacterSpacingProperty.DefaultValue;
-        string ILabel.Text { get; set; } = (string)Microsoft.Maui.Controls.Label.TextProperty.DefaultValue;
-        string ILabel.FontFamily { get; set; } = (string)Microsoft.Maui.Controls.Label.FontFamilyProperty.DefaultValue;
-        double ILabel.FontSize { get; set; } = (double)Microsoft.Maui.Controls.Label.FontSizeProperty.DefaultValue;
-        Microsoft.Maui.Controls.FontAttributes ILabel.FontAttributes { get; set; } = (Microsoft.Maui.Controls.FontAttributes)Microsoft.Maui.Controls.Label.FontAttributesProperty.DefaultValue;
-        bool ILabel.FontAutoScalingEnabled { get; set; } = (bool)Microsoft.Maui.Controls.Label.FontAutoScalingEnabledProperty.DefaultValue;
-        Microsoft.Maui.TextTransform ILabel.TextTransform { get; set; } = (Microsoft.Maui.TextTransform)Microsoft.Maui.Controls.Label.TextTransformProperty.DefaultValue;
-        Microsoft.Maui.TextDecorations ILabel.TextDecorations { get; set; } = (Microsoft.Maui.TextDecorations)Microsoft.Maui.Controls.Label.TextDecorationsProperty.DefaultValue;
-        Microsoft.Maui.Controls.FormattedString ILabel.FormattedText { get; set; } = (Microsoft.Maui.Controls.FormattedString)Microsoft.Maui.Controls.Label.FormattedTextProperty.DefaultValue;
-        Microsoft.Maui.LineBreakMode ILabel.LineBreakMode { get; set; } = (Microsoft.Maui.LineBreakMode)Microsoft.Maui.Controls.Label.LineBreakModeProperty.DefaultValue;
-        double ILabel.LineHeight { get; set; } = (double)Microsoft.Maui.Controls.Label.LineHeightProperty.DefaultValue;
-        int ILabel.MaxLines { get; set; } = (int)Microsoft.Maui.Controls.Label.MaxLinesProperty.DefaultValue;
-        Microsoft.Maui.Thickness ILabel.Padding { get; set; } = (Microsoft.Maui.Thickness)Microsoft.Maui.Controls.Label.PaddingProperty.DefaultValue;
-        Microsoft.Maui.TextType ILabel.TextType { get; set; } = (Microsoft.Maui.TextType)Microsoft.Maui.Controls.Label.TextTypeProperty.DefaultValue;
+        PropertyValue<Microsoft.Maui.TextAlignment>? ILabel.HorizontalTextAlignment { get; set; }
+        PropertyValue<Microsoft.Maui.TextAlignment>? ILabel.VerticalTextAlignment { get; set; }
+        PropertyValue<Microsoft.Maui.Graphics.Color>? ILabel.TextColor { get; set; }
+        PropertyValue<double>? ILabel.CharacterSpacing { get; set; }
+        PropertyValue<string>? ILabel.Text { get; set; }
+        PropertyValue<string>? ILabel.FontFamily { get; set; }
+        PropertyValue<double>? ILabel.FontSize { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.FontAttributes>? ILabel.FontAttributes { get; set; }
+        PropertyValue<bool>? ILabel.FontAutoScalingEnabled { get; set; }
+        PropertyValue<Microsoft.Maui.TextTransform>? ILabel.TextTransform { get; set; }
+        PropertyValue<Microsoft.Maui.TextDecorations>? ILabel.TextDecorations { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.FormattedString>? ILabel.FormattedText { get; set; }
+        PropertyValue<Microsoft.Maui.LineBreakMode>? ILabel.LineBreakMode { get; set; }
+        PropertyValue<double>? ILabel.LineHeight { get; set; }
+        PropertyValue<int>? ILabel.MaxLines { get; set; }
+        PropertyValue<Microsoft.Maui.Thickness>? ILabel.Padding { get; set; }
+        PropertyValue<Microsoft.Maui.TextType>? ILabel.TextType { get; set; }
 
 
         protected override void OnUpdate()
@@ -70,23 +70,23 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsILabel = (ILabel)this;
-            if (NativeControl.HorizontalTextAlignment != thisAsILabel.HorizontalTextAlignment) NativeControl.HorizontalTextAlignment = thisAsILabel.HorizontalTextAlignment;
-            if (NativeControl.VerticalTextAlignment != thisAsILabel.VerticalTextAlignment) NativeControl.VerticalTextAlignment = thisAsILabel.VerticalTextAlignment;
-            if (NativeControl.TextColor != thisAsILabel.TextColor) NativeControl.TextColor = thisAsILabel.TextColor;
-            if (NativeControl.CharacterSpacing != thisAsILabel.CharacterSpacing) NativeControl.CharacterSpacing = thisAsILabel.CharacterSpacing;
-            if (NativeControl.Text != thisAsILabel.Text) NativeControl.Text = thisAsILabel.Text;
-            if (NativeControl.FontFamily != thisAsILabel.FontFamily) NativeControl.FontFamily = thisAsILabel.FontFamily;
-            if (NativeControl.FontSize != thisAsILabel.FontSize) NativeControl.FontSize = thisAsILabel.FontSize;
-            if (NativeControl.FontAttributes != thisAsILabel.FontAttributes) NativeControl.FontAttributes = thisAsILabel.FontAttributes;
-            if (NativeControl.FontAutoScalingEnabled != thisAsILabel.FontAutoScalingEnabled) NativeControl.FontAutoScalingEnabled = thisAsILabel.FontAutoScalingEnabled;
-            if (NativeControl.TextTransform != thisAsILabel.TextTransform) NativeControl.TextTransform = thisAsILabel.TextTransform;
-            if (NativeControl.TextDecorations != thisAsILabel.TextDecorations) NativeControl.TextDecorations = thisAsILabel.TextDecorations;
-            if (NativeControl.FormattedText != thisAsILabel.FormattedText) NativeControl.FormattedText = thisAsILabel.FormattedText;
-            if (NativeControl.LineBreakMode != thisAsILabel.LineBreakMode) NativeControl.LineBreakMode = thisAsILabel.LineBreakMode;
-            if (NativeControl.LineHeight != thisAsILabel.LineHeight) NativeControl.LineHeight = thisAsILabel.LineHeight;
-            if (NativeControl.MaxLines != thisAsILabel.MaxLines) NativeControl.MaxLines = thisAsILabel.MaxLines;
-            if (NativeControl.Padding != thisAsILabel.Padding) NativeControl.Padding = thisAsILabel.Padding;
-            if (NativeControl.TextType != thisAsILabel.TextType) NativeControl.TextType = thisAsILabel.TextType;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.HorizontalTextAlignmentProperty, thisAsILabel.HorizontalTextAlignment);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.VerticalTextAlignmentProperty, thisAsILabel.VerticalTextAlignment);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.TextColorProperty, thisAsILabel.TextColor);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.CharacterSpacingProperty, thisAsILabel.CharacterSpacing);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.TextProperty, thisAsILabel.Text);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.FontFamilyProperty, thisAsILabel.FontFamily);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.FontSizeProperty, thisAsILabel.FontSize);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.FontAttributesProperty, thisAsILabel.FontAttributes);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.FontAutoScalingEnabledProperty, thisAsILabel.FontAutoScalingEnabled);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.TextTransformProperty, thisAsILabel.TextTransform);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.TextDecorationsProperty, thisAsILabel.TextDecorations);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.FormattedTextProperty, thisAsILabel.FormattedText);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.LineBreakModeProperty, thisAsILabel.LineBreakMode);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.LineHeightProperty, thisAsILabel.LineHeight);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.MaxLinesProperty, thisAsILabel.MaxLines);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.PaddingProperty, thisAsILabel.Padding);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.TextTypeProperty, thisAsILabel.TextType);
 
 
             base.OnUpdate();
@@ -118,120 +118,239 @@ namespace MauiReactor
     {
         public static T HorizontalTextAlignment<T>(this T label, Microsoft.Maui.TextAlignment horizontalTextAlignment) where T : ILabel
         {
-            label.HorizontalTextAlignment = horizontalTextAlignment;
+            label.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignment);
             return label;
         }
+        public static T HorizontalTextAlignment<T>(this T label, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc) where T : ILabel
+        {
+            label.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
+            return label;
+        }
+
+
 
         public static T VerticalTextAlignment<T>(this T label, Microsoft.Maui.TextAlignment verticalTextAlignment) where T : ILabel
         {
-            label.VerticalTextAlignment = verticalTextAlignment;
+            label.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignment);
             return label;
         }
+        public static T VerticalTextAlignment<T>(this T label, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc) where T : ILabel
+        {
+            label.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
+            return label;
+        }
+
+
 
         public static T TextColor<T>(this T label, Microsoft.Maui.Graphics.Color textColor) where T : ILabel
         {
-            label.TextColor = textColor;
+            label.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColor);
             return label;
         }
+        public static T TextColor<T>(this T label, Func<Microsoft.Maui.Graphics.Color> textColorFunc) where T : ILabel
+        {
+            label.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
+            return label;
+        }
+
+
 
         public static T CharacterSpacing<T>(this T label, double characterSpacing) where T : ILabel
         {
-            label.CharacterSpacing = characterSpacing;
+            label.CharacterSpacing = new PropertyValue<double>(characterSpacing);
             return label;
         }
+        public static T CharacterSpacing<T>(this T label, Func<double> characterSpacingFunc) where T : ILabel
+        {
+            label.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
+            return label;
+        }
+
+
 
         public static T Text<T>(this T label, string text) where T : ILabel
         {
-            label.Text = text;
+            label.Text = new PropertyValue<string>(text);
             return label;
         }
+        public static T Text<T>(this T label, Func<string> textFunc) where T : ILabel
+        {
+            label.Text = new PropertyValue<string>(textFunc);
+            return label;
+        }
+
+
 
         public static T FontFamily<T>(this T label, string fontFamily) where T : ILabel
         {
-            label.FontFamily = fontFamily;
+            label.FontFamily = new PropertyValue<string>(fontFamily);
+            return label;
+        }
+        public static T FontFamily<T>(this T label, Func<string> fontFamilyFunc) where T : ILabel
+        {
+            label.FontFamily = new PropertyValue<string>(fontFamilyFunc);
             return label;
         }
 
+
+
         public static T FontSize<T>(this T label, double fontSize) where T : ILabel
         {
-            label.FontSize = fontSize;
+            label.FontSize = new PropertyValue<double>(fontSize);
             return label;
         }
+        public static T FontSize<T>(this T label, Func<double> fontSizeFunc) where T : ILabel
+        {
+            label.FontSize = new PropertyValue<double>(fontSizeFunc);
+            return label;
+        }
+
+
         public static T FontSize<T>(this T label, NamedSize size) where T : ILabel
         {
-            label.FontSize = Device.GetNamedSize(size, typeof(Label));
+            label.FontSize = new PropertyValue<double>(Device.GetNamedSize(size, typeof(Label)));
             return label;
         }
 
         public static T FontAttributes<T>(this T label, Microsoft.Maui.Controls.FontAttributes fontAttributes) where T : ILabel
         {
-            label.FontAttributes = fontAttributes;
+            label.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributes);
             return label;
         }
+        public static T FontAttributes<T>(this T label, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc) where T : ILabel
+        {
+            label.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
+            return label;
+        }
+
+
 
         public static T FontAutoScalingEnabled<T>(this T label, bool fontAutoScalingEnabled) where T : ILabel
         {
-            label.FontAutoScalingEnabled = fontAutoScalingEnabled;
+            label.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabled);
             return label;
         }
+        public static T FontAutoScalingEnabled<T>(this T label, Func<bool> fontAutoScalingEnabledFunc) where T : ILabel
+        {
+            label.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
+            return label;
+        }
+
+
 
         public static T TextTransform<T>(this T label, Microsoft.Maui.TextTransform textTransform) where T : ILabel
         {
-            label.TextTransform = textTransform;
+            label.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransform);
             return label;
         }
+        public static T TextTransform<T>(this T label, Func<Microsoft.Maui.TextTransform> textTransformFunc) where T : ILabel
+        {
+            label.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc);
+            return label;
+        }
+
+
 
         public static T TextDecorations<T>(this T label, Microsoft.Maui.TextDecorations textDecorations) where T : ILabel
         {
-            label.TextDecorations = textDecorations;
+            label.TextDecorations = new PropertyValue<Microsoft.Maui.TextDecorations>(textDecorations);
             return label;
         }
+        public static T TextDecorations<T>(this T label, Func<Microsoft.Maui.TextDecorations> textDecorationsFunc) where T : ILabel
+        {
+            label.TextDecorations = new PropertyValue<Microsoft.Maui.TextDecorations>(textDecorationsFunc);
+            return label;
+        }
+
+
 
         public static T FormattedText<T>(this T label, Microsoft.Maui.Controls.FormattedString formattedText) where T : ILabel
         {
-            label.FormattedText = formattedText;
+            label.FormattedText = new PropertyValue<Microsoft.Maui.Controls.FormattedString>(formattedText);
             return label;
         }
+        public static T FormattedText<T>(this T label, Func<Microsoft.Maui.Controls.FormattedString> formattedTextFunc) where T : ILabel
+        {
+            label.FormattedText = new PropertyValue<Microsoft.Maui.Controls.FormattedString>(formattedTextFunc);
+            return label;
+        }
+
+
 
         public static T LineBreakMode<T>(this T label, Microsoft.Maui.LineBreakMode lineBreakMode) where T : ILabel
         {
-            label.LineBreakMode = lineBreakMode;
+            label.LineBreakMode = new PropertyValue<Microsoft.Maui.LineBreakMode>(lineBreakMode);
             return label;
         }
+        public static T LineBreakMode<T>(this T label, Func<Microsoft.Maui.LineBreakMode> lineBreakModeFunc) where T : ILabel
+        {
+            label.LineBreakMode = new PropertyValue<Microsoft.Maui.LineBreakMode>(lineBreakModeFunc);
+            return label;
+        }
+
+
 
         public static T LineHeight<T>(this T label, double lineHeight) where T : ILabel
         {
-            label.LineHeight = lineHeight;
+            label.LineHeight = new PropertyValue<double>(lineHeight);
             return label;
         }
+        public static T LineHeight<T>(this T label, Func<double> lineHeightFunc) where T : ILabel
+        {
+            label.LineHeight = new PropertyValue<double>(lineHeightFunc);
+            return label;
+        }
+
+
 
         public static T MaxLines<T>(this T label, int maxLines) where T : ILabel
         {
-            label.MaxLines = maxLines;
+            label.MaxLines = new PropertyValue<int>(maxLines);
+            return label;
+        }
+        public static T MaxLines<T>(this T label, Func<int> maxLinesFunc) where T : ILabel
+        {
+            label.MaxLines = new PropertyValue<int>(maxLinesFunc);
             return label;
         }
 
+
+
         public static T Padding<T>(this T label, Microsoft.Maui.Thickness padding) where T : ILabel
         {
-            label.Padding = padding;
+            label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
+            return label;
+        }
+        public static T Padding<T>(this T label, Func<Microsoft.Maui.Thickness> paddingFunc) where T : ILabel
+        {
+            label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
             return label;
         }
         public static T Padding<T>(this T label, double leftRight, double topBottom) where T : ILabel
         {
-            label.Padding = new Thickness(leftRight, topBottom);
+            label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
             return label;
         }
         public static T Padding<T>(this T label, double uniformSize) where T : ILabel
         {
-            label.Padding = new Thickness(uniformSize);
+            label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
             return label;
         }
 
+
+
         public static T TextType<T>(this T label, Microsoft.Maui.TextType textType) where T : ILabel
         {
-            label.TextType = textType;
+            label.TextType = new PropertyValue<Microsoft.Maui.TextType>(textType);
             return label;
         }
+        public static T TextType<T>(this T label, Func<Microsoft.Maui.TextType> textTypeFunc) where T : ILabel
+        {
+            label.TextType = new PropertyValue<Microsoft.Maui.TextType>(textTypeFunc);
+            return label;
+        }
+
+
 
 
     }

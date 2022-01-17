@@ -25,10 +25,10 @@ using MauiReactor.Internals;
 
 namespace <#= Namespace() #>
 {
-    public partial interface I<#= TypeName() #>
+    public partial interface I<#= TypeName() #> : <#= BaseInterfaceName() #>
     {
     <# foreach (var property in Properties) { #>
-        <#= property.PropertyType.FullName.ToResevedWordFullTypeName() #> <#= property.Name #> { get; set; }
+        PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>? <#= property.Name #> { get; set; }
     <# } #>
 
     <# foreach (var ev in Events) { 
@@ -81,7 +81,7 @@ namespace <#= Namespace() #>
     <# } #>
 
         <# foreach (var property in Properties) { #>
-        <#= property.PropertyType.FullName.ToResevedWordFullTypeName() #> I<#= TypeName() #>.<#= property.Name #> { get; set; } = (<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>)<#= FullTypeName() #>.<#= property.Name #>Property.DefaultValue;
+        PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>? I<#= TypeName() #>.<#= property.Name #> { get; set; }
         <# } #>
 
         <# foreach (var ev in Events) {
@@ -98,7 +98,7 @@ namespace <#= Namespace() #>
             Validate.EnsureNotNull(NativeControl);
             var thisAsI<#= TypeName() #> = (I<#= TypeName() #>)this;
             <# foreach (var property in Properties) { #>
-            if (NativeControl.<#= property.Name #> != thisAsI<#= TypeName() #>.<#= property.Name #>) NativeControl.<#= property.Name #> = thisAsI<#= TypeName() #>.<#= property.Name #>;
+            SetPropertyValue(NativeControl, <#= FullTypeName() #>.<#= property.Name #>Property, thisAsI<#= TypeName() #>.<#= property.Name #>);
             <# } #>
 
             <# } #>
@@ -174,25 +174,51 @@ namespace <#= Namespace() #>
         <# foreach (var property in Properties) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName().ToLowerInvariant() #>, <#= property.PropertyType.FullName.ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>) where T : I<#= TypeName() #>
         {
-            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>);
+            return <#= TypeName().ToLowerInvariant() #>;
+        }
+        public static T <#= property.Name #><T>(this T <#= TypeName().ToLowerInvariant() #>, Func<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>> <#= property.Name.CamelCase() #>Func) where T : I<#= TypeName() #>
+        {
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func);
             return <#= TypeName().ToLowerInvariant() #>;
         }
         <# if (property.PropertyType.Name == "Thickness") { #>
         public static T <#= property.Name #><T>(this T <#= TypeName().ToLowerInvariant() #>, double leftRight, double topBottom) where T : I<#= TypeName() #>
         {
-            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new Thickness(leftRight, topBottom);
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(new Thickness(leftRight, topBottom));
             return <#= TypeName().ToLowerInvariant() #>;
         }
         public static T <#= property.Name #><T>(this T <#= TypeName().ToLowerInvariant() #>, double uniformSize) where T : I<#= TypeName() #>
         {
-            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new Thickness(uniformSize);
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(new Thickness(uniformSize));
+            return <#= TypeName().ToLowerInvariant() #>;
+        }
+        <# } #>
+        <# if (property.PropertyType.FullName == "Microsoft.Maui.Graphics.Point") { #>
+        public static T <#= property.Name #><T>(this T <#= TypeName().ToLowerInvariant() #>, double x, double y) where T : I<#= TypeName() #>
+        {
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(new Microsoft.Maui.Graphics.Point(x, y));
+            return <#= TypeName().ToLowerInvariant() #>;
+        }
+        <# } #>
+        
+
+        <# if (property.PropertyType.Name == "CornerRadius") { #>
+        public static T <#= property.Name #><T>(this T <#= TypeName().ToLowerInvariant() #>, double uniformRadius) where T : I<#= TypeName() #>
+        {
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(new CornerRadius(uniformRadius));
+            return <#= TypeName().ToLowerInvariant() #>;
+        }
+        public static T <#= property.Name #><T>(this T <#= TypeName().ToLowerInvariant() #>, double topLeft, double topRight, double bottomLeft, double bottomRight) where T : I<#= TypeName() #>
+        {
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight));
             return <#= TypeName().ToLowerInvariant() #>;
         }
         <# } #>
         <# if (property.Name == "FontSize") { #>
         public static T <#= property.Name #><T>(this T <#= TypeName().ToLowerInvariant() #>, NamedSize size) where T : I<#= TypeName() #>
         {
-            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = Device.GetNamedSize(size, typeof(<#= TypeName() #>));
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(Device.GetNamedSize(size, typeof(<#= TypeName() #>)));
             return <#= TypeName().ToLowerInvariant() #>;
         }
         <# } #>
@@ -200,37 +226,37 @@ namespace <#= Namespace() #>
                var propertyName = property.Name.Length <= 6 ? property.Name : property.Name.Substring(0, property.Name.Length - 6); #>
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLowerInvariant() #>, string file) where T : I<#= TypeName() #>
         {
-            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return <#= TypeName().ToLowerInvariant() #>;
         }
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLowerInvariant() #>, string fileAndroid, string fileiOS) where T : I<#= TypeName() #>
         {
-            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS);
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
             return <#= TypeName().ToLowerInvariant() #>;
         }
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLowerInvariant() #>, string resourceName, Assembly sourceAssembly) where T : I<#= TypeName() #>
         {
-            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
             return <#= TypeName().ToLowerInvariant() #>;
         }
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLowerInvariant() #>, Uri imageUri) where T : I<#= TypeName() #>
         {
-            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
             return <#= TypeName().ToLowerInvariant() #>;
         }
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLowerInvariant() #>, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : I<#= TypeName() #>
         {
-            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new UriImageSource
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(new UriImageSource
             {
                 Uri = imageUri,
                 CachingEnabled = cachingEnabled,
                 CacheValidity = cacheValidity
-            };
+            });
             return <#= TypeName().ToLowerInvariant() #>;
         }
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLowerInvariant() #>, Func<Stream> imageStream) where T : I<#= TypeName() #>
         {
-            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+            <#= TypeName().ToLowerInvariant() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
             return <#= TypeName().ToLowerInvariant() #>;
         }
         <# } #>

@@ -10,10 +10,10 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IElement
+    public partial interface IElement : IVisualNode
     {
-        string AutomationId { get; set; }
-        string ClassId { get; set; }
+        PropertyValue<string>? AutomationId { get; set; }
+        PropertyValue<string>? ClassId { get; set; }
 
         Action? ChildAddedAction { get; set; }
         Action<ElementEventArgs>? ChildAddedActionWithArgs { get; set; }
@@ -46,8 +46,8 @@ namespace MauiReactor
 
         }
 
-        string IElement.AutomationId { get; set; } = (string)Microsoft.Maui.Controls.Element.AutomationIdProperty.DefaultValue;
-        string IElement.ClassId { get; set; } = (string)Microsoft.Maui.Controls.Element.ClassIdProperty.DefaultValue;
+        PropertyValue<string>? IElement.AutomationId { get; set; }
+        PropertyValue<string>? IElement.ClassId { get; set; }
 
         Action? IElement.ChildAddedAction { get; set; }
         Action<ElementEventArgs>? IElement.ChildAddedActionWithArgs { get; set; }
@@ -72,8 +72,8 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIElement = (IElement)this;
-            if (NativeControl.AutomationId != thisAsIElement.AutomationId) NativeControl.AutomationId = thisAsIElement.AutomationId;
-            if (NativeControl.ClassId != thisAsIElement.ClassId) NativeControl.ClassId = thisAsIElement.ClassId;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Element.AutomationIdProperty, thisAsIElement.AutomationId);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Element.ClassIdProperty, thisAsIElement.ClassId);
 
 
             base.OnUpdate();
@@ -198,15 +198,29 @@ namespace MauiReactor
     {
         public static T AutomationId<T>(this T element, string automationId) where T : IElement
         {
-            element.AutomationId = automationId;
+            element.AutomationId = new PropertyValue<string>(automationId);
+            return element;
+        }
+        public static T AutomationId<T>(this T element, Func<string> automationIdFunc) where T : IElement
+        {
+            element.AutomationId = new PropertyValue<string>(automationIdFunc);
             return element;
         }
 
+
+
         public static T ClassId<T>(this T element, string classId) where T : IElement
         {
-            element.ClassId = classId;
+            element.ClassId = new PropertyValue<string>(classId);
             return element;
         }
+        public static T ClassId<T>(this T element, Func<string> classIdFunc) where T : IElement
+        {
+            element.ClassId = new PropertyValue<string>(classIdFunc);
+            return element;
+        }
+
+
 
 
         public static T OnChildAdded<T>(this T element, Action childaddedAction) where T : IElement

@@ -10,9 +10,8 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IShellItem
+    public partial interface IShellItem : IShellGroupItem
     {
-        Microsoft.Maui.Controls.ShellSection CurrentItem { get; set; }
 
 
     }
@@ -29,17 +28,11 @@ namespace MauiReactor
 
         }
 
-        Microsoft.Maui.Controls.ShellSection IShellItem.CurrentItem { get; set; } = (Microsoft.Maui.Controls.ShellSection)Microsoft.Maui.Controls.ShellItem.CurrentItemProperty.DefaultValue;
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
-
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIShellItem = (IShellItem)this;
-            if (NativeControl.CurrentItem != thisAsIShellItem.CurrentItem) NativeControl.CurrentItem = thisAsIShellItem.CurrentItem;
-
 
             base.OnUpdate();
 
@@ -68,12 +61,6 @@ namespace MauiReactor
 
     public static partial class ShellItemExtensions
     {
-        public static T CurrentItem<T>(this T shellitem, Microsoft.Maui.Controls.ShellSection currentItem) where T : IShellItem
-        {
-            shellitem.CurrentItem = currentItem;
-            return shellitem;
-        }
-
 
     }
 }

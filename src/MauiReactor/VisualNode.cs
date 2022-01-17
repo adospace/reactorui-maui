@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 
 using MauiReactor.Animations;
+using MauiReactor.Internals;
 
 namespace MauiReactor
 {
@@ -219,7 +220,7 @@ namespace MauiReactor
             };
         }
 
-        internal virtual void Layout()
+        internal virtual void Layout(IComponentWithState? containerComponent = null)
         {
             if (!IsLayoutCycleRequired)
                 return;
@@ -246,7 +247,7 @@ namespace MauiReactor
                 OnUpdate();
 
             foreach (var child in Children.Where(_ => _.IsLayoutCycleRequired))
-                child.Layout();
+                child.Layout(containerComponent);
         }
 
         internal virtual void MergeChildrenFrom(IReadOnlyList<VisualNode> oldChildren)
@@ -435,7 +436,12 @@ namespace MauiReactor
     {
         protected BindableObject? _nativeControl;
 
+        private IComponentWithState? _containerComponent;
+
         private readonly Dictionary<BindableProperty, object> _attachedProperties = new();
+
+        private Dictionary<BindableProperty, object> _defaultPropertyValueBag = new();
+
         private readonly Action<T?>? _componentRefAction;
 
         protected VisualNode()
@@ -450,6 +456,12 @@ namespace MauiReactor
 
         public void SetAttachedProperty(BindableProperty property, object value)
             => _attachedProperties[property] = value;
+
+        internal override void Layout(IComponentWithState? containerComponent = null)
+        {
+            _containerComponent = containerComponent;
+            base.Layout(containerComponent);
+        }
 
         internal override void MergeWith(VisualNode newNode)
         {
@@ -571,5 +583,63 @@ namespace MauiReactor
             return (_nativeControl as TResult) ??
                 throw new InvalidOperationException($"Unable to convert from type {typeof(T)} to type {typeof(TResult)} when getting the native control");
         }
+
+        protected void SetPropertyValue(BindableObject dependencyObject, BindableProperty property, IPropertyValue? propertyValue)
+        {
+            if (propertyValue != null)
+            {
+                var oldValue = dependencyObject.GetValue(property);
+                var newValue = propertyValue.GetValue();
+
+                SetDefaultPropertyValue(property, oldValue);
+
+                if (!CompareUtils.AreEquals(oldValue, newValue))
+                {
+#if DEBUG
+                    System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {property.PropertyName} to {newValue}");
+#endif
+
+                    dependencyObject.SetValue(property, newValue);
+                }
+                if (_containerComponent != null && propertyValue.HasValueFunction)
+                {
+                    _containerComponent.RegisterOnStateChanged(propertyValue.GetValueAction(dependencyObject, property));
+                }
+            }
+            else
+            {
+                if (TryGetDefaultPropertyValue(property, out var defaultValue))
+                {
+#if DEBUG
+                    System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} re-set property {property.PropertyName} to {defaultValue}");
+#endif
+                    
+                    dependencyObject.SetValue(property, defaultValue);
+                }
+            }
+        }
+
+        public bool SetDefaultPropertyValue(BindableProperty dependencyProperty, object value)
+        {
+            if (!_defaultPropertyValueBag.ContainsKey(dependencyProperty))
+            {
+                _defaultPropertyValueBag[dependencyProperty] = value;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool TryGetDefaultPropertyValue(BindableProperty dependencyProperty, out object? value)
+        {
+            if (_defaultPropertyValueBag.TryGetValue(dependencyProperty, out value))
+            {
+                _defaultPropertyValueBag.Remove(dependencyProperty);
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }

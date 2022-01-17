@@ -10,9 +10,9 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IStackLayout
+    public partial interface IStackLayout : IStackBase
     {
-        Microsoft.Maui.Controls.StackOrientation Orientation { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.StackOrientation>? Orientation { get; set; }
 
 
     }
@@ -29,7 +29,7 @@ namespace MauiReactor
 
         }
 
-        Microsoft.Maui.Controls.StackOrientation IStackLayout.Orientation { get; set; } = (Microsoft.Maui.Controls.StackOrientation)Microsoft.Maui.Controls.StackLayout.OrientationProperty.DefaultValue;
+        PropertyValue<Microsoft.Maui.Controls.StackOrientation>? IStackLayout.Orientation { get; set; }
 
 
         protected override void OnUpdate()
@@ -38,7 +38,7 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIStackLayout = (IStackLayout)this;
-            if (NativeControl.Orientation != thisAsIStackLayout.Orientation) NativeControl.Orientation = thisAsIStackLayout.Orientation;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.StackLayout.OrientationProperty, thisAsIStackLayout.Orientation);
 
 
             base.OnUpdate();
@@ -70,9 +70,16 @@ namespace MauiReactor
     {
         public static T Orientation<T>(this T stacklayout, Microsoft.Maui.Controls.StackOrientation orientation) where T : IStackLayout
         {
-            stacklayout.Orientation = orientation;
+            stacklayout.Orientation = new PropertyValue<Microsoft.Maui.Controls.StackOrientation>(orientation);
             return stacklayout;
         }
+        public static T Orientation<T>(this T stacklayout, Func<Microsoft.Maui.Controls.StackOrientation> orientationFunc) where T : IStackLayout
+        {
+            stacklayout.Orientation = new PropertyValue<Microsoft.Maui.Controls.StackOrientation>(orientationFunc);
+            return stacklayout;
+        }
+
+
 
 
     }

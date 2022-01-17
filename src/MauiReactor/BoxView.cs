@@ -10,10 +10,10 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IBoxView
+    public partial interface IBoxView : IView
     {
-        Microsoft.Maui.Graphics.Color Color { get; set; }
-        Microsoft.Maui.CornerRadius CornerRadius { get; set; }
+        PropertyValue<Microsoft.Maui.Graphics.Color>? Color { get; set; }
+        PropertyValue<Microsoft.Maui.CornerRadius>? CornerRadius { get; set; }
 
 
     }
@@ -30,8 +30,8 @@ namespace MauiReactor
 
         }
 
-        Microsoft.Maui.Graphics.Color IBoxView.Color { get; set; } = (Microsoft.Maui.Graphics.Color)Microsoft.Maui.Controls.BoxView.ColorProperty.DefaultValue;
-        Microsoft.Maui.CornerRadius IBoxView.CornerRadius { get; set; } = (Microsoft.Maui.CornerRadius)Microsoft.Maui.Controls.BoxView.CornerRadiusProperty.DefaultValue;
+        PropertyValue<Microsoft.Maui.Graphics.Color>? IBoxView.Color { get; set; }
+        PropertyValue<Microsoft.Maui.CornerRadius>? IBoxView.CornerRadius { get; set; }
 
 
         protected override void OnUpdate()
@@ -40,8 +40,8 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIBoxView = (IBoxView)this;
-            if (NativeControl.Color != thisAsIBoxView.Color) NativeControl.Color = thisAsIBoxView.Color;
-            if (NativeControl.CornerRadius != thisAsIBoxView.CornerRadius) NativeControl.CornerRadius = thisAsIBoxView.CornerRadius;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BoxView.ColorProperty, thisAsIBoxView.Color);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BoxView.CornerRadiusProperty, thisAsIBoxView.CornerRadius);
 
 
             base.OnUpdate();
@@ -73,13 +73,37 @@ namespace MauiReactor
     {
         public static T Color<T>(this T boxview, Microsoft.Maui.Graphics.Color color) where T : IBoxView
         {
-            boxview.Color = color;
+            boxview.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(color);
+            return boxview;
+        }
+        public static T Color<T>(this T boxview, Func<Microsoft.Maui.Graphics.Color> colorFunc) where T : IBoxView
+        {
+            boxview.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc);
             return boxview;
         }
 
+
+
         public static T CornerRadius<T>(this T boxview, Microsoft.Maui.CornerRadius cornerRadius) where T : IBoxView
         {
-            boxview.CornerRadius = cornerRadius;
+            boxview.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadius);
+            return boxview;
+        }
+        public static T CornerRadius<T>(this T boxview, Func<Microsoft.Maui.CornerRadius> cornerRadiusFunc) where T : IBoxView
+        {
+            boxview.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadiusFunc);
+            return boxview;
+        }
+
+
+        public static T CornerRadius<T>(this T boxview, double uniformRadius) where T : IBoxView
+        {
+            boxview.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(new CornerRadius(uniformRadius));
+            return boxview;
+        }
+        public static T CornerRadius<T>(this T boxview, double topLeft, double topRight, double bottomLeft, double bottomRight) where T : IBoxView
+        {
+            boxview.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight));
             return boxview;
         }
 

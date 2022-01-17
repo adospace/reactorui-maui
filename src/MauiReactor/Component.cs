@@ -171,16 +171,18 @@ namespace MauiReactor
     {
         object State { get; }
 
-        //PropertyInfo[] StateProperties { get; }
+        void ForwardState(object stateFromOldComponent, bool invalidateComponent);
 
-        void ForwardState(object stateFromOldComponent);
+        void InvalidateComponent();
+
+        IComponentWithState? NewComponent { get; }
+
+        void RegisterOnStateChanged(Action action);
     }
 
     internal interface IComponentWithProps
     {
         object Props { get; }
-
-        //PropertyInfo[] PropsProperties { get; }
     }
 
     public interface IState
@@ -199,40 +201,93 @@ namespace MauiReactor
         }
 
         public P Props { get; private set; }
+
         object IComponentWithProps.Props => Props;
-        //public PropertyInfo[] PropsProperties => typeof(P).GetProperties().Where(_ => _.CanWrite).ToArray();
     }
 
     public abstract class Component<S, P> : ComponentWithProps<P>, IComponentWithState where S : class, IState, new() where P : class, IProps, new()
     {
         private IComponentWithState? _newComponent;
 
+        private readonly List<Action> _actionsRegisterdOnStateChange = new();
+
+        private readonly bool _derivedState;
+
         protected Component(S? state = null, P? props = null)
             : base(props)
         {
             State = state ?? new S();
+            _derivedState = state != null;
         }
 
         public S State { get; private set; }
 
-        //public PropertyInfo[] StateProperties => typeof(S).GetProperties().Where(_ => _.CanWrite).ToArray();
-
         object IComponentWithState.State => State;
 
-        void IComponentWithState.ForwardState(object stateFromOldComponent)
+        IComponentWithState? IComponentWithState.NewComponent => _newComponent;
+
+        protected override void OnInvalidated()
         {
-            //stateFromOldComponent.CopyPropertiesTo(State, StateProperties);
+            var newComponent = _newComponent;
+            while (newComponent != null && newComponent.NewComponent != null)
+                newComponent = newComponent.NewComponent;
+
+            if (newComponent != null)
+            {
+                newComponent.InvalidateComponent();
+            }
+
+            base.OnInvalidated();
+        }
+
+        void IComponentWithState.InvalidateComponent() => Invalidate();
+
+        void IComponentWithState.ForwardState(object stateFromOldComponent, bool invalidateComponent)
+        {
             CopyObjectExtensions.CopyProperties(stateFromOldComponent, State);
+
+            foreach (var registeredAction in _actionsRegisterdOnStateChange)
+            {
+                registeredAction.Invoke();
+            }
 
             Validate.EnsureNotNull(Application.Current);
 
-            if (Application.Current.Dispatcher.IsDispatchRequired)
-                Application.Current.Dispatcher.Dispatch(Invalidate);
-            else
-                Invalidate();
+            if (invalidateComponent)
+            {
+                if (Application.Current.Dispatcher.IsDispatchRequired)
+                    Application.Current.Dispatcher.Dispatch(Invalidate);
+                else
+                    Invalidate();
+            }
         }
 
-        protected virtual void SetState(Action<S> action)
+        void IComponentWithState.RegisterOnStateChanged(Action action)
+        {
+            if (action is null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
+            _actionsRegisterdOnStateChange.Add(action);
+        }
+
+        private bool TryForwardStateToNewComponent(bool invalidateComponent)
+        {
+            var newComponent = _newComponent;
+            while (newComponent != null && newComponent.NewComponent != null)
+                newComponent = newComponent.NewComponent;
+
+            if (newComponent != null)
+            {
+                newComponent.ForwardState(State, invalidateComponent);
+                return true;
+            }
+
+            return false;
+        }
+
+        protected virtual void SetState(Action<S> action, bool invalidateComponent = false)
         {
             if (action is null)
             {
@@ -241,36 +296,44 @@ namespace MauiReactor
 
             action(State);
 
-            if (_newComponent != null)
-            {
-                _newComponent.ForwardState(State);
+            if (TryForwardStateToNewComponent(invalidateComponent))
                 return;
+
+            foreach (var registeredAction in _actionsRegisterdOnStateChange)
+            {
+                registeredAction.Invoke();
             }
 
             Validate.EnsureNotNull(Application.Current);
 
-            if (Application.Current.Dispatcher.IsDispatchRequired)
-                Application.Current.Dispatcher.Dispatch(Invalidate);
-            else
-                Invalidate();
+            if (invalidateComponent)
+            {
+                if (Application.Current.Dispatcher.IsDispatchRequired)
+                    Application.Current.Dispatcher.Dispatch(Invalidate);
+                else
+                    Invalidate();
+            }
         }
 
         internal override void MergeWith(VisualNode newNode)
         {
-            if (newNode is IComponentWithState newComponentWithState)
+            if (!_derivedState && newNode is IComponentWithState newComponentWithState)
             {
                 _newComponent = newComponentWithState;
-                //State.CopyPropertiesTo(newComponentWithState.State, newComponentWithState.StateProperties);
                 CopyObjectExtensions.CopyProperties(State, newComponentWithState);
             }
 
             if (newNode is IComponentWithProps newComponentWithProps)
             {
-                //Props.CopyPropertiesTo(newComponentWithProps.Props, newComponentWithProps.PropsProperties);
                 CopyObjectExtensions.CopyProperties(Props, newComponentWithProps.Props);
             }
 
             base.MergeWith(newNode);
+        }
+
+        internal override void Layout(IComponentWithState? containerComponent = null)
+        {
+            base.Layout(this);
         }
     }
 

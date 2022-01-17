@@ -10,9 +10,9 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IShellGroupItem
+    public partial interface IShellGroupItem : IBaseShellItem
     {
-        Microsoft.Maui.Controls.FlyoutDisplayOptions FlyoutDisplayOptions { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>? FlyoutDisplayOptions { get; set; }
 
 
     }
@@ -29,7 +29,7 @@ namespace MauiReactor
 
         }
 
-        Microsoft.Maui.Controls.FlyoutDisplayOptions IShellGroupItem.FlyoutDisplayOptions { get; set; } = (Microsoft.Maui.Controls.FlyoutDisplayOptions)Microsoft.Maui.Controls.ShellGroupItem.FlyoutDisplayOptionsProperty.DefaultValue;
+        PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>? IShellGroupItem.FlyoutDisplayOptions { get; set; }
 
 
         protected override void OnUpdate()
@@ -38,7 +38,7 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIShellGroupItem = (IShellGroupItem)this;
-            if (NativeControl.FlyoutDisplayOptions != thisAsIShellGroupItem.FlyoutDisplayOptions) NativeControl.FlyoutDisplayOptions = thisAsIShellGroupItem.FlyoutDisplayOptions;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ShellGroupItem.FlyoutDisplayOptionsProperty, thisAsIShellGroupItem.FlyoutDisplayOptions);
 
 
             base.OnUpdate();
@@ -70,9 +70,16 @@ namespace MauiReactor
     {
         public static T FlyoutDisplayOptions<T>(this T shellgroupitem, Microsoft.Maui.Controls.FlyoutDisplayOptions flyoutDisplayOptions) where T : IShellGroupItem
         {
-            shellgroupitem.FlyoutDisplayOptions = flyoutDisplayOptions;
+            shellgroupitem.FlyoutDisplayOptions = new PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>(flyoutDisplayOptions);
             return shellgroupitem;
         }
+        public static T FlyoutDisplayOptions<T>(this T shellgroupitem, Func<Microsoft.Maui.Controls.FlyoutDisplayOptions> flyoutDisplayOptionsFunc) where T : IShellGroupItem
+        {
+            shellgroupitem.FlyoutDisplayOptions = new PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>(flyoutDisplayOptionsFunc);
+            return shellgroupitem;
+        }
+
+
 
 
     }

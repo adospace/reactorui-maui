@@ -10,10 +10,10 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IGridLayout
+    public partial interface IGridLayout : ILayout
     {
-        double RowSpacing { get; set; }
-        double ColumnSpacing { get; set; }
+        PropertyValue<double>? RowSpacing { get; set; }
+        PropertyValue<double>? ColumnSpacing { get; set; }
 
 
     }
@@ -30,8 +30,8 @@ namespace MauiReactor
 
         }
 
-        double IGridLayout.RowSpacing { get; set; } = (double)Microsoft.Maui.Controls.GridLayout.RowSpacingProperty.DefaultValue;
-        double IGridLayout.ColumnSpacing { get; set; } = (double)Microsoft.Maui.Controls.GridLayout.ColumnSpacingProperty.DefaultValue;
+        PropertyValue<double>? IGridLayout.RowSpacing { get; set; }
+        PropertyValue<double>? IGridLayout.ColumnSpacing { get; set; }
 
 
         protected override void OnUpdate()
@@ -40,8 +40,8 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIGridLayout = (IGridLayout)this;
-            if (NativeControl.RowSpacing != thisAsIGridLayout.RowSpacing) NativeControl.RowSpacing = thisAsIGridLayout.RowSpacing;
-            if (NativeControl.ColumnSpacing != thisAsIGridLayout.ColumnSpacing) NativeControl.ColumnSpacing = thisAsIGridLayout.ColumnSpacing;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.GridLayout.RowSpacingProperty, thisAsIGridLayout.RowSpacing);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.GridLayout.ColumnSpacingProperty, thisAsIGridLayout.ColumnSpacing);
 
 
             base.OnUpdate();
@@ -73,15 +73,29 @@ namespace MauiReactor
     {
         public static T RowSpacing<T>(this T gridlayout, double rowSpacing) where T : IGridLayout
         {
-            gridlayout.RowSpacing = rowSpacing;
+            gridlayout.RowSpacing = new PropertyValue<double>(rowSpacing);
+            return gridlayout;
+        }
+        public static T RowSpacing<T>(this T gridlayout, Func<double> rowSpacingFunc) where T : IGridLayout
+        {
+            gridlayout.RowSpacing = new PropertyValue<double>(rowSpacingFunc);
             return gridlayout;
         }
 
+
+
         public static T ColumnSpacing<T>(this T gridlayout, double columnSpacing) where T : IGridLayout
         {
-            gridlayout.ColumnSpacing = columnSpacing;
+            gridlayout.ColumnSpacing = new PropertyValue<double>(columnSpacing);
             return gridlayout;
         }
+        public static T ColumnSpacing<T>(this T gridlayout, Func<double> columnSpacingFunc) where T : IGridLayout
+        {
+            gridlayout.ColumnSpacing = new PropertyValue<double>(columnSpacingFunc);
+            return gridlayout;
+        }
+
+
 
 
     }

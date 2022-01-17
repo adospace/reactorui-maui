@@ -10,7 +10,7 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IHorizontalStackLayout
+    public partial interface IHorizontalStackLayout : IStackBase
     {
 
 

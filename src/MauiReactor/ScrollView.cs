@@ -10,11 +10,11 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IScrollView
+    public partial interface IScrollView : Compatibility.ILayout
     {
-        Microsoft.Maui.ScrollOrientation Orientation { get; set; }
-        Microsoft.Maui.ScrollBarVisibility HorizontalScrollBarVisibility { get; set; }
-        Microsoft.Maui.ScrollBarVisibility VerticalScrollBarVisibility { get; set; }
+        PropertyValue<Microsoft.Maui.ScrollOrientation>? Orientation { get; set; }
+        PropertyValue<Microsoft.Maui.ScrollBarVisibility>? HorizontalScrollBarVisibility { get; set; }
+        PropertyValue<Microsoft.Maui.ScrollBarVisibility>? VerticalScrollBarVisibility { get; set; }
 
         Action? ScrolledAction { get; set; }
         Action<ScrolledEventArgs>? ScrolledActionWithArgs { get; set; }
@@ -33,9 +33,9 @@ namespace MauiReactor
 
         }
 
-        Microsoft.Maui.ScrollOrientation IScrollView.Orientation { get; set; } = (Microsoft.Maui.ScrollOrientation)Microsoft.Maui.Controls.ScrollView.OrientationProperty.DefaultValue;
-        Microsoft.Maui.ScrollBarVisibility IScrollView.HorizontalScrollBarVisibility { get; set; } = (Microsoft.Maui.ScrollBarVisibility)Microsoft.Maui.Controls.ScrollView.HorizontalScrollBarVisibilityProperty.DefaultValue;
-        Microsoft.Maui.ScrollBarVisibility IScrollView.VerticalScrollBarVisibility { get; set; } = (Microsoft.Maui.ScrollBarVisibility)Microsoft.Maui.Controls.ScrollView.VerticalScrollBarVisibilityProperty.DefaultValue;
+        PropertyValue<Microsoft.Maui.ScrollOrientation>? IScrollView.Orientation { get; set; }
+        PropertyValue<Microsoft.Maui.ScrollBarVisibility>? IScrollView.HorizontalScrollBarVisibility { get; set; }
+        PropertyValue<Microsoft.Maui.ScrollBarVisibility>? IScrollView.VerticalScrollBarVisibility { get; set; }
 
         Action? IScrollView.ScrolledAction { get; set; }
         Action<ScrolledEventArgs>? IScrollView.ScrolledActionWithArgs { get; set; }
@@ -46,9 +46,9 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIScrollView = (IScrollView)this;
-            if (NativeControl.Orientation != thisAsIScrollView.Orientation) NativeControl.Orientation = thisAsIScrollView.Orientation;
-            if (NativeControl.HorizontalScrollBarVisibility != thisAsIScrollView.HorizontalScrollBarVisibility) NativeControl.HorizontalScrollBarVisibility = thisAsIScrollView.HorizontalScrollBarVisibility;
-            if (NativeControl.VerticalScrollBarVisibility != thisAsIScrollView.VerticalScrollBarVisibility) NativeControl.VerticalScrollBarVisibility = thisAsIScrollView.VerticalScrollBarVisibility;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ScrollView.OrientationProperty, thisAsIScrollView.Orientation);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ScrollView.HorizontalScrollBarVisibilityProperty, thisAsIScrollView.HorizontalScrollBarVisibility);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ScrollView.VerticalScrollBarVisibilityProperty, thisAsIScrollView.VerticalScrollBarVisibility);
 
 
             base.OnUpdate();
@@ -109,21 +109,42 @@ namespace MauiReactor
     {
         public static T Orientation<T>(this T scrollview, Microsoft.Maui.ScrollOrientation orientation) where T : IScrollView
         {
-            scrollview.Orientation = orientation;
+            scrollview.Orientation = new PropertyValue<Microsoft.Maui.ScrollOrientation>(orientation);
             return scrollview;
         }
+        public static T Orientation<T>(this T scrollview, Func<Microsoft.Maui.ScrollOrientation> orientationFunc) where T : IScrollView
+        {
+            scrollview.Orientation = new PropertyValue<Microsoft.Maui.ScrollOrientation>(orientationFunc);
+            return scrollview;
+        }
+
+
 
         public static T HorizontalScrollBarVisibility<T>(this T scrollview, Microsoft.Maui.ScrollBarVisibility horizontalScrollBarVisibility) where T : IScrollView
         {
-            scrollview.HorizontalScrollBarVisibility = horizontalScrollBarVisibility;
+            scrollview.HorizontalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibility);
+            return scrollview;
+        }
+        public static T HorizontalScrollBarVisibility<T>(this T scrollview, Func<Microsoft.Maui.ScrollBarVisibility> horizontalScrollBarVisibilityFunc) where T : IScrollView
+        {
+            scrollview.HorizontalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibilityFunc);
             return scrollview;
         }
 
+
+
         public static T VerticalScrollBarVisibility<T>(this T scrollview, Microsoft.Maui.ScrollBarVisibility verticalScrollBarVisibility) where T : IScrollView
         {
-            scrollview.VerticalScrollBarVisibility = verticalScrollBarVisibility;
+            scrollview.VerticalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibility);
             return scrollview;
         }
+        public static T VerticalScrollBarVisibility<T>(this T scrollview, Func<Microsoft.Maui.ScrollBarVisibility> verticalScrollBarVisibilityFunc) where T : IScrollView
+        {
+            scrollview.VerticalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibilityFunc);
+            return scrollview;
+        }
+
+
 
 
         public static T OnScrolled<T>(this T scrollview, Action scrolledAction) where T : IScrollView

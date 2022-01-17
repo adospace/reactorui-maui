@@ -10,9 +10,9 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IFlyoutItem
+    public partial interface IFlyoutItem : IShellItem
     {
-        bool IsVisible { get; set; }
+        PropertyValue<bool>? IsVisible { get; set; }
 
 
     }
@@ -29,7 +29,7 @@ namespace MauiReactor
 
         }
 
-        bool IFlyoutItem.IsVisible { get; set; } = (bool)Microsoft.Maui.Controls.FlyoutItem.IsVisibleProperty.DefaultValue;
+        PropertyValue<bool>? IFlyoutItem.IsVisible { get; set; }
 
 
         protected override void OnUpdate()
@@ -38,7 +38,7 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIFlyoutItem = (IFlyoutItem)this;
-            if (NativeControl.IsVisible != thisAsIFlyoutItem.IsVisible) NativeControl.IsVisible = thisAsIFlyoutItem.IsVisible;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.FlyoutItem.IsVisibleProperty, thisAsIFlyoutItem.IsVisible);
 
 
             base.OnUpdate();
@@ -70,9 +70,16 @@ namespace MauiReactor
     {
         public static T IsVisible<T>(this T flyoutitem, bool isVisible) where T : IFlyoutItem
         {
-            flyoutitem.IsVisible = isVisible;
+            flyoutitem.IsVisible = new PropertyValue<bool>(isVisible);
             return flyoutitem;
         }
+        public static T IsVisible<T>(this T flyoutitem, Func<bool> isVisibleFunc) where T : IFlyoutItem
+        {
+            flyoutitem.IsVisible = new PropertyValue<bool>(isVisibleFunc);
+            return flyoutitem;
+        }
+
+
 
 
     }

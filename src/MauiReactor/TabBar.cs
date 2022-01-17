@@ -10,7 +10,7 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface ITabBar
+    public partial interface ITabBar : IShellItem
     {
 
 

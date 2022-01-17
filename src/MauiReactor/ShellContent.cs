@@ -10,10 +10,9 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IShellContent
+    public partial interface IShellContent : IBaseShellItem
     {
-        object Content { get; set; }
-        Microsoft.Maui.Controls.DataTemplate ContentTemplate { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.DataTemplate>? ContentTemplate { get; set; }
 
 
     }
@@ -30,8 +29,7 @@ namespace MauiReactor
 
         }
 
-        object IShellContent.Content { get; set; } = (object)Microsoft.Maui.Controls.ShellContent.ContentProperty.DefaultValue;
-        Microsoft.Maui.Controls.DataTemplate IShellContent.ContentTemplate { get; set; } = (Microsoft.Maui.Controls.DataTemplate)Microsoft.Maui.Controls.ShellContent.ContentTemplateProperty.DefaultValue;
+        PropertyValue<Microsoft.Maui.Controls.DataTemplate>? IShellContent.ContentTemplate { get; set; }
 
 
         protected override void OnUpdate()
@@ -40,8 +38,7 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIShellContent = (IShellContent)this;
-            if (NativeControl.Content != thisAsIShellContent.Content) NativeControl.Content = thisAsIShellContent.Content;
-            if (NativeControl.ContentTemplate != thisAsIShellContent.ContentTemplate) NativeControl.ContentTemplate = thisAsIShellContent.ContentTemplate;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ShellContent.ContentTemplateProperty, thisAsIShellContent.ContentTemplate);
 
 
             base.OnUpdate();
@@ -71,17 +68,18 @@ namespace MauiReactor
 
     public static partial class ShellContentExtensions
     {
-        public static T Content<T>(this T shellcontent, object content) where T : IShellContent
+        public static T ContentTemplate<T>(this T shellcontent, Microsoft.Maui.Controls.DataTemplate contentTemplate) where T : IShellContent
         {
-            shellcontent.Content = content;
+            shellcontent.ContentTemplate = new PropertyValue<Microsoft.Maui.Controls.DataTemplate>(contentTemplate);
+            return shellcontent;
+        }
+        public static T ContentTemplate<T>(this T shellcontent, Func<Microsoft.Maui.Controls.DataTemplate> contentTemplateFunc) where T : IShellContent
+        {
+            shellcontent.ContentTemplate = new PropertyValue<Microsoft.Maui.Controls.DataTemplate>(contentTemplateFunc);
             return shellcontent;
         }
 
-        public static T ContentTemplate<T>(this T shellcontent, Microsoft.Maui.Controls.DataTemplate contentTemplate) where T : IShellContent
-        {
-            shellcontent.ContentTemplate = contentTemplate;
-            return shellcontent;
-        }
+
 
 
     }

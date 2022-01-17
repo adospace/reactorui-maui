@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MauiReactor
 {
-    public partial class Page<T>
+    public partial class Image
     {
-        public Page(string title) => this.Title(title);
+        public Image(string imageSource) => this.Source(imageSource);
     }
 }

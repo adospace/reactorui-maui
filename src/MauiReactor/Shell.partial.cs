@@ -10,19 +10,8 @@ namespace MauiReactor
 {
     public partial class Shell<T> : IEnumerable
     {
-        private readonly List<VisualNode> _contents = new();
         private readonly Dictionary<BindableObject, Microsoft.Maui.Controls.ShellItem> _elementItemMap = new();
         private readonly Dictionary<BindableObject, Microsoft.Maui.Controls.ToolbarItem> _elementToolbarItemMap = new();
-
-        public void Add(VisualNode child)
-        {
-            _contents.Add(child);
-        }
-
-        public IEnumerator<VisualNode> GetEnumerator()
-        {
-            return _contents.GetEnumerator();
-        }
 
         protected override void OnAddChild(VisualNode widget, BindableObject childControl)
         {
@@ -59,16 +48,5 @@ namespace MauiReactor
 
             base.OnRemoveChild(widget, childControl);
         }
-
-        protected override IEnumerable<VisualNode> RenderChildren()
-        {
-            return _contents;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
     }
 }

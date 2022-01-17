@@ -10,7 +10,7 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IGrid
+    public partial interface IGrid : IGridLayout
     {
 
 

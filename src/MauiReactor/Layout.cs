@@ -10,9 +10,9 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface ILayout
+    public partial interface ILayout : IView
     {
-        Microsoft.Maui.Thickness Padding { get; set; }
+        PropertyValue<Microsoft.Maui.Thickness>? Padding { get; set; }
 
 
     }
@@ -29,7 +29,7 @@ namespace MauiReactor
 
         }
 
-        Microsoft.Maui.Thickness ILayout.Padding { get; set; } = (Microsoft.Maui.Thickness)Microsoft.Maui.Controls.Layout.PaddingProperty.DefaultValue;
+        PropertyValue<Microsoft.Maui.Thickness>? ILayout.Padding { get; set; }
 
 
         protected override void OnUpdate()
@@ -38,7 +38,7 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsILayout = (ILayout)this;
-            if (NativeControl.Padding != thisAsILayout.Padding) NativeControl.Padding = thisAsILayout.Padding;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Layout.PaddingProperty, thisAsILayout.Padding);
 
 
             base.OnUpdate();
@@ -57,19 +57,26 @@ namespace MauiReactor
     {
         public static T Padding<T>(this T layout, Microsoft.Maui.Thickness padding) where T : ILayout
         {
-            layout.Padding = padding;
+            layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
+            return layout;
+        }
+        public static T Padding<T>(this T layout, Func<Microsoft.Maui.Thickness> paddingFunc) where T : ILayout
+        {
+            layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
             return layout;
         }
         public static T Padding<T>(this T layout, double leftRight, double topBottom) where T : ILayout
         {
-            layout.Padding = new Thickness(leftRight, topBottom);
+            layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
             return layout;
         }
         public static T Padding<T>(this T layout, double uniformSize) where T : ILayout
         {
-            layout.Padding = new Thickness(uniformSize);
+            layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
             return layout;
         }
+
+
 
 
     }

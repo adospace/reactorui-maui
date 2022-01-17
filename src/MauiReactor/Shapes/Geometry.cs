@@ -8,21 +8,21 @@ using MauiReactor.Animations;
 //using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
-namespace MauiReactor
+namespace MauiReactor.Shapes
 {
-    public partial interface ITab : IShellSection
+    public partial interface IGeometry : IVisualNode
     {
 
 
     }
-    public partial class Tab<T> : ShellSection<T>, ITab where T : Microsoft.Maui.Controls.Tab, new()
+    public abstract partial class Geometry<T> : VisualNode<T>, IGeometry where T : Microsoft.Maui.Controls.Shapes.Geometry, new()
     {
-        public Tab()
+        protected Geometry()
         {
 
         }
 
-        public Tab(Action<T?> componentRefAction)
+        protected Geometry(Action<T?> componentRefAction)
             : base(componentRefAction)
         {
 
@@ -45,21 +45,8 @@ namespace MauiReactor
 
     }
 
-    public partial class Tab : Tab<Microsoft.Maui.Controls.Tab>
-    {
-        public Tab()
-        {
 
-        }
-
-        public Tab(Action<Microsoft.Maui.Controls.Tab?> componentRefAction)
-            : base(componentRefAction)
-        {
-
-        }
-    }
-
-    public static partial class TabExtensions
+    public static partial class GeometryExtensions
     {
 
     }

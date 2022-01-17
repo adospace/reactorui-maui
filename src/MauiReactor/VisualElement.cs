@@ -10,35 +10,34 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IVisualElement
+    public partial interface IVisualElement : INavigableElement
     {
-        Microsoft.Maui.Controls.Shadow Shadow { get; set; }
-        Microsoft.Maui.Controls.Style Style { get; set; }
-        bool InputTransparent { get; set; }
-        bool IsEnabled { get; set; }
-        double AnchorX { get; set; }
-        double AnchorY { get; set; }
-        double TranslationX { get; set; }
-        double TranslationY { get; set; }
-        double Rotation { get; set; }
-        double RotationX { get; set; }
-        double RotationY { get; set; }
-        double Scale { get; set; }
-        double ScaleX { get; set; }
-        double ScaleY { get; set; }
-        Microsoft.Maui.Controls.Shapes.Geometry Clip { get; set; }
-        Microsoft.Maui.Controls.IVisual Visual { get; set; }
-        bool IsVisible { get; set; }
-        double Opacity { get; set; }
-        Microsoft.Maui.Graphics.Color BackgroundColor { get; set; }
-        Microsoft.Maui.Controls.Brush Background { get; set; }
-        double WidthRequest { get; set; }
-        double HeightRequest { get; set; }
-        double MinimumWidthRequest { get; set; }
-        double MinimumHeightRequest { get; set; }
-        double MaximumWidthRequest { get; set; }
-        double MaximumHeightRequest { get; set; }
-        Microsoft.Maui.FlowDirection FlowDirection { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.Shadow>? Shadow { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.Style>? Style { get; set; }
+        PropertyValue<bool>? InputTransparent { get; set; }
+        PropertyValue<bool>? IsEnabled { get; set; }
+        PropertyValue<double>? AnchorX { get; set; }
+        PropertyValue<double>? AnchorY { get; set; }
+        PropertyValue<double>? TranslationX { get; set; }
+        PropertyValue<double>? TranslationY { get; set; }
+        PropertyValue<double>? Rotation { get; set; }
+        PropertyValue<double>? RotationX { get; set; }
+        PropertyValue<double>? RotationY { get; set; }
+        PropertyValue<double>? Scale { get; set; }
+        PropertyValue<double>? ScaleX { get; set; }
+        PropertyValue<double>? ScaleY { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.IVisual>? Visual { get; set; }
+        PropertyValue<bool>? IsVisible { get; set; }
+        PropertyValue<double>? Opacity { get; set; }
+        PropertyValue<Microsoft.Maui.Graphics.Color>? BackgroundColor { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.Brush>? Background { get; set; }
+        PropertyValue<double>? WidthRequest { get; set; }
+        PropertyValue<double>? HeightRequest { get; set; }
+        PropertyValue<double>? MinimumWidthRequest { get; set; }
+        PropertyValue<double>? MinimumHeightRequest { get; set; }
+        PropertyValue<double>? MaximumWidthRequest { get; set; }
+        PropertyValue<double>? MaximumHeightRequest { get; set; }
+        PropertyValue<Microsoft.Maui.FlowDirection>? FlowDirection { get; set; }
 
         Action? ChildrenReorderedAction { get; set; }
         Action<EventArgs>? ChildrenReorderedActionWithArgs { get; set; }
@@ -65,33 +64,32 @@ namespace MauiReactor
 
         }
 
-        Microsoft.Maui.Controls.Shadow IVisualElement.Shadow { get; set; } = (Microsoft.Maui.Controls.Shadow)Microsoft.Maui.Controls.VisualElement.ShadowProperty.DefaultValue;
-        Microsoft.Maui.Controls.Style IVisualElement.Style { get; set; } = (Microsoft.Maui.Controls.Style)Microsoft.Maui.Controls.VisualElement.StyleProperty.DefaultValue;
-        bool IVisualElement.InputTransparent { get; set; } = (bool)Microsoft.Maui.Controls.VisualElement.InputTransparentProperty.DefaultValue;
-        bool IVisualElement.IsEnabled { get; set; } = (bool)Microsoft.Maui.Controls.VisualElement.IsEnabledProperty.DefaultValue;
-        double IVisualElement.AnchorX { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.AnchorXProperty.DefaultValue;
-        double IVisualElement.AnchorY { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.AnchorYProperty.DefaultValue;
-        double IVisualElement.TranslationX { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.TranslationXProperty.DefaultValue;
-        double IVisualElement.TranslationY { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.TranslationYProperty.DefaultValue;
-        double IVisualElement.Rotation { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.RotationProperty.DefaultValue;
-        double IVisualElement.RotationX { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.RotationXProperty.DefaultValue;
-        double IVisualElement.RotationY { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.RotationYProperty.DefaultValue;
-        double IVisualElement.Scale { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.ScaleProperty.DefaultValue;
-        double IVisualElement.ScaleX { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.ScaleXProperty.DefaultValue;
-        double IVisualElement.ScaleY { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.ScaleYProperty.DefaultValue;
-        Microsoft.Maui.Controls.Shapes.Geometry IVisualElement.Clip { get; set; } = (Microsoft.Maui.Controls.Shapes.Geometry)Microsoft.Maui.Controls.VisualElement.ClipProperty.DefaultValue;
-        Microsoft.Maui.Controls.IVisual IVisualElement.Visual { get; set; } = (Microsoft.Maui.Controls.IVisual)Microsoft.Maui.Controls.VisualElement.VisualProperty.DefaultValue;
-        bool IVisualElement.IsVisible { get; set; } = (bool)Microsoft.Maui.Controls.VisualElement.IsVisibleProperty.DefaultValue;
-        double IVisualElement.Opacity { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.OpacityProperty.DefaultValue;
-        Microsoft.Maui.Graphics.Color IVisualElement.BackgroundColor { get; set; } = (Microsoft.Maui.Graphics.Color)Microsoft.Maui.Controls.VisualElement.BackgroundColorProperty.DefaultValue;
-        Microsoft.Maui.Controls.Brush IVisualElement.Background { get; set; } = (Microsoft.Maui.Controls.Brush)Microsoft.Maui.Controls.VisualElement.BackgroundProperty.DefaultValue;
-        double IVisualElement.WidthRequest { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.WidthRequestProperty.DefaultValue;
-        double IVisualElement.HeightRequest { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.HeightRequestProperty.DefaultValue;
-        double IVisualElement.MinimumWidthRequest { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.MinimumWidthRequestProperty.DefaultValue;
-        double IVisualElement.MinimumHeightRequest { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.MinimumHeightRequestProperty.DefaultValue;
-        double IVisualElement.MaximumWidthRequest { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.MaximumWidthRequestProperty.DefaultValue;
-        double IVisualElement.MaximumHeightRequest { get; set; } = (double)Microsoft.Maui.Controls.VisualElement.MaximumHeightRequestProperty.DefaultValue;
-        Microsoft.Maui.FlowDirection IVisualElement.FlowDirection { get; set; } = (Microsoft.Maui.FlowDirection)Microsoft.Maui.Controls.VisualElement.FlowDirectionProperty.DefaultValue;
+        PropertyValue<Microsoft.Maui.Controls.Shadow>? IVisualElement.Shadow { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.Style>? IVisualElement.Style { get; set; }
+        PropertyValue<bool>? IVisualElement.InputTransparent { get; set; }
+        PropertyValue<bool>? IVisualElement.IsEnabled { get; set; }
+        PropertyValue<double>? IVisualElement.AnchorX { get; set; }
+        PropertyValue<double>? IVisualElement.AnchorY { get; set; }
+        PropertyValue<double>? IVisualElement.TranslationX { get; set; }
+        PropertyValue<double>? IVisualElement.TranslationY { get; set; }
+        PropertyValue<double>? IVisualElement.Rotation { get; set; }
+        PropertyValue<double>? IVisualElement.RotationX { get; set; }
+        PropertyValue<double>? IVisualElement.RotationY { get; set; }
+        PropertyValue<double>? IVisualElement.Scale { get; set; }
+        PropertyValue<double>? IVisualElement.ScaleX { get; set; }
+        PropertyValue<double>? IVisualElement.ScaleY { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.IVisual>? IVisualElement.Visual { get; set; }
+        PropertyValue<bool>? IVisualElement.IsVisible { get; set; }
+        PropertyValue<double>? IVisualElement.Opacity { get; set; }
+        PropertyValue<Microsoft.Maui.Graphics.Color>? IVisualElement.BackgroundColor { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.Brush>? IVisualElement.Background { get; set; }
+        PropertyValue<double>? IVisualElement.WidthRequest { get; set; }
+        PropertyValue<double>? IVisualElement.HeightRequest { get; set; }
+        PropertyValue<double>? IVisualElement.MinimumWidthRequest { get; set; }
+        PropertyValue<double>? IVisualElement.MinimumHeightRequest { get; set; }
+        PropertyValue<double>? IVisualElement.MaximumWidthRequest { get; set; }
+        PropertyValue<double>? IVisualElement.MaximumHeightRequest { get; set; }
+        PropertyValue<Microsoft.Maui.FlowDirection>? IVisualElement.FlowDirection { get; set; }
 
         Action? IVisualElement.ChildrenReorderedAction { get; set; }
         Action<EventArgs>? IVisualElement.ChildrenReorderedActionWithArgs { get; set; }
@@ -110,33 +108,32 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIVisualElement = (IVisualElement)this;
-            if (NativeControl.Shadow != thisAsIVisualElement.Shadow) NativeControl.Shadow = thisAsIVisualElement.Shadow;
-            if (NativeControl.Style != thisAsIVisualElement.Style) NativeControl.Style = thisAsIVisualElement.Style;
-            if (NativeControl.InputTransparent != thisAsIVisualElement.InputTransparent) NativeControl.InputTransparent = thisAsIVisualElement.InputTransparent;
-            if (NativeControl.IsEnabled != thisAsIVisualElement.IsEnabled) NativeControl.IsEnabled = thisAsIVisualElement.IsEnabled;
-            if (NativeControl.AnchorX != thisAsIVisualElement.AnchorX) NativeControl.AnchorX = thisAsIVisualElement.AnchorX;
-            if (NativeControl.AnchorY != thisAsIVisualElement.AnchorY) NativeControl.AnchorY = thisAsIVisualElement.AnchorY;
-            if (NativeControl.TranslationX != thisAsIVisualElement.TranslationX) NativeControl.TranslationX = thisAsIVisualElement.TranslationX;
-            if (NativeControl.TranslationY != thisAsIVisualElement.TranslationY) NativeControl.TranslationY = thisAsIVisualElement.TranslationY;
-            if (NativeControl.Rotation != thisAsIVisualElement.Rotation) NativeControl.Rotation = thisAsIVisualElement.Rotation;
-            if (NativeControl.RotationX != thisAsIVisualElement.RotationX) NativeControl.RotationX = thisAsIVisualElement.RotationX;
-            if (NativeControl.RotationY != thisAsIVisualElement.RotationY) NativeControl.RotationY = thisAsIVisualElement.RotationY;
-            if (NativeControl.Scale != thisAsIVisualElement.Scale) NativeControl.Scale = thisAsIVisualElement.Scale;
-            if (NativeControl.ScaleX != thisAsIVisualElement.ScaleX) NativeControl.ScaleX = thisAsIVisualElement.ScaleX;
-            if (NativeControl.ScaleY != thisAsIVisualElement.ScaleY) NativeControl.ScaleY = thisAsIVisualElement.ScaleY;
-            if (NativeControl.Clip != thisAsIVisualElement.Clip) NativeControl.Clip = thisAsIVisualElement.Clip;
-            if (NativeControl.Visual != thisAsIVisualElement.Visual) NativeControl.Visual = thisAsIVisualElement.Visual;
-            if (NativeControl.IsVisible != thisAsIVisualElement.IsVisible) NativeControl.IsVisible = thisAsIVisualElement.IsVisible;
-            if (NativeControl.Opacity != thisAsIVisualElement.Opacity) NativeControl.Opacity = thisAsIVisualElement.Opacity;
-            if (NativeControl.BackgroundColor != thisAsIVisualElement.BackgroundColor) NativeControl.BackgroundColor = thisAsIVisualElement.BackgroundColor;
-            if (NativeControl.Background != thisAsIVisualElement.Background) NativeControl.Background = thisAsIVisualElement.Background;
-            if (NativeControl.WidthRequest != thisAsIVisualElement.WidthRequest) NativeControl.WidthRequest = thisAsIVisualElement.WidthRequest;
-            if (NativeControl.HeightRequest != thisAsIVisualElement.HeightRequest) NativeControl.HeightRequest = thisAsIVisualElement.HeightRequest;
-            if (NativeControl.MinimumWidthRequest != thisAsIVisualElement.MinimumWidthRequest) NativeControl.MinimumWidthRequest = thisAsIVisualElement.MinimumWidthRequest;
-            if (NativeControl.MinimumHeightRequest != thisAsIVisualElement.MinimumHeightRequest) NativeControl.MinimumHeightRequest = thisAsIVisualElement.MinimumHeightRequest;
-            if (NativeControl.MaximumWidthRequest != thisAsIVisualElement.MaximumWidthRequest) NativeControl.MaximumWidthRequest = thisAsIVisualElement.MaximumWidthRequest;
-            if (NativeControl.MaximumHeightRequest != thisAsIVisualElement.MaximumHeightRequest) NativeControl.MaximumHeightRequest = thisAsIVisualElement.MaximumHeightRequest;
-            if (NativeControl.FlowDirection != thisAsIVisualElement.FlowDirection) NativeControl.FlowDirection = thisAsIVisualElement.FlowDirection;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.ShadowProperty, thisAsIVisualElement.Shadow);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.StyleProperty, thisAsIVisualElement.Style);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.InputTransparentProperty, thisAsIVisualElement.InputTransparent);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.IsEnabledProperty, thisAsIVisualElement.IsEnabled);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.AnchorXProperty, thisAsIVisualElement.AnchorX);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.AnchorYProperty, thisAsIVisualElement.AnchorY);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.TranslationXProperty, thisAsIVisualElement.TranslationX);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.TranslationYProperty, thisAsIVisualElement.TranslationY);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.RotationProperty, thisAsIVisualElement.Rotation);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.RotationXProperty, thisAsIVisualElement.RotationX);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.RotationYProperty, thisAsIVisualElement.RotationY);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.ScaleProperty, thisAsIVisualElement.Scale);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.ScaleXProperty, thisAsIVisualElement.ScaleX);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.ScaleYProperty, thisAsIVisualElement.ScaleY);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.VisualProperty, thisAsIVisualElement.Visual);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.IsVisibleProperty, thisAsIVisualElement.IsVisible);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.OpacityProperty, thisAsIVisualElement.Opacity);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.BackgroundColorProperty, thisAsIVisualElement.BackgroundColor);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.BackgroundProperty, thisAsIVisualElement.Background);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.WidthRequestProperty, thisAsIVisualElement.WidthRequest);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.HeightRequestProperty, thisAsIVisualElement.HeightRequest);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.MinimumWidthRequestProperty, thisAsIVisualElement.MinimumWidthRequest);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.MinimumHeightRequestProperty, thisAsIVisualElement.MinimumHeightRequest);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.MaximumWidthRequestProperty, thisAsIVisualElement.MaximumWidthRequest);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.MaximumHeightRequestProperty, thisAsIVisualElement.MaximumHeightRequest);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.FlowDirectionProperty, thisAsIVisualElement.FlowDirection);
 
 
             base.OnUpdate();
@@ -228,165 +225,341 @@ namespace MauiReactor
     {
         public static T Shadow<T>(this T visualelement, Microsoft.Maui.Controls.Shadow shadow) where T : IVisualElement
         {
-            visualelement.Shadow = shadow;
+            visualelement.Shadow = new PropertyValue<Microsoft.Maui.Controls.Shadow>(shadow);
             return visualelement;
         }
+        public static T Shadow<T>(this T visualelement, Func<Microsoft.Maui.Controls.Shadow> shadowFunc) where T : IVisualElement
+        {
+            visualelement.Shadow = new PropertyValue<Microsoft.Maui.Controls.Shadow>(shadowFunc);
+            return visualelement;
+        }
+
+
 
         public static T Style<T>(this T visualelement, Microsoft.Maui.Controls.Style style) where T : IVisualElement
         {
-            visualelement.Style = style;
+            visualelement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(style);
             return visualelement;
         }
+        public static T Style<T>(this T visualelement, Func<Microsoft.Maui.Controls.Style> styleFunc) where T : IVisualElement
+        {
+            visualelement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc);
+            return visualelement;
+        }
+
+
 
         public static T InputTransparent<T>(this T visualelement, bool inputTransparent) where T : IVisualElement
         {
-            visualelement.InputTransparent = inputTransparent;
+            visualelement.InputTransparent = new PropertyValue<bool>(inputTransparent);
             return visualelement;
         }
+        public static T InputTransparent<T>(this T visualelement, Func<bool> inputTransparentFunc) where T : IVisualElement
+        {
+            visualelement.InputTransparent = new PropertyValue<bool>(inputTransparentFunc);
+            return visualelement;
+        }
+
+
 
         public static T IsEnabled<T>(this T visualelement, bool isEnabled) where T : IVisualElement
         {
-            visualelement.IsEnabled = isEnabled;
+            visualelement.IsEnabled = new PropertyValue<bool>(isEnabled);
             return visualelement;
         }
+        public static T IsEnabled<T>(this T visualelement, Func<bool> isEnabledFunc) where T : IVisualElement
+        {
+            visualelement.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
+            return visualelement;
+        }
+
+
 
         public static T AnchorX<T>(this T visualelement, double anchorX) where T : IVisualElement
         {
-            visualelement.AnchorX = anchorX;
+            visualelement.AnchorX = new PropertyValue<double>(anchorX);
             return visualelement;
         }
+        public static T AnchorX<T>(this T visualelement, Func<double> anchorXFunc) where T : IVisualElement
+        {
+            visualelement.AnchorX = new PropertyValue<double>(anchorXFunc);
+            return visualelement;
+        }
+
+
 
         public static T AnchorY<T>(this T visualelement, double anchorY) where T : IVisualElement
         {
-            visualelement.AnchorY = anchorY;
+            visualelement.AnchorY = new PropertyValue<double>(anchorY);
             return visualelement;
         }
+        public static T AnchorY<T>(this T visualelement, Func<double> anchorYFunc) where T : IVisualElement
+        {
+            visualelement.AnchorY = new PropertyValue<double>(anchorYFunc);
+            return visualelement;
+        }
+
+
 
         public static T TranslationX<T>(this T visualelement, double translationX) where T : IVisualElement
         {
-            visualelement.TranslationX = translationX;
+            visualelement.TranslationX = new PropertyValue<double>(translationX);
             return visualelement;
         }
+        public static T TranslationX<T>(this T visualelement, Func<double> translationXFunc) where T : IVisualElement
+        {
+            visualelement.TranslationX = new PropertyValue<double>(translationXFunc);
+            return visualelement;
+        }
+
+
 
         public static T TranslationY<T>(this T visualelement, double translationY) where T : IVisualElement
         {
-            visualelement.TranslationY = translationY;
+            visualelement.TranslationY = new PropertyValue<double>(translationY);
             return visualelement;
         }
+        public static T TranslationY<T>(this T visualelement, Func<double> translationYFunc) where T : IVisualElement
+        {
+            visualelement.TranslationY = new PropertyValue<double>(translationYFunc);
+            return visualelement;
+        }
+
+
 
         public static T Rotation<T>(this T visualelement, double rotation) where T : IVisualElement
         {
-            visualelement.Rotation = rotation;
+            visualelement.Rotation = new PropertyValue<double>(rotation);
             return visualelement;
         }
+        public static T Rotation<T>(this T visualelement, Func<double> rotationFunc) where T : IVisualElement
+        {
+            visualelement.Rotation = new PropertyValue<double>(rotationFunc);
+            return visualelement;
+        }
+
+
 
         public static T RotationX<T>(this T visualelement, double rotationX) where T : IVisualElement
         {
-            visualelement.RotationX = rotationX;
+            visualelement.RotationX = new PropertyValue<double>(rotationX);
             return visualelement;
         }
+        public static T RotationX<T>(this T visualelement, Func<double> rotationXFunc) where T : IVisualElement
+        {
+            visualelement.RotationX = new PropertyValue<double>(rotationXFunc);
+            return visualelement;
+        }
+
+
 
         public static T RotationY<T>(this T visualelement, double rotationY) where T : IVisualElement
         {
-            visualelement.RotationY = rotationY;
+            visualelement.RotationY = new PropertyValue<double>(rotationY);
             return visualelement;
         }
+        public static T RotationY<T>(this T visualelement, Func<double> rotationYFunc) where T : IVisualElement
+        {
+            visualelement.RotationY = new PropertyValue<double>(rotationYFunc);
+            return visualelement;
+        }
+
+
 
         public static T Scale<T>(this T visualelement, double scale) where T : IVisualElement
         {
-            visualelement.Scale = scale;
+            visualelement.Scale = new PropertyValue<double>(scale);
             return visualelement;
         }
+        public static T Scale<T>(this T visualelement, Func<double> scaleFunc) where T : IVisualElement
+        {
+            visualelement.Scale = new PropertyValue<double>(scaleFunc);
+            return visualelement;
+        }
+
+
 
         public static T ScaleX<T>(this T visualelement, double scaleX) where T : IVisualElement
         {
-            visualelement.ScaleX = scaleX;
+            visualelement.ScaleX = new PropertyValue<double>(scaleX);
             return visualelement;
         }
+        public static T ScaleX<T>(this T visualelement, Func<double> scaleXFunc) where T : IVisualElement
+        {
+            visualelement.ScaleX = new PropertyValue<double>(scaleXFunc);
+            return visualelement;
+        }
+
+
 
         public static T ScaleY<T>(this T visualelement, double scaleY) where T : IVisualElement
         {
-            visualelement.ScaleY = scaleY;
+            visualelement.ScaleY = new PropertyValue<double>(scaleY);
+            return visualelement;
+        }
+        public static T ScaleY<T>(this T visualelement, Func<double> scaleYFunc) where T : IVisualElement
+        {
+            visualelement.ScaleY = new PropertyValue<double>(scaleYFunc);
             return visualelement;
         }
 
-        public static T Clip<T>(this T visualelement, Microsoft.Maui.Controls.Shapes.Geometry clip) where T : IVisualElement
-        {
-            visualelement.Clip = clip;
-            return visualelement;
-        }
+
 
         public static T Visual<T>(this T visualelement, Microsoft.Maui.Controls.IVisual visual) where T : IVisualElement
         {
-            visualelement.Visual = visual;
+            visualelement.Visual = new PropertyValue<Microsoft.Maui.Controls.IVisual>(visual);
             return visualelement;
         }
+        public static T Visual<T>(this T visualelement, Func<Microsoft.Maui.Controls.IVisual> visualFunc) where T : IVisualElement
+        {
+            visualelement.Visual = new PropertyValue<Microsoft.Maui.Controls.IVisual>(visualFunc);
+            return visualelement;
+        }
+
+
 
         public static T IsVisible<T>(this T visualelement, bool isVisible) where T : IVisualElement
         {
-            visualelement.IsVisible = isVisible;
+            visualelement.IsVisible = new PropertyValue<bool>(isVisible);
             return visualelement;
         }
+        public static T IsVisible<T>(this T visualelement, Func<bool> isVisibleFunc) where T : IVisualElement
+        {
+            visualelement.IsVisible = new PropertyValue<bool>(isVisibleFunc);
+            return visualelement;
+        }
+
+
 
         public static T Opacity<T>(this T visualelement, double opacity) where T : IVisualElement
         {
-            visualelement.Opacity = opacity;
+            visualelement.Opacity = new PropertyValue<double>(opacity);
             return visualelement;
         }
+        public static T Opacity<T>(this T visualelement, Func<double> opacityFunc) where T : IVisualElement
+        {
+            visualelement.Opacity = new PropertyValue<double>(opacityFunc);
+            return visualelement;
+        }
+
+
 
         public static T BackgroundColor<T>(this T visualelement, Microsoft.Maui.Graphics.Color backgroundColor) where T : IVisualElement
         {
-            visualelement.BackgroundColor = backgroundColor;
+            visualelement.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColor);
             return visualelement;
         }
+        public static T BackgroundColor<T>(this T visualelement, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc) where T : IVisualElement
+        {
+            visualelement.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc);
+            return visualelement;
+        }
+
+
 
         public static T Background<T>(this T visualelement, Microsoft.Maui.Controls.Brush background) where T : IVisualElement
         {
-            visualelement.Background = background;
+            visualelement.Background = new PropertyValue<Microsoft.Maui.Controls.Brush>(background);
             return visualelement;
         }
+        public static T Background<T>(this T visualelement, Func<Microsoft.Maui.Controls.Brush> backgroundFunc) where T : IVisualElement
+        {
+            visualelement.Background = new PropertyValue<Microsoft.Maui.Controls.Brush>(backgroundFunc);
+            return visualelement;
+        }
+
+
 
         public static T WidthRequest<T>(this T visualelement, double widthRequest) where T : IVisualElement
         {
-            visualelement.WidthRequest = widthRequest;
+            visualelement.WidthRequest = new PropertyValue<double>(widthRequest);
             return visualelement;
         }
+        public static T WidthRequest<T>(this T visualelement, Func<double> widthRequestFunc) where T : IVisualElement
+        {
+            visualelement.WidthRequest = new PropertyValue<double>(widthRequestFunc);
+            return visualelement;
+        }
+
+
 
         public static T HeightRequest<T>(this T visualelement, double heightRequest) where T : IVisualElement
         {
-            visualelement.HeightRequest = heightRequest;
+            visualelement.HeightRequest = new PropertyValue<double>(heightRequest);
             return visualelement;
         }
+        public static T HeightRequest<T>(this T visualelement, Func<double> heightRequestFunc) where T : IVisualElement
+        {
+            visualelement.HeightRequest = new PropertyValue<double>(heightRequestFunc);
+            return visualelement;
+        }
+
+
 
         public static T MinimumWidthRequest<T>(this T visualelement, double minimumWidthRequest) where T : IVisualElement
         {
-            visualelement.MinimumWidthRequest = minimumWidthRequest;
+            visualelement.MinimumWidthRequest = new PropertyValue<double>(minimumWidthRequest);
             return visualelement;
         }
+        public static T MinimumWidthRequest<T>(this T visualelement, Func<double> minimumWidthRequestFunc) where T : IVisualElement
+        {
+            visualelement.MinimumWidthRequest = new PropertyValue<double>(minimumWidthRequestFunc);
+            return visualelement;
+        }
+
+
 
         public static T MinimumHeightRequest<T>(this T visualelement, double minimumHeightRequest) where T : IVisualElement
         {
-            visualelement.MinimumHeightRequest = minimumHeightRequest;
+            visualelement.MinimumHeightRequest = new PropertyValue<double>(minimumHeightRequest);
             return visualelement;
         }
+        public static T MinimumHeightRequest<T>(this T visualelement, Func<double> minimumHeightRequestFunc) where T : IVisualElement
+        {
+            visualelement.MinimumHeightRequest = new PropertyValue<double>(minimumHeightRequestFunc);
+            return visualelement;
+        }
+
+
 
         public static T MaximumWidthRequest<T>(this T visualelement, double maximumWidthRequest) where T : IVisualElement
         {
-            visualelement.MaximumWidthRequest = maximumWidthRequest;
+            visualelement.MaximumWidthRequest = new PropertyValue<double>(maximumWidthRequest);
             return visualelement;
         }
+        public static T MaximumWidthRequest<T>(this T visualelement, Func<double> maximumWidthRequestFunc) where T : IVisualElement
+        {
+            visualelement.MaximumWidthRequest = new PropertyValue<double>(maximumWidthRequestFunc);
+            return visualelement;
+        }
+
+
 
         public static T MaximumHeightRequest<T>(this T visualelement, double maximumHeightRequest) where T : IVisualElement
         {
-            visualelement.MaximumHeightRequest = maximumHeightRequest;
+            visualelement.MaximumHeightRequest = new PropertyValue<double>(maximumHeightRequest);
+            return visualelement;
+        }
+        public static T MaximumHeightRequest<T>(this T visualelement, Func<double> maximumHeightRequestFunc) where T : IVisualElement
+        {
+            visualelement.MaximumHeightRequest = new PropertyValue<double>(maximumHeightRequestFunc);
             return visualelement;
         }
 
+
+
         public static T FlowDirection<T>(this T visualelement, Microsoft.Maui.FlowDirection flowDirection) where T : IVisualElement
         {
-            visualelement.FlowDirection = flowDirection;
+            visualelement.FlowDirection = new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirection);
             return visualelement;
         }
+        public static T FlowDirection<T>(this T visualelement, Func<Microsoft.Maui.FlowDirection> flowDirectionFunc) where T : IVisualElement
+        {
+            visualelement.FlowDirection = new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirectionFunc);
+            return visualelement;
+        }
+
+
 
 
         public static T OnChildrenReordered<T>(this T visualelement, Action childrenreorderedAction) where T : IVisualElement

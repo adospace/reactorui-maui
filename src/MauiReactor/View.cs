@@ -10,9 +10,9 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IView
+    public partial interface IView : IVisualElement
     {
-        Microsoft.Maui.Thickness Margin { get; set; }
+        PropertyValue<Microsoft.Maui.Thickness>? Margin { get; set; }
 
 
     }
@@ -29,7 +29,7 @@ namespace MauiReactor
 
         }
 
-        Microsoft.Maui.Thickness IView.Margin { get; set; } = (Microsoft.Maui.Thickness)Microsoft.Maui.Controls.View.MarginProperty.DefaultValue;
+        PropertyValue<Microsoft.Maui.Thickness>? IView.Margin { get; set; }
 
 
         protected override void OnUpdate()
@@ -38,7 +38,7 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIView = (IView)this;
-            if (NativeControl.Margin != thisAsIView.Margin) NativeControl.Margin = thisAsIView.Margin;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.View.MarginProperty, thisAsIView.Margin);
 
 
             base.OnUpdate();
@@ -57,19 +57,26 @@ namespace MauiReactor
     {
         public static T Margin<T>(this T view, Microsoft.Maui.Thickness margin) where T : IView
         {
-            view.Margin = margin;
+            view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(margin);
+            return view;
+        }
+        public static T Margin<T>(this T view, Func<Microsoft.Maui.Thickness> marginFunc) where T : IView
+        {
+            view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(marginFunc);
             return view;
         }
         public static T Margin<T>(this T view, double leftRight, double topBottom) where T : IView
         {
-            view.Margin = new Thickness(leftRight, topBottom);
+            view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
             return view;
         }
         public static T Margin<T>(this T view, double uniformSize) where T : IView
         {
-            view.Margin = new Thickness(uniformSize);
+            view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
             return view;
         }
+
+
 
 
     }

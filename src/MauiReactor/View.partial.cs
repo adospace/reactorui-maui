@@ -1,5 +1,6 @@
 ﻿using MauiReactor.Internals;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +10,14 @@ namespace MauiReactor
 {
     public partial interface IView
     {
+        List<IGestureRecognizer>? GestureRecognizers { get; set; }
         Microsoft.Maui.Controls.LayoutOptions VerticalOptions { get; set; }
         Microsoft.Maui.Controls.LayoutOptions HorizontalOptions { get; set; }
     }
 
-    public abstract partial class View<T> : VisualElement<T>, IView where T : Microsoft.Maui.Controls.View, new()
+    public abstract partial class View<T>
     {
+        List<IGestureRecognizer>? IView.GestureRecognizers { get; set; }
         Microsoft.Maui.Controls.LayoutOptions IView.VerticalOptions { get; set; } = (Microsoft.Maui.Controls.LayoutOptions)Microsoft.Maui.Controls.View.VerticalOptionsProperty.DefaultValue;
         Microsoft.Maui.Controls.LayoutOptions IView.HorizontalOptions { get; set; } = (Microsoft.Maui.Controls.LayoutOptions)Microsoft.Maui.Controls.View.HorizontalOptionsProperty.DefaultValue;
 
@@ -29,6 +32,30 @@ namespace MauiReactor
             if (NativeControl.HorizontalOptions.Alignment != thisAsIView.HorizontalOptions.Alignment ||
                 NativeControl.HorizontalOptions.Expands != thisAsIView.HorizontalOptions.Expands) 
                 NativeControl.HorizontalOptions = thisAsIView.HorizontalOptions;
+        }
+
+        protected override void OnChildAdd(VisualNode node)
+        {
+            if (node is IGestureRecognizer gestureRecognizer)
+            {
+                var thisAsIView = (IView)this;
+                thisAsIView.GestureRecognizers ??= new List<IGestureRecognizer>();
+                thisAsIView.GestureRecognizers.Add(gestureRecognizer);
+                return;            
+            }
+
+            base.OnChildAdd(node);
+        }
+
+        protected override IEnumerable<VisualNode> RenderChildren()
+        {
+            var thisAsIView = (IView)this;
+            if (thisAsIView.GestureRecognizers == null)
+            {
+                return base.RenderChildren();
+            }
+
+            return base.RenderChildren().Concat(thisAsIView.GestureRecognizers.Cast<VisualNode>());
         }
 
         protected override void OnAddChild(VisualNode widget, BindableObject childControl)
@@ -116,6 +143,14 @@ namespace MauiReactor
         public static T VFill<T>(this T view) where T : IView
         {
             view.VerticalOptions = LayoutOptions.Fill;
+            return view;
+        }
+
+        public static T OnTapped<T>(this T view, Action action) where T : IView
+        {
+            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers.Add(new TapGestureRecognizer(action));
+
             return view;
         }
     }

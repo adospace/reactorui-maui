@@ -35,6 +35,12 @@ namespace MauiReactor.Scaffold
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.ColumnDefinitionCollection")
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.RowDefinitionCollection")
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.Shell" && _.Name == "CurrentItem"))
+                .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.ShellItem" && _.Name == "CurrentItem"))
+                .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.ShellSection" && _.Name == "CurrentItem"))
+                .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.Shapes.Geometry")
+                .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Graphics.IShape")
+                .Where(_ => _.Name != "Content")
+                .Where(_ => !_.Name.Contains("Command"))
 
                 .Where(_ => (_.GetSetMethod()?.IsPublic).GetValueOrDefault())
                 .ToArray();
@@ -62,6 +68,12 @@ namespace MauiReactor.Scaffold
 
             return Validate.EnsureNotNull(baseType.FullName)
                 .Replace("Microsoft.Maui.Controls.", string.Empty);
+        }
+
+        public string BaseInterfaceName()
+        {
+            var baseTypeName = BaseTypeName();
+            return baseTypeName.Insert(baseTypeName.LastIndexOf('.') + 1, "I");
         }
 
         public bool IsTypeNotAbstractWithEmptyConstructur() 

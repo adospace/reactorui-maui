@@ -10,12 +10,12 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IImage
+    public partial interface IImage : IView
     {
-        Microsoft.Maui.Controls.ImageSource Source { get; set; }
-        Microsoft.Maui.Aspect Aspect { get; set; }
-        bool IsOpaque { get; set; }
-        bool IsAnimationPlaying { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.ImageSource>? Source { get; set; }
+        PropertyValue<Microsoft.Maui.Aspect>? Aspect { get; set; }
+        PropertyValue<bool>? IsOpaque { get; set; }
+        PropertyValue<bool>? IsAnimationPlaying { get; set; }
 
 
     }
@@ -32,10 +32,10 @@ namespace MauiReactor
 
         }
 
-        Microsoft.Maui.Controls.ImageSource IImage.Source { get; set; } = (Microsoft.Maui.Controls.ImageSource)Microsoft.Maui.Controls.Image.SourceProperty.DefaultValue;
-        Microsoft.Maui.Aspect IImage.Aspect { get; set; } = (Microsoft.Maui.Aspect)Microsoft.Maui.Controls.Image.AspectProperty.DefaultValue;
-        bool IImage.IsOpaque { get; set; } = (bool)Microsoft.Maui.Controls.Image.IsOpaqueProperty.DefaultValue;
-        bool IImage.IsAnimationPlaying { get; set; } = (bool)Microsoft.Maui.Controls.Image.IsAnimationPlayingProperty.DefaultValue;
+        PropertyValue<Microsoft.Maui.Controls.ImageSource>? IImage.Source { get; set; }
+        PropertyValue<Microsoft.Maui.Aspect>? IImage.Aspect { get; set; }
+        PropertyValue<bool>? IImage.IsOpaque { get; set; }
+        PropertyValue<bool>? IImage.IsAnimationPlaying { get; set; }
 
 
         protected override void OnUpdate()
@@ -44,10 +44,10 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIImage = (IImage)this;
-            if (NativeControl.Source != thisAsIImage.Source) NativeControl.Source = thisAsIImage.Source;
-            if (NativeControl.Aspect != thisAsIImage.Aspect) NativeControl.Aspect = thisAsIImage.Aspect;
-            if (NativeControl.IsOpaque != thisAsIImage.IsOpaque) NativeControl.IsOpaque = thisAsIImage.IsOpaque;
-            if (NativeControl.IsAnimationPlaying != thisAsIImage.IsAnimationPlaying) NativeControl.IsAnimationPlaying = thisAsIImage.IsAnimationPlaying;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Image.SourceProperty, thisAsIImage.Source);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Image.AspectProperty, thisAsIImage.Aspect);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Image.IsOpaqueProperty, thisAsIImage.IsOpaque);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Image.IsAnimationPlayingProperty, thisAsIImage.IsAnimationPlaying);
 
 
             base.OnUpdate();
@@ -79,62 +79,90 @@ namespace MauiReactor
     {
         public static T Source<T>(this T image, Microsoft.Maui.Controls.ImageSource source) where T : IImage
         {
-            image.Source = source;
+            image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(source);
             return image;
         }
+        public static T Source<T>(this T image, Func<Microsoft.Maui.Controls.ImageSource> sourceFunc) where T : IImage
+        {
+            image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(sourceFunc);
+            return image;
+        }
+
+
         public static T Source<T>(this T image, string file) where T : IImage
         {
-            image.Source = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+            image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return image;
         }
         public static T Source<T>(this T image, string fileAndroid, string fileiOS) where T : IImage
         {
-            image.Source = Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS);
+            image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
             return image;
         }
         public static T Source<T>(this T image, string resourceName, Assembly sourceAssembly) where T : IImage
         {
-            image.Source = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+            image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
             return image;
         }
         public static T Source<T>(this T image, Uri imageUri) where T : IImage
         {
-            image.Source = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+            image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
             return image;
         }
         public static T Source<T>(this T image, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : IImage
         {
-            image.Source = new UriImageSource
+            image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource
             {
                 Uri = imageUri,
                 CachingEnabled = cachingEnabled,
                 CacheValidity = cacheValidity
-            };
+            });
             return image;
         }
         public static T Source<T>(this T image, Func<Stream> imageStream) where T : IImage
         {
-            image.Source = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+            image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
             return image;
         }
 
         public static T Aspect<T>(this T image, Microsoft.Maui.Aspect aspect) where T : IImage
         {
-            image.Aspect = aspect;
+            image.Aspect = new PropertyValue<Microsoft.Maui.Aspect>(aspect);
             return image;
         }
+        public static T Aspect<T>(this T image, Func<Microsoft.Maui.Aspect> aspectFunc) where T : IImage
+        {
+            image.Aspect = new PropertyValue<Microsoft.Maui.Aspect>(aspectFunc);
+            return image;
+        }
+
+
 
         public static T IsOpaque<T>(this T image, bool isOpaque) where T : IImage
         {
-            image.IsOpaque = isOpaque;
+            image.IsOpaque = new PropertyValue<bool>(isOpaque);
+            return image;
+        }
+        public static T IsOpaque<T>(this T image, Func<bool> isOpaqueFunc) where T : IImage
+        {
+            image.IsOpaque = new PropertyValue<bool>(isOpaqueFunc);
             return image;
         }
 
+
+
         public static T IsAnimationPlaying<T>(this T image, bool isAnimationPlaying) where T : IImage
         {
-            image.IsAnimationPlaying = isAnimationPlaying;
+            image.IsAnimationPlaying = new PropertyValue<bool>(isAnimationPlaying);
             return image;
         }
+        public static T IsAnimationPlaying<T>(this T image, Func<bool> isAnimationPlayingFunc) where T : IImage
+        {
+            image.IsAnimationPlaying = new PropertyValue<bool>(isAnimationPlayingFunc);
+            return image;
+        }
+
+
 
 
     }
