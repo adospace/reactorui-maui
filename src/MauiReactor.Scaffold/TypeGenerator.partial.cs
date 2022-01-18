@@ -41,6 +41,8 @@ namespace MauiReactor.Scaffold
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Graphics.IShape")
                 .Where(_ => _.Name != "Content")
                 .Where(_ => !_.Name.Contains("Command"))
+                .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.DataTemplate")
+                .Where(_ => _.Name != "ItemsSource")
 
                 .Where(_ => (_.GetSetMethod()?.IsPublic).GetValueOrDefault())
                 .ToArray();

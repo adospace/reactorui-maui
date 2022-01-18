@@ -45,7 +45,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
                 .Padding(15,4)
                 .StrokeShape(new RoundRectangle().CornerRadius(60.0))
             }
-            .When(_width.HasValue, _ => _.WidthRequest(_width.Value));
+            .When(_width.HasValue, _ => _.WidthRequest(_width!.Value));
         }
     }
 }

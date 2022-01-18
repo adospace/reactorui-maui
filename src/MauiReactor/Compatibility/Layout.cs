@@ -17,7 +17,7 @@ namespace MauiReactor.Compatibility
         PropertyValue<Microsoft.Maui.Thickness>? Padding { get; set; }
 
         Action? LayoutChangedAction { get; set; }
-        Action<EventArgs>? LayoutChangedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? LayoutChangedActionWithArgs { get; set; }
 
     }
     public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.Maui.Controls.Compatibility.Layout, new()
@@ -38,7 +38,7 @@ namespace MauiReactor.Compatibility
         PropertyValue<Microsoft.Maui.Thickness>? ILayout.Padding { get; set; }
 
         Action? ILayout.LayoutChangedAction { get; set; }
-        Action<EventArgs>? ILayout.LayoutChangedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? ILayout.LayoutChangedActionWithArgs { get; set; }
 
         protected override void OnUpdate()
         {
@@ -76,7 +76,7 @@ namespace MauiReactor.Compatibility
         {
             var thisAsILayout = (ILayout)this;
             thisAsILayout.LayoutChangedAction?.Invoke();
-            thisAsILayout.LayoutChangedActionWithArgs?.Invoke(e);
+            thisAsILayout.LayoutChangedActionWithArgs?.Invoke(sender, e);
         }
 
         protected override void OnDetachNativeEvents()
@@ -150,7 +150,7 @@ namespace MauiReactor.Compatibility
             return layout;
         }
 
-        public static T OnLayoutChanged<T>(this T layout, Action<EventArgs> layoutchangedActionWithArgs) where T : ILayout
+        public static T OnLayoutChanged<T>(this T layout, Action<object?, EventArgs> layoutchangedActionWithArgs) where T : ILayout
         {
             layout.LayoutChangedActionWithArgs = layoutchangedActionWithArgs;
             return layout;

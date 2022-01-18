@@ -19,17 +19,17 @@ namespace MauiReactor
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IconImageSource { get; set; }
 
         Action? NavigatedToAction { get; set; }
-        Action<NavigatedToEventArgs>? NavigatedToActionWithArgs { get; set; }
+        Action<object?, NavigatedToEventArgs>? NavigatedToActionWithArgs { get; set; }
         Action? NavigatingFromAction { get; set; }
-        Action<NavigatingFromEventArgs>? NavigatingFromActionWithArgs { get; set; }
+        Action<object?, NavigatingFromEventArgs>? NavigatingFromActionWithArgs { get; set; }
         Action? NavigatedFromAction { get; set; }
-        Action<NavigatedFromEventArgs>? NavigatedFromActionWithArgs { get; set; }
+        Action<object?, NavigatedFromEventArgs>? NavigatedFromActionWithArgs { get; set; }
         Action? LayoutChangedAction { get; set; }
-        Action<EventArgs>? LayoutChangedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? LayoutChangedActionWithArgs { get; set; }
         Action? AppearingAction { get; set; }
-        Action<EventArgs>? AppearingActionWithArgs { get; set; }
+        Action<object?, EventArgs>? AppearingActionWithArgs { get; set; }
         Action? DisappearingAction { get; set; }
-        Action<EventArgs>? DisappearingActionWithArgs { get; set; }
+        Action<object?, EventArgs>? DisappearingActionWithArgs { get; set; }
 
     }
     public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.Controls.Page, new()
@@ -52,17 +52,17 @@ namespace MauiReactor
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IPage.IconImageSource { get; set; }
 
         Action? IPage.NavigatedToAction { get; set; }
-        Action<NavigatedToEventArgs>? IPage.NavigatedToActionWithArgs { get; set; }
+        Action<object?, NavigatedToEventArgs>? IPage.NavigatedToActionWithArgs { get; set; }
         Action? IPage.NavigatingFromAction { get; set; }
-        Action<NavigatingFromEventArgs>? IPage.NavigatingFromActionWithArgs { get; set; }
+        Action<object?, NavigatingFromEventArgs>? IPage.NavigatingFromActionWithArgs { get; set; }
         Action? IPage.NavigatedFromAction { get; set; }
-        Action<NavigatedFromEventArgs>? IPage.NavigatedFromActionWithArgs { get; set; }
+        Action<object?, NavigatedFromEventArgs>? IPage.NavigatedFromActionWithArgs { get; set; }
         Action? IPage.LayoutChangedAction { get; set; }
-        Action<EventArgs>? IPage.LayoutChangedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? IPage.LayoutChangedActionWithArgs { get; set; }
         Action? IPage.AppearingAction { get; set; }
-        Action<EventArgs>? IPage.AppearingActionWithArgs { get; set; }
+        Action<object?, EventArgs>? IPage.AppearingActionWithArgs { get; set; }
         Action? IPage.DisappearingAction { get; set; }
-        Action<EventArgs>? IPage.DisappearingActionWithArgs { get; set; }
+        Action<object?, EventArgs>? IPage.DisappearingActionWithArgs { get; set; }
 
         protected override void OnUpdate()
         {
@@ -122,37 +122,37 @@ namespace MauiReactor
         {
             var thisAsIPage = (IPage)this;
             thisAsIPage.NavigatedToAction?.Invoke();
-            thisAsIPage.NavigatedToActionWithArgs?.Invoke(e);
+            thisAsIPage.NavigatedToActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_NavigatingFrom(object? sender, NavigatingFromEventArgs e)
         {
             var thisAsIPage = (IPage)this;
             thisAsIPage.NavigatingFromAction?.Invoke();
-            thisAsIPage.NavigatingFromActionWithArgs?.Invoke(e);
+            thisAsIPage.NavigatingFromActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_NavigatedFrom(object? sender, NavigatedFromEventArgs e)
         {
             var thisAsIPage = (IPage)this;
             thisAsIPage.NavigatedFromAction?.Invoke();
-            thisAsIPage.NavigatedFromActionWithArgs?.Invoke(e);
+            thisAsIPage.NavigatedFromActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_LayoutChanged(object? sender, EventArgs e)
         {
             var thisAsIPage = (IPage)this;
             thisAsIPage.LayoutChangedAction?.Invoke();
-            thisAsIPage.LayoutChangedActionWithArgs?.Invoke(e);
+            thisAsIPage.LayoutChangedActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_Appearing(object? sender, EventArgs e)
         {
             var thisAsIPage = (IPage)this;
             thisAsIPage.AppearingAction?.Invoke();
-            thisAsIPage.AppearingActionWithArgs?.Invoke(e);
+            thisAsIPage.AppearingActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_Disappearing(object? sender, EventArgs e)
         {
             var thisAsIPage = (IPage)this;
             thisAsIPage.DisappearingAction?.Invoke();
-            thisAsIPage.DisappearingActionWithArgs?.Invoke(e);
+            thisAsIPage.DisappearingActionWithArgs?.Invoke(sender, e);
         }
 
         protected override void OnDetachNativeEvents()
@@ -340,7 +340,7 @@ namespace MauiReactor
             return page;
         }
 
-        public static T OnNavigatedTo<T>(this T page, Action<NavigatedToEventArgs> navigatedtoActionWithArgs) where T : IPage
+        public static T OnNavigatedTo<T>(this T page, Action<object?, NavigatedToEventArgs> navigatedtoActionWithArgs) where T : IPage
         {
             page.NavigatedToActionWithArgs = navigatedtoActionWithArgs;
             return page;
@@ -351,7 +351,7 @@ namespace MauiReactor
             return page;
         }
 
-        public static T OnNavigatingFrom<T>(this T page, Action<NavigatingFromEventArgs> navigatingfromActionWithArgs) where T : IPage
+        public static T OnNavigatingFrom<T>(this T page, Action<object?, NavigatingFromEventArgs> navigatingfromActionWithArgs) where T : IPage
         {
             page.NavigatingFromActionWithArgs = navigatingfromActionWithArgs;
             return page;
@@ -362,7 +362,7 @@ namespace MauiReactor
             return page;
         }
 
-        public static T OnNavigatedFrom<T>(this T page, Action<NavigatedFromEventArgs> navigatedfromActionWithArgs) where T : IPage
+        public static T OnNavigatedFrom<T>(this T page, Action<object?, NavigatedFromEventArgs> navigatedfromActionWithArgs) where T : IPage
         {
             page.NavigatedFromActionWithArgs = navigatedfromActionWithArgs;
             return page;
@@ -373,7 +373,7 @@ namespace MauiReactor
             return page;
         }
 
-        public static T OnLayoutChanged<T>(this T page, Action<EventArgs> layoutchangedActionWithArgs) where T : IPage
+        public static T OnLayoutChanged<T>(this T page, Action<object?, EventArgs> layoutchangedActionWithArgs) where T : IPage
         {
             page.LayoutChangedActionWithArgs = layoutchangedActionWithArgs;
             return page;
@@ -384,7 +384,7 @@ namespace MauiReactor
             return page;
         }
 
-        public static T OnAppearing<T>(this T page, Action<EventArgs> appearingActionWithArgs) where T : IPage
+        public static T OnAppearing<T>(this T page, Action<object?, EventArgs> appearingActionWithArgs) where T : IPage
         {
             page.AppearingActionWithArgs = appearingActionWithArgs;
             return page;
@@ -395,7 +395,7 @@ namespace MauiReactor
             return page;
         }
 
-        public static T OnDisappearing<T>(this T page, Action<EventArgs> disappearingActionWithArgs) where T : IPage
+        public static T OnDisappearing<T>(this T page, Action<object?, EventArgs> disappearingActionWithArgs) where T : IPage
         {
             page.DisappearingActionWithArgs = disappearingActionWithArgs;
             return page;

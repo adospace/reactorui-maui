@@ -35,7 +35,7 @@ namespace <#= Namespace() #>
     var genericArgs = ev.EventHandlerType.GetGenericArguments();
     #>
         Action? <#= ev.Name #>Action { get; set; }
-        Action<<#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>>? <#= ev.Name #>ActionWithArgs { get; set; }
+        Action<object?, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>>? <#= ev.Name #>ActionWithArgs { get; set; }
     <# } #>
 
     }
@@ -87,7 +87,7 @@ namespace <#= Namespace() #>
         <# foreach (var ev in Events) {
         var genericArgs = ev.EventHandlerType.GetGenericArguments(); #>
         Action? I<#= TypeName() #>.<#= ev.Name #>Action { get; set; }
-        Action<<#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>>? I<#= TypeName() #>.<#= ev.Name #>ActionWithArgs { get; set; }
+        Action<object?, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>>? I<#= TypeName() #>.<#= ev.Name #>ActionWithArgs { get; set; }
         <# } #>
 
         protected override void OnUpdate()
@@ -134,7 +134,7 @@ namespace <#= Namespace() #>
         {
             var thisAsI<#= TypeName() #> = (I<#= TypeName() #>)this;
             thisAsI<#= TypeName() #>.<#= ev.Name #>Action?.Invoke();
-            thisAsI<#= TypeName() #>.<#= ev.Name #>ActionWithArgs?.Invoke(e);
+            thisAsI<#= TypeName() #>.<#= ev.Name #>ActionWithArgs?.Invoke(sender, e);
         }
         <# } #>
 
@@ -272,7 +272,7 @@ namespace <#= Namespace() #>
             return <#= TypeName().ToLowerInvariant() #>;
         }
 
-        public static T On<#= ev.Name #><T>(this T <#= TypeName().ToLowerInvariant() #>, Action<<#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>> <#= ev.Name.ToLowerInvariant() #>ActionWithArgs) where T : I<#= TypeName() #>
+        public static T On<#= ev.Name #><T>(this T <#= TypeName().ToLowerInvariant() #>, Action<object?, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>> <#= ev.Name.ToLowerInvariant() #>ActionWithArgs) where T : I<#= TypeName() #>
         {
             <#= TypeName().ToLowerInvariant() #>.<#= ev.Name #>ActionWithArgs = <#= ev.Name.ToLowerInvariant() #>ActionWithArgs;
             return <#= TypeName().ToLowerInvariant() #>;

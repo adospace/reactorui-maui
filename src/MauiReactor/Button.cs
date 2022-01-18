@@ -29,11 +29,11 @@ namespace MauiReactor
         PropertyValue<Microsoft.Maui.LineBreakMode>? LineBreakMode { get; set; }
 
         Action? ClickedAction { get; set; }
-        Action<EventArgs>? ClickedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? ClickedActionWithArgs { get; set; }
         Action? PressedAction { get; set; }
-        Action<EventArgs>? PressedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? PressedActionWithArgs { get; set; }
         Action? ReleasedAction { get; set; }
-        Action<EventArgs>? ReleasedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? ReleasedActionWithArgs { get; set; }
 
     }
     public partial class Button<T> : View<T>, IButton where T : Microsoft.Maui.Controls.Button, new()
@@ -66,11 +66,11 @@ namespace MauiReactor
         PropertyValue<Microsoft.Maui.LineBreakMode>? IButton.LineBreakMode { get; set; }
 
         Action? IButton.ClickedAction { get; set; }
-        Action<EventArgs>? IButton.ClickedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? IButton.ClickedActionWithArgs { get; set; }
         Action? IButton.PressedAction { get; set; }
-        Action<EventArgs>? IButton.PressedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? IButton.PressedActionWithArgs { get; set; }
         Action? IButton.ReleasedAction { get; set; }
-        Action<EventArgs>? IButton.ReleasedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? IButton.ReleasedActionWithArgs { get; set; }
 
         protected override void OnUpdate()
         {
@@ -128,19 +128,19 @@ namespace MauiReactor
         {
             var thisAsIButton = (IButton)this;
             thisAsIButton.ClickedAction?.Invoke();
-            thisAsIButton.ClickedActionWithArgs?.Invoke(e);
+            thisAsIButton.ClickedActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_Pressed(object? sender, EventArgs e)
         {
             var thisAsIButton = (IButton)this;
             thisAsIButton.PressedAction?.Invoke();
-            thisAsIButton.PressedActionWithArgs?.Invoke(e);
+            thisAsIButton.PressedActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_Released(object? sender, EventArgs e)
         {
             var thisAsIButton = (IButton)this;
             thisAsIButton.ReleasedAction?.Invoke();
-            thisAsIButton.ReleasedActionWithArgs?.Invoke(e);
+            thisAsIButton.ReleasedActionWithArgs?.Invoke(sender, e);
         }
 
         protected override void OnDetachNativeEvents()
@@ -425,7 +425,7 @@ namespace MauiReactor
             return button;
         }
 
-        public static T OnClicked<T>(this T button, Action<EventArgs> clickedActionWithArgs) where T : IButton
+        public static T OnClicked<T>(this T button, Action<object?, EventArgs> clickedActionWithArgs) where T : IButton
         {
             button.ClickedActionWithArgs = clickedActionWithArgs;
             return button;
@@ -436,7 +436,7 @@ namespace MauiReactor
             return button;
         }
 
-        public static T OnPressed<T>(this T button, Action<EventArgs> pressedActionWithArgs) where T : IButton
+        public static T OnPressed<T>(this T button, Action<object?, EventArgs> pressedActionWithArgs) where T : IButton
         {
             button.PressedActionWithArgs = pressedActionWithArgs;
             return button;
@@ -447,7 +447,7 @@ namespace MauiReactor
             return button;
         }
 
-        public static T OnReleased<T>(this T button, Action<EventArgs> releasedActionWithArgs) where T : IButton
+        public static T OnReleased<T>(this T button, Action<object?, EventArgs> releasedActionWithArgs) where T : IButton
         {
             button.ReleasedActionWithArgs = releasedActionWithArgs;
             return button;

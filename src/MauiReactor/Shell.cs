@@ -13,8 +13,6 @@ namespace MauiReactor
     public partial interface IShell : IPage
     {
         PropertyValue<Microsoft.Maui.Controls.FlyoutBehavior>? FlyoutBehavior { get; set; }
-        PropertyValue<Microsoft.Maui.Controls.DataTemplate>? MenuItemTemplate { get; set; }
-        PropertyValue<Microsoft.Maui.Controls.DataTemplate>? ItemTemplate { get; set; }
         PropertyValue<Microsoft.Maui.Graphics.Color>? BackgroundColor { get; set; }
         PropertyValue<Microsoft.Maui.Controls.Brush>? FlyoutBackdrop { get; set; }
         PropertyValue<double>? FlyoutWidth { get; set; }
@@ -26,18 +24,15 @@ namespace MauiReactor
         PropertyValue<Microsoft.Maui.Controls.FlyoutHeaderBehavior>? FlyoutHeaderBehavior { get; set; }
         PropertyValue<object>? FlyoutHeader { get; set; }
         PropertyValue<object>? FlyoutFooter { get; set; }
-        PropertyValue<Microsoft.Maui.Controls.DataTemplate>? FlyoutHeaderTemplate { get; set; }
-        PropertyValue<Microsoft.Maui.Controls.DataTemplate>? FlyoutFooterTemplate { get; set; }
         PropertyValue<bool>? FlyoutIsPresented { get; set; }
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? FlyoutIcon { get; set; }
         PropertyValue<Microsoft.Maui.Controls.ScrollMode>? FlyoutVerticalScrollMode { get; set; }
         PropertyValue<object>? FlyoutContent { get; set; }
-        PropertyValue<Microsoft.Maui.Controls.DataTemplate>? FlyoutContentTemplate { get; set; }
 
         Action? NavigatedAction { get; set; }
-        Action<ShellNavigatedEventArgs>? NavigatedActionWithArgs { get; set; }
+        Action<object?, ShellNavigatedEventArgs>? NavigatedActionWithArgs { get; set; }
         Action? NavigatingAction { get; set; }
-        Action<ShellNavigatingEventArgs>? NavigatingActionWithArgs { get; set; }
+        Action<object?, ShellNavigatingEventArgs>? NavigatingActionWithArgs { get; set; }
 
     }
     public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Controls.Shell, new()
@@ -54,8 +49,6 @@ namespace MauiReactor
         }
 
         PropertyValue<Microsoft.Maui.Controls.FlyoutBehavior>? IShell.FlyoutBehavior { get; set; }
-        PropertyValue<Microsoft.Maui.Controls.DataTemplate>? IShell.MenuItemTemplate { get; set; }
-        PropertyValue<Microsoft.Maui.Controls.DataTemplate>? IShell.ItemTemplate { get; set; }
         PropertyValue<Microsoft.Maui.Graphics.Color>? IShell.BackgroundColor { get; set; }
         PropertyValue<Microsoft.Maui.Controls.Brush>? IShell.FlyoutBackdrop { get; set; }
         PropertyValue<double>? IShell.FlyoutWidth { get; set; }
@@ -67,18 +60,15 @@ namespace MauiReactor
         PropertyValue<Microsoft.Maui.Controls.FlyoutHeaderBehavior>? IShell.FlyoutHeaderBehavior { get; set; }
         PropertyValue<object>? IShell.FlyoutHeader { get; set; }
         PropertyValue<object>? IShell.FlyoutFooter { get; set; }
-        PropertyValue<Microsoft.Maui.Controls.DataTemplate>? IShell.FlyoutHeaderTemplate { get; set; }
-        PropertyValue<Microsoft.Maui.Controls.DataTemplate>? IShell.FlyoutFooterTemplate { get; set; }
         PropertyValue<bool>? IShell.FlyoutIsPresented { get; set; }
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IShell.FlyoutIcon { get; set; }
         PropertyValue<Microsoft.Maui.Controls.ScrollMode>? IShell.FlyoutVerticalScrollMode { get; set; }
         PropertyValue<object>? IShell.FlyoutContent { get; set; }
-        PropertyValue<Microsoft.Maui.Controls.DataTemplate>? IShell.FlyoutContentTemplate { get; set; }
 
         Action? IShell.NavigatedAction { get; set; }
-        Action<ShellNavigatedEventArgs>? IShell.NavigatedActionWithArgs { get; set; }
+        Action<object?, ShellNavigatedEventArgs>? IShell.NavigatedActionWithArgs { get; set; }
         Action? IShell.NavigatingAction { get; set; }
-        Action<ShellNavigatingEventArgs>? IShell.NavigatingActionWithArgs { get; set; }
+        Action<object?, ShellNavigatingEventArgs>? IShell.NavigatingActionWithArgs { get; set; }
 
         protected override void OnUpdate()
         {
@@ -87,8 +77,6 @@ namespace MauiReactor
             Validate.EnsureNotNull(NativeControl);
             var thisAsIShell = (IShell)this;
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutBehaviorProperty, thisAsIShell.FlyoutBehavior);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.MenuItemTemplateProperty, thisAsIShell.MenuItemTemplate);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.ItemTemplateProperty, thisAsIShell.ItemTemplate);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.BackgroundColorProperty, thisAsIShell.BackgroundColor);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutBackdropProperty, thisAsIShell.FlyoutBackdrop);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutWidthProperty, thisAsIShell.FlyoutWidth);
@@ -100,13 +88,10 @@ namespace MauiReactor
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutHeaderBehaviorProperty, thisAsIShell.FlyoutHeaderBehavior);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutHeaderProperty, thisAsIShell.FlyoutHeader);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutFooterProperty, thisAsIShell.FlyoutFooter);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutHeaderTemplateProperty, thisAsIShell.FlyoutHeaderTemplate);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutFooterTemplateProperty, thisAsIShell.FlyoutFooterTemplate);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutIsPresentedProperty, thisAsIShell.FlyoutIsPresented);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutIconProperty, thisAsIShell.FlyoutIcon);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutVerticalScrollModeProperty, thisAsIShell.FlyoutVerticalScrollMode);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutContentProperty, thisAsIShell.FlyoutContent);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutContentTemplateProperty, thisAsIShell.FlyoutContentTemplate);
 
 
             base.OnUpdate();
@@ -138,13 +123,13 @@ namespace MauiReactor
         {
             var thisAsIShell = (IShell)this;
             thisAsIShell.NavigatedAction?.Invoke();
-            thisAsIShell.NavigatedActionWithArgs?.Invoke(e);
+            thisAsIShell.NavigatedActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_Navigating(object? sender, ShellNavigatingEventArgs e)
         {
             var thisAsIShell = (IShell)this;
             thisAsIShell.NavigatingAction?.Invoke();
-            thisAsIShell.NavigatingActionWithArgs?.Invoke(e);
+            thisAsIShell.NavigatingActionWithArgs?.Invoke(sender, e);
         }
 
         protected override void OnDetachNativeEvents()
@@ -184,32 +169,6 @@ namespace MauiReactor
         public static T FlyoutBehavior<T>(this T shell, Func<Microsoft.Maui.Controls.FlyoutBehavior> flyoutBehaviorFunc) where T : IShell
         {
             shell.FlyoutBehavior = new PropertyValue<Microsoft.Maui.Controls.FlyoutBehavior>(flyoutBehaviorFunc);
-            return shell;
-        }
-
-
-
-        public static T MenuItemTemplate<T>(this T shell, Microsoft.Maui.Controls.DataTemplate menuItemTemplate) where T : IShell
-        {
-            shell.MenuItemTemplate = new PropertyValue<Microsoft.Maui.Controls.DataTemplate>(menuItemTemplate);
-            return shell;
-        }
-        public static T MenuItemTemplate<T>(this T shell, Func<Microsoft.Maui.Controls.DataTemplate> menuItemTemplateFunc) where T : IShell
-        {
-            shell.MenuItemTemplate = new PropertyValue<Microsoft.Maui.Controls.DataTemplate>(menuItemTemplateFunc);
-            return shell;
-        }
-
-
-
-        public static T ItemTemplate<T>(this T shell, Microsoft.Maui.Controls.DataTemplate itemTemplate) where T : IShell
-        {
-            shell.ItemTemplate = new PropertyValue<Microsoft.Maui.Controls.DataTemplate>(itemTemplate);
-            return shell;
-        }
-        public static T ItemTemplate<T>(this T shell, Func<Microsoft.Maui.Controls.DataTemplate> itemTemplateFunc) where T : IShell
-        {
-            shell.ItemTemplate = new PropertyValue<Microsoft.Maui.Controls.DataTemplate>(itemTemplateFunc);
             return shell;
         }
 
@@ -393,32 +352,6 @@ namespace MauiReactor
 
 
 
-        public static T FlyoutHeaderTemplate<T>(this T shell, Microsoft.Maui.Controls.DataTemplate flyoutHeaderTemplate) where T : IShell
-        {
-            shell.FlyoutHeaderTemplate = new PropertyValue<Microsoft.Maui.Controls.DataTemplate>(flyoutHeaderTemplate);
-            return shell;
-        }
-        public static T FlyoutHeaderTemplate<T>(this T shell, Func<Microsoft.Maui.Controls.DataTemplate> flyoutHeaderTemplateFunc) where T : IShell
-        {
-            shell.FlyoutHeaderTemplate = new PropertyValue<Microsoft.Maui.Controls.DataTemplate>(flyoutHeaderTemplateFunc);
-            return shell;
-        }
-
-
-
-        public static T FlyoutFooterTemplate<T>(this T shell, Microsoft.Maui.Controls.DataTemplate flyoutFooterTemplate) where T : IShell
-        {
-            shell.FlyoutFooterTemplate = new PropertyValue<Microsoft.Maui.Controls.DataTemplate>(flyoutFooterTemplate);
-            return shell;
-        }
-        public static T FlyoutFooterTemplate<T>(this T shell, Func<Microsoft.Maui.Controls.DataTemplate> flyoutFooterTemplateFunc) where T : IShell
-        {
-            shell.FlyoutFooterTemplate = new PropertyValue<Microsoft.Maui.Controls.DataTemplate>(flyoutFooterTemplateFunc);
-            return shell;
-        }
-
-
-
         public static T FlyoutIsPresented<T>(this T shell, bool flyoutIsPresented) where T : IShell
         {
             shell.FlyoutIsPresented = new PropertyValue<bool>(flyoutIsPresented);
@@ -506,19 +439,6 @@ namespace MauiReactor
 
 
 
-        public static T FlyoutContentTemplate<T>(this T shell, Microsoft.Maui.Controls.DataTemplate flyoutContentTemplate) where T : IShell
-        {
-            shell.FlyoutContentTemplate = new PropertyValue<Microsoft.Maui.Controls.DataTemplate>(flyoutContentTemplate);
-            return shell;
-        }
-        public static T FlyoutContentTemplate<T>(this T shell, Func<Microsoft.Maui.Controls.DataTemplate> flyoutContentTemplateFunc) where T : IShell
-        {
-            shell.FlyoutContentTemplate = new PropertyValue<Microsoft.Maui.Controls.DataTemplate>(flyoutContentTemplateFunc);
-            return shell;
-        }
-
-
-
 
         public static T OnNavigated<T>(this T shell, Action navigatedAction) where T : IShell
         {
@@ -526,7 +446,7 @@ namespace MauiReactor
             return shell;
         }
 
-        public static T OnNavigated<T>(this T shell, Action<ShellNavigatedEventArgs> navigatedActionWithArgs) where T : IShell
+        public static T OnNavigated<T>(this T shell, Action<object?, ShellNavigatedEventArgs> navigatedActionWithArgs) where T : IShell
         {
             shell.NavigatedActionWithArgs = navigatedActionWithArgs;
             return shell;
@@ -537,7 +457,7 @@ namespace MauiReactor
             return shell;
         }
 
-        public static T OnNavigating<T>(this T shell, Action<ShellNavigatingEventArgs> navigatingActionWithArgs) where T : IShell
+        public static T OnNavigating<T>(this T shell, Action<object?, ShellNavigatingEventArgs> navigatingActionWithArgs) where T : IShell
         {
             shell.NavigatingActionWithArgs = navigatingActionWithArgs;
             return shell;

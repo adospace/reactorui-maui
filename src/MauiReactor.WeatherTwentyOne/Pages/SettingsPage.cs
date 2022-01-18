@@ -153,11 +153,19 @@ namespace MauiReactor.WeatherTwentyOne.Pages
 
         async void OnSupportTapped()
         {
+            if (ContainerPage == null)
+            {
+                return;
+            }
             string action = await ContainerPage.DisplayActionSheet("Get Help", "Cancel", null, "Email", "Chat", "Phone");
             await ContainerPage.DisplayAlert("You Chose", action, "Okay");
         }
         async void OnSignOut()
         {
+            if (ContainerPage == null)
+            {
+                return;
+            }
             await ContainerPage.DisplayAlert("Sign Out", "Are you sure?", "Yes", "No");
         }
     }

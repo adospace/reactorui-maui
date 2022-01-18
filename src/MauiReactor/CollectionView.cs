@@ -10,19 +10,19 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IShellContent : IBaseShellItem
+    public partial interface ICollectionView : IGroupableItemsView
     {
 
 
     }
-    public partial class ShellContent<T> : BaseShellItem<T>, IShellContent where T : Microsoft.Maui.Controls.ShellContent, new()
+    public partial class CollectionView<T> : GroupableItemsView<T>, ICollectionView where T : Microsoft.Maui.Controls.CollectionView, new()
     {
-        public ShellContent()
+        public CollectionView()
         {
 
         }
 
-        public ShellContent(Action<T?> componentRefAction)
+        public CollectionView(Action<T?> componentRefAction)
             : base(componentRefAction)
         {
 
@@ -45,21 +45,21 @@ namespace MauiReactor
 
     }
 
-    public partial class ShellContent : ShellContent<Microsoft.Maui.Controls.ShellContent>
+    public partial class CollectionView : CollectionView<Microsoft.Maui.Controls.CollectionView>
     {
-        public ShellContent()
+        public CollectionView()
         {
 
         }
 
-        public ShellContent(Action<Microsoft.Maui.Controls.ShellContent?> componentRefAction)
+        public CollectionView(Action<Microsoft.Maui.Controls.CollectionView?> componentRefAction)
             : base(componentRefAction)
         {
 
         }
     }
 
-    public static partial class ShellContentExtensions
+    public static partial class CollectionViewExtensions
     {
 
     }

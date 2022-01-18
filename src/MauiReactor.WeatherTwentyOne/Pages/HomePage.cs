@@ -17,7 +17,9 @@ namespace MauiReactor.WeatherTwentyOne.Pages
                     rows: "*",
                     columns: Device.Idiom == TargetIdiom.Phone ? "*" : "*,500")
                 { 
-                    RenderMainContent()
+                    RenderMainContent(),
+
+                    RenderWidgetsPanel()
                 }
             };
         }
@@ -52,6 +54,15 @@ namespace MauiReactor.WeatherTwentyOne.Pages
                 .Padding(Device.Idiom == TargetIdiom.Phone ? new Thickness(0,50) : new Thickness(0,50))
                 .Spacing(Device.Idiom == TargetIdiom.Phone ? 25 : 50)
             };
+        }
+
+        private VisualNode? RenderWidgetsPanel()
+        {
+            if (Device.Idiom == TargetIdiom.Phone)
+                return null;
+
+            return new WidgetsPanel()
+                .GridColumn(1);    
         }
     }
 }

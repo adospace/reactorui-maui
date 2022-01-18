@@ -40,6 +40,11 @@ namespace MauiReactor
             {
                 NativeControl.StrokeShape = shape;
             }
+            else if (childNativeControl is View view)
+            {
+                NativeControl.Content = view;
+            }
+
 
             base.OnAddChild(widget, childNativeControl);
         }
@@ -54,6 +59,10 @@ namespace MauiReactor
                 childNativeControl is Microsoft.Maui.Graphics.IShape)
             {
                 NativeControl.StrokeShape = null;
+            }
+            else if (childNativeControl is View)
+            {
+                NativeControl.Content = null;
             }
 
             base.OnRemoveChild(widget, childNativeControl);

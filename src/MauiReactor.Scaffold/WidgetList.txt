@@ -35,4 +35,12 @@ Microsoft.Maui.Controls.Shapes.EllipseGeometry
 Microsoft.Maui.Controls.Shapes.RoundRectangle
 Microsoft.Maui.Controls.Border
 Microsoft.Maui.Controls.FlexLayout
+Microsoft.Maui.Controls.CollectionView
+Microsoft.Maui.Controls.GroupableItemsView
+Microsoft.Maui.Controls.SelectableItemsView
+Microsoft.Maui.Controls.StructuredItemsView
+Microsoft.Maui.Controls.ItemsView
+Microsoft.Maui.Controls.ContentView
+Microsoft.Maui.Controls.Frame
+Microsoft.Maui.Controls.TemplatedView
 

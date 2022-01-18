@@ -17,7 +17,7 @@ namespace MauiReactor
         PropertyValue<Microsoft.Maui.ScrollBarVisibility>? VerticalScrollBarVisibility { get; set; }
 
         Action? ScrolledAction { get; set; }
-        Action<ScrolledEventArgs>? ScrolledActionWithArgs { get; set; }
+        Action<object?, ScrolledEventArgs>? ScrolledActionWithArgs { get; set; }
 
     }
     public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where T : Microsoft.Maui.Controls.ScrollView, new()
@@ -38,7 +38,7 @@ namespace MauiReactor
         PropertyValue<Microsoft.Maui.ScrollBarVisibility>? IScrollView.VerticalScrollBarVisibility { get; set; }
 
         Action? IScrollView.ScrolledAction { get; set; }
-        Action<ScrolledEventArgs>? IScrollView.ScrolledActionWithArgs { get; set; }
+        Action<object?, ScrolledEventArgs>? IScrollView.ScrolledActionWithArgs { get; set; }
 
         protected override void OnUpdate()
         {
@@ -76,7 +76,7 @@ namespace MauiReactor
         {
             var thisAsIScrollView = (IScrollView)this;
             thisAsIScrollView.ScrolledAction?.Invoke();
-            thisAsIScrollView.ScrolledActionWithArgs?.Invoke(e);
+            thisAsIScrollView.ScrolledActionWithArgs?.Invoke(sender, e);
         }
 
         protected override void OnDetachNativeEvents()
@@ -153,7 +153,7 @@ namespace MauiReactor
             return scrollview;
         }
 
-        public static T OnScrolled<T>(this T scrollview, Action<ScrolledEventArgs> scrolledActionWithArgs) where T : IScrollView
+        public static T OnScrolled<T>(this T scrollview, Action<object?, ScrolledEventArgs> scrolledActionWithArgs) where T : IScrollView
         {
             scrollview.ScrolledActionWithArgs = scrolledActionWithArgs;
             return scrollview;

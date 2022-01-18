@@ -15,7 +15,7 @@ namespace MauiReactor
         PropertyValue<int>? NumberOfTapsRequired { get; set; }
 
         Action? TappedAction { get; set; }
-        Action<EventArgs>? TappedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? TappedActionWithArgs { get; set; }
 
     }
     public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.TapGestureRecognizer>, ITapGestureRecognizer
@@ -34,7 +34,7 @@ namespace MauiReactor
         PropertyValue<int>? ITapGestureRecognizer.NumberOfTapsRequired { get; set; }
 
         Action? ITapGestureRecognizer.TappedAction { get; set; }
-        Action<EventArgs>? ITapGestureRecognizer.TappedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? ITapGestureRecognizer.TappedActionWithArgs { get; set; }
 
         protected override void OnUpdate()
         {
@@ -70,7 +70,7 @@ namespace MauiReactor
         {
             var thisAsITapGestureRecognizer = (ITapGestureRecognizer)this;
             thisAsITapGestureRecognizer.TappedAction?.Invoke();
-            thisAsITapGestureRecognizer.TappedActionWithArgs?.Invoke(e);
+            thisAsITapGestureRecognizer.TappedActionWithArgs?.Invoke(sender, e);
         }
 
         protected override void OnDetachNativeEvents()
@@ -108,7 +108,7 @@ namespace MauiReactor
             return tapgesturerecognizer;
         }
 
-        public static T OnTapped<T>(this T tapgesturerecognizer, Action<EventArgs> tappedActionWithArgs) where T : ITapGestureRecognizer
+        public static T OnTapped<T>(this T tapgesturerecognizer, Action<object?, EventArgs> tappedActionWithArgs) where T : ITapGestureRecognizer
         {
             tapgesturerecognizer.TappedActionWithArgs = tappedActionWithArgs;
             return tapgesturerecognizer;

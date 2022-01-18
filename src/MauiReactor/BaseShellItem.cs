@@ -19,9 +19,9 @@ namespace MauiReactor
         PropertyValue<bool>? IsVisible { get; set; }
 
         Action? AppearingAction { get; set; }
-        Action<EventArgs>? AppearingActionWithArgs { get; set; }
+        Action<object?, EventArgs>? AppearingActionWithArgs { get; set; }
         Action? DisappearingAction { get; set; }
-        Action<EventArgs>? DisappearingActionWithArgs { get; set; }
+        Action<object?, EventArgs>? DisappearingActionWithArgs { get; set; }
 
     }
     public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem where T : Microsoft.Maui.Controls.BaseShellItem, new()
@@ -44,9 +44,9 @@ namespace MauiReactor
         PropertyValue<bool>? IBaseShellItem.IsVisible { get; set; }
 
         Action? IBaseShellItem.AppearingAction { get; set; }
-        Action<EventArgs>? IBaseShellItem.AppearingActionWithArgs { get; set; }
+        Action<object?, EventArgs>? IBaseShellItem.AppearingActionWithArgs { get; set; }
         Action? IBaseShellItem.DisappearingAction { get; set; }
-        Action<EventArgs>? IBaseShellItem.DisappearingActionWithArgs { get; set; }
+        Action<object?, EventArgs>? IBaseShellItem.DisappearingActionWithArgs { get; set; }
 
         protected override void OnUpdate()
         {
@@ -90,13 +90,13 @@ namespace MauiReactor
         {
             var thisAsIBaseShellItem = (IBaseShellItem)this;
             thisAsIBaseShellItem.AppearingAction?.Invoke();
-            thisAsIBaseShellItem.AppearingActionWithArgs?.Invoke(e);
+            thisAsIBaseShellItem.AppearingActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_Disappearing(object? sender, EventArgs e)
         {
             var thisAsIBaseShellItem = (IBaseShellItem)this;
             thisAsIBaseShellItem.DisappearingAction?.Invoke();
-            thisAsIBaseShellItem.DisappearingActionWithArgs?.Invoke(e);
+            thisAsIBaseShellItem.DisappearingActionWithArgs?.Invoke(sender, e);
         }
 
         protected override void OnDetachNativeEvents()
@@ -270,7 +270,7 @@ namespace MauiReactor
             return baseshellitem;
         }
 
-        public static T OnAppearing<T>(this T baseshellitem, Action<EventArgs> appearingActionWithArgs) where T : IBaseShellItem
+        public static T OnAppearing<T>(this T baseshellitem, Action<object?, EventArgs> appearingActionWithArgs) where T : IBaseShellItem
         {
             baseshellitem.AppearingActionWithArgs = appearingActionWithArgs;
             return baseshellitem;
@@ -281,7 +281,7 @@ namespace MauiReactor
             return baseshellitem;
         }
 
-        public static T OnDisappearing<T>(this T baseshellitem, Action<EventArgs> disappearingActionWithArgs) where T : IBaseShellItem
+        public static T OnDisappearing<T>(this T baseshellitem, Action<object?, EventArgs> disappearingActionWithArgs) where T : IBaseShellItem
         {
             baseshellitem.DisappearingActionWithArgs = disappearingActionWithArgs;
             return baseshellitem;

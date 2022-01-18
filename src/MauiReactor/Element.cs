@@ -16,21 +16,21 @@ namespace MauiReactor
         PropertyValue<string>? ClassId { get; set; }
 
         Action? ChildAddedAction { get; set; }
-        Action<ElementEventArgs>? ChildAddedActionWithArgs { get; set; }
+        Action<object?, ElementEventArgs>? ChildAddedActionWithArgs { get; set; }
         Action? ChildRemovedAction { get; set; }
-        Action<ElementEventArgs>? ChildRemovedActionWithArgs { get; set; }
+        Action<object?, ElementEventArgs>? ChildRemovedActionWithArgs { get; set; }
         Action? DescendantAddedAction { get; set; }
-        Action<ElementEventArgs>? DescendantAddedActionWithArgs { get; set; }
+        Action<object?, ElementEventArgs>? DescendantAddedActionWithArgs { get; set; }
         Action? DescendantRemovedAction { get; set; }
-        Action<ElementEventArgs>? DescendantRemovedActionWithArgs { get; set; }
+        Action<object?, ElementEventArgs>? DescendantRemovedActionWithArgs { get; set; }
         Action? ParentChangingAction { get; set; }
-        Action<ParentChangingEventArgs>? ParentChangingActionWithArgs { get; set; }
+        Action<object?, ParentChangingEventArgs>? ParentChangingActionWithArgs { get; set; }
         Action? ParentChangedAction { get; set; }
-        Action<EventArgs>? ParentChangedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? ParentChangedActionWithArgs { get; set; }
         Action? HandlerChangingAction { get; set; }
-        Action<HandlerChangingEventArgs>? HandlerChangingActionWithArgs { get; set; }
+        Action<object?, HandlerChangingEventArgs>? HandlerChangingActionWithArgs { get; set; }
         Action? HandlerChangedAction { get; set; }
-        Action<EventArgs>? HandlerChangedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? HandlerChangedActionWithArgs { get; set; }
 
     }
     public abstract partial class Element<T> : VisualNode<T>, IElement where T : Microsoft.Maui.Controls.Element, new()
@@ -50,21 +50,21 @@ namespace MauiReactor
         PropertyValue<string>? IElement.ClassId { get; set; }
 
         Action? IElement.ChildAddedAction { get; set; }
-        Action<ElementEventArgs>? IElement.ChildAddedActionWithArgs { get; set; }
+        Action<object?, ElementEventArgs>? IElement.ChildAddedActionWithArgs { get; set; }
         Action? IElement.ChildRemovedAction { get; set; }
-        Action<ElementEventArgs>? IElement.ChildRemovedActionWithArgs { get; set; }
+        Action<object?, ElementEventArgs>? IElement.ChildRemovedActionWithArgs { get; set; }
         Action? IElement.DescendantAddedAction { get; set; }
-        Action<ElementEventArgs>? IElement.DescendantAddedActionWithArgs { get; set; }
+        Action<object?, ElementEventArgs>? IElement.DescendantAddedActionWithArgs { get; set; }
         Action? IElement.DescendantRemovedAction { get; set; }
-        Action<ElementEventArgs>? IElement.DescendantRemovedActionWithArgs { get; set; }
+        Action<object?, ElementEventArgs>? IElement.DescendantRemovedActionWithArgs { get; set; }
         Action? IElement.ParentChangingAction { get; set; }
-        Action<ParentChangingEventArgs>? IElement.ParentChangingActionWithArgs { get; set; }
+        Action<object?, ParentChangingEventArgs>? IElement.ParentChangingActionWithArgs { get; set; }
         Action? IElement.ParentChangedAction { get; set; }
-        Action<EventArgs>? IElement.ParentChangedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? IElement.ParentChangedActionWithArgs { get; set; }
         Action? IElement.HandlerChangingAction { get; set; }
-        Action<HandlerChangingEventArgs>? IElement.HandlerChangingActionWithArgs { get; set; }
+        Action<object?, HandlerChangingEventArgs>? IElement.HandlerChangingActionWithArgs { get; set; }
         Action? IElement.HandlerChangedAction { get; set; }
-        Action<EventArgs>? IElement.HandlerChangedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? IElement.HandlerChangedActionWithArgs { get; set; }
 
         protected override void OnUpdate()
         {
@@ -129,49 +129,49 @@ namespace MauiReactor
         {
             var thisAsIElement = (IElement)this;
             thisAsIElement.ChildAddedAction?.Invoke();
-            thisAsIElement.ChildAddedActionWithArgs?.Invoke(e);
+            thisAsIElement.ChildAddedActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_ChildRemoved(object? sender, ElementEventArgs e)
         {
             var thisAsIElement = (IElement)this;
             thisAsIElement.ChildRemovedAction?.Invoke();
-            thisAsIElement.ChildRemovedActionWithArgs?.Invoke(e);
+            thisAsIElement.ChildRemovedActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_DescendantAdded(object? sender, ElementEventArgs e)
         {
             var thisAsIElement = (IElement)this;
             thisAsIElement.DescendantAddedAction?.Invoke();
-            thisAsIElement.DescendantAddedActionWithArgs?.Invoke(e);
+            thisAsIElement.DescendantAddedActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_DescendantRemoved(object? sender, ElementEventArgs e)
         {
             var thisAsIElement = (IElement)this;
             thisAsIElement.DescendantRemovedAction?.Invoke();
-            thisAsIElement.DescendantRemovedActionWithArgs?.Invoke(e);
+            thisAsIElement.DescendantRemovedActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_ParentChanging(object? sender, ParentChangingEventArgs e)
         {
             var thisAsIElement = (IElement)this;
             thisAsIElement.ParentChangingAction?.Invoke();
-            thisAsIElement.ParentChangingActionWithArgs?.Invoke(e);
+            thisAsIElement.ParentChangingActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_ParentChanged(object? sender, EventArgs e)
         {
             var thisAsIElement = (IElement)this;
             thisAsIElement.ParentChangedAction?.Invoke();
-            thisAsIElement.ParentChangedActionWithArgs?.Invoke(e);
+            thisAsIElement.ParentChangedActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_HandlerChanging(object? sender, HandlerChangingEventArgs e)
         {
             var thisAsIElement = (IElement)this;
             thisAsIElement.HandlerChangingAction?.Invoke();
-            thisAsIElement.HandlerChangingActionWithArgs?.Invoke(e);
+            thisAsIElement.HandlerChangingActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_HandlerChanged(object? sender, EventArgs e)
         {
             var thisAsIElement = (IElement)this;
             thisAsIElement.HandlerChangedAction?.Invoke();
-            thisAsIElement.HandlerChangedActionWithArgs?.Invoke(e);
+            thisAsIElement.HandlerChangedActionWithArgs?.Invoke(sender, e);
         }
 
         protected override void OnDetachNativeEvents()
@@ -229,7 +229,7 @@ namespace MauiReactor
             return element;
         }
 
-        public static T OnChildAdded<T>(this T element, Action<ElementEventArgs> childaddedActionWithArgs) where T : IElement
+        public static T OnChildAdded<T>(this T element, Action<object?, ElementEventArgs> childaddedActionWithArgs) where T : IElement
         {
             element.ChildAddedActionWithArgs = childaddedActionWithArgs;
             return element;
@@ -240,7 +240,7 @@ namespace MauiReactor
             return element;
         }
 
-        public static T OnChildRemoved<T>(this T element, Action<ElementEventArgs> childremovedActionWithArgs) where T : IElement
+        public static T OnChildRemoved<T>(this T element, Action<object?, ElementEventArgs> childremovedActionWithArgs) where T : IElement
         {
             element.ChildRemovedActionWithArgs = childremovedActionWithArgs;
             return element;
@@ -251,7 +251,7 @@ namespace MauiReactor
             return element;
         }
 
-        public static T OnDescendantAdded<T>(this T element, Action<ElementEventArgs> descendantaddedActionWithArgs) where T : IElement
+        public static T OnDescendantAdded<T>(this T element, Action<object?, ElementEventArgs> descendantaddedActionWithArgs) where T : IElement
         {
             element.DescendantAddedActionWithArgs = descendantaddedActionWithArgs;
             return element;
@@ -262,7 +262,7 @@ namespace MauiReactor
             return element;
         }
 
-        public static T OnDescendantRemoved<T>(this T element, Action<ElementEventArgs> descendantremovedActionWithArgs) where T : IElement
+        public static T OnDescendantRemoved<T>(this T element, Action<object?, ElementEventArgs> descendantremovedActionWithArgs) where T : IElement
         {
             element.DescendantRemovedActionWithArgs = descendantremovedActionWithArgs;
             return element;
@@ -273,7 +273,7 @@ namespace MauiReactor
             return element;
         }
 
-        public static T OnParentChanging<T>(this T element, Action<ParentChangingEventArgs> parentchangingActionWithArgs) where T : IElement
+        public static T OnParentChanging<T>(this T element, Action<object?, ParentChangingEventArgs> parentchangingActionWithArgs) where T : IElement
         {
             element.ParentChangingActionWithArgs = parentchangingActionWithArgs;
             return element;
@@ -284,7 +284,7 @@ namespace MauiReactor
             return element;
         }
 
-        public static T OnParentChanged<T>(this T element, Action<EventArgs> parentchangedActionWithArgs) where T : IElement
+        public static T OnParentChanged<T>(this T element, Action<object?, EventArgs> parentchangedActionWithArgs) where T : IElement
         {
             element.ParentChangedActionWithArgs = parentchangedActionWithArgs;
             return element;
@@ -295,7 +295,7 @@ namespace MauiReactor
             return element;
         }
 
-        public static T OnHandlerChanging<T>(this T element, Action<HandlerChangingEventArgs> handlerchangingActionWithArgs) where T : IElement
+        public static T OnHandlerChanging<T>(this T element, Action<object?, HandlerChangingEventArgs> handlerchangingActionWithArgs) where T : IElement
         {
             element.HandlerChangingActionWithArgs = handlerchangingActionWithArgs;
             return element;
@@ -306,7 +306,7 @@ namespace MauiReactor
             return element;
         }
 
-        public static T OnHandlerChanged<T>(this T element, Action<EventArgs> handlerchangedActionWithArgs) where T : IElement
+        public static T OnHandlerChanged<T>(this T element, Action<object?, EventArgs> handlerchangedActionWithArgs) where T : IElement
         {
             element.HandlerChangedActionWithArgs = handlerchangedActionWithArgs;
             return element;

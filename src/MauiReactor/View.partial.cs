@@ -153,5 +153,13 @@ namespace MauiReactor
 
             return view;
         }
+
+        public static T OnTapped<T>(this T view, Action<object?, EventArgs> action) where T : IView
+        {
+            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers.Add(new TapGestureRecognizer(action));
+
+            return view;
+        }
     }
 }

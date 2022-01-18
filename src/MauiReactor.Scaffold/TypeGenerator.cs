@@ -119,7 +119,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("Action { get; set; }\r\n        Action<");
+            this.Write("Action { get; set; }\r\n        Action<object?, ");
             
             #line 38 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
@@ -361,7 +361,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("Action { get; set; }\r\n        Action<");
+            this.Write("Action { get; set; }\r\n        Action<object?, ");
             
             #line 90 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
@@ -605,7 +605,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("ActionWithArgs?.Invoke(e);\r\n        }\r\n        ");
+            this.Write("ActionWithArgs?.Invoke(sender, e);\r\n        }\r\n        ");
             
             #line 139 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
@@ -1619,7 +1619,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(", Action<");
+            this.Write(", Action<object?, ");
             
             #line 275 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));

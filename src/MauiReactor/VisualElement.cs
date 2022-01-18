@@ -40,15 +40,15 @@ namespace MauiReactor
         PropertyValue<Microsoft.Maui.FlowDirection>? FlowDirection { get; set; }
 
         Action? ChildrenReorderedAction { get; set; }
-        Action<EventArgs>? ChildrenReorderedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? ChildrenReorderedActionWithArgs { get; set; }
         Action? FocusedAction { get; set; }
-        Action<FocusEventArgs>? FocusedActionWithArgs { get; set; }
+        Action<object?, FocusEventArgs>? FocusedActionWithArgs { get; set; }
         Action? MeasureInvalidatedAction { get; set; }
-        Action<EventArgs>? MeasureInvalidatedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? MeasureInvalidatedActionWithArgs { get; set; }
         Action? SizeChangedAction { get; set; }
-        Action<EventArgs>? SizeChangedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? SizeChangedActionWithArgs { get; set; }
         Action? UnfocusedAction { get; set; }
-        Action<FocusEventArgs>? UnfocusedActionWithArgs { get; set; }
+        Action<object?, FocusEventArgs>? UnfocusedActionWithArgs { get; set; }
 
     }
     public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualElement where T : Microsoft.Maui.Controls.VisualElement, new()
@@ -92,15 +92,15 @@ namespace MauiReactor
         PropertyValue<Microsoft.Maui.FlowDirection>? IVisualElement.FlowDirection { get; set; }
 
         Action? IVisualElement.ChildrenReorderedAction { get; set; }
-        Action<EventArgs>? IVisualElement.ChildrenReorderedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? IVisualElement.ChildrenReorderedActionWithArgs { get; set; }
         Action? IVisualElement.FocusedAction { get; set; }
-        Action<FocusEventArgs>? IVisualElement.FocusedActionWithArgs { get; set; }
+        Action<object?, FocusEventArgs>? IVisualElement.FocusedActionWithArgs { get; set; }
         Action? IVisualElement.MeasureInvalidatedAction { get; set; }
-        Action<EventArgs>? IVisualElement.MeasureInvalidatedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? IVisualElement.MeasureInvalidatedActionWithArgs { get; set; }
         Action? IVisualElement.SizeChangedAction { get; set; }
-        Action<EventArgs>? IVisualElement.SizeChangedActionWithArgs { get; set; }
+        Action<object?, EventArgs>? IVisualElement.SizeChangedActionWithArgs { get; set; }
         Action? IVisualElement.UnfocusedAction { get; set; }
-        Action<FocusEventArgs>? IVisualElement.UnfocusedActionWithArgs { get; set; }
+        Action<object?, FocusEventArgs>? IVisualElement.UnfocusedActionWithArgs { get; set; }
 
         protected override void OnUpdate()
         {
@@ -177,31 +177,31 @@ namespace MauiReactor
         {
             var thisAsIVisualElement = (IVisualElement)this;
             thisAsIVisualElement.ChildrenReorderedAction?.Invoke();
-            thisAsIVisualElement.ChildrenReorderedActionWithArgs?.Invoke(e);
+            thisAsIVisualElement.ChildrenReorderedActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_Focused(object? sender, FocusEventArgs e)
         {
             var thisAsIVisualElement = (IVisualElement)this;
             thisAsIVisualElement.FocusedAction?.Invoke();
-            thisAsIVisualElement.FocusedActionWithArgs?.Invoke(e);
+            thisAsIVisualElement.FocusedActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_MeasureInvalidated(object? sender, EventArgs e)
         {
             var thisAsIVisualElement = (IVisualElement)this;
             thisAsIVisualElement.MeasureInvalidatedAction?.Invoke();
-            thisAsIVisualElement.MeasureInvalidatedActionWithArgs?.Invoke(e);
+            thisAsIVisualElement.MeasureInvalidatedActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_SizeChanged(object? sender, EventArgs e)
         {
             var thisAsIVisualElement = (IVisualElement)this;
             thisAsIVisualElement.SizeChangedAction?.Invoke();
-            thisAsIVisualElement.SizeChangedActionWithArgs?.Invoke(e);
+            thisAsIVisualElement.SizeChangedActionWithArgs?.Invoke(sender, e);
         }
         private void NativeControl_Unfocused(object? sender, FocusEventArgs e)
         {
             var thisAsIVisualElement = (IVisualElement)this;
             thisAsIVisualElement.UnfocusedAction?.Invoke();
-            thisAsIVisualElement.UnfocusedActionWithArgs?.Invoke(e);
+            thisAsIVisualElement.UnfocusedActionWithArgs?.Invoke(sender, e);
         }
 
         protected override void OnDetachNativeEvents()
@@ -568,7 +568,7 @@ namespace MauiReactor
             return visualelement;
         }
 
-        public static T OnChildrenReordered<T>(this T visualelement, Action<EventArgs> childrenreorderedActionWithArgs) where T : IVisualElement
+        public static T OnChildrenReordered<T>(this T visualelement, Action<object?, EventArgs> childrenreorderedActionWithArgs) where T : IVisualElement
         {
             visualelement.ChildrenReorderedActionWithArgs = childrenreorderedActionWithArgs;
             return visualelement;
@@ -579,7 +579,7 @@ namespace MauiReactor
             return visualelement;
         }
 
-        public static T OnFocused<T>(this T visualelement, Action<FocusEventArgs> focusedActionWithArgs) where T : IVisualElement
+        public static T OnFocused<T>(this T visualelement, Action<object?, FocusEventArgs> focusedActionWithArgs) where T : IVisualElement
         {
             visualelement.FocusedActionWithArgs = focusedActionWithArgs;
             return visualelement;
@@ -590,7 +590,7 @@ namespace MauiReactor
             return visualelement;
         }
 
-        public static T OnMeasureInvalidated<T>(this T visualelement, Action<EventArgs> measureinvalidatedActionWithArgs) where T : IVisualElement
+        public static T OnMeasureInvalidated<T>(this T visualelement, Action<object?, EventArgs> measureinvalidatedActionWithArgs) where T : IVisualElement
         {
             visualelement.MeasureInvalidatedActionWithArgs = measureinvalidatedActionWithArgs;
             return visualelement;
@@ -601,7 +601,7 @@ namespace MauiReactor
             return visualelement;
         }
 
-        public static T OnSizeChanged<T>(this T visualelement, Action<EventArgs> sizechangedActionWithArgs) where T : IVisualElement
+        public static T OnSizeChanged<T>(this T visualelement, Action<object?, EventArgs> sizechangedActionWithArgs) where T : IVisualElement
         {
             visualelement.SizeChangedActionWithArgs = sizechangedActionWithArgs;
             return visualelement;
@@ -612,7 +612,7 @@ namespace MauiReactor
             return visualelement;
         }
 
-        public static T OnUnfocused<T>(this T visualelement, Action<FocusEventArgs> unfocusedActionWithArgs) where T : IVisualElement
+        public static T OnUnfocused<T>(this T visualelement, Action<object?, FocusEventArgs> unfocusedActionWithArgs) where T : IVisualElement
         {
             visualelement.UnfocusedActionWithArgs = unfocusedActionWithArgs;
             return visualelement;
