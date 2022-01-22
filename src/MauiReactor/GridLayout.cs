@@ -71,28 +71,32 @@ namespace MauiReactor
 
     public static partial class GridLayoutExtensions
     {
-        public static T RowSpacing<T>(this T gridlayout, double rowSpacing) where T : IGridLayout
+        public static T RowSpacing<T>(this T gridLayout, double rowSpacing, RxDoubleAnimation? customAnimation = null) where T : IGridLayout
         {
-            gridlayout.RowSpacing = new PropertyValue<double>(rowSpacing);
-            return gridlayout;
+            gridLayout.RowSpacing = new PropertyValue<double>(rowSpacing);
+            gridLayout.AppendAnimatable(Microsoft.Maui.Controls.GridLayout.RowSpacingProperty, customAnimation ?? new RxDoubleAnimation(rowSpacing), v => gridLayout.RowSpacing = new PropertyValue<double>(v.CurrentValue()));
+            return gridLayout;
         }
-        public static T RowSpacing<T>(this T gridlayout, Func<double> rowSpacingFunc) where T : IGridLayout
+
+        public static T RowSpacing<T>(this T gridLayout, Func<double> rowSpacingFunc) where T : IGridLayout
         {
-            gridlayout.RowSpacing = new PropertyValue<double>(rowSpacingFunc);
-            return gridlayout;
+            gridLayout.RowSpacing = new PropertyValue<double>(rowSpacingFunc);
+            return gridLayout;
         }
 
 
 
-        public static T ColumnSpacing<T>(this T gridlayout, double columnSpacing) where T : IGridLayout
+        public static T ColumnSpacing<T>(this T gridLayout, double columnSpacing, RxDoubleAnimation? customAnimation = null) where T : IGridLayout
         {
-            gridlayout.ColumnSpacing = new PropertyValue<double>(columnSpacing);
-            return gridlayout;
+            gridLayout.ColumnSpacing = new PropertyValue<double>(columnSpacing);
+            gridLayout.AppendAnimatable(Microsoft.Maui.Controls.GridLayout.ColumnSpacingProperty, customAnimation ?? new RxDoubleAnimation(columnSpacing), v => gridLayout.ColumnSpacing = new PropertyValue<double>(v.CurrentValue()));
+            return gridLayout;
         }
-        public static T ColumnSpacing<T>(this T gridlayout, Func<double> columnSpacingFunc) where T : IGridLayout
+
+        public static T ColumnSpacing<T>(this T gridLayout, Func<double> columnSpacingFunc) where T : IGridLayout
         {
-            gridlayout.ColumnSpacing = new PropertyValue<double>(columnSpacingFunc);
-            return gridlayout;
+            gridLayout.ColumnSpacing = new PropertyValue<double>(columnSpacingFunc);
+            return gridLayout;
         }
 
 

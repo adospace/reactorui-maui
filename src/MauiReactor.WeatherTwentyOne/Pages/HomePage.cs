@@ -11,7 +11,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
     {
         public override VisualNode Render()
         {
-            return new ContentPage(title: "HomePage")
+            return new ContentPage(title: "Redmond, WA")
             {
                 new Grid(
                     rows: "*",
@@ -33,7 +33,8 @@ namespace MauiReactor.WeatherTwentyOne.Pages
                     Device.Idiom != TargetIdiom.Phone ? 
                         new FlexLayout
                         { 
-                            new CurrentWidget(),
+                            new CurrentWidget()
+                                .Width(200),
 
                             new WindLiveWidget(),
                         }

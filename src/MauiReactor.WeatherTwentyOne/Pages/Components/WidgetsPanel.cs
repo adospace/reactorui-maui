@@ -30,7 +30,15 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
         {
             return new Grid("*", "1,*")
             {
+                new BoxView()
+                    .BackgroundColor(ThemeColors.Background_Mid)
+                    .WidthRequest(1)
+                    .HStart(),
+
                 new CollectionView()
+                    .ItemsLayout(new VerticalGridItemsLayout(span: 3)
+                        .HorizontalItemSpacing(8)
+                        .VerticalItemSpacing(8))
                     .ItemsSource(State.Metrics, RenderMetric)
                     .GridColumn(1)
                     .Margin(5)
@@ -71,7 +79,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
             .Padding(0)
             .CornerRadius(20)
             .HasShadow(false)
-            .BackgroundColor(ThemeColors.Background_Mid);
+            .BackgroundColor(Application.Current?.RequestedTheme == OSAppTheme.Dark ? ThemeColors.Background_Mid : ThemeColors.LightGray);
         }
 
         async void OnTapped(object? sender, EventArgs eventArgs)

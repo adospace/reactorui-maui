@@ -39,7 +39,7 @@ namespace MauiReactor.Animations
             var easingValue = easing.Ease(elapsedTime / duration);
 
             var v = StartValue.Value + (TargetValue - StartValue.Value) * easingValue;
-            //System.Diagnostics.Debug.WriteLine($"easingValue={easingValue} currentValue={v}");
+            System.Diagnostics.Debug.WriteLine($"easingValue={easingValue} currentValue={v}");
             return v;
         }
 

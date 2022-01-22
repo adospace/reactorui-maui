@@ -55,15 +55,17 @@ namespace MauiReactor
 
     public static partial class StackBaseExtensions
     {
-        public static T Spacing<T>(this T stackbase, double spacing) where T : IStackBase
+        public static T Spacing<T>(this T stackBase, double spacing, RxDoubleAnimation? customAnimation = null) where T : IStackBase
         {
-            stackbase.Spacing = new PropertyValue<double>(spacing);
-            return stackbase;
+            stackBase.Spacing = new PropertyValue<double>(spacing);
+            stackBase.AppendAnimatable(Microsoft.Maui.Controls.StackBase.SpacingProperty, customAnimation ?? new RxDoubleAnimation(spacing), v => stackBase.Spacing = new PropertyValue<double>(v.CurrentValue()));
+            return stackBase;
         }
-        public static T Spacing<T>(this T stackbase, Func<double> spacingFunc) where T : IStackBase
+
+        public static T Spacing<T>(this T stackBase, Func<double> spacingFunc) where T : IStackBase
         {
-            stackbase.Spacing = new PropertyValue<double>(spacingFunc);
-            return stackbase;
+            stackBase.Spacing = new PropertyValue<double>(spacingFunc);
+            return stackBase;
         }
 
 

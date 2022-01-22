@@ -121,6 +121,7 @@ namespace MauiReactor
             label.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignment);
             return label;
         }
+
         public static T HorizontalTextAlignment<T>(this T label, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc) where T : ILabel
         {
             label.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
@@ -134,6 +135,7 @@ namespace MauiReactor
             label.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignment);
             return label;
         }
+
         public static T VerticalTextAlignment<T>(this T label, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc) where T : ILabel
         {
             label.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
@@ -147,6 +149,7 @@ namespace MauiReactor
             label.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColor);
             return label;
         }
+
         public static T TextColor<T>(this T label, Func<Microsoft.Maui.Graphics.Color> textColorFunc) where T : ILabel
         {
             label.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
@@ -155,11 +158,13 @@ namespace MauiReactor
 
 
 
-        public static T CharacterSpacing<T>(this T label, double characterSpacing) where T : ILabel
+        public static T CharacterSpacing<T>(this T label, double characterSpacing, RxDoubleAnimation? customAnimation = null) where T : ILabel
         {
             label.CharacterSpacing = new PropertyValue<double>(characterSpacing);
+            label.AppendAnimatable(Microsoft.Maui.Controls.Label.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => label.CharacterSpacing = new PropertyValue<double>(v.CurrentValue()));
             return label;
         }
+
         public static T CharacterSpacing<T>(this T label, Func<double> characterSpacingFunc) where T : ILabel
         {
             label.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
@@ -173,6 +178,7 @@ namespace MauiReactor
             label.Text = new PropertyValue<string>(text);
             return label;
         }
+
         public static T Text<T>(this T label, Func<string> textFunc) where T : ILabel
         {
             label.Text = new PropertyValue<string>(textFunc);
@@ -186,6 +192,7 @@ namespace MauiReactor
             label.FontFamily = new PropertyValue<string>(fontFamily);
             return label;
         }
+
         public static T FontFamily<T>(this T label, Func<string> fontFamilyFunc) where T : ILabel
         {
             label.FontFamily = new PropertyValue<string>(fontFamilyFunc);
@@ -194,11 +201,13 @@ namespace MauiReactor
 
 
 
-        public static T FontSize<T>(this T label, double fontSize) where T : ILabel
+        public static T FontSize<T>(this T label, double fontSize, RxDoubleAnimation? customAnimation = null) where T : ILabel
         {
             label.FontSize = new PropertyValue<double>(fontSize);
+            label.AppendAnimatable(Microsoft.Maui.Controls.Label.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => label.FontSize = new PropertyValue<double>(v.CurrentValue()));
             return label;
         }
+
         public static T FontSize<T>(this T label, Func<double> fontSizeFunc) where T : ILabel
         {
             label.FontSize = new PropertyValue<double>(fontSizeFunc);
@@ -217,6 +226,7 @@ namespace MauiReactor
             label.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributes);
             return label;
         }
+
         public static T FontAttributes<T>(this T label, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc) where T : ILabel
         {
             label.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
@@ -230,6 +240,7 @@ namespace MauiReactor
             label.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabled);
             return label;
         }
+
         public static T FontAutoScalingEnabled<T>(this T label, Func<bool> fontAutoScalingEnabledFunc) where T : ILabel
         {
             label.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
@@ -243,6 +254,7 @@ namespace MauiReactor
             label.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransform);
             return label;
         }
+
         public static T TextTransform<T>(this T label, Func<Microsoft.Maui.TextTransform> textTransformFunc) where T : ILabel
         {
             label.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc);
@@ -256,6 +268,7 @@ namespace MauiReactor
             label.TextDecorations = new PropertyValue<Microsoft.Maui.TextDecorations>(textDecorations);
             return label;
         }
+
         public static T TextDecorations<T>(this T label, Func<Microsoft.Maui.TextDecorations> textDecorationsFunc) where T : ILabel
         {
             label.TextDecorations = new PropertyValue<Microsoft.Maui.TextDecorations>(textDecorationsFunc);
@@ -269,6 +282,7 @@ namespace MauiReactor
             label.FormattedText = new PropertyValue<Microsoft.Maui.Controls.FormattedString>(formattedText);
             return label;
         }
+
         public static T FormattedText<T>(this T label, Func<Microsoft.Maui.Controls.FormattedString> formattedTextFunc) where T : ILabel
         {
             label.FormattedText = new PropertyValue<Microsoft.Maui.Controls.FormattedString>(formattedTextFunc);
@@ -282,6 +296,7 @@ namespace MauiReactor
             label.LineBreakMode = new PropertyValue<Microsoft.Maui.LineBreakMode>(lineBreakMode);
             return label;
         }
+
         public static T LineBreakMode<T>(this T label, Func<Microsoft.Maui.LineBreakMode> lineBreakModeFunc) where T : ILabel
         {
             label.LineBreakMode = new PropertyValue<Microsoft.Maui.LineBreakMode>(lineBreakModeFunc);
@@ -290,11 +305,13 @@ namespace MauiReactor
 
 
 
-        public static T LineHeight<T>(this T label, double lineHeight) where T : ILabel
+        public static T LineHeight<T>(this T label, double lineHeight, RxDoubleAnimation? customAnimation = null) where T : ILabel
         {
             label.LineHeight = new PropertyValue<double>(lineHeight);
+            label.AppendAnimatable(Microsoft.Maui.Controls.Label.LineHeightProperty, customAnimation ?? new RxDoubleAnimation(lineHeight), v => label.LineHeight = new PropertyValue<double>(v.CurrentValue()));
             return label;
         }
+
         public static T LineHeight<T>(this T label, Func<double> lineHeightFunc) where T : ILabel
         {
             label.LineHeight = new PropertyValue<double>(lineHeightFunc);
@@ -308,6 +325,7 @@ namespace MauiReactor
             label.MaxLines = new PropertyValue<int>(maxLines);
             return label;
         }
+
         public static T MaxLines<T>(this T label, Func<int> maxLinesFunc) where T : ILabel
         {
             label.MaxLines = new PropertyValue<int>(maxLinesFunc);
@@ -321,6 +339,7 @@ namespace MauiReactor
             label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
             return label;
         }
+
         public static T Padding<T>(this T label, Func<Microsoft.Maui.Thickness> paddingFunc) where T : ILabel
         {
             label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
@@ -344,6 +363,7 @@ namespace MauiReactor
             label.TextType = new PropertyValue<Microsoft.Maui.TextType>(textType);
             return label;
         }
+
         public static T TextType<T>(this T label, Func<Microsoft.Maui.TextType> textTypeFunc) where T : ILabel
         {
             label.TextType = new PropertyValue<Microsoft.Maui.TextType>(textTypeFunc);

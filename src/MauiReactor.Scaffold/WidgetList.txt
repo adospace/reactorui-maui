@@ -43,4 +43,11 @@ Microsoft.Maui.Controls.ItemsView
 Microsoft.Maui.Controls.ContentView
 Microsoft.Maui.Controls.Frame
 Microsoft.Maui.Controls.TemplatedView
+Microsoft.Maui.Controls.ItemsLayout
+Microsoft.Maui.Controls.GridItemsLayout
+Microsoft.Maui.Controls.LinearItemsLayout
+Microsoft.Maui.Controls.ImageButton
+Microsoft.Maui.Controls.WebView
+Microsoft.Maui.Controls.Switch
+
 

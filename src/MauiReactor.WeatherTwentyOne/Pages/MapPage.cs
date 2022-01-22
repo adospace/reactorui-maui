@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MauiReactor.WeatherTwentyOne.Pages.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,25 @@ namespace MauiReactor.WeatherTwentyOne.Pages
     {
         public override VisualNode Render()
         {
-            return new ContentPage(title: "MapPage")
+            return new ContentPage(title: "Wind Map")
             {
-                new Label("MapPage")
+                Device.Idiom == TargetIdiom.Phone ?
+                RenderPhoneLayout()
+                :
+                RenderDesktopLayout()
             };
         }
+
+        static VisualNode RenderPhoneLayout()
+            => new WebView("https://embed.windy.com");
+
+        static VisualNode RenderDesktopLayout()
+            => new Grid("*", "*,480")
+            {
+                new WebView("https://embed.windy.com"),
+
+                new WidgetsPanel()
+                    .GridColumn(1)
+            };
     }
 }

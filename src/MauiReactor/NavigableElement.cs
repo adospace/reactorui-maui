@@ -55,15 +55,16 @@ namespace MauiReactor
 
     public static partial class NavigableElementExtensions
     {
-        public static T Style<T>(this T navigableelement, Microsoft.Maui.Controls.Style style) where T : INavigableElement
+        public static T Style<T>(this T navigableElement, Microsoft.Maui.Controls.Style style) where T : INavigableElement
         {
-            navigableelement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(style);
-            return navigableelement;
+            navigableElement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(style);
+            return navigableElement;
         }
-        public static T Style<T>(this T navigableelement, Func<Microsoft.Maui.Controls.Style> styleFunc) where T : INavigableElement
+
+        public static T Style<T>(this T navigableElement, Func<Microsoft.Maui.Controls.Style> styleFunc) where T : INavigableElement
         {
-            navigableelement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc);
-            return navigableelement;
+            navigableElement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc);
+            return navigableElement;
         }
 
 

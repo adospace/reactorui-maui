@@ -79,6 +79,7 @@ namespace MauiReactor
             frame.BorderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColor);
             return frame;
         }
+
         public static T BorderColor<T>(this T frame, Func<Microsoft.Maui.Graphics.Color> borderColorFunc) where T : IFrame
         {
             frame.BorderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc);
@@ -92,6 +93,7 @@ namespace MauiReactor
             frame.HasShadow = new PropertyValue<bool>(hasShadow);
             return frame;
         }
+
         public static T HasShadow<T>(this T frame, Func<bool> hasShadowFunc) where T : IFrame
         {
             frame.HasShadow = new PropertyValue<bool>(hasShadowFunc);
@@ -105,6 +107,7 @@ namespace MauiReactor
             frame.CornerRadius = new PropertyValue<float>(cornerRadius);
             return frame;
         }
+
         public static T CornerRadius<T>(this T frame, Func<float> cornerRadiusFunc) where T : IFrame
         {
             frame.CornerRadius = new PropertyValue<float>(cornerRadiusFunc);

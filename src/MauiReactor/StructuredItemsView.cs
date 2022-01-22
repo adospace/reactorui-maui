@@ -12,9 +12,6 @@ namespace MauiReactor
 {
     public partial interface IStructuredItemsView : IItemsView
     {
-        PropertyValue<object>? Header { get; set; }
-        PropertyValue<object>? Footer { get; set; }
-        PropertyValue<Microsoft.Maui.Controls.IItemsLayout>? ItemsLayout { get; set; }
         PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>? ItemSizingStrategy { get; set; }
 
 
@@ -32,9 +29,6 @@ namespace MauiReactor
 
         }
 
-        PropertyValue<object>? IStructuredItemsView.Header { get; set; }
-        PropertyValue<object>? IStructuredItemsView.Footer { get; set; }
-        PropertyValue<Microsoft.Maui.Controls.IItemsLayout>? IStructuredItemsView.ItemsLayout { get; set; }
         PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>? IStructuredItemsView.ItemSizingStrategy { get; set; }
 
 
@@ -44,9 +38,6 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIStructuredItemsView = (IStructuredItemsView)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.StructuredItemsView.HeaderProperty, thisAsIStructuredItemsView.Header);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.StructuredItemsView.FooterProperty, thisAsIStructuredItemsView.Footer);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.StructuredItemsView.ItemsLayoutProperty, thisAsIStructuredItemsView.ItemsLayout);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.StructuredItemsView.ItemSizingStrategyProperty, thisAsIStructuredItemsView.ItemSizingStrategy);
 
 
@@ -77,54 +68,16 @@ namespace MauiReactor
 
     public static partial class StructuredItemsViewExtensions
     {
-        public static T Header<T>(this T structureditemsview, object header) where T : IStructuredItemsView
+        public static T ItemSizingStrategy<T>(this T structuredItemsView, Microsoft.Maui.Controls.ItemSizingStrategy itemSizingStrategy) where T : IStructuredItemsView
         {
-            structureditemsview.Header = new PropertyValue<object>(header);
-            return structureditemsview;
-        }
-        public static T Header<T>(this T structureditemsview, Func<object> headerFunc) where T : IStructuredItemsView
-        {
-            structureditemsview.Header = new PropertyValue<object>(headerFunc);
-            return structureditemsview;
+            structuredItemsView.ItemSizingStrategy = new PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>(itemSizingStrategy);
+            return structuredItemsView;
         }
 
-
-
-        public static T Footer<T>(this T structureditemsview, object footer) where T : IStructuredItemsView
+        public static T ItemSizingStrategy<T>(this T structuredItemsView, Func<Microsoft.Maui.Controls.ItemSizingStrategy> itemSizingStrategyFunc) where T : IStructuredItemsView
         {
-            structureditemsview.Footer = new PropertyValue<object>(footer);
-            return structureditemsview;
-        }
-        public static T Footer<T>(this T structureditemsview, Func<object> footerFunc) where T : IStructuredItemsView
-        {
-            structureditemsview.Footer = new PropertyValue<object>(footerFunc);
-            return structureditemsview;
-        }
-
-
-
-        public static T ItemsLayout<T>(this T structureditemsview, Microsoft.Maui.Controls.IItemsLayout itemsLayout) where T : IStructuredItemsView
-        {
-            structureditemsview.ItemsLayout = new PropertyValue<Microsoft.Maui.Controls.IItemsLayout>(itemsLayout);
-            return structureditemsview;
-        }
-        public static T ItemsLayout<T>(this T structureditemsview, Func<Microsoft.Maui.Controls.IItemsLayout> itemsLayoutFunc) where T : IStructuredItemsView
-        {
-            structureditemsview.ItemsLayout = new PropertyValue<Microsoft.Maui.Controls.IItemsLayout>(itemsLayoutFunc);
-            return structureditemsview;
-        }
-
-
-
-        public static T ItemSizingStrategy<T>(this T structureditemsview, Microsoft.Maui.Controls.ItemSizingStrategy itemSizingStrategy) where T : IStructuredItemsView
-        {
-            structureditemsview.ItemSizingStrategy = new PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>(itemSizingStrategy);
-            return structureditemsview;
-        }
-        public static T ItemSizingStrategy<T>(this T structureditemsview, Func<Microsoft.Maui.Controls.ItemSizingStrategy> itemSizingStrategyFunc) where T : IStructuredItemsView
-        {
-            structureditemsview.ItemSizingStrategy = new PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>(itemSizingStrategyFunc);
-            return structureditemsview;
+            structuredItemsView.ItemSizingStrategy = new PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>(itemSizingStrategyFunc);
+            return structuredItemsView;
         }
 
 

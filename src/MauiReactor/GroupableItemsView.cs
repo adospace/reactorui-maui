@@ -68,15 +68,16 @@ namespace MauiReactor
 
     public static partial class GroupableItemsViewExtensions
     {
-        public static T IsGrouped<T>(this T groupableitemsview, bool isGrouped) where T : IGroupableItemsView
+        public static T IsGrouped<T>(this T groupableItemsView, bool isGrouped) where T : IGroupableItemsView
         {
-            groupableitemsview.IsGrouped = new PropertyValue<bool>(isGrouped);
-            return groupableitemsview;
+            groupableItemsView.IsGrouped = new PropertyValue<bool>(isGrouped);
+            return groupableItemsView;
         }
-        public static T IsGrouped<T>(this T groupableitemsview, Func<bool> isGroupedFunc) where T : IGroupableItemsView
+
+        public static T IsGrouped<T>(this T groupableItemsView, Func<bool> isGroupedFunc) where T : IGroupableItemsView
         {
-            groupableitemsview.IsGrouped = new PropertyValue<bool>(isGroupedFunc);
-            return groupableitemsview;
+            groupableItemsView.IsGrouped = new PropertyValue<bool>(isGroupedFunc);
+            return groupableItemsView;
         }
 
 

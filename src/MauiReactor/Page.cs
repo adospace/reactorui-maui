@@ -193,6 +193,7 @@ namespace MauiReactor
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(backgroundImageSource);
             return page;
         }
+
         public static T BackgroundImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> backgroundImageSourceFunc) where T : IPage
         {
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(backgroundImageSourceFunc);
@@ -241,6 +242,7 @@ namespace MauiReactor
             page.IsBusy = new PropertyValue<bool>(isBusy);
             return page;
         }
+
         public static T IsBusy<T>(this T page, Func<bool> isBusyFunc) where T : IPage
         {
             page.IsBusy = new PropertyValue<bool>(isBusyFunc);
@@ -254,6 +256,7 @@ namespace MauiReactor
             page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
             return page;
         }
+
         public static T Padding<T>(this T page, Func<Microsoft.Maui.Thickness> paddingFunc) where T : IPage
         {
             page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
@@ -277,6 +280,7 @@ namespace MauiReactor
             page.Title = new PropertyValue<string>(title);
             return page;
         }
+
         public static T Title<T>(this T page, Func<string> titleFunc) where T : IPage
         {
             page.Title = new PropertyValue<string>(titleFunc);
@@ -290,6 +294,7 @@ namespace MauiReactor
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSource);
             return page;
         }
+
         public static T IconImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> iconImageSourceFunc) where T : IPage
         {
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc);
@@ -334,48 +339,48 @@ namespace MauiReactor
         }
 
 
-        public static T OnNavigatedTo<T>(this T page, Action navigatedtoAction) where T : IPage
+        public static T OnNavigatedTo<T>(this T page, Action navigatedToAction) where T : IPage
         {
-            page.NavigatedToAction = navigatedtoAction;
+            page.NavigatedToAction = navigatedToAction;
             return page;
         }
 
-        public static T OnNavigatedTo<T>(this T page, Action<object?, NavigatedToEventArgs> navigatedtoActionWithArgs) where T : IPage
+        public static T OnNavigatedTo<T>(this T page, Action<object?, NavigatedToEventArgs> navigatedToActionWithArgs) where T : IPage
         {
-            page.NavigatedToActionWithArgs = navigatedtoActionWithArgs;
+            page.NavigatedToActionWithArgs = navigatedToActionWithArgs;
             return page;
         }
-        public static T OnNavigatingFrom<T>(this T page, Action navigatingfromAction) where T : IPage
+        public static T OnNavigatingFrom<T>(this T page, Action navigatingFromAction) where T : IPage
         {
-            page.NavigatingFromAction = navigatingfromAction;
-            return page;
-        }
-
-        public static T OnNavigatingFrom<T>(this T page, Action<object?, NavigatingFromEventArgs> navigatingfromActionWithArgs) where T : IPage
-        {
-            page.NavigatingFromActionWithArgs = navigatingfromActionWithArgs;
-            return page;
-        }
-        public static T OnNavigatedFrom<T>(this T page, Action navigatedfromAction) where T : IPage
-        {
-            page.NavigatedFromAction = navigatedfromAction;
+            page.NavigatingFromAction = navigatingFromAction;
             return page;
         }
 
-        public static T OnNavigatedFrom<T>(this T page, Action<object?, NavigatedFromEventArgs> navigatedfromActionWithArgs) where T : IPage
+        public static T OnNavigatingFrom<T>(this T page, Action<object?, NavigatingFromEventArgs> navigatingFromActionWithArgs) where T : IPage
         {
-            page.NavigatedFromActionWithArgs = navigatedfromActionWithArgs;
+            page.NavigatingFromActionWithArgs = navigatingFromActionWithArgs;
             return page;
         }
-        public static T OnLayoutChanged<T>(this T page, Action layoutchangedAction) where T : IPage
+        public static T OnNavigatedFrom<T>(this T page, Action navigatedFromAction) where T : IPage
         {
-            page.LayoutChangedAction = layoutchangedAction;
+            page.NavigatedFromAction = navigatedFromAction;
             return page;
         }
 
-        public static T OnLayoutChanged<T>(this T page, Action<object?, EventArgs> layoutchangedActionWithArgs) where T : IPage
+        public static T OnNavigatedFrom<T>(this T page, Action<object?, NavigatedFromEventArgs> navigatedFromActionWithArgs) where T : IPage
         {
-            page.LayoutChangedActionWithArgs = layoutchangedActionWithArgs;
+            page.NavigatedFromActionWithArgs = navigatedFromActionWithArgs;
+            return page;
+        }
+        public static T OnLayoutChanged<T>(this T page, Action layoutChangedAction) where T : IPage
+        {
+            page.LayoutChangedAction = layoutChangedAction;
+            return page;
+        }
+
+        public static T OnLayoutChanged<T>(this T page, Action<object?, EventArgs> layoutChangedActionWithArgs) where T : IPage
+        {
+            page.LayoutChangedActionWithArgs = layoutChangedActionWithArgs;
             return page;
         }
         public static T OnAppearing<T>(this T page, Action appearingAction) where T : IPage

@@ -82,6 +82,17 @@ namespace MauiReactor
 
     public static class TimerExtensions
     {
+        public static T IsEnabled<T>(this T timer, bool isEnabled) where T : ITimer
+        {
+            timer.IsEnabled = new PropertyValue<bool>(isEnabled);
+            return timer;
+        }
+        public static T IsEnabled<T>(this T timer, Func<bool> isEnabledFunc) where T : ITimer
+        {
+            timer.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
+            return timer;
+        }
+
         public static T Interval<T>(this T timer, int interval) where T : ITimer
         {
             timer.Interval = new PropertyValue<TimeSpan>(TimeSpan.FromMilliseconds(interval));
@@ -180,7 +191,7 @@ namespace MauiReactor.Internals
 
         private void OnTick(object? sender, System.Timers.ElapsedEventArgs e)
         {
-            Tick?.Invoke(this, e);
+            Dispatcher.Dispatch(() => Tick?.Invoke(this, e));
         }
     }
 }

@@ -99,6 +99,7 @@ namespace MauiReactor.Compatibility
             layout.IsClippedToBounds = new PropertyValue<bool>(isClippedToBounds);
             return layout;
         }
+
         public static T IsClippedToBounds<T>(this T layout, Func<bool> isClippedToBoundsFunc) where T : ILayout
         {
             layout.IsClippedToBounds = new PropertyValue<bool>(isClippedToBoundsFunc);
@@ -112,6 +113,7 @@ namespace MauiReactor.Compatibility
             layout.CascadeInputTransparent = new PropertyValue<bool>(cascadeInputTransparent);
             return layout;
         }
+
         public static T CascadeInputTransparent<T>(this T layout, Func<bool> cascadeInputTransparentFunc) where T : ILayout
         {
             layout.CascadeInputTransparent = new PropertyValue<bool>(cascadeInputTransparentFunc);
@@ -125,6 +127,7 @@ namespace MauiReactor.Compatibility
             layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
             return layout;
         }
+
         public static T Padding<T>(this T layout, Func<Microsoft.Maui.Thickness> paddingFunc) where T : ILayout
         {
             layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
@@ -144,15 +147,15 @@ namespace MauiReactor.Compatibility
 
 
 
-        public static T OnLayoutChanged<T>(this T layout, Action layoutchangedAction) where T : ILayout
+        public static T OnLayoutChanged<T>(this T layout, Action layoutChangedAction) where T : ILayout
         {
-            layout.LayoutChangedAction = layoutchangedAction;
+            layout.LayoutChangedAction = layoutChangedAction;
             return layout;
         }
 
-        public static T OnLayoutChanged<T>(this T layout, Action<object?, EventArgs> layoutchangedActionWithArgs) where T : ILayout
+        public static T OnLayoutChanged<T>(this T layout, Action<object?, EventArgs> layoutChangedActionWithArgs) where T : ILayout
         {
-            layout.LayoutChangedActionWithArgs = layoutchangedActionWithArgs;
+            layout.LayoutChangedActionWithArgs = layoutChangedActionWithArgs;
             return layout;
         }
     }

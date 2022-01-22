@@ -143,7 +143,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
                 new BoxView()
                     .WidthRequest(1)
                     .HeightRequest(1)
-                    .Margin(Next7DWidget.GetMaxTempOffset(forecast)),
+                    .Margin(GetMaxTempOffset(forecast)),
 
                 new Label($"{forecast.Temperature.Maximum.Value:F0}°")
                     .Class("Subhead")
@@ -152,7 +152,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
 
                 new BoxView()
                     .BackgroundColor(ThemeColors.Accent_Blue100)
-                    .HeightRequest(forecast.Temperature.Maximum.Value - forecast.Temperature.Minimum.Value)
+                    .HeightRequest((forecast.Temperature.Maximum.Value - forecast.Temperature.Minimum.Value)*3)
                     .WidthRequest(10)
                     .CornerRadius(5)
                     .HCenter(),

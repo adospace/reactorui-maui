@@ -83,80 +83,86 @@ namespace MauiReactor
 
     public static partial class FlexLayoutExtensions
     {
-        public static T Direction<T>(this T flexlayout, Microsoft.Maui.Layouts.FlexDirection direction) where T : IFlexLayout
+        public static T Direction<T>(this T flexLayout, Microsoft.Maui.Layouts.FlexDirection direction) where T : IFlexLayout
         {
-            flexlayout.Direction = new PropertyValue<Microsoft.Maui.Layouts.FlexDirection>(direction);
-            return flexlayout;
-        }
-        public static T Direction<T>(this T flexlayout, Func<Microsoft.Maui.Layouts.FlexDirection> directionFunc) where T : IFlexLayout
-        {
-            flexlayout.Direction = new PropertyValue<Microsoft.Maui.Layouts.FlexDirection>(directionFunc);
-            return flexlayout;
+            flexLayout.Direction = new PropertyValue<Microsoft.Maui.Layouts.FlexDirection>(direction);
+            return flexLayout;
         }
 
-
-
-        public static T JustifyContent<T>(this T flexlayout, Microsoft.Maui.Layouts.FlexJustify justifyContent) where T : IFlexLayout
+        public static T Direction<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexDirection> directionFunc) where T : IFlexLayout
         {
-            flexlayout.JustifyContent = new PropertyValue<Microsoft.Maui.Layouts.FlexJustify>(justifyContent);
-            return flexlayout;
-        }
-        public static T JustifyContent<T>(this T flexlayout, Func<Microsoft.Maui.Layouts.FlexJustify> justifyContentFunc) where T : IFlexLayout
-        {
-            flexlayout.JustifyContent = new PropertyValue<Microsoft.Maui.Layouts.FlexJustify>(justifyContentFunc);
-            return flexlayout;
+            flexLayout.Direction = new PropertyValue<Microsoft.Maui.Layouts.FlexDirection>(directionFunc);
+            return flexLayout;
         }
 
 
 
-        public static T AlignContent<T>(this T flexlayout, Microsoft.Maui.Layouts.FlexAlignContent alignContent) where T : IFlexLayout
+        public static T JustifyContent<T>(this T flexLayout, Microsoft.Maui.Layouts.FlexJustify justifyContent) where T : IFlexLayout
         {
-            flexlayout.AlignContent = new PropertyValue<Microsoft.Maui.Layouts.FlexAlignContent>(alignContent);
-            return flexlayout;
-        }
-        public static T AlignContent<T>(this T flexlayout, Func<Microsoft.Maui.Layouts.FlexAlignContent> alignContentFunc) where T : IFlexLayout
-        {
-            flexlayout.AlignContent = new PropertyValue<Microsoft.Maui.Layouts.FlexAlignContent>(alignContentFunc);
-            return flexlayout;
+            flexLayout.JustifyContent = new PropertyValue<Microsoft.Maui.Layouts.FlexJustify>(justifyContent);
+            return flexLayout;
         }
 
-
-
-        public static T AlignItems<T>(this T flexlayout, Microsoft.Maui.Layouts.FlexAlignItems alignItems) where T : IFlexLayout
+        public static T JustifyContent<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexJustify> justifyContentFunc) where T : IFlexLayout
         {
-            flexlayout.AlignItems = new PropertyValue<Microsoft.Maui.Layouts.FlexAlignItems>(alignItems);
-            return flexlayout;
-        }
-        public static T AlignItems<T>(this T flexlayout, Func<Microsoft.Maui.Layouts.FlexAlignItems> alignItemsFunc) where T : IFlexLayout
-        {
-            flexlayout.AlignItems = new PropertyValue<Microsoft.Maui.Layouts.FlexAlignItems>(alignItemsFunc);
-            return flexlayout;
+            flexLayout.JustifyContent = new PropertyValue<Microsoft.Maui.Layouts.FlexJustify>(justifyContentFunc);
+            return flexLayout;
         }
 
 
 
-        public static T Position<T>(this T flexlayout, Microsoft.Maui.Layouts.FlexPosition position) where T : IFlexLayout
+        public static T AlignContent<T>(this T flexLayout, Microsoft.Maui.Layouts.FlexAlignContent alignContent) where T : IFlexLayout
         {
-            flexlayout.Position = new PropertyValue<Microsoft.Maui.Layouts.FlexPosition>(position);
-            return flexlayout;
+            flexLayout.AlignContent = new PropertyValue<Microsoft.Maui.Layouts.FlexAlignContent>(alignContent);
+            return flexLayout;
         }
-        public static T Position<T>(this T flexlayout, Func<Microsoft.Maui.Layouts.FlexPosition> positionFunc) where T : IFlexLayout
+
+        public static T AlignContent<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexAlignContent> alignContentFunc) where T : IFlexLayout
         {
-            flexlayout.Position = new PropertyValue<Microsoft.Maui.Layouts.FlexPosition>(positionFunc);
-            return flexlayout;
+            flexLayout.AlignContent = new PropertyValue<Microsoft.Maui.Layouts.FlexAlignContent>(alignContentFunc);
+            return flexLayout;
         }
 
 
 
-        public static T Wrap<T>(this T flexlayout, Microsoft.Maui.Layouts.FlexWrap wrap) where T : IFlexLayout
+        public static T AlignItems<T>(this T flexLayout, Microsoft.Maui.Layouts.FlexAlignItems alignItems) where T : IFlexLayout
         {
-            flexlayout.Wrap = new PropertyValue<Microsoft.Maui.Layouts.FlexWrap>(wrap);
-            return flexlayout;
+            flexLayout.AlignItems = new PropertyValue<Microsoft.Maui.Layouts.FlexAlignItems>(alignItems);
+            return flexLayout;
         }
-        public static T Wrap<T>(this T flexlayout, Func<Microsoft.Maui.Layouts.FlexWrap> wrapFunc) where T : IFlexLayout
+
+        public static T AlignItems<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexAlignItems> alignItemsFunc) where T : IFlexLayout
         {
-            flexlayout.Wrap = new PropertyValue<Microsoft.Maui.Layouts.FlexWrap>(wrapFunc);
-            return flexlayout;
+            flexLayout.AlignItems = new PropertyValue<Microsoft.Maui.Layouts.FlexAlignItems>(alignItemsFunc);
+            return flexLayout;
+        }
+
+
+
+        public static T Position<T>(this T flexLayout, Microsoft.Maui.Layouts.FlexPosition position) where T : IFlexLayout
+        {
+            flexLayout.Position = new PropertyValue<Microsoft.Maui.Layouts.FlexPosition>(position);
+            return flexLayout;
+        }
+
+        public static T Position<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexPosition> positionFunc) where T : IFlexLayout
+        {
+            flexLayout.Position = new PropertyValue<Microsoft.Maui.Layouts.FlexPosition>(positionFunc);
+            return flexLayout;
+        }
+
+
+
+        public static T Wrap<T>(this T flexLayout, Microsoft.Maui.Layouts.FlexWrap wrap) where T : IFlexLayout
+        {
+            flexLayout.Wrap = new PropertyValue<Microsoft.Maui.Layouts.FlexWrap>(wrap);
+            return flexLayout;
+        }
+
+        public static T Wrap<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexWrap> wrapFunc) where T : IFlexLayout
+        {
+            flexLayout.Wrap = new PropertyValue<Microsoft.Maui.Layouts.FlexWrap>(wrapFunc);
+            return flexLayout;
         }
 
 

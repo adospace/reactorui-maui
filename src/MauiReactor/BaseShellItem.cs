@@ -128,163 +128,168 @@ namespace MauiReactor
 
     public static partial class BaseShellItemExtensions
     {
-        public static T FlyoutIcon<T>(this T baseshellitem, Microsoft.Maui.Controls.ImageSource flyoutIcon) where T : IBaseShellItem
+        public static T FlyoutIcon<T>(this T baseShellItem, Microsoft.Maui.Controls.ImageSource flyoutIcon) where T : IBaseShellItem
         {
-            baseshellitem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIcon);
-            return baseshellitem;
+            baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIcon);
+            return baseShellItem;
         }
-        public static T FlyoutIcon<T>(this T baseshellitem, Func<Microsoft.Maui.Controls.ImageSource> flyoutIconFunc) where T : IBaseShellItem
+
+        public static T FlyoutIcon<T>(this T baseShellItem, Func<Microsoft.Maui.Controls.ImageSource> flyoutIconFunc) where T : IBaseShellItem
         {
-            baseshellitem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIconFunc);
-            return baseshellitem;
+            baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIconFunc);
+            return baseShellItem;
         }
 
 
-        public static T Flyo<T>(this T baseshellitem, string file) where T : IBaseShellItem
+        public static T Flyo<T>(this T baseShellItem, string file) where T : IBaseShellItem
         {
-            baseshellitem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
-            return baseshellitem;
+            baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
+            return baseShellItem;
         }
-        public static T Flyo<T>(this T baseshellitem, string fileAndroid, string fileiOS) where T : IBaseShellItem
+        public static T Flyo<T>(this T baseShellItem, string fileAndroid, string fileiOS) where T : IBaseShellItem
         {
-            baseshellitem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
-            return baseshellitem;
+            baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
+            return baseShellItem;
         }
-        public static T Flyo<T>(this T baseshellitem, string resourceName, Assembly sourceAssembly) where T : IBaseShellItem
+        public static T Flyo<T>(this T baseShellItem, string resourceName, Assembly sourceAssembly) where T : IBaseShellItem
         {
-            baseshellitem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
-            return baseshellitem;
+            baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
+            return baseShellItem;
         }
-        public static T Flyo<T>(this T baseshellitem, Uri imageUri) where T : IBaseShellItem
+        public static T Flyo<T>(this T baseShellItem, Uri imageUri) where T : IBaseShellItem
         {
-            baseshellitem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
-            return baseshellitem;
+            baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
+            return baseShellItem;
         }
-        public static T Flyo<T>(this T baseshellitem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : IBaseShellItem
+        public static T Flyo<T>(this T baseShellItem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : IBaseShellItem
         {
-            baseshellitem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource
+            baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource
             {
                 Uri = imageUri,
                 CachingEnabled = cachingEnabled,
                 CacheValidity = cacheValidity
             });
-            return baseshellitem;
+            return baseShellItem;
         }
-        public static T Flyo<T>(this T baseshellitem, Func<Stream> imageStream) where T : IBaseShellItem
+        public static T Flyo<T>(this T baseShellItem, Func<Stream> imageStream) where T : IBaseShellItem
         {
-            baseshellitem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
-            return baseshellitem;
-        }
-
-        public static T Icon<T>(this T baseshellitem, Microsoft.Maui.Controls.ImageSource icon) where T : IBaseShellItem
-        {
-            baseshellitem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(icon);
-            return baseshellitem;
-        }
-        public static T Icon<T>(this T baseshellitem, Func<Microsoft.Maui.Controls.ImageSource> iconFunc) where T : IBaseShellItem
-        {
-            baseshellitem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc);
-            return baseshellitem;
+            baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
+            return baseShellItem;
         }
 
+        public static T Icon<T>(this T baseShellItem, Microsoft.Maui.Controls.ImageSource icon) where T : IBaseShellItem
+        {
+            baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(icon);
+            return baseShellItem;
+        }
 
-        public static T Icon<T>(this T baseshellitem, string file) where T : IBaseShellItem
+        public static T Icon<T>(this T baseShellItem, Func<Microsoft.Maui.Controls.ImageSource> iconFunc) where T : IBaseShellItem
         {
-            baseshellitem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
-            return baseshellitem;
+            baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc);
+            return baseShellItem;
         }
-        public static T Icon<T>(this T baseshellitem, string fileAndroid, string fileiOS) where T : IBaseShellItem
+
+
+        public static T Icon<T>(this T baseShellItem, string file) where T : IBaseShellItem
         {
-            baseshellitem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
-            return baseshellitem;
+            baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
+            return baseShellItem;
         }
-        public static T Icon<T>(this T baseshellitem, string resourceName, Assembly sourceAssembly) where T : IBaseShellItem
+        public static T Icon<T>(this T baseShellItem, string fileAndroid, string fileiOS) where T : IBaseShellItem
         {
-            baseshellitem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
-            return baseshellitem;
+            baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
+            return baseShellItem;
         }
-        public static T Icon<T>(this T baseshellitem, Uri imageUri) where T : IBaseShellItem
+        public static T Icon<T>(this T baseShellItem, string resourceName, Assembly sourceAssembly) where T : IBaseShellItem
         {
-            baseshellitem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
-            return baseshellitem;
+            baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
+            return baseShellItem;
         }
-        public static T Icon<T>(this T baseshellitem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : IBaseShellItem
+        public static T Icon<T>(this T baseShellItem, Uri imageUri) where T : IBaseShellItem
         {
-            baseshellitem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource
+            baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
+            return baseShellItem;
+        }
+        public static T Icon<T>(this T baseShellItem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : IBaseShellItem
+        {
+            baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource
             {
                 Uri = imageUri,
                 CachingEnabled = cachingEnabled,
                 CacheValidity = cacheValidity
             });
-            return baseshellitem;
+            return baseShellItem;
         }
-        public static T Icon<T>(this T baseshellitem, Func<Stream> imageStream) where T : IBaseShellItem
+        public static T Icon<T>(this T baseShellItem, Func<Stream> imageStream) where T : IBaseShellItem
         {
-            baseshellitem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
-            return baseshellitem;
-        }
-
-        public static T IsEnabled<T>(this T baseshellitem, bool isEnabled) where T : IBaseShellItem
-        {
-            baseshellitem.IsEnabled = new PropertyValue<bool>(isEnabled);
-            return baseshellitem;
-        }
-        public static T IsEnabled<T>(this T baseshellitem, Func<bool> isEnabledFunc) where T : IBaseShellItem
-        {
-            baseshellitem.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
-            return baseshellitem;
+            baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
+            return baseShellItem;
         }
 
-
-
-        public static T Title<T>(this T baseshellitem, string title) where T : IBaseShellItem
+        public static T IsEnabled<T>(this T baseShellItem, bool isEnabled) where T : IBaseShellItem
         {
-            baseshellitem.Title = new PropertyValue<string>(title);
-            return baseshellitem;
+            baseShellItem.IsEnabled = new PropertyValue<bool>(isEnabled);
+            return baseShellItem;
         }
-        public static T Title<T>(this T baseshellitem, Func<string> titleFunc) where T : IBaseShellItem
+
+        public static T IsEnabled<T>(this T baseShellItem, Func<bool> isEnabledFunc) where T : IBaseShellItem
         {
-            baseshellitem.Title = new PropertyValue<string>(titleFunc);
-            return baseshellitem;
+            baseShellItem.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
+            return baseShellItem;
         }
 
 
 
-        public static T IsVisible<T>(this T baseshellitem, bool isVisible) where T : IBaseShellItem
+        public static T Title<T>(this T baseShellItem, string title) where T : IBaseShellItem
         {
-            baseshellitem.IsVisible = new PropertyValue<bool>(isVisible);
-            return baseshellitem;
-        }
-        public static T IsVisible<T>(this T baseshellitem, Func<bool> isVisibleFunc) where T : IBaseShellItem
-        {
-            baseshellitem.IsVisible = new PropertyValue<bool>(isVisibleFunc);
-            return baseshellitem;
+            baseShellItem.Title = new PropertyValue<string>(title);
+            return baseShellItem;
         }
 
-
-
-
-        public static T OnAppearing<T>(this T baseshellitem, Action appearingAction) where T : IBaseShellItem
+        public static T Title<T>(this T baseShellItem, Func<string> titleFunc) where T : IBaseShellItem
         {
-            baseshellitem.AppearingAction = appearingAction;
-            return baseshellitem;
+            baseShellItem.Title = new PropertyValue<string>(titleFunc);
+            return baseShellItem;
         }
 
-        public static T OnAppearing<T>(this T baseshellitem, Action<object?, EventArgs> appearingActionWithArgs) where T : IBaseShellItem
+
+
+        public static T IsVisible<T>(this T baseShellItem, bool isVisible) where T : IBaseShellItem
         {
-            baseshellitem.AppearingActionWithArgs = appearingActionWithArgs;
-            return baseshellitem;
-        }
-        public static T OnDisappearing<T>(this T baseshellitem, Action disappearingAction) where T : IBaseShellItem
-        {
-            baseshellitem.DisappearingAction = disappearingAction;
-            return baseshellitem;
+            baseShellItem.IsVisible = new PropertyValue<bool>(isVisible);
+            return baseShellItem;
         }
 
-        public static T OnDisappearing<T>(this T baseshellitem, Action<object?, EventArgs> disappearingActionWithArgs) where T : IBaseShellItem
+        public static T IsVisible<T>(this T baseShellItem, Func<bool> isVisibleFunc) where T : IBaseShellItem
         {
-            baseshellitem.DisappearingActionWithArgs = disappearingActionWithArgs;
-            return baseshellitem;
+            baseShellItem.IsVisible = new PropertyValue<bool>(isVisibleFunc);
+            return baseShellItem;
+        }
+
+
+
+
+        public static T OnAppearing<T>(this T baseShellItem, Action appearingAction) where T : IBaseShellItem
+        {
+            baseShellItem.AppearingAction = appearingAction;
+            return baseShellItem;
+        }
+
+        public static T OnAppearing<T>(this T baseShellItem, Action<object?, EventArgs> appearingActionWithArgs) where T : IBaseShellItem
+        {
+            baseShellItem.AppearingActionWithArgs = appearingActionWithArgs;
+            return baseShellItem;
+        }
+        public static T OnDisappearing<T>(this T baseShellItem, Action disappearingAction) where T : IBaseShellItem
+        {
+            baseShellItem.DisappearingAction = disappearingAction;
+            return baseShellItem;
+        }
+
+        public static T OnDisappearing<T>(this T baseShellItem, Action<object?, EventArgs> disappearingActionWithArgs) where T : IBaseShellItem
+        {
+            baseShellItem.DisappearingActionWithArgs = disappearingActionWithArgs;
+            return baseShellItem;
         }
     }
 }

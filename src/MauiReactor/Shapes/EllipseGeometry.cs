@@ -74,46 +74,51 @@ namespace MauiReactor.Shapes
 
     public static partial class EllipseGeometryExtensions
     {
-        public static T Center<T>(this T ellipsegeometry, Microsoft.Maui.Graphics.Point center) where T : IEllipseGeometry
+        public static T Center<T>(this T ellipseGeometry, Microsoft.Maui.Graphics.Point center) where T : IEllipseGeometry
         {
-            ellipsegeometry.Center = new PropertyValue<Microsoft.Maui.Graphics.Point>(center);
-            return ellipsegeometry;
-        }
-        public static T Center<T>(this T ellipsegeometry, Func<Microsoft.Maui.Graphics.Point> centerFunc) where T : IEllipseGeometry
-        {
-            ellipsegeometry.Center = new PropertyValue<Microsoft.Maui.Graphics.Point>(centerFunc);
-            return ellipsegeometry;
-        }
-        public static T Center<T>(this T ellipsegeometry, double x, double y) where T : IEllipseGeometry
-        {
-            ellipsegeometry.Center = new PropertyValue<Microsoft.Maui.Graphics.Point>(new Microsoft.Maui.Graphics.Point(x, y));
-            return ellipsegeometry;
+            ellipseGeometry.Center = new PropertyValue<Microsoft.Maui.Graphics.Point>(center);
+            return ellipseGeometry;
         }
 
-
-
-        public static T RadiusX<T>(this T ellipsegeometry, double radiusX) where T : IEllipseGeometry
+        public static T Center<T>(this T ellipseGeometry, Func<Microsoft.Maui.Graphics.Point> centerFunc) where T : IEllipseGeometry
         {
-            ellipsegeometry.RadiusX = new PropertyValue<double>(radiusX);
-            return ellipsegeometry;
+            ellipseGeometry.Center = new PropertyValue<Microsoft.Maui.Graphics.Point>(centerFunc);
+            return ellipseGeometry;
         }
-        public static T RadiusX<T>(this T ellipsegeometry, Func<double> radiusXFunc) where T : IEllipseGeometry
+        public static T Center<T>(this T ellipseGeometry, double x, double y) where T : IEllipseGeometry
         {
-            ellipsegeometry.RadiusX = new PropertyValue<double>(radiusXFunc);
-            return ellipsegeometry;
+            ellipseGeometry.Center = new PropertyValue<Microsoft.Maui.Graphics.Point>(new Microsoft.Maui.Graphics.Point(x, y));
+            return ellipseGeometry;
         }
 
 
 
-        public static T RadiusY<T>(this T ellipsegeometry, double radiusY) where T : IEllipseGeometry
+        public static T RadiusX<T>(this T ellipseGeometry, double radiusX, RxDoubleAnimation? customAnimation = null) where T : IEllipseGeometry
         {
-            ellipsegeometry.RadiusY = new PropertyValue<double>(radiusY);
-            return ellipsegeometry;
+            ellipseGeometry.RadiusX = new PropertyValue<double>(radiusX);
+            ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, customAnimation ?? new RxDoubleAnimation(radiusX), v => ellipseGeometry.RadiusX = new PropertyValue<double>(v.CurrentValue()));
+            return ellipseGeometry;
         }
-        public static T RadiusY<T>(this T ellipsegeometry, Func<double> radiusYFunc) where T : IEllipseGeometry
+
+        public static T RadiusX<T>(this T ellipseGeometry, Func<double> radiusXFunc) where T : IEllipseGeometry
         {
-            ellipsegeometry.RadiusY = new PropertyValue<double>(radiusYFunc);
-            return ellipsegeometry;
+            ellipseGeometry.RadiusX = new PropertyValue<double>(radiusXFunc);
+            return ellipseGeometry;
+        }
+
+
+
+        public static T RadiusY<T>(this T ellipseGeometry, double radiusY, RxDoubleAnimation? customAnimation = null) where T : IEllipseGeometry
+        {
+            ellipseGeometry.RadiusY = new PropertyValue<double>(radiusY);
+            ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, customAnimation ?? new RxDoubleAnimation(radiusY), v => ellipseGeometry.RadiusY = new PropertyValue<double>(v.CurrentValue()));
+            return ellipseGeometry;
+        }
+
+        public static T RadiusY<T>(this T ellipseGeometry, Func<double> radiusYFunc) where T : IEllipseGeometry
+        {
+            ellipseGeometry.RadiusY = new PropertyValue<double>(radiusYFunc);
+            return ellipseGeometry;
         }
 
 

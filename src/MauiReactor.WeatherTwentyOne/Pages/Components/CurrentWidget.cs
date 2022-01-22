@@ -46,6 +46,8 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
                 .StrokeShape(new RoundRectangle().CornerRadius(60.0))
             }
             .When(_width.HasValue, _ => _.WidthRequest(_width!.Value));
+
+
         }
     }
 }

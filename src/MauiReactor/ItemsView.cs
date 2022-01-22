@@ -130,104 +130,109 @@ namespace MauiReactor
 
     public static partial class ItemsViewExtensions
     {
-        public static T EmptyView<T>(this T itemsview, object emptyView) where T : IItemsView
+        public static T EmptyView<T>(this T itemsView, object emptyView) where T : IItemsView
         {
-            itemsview.EmptyView = new PropertyValue<object>(emptyView);
-            return itemsview;
-        }
-        public static T EmptyView<T>(this T itemsview, Func<object> emptyViewFunc) where T : IItemsView
-        {
-            itemsview.EmptyView = new PropertyValue<object>(emptyViewFunc);
-            return itemsview;
+            itemsView.EmptyView = new PropertyValue<object>(emptyView);
+            return itemsView;
         }
 
-
-
-        public static T HorizontalScrollBarVisibility<T>(this T itemsview, Microsoft.Maui.ScrollBarVisibility horizontalScrollBarVisibility) where T : IItemsView
+        public static T EmptyView<T>(this T itemsView, Func<object> emptyViewFunc) where T : IItemsView
         {
-            itemsview.HorizontalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibility);
-            return itemsview;
-        }
-        public static T HorizontalScrollBarVisibility<T>(this T itemsview, Func<Microsoft.Maui.ScrollBarVisibility> horizontalScrollBarVisibilityFunc) where T : IItemsView
-        {
-            itemsview.HorizontalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibilityFunc);
-            return itemsview;
+            itemsView.EmptyView = new PropertyValue<object>(emptyViewFunc);
+            return itemsView;
         }
 
 
 
-        public static T VerticalScrollBarVisibility<T>(this T itemsview, Microsoft.Maui.ScrollBarVisibility verticalScrollBarVisibility) where T : IItemsView
+        public static T HorizontalScrollBarVisibility<T>(this T itemsView, Microsoft.Maui.ScrollBarVisibility horizontalScrollBarVisibility) where T : IItemsView
         {
-            itemsview.VerticalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibility);
-            return itemsview;
-        }
-        public static T VerticalScrollBarVisibility<T>(this T itemsview, Func<Microsoft.Maui.ScrollBarVisibility> verticalScrollBarVisibilityFunc) where T : IItemsView
-        {
-            itemsview.VerticalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibilityFunc);
-            return itemsview;
+            itemsView.HorizontalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibility);
+            return itemsView;
         }
 
-
-
-        public static T RemainingItemsThreshold<T>(this T itemsview, int remainingItemsThreshold) where T : IItemsView
+        public static T HorizontalScrollBarVisibility<T>(this T itemsView, Func<Microsoft.Maui.ScrollBarVisibility> horizontalScrollBarVisibilityFunc) where T : IItemsView
         {
-            itemsview.RemainingItemsThreshold = new PropertyValue<int>(remainingItemsThreshold);
-            return itemsview;
-        }
-        public static T RemainingItemsThreshold<T>(this T itemsview, Func<int> remainingItemsThresholdFunc) where T : IItemsView
-        {
-            itemsview.RemainingItemsThreshold = new PropertyValue<int>(remainingItemsThresholdFunc);
-            return itemsview;
+            itemsView.HorizontalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibilityFunc);
+            return itemsView;
         }
 
 
 
-        public static T ItemsUpdatingScrollMode<T>(this T itemsview, Microsoft.Maui.Controls.ItemsUpdatingScrollMode itemsUpdatingScrollMode) where T : IItemsView
+        public static T VerticalScrollBarVisibility<T>(this T itemsView, Microsoft.Maui.ScrollBarVisibility verticalScrollBarVisibility) where T : IItemsView
         {
-            itemsview.ItemsUpdatingScrollMode = new PropertyValue<Microsoft.Maui.Controls.ItemsUpdatingScrollMode>(itemsUpdatingScrollMode);
-            return itemsview;
+            itemsView.VerticalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibility);
+            return itemsView;
         }
-        public static T ItemsUpdatingScrollMode<T>(this T itemsview, Func<Microsoft.Maui.Controls.ItemsUpdatingScrollMode> itemsUpdatingScrollModeFunc) where T : IItemsView
+
+        public static T VerticalScrollBarVisibility<T>(this T itemsView, Func<Microsoft.Maui.ScrollBarVisibility> verticalScrollBarVisibilityFunc) where T : IItemsView
         {
-            itemsview.ItemsUpdatingScrollMode = new PropertyValue<Microsoft.Maui.Controls.ItemsUpdatingScrollMode>(itemsUpdatingScrollModeFunc);
-            return itemsview;
+            itemsView.VerticalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibilityFunc);
+            return itemsView;
         }
+
+
+
+        public static T RemainingItemsThreshold<T>(this T itemsView, int remainingItemsThreshold) where T : IItemsView
+        {
+            itemsView.RemainingItemsThreshold = new PropertyValue<int>(remainingItemsThreshold);
+            return itemsView;
+        }
+
+        public static T RemainingItemsThreshold<T>(this T itemsView, Func<int> remainingItemsThresholdFunc) where T : IItemsView
+        {
+            itemsView.RemainingItemsThreshold = new PropertyValue<int>(remainingItemsThresholdFunc);
+            return itemsView;
+        }
+
+
+
+        public static T ItemsUpdatingScrollMode<T>(this T itemsView, Microsoft.Maui.Controls.ItemsUpdatingScrollMode itemsUpdatingScrollMode) where T : IItemsView
+        {
+            itemsView.ItemsUpdatingScrollMode = new PropertyValue<Microsoft.Maui.Controls.ItemsUpdatingScrollMode>(itemsUpdatingScrollMode);
+            return itemsView;
+        }
+
+        public static T ItemsUpdatingScrollMode<T>(this T itemsView, Func<Microsoft.Maui.Controls.ItemsUpdatingScrollMode> itemsUpdatingScrollModeFunc) where T : IItemsView
+        {
+            itemsView.ItemsUpdatingScrollMode = new PropertyValue<Microsoft.Maui.Controls.ItemsUpdatingScrollMode>(itemsUpdatingScrollModeFunc);
+            return itemsView;
+        }
+
 
 
 
-
-        public static T OnScrollToRequested<T>(this T itemsview, Action scrolltorequestedAction) where T : IItemsView
+        public static T OnScrollToRequested<T>(this T itemsView, Action scrollToRequestedAction) where T : IItemsView
         {
-            itemsview.ScrollToRequestedAction = scrolltorequestedAction;
-            return itemsview;
+            itemsView.ScrollToRequestedAction = scrollToRequestedAction;
+            return itemsView;
         }
 
-        public static T OnScrollToRequested<T>(this T itemsview, Action<object?, ScrollToRequestEventArgs> scrolltorequestedActionWithArgs) where T : IItemsView
+        public static T OnScrollToRequested<T>(this T itemsView, Action<object?, ScrollToRequestEventArgs> scrollToRequestedActionWithArgs) where T : IItemsView
         {
-            itemsview.ScrollToRequestedActionWithArgs = scrolltorequestedActionWithArgs;
-            return itemsview;
+            itemsView.ScrollToRequestedActionWithArgs = scrollToRequestedActionWithArgs;
+            return itemsView;
         }
-        public static T OnScrolled<T>(this T itemsview, Action scrolledAction) where T : IItemsView
+        public static T OnScrolled<T>(this T itemsView, Action scrolledAction) where T : IItemsView
         {
-            itemsview.ScrolledAction = scrolledAction;
-            return itemsview;
-        }
-
-        public static T OnScrolled<T>(this T itemsview, Action<object?, ItemsViewScrolledEventArgs> scrolledActionWithArgs) where T : IItemsView
-        {
-            itemsview.ScrolledActionWithArgs = scrolledActionWithArgs;
-            return itemsview;
-        }
-        public static T OnRemainingItemsThresholdReached<T>(this T itemsview, Action remainingitemsthresholdreachedAction) where T : IItemsView
-        {
-            itemsview.RemainingItemsThresholdReachedAction = remainingitemsthresholdreachedAction;
-            return itemsview;
+            itemsView.ScrolledAction = scrolledAction;
+            return itemsView;
         }
 
-        public static T OnRemainingItemsThresholdReached<T>(this T itemsview, Action<object?, EventArgs> remainingitemsthresholdreachedActionWithArgs) where T : IItemsView
+        public static T OnScrolled<T>(this T itemsView, Action<object?, ItemsViewScrolledEventArgs> scrolledActionWithArgs) where T : IItemsView
         {
-            itemsview.RemainingItemsThresholdReachedActionWithArgs = remainingitemsthresholdreachedActionWithArgs;
-            return itemsview;
+            itemsView.ScrolledActionWithArgs = scrolledActionWithArgs;
+            return itemsView;
+        }
+        public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Action remainingItemsThresholdReachedAction) where T : IItemsView
+        {
+            itemsView.RemainingItemsThresholdReachedAction = remainingItemsThresholdReachedAction;
+            return itemsView;
+        }
+
+        public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Action<object?, EventArgs> remainingItemsThresholdReachedActionWithArgs) where T : IItemsView
+        {
+            itemsView.RemainingItemsThresholdReachedActionWithArgs = remainingItemsThresholdReachedActionWithArgs;
+            return itemsView;
         }
     }
 }

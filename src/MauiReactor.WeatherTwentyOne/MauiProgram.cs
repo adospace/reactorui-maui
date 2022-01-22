@@ -33,10 +33,15 @@ namespace MauiReactor.WeatherTwentyOne
             });
             builder.ConfigureLifecycleEvents(lifecycle => {
 #if WINDOWS
-            lifecycle
-                .AddWindows(windows => windows.OnLaunched((app, args) => {
-                    var winuiApp = (Microsoft.UI.Xaml.Window)MauiWinUIApplication.Current.Application.Windows[0].Handler!.NativeView!;
-                    winuiApp.SetIcon("Platforms/Windows/trayicon.ico");
+        lifecycle
+            .AddWindows(windows =>
+                windows.OnNativeMessage((app, args) => {
+                    if (WindowExtensions.Hwnd == IntPtr.Zero)
+                    {
+                        WindowExtensions.Hwnd = args.Hwnd;
+                        WindowExtensions.SetIcon("Platforms/Windows/trayicon.ico");
+                    }
+                    app.ExtendsContentIntoTitleBar = false;
                 }));
 #endif
             });

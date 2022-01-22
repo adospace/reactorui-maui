@@ -32,5 +32,9 @@ namespace MauiReactor.WeatherTwentyOne.Resources.Styles
         public static Color Accent_Blue100 { get; set; } = Color.Parse("#3E8EED");
         public static Color Accent_Blue200 { get; set; } = Color.Parse("#72ACF1");
         public static Color TabOff { get; set; } = Color.Parse("#91A7B7");
+
+        public static Color DarkGray { get; set; } = Color.Parse("#212125");
+        public static Color MidGray { get; set; } = Color.Parse("#CFCFD3");
+        public static Color LightGray { get; set; } = Color.Parse("#EFEFEF");
     }
 }

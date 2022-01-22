@@ -29,6 +29,12 @@ namespace MauiReactor.Internals
                 return leftImageSource.ToString() == rightImageSource.ToString();
             }
 
+            if (left is UrlWebViewSource leftUrlWebViewSource &&
+                right is UrlWebViewSource rightUrlWebViewSource)
+            {
+                return leftUrlWebViewSource.Url.ToString() == rightUrlWebViewSource.Url.ToString();
+            }
+
             return left.Equals(right);        
         }
     }

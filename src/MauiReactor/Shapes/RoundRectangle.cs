@@ -55,27 +55,28 @@ namespace MauiReactor.Shapes
 
     public static partial class RoundRectangleExtensions
     {
-        public static T CornerRadius<T>(this T roundrectangle, Microsoft.Maui.CornerRadius cornerRadius) where T : IRoundRectangle
+        public static T CornerRadius<T>(this T roundRectangle, Microsoft.Maui.CornerRadius cornerRadius) where T : IRoundRectangle
         {
-            roundrectangle.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadius);
-            return roundrectangle;
+            roundRectangle.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadius);
+            return roundRectangle;
         }
-        public static T CornerRadius<T>(this T roundrectangle, Func<Microsoft.Maui.CornerRadius> cornerRadiusFunc) where T : IRoundRectangle
+
+        public static T CornerRadius<T>(this T roundRectangle, Func<Microsoft.Maui.CornerRadius> cornerRadiusFunc) where T : IRoundRectangle
         {
-            roundrectangle.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadiusFunc);
-            return roundrectangle;
+            roundRectangle.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadiusFunc);
+            return roundRectangle;
         }
 
 
-        public static T CornerRadius<T>(this T roundrectangle, double uniformRadius) where T : IRoundRectangle
+        public static T CornerRadius<T>(this T roundRectangle, double uniformRadius) where T : IRoundRectangle
         {
-            roundrectangle.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(new CornerRadius(uniformRadius));
-            return roundrectangle;
+            roundRectangle.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(new CornerRadius(uniformRadius));
+            return roundRectangle;
         }
-        public static T CornerRadius<T>(this T roundrectangle, double topLeft, double topRight, double bottomLeft, double bottomRight) where T : IRoundRectangle
+        public static T CornerRadius<T>(this T roundRectangle, double topLeft, double topRight, double bottomLeft, double bottomRight) where T : IRoundRectangle
         {
-            roundrectangle.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight));
-            return roundrectangle;
+            roundRectangle.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight));
+            return roundRectangle;
         }
 
 

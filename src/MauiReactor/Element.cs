@@ -201,6 +201,7 @@ namespace MauiReactor
             element.AutomationId = new PropertyValue<string>(automationId);
             return element;
         }
+
         public static T AutomationId<T>(this T element, Func<string> automationIdFunc) where T : IElement
         {
             element.AutomationId = new PropertyValue<string>(automationIdFunc);
@@ -214,6 +215,7 @@ namespace MauiReactor
             element.ClassId = new PropertyValue<string>(classId);
             return element;
         }
+
         public static T ClassId<T>(this T element, Func<string> classIdFunc) where T : IElement
         {
             element.ClassId = new PropertyValue<string>(classIdFunc);
@@ -223,92 +225,92 @@ namespace MauiReactor
 
 
 
-        public static T OnChildAdded<T>(this T element, Action childaddedAction) where T : IElement
+        public static T OnChildAdded<T>(this T element, Action childAddedAction) where T : IElement
         {
-            element.ChildAddedAction = childaddedAction;
+            element.ChildAddedAction = childAddedAction;
             return element;
         }
 
-        public static T OnChildAdded<T>(this T element, Action<object?, ElementEventArgs> childaddedActionWithArgs) where T : IElement
+        public static T OnChildAdded<T>(this T element, Action<object?, ElementEventArgs> childAddedActionWithArgs) where T : IElement
         {
-            element.ChildAddedActionWithArgs = childaddedActionWithArgs;
+            element.ChildAddedActionWithArgs = childAddedActionWithArgs;
             return element;
         }
-        public static T OnChildRemoved<T>(this T element, Action childremovedAction) where T : IElement
+        public static T OnChildRemoved<T>(this T element, Action childRemovedAction) where T : IElement
         {
-            element.ChildRemovedAction = childremovedAction;
-            return element;
-        }
-
-        public static T OnChildRemoved<T>(this T element, Action<object?, ElementEventArgs> childremovedActionWithArgs) where T : IElement
-        {
-            element.ChildRemovedActionWithArgs = childremovedActionWithArgs;
-            return element;
-        }
-        public static T OnDescendantAdded<T>(this T element, Action descendantaddedAction) where T : IElement
-        {
-            element.DescendantAddedAction = descendantaddedAction;
+            element.ChildRemovedAction = childRemovedAction;
             return element;
         }
 
-        public static T OnDescendantAdded<T>(this T element, Action<object?, ElementEventArgs> descendantaddedActionWithArgs) where T : IElement
+        public static T OnChildRemoved<T>(this T element, Action<object?, ElementEventArgs> childRemovedActionWithArgs) where T : IElement
         {
-            element.DescendantAddedActionWithArgs = descendantaddedActionWithArgs;
+            element.ChildRemovedActionWithArgs = childRemovedActionWithArgs;
             return element;
         }
-        public static T OnDescendantRemoved<T>(this T element, Action descendantremovedAction) where T : IElement
+        public static T OnDescendantAdded<T>(this T element, Action descendantAddedAction) where T : IElement
         {
-            element.DescendantRemovedAction = descendantremovedAction;
-            return element;
-        }
-
-        public static T OnDescendantRemoved<T>(this T element, Action<object?, ElementEventArgs> descendantremovedActionWithArgs) where T : IElement
-        {
-            element.DescendantRemovedActionWithArgs = descendantremovedActionWithArgs;
-            return element;
-        }
-        public static T OnParentChanging<T>(this T element, Action parentchangingAction) where T : IElement
-        {
-            element.ParentChangingAction = parentchangingAction;
+            element.DescendantAddedAction = descendantAddedAction;
             return element;
         }
 
-        public static T OnParentChanging<T>(this T element, Action<object?, ParentChangingEventArgs> parentchangingActionWithArgs) where T : IElement
+        public static T OnDescendantAdded<T>(this T element, Action<object?, ElementEventArgs> descendantAddedActionWithArgs) where T : IElement
         {
-            element.ParentChangingActionWithArgs = parentchangingActionWithArgs;
+            element.DescendantAddedActionWithArgs = descendantAddedActionWithArgs;
             return element;
         }
-        public static T OnParentChanged<T>(this T element, Action parentchangedAction) where T : IElement
+        public static T OnDescendantRemoved<T>(this T element, Action descendantRemovedAction) where T : IElement
         {
-            element.ParentChangedAction = parentchangedAction;
-            return element;
-        }
-
-        public static T OnParentChanged<T>(this T element, Action<object?, EventArgs> parentchangedActionWithArgs) where T : IElement
-        {
-            element.ParentChangedActionWithArgs = parentchangedActionWithArgs;
-            return element;
-        }
-        public static T OnHandlerChanging<T>(this T element, Action handlerchangingAction) where T : IElement
-        {
-            element.HandlerChangingAction = handlerchangingAction;
+            element.DescendantRemovedAction = descendantRemovedAction;
             return element;
         }
 
-        public static T OnHandlerChanging<T>(this T element, Action<object?, HandlerChangingEventArgs> handlerchangingActionWithArgs) where T : IElement
+        public static T OnDescendantRemoved<T>(this T element, Action<object?, ElementEventArgs> descendantRemovedActionWithArgs) where T : IElement
         {
-            element.HandlerChangingActionWithArgs = handlerchangingActionWithArgs;
+            element.DescendantRemovedActionWithArgs = descendantRemovedActionWithArgs;
             return element;
         }
-        public static T OnHandlerChanged<T>(this T element, Action handlerchangedAction) where T : IElement
+        public static T OnParentChanging<T>(this T element, Action parentChangingAction) where T : IElement
         {
-            element.HandlerChangedAction = handlerchangedAction;
+            element.ParentChangingAction = parentChangingAction;
             return element;
         }
 
-        public static T OnHandlerChanged<T>(this T element, Action<object?, EventArgs> handlerchangedActionWithArgs) where T : IElement
+        public static T OnParentChanging<T>(this T element, Action<object?, ParentChangingEventArgs> parentChangingActionWithArgs) where T : IElement
         {
-            element.HandlerChangedActionWithArgs = handlerchangedActionWithArgs;
+            element.ParentChangingActionWithArgs = parentChangingActionWithArgs;
+            return element;
+        }
+        public static T OnParentChanged<T>(this T element, Action parentChangedAction) where T : IElement
+        {
+            element.ParentChangedAction = parentChangedAction;
+            return element;
+        }
+
+        public static T OnParentChanged<T>(this T element, Action<object?, EventArgs> parentChangedActionWithArgs) where T : IElement
+        {
+            element.ParentChangedActionWithArgs = parentChangedActionWithArgs;
+            return element;
+        }
+        public static T OnHandlerChanging<T>(this T element, Action handlerChangingAction) where T : IElement
+        {
+            element.HandlerChangingAction = handlerChangingAction;
+            return element;
+        }
+
+        public static T OnHandlerChanging<T>(this T element, Action<object?, HandlerChangingEventArgs> handlerChangingActionWithArgs) where T : IElement
+        {
+            element.HandlerChangingActionWithArgs = handlerChangingActionWithArgs;
+            return element;
+        }
+        public static T OnHandlerChanged<T>(this T element, Action handlerChangedAction) where T : IElement
+        {
+            element.HandlerChangedAction = handlerChangedAction;
+            return element;
+        }
+
+        public static T OnHandlerChanged<T>(this T element, Action<object?, EventArgs> handlerChangedActionWithArgs) where T : IElement
+        {
+            element.HandlerChangedActionWithArgs = handlerChangedActionWithArgs;
             return element;
         }
     }

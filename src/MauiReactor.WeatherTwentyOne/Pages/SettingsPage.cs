@@ -34,7 +34,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
     {
         public override VisualNode Render()
         {
-            return new ContentPage(title: "SettingsPage")
+            return new ContentPage(title: "Settings")
             {
                 new Grid(Device.Idiom == TargetIdiom.Phone ? "100,*" : "100,*,0", "*")
                 { 
@@ -117,15 +117,35 @@ namespace MauiReactor.WeatherTwentyOne.Pages
                     new Label("More")
                         .Class("SectionTitle"),
 
-                    new Column
+                    new Label("Support")
+                        .Class("Subhead")
+                        .OnTapped(OnSupportTapped),
+
+                    new BoxView()
+                        .Class("HRule"),
+
+                    new FlexLayout()
                     {
-                        new Label("Support")
-                            .Class("Subhead")
+                        new Label("Dark Mode")
+                            .Class("Subhead"),
+
+                        new Switch()
+                            .IsToggled(Application.Current?.UserAppTheme == OSAppTheme.Dark)
+                            .OnToggled(OnSwitchTheme)
                     }
-                    .OnTapped(OnSupportTapped)
+                    .HeightRequest(30)
+                    .JustifyContent(Microsoft.Maui.Layouts.FlexJustify.SpaceBetween)
                 }
             }
             .Margin(Device.Idiom == TargetIdiom.Phone ? 15.0 : 25.0);
+
+        private void OnSwitchTheme(object? sender, ToggledEventArgs args)
+        {
+            if (Application.Current != null)
+            {
+                Application.Current.UserAppTheme = args.Value ? OSAppTheme.Dark : OSAppTheme.Light;
+            }
+        }
 
         IEnumerable<VisualNode> RenderUnits(Units units, string label)
         {

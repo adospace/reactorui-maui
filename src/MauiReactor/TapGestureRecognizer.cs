@@ -88,30 +88,31 @@ namespace MauiReactor
 
     public static partial class TapGestureRecognizerExtensions
     {
-        public static T NumberOfTapsRequired<T>(this T tapgesturerecognizer, int numberOfTapsRequired) where T : ITapGestureRecognizer
+        public static T NumberOfTapsRequired<T>(this T tapGestureRecognizer, int numberOfTapsRequired) where T : ITapGestureRecognizer
         {
-            tapgesturerecognizer.NumberOfTapsRequired = new PropertyValue<int>(numberOfTapsRequired);
-            return tapgesturerecognizer;
-        }
-        public static T NumberOfTapsRequired<T>(this T tapgesturerecognizer, Func<int> numberOfTapsRequiredFunc) where T : ITapGestureRecognizer
-        {
-            tapgesturerecognizer.NumberOfTapsRequired = new PropertyValue<int>(numberOfTapsRequiredFunc);
-            return tapgesturerecognizer;
+            tapGestureRecognizer.NumberOfTapsRequired = new PropertyValue<int>(numberOfTapsRequired);
+            return tapGestureRecognizer;
         }
 
-
-
-
-        public static T OnTapped<T>(this T tapgesturerecognizer, Action tappedAction) where T : ITapGestureRecognizer
+        public static T NumberOfTapsRequired<T>(this T tapGestureRecognizer, Func<int> numberOfTapsRequiredFunc) where T : ITapGestureRecognizer
         {
-            tapgesturerecognizer.TappedAction = tappedAction;
-            return tapgesturerecognizer;
+            tapGestureRecognizer.NumberOfTapsRequired = new PropertyValue<int>(numberOfTapsRequiredFunc);
+            return tapGestureRecognizer;
         }
 
-        public static T OnTapped<T>(this T tapgesturerecognizer, Action<object?, EventArgs> tappedActionWithArgs) where T : ITapGestureRecognizer
+
+
+
+        public static T OnTapped<T>(this T tapGestureRecognizer, Action tappedAction) where T : ITapGestureRecognizer
         {
-            tapgesturerecognizer.TappedActionWithArgs = tappedActionWithArgs;
-            return tapgesturerecognizer;
+            tapGestureRecognizer.TappedAction = tappedAction;
+            return tapGestureRecognizer;
+        }
+
+        public static T OnTapped<T>(this T tapGestureRecognizer, Action<object?, EventArgs> tappedActionWithArgs) where T : ITapGestureRecognizer
+        {
+            tapGestureRecognizer.TappedActionWithArgs = tappedActionWithArgs;
+            return tapGestureRecognizer;
         }
     }
 }

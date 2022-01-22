@@ -68,15 +68,16 @@ namespace MauiReactor
 
     public static partial class StackLayoutExtensions
     {
-        public static T Orientation<T>(this T stacklayout, Microsoft.Maui.Controls.StackOrientation orientation) where T : IStackLayout
+        public static T Orientation<T>(this T stackLayout, Microsoft.Maui.Controls.StackOrientation orientation) where T : IStackLayout
         {
-            stacklayout.Orientation = new PropertyValue<Microsoft.Maui.Controls.StackOrientation>(orientation);
-            return stacklayout;
+            stackLayout.Orientation = new PropertyValue<Microsoft.Maui.Controls.StackOrientation>(orientation);
+            return stackLayout;
         }
-        public static T Orientation<T>(this T stacklayout, Func<Microsoft.Maui.Controls.StackOrientation> orientationFunc) where T : IStackLayout
+
+        public static T Orientation<T>(this T stackLayout, Func<Microsoft.Maui.Controls.StackOrientation> orientationFunc) where T : IStackLayout
         {
-            stacklayout.Orientation = new PropertyValue<Microsoft.Maui.Controls.StackOrientation>(orientationFunc);
-            return stacklayout;
+            stackLayout.Orientation = new PropertyValue<Microsoft.Maui.Controls.StackOrientation>(orientationFunc);
+            return stackLayout;
         }
 
 

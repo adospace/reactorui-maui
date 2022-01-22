@@ -84,6 +84,7 @@ namespace MauiReactor.Shapes
             shape.Fill = new PropertyValue<Microsoft.Maui.Controls.Brush>(fill);
             return shape;
         }
+
         public static T Fill<T>(this T shape, Func<Microsoft.Maui.Controls.Brush> fillFunc) where T : IShape
         {
             shape.Fill = new PropertyValue<Microsoft.Maui.Controls.Brush>(fillFunc);
@@ -97,6 +98,7 @@ namespace MauiReactor.Shapes
             shape.Stroke = new PropertyValue<Microsoft.Maui.Controls.Brush>(stroke);
             return shape;
         }
+
         public static T Stroke<T>(this T shape, Func<Microsoft.Maui.Controls.Brush> strokeFunc) where T : IShape
         {
             shape.Stroke = new PropertyValue<Microsoft.Maui.Controls.Brush>(strokeFunc);
@@ -105,11 +107,13 @@ namespace MauiReactor.Shapes
 
 
 
-        public static T StrokeThickness<T>(this T shape, double strokeThickness) where T : IShape
+        public static T StrokeThickness<T>(this T shape, double strokeThickness, RxDoubleAnimation? customAnimation = null) where T : IShape
         {
             shape.StrokeThickness = new PropertyValue<double>(strokeThickness);
+            shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeThicknessProperty, customAnimation ?? new RxDoubleAnimation(strokeThickness), v => shape.StrokeThickness = new PropertyValue<double>(v.CurrentValue()));
             return shape;
         }
+
         public static T StrokeThickness<T>(this T shape, Func<double> strokeThicknessFunc) where T : IShape
         {
             shape.StrokeThickness = new PropertyValue<double>(strokeThicknessFunc);
@@ -123,6 +127,7 @@ namespace MauiReactor.Shapes
             shape.StrokeDashArray = new PropertyValue<Microsoft.Maui.Controls.DoubleCollection>(strokeDashArray);
             return shape;
         }
+
         public static T StrokeDashArray<T>(this T shape, Func<Microsoft.Maui.Controls.DoubleCollection> strokeDashArrayFunc) where T : IShape
         {
             shape.StrokeDashArray = new PropertyValue<Microsoft.Maui.Controls.DoubleCollection>(strokeDashArrayFunc);
@@ -131,11 +136,13 @@ namespace MauiReactor.Shapes
 
 
 
-        public static T StrokeDashOffset<T>(this T shape, double strokeDashOffset) where T : IShape
+        public static T StrokeDashOffset<T>(this T shape, double strokeDashOffset, RxDoubleAnimation? customAnimation = null) where T : IShape
         {
             shape.StrokeDashOffset = new PropertyValue<double>(strokeDashOffset);
+            shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashOffsetProperty, customAnimation ?? new RxDoubleAnimation(strokeDashOffset), v => shape.StrokeDashOffset = new PropertyValue<double>(v.CurrentValue()));
             return shape;
         }
+
         public static T StrokeDashOffset<T>(this T shape, Func<double> strokeDashOffsetFunc) where T : IShape
         {
             shape.StrokeDashOffset = new PropertyValue<double>(strokeDashOffsetFunc);
@@ -149,6 +156,7 @@ namespace MauiReactor.Shapes
             shape.StrokeLineCap = new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineCap>(strokeLineCap);
             return shape;
         }
+
         public static T StrokeLineCap<T>(this T shape, Func<Microsoft.Maui.Controls.Shapes.PenLineCap> strokeLineCapFunc) where T : IShape
         {
             shape.StrokeLineCap = new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineCap>(strokeLineCapFunc);
@@ -162,6 +170,7 @@ namespace MauiReactor.Shapes
             shape.StrokeLineJoin = new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineJoin>(strokeLineJoin);
             return shape;
         }
+
         public static T StrokeLineJoin<T>(this T shape, Func<Microsoft.Maui.Controls.Shapes.PenLineJoin> strokeLineJoinFunc) where T : IShape
         {
             shape.StrokeLineJoin = new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineJoin>(strokeLineJoinFunc);
@@ -170,11 +179,13 @@ namespace MauiReactor.Shapes
 
 
 
-        public static T StrokeMiterLimit<T>(this T shape, double strokeMiterLimit) where T : IShape
+        public static T StrokeMiterLimit<T>(this T shape, double strokeMiterLimit, RxDoubleAnimation? customAnimation = null) where T : IShape
         {
             shape.StrokeMiterLimit = new PropertyValue<double>(strokeMiterLimit);
+            shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeMiterLimitProperty, customAnimation ?? new RxDoubleAnimation(strokeMiterLimit), v => shape.StrokeMiterLimit = new PropertyValue<double>(v.CurrentValue()));
             return shape;
         }
+
         public static T StrokeMiterLimit<T>(this T shape, Func<double> strokeMiterLimitFunc) where T : IShape
         {
             shape.StrokeMiterLimit = new PropertyValue<double>(strokeMiterLimitFunc);
@@ -188,6 +199,7 @@ namespace MauiReactor.Shapes
             shape.Aspect = new PropertyValue<Microsoft.Maui.Controls.Stretch>(aspect);
             return shape;
         }
+
         public static T Aspect<T>(this T shape, Func<Microsoft.Maui.Controls.Stretch> aspectFunc) where T : IShape
         {
             shape.Aspect = new PropertyValue<Microsoft.Maui.Controls.Stretch>(aspectFunc);

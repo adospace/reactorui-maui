@@ -104,43 +104,45 @@ namespace MauiReactor
 
     public static partial class SelectableItemsViewExtensions
     {
-        public static T SelectionMode<T>(this T selectableitemsview, Microsoft.Maui.Controls.SelectionMode selectionMode) where T : ISelectableItemsView
+        public static T SelectionMode<T>(this T selectableItemsView, Microsoft.Maui.Controls.SelectionMode selectionMode) where T : ISelectableItemsView
         {
-            selectableitemsview.SelectionMode = new PropertyValue<Microsoft.Maui.Controls.SelectionMode>(selectionMode);
-            return selectableitemsview;
-        }
-        public static T SelectionMode<T>(this T selectableitemsview, Func<Microsoft.Maui.Controls.SelectionMode> selectionModeFunc) where T : ISelectableItemsView
-        {
-            selectableitemsview.SelectionMode = new PropertyValue<Microsoft.Maui.Controls.SelectionMode>(selectionModeFunc);
-            return selectableitemsview;
+            selectableItemsView.SelectionMode = new PropertyValue<Microsoft.Maui.Controls.SelectionMode>(selectionMode);
+            return selectableItemsView;
         }
 
-
-
-        public static T SelectedItem<T>(this T selectableitemsview, object selectedItem) where T : ISelectableItemsView
+        public static T SelectionMode<T>(this T selectableItemsView, Func<Microsoft.Maui.Controls.SelectionMode> selectionModeFunc) where T : ISelectableItemsView
         {
-            selectableitemsview.SelectedItem = new PropertyValue<object>(selectedItem);
-            return selectableitemsview;
-        }
-        public static T SelectedItem<T>(this T selectableitemsview, Func<object> selectedItemFunc) where T : ISelectableItemsView
-        {
-            selectableitemsview.SelectedItem = new PropertyValue<object>(selectedItemFunc);
-            return selectableitemsview;
+            selectableItemsView.SelectionMode = new PropertyValue<Microsoft.Maui.Controls.SelectionMode>(selectionModeFunc);
+            return selectableItemsView;
         }
 
 
 
-
-        public static T OnSelectionChanged<T>(this T selectableitemsview, Action selectionchangedAction) where T : ISelectableItemsView
+        public static T SelectedItem<T>(this T selectableItemsView, object selectedItem) where T : ISelectableItemsView
         {
-            selectableitemsview.SelectionChangedAction = selectionchangedAction;
-            return selectableitemsview;
+            selectableItemsView.SelectedItem = new PropertyValue<object>(selectedItem);
+            return selectableItemsView;
         }
 
-        public static T OnSelectionChanged<T>(this T selectableitemsview, Action<object?, SelectionChangedEventArgs> selectionchangedActionWithArgs) where T : ISelectableItemsView
+        public static T SelectedItem<T>(this T selectableItemsView, Func<object> selectedItemFunc) where T : ISelectableItemsView
         {
-            selectableitemsview.SelectionChangedActionWithArgs = selectionchangedActionWithArgs;
-            return selectableitemsview;
+            selectableItemsView.SelectedItem = new PropertyValue<object>(selectedItemFunc);
+            return selectableItemsView;
+        }
+
+
+
+
+        public static T OnSelectionChanged<T>(this T selectableItemsView, Action selectionChangedAction) where T : ISelectableItemsView
+        {
+            selectableItemsView.SelectionChangedAction = selectionChangedAction;
+            return selectableItemsView;
+        }
+
+        public static T OnSelectionChanged<T>(this T selectableItemsView, Action<object?, SelectionChangedEventArgs> selectionChangedActionWithArgs) where T : ISelectableItemsView
+        {
+            selectableItemsView.SelectionChangedActionWithArgs = selectionChangedActionWithArgs;
+            return selectableItemsView;
         }
     }
 }

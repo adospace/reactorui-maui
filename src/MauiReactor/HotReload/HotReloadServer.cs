@@ -12,7 +12,8 @@ namespace MauiReactor.HotReload
     internal class HotReloadServer
     {
         private CancellationTokenSource? _cancellationTokenSource;
-        private const int _listenPort = 45820;
+        private const int _androidListenPort = 45820;
+        private const int _defaultListenPort = 45821;
         private readonly Action<Assembly> _newAssemblyReceived;
 
         public HotReloadServer(Action<Assembly> newAssemblyReceived)
@@ -25,8 +26,10 @@ namespace MauiReactor.HotReload
             Stop();
 
             _cancellationTokenSource = new CancellationTokenSource();
-            
-            await ConnectionLoop(_cancellationTokenSource.Token);
+
+            await Task.WhenAll(
+                ConnectionLoop(_androidListenPort, _cancellationTokenSource.Token),
+                ConnectionLoop(_defaultListenPort, _cancellationTokenSource.Token));
         }
 
         public void Stop()
@@ -36,7 +39,7 @@ namespace MauiReactor.HotReload
             _cancellationTokenSource = null;
         }
 
-        private async Task ConnectionLoop(CancellationToken cancellationToken)
+        private async Task ConnectionLoop(int listenPort, CancellationToken cancellationToken)
         {
             TcpListener? tcpListener = null;
 
@@ -44,11 +47,11 @@ namespace MauiReactor.HotReload
             {
                 try
                 {
-                    tcpListener = new TcpListener(IPAddress.Any, _listenPort);
+                    tcpListener = new TcpListener(IPAddress.Any, listenPort);
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[MauiReactor] Unable to bind hot-reload server to local address {_listenPort}, waiting 60000ms before try again:{Environment.NewLine}{ex}");
+                    System.Diagnostics.Debug.WriteLine($"[MauiReactor] Unable to bind hot-reload server to local address {listenPort}, waiting 60000ms before try again:{Environment.NewLine}{ex}");
 
                     await Task.Delay(60000, cancellationToken);
                 }
@@ -63,12 +66,12 @@ namespace MauiReactor.HotReload
             {
                 try
                 {
-                    System.Diagnostics.Debug.WriteLine($"[MauiReactor] Hot-Reload server started listening on {_listenPort}");
+                    System.Diagnostics.Debug.WriteLine($"[MauiReactor] Hot-Reload server started listening on {listenPort}");
                     tcpListener.Start();
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[MauiReactor] Hot-Reload server is unable to list on port {_listenPort}:{Environment.NewLine}{ex}");
+                    System.Diagnostics.Debug.WriteLine($"[MauiReactor] Hot-Reload server is unable to list on port {listenPort}:{Environment.NewLine}{ex}");
                     await Task.Delay(60000, cancellationToken);
                     continue;
                 }

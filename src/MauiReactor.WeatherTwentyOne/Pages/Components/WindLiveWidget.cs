@@ -18,10 +18,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
         readonly Random _rand = new();
         readonly double[] WindValues = { 98, 84, 140, 92, 55 };
 
-        private int GetNeedleRotation()
-        {
-            return _rand.Next(0, WindValues.Length - 1);
-        }
+        private double GetNeedleRotation() => WindValues[_rand.Next(0, WindValues.Length - 1)];
 
         public override VisualNode Render()
         {
@@ -40,10 +37,13 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
                         .VCenter()
                         .WidthRequest(200)
                         .HeightRequest(200)
-                        .Rotation(()=> State.NeedleRotation)
-                        .WithAnimation(Easing.SpringOut),
+                        .WithOutAnimation()
+                        .Rotation(State.NeedleRotation)
+                        .WithAnimation(Easing.Linear, duration: 600)
+                        ,
 
-                    new Timer(interval: 300, ()=> SetState(s => s.NeedleRotation = GetNeedleRotation()))
+                    new Timer(interval: 100000, ()=> SetState(s => s.NeedleRotation = GetNeedleRotation(), true))
+                        .IsEnabled(() => State.TimerEnabled)
                 }
                 .OnTapped(()=> SetState(s => s.TimerEnabled = !s.TimerEnabled)),
 
@@ -54,7 +54,8 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
                 new Label("14|25")
                     .HCenter()
                     .Class("Title")
-            };
+            }
+            .WidthRequest(200);
         }
 
     }

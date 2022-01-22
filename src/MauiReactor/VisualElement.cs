@@ -141,6 +141,18 @@ namespace MauiReactor
             OnEndUpdate();
         }
 
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIVisualElement = (IVisualElement)this;
+
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.RotationProperty, thisAsIVisualElement.Rotation);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.RotationXProperty, thisAsIVisualElement.RotationX);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.RotationYProperty, thisAsIVisualElement.RotationY);
+
+            base.OnAnimate();
+        }
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
@@ -223,399 +235,442 @@ namespace MauiReactor
 
     public static partial class VisualElementExtensions
     {
-        public static T Shadow<T>(this T visualelement, Microsoft.Maui.Controls.Shadow shadow) where T : IVisualElement
+        public static T Shadow<T>(this T visualElement, Microsoft.Maui.Controls.Shadow shadow) where T : IVisualElement
         {
-            visualelement.Shadow = new PropertyValue<Microsoft.Maui.Controls.Shadow>(shadow);
-            return visualelement;
-        }
-        public static T Shadow<T>(this T visualelement, Func<Microsoft.Maui.Controls.Shadow> shadowFunc) where T : IVisualElement
-        {
-            visualelement.Shadow = new PropertyValue<Microsoft.Maui.Controls.Shadow>(shadowFunc);
-            return visualelement;
+            visualElement.Shadow = new PropertyValue<Microsoft.Maui.Controls.Shadow>(shadow);
+            return visualElement;
         }
 
-
-
-        public static T Style<T>(this T visualelement, Microsoft.Maui.Controls.Style style) where T : IVisualElement
+        public static T Shadow<T>(this T visualElement, Func<Microsoft.Maui.Controls.Shadow> shadowFunc) where T : IVisualElement
         {
-            visualelement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(style);
-            return visualelement;
-        }
-        public static T Style<T>(this T visualelement, Func<Microsoft.Maui.Controls.Style> styleFunc) where T : IVisualElement
-        {
-            visualelement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc);
-            return visualelement;
+            visualElement.Shadow = new PropertyValue<Microsoft.Maui.Controls.Shadow>(shadowFunc);
+            return visualElement;
         }
 
 
 
-        public static T InputTransparent<T>(this T visualelement, bool inputTransparent) where T : IVisualElement
+        public static T Style<T>(this T visualElement, Microsoft.Maui.Controls.Style style) where T : IVisualElement
         {
-            visualelement.InputTransparent = new PropertyValue<bool>(inputTransparent);
-            return visualelement;
-        }
-        public static T InputTransparent<T>(this T visualelement, Func<bool> inputTransparentFunc) where T : IVisualElement
-        {
-            visualelement.InputTransparent = new PropertyValue<bool>(inputTransparentFunc);
-            return visualelement;
+            visualElement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(style);
+            return visualElement;
         }
 
-
-
-        public static T IsEnabled<T>(this T visualelement, bool isEnabled) where T : IVisualElement
+        public static T Style<T>(this T visualElement, Func<Microsoft.Maui.Controls.Style> styleFunc) where T : IVisualElement
         {
-            visualelement.IsEnabled = new PropertyValue<bool>(isEnabled);
-            return visualelement;
-        }
-        public static T IsEnabled<T>(this T visualelement, Func<bool> isEnabledFunc) where T : IVisualElement
-        {
-            visualelement.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
-            return visualelement;
+            visualElement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc);
+            return visualElement;
         }
 
 
 
-        public static T AnchorX<T>(this T visualelement, double anchorX) where T : IVisualElement
+        public static T InputTransparent<T>(this T visualElement, bool inputTransparent) where T : IVisualElement
         {
-            visualelement.AnchorX = new PropertyValue<double>(anchorX);
-            return visualelement;
-        }
-        public static T AnchorX<T>(this T visualelement, Func<double> anchorXFunc) where T : IVisualElement
-        {
-            visualelement.AnchorX = new PropertyValue<double>(anchorXFunc);
-            return visualelement;
+            visualElement.InputTransparent = new PropertyValue<bool>(inputTransparent);
+            return visualElement;
         }
 
-
-
-        public static T AnchorY<T>(this T visualelement, double anchorY) where T : IVisualElement
+        public static T InputTransparent<T>(this T visualElement, Func<bool> inputTransparentFunc) where T : IVisualElement
         {
-            visualelement.AnchorY = new PropertyValue<double>(anchorY);
-            return visualelement;
-        }
-        public static T AnchorY<T>(this T visualelement, Func<double> anchorYFunc) where T : IVisualElement
-        {
-            visualelement.AnchorY = new PropertyValue<double>(anchorYFunc);
-            return visualelement;
+            visualElement.InputTransparent = new PropertyValue<bool>(inputTransparentFunc);
+            return visualElement;
         }
 
 
 
-        public static T TranslationX<T>(this T visualelement, double translationX) where T : IVisualElement
+        public static T IsEnabled<T>(this T visualElement, bool isEnabled) where T : IVisualElement
         {
-            visualelement.TranslationX = new PropertyValue<double>(translationX);
-            return visualelement;
-        }
-        public static T TranslationX<T>(this T visualelement, Func<double> translationXFunc) where T : IVisualElement
-        {
-            visualelement.TranslationX = new PropertyValue<double>(translationXFunc);
-            return visualelement;
+            visualElement.IsEnabled = new PropertyValue<bool>(isEnabled);
+            return visualElement;
         }
 
-
-
-        public static T TranslationY<T>(this T visualelement, double translationY) where T : IVisualElement
+        public static T IsEnabled<T>(this T visualElement, Func<bool> isEnabledFunc) where T : IVisualElement
         {
-            visualelement.TranslationY = new PropertyValue<double>(translationY);
-            return visualelement;
-        }
-        public static T TranslationY<T>(this T visualelement, Func<double> translationYFunc) where T : IVisualElement
-        {
-            visualelement.TranslationY = new PropertyValue<double>(translationYFunc);
-            return visualelement;
+            visualElement.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
+            return visualElement;
         }
 
 
 
-        public static T Rotation<T>(this T visualelement, double rotation) where T : IVisualElement
+        public static T AnchorX<T>(this T visualElement, double anchorX, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
         {
-            visualelement.Rotation = new PropertyValue<double>(rotation);
-            return visualelement;
-        }
-        public static T Rotation<T>(this T visualelement, Func<double> rotationFunc) where T : IVisualElement
-        {
-            visualelement.Rotation = new PropertyValue<double>(rotationFunc);
-            return visualelement;
+            visualElement.AnchorX = new PropertyValue<double>(anchorX);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.AnchorXProperty, customAnimation ?? new RxDoubleAnimation(anchorX), v => visualElement.AnchorX = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
         }
 
-
-
-        public static T RotationX<T>(this T visualelement, double rotationX) where T : IVisualElement
+        public static T AnchorX<T>(this T visualElement, Func<double> anchorXFunc) where T : IVisualElement
         {
-            visualelement.RotationX = new PropertyValue<double>(rotationX);
-            return visualelement;
-        }
-        public static T RotationX<T>(this T visualelement, Func<double> rotationXFunc) where T : IVisualElement
-        {
-            visualelement.RotationX = new PropertyValue<double>(rotationXFunc);
-            return visualelement;
+            visualElement.AnchorX = new PropertyValue<double>(anchorXFunc);
+            return visualElement;
         }
 
 
 
-        public static T RotationY<T>(this T visualelement, double rotationY) where T : IVisualElement
+        public static T AnchorY<T>(this T visualElement, double anchorY, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
         {
-            visualelement.RotationY = new PropertyValue<double>(rotationY);
-            return visualelement;
-        }
-        public static T RotationY<T>(this T visualelement, Func<double> rotationYFunc) where T : IVisualElement
-        {
-            visualelement.RotationY = new PropertyValue<double>(rotationYFunc);
-            return visualelement;
+            visualElement.AnchorY = new PropertyValue<double>(anchorY);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.AnchorYProperty, customAnimation ?? new RxDoubleAnimation(anchorY), v => visualElement.AnchorY = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
         }
 
-
-
-        public static T Scale<T>(this T visualelement, double scale) where T : IVisualElement
+        public static T AnchorY<T>(this T visualElement, Func<double> anchorYFunc) where T : IVisualElement
         {
-            visualelement.Scale = new PropertyValue<double>(scale);
-            return visualelement;
-        }
-        public static T Scale<T>(this T visualelement, Func<double> scaleFunc) where T : IVisualElement
-        {
-            visualelement.Scale = new PropertyValue<double>(scaleFunc);
-            return visualelement;
+            visualElement.AnchorY = new PropertyValue<double>(anchorYFunc);
+            return visualElement;
         }
 
 
 
-        public static T ScaleX<T>(this T visualelement, double scaleX) where T : IVisualElement
+        public static T TranslationX<T>(this T visualElement, double translationX, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
         {
-            visualelement.ScaleX = new PropertyValue<double>(scaleX);
-            return visualelement;
-        }
-        public static T ScaleX<T>(this T visualelement, Func<double> scaleXFunc) where T : IVisualElement
-        {
-            visualelement.ScaleX = new PropertyValue<double>(scaleXFunc);
-            return visualelement;
+            visualElement.TranslationX = new PropertyValue<double>(translationX);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.TranslationXProperty, customAnimation ?? new RxDoubleAnimation(translationX), v => visualElement.TranslationX = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
         }
 
-
-
-        public static T ScaleY<T>(this T visualelement, double scaleY) where T : IVisualElement
+        public static T TranslationX<T>(this T visualElement, Func<double> translationXFunc) where T : IVisualElement
         {
-            visualelement.ScaleY = new PropertyValue<double>(scaleY);
-            return visualelement;
-        }
-        public static T ScaleY<T>(this T visualelement, Func<double> scaleYFunc) where T : IVisualElement
-        {
-            visualelement.ScaleY = new PropertyValue<double>(scaleYFunc);
-            return visualelement;
+            visualElement.TranslationX = new PropertyValue<double>(translationXFunc);
+            return visualElement;
         }
 
 
 
-        public static T Visual<T>(this T visualelement, Microsoft.Maui.Controls.IVisual visual) where T : IVisualElement
+        public static T TranslationY<T>(this T visualElement, double translationY, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
         {
-            visualelement.Visual = new PropertyValue<Microsoft.Maui.Controls.IVisual>(visual);
-            return visualelement;
-        }
-        public static T Visual<T>(this T visualelement, Func<Microsoft.Maui.Controls.IVisual> visualFunc) where T : IVisualElement
-        {
-            visualelement.Visual = new PropertyValue<Microsoft.Maui.Controls.IVisual>(visualFunc);
-            return visualelement;
+            visualElement.TranslationY = new PropertyValue<double>(translationY);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.TranslationYProperty, customAnimation ?? new RxDoubleAnimation(translationY), v => visualElement.TranslationY = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
         }
 
-
-
-        public static T IsVisible<T>(this T visualelement, bool isVisible) where T : IVisualElement
+        public static T TranslationY<T>(this T visualElement, Func<double> translationYFunc) where T : IVisualElement
         {
-            visualelement.IsVisible = new PropertyValue<bool>(isVisible);
-            return visualelement;
-        }
-        public static T IsVisible<T>(this T visualelement, Func<bool> isVisibleFunc) where T : IVisualElement
-        {
-            visualelement.IsVisible = new PropertyValue<bool>(isVisibleFunc);
-            return visualelement;
+            visualElement.TranslationY = new PropertyValue<double>(translationYFunc);
+            return visualElement;
         }
 
 
 
-        public static T Opacity<T>(this T visualelement, double opacity) where T : IVisualElement
+        public static T Rotation<T>(this T visualElement, double rotation, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
         {
-            visualelement.Opacity = new PropertyValue<double>(opacity);
-            return visualelement;
-        }
-        public static T Opacity<T>(this T visualelement, Func<double> opacityFunc) where T : IVisualElement
-        {
-            visualelement.Opacity = new PropertyValue<double>(opacityFunc);
-            return visualelement;
+            visualElement.Rotation = new PropertyValue<double>(rotation);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.RotationProperty, customAnimation ?? new RxDoubleAnimation(rotation), v => visualElement.Rotation = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
         }
 
-
-
-        public static T BackgroundColor<T>(this T visualelement, Microsoft.Maui.Graphics.Color backgroundColor) where T : IVisualElement
+        public static T Rotation<T>(this T visualElement, Func<double> rotationFunc) where T : IVisualElement
         {
-            visualelement.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColor);
-            return visualelement;
-        }
-        public static T BackgroundColor<T>(this T visualelement, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc) where T : IVisualElement
-        {
-            visualelement.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc);
-            return visualelement;
+            visualElement.Rotation = new PropertyValue<double>(rotationFunc);
+            return visualElement;
         }
 
 
 
-        public static T Background<T>(this T visualelement, Microsoft.Maui.Controls.Brush background) where T : IVisualElement
+        public static T RotationX<T>(this T visualElement, double rotationX, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
         {
-            visualelement.Background = new PropertyValue<Microsoft.Maui.Controls.Brush>(background);
-            return visualelement;
-        }
-        public static T Background<T>(this T visualelement, Func<Microsoft.Maui.Controls.Brush> backgroundFunc) where T : IVisualElement
-        {
-            visualelement.Background = new PropertyValue<Microsoft.Maui.Controls.Brush>(backgroundFunc);
-            return visualelement;
+            visualElement.RotationX = new PropertyValue<double>(rotationX);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.RotationXProperty, customAnimation ?? new RxDoubleAnimation(rotationX), v => visualElement.RotationX = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
         }
 
-
-
-        public static T WidthRequest<T>(this T visualelement, double widthRequest) where T : IVisualElement
+        public static T RotationX<T>(this T visualElement, Func<double> rotationXFunc) where T : IVisualElement
         {
-            visualelement.WidthRequest = new PropertyValue<double>(widthRequest);
-            return visualelement;
-        }
-        public static T WidthRequest<T>(this T visualelement, Func<double> widthRequestFunc) where T : IVisualElement
-        {
-            visualelement.WidthRequest = new PropertyValue<double>(widthRequestFunc);
-            return visualelement;
+            visualElement.RotationX = new PropertyValue<double>(rotationXFunc);
+            return visualElement;
         }
 
 
 
-        public static T HeightRequest<T>(this T visualelement, double heightRequest) where T : IVisualElement
+        public static T RotationY<T>(this T visualElement, double rotationY, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
         {
-            visualelement.HeightRequest = new PropertyValue<double>(heightRequest);
-            return visualelement;
-        }
-        public static T HeightRequest<T>(this T visualelement, Func<double> heightRequestFunc) where T : IVisualElement
-        {
-            visualelement.HeightRequest = new PropertyValue<double>(heightRequestFunc);
-            return visualelement;
+            visualElement.RotationY = new PropertyValue<double>(rotationY);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.RotationYProperty, customAnimation ?? new RxDoubleAnimation(rotationY), v => visualElement.RotationY = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
         }
 
-
-
-        public static T MinimumWidthRequest<T>(this T visualelement, double minimumWidthRequest) where T : IVisualElement
+        public static T RotationY<T>(this T visualElement, Func<double> rotationYFunc) where T : IVisualElement
         {
-            visualelement.MinimumWidthRequest = new PropertyValue<double>(minimumWidthRequest);
-            return visualelement;
-        }
-        public static T MinimumWidthRequest<T>(this T visualelement, Func<double> minimumWidthRequestFunc) where T : IVisualElement
-        {
-            visualelement.MinimumWidthRequest = new PropertyValue<double>(minimumWidthRequestFunc);
-            return visualelement;
+            visualElement.RotationY = new PropertyValue<double>(rotationYFunc);
+            return visualElement;
         }
 
 
 
-        public static T MinimumHeightRequest<T>(this T visualelement, double minimumHeightRequest) where T : IVisualElement
+        public static T Scale<T>(this T visualElement, double scale, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
         {
-            visualelement.MinimumHeightRequest = new PropertyValue<double>(minimumHeightRequest);
-            return visualelement;
-        }
-        public static T MinimumHeightRequest<T>(this T visualelement, Func<double> minimumHeightRequestFunc) where T : IVisualElement
-        {
-            visualelement.MinimumHeightRequest = new PropertyValue<double>(minimumHeightRequestFunc);
-            return visualelement;
+            visualElement.Scale = new PropertyValue<double>(scale);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.ScaleProperty, customAnimation ?? new RxDoubleAnimation(scale), v => visualElement.Scale = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
         }
 
-
-
-        public static T MaximumWidthRequest<T>(this T visualelement, double maximumWidthRequest) where T : IVisualElement
+        public static T Scale<T>(this T visualElement, Func<double> scaleFunc) where T : IVisualElement
         {
-            visualelement.MaximumWidthRequest = new PropertyValue<double>(maximumWidthRequest);
-            return visualelement;
-        }
-        public static T MaximumWidthRequest<T>(this T visualelement, Func<double> maximumWidthRequestFunc) where T : IVisualElement
-        {
-            visualelement.MaximumWidthRequest = new PropertyValue<double>(maximumWidthRequestFunc);
-            return visualelement;
+            visualElement.Scale = new PropertyValue<double>(scaleFunc);
+            return visualElement;
         }
 
 
 
-        public static T MaximumHeightRequest<T>(this T visualelement, double maximumHeightRequest) where T : IVisualElement
+        public static T ScaleX<T>(this T visualElement, double scaleX, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
         {
-            visualelement.MaximumHeightRequest = new PropertyValue<double>(maximumHeightRequest);
-            return visualelement;
+            visualElement.ScaleX = new PropertyValue<double>(scaleX);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.ScaleXProperty, customAnimation ?? new RxDoubleAnimation(scaleX), v => visualElement.ScaleX = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
         }
-        public static T MaximumHeightRequest<T>(this T visualelement, Func<double> maximumHeightRequestFunc) where T : IVisualElement
+
+        public static T ScaleX<T>(this T visualElement, Func<double> scaleXFunc) where T : IVisualElement
         {
-            visualelement.MaximumHeightRequest = new PropertyValue<double>(maximumHeightRequestFunc);
-            return visualelement;
+            visualElement.ScaleX = new PropertyValue<double>(scaleXFunc);
+            return visualElement;
         }
 
 
 
-        public static T FlowDirection<T>(this T visualelement, Microsoft.Maui.FlowDirection flowDirection) where T : IVisualElement
+        public static T ScaleY<T>(this T visualElement, double scaleY, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
         {
-            visualelement.FlowDirection = new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirection);
-            return visualelement;
+            visualElement.ScaleY = new PropertyValue<double>(scaleY);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.ScaleYProperty, customAnimation ?? new RxDoubleAnimation(scaleY), v => visualElement.ScaleY = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
         }
-        public static T FlowDirection<T>(this T visualelement, Func<Microsoft.Maui.FlowDirection> flowDirectionFunc) where T : IVisualElement
+
+        public static T ScaleY<T>(this T visualElement, Func<double> scaleYFunc) where T : IVisualElement
         {
-            visualelement.FlowDirection = new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirectionFunc);
-            return visualelement;
+            visualElement.ScaleY = new PropertyValue<double>(scaleYFunc);
+            return visualElement;
+        }
+
+
+
+        public static T Visual<T>(this T visualElement, Microsoft.Maui.Controls.IVisual visual) where T : IVisualElement
+        {
+            visualElement.Visual = new PropertyValue<Microsoft.Maui.Controls.IVisual>(visual);
+            return visualElement;
+        }
+
+        public static T Visual<T>(this T visualElement, Func<Microsoft.Maui.Controls.IVisual> visualFunc) where T : IVisualElement
+        {
+            visualElement.Visual = new PropertyValue<Microsoft.Maui.Controls.IVisual>(visualFunc);
+            return visualElement;
+        }
+
+
+
+        public static T IsVisible<T>(this T visualElement, bool isVisible) where T : IVisualElement
+        {
+            visualElement.IsVisible = new PropertyValue<bool>(isVisible);
+            return visualElement;
+        }
+
+        public static T IsVisible<T>(this T visualElement, Func<bool> isVisibleFunc) where T : IVisualElement
+        {
+            visualElement.IsVisible = new PropertyValue<bool>(isVisibleFunc);
+            return visualElement;
+        }
+
+
+
+        public static T Opacity<T>(this T visualElement, double opacity, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
+        {
+            visualElement.Opacity = new PropertyValue<double>(opacity);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.OpacityProperty, customAnimation ?? new RxDoubleAnimation(opacity), v => visualElement.Opacity = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
+        }
+
+        public static T Opacity<T>(this T visualElement, Func<double> opacityFunc) where T : IVisualElement
+        {
+            visualElement.Opacity = new PropertyValue<double>(opacityFunc);
+            return visualElement;
+        }
+
+
+
+        public static T BackgroundColor<T>(this T visualElement, Microsoft.Maui.Graphics.Color backgroundColor) where T : IVisualElement
+        {
+            visualElement.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColor);
+            return visualElement;
+        }
+
+        public static T BackgroundColor<T>(this T visualElement, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc) where T : IVisualElement
+        {
+            visualElement.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc);
+            return visualElement;
+        }
+
+
+
+        public static T Background<T>(this T visualElement, Microsoft.Maui.Controls.Brush background) where T : IVisualElement
+        {
+            visualElement.Background = new PropertyValue<Microsoft.Maui.Controls.Brush>(background);
+            return visualElement;
+        }
+
+        public static T Background<T>(this T visualElement, Func<Microsoft.Maui.Controls.Brush> backgroundFunc) where T : IVisualElement
+        {
+            visualElement.Background = new PropertyValue<Microsoft.Maui.Controls.Brush>(backgroundFunc);
+            return visualElement;
+        }
+
+
+
+        public static T WidthRequest<T>(this T visualElement, double widthRequest, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
+        {
+            visualElement.WidthRequest = new PropertyValue<double>(widthRequest);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.WidthRequestProperty, customAnimation ?? new RxDoubleAnimation(widthRequest), v => visualElement.WidthRequest = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
+        }
+
+        public static T WidthRequest<T>(this T visualElement, Func<double> widthRequestFunc) where T : IVisualElement
+        {
+            visualElement.WidthRequest = new PropertyValue<double>(widthRequestFunc);
+            return visualElement;
+        }
+
+
+
+        public static T HeightRequest<T>(this T visualElement, double heightRequest, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
+        {
+            visualElement.HeightRequest = new PropertyValue<double>(heightRequest);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.HeightRequestProperty, customAnimation ?? new RxDoubleAnimation(heightRequest), v => visualElement.HeightRequest = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
+        }
+
+        public static T HeightRequest<T>(this T visualElement, Func<double> heightRequestFunc) where T : IVisualElement
+        {
+            visualElement.HeightRequest = new PropertyValue<double>(heightRequestFunc);
+            return visualElement;
+        }
+
+
+
+        public static T MinimumWidthRequest<T>(this T visualElement, double minimumWidthRequest, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
+        {
+            visualElement.MinimumWidthRequest = new PropertyValue<double>(minimumWidthRequest);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MinimumWidthRequestProperty, customAnimation ?? new RxDoubleAnimation(minimumWidthRequest), v => visualElement.MinimumWidthRequest = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
+        }
+
+        public static T MinimumWidthRequest<T>(this T visualElement, Func<double> minimumWidthRequestFunc) where T : IVisualElement
+        {
+            visualElement.MinimumWidthRequest = new PropertyValue<double>(minimumWidthRequestFunc);
+            return visualElement;
+        }
+
+
+
+        public static T MinimumHeightRequest<T>(this T visualElement, double minimumHeightRequest, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
+        {
+            visualElement.MinimumHeightRequest = new PropertyValue<double>(minimumHeightRequest);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MinimumHeightRequestProperty, customAnimation ?? new RxDoubleAnimation(minimumHeightRequest), v => visualElement.MinimumHeightRequest = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
+        }
+
+        public static T MinimumHeightRequest<T>(this T visualElement, Func<double> minimumHeightRequestFunc) where T : IVisualElement
+        {
+            visualElement.MinimumHeightRequest = new PropertyValue<double>(minimumHeightRequestFunc);
+            return visualElement;
+        }
+
+
+
+        public static T MaximumWidthRequest<T>(this T visualElement, double maximumWidthRequest, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
+        {
+            visualElement.MaximumWidthRequest = new PropertyValue<double>(maximumWidthRequest);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MaximumWidthRequestProperty, customAnimation ?? new RxDoubleAnimation(maximumWidthRequest), v => visualElement.MaximumWidthRequest = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
+        }
+
+        public static T MaximumWidthRequest<T>(this T visualElement, Func<double> maximumWidthRequestFunc) where T : IVisualElement
+        {
+            visualElement.MaximumWidthRequest = new PropertyValue<double>(maximumWidthRequestFunc);
+            return visualElement;
+        }
+
+
+
+        public static T MaximumHeightRequest<T>(this T visualElement, double maximumHeightRequest, RxDoubleAnimation? customAnimation = null) where T : IVisualElement
+        {
+            visualElement.MaximumHeightRequest = new PropertyValue<double>(maximumHeightRequest);
+            visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MaximumHeightRequestProperty, customAnimation ?? new RxDoubleAnimation(maximumHeightRequest), v => visualElement.MaximumHeightRequest = new PropertyValue<double>(v.CurrentValue()));
+            return visualElement;
+        }
+
+        public static T MaximumHeightRequest<T>(this T visualElement, Func<double> maximumHeightRequestFunc) where T : IVisualElement
+        {
+            visualElement.MaximumHeightRequest = new PropertyValue<double>(maximumHeightRequestFunc);
+            return visualElement;
+        }
+
+
+
+        public static T FlowDirection<T>(this T visualElement, Microsoft.Maui.FlowDirection flowDirection) where T : IVisualElement
+        {
+            visualElement.FlowDirection = new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirection);
+            return visualElement;
+        }
+
+        public static T FlowDirection<T>(this T visualElement, Func<Microsoft.Maui.FlowDirection> flowDirectionFunc) where T : IVisualElement
+        {
+            visualElement.FlowDirection = new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirectionFunc);
+            return visualElement;
         }
 
 
 
 
-        public static T OnChildrenReordered<T>(this T visualelement, Action childrenreorderedAction) where T : IVisualElement
+        public static T OnChildrenReordered<T>(this T visualElement, Action childrenReorderedAction) where T : IVisualElement
         {
-            visualelement.ChildrenReorderedAction = childrenreorderedAction;
-            return visualelement;
+            visualElement.ChildrenReorderedAction = childrenReorderedAction;
+            return visualElement;
         }
 
-        public static T OnChildrenReordered<T>(this T visualelement, Action<object?, EventArgs> childrenreorderedActionWithArgs) where T : IVisualElement
+        public static T OnChildrenReordered<T>(this T visualElement, Action<object?, EventArgs> childrenReorderedActionWithArgs) where T : IVisualElement
         {
-            visualelement.ChildrenReorderedActionWithArgs = childrenreorderedActionWithArgs;
-            return visualelement;
+            visualElement.ChildrenReorderedActionWithArgs = childrenReorderedActionWithArgs;
+            return visualElement;
         }
-        public static T OnFocused<T>(this T visualelement, Action focusedAction) where T : IVisualElement
+        public static T OnFocused<T>(this T visualElement, Action focusedAction) where T : IVisualElement
         {
-            visualelement.FocusedAction = focusedAction;
-            return visualelement;
-        }
-
-        public static T OnFocused<T>(this T visualelement, Action<object?, FocusEventArgs> focusedActionWithArgs) where T : IVisualElement
-        {
-            visualelement.FocusedActionWithArgs = focusedActionWithArgs;
-            return visualelement;
-        }
-        public static T OnMeasureInvalidated<T>(this T visualelement, Action measureinvalidatedAction) where T : IVisualElement
-        {
-            visualelement.MeasureInvalidatedAction = measureinvalidatedAction;
-            return visualelement;
+            visualElement.FocusedAction = focusedAction;
+            return visualElement;
         }
 
-        public static T OnMeasureInvalidated<T>(this T visualelement, Action<object?, EventArgs> measureinvalidatedActionWithArgs) where T : IVisualElement
+        public static T OnFocused<T>(this T visualElement, Action<object?, FocusEventArgs> focusedActionWithArgs) where T : IVisualElement
         {
-            visualelement.MeasureInvalidatedActionWithArgs = measureinvalidatedActionWithArgs;
-            return visualelement;
+            visualElement.FocusedActionWithArgs = focusedActionWithArgs;
+            return visualElement;
         }
-        public static T OnSizeChanged<T>(this T visualelement, Action sizechangedAction) where T : IVisualElement
+        public static T OnMeasureInvalidated<T>(this T visualElement, Action measureInvalidatedAction) where T : IVisualElement
         {
-            visualelement.SizeChangedAction = sizechangedAction;
-            return visualelement;
-        }
-
-        public static T OnSizeChanged<T>(this T visualelement, Action<object?, EventArgs> sizechangedActionWithArgs) where T : IVisualElement
-        {
-            visualelement.SizeChangedActionWithArgs = sizechangedActionWithArgs;
-            return visualelement;
-        }
-        public static T OnUnfocused<T>(this T visualelement, Action unfocusedAction) where T : IVisualElement
-        {
-            visualelement.UnfocusedAction = unfocusedAction;
-            return visualelement;
+            visualElement.MeasureInvalidatedAction = measureInvalidatedAction;
+            return visualElement;
         }
 
-        public static T OnUnfocused<T>(this T visualelement, Action<object?, FocusEventArgs> unfocusedActionWithArgs) where T : IVisualElement
+        public static T OnMeasureInvalidated<T>(this T visualElement, Action<object?, EventArgs> measureInvalidatedActionWithArgs) where T : IVisualElement
         {
-            visualelement.UnfocusedActionWithArgs = unfocusedActionWithArgs;
-            return visualelement;
+            visualElement.MeasureInvalidatedActionWithArgs = measureInvalidatedActionWithArgs;
+            return visualElement;
+        }
+        public static T OnSizeChanged<T>(this T visualElement, Action sizeChangedAction) where T : IVisualElement
+        {
+            visualElement.SizeChangedAction = sizeChangedAction;
+            return visualElement;
+        }
+
+        public static T OnSizeChanged<T>(this T visualElement, Action<object?, EventArgs> sizeChangedActionWithArgs) where T : IVisualElement
+        {
+            visualElement.SizeChangedActionWithArgs = sizeChangedActionWithArgs;
+            return visualElement;
+        }
+        public static T OnUnfocused<T>(this T visualElement, Action unfocusedAction) where T : IVisualElement
+        {
+            visualElement.UnfocusedAction = unfocusedAction;
+            return visualElement;
+        }
+
+        public static T OnUnfocused<T>(this T visualElement, Action<object?, FocusEventArgs> unfocusedActionWithArgs) where T : IVisualElement
+        {
+            visualElement.UnfocusedActionWithArgs = unfocusedActionWithArgs;
+            return visualElement;
         }
     }
 }

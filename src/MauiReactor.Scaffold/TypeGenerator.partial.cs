@@ -29,6 +29,7 @@ namespace MauiReactor.Scaffold
                 .Where(_ => propertiesMap.ContainsKey(_))
                 .Select(_ => propertiesMap[_])
                 .Where(_ => !_.PropertyType.IsGenericType)
+                .Where(_ => (_.GetSetMethod()?.IsPublic).GetValueOrDefault())
                 //Microsoft.Maui.Controls.LayoutOptions doesn't support ==
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.LayoutOptions")
                 //Custom handling
@@ -43,8 +44,10 @@ namespace MauiReactor.Scaffold
                 .Where(_ => !_.Name.Contains("Command"))
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.DataTemplate")
                 .Where(_ => _.Name != "ItemsSource")
+                .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.IItemsLayout")
+                .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.StructuredItemsView" && (_.Name == "Header" || _.Name == "Footer")))
+                //.Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.WebView" && (_.Name == "Source")))
 
-                .Where(_ => (_.GetSetMethod()?.IsPublic).GetValueOrDefault())
                 .ToArray();
 
             Events = _typeToScaffold.GetEvents(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)

@@ -15,11 +15,6 @@ namespace MauiReactor.HotReloadConsole
             Console.WriteLine($"MauiReactor Hot-Reload CLI");
             Console.WriteLine($"Version {Assembly.GetExecutingAssembly().GetName().Version}");
 
-            if (!ExecutePortForwardCommmand())
-            {
-                return -1;
-            }
-
             var optionsParsed = Parser.Default.ParseArguments<Options>(args);
 
             await optionsParsed.WithParsedAsync(RunMonitorAndConnectionClient);
@@ -29,8 +24,16 @@ namespace MauiReactor.HotReloadConsole
 
         private static async Task RunMonitorAndConnectionClient(Options options)
         {
+            if (options.Framework == "net6.0-android")
+            {
+                if (!ExecutePortForwardCommmand())
+                {
+                    return;
+                }
+            }
+
             var hotReloadClient = new HotReloadClient(options);
-            
+
             Console.WriteLine("Press Ctrl+C or Ctrl+Break to quit");
 
             var tsc = new CancellationTokenSource();

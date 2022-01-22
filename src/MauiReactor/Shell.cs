@@ -12,7 +12,7 @@ namespace MauiReactor
 {
     public partial interface IShell : IPage
     {
-        PropertyValue<Microsoft.Maui.Controls.FlyoutBehavior>? FlyoutBehavior { get; set; }
+        PropertyValue<Microsoft.Maui.FlyoutBehavior>? FlyoutBehavior { get; set; }
         PropertyValue<Microsoft.Maui.Graphics.Color>? BackgroundColor { get; set; }
         PropertyValue<Microsoft.Maui.Controls.Brush>? FlyoutBackdrop { get; set; }
         PropertyValue<double>? FlyoutWidth { get; set; }
@@ -48,7 +48,7 @@ namespace MauiReactor
 
         }
 
-        PropertyValue<Microsoft.Maui.Controls.FlyoutBehavior>? IShell.FlyoutBehavior { get; set; }
+        PropertyValue<Microsoft.Maui.FlyoutBehavior>? IShell.FlyoutBehavior { get; set; }
         PropertyValue<Microsoft.Maui.Graphics.Color>? IShell.BackgroundColor { get; set; }
         PropertyValue<Microsoft.Maui.Controls.Brush>? IShell.FlyoutBackdrop { get; set; }
         PropertyValue<double>? IShell.FlyoutWidth { get; set; }
@@ -161,14 +161,15 @@ namespace MauiReactor
 
     public static partial class ShellExtensions
     {
-        public static T FlyoutBehavior<T>(this T shell, Microsoft.Maui.Controls.FlyoutBehavior flyoutBehavior) where T : IShell
+        public static T FlyoutBehavior<T>(this T shell, Microsoft.Maui.FlyoutBehavior flyoutBehavior) where T : IShell
         {
-            shell.FlyoutBehavior = new PropertyValue<Microsoft.Maui.Controls.FlyoutBehavior>(flyoutBehavior);
+            shell.FlyoutBehavior = new PropertyValue<Microsoft.Maui.FlyoutBehavior>(flyoutBehavior);
             return shell;
         }
-        public static T FlyoutBehavior<T>(this T shell, Func<Microsoft.Maui.Controls.FlyoutBehavior> flyoutBehaviorFunc) where T : IShell
+
+        public static T FlyoutBehavior<T>(this T shell, Func<Microsoft.Maui.FlyoutBehavior> flyoutBehaviorFunc) where T : IShell
         {
-            shell.FlyoutBehavior = new PropertyValue<Microsoft.Maui.Controls.FlyoutBehavior>(flyoutBehaviorFunc);
+            shell.FlyoutBehavior = new PropertyValue<Microsoft.Maui.FlyoutBehavior>(flyoutBehaviorFunc);
             return shell;
         }
 
@@ -179,6 +180,7 @@ namespace MauiReactor
             shell.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColor);
             return shell;
         }
+
         public static T BackgroundColor<T>(this T shell, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc) where T : IShell
         {
             shell.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc);
@@ -192,6 +194,7 @@ namespace MauiReactor
             shell.FlyoutBackdrop = new PropertyValue<Microsoft.Maui.Controls.Brush>(flyoutBackdrop);
             return shell;
         }
+
         public static T FlyoutBackdrop<T>(this T shell, Func<Microsoft.Maui.Controls.Brush> flyoutBackdropFunc) where T : IShell
         {
             shell.FlyoutBackdrop = new PropertyValue<Microsoft.Maui.Controls.Brush>(flyoutBackdropFunc);
@@ -200,11 +203,13 @@ namespace MauiReactor
 
 
 
-        public static T FlyoutWidth<T>(this T shell, double flyoutWidth) where T : IShell
+        public static T FlyoutWidth<T>(this T shell, double flyoutWidth, RxDoubleAnimation? customAnimation = null) where T : IShell
         {
             shell.FlyoutWidth = new PropertyValue<double>(flyoutWidth);
+            shell.AppendAnimatable(Microsoft.Maui.Controls.Shell.FlyoutWidthProperty, customAnimation ?? new RxDoubleAnimation(flyoutWidth), v => shell.FlyoutWidth = new PropertyValue<double>(v.CurrentValue()));
             return shell;
         }
+
         public static T FlyoutWidth<T>(this T shell, Func<double> flyoutWidthFunc) where T : IShell
         {
             shell.FlyoutWidth = new PropertyValue<double>(flyoutWidthFunc);
@@ -213,11 +218,13 @@ namespace MauiReactor
 
 
 
-        public static T FlyoutHeight<T>(this T shell, double flyoutHeight) where T : IShell
+        public static T FlyoutHeight<T>(this T shell, double flyoutHeight, RxDoubleAnimation? customAnimation = null) where T : IShell
         {
             shell.FlyoutHeight = new PropertyValue<double>(flyoutHeight);
+            shell.AppendAnimatable(Microsoft.Maui.Controls.Shell.FlyoutHeightProperty, customAnimation ?? new RxDoubleAnimation(flyoutHeight), v => shell.FlyoutHeight = new PropertyValue<double>(v.CurrentValue()));
             return shell;
         }
+
         public static T FlyoutHeight<T>(this T shell, Func<double> flyoutHeightFunc) where T : IShell
         {
             shell.FlyoutHeight = new PropertyValue<double>(flyoutHeightFunc);
@@ -231,6 +238,7 @@ namespace MauiReactor
             shell.FlyoutBackgroundImage = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutBackgroundImage);
             return shell;
         }
+
         public static T FlyoutBackgroundImage<T>(this T shell, Func<Microsoft.Maui.Controls.ImageSource> flyoutBackgroundImageFunc) where T : IShell
         {
             shell.FlyoutBackgroundImage = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutBackgroundImageFunc);
@@ -279,6 +287,7 @@ namespace MauiReactor
             shell.FlyoutBackgroundImageAspect = new PropertyValue<Microsoft.Maui.Aspect>(flyoutBackgroundImageAspect);
             return shell;
         }
+
         public static T FlyoutBackgroundImageAspect<T>(this T shell, Func<Microsoft.Maui.Aspect> flyoutBackgroundImageAspectFunc) where T : IShell
         {
             shell.FlyoutBackgroundImageAspect = new PropertyValue<Microsoft.Maui.Aspect>(flyoutBackgroundImageAspectFunc);
@@ -292,6 +301,7 @@ namespace MauiReactor
             shell.FlyoutBackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(flyoutBackgroundColor);
             return shell;
         }
+
         public static T FlyoutBackgroundColor<T>(this T shell, Func<Microsoft.Maui.Graphics.Color> flyoutBackgroundColorFunc) where T : IShell
         {
             shell.FlyoutBackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(flyoutBackgroundColorFunc);
@@ -305,6 +315,7 @@ namespace MauiReactor
             shell.FlyoutBackground = new PropertyValue<Microsoft.Maui.Controls.Brush>(flyoutBackground);
             return shell;
         }
+
         public static T FlyoutBackground<T>(this T shell, Func<Microsoft.Maui.Controls.Brush> flyoutBackgroundFunc) where T : IShell
         {
             shell.FlyoutBackground = new PropertyValue<Microsoft.Maui.Controls.Brush>(flyoutBackgroundFunc);
@@ -318,6 +329,7 @@ namespace MauiReactor
             shell.FlyoutHeaderBehavior = new PropertyValue<Microsoft.Maui.Controls.FlyoutHeaderBehavior>(flyoutHeaderBehavior);
             return shell;
         }
+
         public static T FlyoutHeaderBehavior<T>(this T shell, Func<Microsoft.Maui.Controls.FlyoutHeaderBehavior> flyoutHeaderBehaviorFunc) where T : IShell
         {
             shell.FlyoutHeaderBehavior = new PropertyValue<Microsoft.Maui.Controls.FlyoutHeaderBehavior>(flyoutHeaderBehaviorFunc);
@@ -331,6 +343,7 @@ namespace MauiReactor
             shell.FlyoutHeader = new PropertyValue<object>(flyoutHeader);
             return shell;
         }
+
         public static T FlyoutHeader<T>(this T shell, Func<object> flyoutHeaderFunc) where T : IShell
         {
             shell.FlyoutHeader = new PropertyValue<object>(flyoutHeaderFunc);
@@ -344,6 +357,7 @@ namespace MauiReactor
             shell.FlyoutFooter = new PropertyValue<object>(flyoutFooter);
             return shell;
         }
+
         public static T FlyoutFooter<T>(this T shell, Func<object> flyoutFooterFunc) where T : IShell
         {
             shell.FlyoutFooter = new PropertyValue<object>(flyoutFooterFunc);
@@ -357,6 +371,7 @@ namespace MauiReactor
             shell.FlyoutIsPresented = new PropertyValue<bool>(flyoutIsPresented);
             return shell;
         }
+
         public static T FlyoutIsPresented<T>(this T shell, Func<bool> flyoutIsPresentedFunc) where T : IShell
         {
             shell.FlyoutIsPresented = new PropertyValue<bool>(flyoutIsPresentedFunc);
@@ -370,6 +385,7 @@ namespace MauiReactor
             shell.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIcon);
             return shell;
         }
+
         public static T FlyoutIcon<T>(this T shell, Func<Microsoft.Maui.Controls.ImageSource> flyoutIconFunc) where T : IShell
         {
             shell.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIconFunc);
@@ -418,6 +434,7 @@ namespace MauiReactor
             shell.FlyoutVerticalScrollMode = new PropertyValue<Microsoft.Maui.Controls.ScrollMode>(flyoutVerticalScrollMode);
             return shell;
         }
+
         public static T FlyoutVerticalScrollMode<T>(this T shell, Func<Microsoft.Maui.Controls.ScrollMode> flyoutVerticalScrollModeFunc) where T : IShell
         {
             shell.FlyoutVerticalScrollMode = new PropertyValue<Microsoft.Maui.Controls.ScrollMode>(flyoutVerticalScrollModeFunc);
@@ -431,6 +448,7 @@ namespace MauiReactor
             shell.FlyoutContent = new PropertyValue<object>(flyoutContent);
             return shell;
         }
+
         public static T FlyoutContent<T>(this T shell, Func<object> flyoutContentFunc) where T : IShell
         {
             shell.FlyoutContent = new PropertyValue<object>(flyoutContentFunc);

@@ -68,15 +68,16 @@ namespace MauiReactor
 
     public static partial class TemplatedPageExtensions
     {
-        public static T ControlTemplate<T>(this T templatedpage, Microsoft.Maui.Controls.ControlTemplate controlTemplate) where T : ITemplatedPage
+        public static T ControlTemplate<T>(this T templatedPage, Microsoft.Maui.Controls.ControlTemplate controlTemplate) where T : ITemplatedPage
         {
-            templatedpage.ControlTemplate = new PropertyValue<Microsoft.Maui.Controls.ControlTemplate>(controlTemplate);
-            return templatedpage;
+            templatedPage.ControlTemplate = new PropertyValue<Microsoft.Maui.Controls.ControlTemplate>(controlTemplate);
+            return templatedPage;
         }
-        public static T ControlTemplate<T>(this T templatedpage, Func<Microsoft.Maui.Controls.ControlTemplate> controlTemplateFunc) where T : ITemplatedPage
+
+        public static T ControlTemplate<T>(this T templatedPage, Func<Microsoft.Maui.Controls.ControlTemplate> controlTemplateFunc) where T : ITemplatedPage
         {
-            templatedpage.ControlTemplate = new PropertyValue<Microsoft.Maui.Controls.ControlTemplate>(controlTemplateFunc);
-            return templatedpage;
+            templatedPage.ControlTemplate = new PropertyValue<Microsoft.Maui.Controls.ControlTemplate>(controlTemplateFunc);
+            return templatedPage;
         }
 
 

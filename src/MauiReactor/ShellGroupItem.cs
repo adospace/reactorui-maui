@@ -68,15 +68,16 @@ namespace MauiReactor
 
     public static partial class ShellGroupItemExtensions
     {
-        public static T FlyoutDisplayOptions<T>(this T shellgroupitem, Microsoft.Maui.Controls.FlyoutDisplayOptions flyoutDisplayOptions) where T : IShellGroupItem
+        public static T FlyoutDisplayOptions<T>(this T shellGroupItem, Microsoft.Maui.Controls.FlyoutDisplayOptions flyoutDisplayOptions) where T : IShellGroupItem
         {
-            shellgroupitem.FlyoutDisplayOptions = new PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>(flyoutDisplayOptions);
-            return shellgroupitem;
+            shellGroupItem.FlyoutDisplayOptions = new PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>(flyoutDisplayOptions);
+            return shellGroupItem;
         }
-        public static T FlyoutDisplayOptions<T>(this T shellgroupitem, Func<Microsoft.Maui.Controls.FlyoutDisplayOptions> flyoutDisplayOptionsFunc) where T : IShellGroupItem
+
+        public static T FlyoutDisplayOptions<T>(this T shellGroupItem, Func<Microsoft.Maui.Controls.FlyoutDisplayOptions> flyoutDisplayOptionsFunc) where T : IShellGroupItem
         {
-            shellgroupitem.FlyoutDisplayOptions = new PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>(flyoutDisplayOptionsFunc);
-            return shellgroupitem;
+            shellGroupItem.FlyoutDisplayOptions = new PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>(flyoutDisplayOptionsFunc);
+            return shellGroupItem;
         }
 
 

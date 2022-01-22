@@ -58,5 +58,15 @@ namespace MauiReactor.Scaffold
                 _ => fulltypename.Replace('+', '.'),
             };
         }
+
+        public static string ToLocalVariableName(this string varName)
+        {
+            varName = char.ToLowerInvariant(varName[0]) + varName.Substring(1);
+
+            if (varName == "switch")
+                return "@switch";
+
+            return varName;
+        }
     }
 }

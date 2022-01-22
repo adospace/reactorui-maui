@@ -71,40 +71,42 @@ namespace MauiReactor
 
     public static partial class BoxViewExtensions
     {
-        public static T Color<T>(this T boxview, Microsoft.Maui.Graphics.Color color) where T : IBoxView
+        public static T Color<T>(this T boxView, Microsoft.Maui.Graphics.Color color) where T : IBoxView
         {
-            boxview.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(color);
-            return boxview;
-        }
-        public static T Color<T>(this T boxview, Func<Microsoft.Maui.Graphics.Color> colorFunc) where T : IBoxView
-        {
-            boxview.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc);
-            return boxview;
+            boxView.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(color);
+            return boxView;
         }
 
-
-
-        public static T CornerRadius<T>(this T boxview, Microsoft.Maui.CornerRadius cornerRadius) where T : IBoxView
+        public static T Color<T>(this T boxView, Func<Microsoft.Maui.Graphics.Color> colorFunc) where T : IBoxView
         {
-            boxview.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadius);
-            return boxview;
-        }
-        public static T CornerRadius<T>(this T boxview, Func<Microsoft.Maui.CornerRadius> cornerRadiusFunc) where T : IBoxView
-        {
-            boxview.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadiusFunc);
-            return boxview;
+            boxView.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc);
+            return boxView;
         }
 
 
-        public static T CornerRadius<T>(this T boxview, double uniformRadius) where T : IBoxView
+
+        public static T CornerRadius<T>(this T boxView, Microsoft.Maui.CornerRadius cornerRadius) where T : IBoxView
         {
-            boxview.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(new CornerRadius(uniformRadius));
-            return boxview;
+            boxView.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadius);
+            return boxView;
         }
-        public static T CornerRadius<T>(this T boxview, double topLeft, double topRight, double bottomLeft, double bottomRight) where T : IBoxView
+
+        public static T CornerRadius<T>(this T boxView, Func<Microsoft.Maui.CornerRadius> cornerRadiusFunc) where T : IBoxView
         {
-            boxview.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight));
-            return boxview;
+            boxView.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadiusFunc);
+            return boxView;
+        }
+
+
+        public static T CornerRadius<T>(this T boxView, double uniformRadius) where T : IBoxView
+        {
+            boxView.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(new CornerRadius(uniformRadius));
+            return boxView;
+        }
+        public static T CornerRadius<T>(this T boxView, double topLeft, double topRight, double bottomLeft, double bottomRight) where T : IBoxView
+        {
+            boxView.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight));
+            return boxView;
         }
 
 

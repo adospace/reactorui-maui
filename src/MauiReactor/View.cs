@@ -60,6 +60,7 @@ namespace MauiReactor
             view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(margin);
             return view;
         }
+
         public static T Margin<T>(this T view, Func<Microsoft.Maui.Thickness> marginFunc) where T : IView
         {
             view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(marginFunc);

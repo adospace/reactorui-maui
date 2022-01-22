@@ -12,7 +12,7 @@ namespace MauiReactor.HotReloadConsole
 {
     internal class HotReloadClient
     {
-        private const int _serverPort = 45820;
+        private int _serverPort;
 
         private readonly Options _options;
         private readonly string _workingDirectory;
@@ -22,6 +22,8 @@ namespace MauiReactor.HotReloadConsole
         {
             _options = options;
             _workingDirectory = _options.WorkingDirectory ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException();
+            _serverPort = (options.Framework == "net6.0-android") ? 45820 : 45821;
+
             if (_options.ProjectFileName == null)
             {
                 var projFiles = Directory.GetFiles(_workingDirectory, "*.csproj");

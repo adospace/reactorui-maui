@@ -68,15 +68,16 @@ namespace MauiReactor
 
     public static partial class FlyoutItemExtensions
     {
-        public static T IsVisible<T>(this T flyoutitem, bool isVisible) where T : IFlyoutItem
+        public static T IsVisible<T>(this T flyoutItem, bool isVisible) where T : IFlyoutItem
         {
-            flyoutitem.IsVisible = new PropertyValue<bool>(isVisible);
-            return flyoutitem;
+            flyoutItem.IsVisible = new PropertyValue<bool>(isVisible);
+            return flyoutItem;
         }
-        public static T IsVisible<T>(this T flyoutitem, Func<bool> isVisibleFunc) where T : IFlyoutItem
+
+        public static T IsVisible<T>(this T flyoutItem, Func<bool> isVisibleFunc) where T : IFlyoutItem
         {
-            flyoutitem.IsVisible = new PropertyValue<bool>(isVisibleFunc);
-            return flyoutitem;
+            flyoutItem.IsVisible = new PropertyValue<bool>(isVisibleFunc);
+            return flyoutItem;
         }
 
 

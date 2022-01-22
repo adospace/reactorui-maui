@@ -178,6 +178,7 @@ namespace MauiReactor
             button.ContentLayout = new PropertyValue<Microsoft.Maui.Controls.Button.ButtonContentLayout>(contentLayout);
             return button;
         }
+
         public static T ContentLayout<T>(this T button, Func<Microsoft.Maui.Controls.Button.ButtonContentLayout> contentLayoutFunc) where T : IButton
         {
             button.ContentLayout = new PropertyValue<Microsoft.Maui.Controls.Button.ButtonContentLayout>(contentLayoutFunc);
@@ -191,6 +192,7 @@ namespace MauiReactor
             button.Text = new PropertyValue<string>(text);
             return button;
         }
+
         public static T Text<T>(this T button, Func<string> textFunc) where T : IButton
         {
             button.Text = new PropertyValue<string>(textFunc);
@@ -204,6 +206,7 @@ namespace MauiReactor
             button.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColor);
             return button;
         }
+
         public static T TextColor<T>(this T button, Func<Microsoft.Maui.Graphics.Color> textColorFunc) where T : IButton
         {
             button.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
@@ -212,11 +215,13 @@ namespace MauiReactor
 
 
 
-        public static T CharacterSpacing<T>(this T button, double characterSpacing) where T : IButton
+        public static T CharacterSpacing<T>(this T button, double characterSpacing, RxDoubleAnimation? customAnimation = null) where T : IButton
         {
             button.CharacterSpacing = new PropertyValue<double>(characterSpacing);
+            button.AppendAnimatable(Microsoft.Maui.Controls.Button.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => button.CharacterSpacing = new PropertyValue<double>(v.CurrentValue()));
             return button;
         }
+
         public static T CharacterSpacing<T>(this T button, Func<double> characterSpacingFunc) where T : IButton
         {
             button.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
@@ -230,6 +235,7 @@ namespace MauiReactor
             button.FontFamily = new PropertyValue<string>(fontFamily);
             return button;
         }
+
         public static T FontFamily<T>(this T button, Func<string> fontFamilyFunc) where T : IButton
         {
             button.FontFamily = new PropertyValue<string>(fontFamilyFunc);
@@ -238,11 +244,13 @@ namespace MauiReactor
 
 
 
-        public static T FontSize<T>(this T button, double fontSize) where T : IButton
+        public static T FontSize<T>(this T button, double fontSize, RxDoubleAnimation? customAnimation = null) where T : IButton
         {
             button.FontSize = new PropertyValue<double>(fontSize);
+            button.AppendAnimatable(Microsoft.Maui.Controls.Button.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => button.FontSize = new PropertyValue<double>(v.CurrentValue()));
             return button;
         }
+
         public static T FontSize<T>(this T button, Func<double> fontSizeFunc) where T : IButton
         {
             button.FontSize = new PropertyValue<double>(fontSizeFunc);
@@ -261,6 +269,7 @@ namespace MauiReactor
             button.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransform);
             return button;
         }
+
         public static T TextTransform<T>(this T button, Func<Microsoft.Maui.TextTransform> textTransformFunc) where T : IButton
         {
             button.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc);
@@ -274,6 +283,7 @@ namespace MauiReactor
             button.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributes);
             return button;
         }
+
         public static T FontAttributes<T>(this T button, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc) where T : IButton
         {
             button.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
@@ -287,6 +297,7 @@ namespace MauiReactor
             button.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabled);
             return button;
         }
+
         public static T FontAutoScalingEnabled<T>(this T button, Func<bool> fontAutoScalingEnabledFunc) where T : IButton
         {
             button.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
@@ -295,11 +306,13 @@ namespace MauiReactor
 
 
 
-        public static T BorderWidth<T>(this T button, double borderWidth) where T : IButton
+        public static T BorderWidth<T>(this T button, double borderWidth, RxDoubleAnimation? customAnimation = null) where T : IButton
         {
             button.BorderWidth = new PropertyValue<double>(borderWidth);
+            button.AppendAnimatable(Microsoft.Maui.Controls.Button.BorderWidthProperty, customAnimation ?? new RxDoubleAnimation(borderWidth), v => button.BorderWidth = new PropertyValue<double>(v.CurrentValue()));
             return button;
         }
+
         public static T BorderWidth<T>(this T button, Func<double> borderWidthFunc) where T : IButton
         {
             button.BorderWidth = new PropertyValue<double>(borderWidthFunc);
@@ -313,6 +326,7 @@ namespace MauiReactor
             button.BorderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColor);
             return button;
         }
+
         public static T BorderColor<T>(this T button, Func<Microsoft.Maui.Graphics.Color> borderColorFunc) where T : IButton
         {
             button.BorderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc);
@@ -326,6 +340,7 @@ namespace MauiReactor
             button.CornerRadius = new PropertyValue<int>(cornerRadius);
             return button;
         }
+
         public static T CornerRadius<T>(this T button, Func<int> cornerRadiusFunc) where T : IButton
         {
             button.CornerRadius = new PropertyValue<int>(cornerRadiusFunc);
@@ -339,6 +354,7 @@ namespace MauiReactor
             button.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(imageSource);
             return button;
         }
+
         public static T ImageSource<T>(this T button, Func<Microsoft.Maui.Controls.ImageSource> imageSourceFunc) where T : IButton
         {
             button.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(imageSourceFunc);
@@ -387,6 +403,7 @@ namespace MauiReactor
             button.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
             return button;
         }
+
         public static T Padding<T>(this T button, Func<Microsoft.Maui.Thickness> paddingFunc) where T : IButton
         {
             button.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
@@ -410,6 +427,7 @@ namespace MauiReactor
             button.LineBreakMode = new PropertyValue<Microsoft.Maui.LineBreakMode>(lineBreakMode);
             return button;
         }
+
         public static T LineBreakMode<T>(this T button, Func<Microsoft.Maui.LineBreakMode> lineBreakModeFunc) where T : IButton
         {
             button.LineBreakMode = new PropertyValue<Microsoft.Maui.LineBreakMode>(lineBreakModeFunc);

@@ -60,6 +60,7 @@ namespace MauiReactor
             layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
             return layout;
         }
+
         public static T Padding<T>(this T layout, Func<Microsoft.Maui.Thickness> paddingFunc) where T : ILayout
         {
             layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
