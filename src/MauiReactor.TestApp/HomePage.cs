@@ -6,28 +6,33 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.TestApp
 {
-    internal class HomePageState : IState
-    { 
-        public int Counter { get; set; }
-    }
 
-    internal class HomePage : Component<HomePageState>
+
+    internal class HomePage : Component
     {
         public override VisualNode Render()
         {
-            return new ContentPage("Title")
+            return new Shell
             {
-                new VerticalStackLayout(spacing: 10)
+                new FlyoutItem("Counter")
                 {
-                    new Label($"Counter: {State.Counter}")
-                        .VerticalOptions(LayoutOptions.Center)
-                        .HorizontalOptions(LayoutOptions.Center),
-
-                    new Button("Click To Increment", ()=> SetState(s => s.Counter++))                    
+                    new Pages.CounterPage()
+                },
+                new FlyoutItem("Parameters")
+                {
+                    new Pages.ParametersPage()
                 }
-                .VCenter()
-                .HCenter()
-            };
+            }
+            .ItemTemplate(RenderItemTemplate);
         }
+
+        static VisualNode RenderItemTemplate(Microsoft.Maui.Controls.BaseShellItem item)
+            => new Grid("68", "*")
+            {
+                new Label(item.Title)
+                    .VCenter()
+                    .Margin(10,0)
+            };
+
     }
 }

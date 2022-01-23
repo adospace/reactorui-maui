@@ -96,7 +96,6 @@ namespace MauiReactor
         public Action<object?, PropertyChangedEventArgs>? PropertyChangedAction { get; set; }
         public Action<object?, System.ComponentModel.PropertyChangingEventArgs>? PropertyChangingAction { get; set; }
 
-        //internal event EventHandler LayoutCycleRequest;
         internal IReadOnlyList<VisualNode> Children
         {
             get
@@ -440,7 +439,7 @@ namespace MauiReactor
 
         private readonly Dictionary<BindableProperty, object> _attachedProperties = new();
 
-        private Dictionary<BindableProperty, object> _defaultPropertyValueBag = new();
+        private readonly Dictionary<BindableProperty, object> _defaultPropertyValueBag = new();
 
         private readonly Action<T?>? _componentRefAction;
 
@@ -483,13 +482,18 @@ namespace MauiReactor
         {
             if (NativeControl != null)
             {
-                //NativeControl.PropertyChanged -= NativeControl_PropertyChanged;
-                //NativeControl.PropertyChanging -= NativeControl_PropertyChanging;
                 OnDetachNativeEvents();
 
                 foreach (var attachedProperty in _attachedProperties)
                 {
-                    NativeControl.SetValue(attachedProperty.Key, attachedProperty.Key.DefaultValue);
+                    if (TryGetDefaultPropertyValue(attachedProperty.Key, out var oldValue))
+                    {
+#if DEBUG
+                        System.Diagnostics.Debug.WriteLine($"{NativeControl.GetType()} re-set property {attachedProperty.Key.PropertyName} to {oldValue}");
+#endif
+
+                        NativeControl.SetValue(attachedProperty.Key, oldValue);
+                    }
                 }
             }
 
@@ -543,13 +547,8 @@ namespace MauiReactor
 
             foreach (var attachedProperty in _attachedProperties)
             {
-                NativeControl.SetValue(attachedProperty.Key, attachedProperty.Value);
+                SetPropertyValue(NativeControl, attachedProperty.Key, attachedProperty.Value);
             }
-
-            //if (PropertyChangedAction != null)
-            //    NativeControl.PropertyChanged += NativeControl_PropertyChanged;
-            //if (PropertyChangingAction != null)
-            //    NativeControl.PropertyChanging += NativeControl_PropertyChanging;
 
             OnAttachNativeEvents();
 
@@ -558,24 +557,36 @@ namespace MauiReactor
 
         protected virtual void OnAttachNativeEvents()
         {
+            Validate.EnsureNotNull(NativeControl);
 
+            if (PropertyChangedAction != null)
+            {
+                NativeControl.PropertyChanged += NativeControl_PropertyChanged;
+            }
+            if (PropertyChangingAction != null)
+            {
+                NativeControl.PropertyChanging += NativeControl_PropertyChanging;
+            }
         }
 
         protected virtual void OnDetachNativeEvents()
         {
-
+            if (NativeControl != null)
+            {
+                NativeControl.PropertyChanged -= NativeControl_PropertyChanged;
+                NativeControl.PropertyChanging -= NativeControl_PropertyChanging;
+            }
         }
 
+        private void NativeControl_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            PropertyChangedAction?.Invoke(sender, e);
+        }
 
-        //private void NativeControl_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-        //{
-        //    PropertyChangedAction?.Invoke(sender, e);
-        //}
-
-        //private void NativeControl_PropertyChanging(object? sender, Microsoft.Maui.Controls.PropertyChangingEventArgs e)
-        //{
-        //    PropertyChangingAction?.Invoke(sender, new System.ComponentModel.PropertyChangingEventArgs(e.PropertyName));
-        //}
+        private void NativeControl_PropertyChanging(object? sender, Microsoft.Maui.Controls.PropertyChangingEventArgs e)
+        {
+            PropertyChangingAction?.Invoke(sender, new System.ComponentModel.PropertyChangingEventArgs(e.PropertyName));
+        }
 
         TResult IVisualNodeWithNativeControl.GetNativeControl<TResult>()
         {
@@ -600,6 +611,7 @@ namespace MauiReactor
 
                     dependencyObject.SetValue(property, newValue);
                 }
+
                 if (_containerComponent != null && propertyValue.HasValueFunction)
                 {
                     _containerComponent.RegisterOnStateChanged(propertyValue.GetValueAction(dependencyObject, property));
@@ -617,6 +629,23 @@ namespace MauiReactor
                 }
             }
         }
+
+        protected void SetPropertyValue(BindableObject dependencyObject, BindableProperty property, object? newValue)
+        {
+            var oldValue = dependencyObject.GetValue(property);
+
+            SetDefaultPropertyValue(property, oldValue);
+
+            if (!CompareUtils.AreEquals(oldValue, newValue))
+            {
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {property.PropertyName} to {newValue}");
+#endif
+
+                dependencyObject.SetValue(property, newValue);
+            }
+        }
+
 
         public bool SetDefaultPropertyValue(BindableProperty dependencyProperty, object value)
         {

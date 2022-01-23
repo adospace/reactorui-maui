@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MauiReactor.Internals;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,7 +54,18 @@ namespace MauiReactor
         }
 
         public Action GetValueAction(BindableObject dependencyObject, BindableProperty dependencyProperty)
-            => ValueFunc != null ? () => dependencyObject.SetValue(dependencyProperty, ValueFunc()) : throw new InvalidOperationException();
+        {
+            Validate.EnsureNotNull(ValueFunc);
+
+            return () =>
+            {
+                var newValue = ValueFunc();
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {dependencyProperty.PropertyName} to {newValue}");
+#endif
+                dependencyObject.SetValue(dependencyProperty, newValue);
+            };
+        }
     }
 
 }

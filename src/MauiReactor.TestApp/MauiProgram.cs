@@ -6,14 +6,26 @@
         {
             var builder = MauiApp.CreateBuilder();
             builder
-                .UseMauiReactorApp<HomePage>()
-#if DEBUG
-                .EnableMauiReactorHotReload()
-#endif
-                .ConfigureFonts(fonts =>
+                .UseMauiReactorApp<HomePage>(app =>
                 {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                });
+                    var resourceDictionary = new ResourceDictionary();
+                    resourceDictionary.SetAndLoadSource(
+                        new Uri("Resources/Styles/DefaultTheme.xaml", UriKind.Relative),
+                        "Resources/Styles/DefaultTheme.xaml",
+                        typeof(MauiProgram).Assembly,
+                        null);
+
+                    app.Resources.Add(resourceDictionary);
+
+                    Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific.Application.SetImageDirectory(app, "Assets");
+                })
+#if DEBUG
+            .EnableMauiReactorHotReload()
+#endif                
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+            });
 
             return builder.Build();
         }
