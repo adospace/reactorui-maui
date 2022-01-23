@@ -13,27 +13,35 @@ namespace MauiReactor
 
         PropertyValue<TimeSpan>? Interval { get; set; }
 
+        PropertyValue<TimeSpan>? DueTime { get; set; }
+
         Action? TickAction { get; set; }
         
-        Action<System.Timers.ElapsedEventArgs>? TickActionWithArgs { get; set; }
+        Action<EventArgs>? TickActionWithArgs { get; set; }
     }
 
     public class Timer : VisualNode<MauiReactor.Internals.Timer>, ITimer
     {
         public Timer(int interval, Action onTick) => this.Interval(interval).OnTick(onTick);
-        
+
         public Timer(TimeSpan interval, Action onTick) => this.Interval(interval).OnTick(onTick);
+
+        public Timer(int interval, int dueTime, Action onTick) => this.Interval(interval).DueTime(dueTime).OnTick(onTick);
+
+        public Timer(TimeSpan interval, TimeSpan dueTime, Action onTick) => this.Interval(interval).DueTime(dueTime).OnTick(onTick);
 
         public PropertyValue<bool>? IsEnabled { get; set; }
         public PropertyValue<TimeSpan>? Interval { get; set; }
+        public PropertyValue<TimeSpan>? DueTime { get; set; }
         Action? ITimer.TickAction { get; set; }
-        Action<System.Timers.ElapsedEventArgs>? ITimer.TickActionWithArgs { get; set; }
+        Action<EventArgs>? ITimer.TickActionWithArgs { get; set; }
 
         protected override void OnUpdate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIBorder = (ITimer)this;
             SetPropertyValue(NativeControl, MauiReactor.Internals.Timer.IntervalProperty, thisAsIBorder.Interval);
+            SetPropertyValue(NativeControl, MauiReactor.Internals.Timer.DueTimeProperty, thisAsIBorder.DueTime);
             SetPropertyValue(NativeControl, MauiReactor.Internals.Timer.IsEnabledProperty, thisAsIBorder.IsEnabled);
 
 
@@ -53,7 +61,7 @@ namespace MauiReactor
             base.OnAttachNativeEvents();
         }
 
-        private void NativeControl_Tick(object? sender, System.Timers.ElapsedEventArgs e)
+        private void NativeControl_Tick(object? sender, EventArgs e)
         {
             var thisAsIButton = (ITimer)this;
             thisAsIButton.TickAction?.Invoke();
@@ -105,13 +113,49 @@ namespace MauiReactor
             return timer;
         }
 
+        public static T Interval<T>(this T timer, Func<int> intervalFunc) where T : ITimer
+        {
+            timer.Interval = new PropertyValue<TimeSpan>(() => TimeSpan.FromMilliseconds(intervalFunc()));
+            return timer;
+        }
+
+        public static T Interval<T>(this T timer, Func<TimeSpan> intervalFunc) where T : ITimer
+        {
+            timer.Interval = new PropertyValue<TimeSpan>(intervalFunc);
+            return timer;
+        }
+
+        public static T DueTime<T>(this T timer, int interval) where T : ITimer
+        {
+            timer.DueTime = new PropertyValue<TimeSpan>(TimeSpan.FromMilliseconds(interval));
+            return timer;
+        }
+
+        public static T DueTime<T>(this T timer, TimeSpan interval) where T : ITimer
+        {
+            timer.DueTime = new PropertyValue<TimeSpan>(interval);
+            return timer;
+        }
+
+        public static T DueTime<T>(this T timer, Func<int> intervalFunc) where T : ITimer
+        {
+            timer.DueTime = new PropertyValue<TimeSpan>(() => TimeSpan.FromMilliseconds(intervalFunc()));
+            return timer;
+        }
+
+        public static T DueTime<T>(this T timer, Func<TimeSpan> intervalFunc) where T : ITimer
+        {
+            timer.DueTime = new PropertyValue<TimeSpan>(intervalFunc);
+            return timer;
+        }
+
         public static T OnTick<T>(this T button, Action tickAction) where T : ITimer
         {
             button.TickAction = tickAction;
             return button;
         }
 
-        public static T OnTick<T>(this T button, Action<System.Timers.ElapsedEventArgs> tickActionWithArgs) where T : ITimer
+        public static T OnTick<T>(this T button, Action<EventArgs> tickActionWithArgs) where T : ITimer
         {
             button.TickActionWithArgs = tickActionWithArgs;
             return button;
@@ -124,7 +168,7 @@ namespace MauiReactor.Internals
 {
     public sealed class Timer : BindableObject, IDisposable
     {
-        private System.Timers.Timer? _internalTimer;
+        private System.Threading.Timer? _internalTimer;
 
         public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create(nameof(IsEnabled), typeof(bool), typeof(Timer), false,
             propertyChanged: new BindableProperty.BindingPropertyChangedDelegate((bindableObject, oldValue, newValue) =>
@@ -133,7 +177,19 @@ namespace MauiReactor.Internals
                 timer.SetupTimer();
             }));
 
-        public static readonly BindableProperty IntervalProperty = BindableProperty.Create(nameof(Interval), typeof(TimeSpan), typeof(Timer), TimeSpan.FromSeconds(1));
+        public static readonly BindableProperty IntervalProperty = BindableProperty.Create(nameof(Interval), typeof(TimeSpan), typeof(Timer), TimeSpan.FromSeconds(1),
+            propertyChanged: new BindableProperty.BindingPropertyChangedDelegate((bindableObject, oldValue, newValue) =>
+            {
+                var timer = (Timer)bindableObject;
+                timer.SetupTimer();
+            }));
+
+        public static readonly BindableProperty DueTimeProperty = BindableProperty.Create(nameof(DueTime), typeof(TimeSpan), typeof(Timer), TimeSpan.FromSeconds(1),
+            propertyChanged: new BindableProperty.BindingPropertyChangedDelegate((bindableObject, oldValue, newValue) =>
+            {
+                var timer = (Timer)bindableObject;
+                timer.SetupTimer();
+            }));
 
         public bool IsEnabled
         {
@@ -147,7 +203,13 @@ namespace MauiReactor.Internals
             set => SetValue(IntervalProperty, value);
         }
 
-        public event EventHandler<System.Timers.ElapsedEventArgs>? Tick;
+        public TimeSpan DueTime
+        {
+            get => (TimeSpan)GetValue(DueTimeProperty);
+            set => SetValue(DueTimeProperty, value);
+        }
+
+        public event EventHandler<EventArgs>? Tick;
 
         private void SetupTimer()
         {
@@ -165,7 +227,9 @@ namespace MauiReactor.Internals
         {
             if (_internalTimer != null)
             {
-                _internalTimer.Enabled = false;
+                _internalTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                _internalTimer?.Dispose();
+                _internalTimer = null;
             }
         }
 
@@ -173,25 +237,18 @@ namespace MauiReactor.Internals
         {
             if (_internalTimer == null)
             {
-                _internalTimer = new System.Timers.Timer(300)
-                {
-                    AutoReset = true
-                };
-                _internalTimer.Elapsed += OnTick;
+                _internalTimer = new System.Threading.Timer(OnTick, null, DueTime, Interval);
             }
-
-            _internalTimer.Enabled = true;
         }
 
         public void Dispose()
         {
             StopTimer();
-            _internalTimer?.Dispose();
         }
 
-        private void OnTick(object? sender, System.Timers.ElapsedEventArgs e)
+        private void OnTick(object? state)
         {
-            Dispatcher.Dispatch(() => Tick?.Invoke(this, e));
+            Dispatcher.Dispatch(() => Tick?.Invoke(this, EventArgs.Empty));
         }
     }
 }

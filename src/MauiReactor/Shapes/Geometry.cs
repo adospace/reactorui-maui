@@ -39,6 +39,7 @@ namespace MauiReactor.Shapes
             OnEndUpdate();
         }
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 

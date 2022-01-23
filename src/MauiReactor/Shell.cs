@@ -22,8 +22,6 @@ namespace MauiReactor
         PropertyValue<Microsoft.Maui.Graphics.Color>? FlyoutBackgroundColor { get; set; }
         PropertyValue<Microsoft.Maui.Controls.Brush>? FlyoutBackground { get; set; }
         PropertyValue<Microsoft.Maui.Controls.FlyoutHeaderBehavior>? FlyoutHeaderBehavior { get; set; }
-        PropertyValue<object>? FlyoutHeader { get; set; }
-        PropertyValue<object>? FlyoutFooter { get; set; }
         PropertyValue<bool>? FlyoutIsPresented { get; set; }
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? FlyoutIcon { get; set; }
         PropertyValue<Microsoft.Maui.Controls.ScrollMode>? FlyoutVerticalScrollMode { get; set; }
@@ -58,8 +56,6 @@ namespace MauiReactor
         PropertyValue<Microsoft.Maui.Graphics.Color>? IShell.FlyoutBackgroundColor { get; set; }
         PropertyValue<Microsoft.Maui.Controls.Brush>? IShell.FlyoutBackground { get; set; }
         PropertyValue<Microsoft.Maui.Controls.FlyoutHeaderBehavior>? IShell.FlyoutHeaderBehavior { get; set; }
-        PropertyValue<object>? IShell.FlyoutHeader { get; set; }
-        PropertyValue<object>? IShell.FlyoutFooter { get; set; }
         PropertyValue<bool>? IShell.FlyoutIsPresented { get; set; }
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IShell.FlyoutIcon { get; set; }
         PropertyValue<Microsoft.Maui.Controls.ScrollMode>? IShell.FlyoutVerticalScrollMode { get; set; }
@@ -86,8 +82,6 @@ namespace MauiReactor
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutBackgroundColorProperty, thisAsIShell.FlyoutBackgroundColor);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutBackgroundProperty, thisAsIShell.FlyoutBackground);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutHeaderBehaviorProperty, thisAsIShell.FlyoutHeaderBehavior);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutHeaderProperty, thisAsIShell.FlyoutHeader);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutFooterProperty, thisAsIShell.FlyoutFooter);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutIsPresentedProperty, thisAsIShell.FlyoutIsPresented);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutIconProperty, thisAsIShell.FlyoutIcon);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutVerticalScrollModeProperty, thisAsIShell.FlyoutVerticalScrollMode);
@@ -97,6 +91,17 @@ namespace MauiReactor
             base.OnUpdate();
 
             OnEndUpdate();
+        }
+
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIShell = (IShell)this;
+
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutWidthProperty, thisAsIShell.FlyoutWidth);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutHeightProperty, thisAsIShell.FlyoutHeight);
+
+            base.OnAnimate();
         }
 
         partial void OnBeginUpdate();
@@ -333,34 +338,6 @@ namespace MauiReactor
         public static T FlyoutHeaderBehavior<T>(this T shell, Func<Microsoft.Maui.Controls.FlyoutHeaderBehavior> flyoutHeaderBehaviorFunc) where T : IShell
         {
             shell.FlyoutHeaderBehavior = new PropertyValue<Microsoft.Maui.Controls.FlyoutHeaderBehavior>(flyoutHeaderBehaviorFunc);
-            return shell;
-        }
-
-
-
-        public static T FlyoutHeader<T>(this T shell, object flyoutHeader) where T : IShell
-        {
-            shell.FlyoutHeader = new PropertyValue<object>(flyoutHeader);
-            return shell;
-        }
-
-        public static T FlyoutHeader<T>(this T shell, Func<object> flyoutHeaderFunc) where T : IShell
-        {
-            shell.FlyoutHeader = new PropertyValue<object>(flyoutHeaderFunc);
-            return shell;
-        }
-
-
-
-        public static T FlyoutFooter<T>(this T shell, object flyoutFooter) where T : IShell
-        {
-            shell.FlyoutFooter = new PropertyValue<object>(flyoutFooter);
-            return shell;
-        }
-
-        public static T FlyoutFooter<T>(this T shell, Func<object> flyoutFooterFunc) where T : IShell
-        {
-            shell.FlyoutFooter = new PropertyValue<object>(flyoutFooterFunc);
             return shell;
         }
 

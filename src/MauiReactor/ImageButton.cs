@@ -76,6 +76,16 @@ namespace MauiReactor
             OnEndUpdate();
         }
 
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIImageButton = (IImageButton)this;
+
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, thisAsIImageButton.BorderWidth);
+
+            base.OnAnimate();
+        }
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 

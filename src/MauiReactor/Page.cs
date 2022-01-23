@@ -82,6 +82,7 @@ namespace MauiReactor
             OnEndUpdate();
         }
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 

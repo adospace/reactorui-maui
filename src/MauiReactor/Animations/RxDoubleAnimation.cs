@@ -30,6 +30,7 @@ namespace MauiReactor.Animations
 
             if (elapsedTime >= duration)
             {
+                //System.Diagnostics.Debug.WriteLine($"RxDoubleAnimation(Completed StartTime={StartTime} CurrentTime={currentTime} ElapsedTime={elapsedTime} Duration={duration})");
                 _isCompleted = true;
                 return TargetValue;
             }
@@ -39,7 +40,9 @@ namespace MauiReactor.Animations
             var easingValue = easing.Ease(elapsedTime / duration);
 
             var v = StartValue.Value + (TargetValue - StartValue.Value) * easingValue;
-            System.Diagnostics.Debug.WriteLine($"easingValue={easingValue} currentValue={v}");
+
+            //System.Diagnostics.Debug.WriteLine($"RxDoubleAnimation(EasingValue={easingValue} CurrentValue={v} StartValue={StartValue} TargetValue={TargetValue} StartTime={StartTime} CurrentTime={currentTime} ElapsedTime={elapsedTime})");
+
             return v;
         }
 

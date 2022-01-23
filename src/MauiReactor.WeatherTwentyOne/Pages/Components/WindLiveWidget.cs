@@ -15,7 +15,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
 
     class WindLiveWidget : Component<WindLiveWidgetState>
     {
-        readonly Random _rand = new();
+        readonly static Random _rand = new();
         readonly double[] WindValues = { 98, 84, 140, 92, 55 };
 
         private double GetNeedleRotation() => WindValues[_rand.Next(0, WindValues.Length - 1)];
@@ -39,10 +39,10 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
                         .HeightRequest(200)
                         .WithOutAnimation()
                         .Rotation(State.NeedleRotation)
-                        .WithAnimation(Easing.Linear, duration: 600)
+                        .WithAnimation(Easing.SpringOut, duration: 200)
                         ,
 
-                    new Timer(interval: 100000, ()=> SetState(s => s.NeedleRotation = GetNeedleRotation(), true))
+                    new Timer(interval: 300, () => SetState(s => s.NeedleRotation = GetNeedleRotation(), true))
                         .IsEnabled(() => State.TimerEnabled)
                 }
                 .OnTapped(()=> SetState(s => s.TimerEnabled = !s.TimerEnabled)),

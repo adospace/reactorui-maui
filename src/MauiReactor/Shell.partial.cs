@@ -11,10 +11,35 @@ namespace MauiReactor
     public partial interface IShell
     {
         Func<Microsoft.Maui.Controls.BaseShellItem, VisualNode>? ItemTemplate { get; set; }
+
+        VisualNode? FlyoutHeader { get; set; }
+
+        VisualNode? FlyoutFooter { get; set; }
     }
 
     public partial class Shell<T> : IEnumerable
     {
+        VisualNode? IShell.FlyoutHeader { get; set; }
+        VisualNode? IShell.FlyoutFooter { get; set; }
+
+        protected override IEnumerable<VisualNode> RenderChildren()
+        {
+            var thisAsIShell = (IShell)this;
+
+            var children = base.RenderChildren();
+
+            if (thisAsIShell.FlyoutHeader != null)
+            {
+                children = children.Concat(new[] { (VisualNode)thisAsIShell.FlyoutHeader });
+            }
+            if (thisAsIShell.FlyoutFooter != null)
+            {
+                children = children.Concat(new[] { (VisualNode)thisAsIShell.FlyoutFooter });
+            }
+
+            return children;
+        }
+
         Func<Microsoft.Maui.Controls.BaseShellItem, VisualNode>? IShell.ItemTemplate { get; set; }
 
         private readonly Dictionary<BindableObject, Microsoft.Maui.Controls.ShellItem> _elementItemMap = new();
@@ -179,6 +204,8 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
 
+            var thisAsIShell = (IShell)this;
+
             if (childControl is Microsoft.Maui.Controls.ShellItem shellItem)
             {
                 NativeControl.Items.Insert(widget.ChildIndex, shellItem);
@@ -195,6 +222,14 @@ namespace MauiReactor
                 NativeControl.ToolbarItems.Add(toolbarItem);
                 _elementToolbarItemMap[childControl] = toolbarItem;
             }
+            else if (widget == thisAsIShell.FlyoutHeader)
+            {
+                NativeControl.FlyoutHeader = childControl;
+            }
+            else if (widget == thisAsIShell.FlyoutFooter)
+            {
+                NativeControl.FlyoutFooter = childControl;
+            }
 
             base.OnAddChild(widget, childControl);
         }
@@ -202,11 +237,24 @@ namespace MauiReactor
         protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
         {
             Validate.EnsureNotNull(NativeControl);
+            var thisAsIShell = (IShell)this;
 
             if (_elementItemMap.TryGetValue(childControl, out var item))
+            {
                 NativeControl.Items.Remove(item);
+            }
             else if (_elementToolbarItemMap.TryGetValue(childControl, out var toolbarItem))
+            {
                 NativeControl.ToolbarItems.Remove(toolbarItem);
+            }
+            else if (widget == thisAsIShell.FlyoutHeader)
+            {
+                NativeControl.FlyoutHeader = null;
+            }
+            else if (widget == thisAsIShell.FlyoutFooter)
+            {
+                NativeControl.FlyoutFooter = null;
+            }
 
             base.OnRemoveChild(widget, childControl);
         }
@@ -227,5 +275,18 @@ namespace MauiReactor
             shell.ItemTemplate = itemTemplate;
             return shell;
         }
+
+        public static T FlyoutHeader<T>(this T shell, VisualNode header) where T : IShell
+        {
+            shell.FlyoutHeader = header;
+            return shell;
+        }
+
+        public static T FlyoutFooter<T>(this T shell, VisualNode footer) where T : IShell
+        {
+            shell.FlyoutFooter = footer;
+            return shell;
+        }
+
     }
 }

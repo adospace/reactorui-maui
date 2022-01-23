@@ -36,7 +36,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
         {
             return new ContentPage(title: "Settings")
             {
-                new Grid(Device.Idiom == TargetIdiom.Phone ? "100,*" : "100,*,0", "*")
+                new Grid("100,*", "*")
                 { 
                     RenderHeader(),
 
@@ -49,7 +49,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
         Grid RenderHeader() 
             => new("*", "16,75,16,*,100,16")
             {
-                new Image("https://devblogs.microsoft.com/xamarin/wp-content/uploads/sites/44/2019/03/Screen-Shot-2017-01-03-at-3.35.53-PM-150x150.png")
+                new Image(new Uri("https://devblogs.microsoft.com/xamarin/wp-content/uploads/sites/44/2019/03/Screen-Shot-2017-01-03-at-3.35.53-PM-150x150.png"))
                     .GridColumn(1)
                     .WidthRequest(75)
                     .HeightRequest(75)
@@ -139,7 +139,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
             }
             .Margin(Device.Idiom == TargetIdiom.Phone ? 15.0 : 25.0);
 
-        private void OnSwitchTheme(object? sender, ToggledEventArgs args)
+        void OnSwitchTheme(object? sender, ToggledEventArgs args)
         {
             if (Application.Current != null)
             {
@@ -162,6 +162,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
 
                 new Image("checkmark_icon.png")
                     .GridRowSpan(2)
+                    .Aspect(Aspect.Center)
                     .IsVisible(() => State.Units == units)
                     .HEnd()
                     .VCenter(),

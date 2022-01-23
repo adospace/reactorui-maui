@@ -175,7 +175,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
                                 .Class("Small")
                                 .HCenter(),
 
-                            new Image($"{(forecast.Day.Phrase)}")
+                            new Image($"{forecast.Day.Phrase}.png")
                                 .HeightRequest(40)
                                 .WidthRequest(40)
                                 .HCenter(),

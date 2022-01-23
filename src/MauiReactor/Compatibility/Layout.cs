@@ -56,6 +56,7 @@ namespace MauiReactor.Compatibility
             OnEndUpdate();
         }
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 

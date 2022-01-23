@@ -61,16 +61,26 @@ namespace MauiReactor.WeatherTwentyOne.Pages
                 {
                     new MapPage()
                 },
-                new FlyoutItem("Settings", "tab_settings.png")
+                new FlyoutItem()
                 {
                     new SettingsPage()
                 }
+                .FlyoutItemIsVisible(false)
+                .Route("settings")
             }
             .ItemTemplate(RenderItemTemplate)
+            .FlyoutFooter(new Grid("68", "*")
+                {
+                    new Image("tab_settings.png")
+                        .VCenter()
+                        .HCenter()
+                        .WidthRequest(40)
+                        .HeightRequest(40)
+                }
+                .OnTapped(OnSettingsItemTapped))
             .FlyoutWidth(68.0)
             .FlyoutBackgroundColor(Colors.Red)
             .FlyoutBehavior(FlyoutBehavior.Locked);
-
 
         static VisualNode RenderItemTemplate(Microsoft.Maui.Controls.BaseShellItem item)
             => new Grid("68", "68")
@@ -80,5 +90,8 @@ namespace MauiReactor.WeatherTwentyOne.Pages
                     .VCenter()
                     .HCenter()
             };
+
+        static void OnSettingsItemTapped()
+            => Microsoft.Maui.Controls.Shell.Current.GoToAsync("///settings");
     }
 }

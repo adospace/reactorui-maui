@@ -10,7 +10,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
 {
     class Next7DWidgetState : IState
     { 
-        public Forecast[] Weeks { get; } = new []
+        public Forecast[] Week { get; } = new []
         {
             new Forecast
             {
@@ -113,7 +113,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
                 { 
                     new HorizontalStackLayout
                     { 
-                        State.Weeks.Select(RenderForecast)                    
+                        State.Week.Select(RenderForecast)                    
                     }
                     .Spacing(12)
                     .Padding(Device.Idiom == TargetIdiom.Phone ? new Thickness(15,0) : new Thickness(25, 0))
@@ -135,7 +135,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
                     .HeightRequest(34)
                     .HCenter(),
 
-                new Image(forecast.Day.Phrase)
+                new Image($"{forecast.Day.Phrase}.png")
                     .WidthRequest(34)
                     .HeightRequest(34)
                     .HCenter(),

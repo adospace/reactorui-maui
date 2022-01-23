@@ -46,6 +46,7 @@ namespace MauiReactor.Scaffold
                 .Where(_ => _.Name != "ItemsSource")
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.IItemsLayout")
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.StructuredItemsView" && (_.Name == "Header" || _.Name == "Footer")))
+                .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.Shell" && (_.Name == "FlyoutHeader" || _.Name == "FlyoutFooter")))
                 //.Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.WebView" && (_.Name == "Source")))
 
                 .ToArray();
@@ -88,6 +89,8 @@ namespace MauiReactor.Scaffold
             => _typeToScaffold.IsSealed;
 
         public PropertyInfo[] Properties { get; }
+
+        public PropertyInfo[] AnimatableProperties => Properties.Where(_ => _.PropertyType == typeof(double)).ToArray();
 
         public EventInfo[] Events { get; }
 

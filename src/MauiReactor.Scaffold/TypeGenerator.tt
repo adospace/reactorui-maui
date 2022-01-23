@@ -108,6 +108,20 @@ namespace <#= Namespace() #>
             OnEndUpdate();
         }
 
+        <# if (AnimatableProperties.Any()) { #>
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsI<#= TypeName() #> = (I<#= TypeName() #>)this;
+
+            <# foreach (var property in AnimatableProperties) { #>
+            SetPropertyValue(NativeControl, <#= FullTypeName() #>.<#= property.Name #>Property, thisAsI<#= TypeName() #>.<#= property.Name #>);
+            <# } #>
+
+            base.OnAnimate();
+        }
+        <# } #>
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 

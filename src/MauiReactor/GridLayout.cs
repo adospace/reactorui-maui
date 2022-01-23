@@ -49,6 +49,17 @@ namespace MauiReactor
             OnEndUpdate();
         }
 
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIGridLayout = (IGridLayout)this;
+
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.GridLayout.RowSpacingProperty, thisAsIGridLayout.RowSpacing);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.GridLayout.ColumnSpacingProperty, thisAsIGridLayout.ColumnSpacing);
+
+            base.OnAnimate();
+        }
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
