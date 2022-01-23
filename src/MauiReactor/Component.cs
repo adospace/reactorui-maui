@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using MauiReactor.Internals;
+using MauiReactor.Parameters;
 
 namespace MauiReactor
 {
@@ -15,10 +16,14 @@ namespace MauiReactor
     {
         private readonly Dictionary<BindableProperty, object> _attachedProperties = new();
 
+        private ParameterContext? _parameterContext;
+
         public abstract VisualNode Render();
 
         public void SetAttachedProperty(BindableProperty property, object value)
             => _attachedProperties[property] = value;
+
+        
 
         private BindableObject? _nativeControl;
 
@@ -117,6 +122,12 @@ namespace MauiReactor
 
         internal override void MergeWith(VisualNode newNode)
         {
+            if (_parameterContext != null && newNode is Component newComponent)
+            {
+                newComponent._parameterContext ??= new ParameterContext(newComponent);
+                _parameterContext.MigrateTo(newComponent._parameterContext);
+            }
+
             if (newNode.GetType().FullName == GetType().FullName)
             {
                 ((Component)newNode)._isMounted = true;
@@ -163,8 +174,50 @@ namespace MauiReactor
         protected virtual void OnPropsChanged()
         { }
 
-        public INavigation? Navigation
+        public static INavigation? Navigation
             => ReactorApplicationHost.Instance?.Navigation;
+
+        internal void InvalidateComponent()
+        {
+            if (Application.Current == null)
+            {
+                return;
+            }
+
+            if (Application.Current.Dispatcher.IsDispatchRequired)
+                Application.Current.Dispatcher.Dispatch(Invalidate);
+            else
+                Invalidate();
+        }
+
+        protected IParameter<T> CreateParameter<T>(string? name = null) where T : new()
+        {
+            _parameterContext ??= new ParameterContext(this);
+            return _parameterContext.Create<T>(name);
+        }
+
+        public IParameter<T> GetParameter<T>(string? name = null) where T : new()
+        {
+            IParameter<T>? parameter = _parameterContext?.Get<T>(name);
+
+            while (true)
+            {
+                var parentComponent = GetParent<Component>();
+                if (parentComponent == null)
+                    break;
+
+                parameter = parentComponent._parameterContext?.Get<T>(name);
+
+                if (parameter != null)
+                {
+                    _parameterContext ??= new ParameterContext(this);
+                    parameter = _parameterContext.Register((parameter as IParameterWithReferences<T>) ?? throw new InvalidOperationException($"Parameter '{name}' is not of type {typeof(T).FullName}"));
+                    break;
+                }
+            }
+
+            return parameter ?? throw new InvalidOperationException($"Unable to find parameter with name '{typeof(T).FullName}'");
+        }
     }
 
     internal interface IComponentWithState

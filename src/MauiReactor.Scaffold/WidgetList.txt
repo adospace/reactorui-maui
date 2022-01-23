@@ -49,5 +49,8 @@ Microsoft.Maui.Controls.LinearItemsLayout
 Microsoft.Maui.Controls.ImageButton
 Microsoft.Maui.Controls.WebView
 Microsoft.Maui.Controls.Switch
+Microsoft.Maui.Controls.DatePicker
+Microsoft.Maui.Controls.InputView
+Microsoft.Maui.Controls.Entry
 
 

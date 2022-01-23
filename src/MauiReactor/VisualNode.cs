@@ -451,7 +451,6 @@ namespace MauiReactor
         {
             _componentRefAction = componentRefAction;
         }
-
         protected T? NativeControl { get => (T?)_nativeControl; }
 
         public void SetAttachedProperty(BindableProperty property, object value)

@@ -13,7 +13,20 @@
 		<SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</TargetPlatformMinVersion>
-	</PropertyGroup>
+
+        <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' == '' ">0.0.1-local</Version>
+        <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' != '' ">$(APPVEYOR_BUILD_VERSION)-beta</Version>
+        <Authors>adospace</Authors>
+        <Description>MauiReactorUI is MVU library (heavily inspired to ReactJS and Flutter) written on top of Microsoft Maui Controls.</Description>
+        <Copyright>Adolfo Marinucci</Copyright>
+        <PackageProjectUrl>https://github.com/adospace/reactorui-avalonia</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/adospace/reactorui-avalonia</RepositoryUrl>
+        <PackageTags>maui mvu wpf components reactjs flutter</PackageTags>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+
+    </PropertyGroup>
 
 	<ItemGroup>
 	  <Folder Include="Compatibility\" />
