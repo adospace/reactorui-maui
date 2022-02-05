@@ -233,5 +233,29 @@ namespace MauiReactor
             return appBuilder;
         }
     }
+
+    public static class ApplicationExtensions
+    {
+        public static Application AddResource(this Application application, string resourceName, Assembly? containerAssembly = null)
+        {
+            var resourceDictionary = new ResourceDictionary();
+            resourceDictionary.SetAndLoadSource(
+                new Uri(resourceName, UriKind.Relative),
+                resourceName,
+                containerAssembly ?? Assembly.GetCallingAssembly(),
+                null);
+
+            application.Resources.Add(resourceDictionary);
+
+            return application;
+        }
+
+        public static Application SetWindowsSpecificAssectDirectory(this Application application, string directoryName)
+        {
+            Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific.Application.SetImageDirectory(application, directoryName);
+
+            return application;
+        }
+    }
 }
 

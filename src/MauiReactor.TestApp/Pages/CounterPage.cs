@@ -20,10 +20,11 @@ namespace MauiReactor.TestApp.Pages
                 new VerticalStackLayout(spacing: 10)
                 {
                     new Label(() => $"Counter: {State.Counter}")
-                        .VerticalOptions(LayoutOptions.Center)
-                        .HorizontalOptions(LayoutOptions.Center),
+                        .VCenter()
+                        .HCenter(),
 
-                    new Button("Click To Increment", () => SetState(s => s.Counter++))
+                    new Button("Click To Increment", () =>
+                        SetState(s => s.Counter++))
                 }
                 .VCenter()
                 .HCenter()

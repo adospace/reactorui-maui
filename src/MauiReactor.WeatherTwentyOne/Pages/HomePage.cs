@@ -13,36 +13,19 @@ namespace MauiReactor.WeatherTwentyOne.Pages
         {
             return new ContentPage(title: "Redmond, WA")
             {
-                new Grid(
-                    rows: "*",
-                    columns: Device.Idiom == TargetIdiom.Phone ? "*" : "*,500")
-                { 
-                    RenderMainContent(),
-
-                    RenderWidgetsPanel()
-                }
+                Device.Idiom == TargetIdiom.Desktop ?
+                RenderDesktopLayout()
+                :
+                RenderPhoneLayout()
             };
         }
 
-        private VisualNode RenderMainContent()
+        private VisualNode RenderPhoneLayout()
         {
             return new ScrollView
             {
                 new VerticalStackLayout
                 {
-                    Device.Idiom != TargetIdiom.Phone ? 
-                        new FlexLayout
-                        { 
-                            new CurrentWidget()
-                                .Width(200),
-
-                            new WindLiveWidget(),
-                        }
-                        .MinimumHeightRequest(360)
-                        .AlignItems(Microsoft.Maui.Layouts.FlexAlignItems.Center)
-                        .AlignContent(Microsoft.Maui.Layouts.FlexAlignContent.Center)
-                        .JustifyContent(Microsoft.Maui.Layouts.FlexJustify.SpaceEvenly)
-                    :
                     new CurrentWidget(),
 
                     new BoxView()
@@ -52,18 +35,46 @@ namespace MauiReactor.WeatherTwentyOne.Pages
 
                     new Next7DWidget()
                 }
-                .Padding(Device.Idiom == TargetIdiom.Phone ? new Thickness(0,50) : new Thickness(0,50))
-                .Spacing(Device.Idiom == TargetIdiom.Phone ? 25 : 50)
+                .Padding(0,50)
+                .Spacing(25)
             };
         }
 
-        private VisualNode? RenderWidgetsPanel()
-        {
-            if (Device.Idiom == TargetIdiom.Phone)
-                return null;
+        private VisualNode RenderDesktopLayout()
+            => new Grid(
+                rows: "*",
+                columns: "*,500")
+                {
+                    new ScrollView
+                    {
+                        new VerticalStackLayout
+                        {
+                            new FlexLayout
+                            {
+                                new CurrentWidget()
+                                    .Width(200),
 
-            return new WidgetsPanel()
-                .GridColumn(1);    
-        }
+                                new WindLiveWidget(),
+                            }
+                            .MinimumHeightRequest(360)
+                            .AlignItems(Microsoft.Maui.Layouts.FlexAlignItems.Center)
+                            .AlignContent(Microsoft.Maui.Layouts.FlexAlignContent.Center)
+                            .JustifyContent(Microsoft.Maui.Layouts.FlexJustify.SpaceEvenly),
+
+                            new BoxView()
+                                .HeightRequest(1),
+
+                            new Next24HrWidget(),
+
+                            new Next7DWidget()
+                        }
+                        .Padding(0,50)
+                        .Spacing(50)
+                    },
+
+                    new WidgetsPanel()
+                        .GridColumn(1)
+                };
+
     }
 }

@@ -8,16 +8,9 @@
             builder
                 .UseMauiReactorApp<HomePage>(app =>
                 {
-                    var resourceDictionary = new ResourceDictionary();
-                    resourceDictionary.SetAndLoadSource(
-                        new Uri("Resources/Styles/DefaultTheme.xaml", UriKind.Relative),
-                        "Resources/Styles/DefaultTheme.xaml",
-                        typeof(MauiProgram).Assembly,
-                        null);
+                    app.AddResource("Resources/Styles/DefaultTheme.xaml");
 
-                    app.Resources.Add(resourceDictionary);
-
-                    Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific.Application.SetImageDirectory(app, "Assets");
+                    app.SetWindowsSpecificAssectDirectory("Assets");
                 })
 #if DEBUG
             .EnableMauiReactorHotReload()
