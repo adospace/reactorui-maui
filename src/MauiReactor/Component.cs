@@ -373,7 +373,7 @@ namespace MauiReactor
             if (!_derivedState && newNode is IComponentWithState newComponentWithState)
             {
                 _newComponent = newComponentWithState;
-                CopyObjectExtensions.CopyProperties(State, newComponentWithState);
+                CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
             }
 
             if (newNode is IComponentWithProps newComponentWithProps)
