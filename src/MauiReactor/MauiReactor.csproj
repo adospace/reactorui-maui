@@ -21,8 +21,8 @@
         <Copyright>Adolfo Marinucci</Copyright>
         <PackageProjectUrl>https://github.com/adospace/reactorui-avalonia</PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <RepositoryUrl>https://github.com/adospace/reactorui-avalonia</RepositoryUrl>
-        <PackageTags>maui mvu wpf components reactjs flutter</PackageTags>
+        <RepositoryUrl>https://github.com/adospace/reactorui-maui</RepositoryUrl>
+        <PackageTags>maui mvu components reactjs flutter</PackageTags>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 

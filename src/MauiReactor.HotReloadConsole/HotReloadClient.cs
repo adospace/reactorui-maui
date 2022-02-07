@@ -17,8 +17,6 @@ namespace MauiReactor.HotReloadConsole
 {
     internal class HotReloadClient
     {
-        private readonly int _serverPort;
-
         private readonly Options _options;
         private readonly string _workingDirectory;
         private readonly string _projFileName;
@@ -38,7 +36,7 @@ namespace MauiReactor.HotReloadConsole
 
         private record FileChangeNotification(string FilePath, FileChangeKind FileChangeKind, string? OldFilePath = null);
 
-        private BufferBlock<FileChangeNotification> _fileChangedQueue = new();
+        private readonly BufferBlock<FileChangeNotification> _fileChangedQueue = new();
 
         private MSBuildWorkspace? _workspace;
         private Project? _project;
@@ -54,7 +52,6 @@ namespace MauiReactor.HotReloadConsole
         {
             _options = options;
             _workingDirectory = _options.WorkingDirectory ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException();
-            _serverPort = (options.Framework == "net6.0-android") ? 45820 : 45821;
 
             if (_options.ProjectFileName == null)
             {
@@ -90,9 +87,19 @@ namespace MauiReactor.HotReloadConsole
             }
         }
 
+        private bool IsAndroidTargetFramework() => _project?.Name.EndsWith("net6.0-android") ?? throw new InvalidOperationException();
+
         public async Task Run(CancellationToken cancellationToken)
         {
             await SetupProjectCompilation(cancellationToken);
+
+            if (IsAndroidTargetFramework())
+            {
+                if (!ExecutePortForwardCommmand())
+                {
+                    return;
+                }
+            }
 
             Task.WaitAll(
                 ConnectionLoop(cancellationToken),
@@ -361,9 +368,11 @@ namespace MauiReactor.HotReloadConsole
         private async Task SendAssemblyFileToServer(MemoryStream stream, MemoryStream pdbStream, CancellationToken cancellationToken)
         {
             using var tcpClient = new TcpClient();
-            
-            Console.Write($"Connecting to Hot-Reload server (Port: {_serverPort})...");
-            await tcpClient.ConnectAsync(IPAddress.Loopback, _serverPort, cancellationToken);
+
+            var serverPort = IsAndroidTargetFramework() ? 45820 : 45821;
+
+            Console.Write($"Connecting to Hot-Reload server (Port: {serverPort})...");
+            await tcpClient.ConnectAsync(IPAddress.Loopback, serverPort, cancellationToken);
 
             Console.WriteLine($"connected.");
 
@@ -399,6 +408,41 @@ namespace MauiReactor.HotReloadConsole
             var booleanBuffer = new byte[1];
             if (await networkStream.ReadAsync(booleanBuffer, 0, 1, cancellationToken) == 0)
                 throw new SocketException();
+        }
+
+        private static bool ExecutePortForwardCommmand()
+        {
+            var adbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+                "Android", "android-sdk", "platform-tools", "adb.exe");
+
+            var process = new System.Diagnostics.Process();
+
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardInput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.Arguments = "forward tcp:45820 tcp:45820";
+            process.StartInfo.FileName = adbPath;
+
+            try
+            {
+                process.Start();
+
+                var adb_output = process.StandardOutput.ReadToEnd();
+
+                if (adb_output.Length > 0 && adb_output != "45820" + Environment.NewLine)
+                    throw new InvalidOperationException($"Unable to forward tcp port from emulator (executing '{adbPath} forward tcp:45820 tcp:45820' adb tool returned '{adb_output}')");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(process.StandardOutput.ReadToEnd());
+                Console.WriteLine(process.StandardError.ReadToEnd());
+                Console.WriteLine(ex.ToString());
+                return false;
+            }
+
+            return true;
         }
 
     }
