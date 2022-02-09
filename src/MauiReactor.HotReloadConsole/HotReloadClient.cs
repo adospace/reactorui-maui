@@ -87,7 +87,7 @@ namespace MauiReactor.HotReloadConsole
             }
         }
 
-        private bool IsAndroidTargetFramework() => _project?.Name.EndsWith("net6.0-android") ?? throw new InvalidOperationException();
+        private bool IsAndroidTargetFramework() => _project?.Name.EndsWith("(net6.0-android)") ?? throw new InvalidOperationException();
 
         public async Task Run(CancellationToken cancellationToken)
         {
