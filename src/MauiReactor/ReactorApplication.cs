@@ -1,9 +1,6 @@
 ﻿using MauiReactor.HotReload;
 using MauiReactor.Internals;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace MauiReactor
 {
@@ -11,16 +8,27 @@ namespace MauiReactor
     { 
         protected readonly Application _application;
 
-        //internal IComponentLoader ComponentLoader { get; set; } = new LocalComponentLoader();
-
-        protected ReactorApplicationHost(Application application)
+        protected ReactorApplicationHost(Application application, bool enableHotReload)
         {
             Instance = this;
 
             _application = application ?? throw new ArgumentNullException(nameof(application));
+
+            if (enableHotReload)
+            {
+                ComponentLoader = new RemoteComponentLoader();
+                ComponentLoader.AssemblyChanged += (s, e) => OnComponentAssemblyChanged();
+            }
+            else
+            {
+                ComponentLoader = new LocalComponentLoader();
+            }
+
         }
 
         public static ReactorApplicationHost? Instance { get; private set; }
+        
+        internal IComponentLoader ComponentLoader { get; }
 
         public Action<UnhandledExceptionEventArgs>? UnhandledException { get; set; }
 
@@ -33,6 +41,9 @@ namespace MauiReactor
         public abstract IHostElement Run();
 
         public abstract void Stop();
+
+        protected virtual void OnComponentAssemblyChanged()
+        { }
 
         public ReactorApplicationHost OnUnhandledException(Action<UnhandledExceptionEventArgs> action)
         {
@@ -50,15 +61,10 @@ namespace MauiReactor
     {
         private Component? _rootComponent;
         private bool _sleeping = true;
-        private readonly HotReloadServer? _hotReloadServer;
 
         internal ReactorApplicationHost(Application application, bool enableHotReload)
-            :base(application)
+            :base(application, enableHotReload)
         {
-            if (enableHotReload)
-            {
-                _hotReloadServer = new HotReloadServer(OnComponentAssemblyChanged);
-            }
         }
 
         protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
@@ -84,47 +90,21 @@ namespace MauiReactor
                 _rootComponent ??= new T();
                 _sleeping = false;
                 OnLayout();
-                _hotReloadServer?.Run();
+                ComponentLoader.Run();
             }
 
             return this;
         }
 
-        private void OnComponentAssemblyChanged(Assembly assembly)
+        protected override void OnComponentAssemblyChanged()
         {
-            try
+            var newComponent = ComponentLoader.LoadComponent<T>();
+            if (newComponent != null &&
+                _rootComponent != newComponent)
             {
-                var newComponent = ReactorApplicationHost<T>.LoadComponent(assembly);
-                if (newComponent != null)
-                {
-                    _rootComponent = newComponent;
-                    Invalidate();
-                }
-                else
-                {
-                    System.Diagnostics.Debug.WriteLine($"Unable to hot reload component {typeof(T).FullName}: type not found in received assembly");
-                }
+                _rootComponent = newComponent;
+                Invalidate();
             }
-            catch (Exception ex)
-            {
-                FireUnhandledExpectionEvent(ex);
-            }
-        }
-
-        public static Component? LoadComponent(Assembly assembly)
-        {
-            if (assembly == null)
-                return new T();
-
-            var type = assembly.GetType(Validate.EnsureNotNull(typeof(T).FullName));
-
-            if (type == null)
-            {
-                return null;
-                //throw new InvalidOperationException($"Unable to hot relead component {typeof(T).FullName}: type not found in received assembly");
-            }
-
-            return (Component?)Activator.CreateInstance(type);
         }
 
         public override void Stop()
@@ -132,7 +112,7 @@ namespace MauiReactor
             if (!_sleeping)
             {
                 _sleeping = true;
-                _hotReloadServer?.Stop();
+                ComponentLoader.Stop();
             }
         }
 

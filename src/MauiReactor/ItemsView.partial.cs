@@ -1,17 +1,15 @@
 ﻿using MauiReactor.Internals;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MauiReactor
 {
     public partial interface IItemsView
     {
         IEnumerable? ItemsSource { get; set; }
+
         Func<object, VisualNode>? ItemTemplate { get; set; }
+
+        VisualStateGroupList ItemVisualStateGroups { get; set; }
     }
 
     public partial class ItemsView<T>
@@ -19,6 +17,8 @@ namespace MauiReactor
         IEnumerable? IItemsView.ItemsSource { get; set; }
 
         Func<object, VisualNode>? IItemsView.ItemTemplate { get; set; }
+
+        public VisualStateGroupList ItemVisualStateGroups { get; set; } = new VisualStateGroupList();
 
         private class ItemTemplateNode : VisualNode, IHostElement
         {
@@ -118,6 +118,7 @@ namespace MauiReactor
             public ItemTemplatePresenter(CustomDataTemplate template)
             {
                 _template = template;
+                VisualStateManager.SetVisualStateGroups(this, template.Owner.ItemVisualStateGroups);
             }
 
             protected override void OnBindingContextChanged()
@@ -208,5 +209,29 @@ namespace MauiReactor
             itemsview.ItemTemplate = new Func<object, VisualNode>(item => template((TItem)item));
             return itemsview;
         }
+
+        public static T ItemVisualState<T>(this T itemsview, string groupName, string stateName, BindableProperty property, object value, string? targetName = null) where T : IItemsView
+        {
+            var group = itemsview.ItemVisualStateGroups.FirstOrDefault(_ => _.Name == groupName);
+
+            if (group == null)
+            {
+                itemsview.ItemVisualStateGroups.Add(group = new VisualStateGroup()
+                {
+                    Name = groupName
+                });
+            }
+
+            var state = group.States.FirstOrDefault(_ => _.Name == stateName);
+            if (state == null)
+            {
+                group.States.Add(state = new VisualState { Name = stateName });
+            }
+
+            state.Setters.Add(new Setter() { Property = property, Value = value });
+
+            return itemsview;
+        }
+
     }
 }

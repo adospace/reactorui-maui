@@ -1,7 +1,4 @@
-﻿using System;
-
-
-namespace MauiReactor.Animations
+﻿namespace MauiReactor.Animations
 {
     public class RxDoubleAnimation : RxTweenAnimation
     {

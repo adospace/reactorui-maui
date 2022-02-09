@@ -23,6 +23,9 @@ Microsoft.Maui.Controls.ShellContent
 Microsoft.Maui.Controls.TabBar
 Microsoft.Maui.Controls.Tab
 Microsoft.Maui.Controls.ShellSection
+Microsoft.Maui.Controls.BaseMenuItem
+Microsoft.Maui.Controls.MenuItem
+Microsoft.Maui.Controls.ToolbarItem
 Microsoft.Maui.Controls.BoxView
 Microsoft.Maui.Controls.ScrollView
 Microsoft.Maui.Controls.Image
@@ -52,5 +55,7 @@ Microsoft.Maui.Controls.Switch
 Microsoft.Maui.Controls.DatePicker
 Microsoft.Maui.Controls.InputView
 Microsoft.Maui.Controls.Entry
+Microsoft.Maui.Controls.ActivityIndicator
+Microsoft.Maui.Controls.ProgressBar
 
 

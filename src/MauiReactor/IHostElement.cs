@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MauiReactor
+﻿namespace MauiReactor
 {
     public interface IHostElement
     {

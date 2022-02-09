@@ -1,10 +1,4 @@
 ﻿using MauiReactor.Internals;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MauiReactor
 {
@@ -36,7 +30,7 @@ namespace MauiReactor
 
             if (childControl is View view)
                 NativeControl.Content = view;
-            else if (childControl is ToolbarItem toolbarItem)
+            else if (childControl is Microsoft.Maui.Controls.ToolbarItem toolbarItem)
                 NativeControl.ToolbarItems.Add(toolbarItem);
 
             base.OnAddChild(widget, childControl);
@@ -48,7 +42,7 @@ namespace MauiReactor
 
             if (childControl is View)
                 NativeControl.Content = null;
-            else if (childControl is ToolbarItem toolbarItem)
+            else if (childControl is Microsoft.Maui.Controls.ToolbarItem toolbarItem)
                 NativeControl.ToolbarItems.Remove(toolbarItem);
 
             base.OnRemoveChild(widget, childControl);

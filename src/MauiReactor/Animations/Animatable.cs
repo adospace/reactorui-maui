@@ -1,7 +1,4 @@
-﻿using System;
-using MauiReactor.Animations;
-
-namespace MauiReactor.Animations
+﻿namespace MauiReactor.Animations
 {
     public class Animatable
     {

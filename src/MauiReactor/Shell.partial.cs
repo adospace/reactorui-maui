@@ -1,10 +1,5 @@
 ﻿using MauiReactor.Internals;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MauiReactor
 {
@@ -65,22 +60,20 @@ namespace MauiReactor
             private IHostElement GetPageHost()
             {
                 var current = _owner;
-                while (current != null && current is not IHostElement)
+                while (current is not IHostElement)
                     current = current.Parent;
 
                 return Validate.EnsureNotNull(current as IHostElement);
             }
 
-            public VisualNode Root
+            private VisualNode Root
             {
                 get => _root;
                 set
                 {
-                    if (_root != value)
-                    {
-                        _root = value;
-                        Invalidate();
-                    }
+                    if (_root == value) return;
+                    _root = value;
+                    Invalidate();
                 }
             }
 
@@ -151,19 +144,15 @@ namespace MauiReactor
                 if (BindingContext != null)
                 {
                     var item = (Microsoft.Maui.Controls.BaseShellItem)BindingContext;
-                    if (item != null)
+
+                    var layout = (IShell)_template.Owner;
+                    if (layout.ItemTemplate != null)
                     {
-                        var layout = (IShell)_template.Owner;
-                        if (layout.ItemTemplate != null)
-                        {
-                            var newRoot = layout.ItemTemplate(item);
-                            if (newRoot != null)
-                            {
-                                _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template.Owner);
-                                _itemTemplateNode.Layout();
-                            }
-                        }
+                        var newRoot = layout.ItemTemplate(item);
+                        _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template.Owner);
+                        _itemTemplateNode.Layout();
                     }
+                
                 }
 
                 base.OnBindingContextChanged();

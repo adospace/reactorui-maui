@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MauiReactor.HotReload
 {
@@ -129,8 +124,6 @@ namespace MauiReactor.HotReload
             await socketStream.WriteAsync(new byte[] { 0x1 }, cancellationToken);
 
             await socketStream.FlushAsync(cancellationToken);
-
-            //System.Runtime.Loader.AssemblyLoadContext.Default.
         }
 
     }
