@@ -200,6 +200,11 @@ namespace MauiReactor
                 NativeControl.Items.Insert(widget.ChildIndex, shellItem);
                 _elementItemMap[childControl] = shellItem;
             }
+            else if (childControl is Microsoft.Maui.Controls.ShellContent shellContent)
+            {
+                NativeControl.Items.Insert(widget.ChildIndex, shellContent);
+                _elementItemMap[childControl] = shellContent;
+            }
             else if (childControl is Microsoft.Maui.Controls.Page page)
             {
                 var shellContentItem = new Microsoft.Maui.Controls.ShellContent() { Content = page };

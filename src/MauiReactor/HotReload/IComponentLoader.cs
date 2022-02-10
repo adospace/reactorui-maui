@@ -9,7 +9,7 @@ namespace MauiReactor.HotReload
     {
         event EventHandler<EventArgs> AssemblyChanged;
 
-        public T? LoadComponent<T>() where T : Component, new();
+        Component? LoadComponent<T>() where T : Component, new();
 
         void Run();
 

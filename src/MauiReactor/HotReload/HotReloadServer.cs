@@ -114,7 +114,14 @@ namespace MauiReactor.HotReload
             {
                 var assemblySymbolStoreRaw = await bufferedStream.ReadAsync(length, cancellationToken);
 
-                _newAssemblyReceived?.Invoke(Assembly.Load(assemblyRaw, assemblySymbolStoreRaw));
+                try
+                {
+                    _newAssemblyReceived?.Invoke(Assembly.Load(assemblyRaw, assemblySymbolStoreRaw));
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.WriteLine(ex);                
+                }
             }
             else
             {

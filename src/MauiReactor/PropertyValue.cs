@@ -55,9 +55,9 @@ namespace MauiReactor
             return () =>
             {
                 var newValue = ValueFunc();
-#if DEBUG
-                System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {dependencyProperty.PropertyName} to {newValue}");
-#endif
+//#if DEBUG
+//                System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {dependencyProperty.PropertyName} to {newValue}");
+//#endif
                 dependencyObject.SetValue(dependencyProperty, newValue);
             };
         }

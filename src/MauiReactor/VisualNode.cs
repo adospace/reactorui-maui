@@ -238,7 +238,7 @@ namespace MauiReactor
 
             AnimateThis();
 
-            if (_stateChanged)
+            if (_isMounted && _stateChanged)
                 OnUpdate();
 
             foreach (var child in Children.Where(_ => _.IsLayoutCycleRequired))
@@ -306,13 +306,19 @@ namespace MauiReactor
             }
         }
 
-        protected T? GetParent<T>() where T : VisualNode
+        protected virtual T? GetParent<T>() where T : VisualNode
         {
             var parent = Parent;
-            while (parent != null && parent is not T)
-                parent = parent.Parent;
+            //while (parent != null && parent is not T)
+            //    parent = parent.Parent;
+            if (parent is T)
+                return (T?)parent;
 
-            return (T?)parent;
+            if (parent == null)
+                return null;
+
+            return parent.GetParent<T>();
+            //return (T?)parent;
         }
 
         protected void Invalidate()

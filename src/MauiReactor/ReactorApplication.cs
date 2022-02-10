@@ -98,13 +98,26 @@ namespace MauiReactor
 
         protected override void OnComponentAssemblyChanged()
         {
-            var newComponent = ComponentLoader.LoadComponent<T>();
-            if (newComponent != null &&
-                _rootComponent != newComponent)
+            try
             {
-                _rootComponent = newComponent;
-                Invalidate();
+                var newComponent = ComponentLoader.LoadComponent<T>();
+                if (newComponent != null &&
+                    _rootComponent != newComponent)
+                {
+                    _rootComponent = newComponent;
+
+                    Invalidate();
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"Unable to hot relead component {typeof(T).FullName}: type not found in received assembly");
+                }
             }
+            catch (Exception ex)
+            {
+                FireUnhandledExpectionEvent(ex);
+            }
+
         }
 
         public override void Stop()

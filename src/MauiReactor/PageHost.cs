@@ -168,19 +168,19 @@ namespace MauiReactor
             _propsInitializer = stateInitializer;
         }
 
-        public static Microsoft.Maui.Controls.Page? CreatePage(Action<P> stateInitializer) 
+        public static Microsoft.Maui.Controls.Page CreatePage(Action<P> stateInitializer) 
         {
             var host = new PageHost<T, P>(stateInitializer);
             host.Run();
-            return host.ContainerPage;
+            return Validate.EnsureNotNull(host.ContainerPage);
         }
 
         protected override Component InitializeComponent(Component component)
         {
-            if (!(component is ComponentWithProps<P> componentWithProps))
-                throw new InvalidOperationException($"Component type ({component.GetType()}) should derive from RxComponentWithProps<{typeof(P)}>");
+            if (component is not ComponentWithProps<P> componentWithProps)
+                throw new InvalidOperationException($"Component type ({component.GetType()}) should derive from ComponentWithProps<{typeof(P)}>");
 
-            _propsInitializer?.Invoke(componentWithProps.Props);
+            _propsInitializer.Invoke(componentWithProps.Props);
             return component;
         }
 

@@ -11,7 +11,7 @@ namespace MauiReactor.HotReload
 
         private Assembly? _assembly;
 
-        public T? LoadComponent<T>() where T : Component, new()
+        public Component? LoadComponent<T>() where T : Component, new()
         {
             if (_assembly == null)
                 return new T();
@@ -25,7 +25,7 @@ namespace MauiReactor.HotReload
                 //throw new InvalidOperationException($"Unable to hot relead component {typeof(T).FullName}: type not found in received assembly");
             }
 
-            return (T)(Activator.CreateInstance(type) ?? throw new InvalidOperationException());
+            return (Component?)(Activator.CreateInstance(type) ?? throw new InvalidOperationException());
         }
 
         public RemoteComponentLoader()
