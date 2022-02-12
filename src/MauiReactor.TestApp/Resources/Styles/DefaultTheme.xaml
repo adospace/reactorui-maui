@@ -36,7 +36,7 @@
     <Color x:Key="LightGray">#EFEFEF</Color>
 
     <Style TargetType="Label">
-        <Setter Property="TextColor" Value="{DynamicResource Secondary}" />
+        <Setter Property="TextColor" Value="{DynamicResource Primary}" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
     </Style>
 

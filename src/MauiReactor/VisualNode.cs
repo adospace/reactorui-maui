@@ -215,6 +215,15 @@ namespace MauiReactor
             };
         }
 
+        internal void Update()
+        {
+            OnUpdate();
+            foreach (var child in Children)
+            {
+                child.Update();
+            }
+        }
+
         internal virtual void Layout(IComponentWithState? containerComponent = null)
         {
             if (!IsLayoutCycleRequired)

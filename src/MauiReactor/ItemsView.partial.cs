@@ -55,6 +55,10 @@ namespace MauiReactor
                         _root = value;
                         Invalidate();
                     }
+                    else
+                    {
+                        _root.Update();
+                    }
                 }
             }
 
@@ -123,22 +127,29 @@ namespace MauiReactor
 
             protected override void OnBindingContextChanged()
             {
-                if (BindingContext != null)
+                while (true)
                 {
                     var item = BindingContext;
-                    if (item != null)
+
+                    if (item == null)
+                        break;
+
+                    VisualNode? newRoot = _template.GetVisualNodeForItem(item);
+                    
+                    if (newRoot == null)
+                        break;
+
+                    if (_itemTemplateNode != null)
                     {
-                        var layout = (IItemsView)_template.Owner;
-                        if (layout.ItemTemplate != null)
-                        {
-                            var newRoot = layout.ItemTemplate(item);
-                            if (newRoot != null)
-                            {
-                                _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template.Owner);
-                                _itemTemplateNode.Layout();
-                            }
-                        }
+                        _itemTemplateNode.Root = newRoot;
                     }
+                    else
+                    {
+                        _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template.Owner);
+                        _itemTemplateNode.Layout();
+                    }
+
+                    break;
                 }
 
                 base.OnBindingContextChanged();
@@ -150,10 +161,24 @@ namespace MauiReactor
             public DataTemplate DataTemplate { get; }
             public ItemsView<T> Owner { get; set; }
 
+            private readonly Dictionary<object, VisualNode> _recycledVisualNode = new();
+
             public CustomDataTemplate(ItemsView<T> owner)
             {
                 Owner = owner;
                 DataTemplate = new DataTemplate(() => new ItemTemplatePresenter(this));
+            }
+
+            public VisualNode? GetVisualNodeForItem(object item)
+            {
+                IItemsView itemsView = Owner;
+
+                if (itemsView.ItemTemplate != null)
+                {
+                    return itemsView.ItemTemplate(item);
+                }
+
+                return null;
             }
         }
 
@@ -191,8 +216,6 @@ namespace MauiReactor
 
             base.OnMigrated(newNode);
         }
-
-
     }
 
     public static partial class ItemsViewExtensions

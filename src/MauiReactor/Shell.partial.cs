@@ -60,7 +60,7 @@ namespace MauiReactor
             private IHostElement GetPageHost()
             {
                 var current = _owner;
-                while (current is not IHostElement)
+                while (current != null && current is not IHostElement)
                     current = current.Parent;
 
                 return Validate.EnsureNotNull(current as IHostElement);

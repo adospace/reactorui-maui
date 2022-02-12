@@ -21,7 +21,12 @@ namespace MauiReactor.TestApp
                 new FlyoutItem("Parameters")
                 {
                     new Pages.ParametersPage()
-                }
+                },
+                new FlyoutItem("CollectionView")
+                {
+                    new Pages.CollectionViewPage()
+                },
+
             }
             .ItemTemplate(RenderItemTemplate);
         }
