@@ -7,8 +7,17 @@ trigger:
 - main
 
 pool:
-  vmImage: windows-2022
+  vmImage: windows-latest
 
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
+  
 - task: MSBuild@1
   inputs:
     solution: '**/*.sln'
