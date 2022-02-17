@@ -60,9 +60,22 @@ namespace MauiReactor.Scaffold
 
         public string Namespace() => Validate.EnsureNotNull(_typeToScaffold.Namespace).Replace("Microsoft.Maui.Controls", "MauiReactor");
 
-        public string TypeName() => _typeToScaffold.Name;
+        public string TypeName() => _typeToScaffold.Name.Replace("`1", string.Empty);
 
         public string FullTypeName() => Validate.EnsureNotNull(_typeToScaffold.FullName)
+            .Replace('+', '.').Replace("`1", string.Empty);
+
+        public bool IsGenericType() => 
+            _typeToScaffold.IsGenericType;
+
+        public string InterfaceName()
+            => IsGenericType() ? $"IGeneric{TypeName()}" : $"I{TypeName()}";
+
+        public string GenericBaseFullTypeName()
+            => _typeToScaffold
+            .GetGenericArguments()[0]
+            .BaseType.EnsureNotNull()
+            .FullName.EnsureNotNull()
             .Replace('+', '.');
 
         public string BaseTypeName()

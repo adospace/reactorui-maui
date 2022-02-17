@@ -9,7 +9,7 @@ namespace MauiReactor.Scaffold
 {
     internal static class Validate
     {
-        public static T EnsureNotNull<T>([NotNull] T? value)
+        public static T EnsureNotNull<T>([NotNull] this T? value)
             => value ?? throw new InvalidOperationException();
     }
 }

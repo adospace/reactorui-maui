@@ -1,22 +1,21 @@
-﻿using MauiReactor.Internals;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Reflection;
+
+using MauiReactor.Animations;
+using MauiReactor.Shapes;
+using MauiReactor.Internals;
 using System.Collections;
 
 namespace MauiReactor
 {
-    public partial interface IItemsView : IItemsViewWithSource
+    public partial interface IGenericItemsView : IItemsViewWithSource
     {
     }
 
-    public partial interface IItemsViewWithSource
-    {
-        IEnumerable? ItemsSource { get; set; }
-
-        Func<object, VisualNode>? ItemTemplate { get; set; }
-
-        VisualStateGroupList ItemVisualStateGroups { get; set; }
-    }
-
-    public partial class ItemsView<T>
+    public abstract partial class ItemsView<T, TChild>
     {
         IEnumerable? IItemsViewWithSource.ItemsSource { get; set; }
 
@@ -139,7 +138,7 @@ namespace MauiReactor
                         break;
 
                     VisualNode? newRoot = _template.GetVisualNodeForItem(item);
-                    
+
                     if (newRoot == null)
                         break;
 
@@ -163,11 +162,11 @@ namespace MauiReactor
         private class CustomDataTemplate
         {
             public DataTemplate DataTemplate { get; }
-            public ItemsView<T> Owner { get; set; }
+            public ItemsView<T, TChild> Owner { get; set; }
 
             private readonly Dictionary<object, VisualNode> _recycledVisualNode = new();
 
-            public CustomDataTemplate(ItemsView<T> owner)
+            public CustomDataTemplate(ItemsView<T, TChild> owner)
             {
                 Owner = owner;
                 DataTemplate = new DataTemplate(() => new ItemTemplatePresenter(this));
@@ -175,7 +174,7 @@ namespace MauiReactor
 
             public VisualNode? GetVisualNodeForItem(object item)
             {
-                IItemsView itemsView = Owner;
+                IItemsViewWithSource itemsView = (IItemsViewWithSource)Owner;
 
                 if (itemsView.ItemTemplate != null)
                 {
@@ -216,49 +215,10 @@ namespace MauiReactor
 
         protected override void OnMigrated(VisualNode newNode)
         {
-            ((ItemsView<T>)newNode)._customDataTemplate = _customDataTemplate;
+            ((ItemsView<T, TChild>)newNode)._customDataTemplate = _customDataTemplate;
 
             base.OnMigrated(newNode);
         }
     }
 
-    public static partial class ItemsViewExtensions
-    {
-        public static T ItemsSource<T, TItem>(this T itemsview, IEnumerable<TItem> itemsSource) where T : IItemsViewWithSource
-        {
-            itemsview.ItemsSource = itemsSource;
-            return itemsview;
-        }
-
-        public static T ItemsSource<T, TItem>(this T itemsview, IEnumerable<TItem> itemsSource, Func<TItem, VisualNode> template) where T : IItemsViewWithSource
-        {
-            itemsview.ItemsSource = itemsSource;
-            itemsview.ItemTemplate = new Func<object, VisualNode>(item => template((TItem)item));
-            return itemsview;
-        }
-
-        public static T ItemVisualState<T>(this T itemsview, string groupName, string stateName, BindableProperty property, object value, string? targetName = null) where T : IItemsViewWithSource
-        {
-            var group = itemsview.ItemVisualStateGroups.FirstOrDefault(_ => _.Name == groupName);
-
-            if (group == null)
-            {
-                itemsview.ItemVisualStateGroups.Add(group = new VisualStateGroup()
-                {
-                    Name = groupName
-                });
-            }
-
-            var state = group.States.FirstOrDefault(_ => _.Name == stateName);
-            if (state == null)
-            {
-                group.States.Add(state = new VisualState { Name = stateName });
-            }
-
-            state.Setters.Add(new Setter() { Property = property, Value = value });
-
-            return itemsview;
-        }
-
-    }
 }
