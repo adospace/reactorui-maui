@@ -11,7 +11,7 @@
     <Authors>adospace</Authors>
     <Description>This command allows hot-reload of an application written with MauiReactorUI.</Description>
     <Copyright>Adolfo Marinucci</Copyright>
-    <PackageProjectUrl>https://github.com/adospace/reactorui-avalonia</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/adospace/reactorui-maui</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/adospace/reactorui-maui</RepositoryUrl>
     <PackageTags>maui mvu components reactjs flutter</PackageTags>

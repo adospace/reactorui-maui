@@ -14,7 +14,6 @@ Microsoft.Maui.Controls.StackBase
 Microsoft.Maui.Controls.StackLayout
 Microsoft.Maui.Controls.VerticalStackLayout
 Microsoft.Maui.Controls.HorizontalStackLayout
-Microsoft.Maui.Controls.GridLayout
 Microsoft.Maui.Controls.Grid
 Microsoft.Maui.Controls.Shell
 Microsoft.Maui.Controls.BaseShellItem

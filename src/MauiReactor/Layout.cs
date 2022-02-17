@@ -15,6 +15,7 @@ namespace MauiReactor
 {
     public partial interface ILayout : IView
     {
+        PropertyValue<bool>? IsClippedToBounds { get; set; }
         PropertyValue<Microsoft.Maui.Thickness>? Padding { get; set; }
 
 
@@ -32,6 +33,7 @@ namespace MauiReactor
 
         }
 
+        PropertyValue<bool>? ILayout.IsClippedToBounds { get; set; }
         PropertyValue<Microsoft.Maui.Thickness>? ILayout.Padding { get; set; }
 
 
@@ -41,6 +43,7 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsILayout = (ILayout)this;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Layout.IsClippedToBoundsProperty, thisAsILayout.IsClippedToBounds);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Layout.PaddingProperty, thisAsILayout.Padding);
 
 
@@ -59,6 +62,20 @@ namespace MauiReactor
 
     public static partial class LayoutExtensions
     {
+        public static T IsClippedToBounds<T>(this T layout, bool isClippedToBounds) where T : ILayout
+        {
+            layout.IsClippedToBounds = new PropertyValue<bool>(isClippedToBounds);
+            return layout;
+        }
+
+        public static T IsClippedToBounds<T>(this T layout, Func<bool> isClippedToBoundsFunc) where T : ILayout
+        {
+            layout.IsClippedToBounds = new PropertyValue<bool>(isClippedToBoundsFunc);
+            return layout;
+        }
+
+
+
         public static T Padding<T>(this T layout, Microsoft.Maui.Thickness padding) where T : ILayout
         {
             layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
