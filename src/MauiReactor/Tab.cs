@@ -18,6 +18,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class Tab<T> : ShellSection<T>, ITab where T : Microsoft.Maui.Controls.Tab, new()
     {
         public Tab()

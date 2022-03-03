@@ -18,6 +18,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class GestureRecognizer<T> : Element<T>, IGestureRecognizer where T : Microsoft.Maui.Controls.GestureRecognizer, new()
     {
         public GestureRecognizer()

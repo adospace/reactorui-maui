@@ -21,6 +21,7 @@ namespace MauiReactor
 
 
     }
+
     public abstract partial class GridItemsLayout<T> : ItemsLayout<T>, IGridItemsLayout where T : Microsoft.Maui.Controls.GridItemsLayout, new()
     {
         protected GridItemsLayout()

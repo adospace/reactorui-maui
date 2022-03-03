@@ -19,6 +19,7 @@ namespace MauiReactor
 
 
     }
+
     public abstract partial class View<T> : VisualElement<T>, IView where T : Microsoft.Maui.Controls.View, new()
     {
         protected View()

@@ -18,6 +18,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class ContentView<T> : TemplatedView<T>, IContentView where T : Microsoft.Maui.Controls.ContentView, new()
     {
         public ContentView()

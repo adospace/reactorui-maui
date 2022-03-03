@@ -18,6 +18,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class CollectionView<T> : GroupableItemsView<T>, ICollectionView where T : Microsoft.Maui.Controls.CollectionView, new()
     {
         public CollectionView()

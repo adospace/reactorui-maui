@@ -18,6 +18,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class ShellSection<T> : ShellGroupItem<T>, IShellSection where T : Microsoft.Maui.Controls.ShellSection, new()
     {
         public ShellSection()

@@ -27,6 +27,7 @@ namespace MauiReactor
         Action<object?, EventArgs>? DisappearingActionWithArgs { get; set; }
 
     }
+
     public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem where T : Microsoft.Maui.Controls.BaseShellItem, new()
     {
         public BaseShellItem()

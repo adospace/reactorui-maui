@@ -23,6 +23,7 @@ namespace MauiReactor
         Action<object?, EventArgs>? PagesChangedActionWithArgs { get; set; }
 
     }
+
     public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage where T : Microsoft.Maui.Controls.MultiPage<TChild>, new() where TChild : Microsoft.Maui.Controls.Page
     {
         public MultiPage()
@@ -30,7 +31,7 @@ namespace MauiReactor
 
         }
 
-        public MultiPage(Action<Microsoft.Maui.Controls.MultiPage<TChild>?> componentRefAction)
+        public MultiPage(Action<T?> componentRefAction)
             : base(componentRefAction)
         {
 

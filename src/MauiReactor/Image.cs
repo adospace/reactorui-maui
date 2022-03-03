@@ -22,6 +22,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class Image<T> : View<T>, IImage where T : Microsoft.Maui.Controls.Image, new()
     {
         public Image()

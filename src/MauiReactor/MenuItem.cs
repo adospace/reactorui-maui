@@ -24,6 +24,7 @@ namespace MauiReactor
         Action<object?, EventArgs>? ClickedActionWithArgs { get; set; }
 
     }
+
     public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsoft.Maui.Controls.MenuItem, new()
     {
         public MenuItem()

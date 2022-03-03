@@ -19,6 +19,7 @@ namespace MauiReactor
 
 
     }
+
     public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItemsLayout where T : Microsoft.Maui.Controls.LinearItemsLayout, new()
     {
         protected LinearItemsLayout()

@@ -1,7 +1,8 @@
 ﻿//Custom Implementation
+Microsoft.Maui.Controls.ListView
 Microsoft.Maui.Controls.MultiPage`1
 Microsoft.Maui.Controls.ItemsView`1
-//Microsoft.Maui.Controls.TabbedPage
+Microsoft.Maui.Controls.TabbedPage
 
 Microsoft.Maui.Controls.Element
 Microsoft.Maui.Controls.NavigableElement
@@ -63,6 +64,11 @@ Microsoft.Maui.Controls.InputView
 Microsoft.Maui.Controls.Entry
 Microsoft.Maui.Controls.ActivityIndicator
 Microsoft.Maui.Controls.ProgressBar
-//Microsoft.Maui.Controls.ListView
 
+Microsoft.Maui.Controls.Cell
+Microsoft.Maui.Controls.TextCell
+Microsoft.Maui.Controls.ImageCell
+Microsoft.Maui.Controls.SwitchCell
+Microsoft.Maui.Controls.EntryCell
+Microsoft.Maui.Controls.ViewCell
 

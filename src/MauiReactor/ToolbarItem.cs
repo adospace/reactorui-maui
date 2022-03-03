@@ -18,6 +18,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class ToolbarItem<T> : MenuItem<T>, IToolbarItem where T : Microsoft.Maui.Controls.ToolbarItem, new()
     {
         public ToolbarItem()

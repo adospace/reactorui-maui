@@ -21,6 +21,7 @@ namespace MauiReactor
         Action<object?, EventArgs>? TappedActionWithArgs { get; set; }
 
     }
+
     public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.TapGestureRecognizer>, ITapGestureRecognizer
     {
         public TapGestureRecognizer()

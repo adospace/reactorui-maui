@@ -18,6 +18,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class HorizontalStackLayout<T> : StackBase<T>, IHorizontalStackLayout where T : Microsoft.Maui.Controls.HorizontalStackLayout, new()
     {
         public HorizontalStackLayout()

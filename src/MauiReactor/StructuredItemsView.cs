@@ -19,6 +19,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class StructuredItemsView<T> : ItemsView<T>, IStructuredItemsView where T : Microsoft.Maui.Controls.StructuredItemsView, new()
     {
         public StructuredItemsView()

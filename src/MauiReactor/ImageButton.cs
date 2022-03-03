@@ -31,6 +31,7 @@ namespace MauiReactor
         Action<object?, EventArgs>? ReleasedActionWithArgs { get; set; }
 
     }
+
     public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.Maui.Controls.ImageButton, new()
     {
         public ImageButton()

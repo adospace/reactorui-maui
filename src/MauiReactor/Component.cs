@@ -336,7 +336,7 @@ namespace MauiReactor
             return false;
         }
 
-        protected virtual void SetState(Action<S> action, bool invalidateComponent = false)
+        protected virtual void SetState(Action<S> action, bool invalidateComponent = true)
         {
             if (action is null)
             {

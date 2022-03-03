@@ -18,6 +18,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class ShellContent<T> : BaseShellItem<T>, IShellContent where T : Microsoft.Maui.Controls.ShellContent, new()
     {
         public ShellContent()

@@ -31,6 +31,7 @@ namespace MauiReactor
         Action<object?, DateChangedEventArgs>? DateSelectedActionWithArgs { get; set; }
 
     }
+
     public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Maui.Controls.DatePicker, new()
     {
         public DatePicker()

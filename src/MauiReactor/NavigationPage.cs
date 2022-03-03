@@ -27,6 +27,7 @@ namespace MauiReactor
         Action<object?, NavigationEventArgs>? PushedActionWithArgs { get; set; }
 
     }
+
     public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Microsoft.Maui.Controls.NavigationPage, new()
     {
         public NavigationPage()

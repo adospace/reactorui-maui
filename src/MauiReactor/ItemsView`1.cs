@@ -18,6 +18,7 @@ namespace MauiReactor
 
 
     }
+
     public abstract partial class ItemsView<T, TChild> : View<T>, IGenericItemsView where T : Microsoft.Maui.Controls.ItemsView<TChild>, new() where TChild : Microsoft.Maui.Controls.BindableObject
     {
         public ItemsView()
@@ -25,7 +26,7 @@ namespace MauiReactor
 
         }
 
-        public ItemsView(Action<Microsoft.Maui.Controls.ItemsView<TChild>?> componentRefAction)
+        public ItemsView(Action<T?> componentRefAction)
             : base(componentRefAction)
         {
 

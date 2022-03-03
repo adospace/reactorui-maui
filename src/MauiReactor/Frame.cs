@@ -21,6 +21,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class Frame<T> : ContentView<T>, IFrame where T : Microsoft.Maui.Controls.Frame, new()
     {
         public Frame()

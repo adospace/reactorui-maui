@@ -18,6 +18,7 @@ namespace MauiReactor.Shapes
 
 
     }
+
     public abstract partial class Geometry<T> : VisualNode<T>, IGeometry where T : Microsoft.Maui.Controls.Shapes.Geometry, new()
     {
         protected Geometry()

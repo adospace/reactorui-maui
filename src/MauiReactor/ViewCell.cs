@@ -13,20 +13,20 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface IBaseMenuItem : IElement
+    public partial interface IViewCell : ICell
     {
 
 
     }
 
-    public abstract partial class BaseMenuItem<T> : Element<T>, IBaseMenuItem where T : Microsoft.Maui.Controls.BaseMenuItem, new()
+    public partial class ViewCell<T> : Cell<T>, IViewCell where T : Microsoft.Maui.Controls.ViewCell, new()
     {
-        protected BaseMenuItem()
+        public ViewCell()
         {
 
         }
 
-        protected BaseMenuItem(Action<T?> componentRefAction)
+        public ViewCell(Action<T?> componentRefAction)
             : base(componentRefAction)
         {
 
@@ -50,8 +50,21 @@ namespace MauiReactor
 
     }
 
+    public partial class ViewCell : ViewCell<Microsoft.Maui.Controls.ViewCell>
+    {
+        public ViewCell()
+        {
 
-    public static partial class BaseMenuItemExtensions
+        }
+
+        public ViewCell(Action<Microsoft.Maui.Controls.ViewCell?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+    }
+
+    public static partial class ViewCellExtensions
     {
 
     }

@@ -26,6 +26,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class Border<T> : View<T>, IBorder where T : Microsoft.Maui.Controls.Border, new()
     {
         public Border()

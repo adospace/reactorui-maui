@@ -23,6 +23,7 @@ namespace MauiReactor.Compatibility
         Action<object?, EventArgs>? LayoutChangedActionWithArgs { get; set; }
 
     }
+
     public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.Maui.Controls.Compatibility.Layout, new()
     {
         protected Layout()

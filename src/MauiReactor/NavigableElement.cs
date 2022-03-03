@@ -19,6 +19,7 @@ namespace MauiReactor
 
 
     }
+
     public abstract partial class NavigableElement<T> : Element<T>, INavigableElement where T : Microsoft.Maui.Controls.NavigableElement, new()
     {
         protected NavigableElement()

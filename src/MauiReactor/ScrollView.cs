@@ -23,6 +23,7 @@ namespace MauiReactor
         Action<object?, ScrolledEventArgs>? ScrolledActionWithArgs { get; set; }
 
     }
+
     public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where T : Microsoft.Maui.Controls.ScrollView, new()
     {
         public ScrollView()

@@ -23,6 +23,7 @@ namespace MauiReactor
         Action<object?, ToggledEventArgs>? ToggledActionWithArgs { get; set; }
 
     }
+
     public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Controls.Switch, new()
     {
         public Switch()

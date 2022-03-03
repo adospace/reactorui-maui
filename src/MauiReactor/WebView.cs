@@ -24,6 +24,7 @@ namespace MauiReactor
         Action<object?, WebNavigatingEventArgs>? NavigatingActionWithArgs { get; set; }
 
     }
+
     public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Controls.WebView, new()
     {
         public WebView()

@@ -32,6 +32,7 @@ namespace MauiReactor
         Action<object?, EventArgs>? CompletedActionWithArgs { get; set; }
 
     }
+
     public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Controls.Entry, new()
     {
         public Entry()

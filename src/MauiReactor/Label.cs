@@ -35,6 +35,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class Label<T> : View<T>, ILabel where T : Microsoft.Maui.Controls.Label, new()
     {
         public Label()

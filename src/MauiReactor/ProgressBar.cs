@@ -20,6 +20,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class ProgressBar<T> : View<T>, IProgressBar where T : Microsoft.Maui.Controls.ProgressBar, new()
     {
         public ProgressBar()

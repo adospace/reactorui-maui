@@ -18,7 +18,11 @@ using MauiReactor.Internals;
 
 namespace <#= Namespace() #>
 {
+    <# if (IsBaseGenericType()) { #>
+    public partial interface <#= InterfaceName() #> : IGeneric<#= BaseTypeName() #>
+    <# } else { #>
     public partial interface <#= InterfaceName() #> : <#= BaseInterfaceName() #>
+    <# } #>
     {
     <# foreach (var property in Properties) { #>
         PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>? <#= property.Name #> { get; set; }
@@ -32,15 +36,29 @@ namespace <#= Namespace() #>
     <# } #>
 
     }
-    <# if (IsGenericType()) { #>
-    public abstract partial class <#= TypeName() #><T, TChild> : <#= BaseTypeName() #><T>, <#= InterfaceName() #> where T : <#= FullTypeName() #><TChild>, new() where TChild : <#= GenericBaseFullTypeName() #>
+
+    <# if (IsBaseGenericType()) { #>
+    public abstract partial class <#= TypeName() #><T> : <#= BaseTypeName() #><T, <#= GenericArgumentBaseFullBaseTypeName() #>>, <#= InterfaceName() #> where T : <#= FullTypeName() #>, new()
     {
         public <#= TypeName() #>()
         { 
         
         }
 
-        public <#= TypeName() #>(Action<<#= FullTypeName() #><TChild>?> componentRefAction)
+        public <#= TypeName() #>(Action<T?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+    <# } else if (IsGenericType()) { #>
+    public abstract partial class <#= TypeName() #><T, TChild> : <#= BaseTypeName() #><T>, <#= InterfaceName() #> where T : <#= FullTypeName() #><TChild>, new() where TChild : <#= GenericArgumentBaseFullTypeName() #>
+    {
+        public <#= TypeName() #>()
+        { 
+        
+        }
+
+        public <#= TypeName() #>(Action<T?> componentRefAction)
             : base(componentRefAction)
         {
 

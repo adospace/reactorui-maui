@@ -20,6 +20,7 @@ namespace MauiReactor
 
 
     }
+
     public abstract partial class ItemsLayout<T> : VisualNode<T>, IItemsLayout where T : Microsoft.Maui.Controls.ItemsLayout, new()
     {
         protected ItemsLayout()

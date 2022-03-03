@@ -19,6 +19,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class TemplatedView<T> : Compatibility.Layout<T>, ITemplatedView where T : Microsoft.Maui.Controls.TemplatedView, new()
     {
         public TemplatedView()

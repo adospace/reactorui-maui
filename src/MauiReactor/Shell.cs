@@ -35,6 +35,7 @@ namespace MauiReactor
         Action<object?, ShellNavigatingEventArgs>? NavigatingActionWithArgs { get; set; }
 
     }
+
     public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Controls.Shell, new()
     {
         public Shell()

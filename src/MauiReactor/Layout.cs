@@ -20,6 +20,7 @@ namespace MauiReactor
 
 
     }
+
     public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.Maui.Controls.Layout, new()
     {
         protected Layout()

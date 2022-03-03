@@ -22,6 +22,7 @@ namespace MauiReactor
         Action<object?, SelectionChangedEventArgs>? SelectionChangedActionWithArgs { get; set; }
 
     }
+
     public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectableItemsView where T : Microsoft.Maui.Controls.SelectableItemsView, new()
     {
         public SelectableItemsView()

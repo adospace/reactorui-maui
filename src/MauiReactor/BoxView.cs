@@ -20,6 +20,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class BoxView<T> : View<T>, IBoxView where T : Microsoft.Maui.Controls.BoxView, new()
     {
         public BoxView()

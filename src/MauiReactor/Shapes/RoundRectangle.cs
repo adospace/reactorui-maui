@@ -19,6 +19,7 @@ namespace MauiReactor.Shapes
 
 
     }
+
     public sealed partial class RoundRectangle : Shapes.Shape<Microsoft.Maui.Controls.Shapes.RoundRectangle>, IRoundRectangle
     {
         public RoundRectangle()

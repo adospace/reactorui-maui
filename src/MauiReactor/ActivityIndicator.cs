@@ -20,6 +20,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class ActivityIndicator<T> : View<T>, IActivityIndicator where T : Microsoft.Maui.Controls.ActivityIndicator, new()
     {
         public ActivityIndicator()

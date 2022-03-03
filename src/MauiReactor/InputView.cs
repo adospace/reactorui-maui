@@ -30,6 +30,7 @@ namespace MauiReactor
         Action<object?, TextChangedEventArgs>? TextChangedActionWithArgs { get; set; }
 
     }
+
     public abstract partial class InputView<T> : View<T>, IInputView where T : Microsoft.Maui.Controls.InputView, new()
     {
         protected InputView()

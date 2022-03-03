@@ -18,6 +18,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class VerticalStackLayout<T> : StackBase<T>, IVerticalStackLayout where T : Microsoft.Maui.Controls.VerticalStackLayout, new()
     {
         public VerticalStackLayout()

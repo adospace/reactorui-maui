@@ -21,6 +21,7 @@ namespace MauiReactor.Shapes
 
 
     }
+
     public partial class EllipseGeometry<T> : Shapes.Geometry<T>, IEllipseGeometry where T : Microsoft.Maui.Controls.Shapes.EllipseGeometry, new()
     {
         public EllipseGeometry()

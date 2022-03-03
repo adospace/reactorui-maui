@@ -18,6 +18,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : Microsoft.Maui.Controls.ContentPage, new()
     {
         public ContentPage()

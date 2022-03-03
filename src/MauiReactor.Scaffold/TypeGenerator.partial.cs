@@ -68,13 +68,22 @@ namespace MauiReactor.Scaffold
         public bool IsGenericType() => 
             _typeToScaffold.IsGenericType;
 
+        public bool IsBaseGenericType() =>
+            Validate.EnsureNotNull(_typeToScaffold.BaseType).IsGenericType;
+
         public string InterfaceName()
             => IsGenericType() ? $"IGeneric{TypeName()}" : $"I{TypeName()}";
 
-        public string GenericBaseFullTypeName()
+        public string GenericArgumentBaseFullTypeName()
             => _typeToScaffold
             .GetGenericArguments()[0]
             .BaseType.EnsureNotNull()
+            .FullName.EnsureNotNull()
+            .Replace('+', '.');
+
+        public string GenericArgumentBaseFullBaseTypeName()
+            => Validate.EnsureNotNull(_typeToScaffold.BaseType)
+            .GetGenericArguments()[0]
             .FullName.EnsureNotNull()
             .Replace('+', '.');
 
@@ -84,6 +93,12 @@ namespace MauiReactor.Scaffold
             if (baseType.Name == "BindableObject")
             {
                 return "VisualNode";
+            }
+
+            if (baseType.IsGenericType)
+            {
+                return Validate.EnsureNotNull(baseType.Name)
+                    .Replace("`1", string.Empty);
             }
 
             return Validate.EnsureNotNull(baseType.FullName)

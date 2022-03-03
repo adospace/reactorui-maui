@@ -19,6 +19,7 @@ namespace MauiReactor
 
 
     }
+
     public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableItemsView where T : Microsoft.Maui.Controls.GroupableItemsView, new()
     {
         public GroupableItemsView()

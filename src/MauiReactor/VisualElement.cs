@@ -53,6 +53,7 @@ namespace MauiReactor
         Action<object?, FocusEventArgs>? UnfocusedActionWithArgs { get; set; }
 
     }
+
     public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualElement where T : Microsoft.Maui.Controls.VisualElement, new()
     {
         protected VisualElement()

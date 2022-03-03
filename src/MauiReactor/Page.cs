@@ -35,6 +35,7 @@ namespace MauiReactor
         Action<object?, EventArgs>? DisappearingActionWithArgs { get; set; }
 
     }
+
     public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.Controls.Page, new()
     {
         public Page()

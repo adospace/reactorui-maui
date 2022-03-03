@@ -164,8 +164,6 @@ namespace MauiReactor
             public DataTemplate DataTemplate { get; }
             public ItemsView<T, TChild> Owner { get; set; }
 
-            private readonly Dictionary<object, VisualNode> _recycledVisualNode = new();
-
             public CustomDataTemplate(ItemsView<T, TChild> owner)
             {
                 Owner = owner;
@@ -174,7 +172,7 @@ namespace MauiReactor
 
             public VisualNode? GetVisualNodeForItem(object item)
             {
-                IItemsViewWithSource itemsView = (IItemsViewWithSource)Owner;
+                IItemsViewWithSource itemsView = Owner;
 
                 if (itemsView.ItemTemplate != null)
                 {

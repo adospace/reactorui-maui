@@ -29,6 +29,7 @@ namespace MauiReactor
         Action<object?, EventArgs>? RemainingItemsThresholdReachedActionWithArgs { get; set; }
 
     }
+
     public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Microsoft.Maui.Controls.ItemsView, new()
     {
         protected ItemsView()

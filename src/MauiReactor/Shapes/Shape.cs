@@ -27,6 +27,7 @@ namespace MauiReactor.Shapes
 
 
     }
+
     public abstract partial class Shape<T> : View<T>, IShape where T : Microsoft.Maui.Controls.Shapes.Shape, new()
     {
         protected Shape()
