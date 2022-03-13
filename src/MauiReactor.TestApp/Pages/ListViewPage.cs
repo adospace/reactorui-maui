@@ -22,7 +22,7 @@ namespace MauiReactor.TestApp.Pages
 
     public class ListViewPageState : IState
     {
-        public ViewMode ViewMode { get; set; } = ViewMode.ViewCell;
+        public ViewMode ViewMode { get; set; } = ViewMode.TextCell;
     }
 
     public class ListViewPage : Component<ListViewPageState>
@@ -40,7 +40,7 @@ namespace MauiReactor.TestApp.Pages
 
         public override VisualNode Render()
         {
-            return new ContentPage()
+            return new ContentPage("ListView Test (BETA)")
             {
                 new Grid("Auto,*", "*")
                 {
@@ -55,8 +55,7 @@ namespace MauiReactor.TestApp.Pages
                     RenderCollection()
                         .GridRow(1)
                 }
-            }
-            .Title("ListView Test");
+            };
         }
 
         private ListView RenderCollection()
@@ -88,14 +87,14 @@ namespace MauiReactor.TestApp.Pages
             throw new InvalidOperationException();
         }
 
-        private VisualNode RenderMonkeyWithTextCell(Monkey monkey)
+        private TextCell RenderMonkeyWithTextCell(Monkey monkey)
         {
             return new TextCell()
                 .Text(monkey.Name)
                 .Detail(monkey.Details);
         }
 
-        private VisualNode RenderMonkeyWithImageCell(Monkey monkey)
+        private ImageCell RenderMonkeyWithImageCell(Monkey monkey)
         {
             return new ImageCell()
                 .Text(monkey.Name)
@@ -103,36 +102,39 @@ namespace MauiReactor.TestApp.Pages
                 .ImageSource(monkey.ImageUrl);
         }
 
-        private VisualNode RenderMonkeyWithSwitchCell(Monkey monkey)
+        private SwitchCell RenderMonkeyWithSwitchCell(Monkey monkey)
         {
             return new SwitchCell()
                 .Text(monkey.Name);
         }
 
-        private VisualNode RenderMonkeyWithEntryCell(Monkey monkey)
+        private EntryCell RenderMonkeyWithEntryCell(Monkey monkey)
         {
             return new EntryCell()
                 .Text(monkey.Name);
         }
 
-        private VisualNode RenderMonkey(Monkey monkey)
+        private ViewCell RenderMonkey(Monkey monkey)
         {
-            return new HorizontalStackLayout()
+            return new ViewCell
             {
-                new Image()
-                    .Source(new Uri(monkey.ImageUrl))
-                    .Margin(4),
-                new StackLayout()
+                new HorizontalStackLayout()
                 {
-                    new Label(monkey.Name)
-                        .FontSize(NamedSize.Default)
-                        .Margin(5),
-                    new Label(monkey.Location)
-                        .FontSize(NamedSize.Caption)
-                        .Margin(5)
+                    new Image()
+                        .Source(new Uri(monkey.ImageUrl))
+                        .Margin(4),
+                    new StackLayout()
+                    {
+                        new Label(monkey.Name)
+                            .FontSize(NamedSize.Default)
+                            .Margin(5),
+                        new Label(monkey.Location)
+                            .FontSize(NamedSize.Caption)
+                            .Margin(5)
+                    }
                 }
-            }
-            .Padding(10);
+                .Padding(10)
+            };
         }
     }
 

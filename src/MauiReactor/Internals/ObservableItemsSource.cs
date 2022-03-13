@@ -72,15 +72,21 @@ namespace MauiReactor.Internals
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
         private readonly bool _collectionWithNotifyEvent;
 
-        public ObservableItemsSource(IEnumerable itemsSource)
+        public ObservableItemsSource(IEnumerable itemsSource, object? itemTemplate)
         {
             ItemsSource = itemsSource;
+            ItemTemplate = itemTemplate;
+
             if (ItemsSource is INotifyCollectionChanged notifyCollectionChanged)
             {
                 _collectionWithNotifyEvent = true;
                 notifyCollectionChanged.CollectionChanged += NotifyCollectionChanged_CollectionChanged;
             }
         }
+
+        public IEnumerable ItemsSource { get; }
+
+        public object? ItemTemplate { get; }
 
         private void NotifyCollectionChanged_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
@@ -97,9 +103,9 @@ namespace MauiReactor.Internals
             return GetEnumerator();
         }
 
-        public static ObservableItemsSource Create(IEnumerable itemsSource)
+        public static ObservableItemsSource Create(IEnumerable itemsSource, object? itemTemplate = null)
         {
-            return new ObservableItemsSource(itemsSource);
+            return new ObservableItemsSource(itemsSource, itemTemplate);
         }
 
         public void NotifyCollectionChanged()
@@ -107,8 +113,6 @@ namespace MauiReactor.Internals
             if (!_collectionWithNotifyEvent)
                 CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
-
-        public IEnumerable ItemsSource { get; }
     }
 
 

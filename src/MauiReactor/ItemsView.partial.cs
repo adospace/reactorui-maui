@@ -3,24 +3,21 @@ using System.Collections;
 
 namespace MauiReactor
 {
-    public partial interface IItemsView : IItemsViewWithSource
-    {
-    }
-
-    public partial interface IItemsViewWithSource
+    public partial interface IItemsView
     {
         IEnumerable? ItemsSource { get; set; }
 
         Func<object, VisualNode>? ItemTemplate { get; set; }
 
-        VisualStateGroupList ItemVisualStateGroups { get; set; }
+        VisualStateGroupList ItemVisualStateGroups { get; set; }  
     }
+
 
     public partial class ItemsView<T>
     {
-        IEnumerable? IItemsViewWithSource.ItemsSource { get; set; }
+        IEnumerable? IItemsView.ItemsSource { get; set; }
 
-        Func<object, VisualNode>? IItemsViewWithSource.ItemTemplate { get; set; }
+        Func<object, VisualNode>? IItemsView.ItemTemplate { get; set; }
 
         public VisualStateGroupList ItemVisualStateGroups { get; set; } = new VisualStateGroupList();
 
@@ -224,20 +221,20 @@ namespace MauiReactor
 
     public static partial class ItemsViewExtensions
     {
-        public static T ItemsSource<T, TItem>(this T itemsview, IEnumerable<TItem> itemsSource) where T : IItemsViewWithSource
+        public static T ItemsSource<T, TItem>(this T itemsview, IEnumerable<TItem> itemsSource) where T : IItemsView
         {
             itemsview.ItemsSource = itemsSource;
             return itemsview;
         }
 
-        public static T ItemsSource<T, TItem>(this T itemsview, IEnumerable<TItem> itemsSource, Func<TItem, VisualNode> template) where T : IItemsViewWithSource
+        public static T ItemsSource<T, TItem>(this T itemsview, IEnumerable<TItem> itemsSource, Func<TItem, VisualNode> template) where T : IItemsView
         {
             itemsview.ItemsSource = itemsSource;
             itemsview.ItemTemplate = new Func<object, VisualNode>(item => template((TItem)item));
             return itemsview;
         }
 
-        public static T ItemVisualState<T>(this T itemsview, string groupName, string stateName, BindableProperty property, object value, string? targetName = null) where T : IItemsViewWithSource
+        public static T ItemVisualState<T>(this T itemsview, string groupName, string stateName, BindableProperty property, object value, string? targetName = null) where T : IItemsView
         {
             var group = itemsview.ItemVisualStateGroups.FirstOrDefault(_ => _.Name == groupName);
 

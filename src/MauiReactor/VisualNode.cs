@@ -426,6 +426,8 @@ namespace MauiReactor
     internal interface IVisualNodeWithNativeControl
     {
         TResult GetNativeControl<TResult>() where TResult : BindableObject;
+
+        void Attach(BindableObject nativeControl);
     }
 
     public interface IVisualNodeWithAttachedProperties
@@ -603,6 +605,11 @@ namespace MauiReactor
         {
             return (_nativeControl as TResult) ??
                 throw new InvalidOperationException($"Unable to convert from type {typeof(T)} to type {typeof(TResult)} when getting the native control");
+        }
+
+        void IVisualNodeWithNativeControl.Attach(BindableObject nativeControl)
+        {
+            _nativeControl = nativeControl;
         }
 
         protected void SetPropertyValue(BindableObject dependencyObject, BindableProperty property, IPropertyValue? propertyValue)
