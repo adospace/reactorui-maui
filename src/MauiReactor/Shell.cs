@@ -243,11 +243,6 @@ namespace MauiReactor
             shell.FlyoutBackgroundImage = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return shell;
         }
-        public static T FlyoutBackgroun<T>(this T shell, string fileAndroid, string fileiOS) where T : IShell
-        {
-            shell.FlyoutBackgroundImage = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
-            return shell;
-        }
         public static T FlyoutBackgroun<T>(this T shell, string resourceName, Assembly sourceAssembly) where T : IShell
         {
             shell.FlyoutBackgroundImage = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
@@ -360,11 +355,6 @@ namespace MauiReactor
         public static T Flyo<T>(this T shell, string file) where T : IShell
         {
             shell.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
-            return shell;
-        }
-        public static T Flyo<T>(this T shell, string fileAndroid, string fileiOS) where T : IShell
-        {
-            shell.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
             return shell;
         }
         public static T Flyo<T>(this T shell, string resourceName, Assembly sourceAssembly) where T : IShell

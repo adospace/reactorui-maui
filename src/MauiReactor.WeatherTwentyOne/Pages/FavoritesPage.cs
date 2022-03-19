@@ -9,6 +9,7 @@ using MauiReactor.Compatibility;
 using Location = MauiReactor.WeatherTwentyOne.Services.Location;
 using MauiReactor.Shapes;
 using MauiReactor.WeatherTwentyOne.Services;
+using Microsoft.Maui.Essentials;
 
 namespace MauiReactor.WeatherTwentyOne.Pages
 {
@@ -163,7 +164,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
             .Padding(0)
             .CornerRadius(20)
             .HasShadow(false)
-            .BackgroundColor(Application.Current?.UserAppTheme == OSAppTheme.Dark ? ThemeColors.DarkGray : ThemeColors.LightGray);
+            .BackgroundColor(Application.Current?.UserAppTheme == AppTheme.Dark ? ThemeColors.DarkGray : ThemeColors.LightGray);
         }
 
 

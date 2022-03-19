@@ -13,13 +13,13 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
-    public partial interface ICollectionView : IGroupableItemsView
+    public partial interface ICollectionView : IReorderableItemsView
     {
 
 
     }
 
-    public partial class CollectionView<T> : GroupableItemsView<T>, ICollectionView where T : Microsoft.Maui.Controls.CollectionView, new()
+    public partial class CollectionView<T> : ReorderableItemsView<T>, ICollectionView where T : Microsoft.Maui.Controls.CollectionView, new()
     {
         public CollectionView()
         {

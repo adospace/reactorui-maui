@@ -1,4 +1,5 @@
 ﻿using MauiReactor.Internals;
+using Microsoft.Maui.Dispatching;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,8 @@ namespace MauiReactor
         private bool _sleeping;
 
         public Microsoft.Maui.Controls.Page? ContainerPage { get; private set; }
+
+        private IDispatcherTimer? _animationTimer;
 
         protected PageHost()
         {
@@ -119,7 +122,8 @@ namespace MauiReactor
         {
             if (!_sleeping)
             {
-                Device.BeginInvokeOnMainThread(OnLayout);
+                //Device.BeginInvokeOnMainThread(OnLayout);
+                ContainerPage?.Dispatcher.Dispatch(OnLayout);
             }
 
             base.OnLayoutCycleRequested();
@@ -148,13 +152,27 @@ namespace MauiReactor
 
         private void SetupAnimationTimer()
         {
-            if (IsAnimationFrameRequested)
+            if (IsAnimationFrameRequested && _animationTimer == null)
             {
-                Device.StartTimer(TimeSpan.FromMilliseconds(16), () =>
+                //Device.StartTimer(TimeSpan.FromMilliseconds(16), () =>
+                _animationTimer = ContainerPage?.Dispatcher.CreateTimer();
+                if(_animationTimer == null)
+                {
+                    return;
+                }
+
+                _animationTimer.Interval = TimeSpan.FromMilliseconds(16);
+
+                _animationTimer.Tick += (s,e)=>
                 {
                     Animate();
-                    return IsAnimationFrameRequested;
-                });
+
+                    if (!IsAnimationFrameRequested)
+                    {
+                        _animationTimer.Stop();
+                        _animationTimer = null;
+                    }
+                };
             }
         }
     }

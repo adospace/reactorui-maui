@@ -284,15 +284,10 @@ namespace <#= Namespace() #>
         }
         <# } #>
         <# if (property.PropertyType.Name == "ImageSource") { 
-               var propertyName = property.Name.Length <= 6 ? property.Name : property.Name.Substring(0, property.Name.Length - 6); #>
+        var propertyName = property.Name.Length <= 6 ? property.Name : property.Name.Substring(0, property.Name.Length - 6); #>
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLocalVariableName() #>, string file) where T : <#= InterfaceName() #>
         {
             <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
-            return <#= TypeName().ToLocalVariableName() #>;
-        }
-        public static T <#= propertyName #><T>(this T <#= TypeName().ToLocalVariableName() #>, string fileAndroid, string fileiOS) where T : <#= InterfaceName() #>
-        {
-            <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
             return <#= TypeName().ToLocalVariableName() #>;
         }
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLocalVariableName() #>, string resourceName, Assembly sourceAssembly) where T : <#= InterfaceName() #>

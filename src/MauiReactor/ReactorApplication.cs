@@ -1,5 +1,6 @@
 ﻿using MauiReactor.HotReload;
 using MauiReactor.Internals;
+using Microsoft.Maui.Dispatching;
 using System.Reflection;
 
 namespace MauiReactor
@@ -61,6 +62,7 @@ namespace MauiReactor
     {
         private Component? _rootComponent;
         private bool _sleeping = true;
+        private IDispatcherTimer? _animationTimer;
 
         internal ReactorApplicationHost(Application application, bool enableHotReload)
             :base(application, enableHotReload)
@@ -133,7 +135,8 @@ namespace MauiReactor
         {
             if (!_sleeping)
             {
-                Device.BeginInvokeOnMainThread(OnLayout);
+                //Device.BeginInvokeOnMainThread(OnLayout);
+                ContainerPage?.Dispatcher.Dispatch(OnLayout);
             }
             base.OnLayoutCycleRequested();
         }
@@ -158,13 +161,27 @@ namespace MauiReactor
 
         private void SetupAnimationTimer()
         {
-            if (IsAnimationFrameRequested)
+            if (IsAnimationFrameRequested && _animationTimer == null)
             {
-                Device.StartTimer(TimeSpan.FromMilliseconds(16), () =>
+                //Device.StartTimer(TimeSpan.FromMilliseconds(16), () =>
+                _animationTimer = ContainerPage?.Dispatcher.CreateTimer();
+                if (_animationTimer == null)
+                {
+                    return;
+                }
+
+                _animationTimer.Interval = TimeSpan.FromMilliseconds(16);
+
+                _animationTimer.Tick += (s, e) =>
                 {
                     Animate();
-                    return IsAnimationFrameRequested;
-                });
+
+                    if (!IsAnimationFrameRequested)
+                    {
+                        _animationTimer.Stop();
+                        _animationTimer = null;
+                    }
+                };
             }
         }
 

@@ -383,11 +383,6 @@ namespace MauiReactor
             button.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return button;
         }
-        public static T Image<T>(this T button, string fileAndroid, string fileiOS) where T : IButton
-        {
-            button.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
-            return button;
-        }
         public static T Image<T>(this T button, string resourceName, Assembly sourceAssembly) where T : IButton
         {
             button.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));

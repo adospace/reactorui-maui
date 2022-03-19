@@ -211,11 +211,6 @@ namespace MauiReactor
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return page;
         }
-        public static T BackgroundImage<T>(this T page, string fileAndroid, string fileiOS) where T : IPage
-        {
-            page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
-            return page;
-        }
         public static T BackgroundImage<T>(this T page, string resourceName, Assembly sourceAssembly) where T : IPage
         {
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
@@ -315,11 +310,6 @@ namespace MauiReactor
         public static T IconImage<T>(this T page, string file) where T : IPage
         {
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
-            return page;
-        }
-        public static T IconImage<T>(this T page, string fileAndroid, string fileiOS) where T : IPage
-        {
-            page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
             return page;
         }
         public static T IconImage<T>(this T page, string resourceName, Assembly sourceAssembly) where T : IPage

@@ -79,7 +79,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
             .Padding(0)
             .CornerRadius(20)
             .HasShadow(false)
-            .BackgroundColor(Application.Current?.RequestedTheme == OSAppTheme.Dark ? ThemeColors.Background_Mid : ThemeColors.LightGray);
+            .BackgroundColor(Application.Current?.RequestedTheme == AppTheme.Dark ? ThemeColors.Background_Mid : ThemeColors.LightGray);
         }
 
         async void OnTapped(object? sender, EventArgs eventArgs)

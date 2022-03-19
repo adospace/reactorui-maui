@@ -47,6 +47,7 @@ Microsoft.Maui.Controls.Border
 Microsoft.Maui.Controls.FlexLayout
 Microsoft.Maui.Controls.CollectionView
 Microsoft.Maui.Controls.GroupableItemsView
+Microsoft.Maui.Controls.ReorderableItemsView
 Microsoft.Maui.Controls.SelectableItemsView
 Microsoft.Maui.Controls.StructuredItemsView
 Microsoft.Maui.Controls.ItemsView

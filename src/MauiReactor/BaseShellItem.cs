@@ -151,11 +151,6 @@ namespace MauiReactor
             baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return baseShellItem;
         }
-        public static T Flyo<T>(this T baseShellItem, string fileAndroid, string fileiOS) where T : IBaseShellItem
-        {
-            baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
-            return baseShellItem;
-        }
         public static T Flyo<T>(this T baseShellItem, string resourceName, Assembly sourceAssembly) where T : IBaseShellItem
         {
             baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
@@ -198,11 +193,6 @@ namespace MauiReactor
         public static T Icon<T>(this T baseShellItem, string file) where T : IBaseShellItem
         {
             baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
-            return baseShellItem;
-        }
-        public static T Icon<T>(this T baseShellItem, string fileAndroid, string fileiOS) where T : IBaseShellItem
-        {
-            baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
             return baseShellItem;
         }
         public static T Icon<T>(this T baseShellItem, string resourceName, Assembly sourceAssembly) where T : IBaseShellItem

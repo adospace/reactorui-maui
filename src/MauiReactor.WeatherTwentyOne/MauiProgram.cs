@@ -24,20 +24,20 @@ namespace MauiReactor.WeatherTwentyOne
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-SemiBold.ttf", "OpenSansSemiBold");
             });
-            builder.ConfigureLifecycleEvents(lifecycle => {
-#if WINDOWS
-        lifecycle
-            .AddWindows(windows =>
-                windows.OnNativeMessage((app, args) => {
-                    if (WindowExtensions.Hwnd == IntPtr.Zero)
-                    {
-                        WindowExtensions.Hwnd = args.Hwnd;
-                        WindowExtensions.SetIcon("Platforms/Windows/trayicon.ico");
-                    }
-                    app.ExtendsContentIntoTitleBar = false;
-                }));
-#endif
-            });
+//            builder.ConfigureLifecycleEvents(lifecycle => {
+//#if WINDOWS
+//        lifecycle
+//            .AddWindows(windows =>
+//                windows.OnNativeMessage((app, args) => {
+//                    if (WindowExtensions.Hwnd == IntPtr.Zero)
+//                    {
+//                        WindowExtensions.Hwnd = args.Hwnd;
+//                        WindowExtensions.SetIcon("Platforms/Windows/trayicon.ico");
+//                    }
+//                    app.ExtendsContentIntoTitleBar = false;
+//                }));
+//#endif
+//            });
 
             var services = builder.Services;
 #if WINDOWS

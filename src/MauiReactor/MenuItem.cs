@@ -147,11 +147,6 @@ namespace MauiReactor
             menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return menuItem;
         }
-        public static T IconImage<T>(this T menuItem, string fileAndroid, string fileiOS) where T : IMenuItem
-        {
-            menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Device.RuntimePlatform == Device.Android ? Microsoft.Maui.Controls.ImageSource.FromFile(fileAndroid) : Microsoft.Maui.Controls.ImageSource.FromFile(fileiOS));
-            return menuItem;
-        }
         public static T IconImage<T>(this T menuItem, string resourceName, Assembly sourceAssembly) where T : IMenuItem
         {
             menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));

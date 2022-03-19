@@ -130,7 +130,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
                             .Class("Subhead"),
 
                         new Switch()
-                            .IsToggled(Application.Current?.UserAppTheme == OSAppTheme.Dark)
+                            .IsToggled(Application.Current?.UserAppTheme == AppTheme.Dark)
                             .OnToggled(OnSwitchTheme)
                     }
                     .HeightRequest(30)
@@ -143,7 +143,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
         {
             if (Application.Current != null)
             {
-                Application.Current.UserAppTheme = args.Value ? OSAppTheme.Dark : OSAppTheme.Light;
+                Application.Current.UserAppTheme = args.Value ? AppTheme.Dark : AppTheme.Light;
             }
         }
 
