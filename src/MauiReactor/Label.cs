@@ -106,6 +106,7 @@ namespace MauiReactor
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.CharacterSpacingProperty, thisAsILabel.CharacterSpacing);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.FontSizeProperty, thisAsILabel.FontSize);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.LineHeightProperty, thisAsILabel.LineHeight);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Label.PaddingProperty, thisAsILabel.Padding);
 
             base.OnAnimate();
         }
@@ -350,9 +351,10 @@ namespace MauiReactor
 
 
 
-        public static T Padding<T>(this T label, Microsoft.Maui.Thickness padding) where T : ILabel
+        public static T Padding<T>(this T label, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null) where T : ILabel
         {
             label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
+            label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return label;
         }
 

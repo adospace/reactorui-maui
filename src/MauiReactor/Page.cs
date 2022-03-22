@@ -86,6 +86,15 @@ namespace MauiReactor
             OnEndUpdate();
         }
 
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIPage = (IPage)this;
+
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.PaddingProperty, thisAsIPage.Padding);
+
+            base.OnAnimate();
+        }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
@@ -251,9 +260,10 @@ namespace MauiReactor
 
 
 
-        public static T Padding<T>(this T page, Microsoft.Maui.Thickness padding) where T : IPage
+        public static T Padding<T>(this T page, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null) where T : IPage
         {
             page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
+            page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return page;
         }
 

@@ -112,6 +112,7 @@ namespace MauiReactor
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Button.CharacterSpacingProperty, thisAsIButton.CharacterSpacing);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Button.FontSizeProperty, thisAsIButton.FontSize);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Button.BorderWidthProperty, thisAsIButton.BorderWidth);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Button.PaddingProperty, thisAsIButton.Padding);
 
             base.OnAnimate();
         }
@@ -409,9 +410,10 @@ namespace MauiReactor
             return button;
         }
 
-        public static T Padding<T>(this T button, Microsoft.Maui.Thickness padding) where T : IButton
+        public static T Padding<T>(this T button, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null) where T : IButton
         {
             button.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
+            button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => button.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return button;
         }
 

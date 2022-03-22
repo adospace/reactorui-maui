@@ -16,6 +16,8 @@ namespace MauiReactor
 
         private IDispatcherTimer? _animationTimer;
 
+        private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
+
         protected PageHost()
         {
         }
@@ -152,28 +154,67 @@ namespace MauiReactor
 
         private void SetupAnimationTimer()
         {
-            if (IsAnimationFrameRequested && _animationTimer == null)
+            if (_listOfVisualsToAnimate.Count > 0 && _animationTimer == null)
             {
                 //Device.StartTimer(TimeSpan.FromMilliseconds(16), () =>
                 _animationTimer = ContainerPage?.Dispatcher.CreateTimer();
-                if(_animationTimer == null)
+                if (_animationTimer == null)
                 {
                     return;
                 }
 
-                _animationTimer.Interval = TimeSpan.FromMilliseconds(16);
+                _animationTimer.Interval = TimeSpan.FromMilliseconds(1);
+                _animationTimer.IsRepeating = true;
 
-                _animationTimer.Tick += (s,e)=>
+
+                _animationTimer.Tick += (s, e) =>
                 {
-                    Animate();
+                    var now = DateTime.Now;
+                    //System.Diagnostics.Debug.WriteLine($"Begin Animate() {DateTime.Now - now} elapsed");
+                    //Animate();
+                    //System.Diagnostics.Debug.WriteLine($"Animate() {DateTime.Now - now} elapsed");
 
-                    if (!IsAnimationFrameRequested)
+                    if (!AnimateVisuals())
                     {
                         _animationTimer.Stop();
                         _animationTimer = null;
                     }
+
+                    System.Diagnostics.Debug.WriteLine($"Animate() {DateTime.Now - now} elapsed");
                 };
+
+                _animationTimer.Start();
             }
+        }
+
+        private bool AnimateVisuals()
+        {
+            if (_listOfVisualsToAnimate.Count == 0)
+                return false;
+
+            bool animated = false;
+            LinkedListNode<VisualNode>? nodeToAnimate = _listOfVisualsToAnimate.First;
+            while (nodeToAnimate != null)
+            {
+                var nextNode = nodeToAnimate.Next;
+
+                if (nodeToAnimate.Value.Animate())
+                {
+                    animated = true;
+                }
+                else
+                {
+                    _listOfVisualsToAnimate.Remove(nodeToAnimate);
+                }
+
+                nodeToAnimate = nextNode;
+            }
+
+            return animated;
+        }
+        public void RequestAnimationFrame(VisualNode visualNode)
+        {
+            _listOfVisualsToAnimate.AddFirst(visualNode);
         }
     }
 

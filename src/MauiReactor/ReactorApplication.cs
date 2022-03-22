@@ -52,6 +52,8 @@ namespace MauiReactor
             return this;
         }
 
+        public abstract void RequestAnimationFrame(VisualNode visualNode);
+
         public INavigation? Navigation =>  _application.MainPage?.Navigation;
 
         public Microsoft.Maui.Controls.Page? ContainerPage => _application?.MainPage;
@@ -63,6 +65,7 @@ namespace MauiReactor
         private Component? _rootComponent;
         private bool _sleeping = true;
         private IDispatcherTimer? _animationTimer;
+        private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
 
         internal ReactorApplicationHost(Application application, bool enableHotReload)
             :base(application, enableHotReload)
@@ -159,9 +162,14 @@ namespace MauiReactor
             yield return _rootComponent;
         }
 
+        public override void RequestAnimationFrame(VisualNode visualNode)
+        {
+            _listOfVisualsToAnimate.AddFirst(visualNode);
+        }
+
         private void SetupAnimationTimer()
         {
-            if (IsAnimationFrameRequested && _animationTimer == null)
+            if (_listOfVisualsToAnimate.Count > 0 && _animationTimer == null)
             {
                 //Device.StartTimer(TimeSpan.FromMilliseconds(16), () =>
                 _animationTimer = ContainerPage?.Dispatcher.CreateTimer();
@@ -170,21 +178,55 @@ namespace MauiReactor
                     return;
                 }
 
-                _animationTimer.Interval = TimeSpan.FromMilliseconds(16);
+                _animationTimer.Interval = TimeSpan.FromMilliseconds(1);
+                _animationTimer.IsRepeating = true;
+                var now = DateTime.Now;
+
 
                 _animationTimer.Tick += (s, e) =>
                 {
-                    Animate();
+                    //System.Diagnostics.Debug.WriteLine($"Begin Animate() {DateTime.Now - now} elapsed");
+                    //Animate();
+                    //System.Diagnostics.Debug.WriteLine($"Animate() {DateTime.Now - now} elapsed");
 
-                    if (!IsAnimationFrameRequested)
+                    if (!AnimateVisuals())
                     {
                         _animationTimer.Stop();
                         _animationTimer = null;
+                        System.Diagnostics.Debug.WriteLine($"Animate() {DateTime.Now - now} elapsed");
                     }
+
                 };
+
+                _animationTimer.Start();
             }
         }
 
+        private bool AnimateVisuals()
+        {
+            if (_listOfVisualsToAnimate.Count == 0)
+                return false;
+
+            bool animated = false;
+            LinkedListNode<VisualNode>? nodeToAnimate = _listOfVisualsToAnimate.First;
+            while (nodeToAnimate != null)
+            {
+                var nextNode = nodeToAnimate.Next;
+
+                if (nodeToAnimate.Value.Animate())
+                {
+                    animated = true;
+                }
+                else
+                {
+                    _listOfVisualsToAnimate.Remove(nodeToAnimate);
+                }
+
+                nodeToAnimate = nextNode;
+            }
+
+            return animated;
+        }
     }
 
     public abstract class ReactorApplication : Application

@@ -50,9 +50,9 @@
 		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.0.30" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\MauiReactor\MauiReactor.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MauiReactor\MauiReactor.csproj" />
+  </ItemGroup>
 
 	<ItemGroup>
 	  <Compile Update="Resources\Styles\DefaultTheme.xaml.cs">

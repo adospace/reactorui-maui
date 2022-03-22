@@ -50,6 +50,15 @@ namespace MauiReactor
             OnEndUpdate();
         }
 
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIView = (IView)this;
+
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.View.MarginProperty, thisAsIView.Margin);
+
+            base.OnAnimate();
+        }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
@@ -60,9 +69,10 @@ namespace MauiReactor
 
     public static partial class ViewExtensions
     {
-        public static T Margin<T>(this T view, Microsoft.Maui.Thickness margin) where T : IView
+        public static T Margin<T>(this T view, Microsoft.Maui.Thickness margin, RxThicknessAnimation? customAnimation = null) where T : IView
         {
             view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(margin);
+            view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(margin), v => view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return view;
         }
 

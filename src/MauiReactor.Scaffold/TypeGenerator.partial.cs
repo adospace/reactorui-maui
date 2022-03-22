@@ -119,7 +119,14 @@ namespace MauiReactor.Scaffold
 
         public PropertyInfo[] Properties { get; }
 
-        public PropertyInfo[] AnimatableProperties => Properties.Where(_ => _.PropertyType == typeof(double)).ToArray();
+        public PropertyInfo[] AnimatableProperties => Properties.Where(_ =>
+        _.PropertyType == typeof(double) ||
+        _.PropertyType == typeof(Rect) ||
+        _.PropertyType == typeof(Thickness) ||
+        _.PropertyType == typeof(Point)
+        )
+
+            .ToArray();
 
         public EventInfo[] Events { get; }
 

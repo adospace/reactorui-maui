@@ -37,14 +37,14 @@ namespace MauiReactor
 
             private VisualNode _root;
 
-            private IHostElement GetPageHost()
-            {
-                var current = _owner;
-                while (current != null && current is not IHostElement)
-                    current = current.Parent;
+            //private IHostElement GetPageHost()
+            //{
+            //    var current = _owner;
+            //    while (current != null && current is not IHostElement)
+            //        current = current.Parent;
 
-                return Validate.EnsureNotNull(current as IHostElement);
-            }
+            //    return Validate.EnsureNotNull(current as IHostElement);
+            //}
 
             public VisualNode Root
             {
@@ -112,6 +112,11 @@ namespace MauiReactor
                 }
 
                 ownerPageHost.Stop();
+            }
+
+            public void RequestAnimationFrame(VisualNode visualNode)
+            {
+                throw new NotImplementedException();
             }
         }
 

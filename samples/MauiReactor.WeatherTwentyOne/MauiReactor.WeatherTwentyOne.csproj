@@ -54,7 +54,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\MauiReactor\MauiReactor.csproj" />
+    <ProjectReference Include="..\..\src\MauiReactor\MauiReactor.csproj" />
   </ItemGroup>
 
   <PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">

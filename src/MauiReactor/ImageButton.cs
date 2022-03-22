@@ -86,6 +86,7 @@ namespace MauiReactor
             var thisAsIImageButton = (IImageButton)this;
 
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, thisAsIImageButton.BorderWidth);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ImageButton.PaddingProperty, thisAsIImageButton.Padding);
 
             base.OnAnimate();
         }
@@ -278,9 +279,10 @@ namespace MauiReactor
 
 
 
-        public static T Padding<T>(this T imageButton, Microsoft.Maui.Thickness padding) where T : IImageButton
+        public static T Padding<T>(this T imageButton, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null) where T : IImageButton
         {
             imageButton.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
+            imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => imageButton.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return imageButton;
         }
 

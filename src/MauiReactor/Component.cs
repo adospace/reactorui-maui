@@ -19,7 +19,8 @@ namespace MauiReactor
         public void SetAttachedProperty(BindableProperty property, object value)
             => _attachedProperties[property] = value;
 
-        
+        public bool HasAttachedProperty(BindableProperty property)
+            => _attachedProperties.ContainsKey(property);
 
         private BindableObject? _nativeControl;
 
@@ -47,15 +48,6 @@ namespace MauiReactor
 
         protected new IReadOnlyList<VisualNode> Children()
             => _children;
-
-        private IHostElement? GetPageHost()
-        {
-            var current = Parent;
-            while (current != null && current is not IHostElement)
-                current = current.Parent;
-
-            return current as IHostElement;
-        }
 
         protected Microsoft.Maui.Controls.Page? ContainerPage
         {

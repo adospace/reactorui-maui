@@ -76,6 +76,7 @@ namespace MauiReactor
             Validate.EnsureNotNull(NativeControl);
             var thisAsIBorder = (IBorder)this;
 
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Border.PaddingProperty, thisAsIBorder.Padding);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Border.StrokeThicknessProperty, thisAsIBorder.StrokeThickness);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Border.StrokeDashOffsetProperty, thisAsIBorder.StrokeDashOffset);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Border.StrokeMiterLimitProperty, thisAsIBorder.StrokeMiterLimit);
@@ -105,9 +106,10 @@ namespace MauiReactor
 
     public static partial class BorderExtensions
     {
-        public static T Padding<T>(this T border, Microsoft.Maui.Thickness padding) where T : IBorder
+        public static T Padding<T>(this T border, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null) where T : IBorder
         {
             border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
+            border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return border;
         }
 

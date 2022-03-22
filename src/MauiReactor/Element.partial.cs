@@ -30,11 +30,12 @@ namespace MauiReactor
             return _internalChildren.GetEnumerator();
         }
 
-        public void Add(params VisualNode?[] nodes)
+        public void Add(params VisualNode?[]? nodes)
         {
             if (nodes is null)
             {
-                throw new ArgumentNullException(nameof(nodes));
+                return;
+                //throw new ArgumentNullException(nameof(nodes));
             }
 
             foreach (var node in nodes)

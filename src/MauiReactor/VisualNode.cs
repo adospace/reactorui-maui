@@ -109,7 +109,7 @@ namespace MauiReactor
             }
         }
 
-        internal bool IsAnimationFrameRequested { get; private set; } = false;
+        //internal bool IsAnimationFrameRequested { get; private set; } = false;
         internal bool IsLayoutCycleRequired { get; set; } = true;
         internal VisualNode? Parent { get; private set; }
 
@@ -173,23 +173,23 @@ namespace MauiReactor
 
         internal virtual bool Animate()
         {
-            if (!IsAnimationFrameRequested)
-                return false;
+            //if (!IsAnimationFrameRequested)
+            //    return false;
 
             var animated = AnimateThis();
 
             OnAnimate();
 
-            foreach (var child in Children)
-            {
-                if (child.Animate())
-                    animated = true;
-            }
+            //foreach (var child in Children)
+            //{
+            //    if (child.Animate())
+            //        animated = true;
+            //}
 
-            if (!animated)
-            {
-                IsAnimationFrameRequested = false;
-            }
+            //if (!animated)
+            //{
+            //    IsAnimationFrameRequested = false;
+            //}
 
             return animated;
         }
@@ -307,11 +307,25 @@ namespace MauiReactor
         {
         }
 
+        internal IHostElement? GetPageHost()
+        {
+            var current = Parent;
+            while (current != null && current is not IHostElement)
+                current = current.Parent;
+
+            return current as IHostElement;
+        }
+
         protected virtual void CommitAnimations()
         {
             if (_animatables.Any(_ => _.Value.IsEnabled.GetValueOrDefault() && !_.Value.Animation.IsCompleted()))
             {
-                RequestAnimationFrame();
+                var pageHost = GetPageHost();
+                if (pageHost != null)
+                {
+                    pageHost.RequestAnimationFrame(this);
+                }
+                //RequestAnimationFrame();
             }
         }
 
@@ -406,11 +420,11 @@ namespace MauiReactor
             return animated;
         }
 
-        private void RequestAnimationFrame()
-        {
-            IsAnimationFrameRequested = true;
-            Parent?.RequestAnimationFrame();
-        }
+        //private void RequestAnimationFrame()
+        //{
+        //    IsAnimationFrameRequested = true;
+        //    Parent?.RequestAnimationFrame();
+        //}
 
         private void RequireLayoutCycle()
         {
@@ -423,16 +437,18 @@ namespace MauiReactor
         }
     }
 
-    internal interface IVisualNodeWithNativeControl
+    internal interface IVisualNodeWithNativeControl : IVisualNode
     {
         TResult GetNativeControl<TResult>() where TResult : BindableObject;
 
         void Attach(BindableObject nativeControl);
     }
 
-    public interface IVisualNodeWithAttachedProperties
+    public interface IVisualNodeWithAttachedProperties : IVisualNode
     {
         void SetAttachedProperty(BindableProperty property, object value);
+
+        bool HasAttachedProperty(BindableProperty property);
     }
 
     public static class VisualNodeWithAttachedPropertiesExtensions
@@ -468,6 +484,9 @@ namespace MauiReactor
         public void SetAttachedProperty(BindableProperty property, object value)
             => _attachedProperties[property] = value;
 
+        public bool HasAttachedProperty(BindableProperty property)
+            => _attachedProperties.ContainsKey(property);
+
         internal override void Layout(IComponentWithState? containerComponent = null)
         {
             _containerComponent = containerComponent;
@@ -497,8 +516,16 @@ namespace MauiReactor
             {
                 OnDetachNativeEvents();
 
+                var newNodeAsNodeWithAttachedProperties = newNode as IVisualNodeWithAttachedProperties;
+
                 foreach (var attachedProperty in _attachedProperties)
                 {
+                    if (newNodeAsNodeWithAttachedProperties != null &&
+                        newNodeAsNodeWithAttachedProperties.HasAttachedProperty(attachedProperty.Key))
+                    {
+                        continue;
+                    }
+
                     if (TryGetDefaultPropertyValue(attachedProperty.Key, out var oldValue))
                     {
 #if DEBUG
@@ -624,7 +651,7 @@ namespace MauiReactor
                 if (!CompareUtils.AreEquals(oldValue, newValue))
                 {
 #if DEBUG
-                    System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {property.PropertyName} to {newValue}");
+                    //System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {property.PropertyName} to {newValue}");
 #endif
 
                     dependencyObject.SetValue(property, newValue);
@@ -657,7 +684,7 @@ namespace MauiReactor
             if (!CompareUtils.AreEquals(oldValue, newValue))
             {
 #if DEBUG
-                System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {property.PropertyName} to {newValue}");
+                //System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {property.PropertyName} to {newValue}");
 #endif
 
                 dependencyObject.SetValue(property, newValue);
@@ -685,6 +712,17 @@ namespace MauiReactor
             }
 
             return false;
+        }
+
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            foreach (var attachedProperty in _attachedProperties)
+            {
+                SetPropertyValue(NativeControl, attachedProperty.Key, attachedProperty.Value);
+            }
+
+            base.OnAnimate();
         }
 
     }

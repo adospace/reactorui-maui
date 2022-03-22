@@ -61,6 +61,7 @@ namespace MauiReactor.Shapes
             Validate.EnsureNotNull(NativeControl);
             var thisAsIEllipseGeometry = (IEllipseGeometry)this;
 
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, thisAsIEllipseGeometry.Center);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, thisAsIEllipseGeometry.RadiusX);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, thisAsIEllipseGeometry.RadiusY);
 
@@ -89,9 +90,10 @@ namespace MauiReactor.Shapes
 
     public static partial class EllipseGeometryExtensions
     {
-        public static T Center<T>(this T ellipseGeometry, Microsoft.Maui.Graphics.Point center) where T : IEllipseGeometry
+        public static T Center<T>(this T ellipseGeometry, Microsoft.Maui.Graphics.Point center, RxPointAnimation? customAnimation = null) where T : IEllipseGeometry
         {
             ellipseGeometry.Center = new PropertyValue<Microsoft.Maui.Graphics.Point>(center);
+            ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, customAnimation ?? new RxSimplePointAnimation(center), v => ellipseGeometry.Center = new PropertyValue<Microsoft.Maui.Graphics.Point>(v.CurrentValue()));
             return ellipseGeometry;
         }
 

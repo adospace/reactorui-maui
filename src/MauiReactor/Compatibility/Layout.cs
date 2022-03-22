@@ -60,6 +60,15 @@ namespace MauiReactor.Compatibility
             OnEndUpdate();
         }
 
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsILayout = (ILayout)this;
+
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, thisAsILayout.Padding);
+
+            base.OnAnimate();
+        }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
@@ -127,9 +136,10 @@ namespace MauiReactor.Compatibility
 
 
 
-        public static T Padding<T>(this T layout, Microsoft.Maui.Thickness padding) where T : ILayout
+        public static T Padding<T>(this T layout, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null) where T : ILayout
         {
             layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
+            layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return layout;
         }
 

@@ -11,6 +11,7 @@ Microsoft.Maui.Controls.Page
 Microsoft.Maui.Controls.TemplatedPage
 Microsoft.Maui.Controls.ContentPage
 Microsoft.Maui.Controls.NavigationPage
+//Microsoft.Maui.Controls.CarouselPage
 
 Microsoft.Maui.Controls.View
 Microsoft.Maui.Controls.Button
@@ -65,6 +66,7 @@ Microsoft.Maui.Controls.InputView
 Microsoft.Maui.Controls.Entry
 Microsoft.Maui.Controls.ActivityIndicator
 Microsoft.Maui.Controls.ProgressBar
+Microsoft.Maui.Controls.AbsoluteLayout
 
 Microsoft.Maui.Controls.Cell
 Microsoft.Maui.Controls.TextCell
