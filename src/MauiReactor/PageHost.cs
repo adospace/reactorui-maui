@@ -166,24 +166,20 @@ namespace MauiReactor
                 _animationTimer.Interval = TimeSpan.FromMilliseconds(1);
                 _animationTimer.IsRepeating = true;
 
-
-                _animationTimer.Tick += (s, e) =>
-                {
-                    var now = DateTime.Now;
-                    //System.Diagnostics.Debug.WriteLine($"Begin Animate() {DateTime.Now - now} elapsed");
-                    //Animate();
-                    //System.Diagnostics.Debug.WriteLine($"Animate() {DateTime.Now - now} elapsed");
-
-                    if (!AnimateVisuals())
-                    {
-                        _animationTimer.Stop();
-                        _animationTimer = null;
-                    }
-
-                    System.Diagnostics.Debug.WriteLine($"Animate() {DateTime.Now - now} elapsed");
-                };
+                _animationTimer.Tick += _animationTimer_Tick;
 
                 _animationTimer.Start();
+            }
+        }
+
+        private void _animationTimer_Tick(object? sender, EventArgs e)
+        {
+            if (_animationTimer != null && !AnimateVisuals())
+            {
+                _animationTimer.Tick -= _animationTimer_Tick;
+                _animationTimer.Stop();
+                _animationTimer = null;
+                //System.Diagnostics.Debug.WriteLine($"Animate() {DateTime.Now - now} elapsed");
             }
         }
 
@@ -212,6 +208,7 @@ namespace MauiReactor
 
             return animated;
         }
+
         public void RequestAnimationFrame(VisualNode visualNode)
         {
             _listOfVisualsToAnimate.AddFirst(visualNode);

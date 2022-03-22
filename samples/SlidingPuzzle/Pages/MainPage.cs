@@ -73,7 +73,7 @@ namespace SlidingPuzzle.Pages
                     .ToArray()
                 }
                 .MinimumWidthRequest(400.0)
-                .MaximumHeightRequest(800.0)
+                .MaximumWidthRequest(800.0)
                 .HeightRequest(State.GameBoardWidth)
                 .HCenter()
                 .VCenter()
@@ -157,7 +157,7 @@ namespace SlidingPuzzle.Pages
             {
                 return;
             }
-            SetState(s => s.GameBoardWidth = visualElement.Width);
+            SetState(s => s.GameBoardWidth = Math.Min(800.0, Math.Max(400, visualElement.Width)));
         }
 
     }
