@@ -275,11 +275,6 @@ namespace MauiReactor
         }
 
 
-        public static T FontSize<T>(this T button, NamedSize size) where T : IButton
-        {
-            button.FontSize = new PropertyValue<double>(Device.GetNamedSize(size, typeof(Button)));
-            return button;
-        }
 
         public static T TextTransform<T>(this T button, Microsoft.Maui.TextTransform textTransform) where T : IButton
         {

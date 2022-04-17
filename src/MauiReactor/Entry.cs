@@ -232,11 +232,6 @@ namespace MauiReactor
         }
 
 
-        public static T FontSize<T>(this T entry, NamedSize size) where T : IEntry
-        {
-            entry.FontSize = new PropertyValue<double>(Device.GetNamedSize(size, typeof(Entry)));
-            return entry;
-        }
 
         public static T FontAttributes<T>(this T entry, Microsoft.Maui.Controls.FontAttributes fontAttributes) where T : IEntry
         {

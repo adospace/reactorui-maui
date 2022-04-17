@@ -297,13 +297,6 @@ namespace <#= Namespace() #>
             return <#= TypeName().ToLocalVariableName() #>;
         }
         <# } #>
-        <# if (property.Name == "FontSize") { #>
-        public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, NamedSize size) where T : <#= InterfaceName() #>
-        {
-            <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(Device.GetNamedSize(size, typeof(<#= TypeName() #>)));
-            return <#= TypeName().ToLocalVariableName() #>;
-        }
-        <# } #>
         <# if (property.PropertyType.Name == "ImageSource") { 
         var propertyName = property.Name.Length <= 6 ? property.Name : property.Name.Substring(0, property.Name.Length - 6); #>
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLocalVariableName() #>, string file) where T : <#= InterfaceName() #>

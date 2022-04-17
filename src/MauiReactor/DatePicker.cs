@@ -25,7 +25,6 @@ namespace MauiReactor
         PropertyValue<double>? FontSize { get; set; }
         PropertyValue<Microsoft.Maui.Controls.FontAttributes>? FontAttributes { get; set; }
         PropertyValue<bool>? FontAutoScalingEnabled { get; set; }
-        PropertyValue<Microsoft.Maui.TextTransform>? TextTransform { get; set; }
 
         Action? DateSelectedAction { get; set; }
         Action<object?, DateChangedEventArgs>? DateSelectedActionWithArgs { get; set; }
@@ -55,7 +54,6 @@ namespace MauiReactor
         PropertyValue<double>? IDatePicker.FontSize { get; set; }
         PropertyValue<Microsoft.Maui.Controls.FontAttributes>? IDatePicker.FontAttributes { get; set; }
         PropertyValue<bool>? IDatePicker.FontAutoScalingEnabled { get; set; }
-        PropertyValue<Microsoft.Maui.TextTransform>? IDatePicker.TextTransform { get; set; }
 
         Action? IDatePicker.DateSelectedAction { get; set; }
         Action<object?, DateChangedEventArgs>? IDatePicker.DateSelectedActionWithArgs { get; set; }
@@ -76,7 +74,6 @@ namespace MauiReactor
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.FontSizeProperty, thisAsIDatePicker.FontSize);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.FontAttributesProperty, thisAsIDatePicker.FontAttributes);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.FontAutoScalingEnabledProperty, thisAsIDatePicker.FontAutoScalingEnabled);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.TextTransformProperty, thisAsIDatePicker.TextTransform);
 
 
             base.OnUpdate();
@@ -259,11 +256,6 @@ namespace MauiReactor
         }
 
 
-        public static T FontSize<T>(this T datePicker, NamedSize size) where T : IDatePicker
-        {
-            datePicker.FontSize = new PropertyValue<double>(Device.GetNamedSize(size, typeof(DatePicker)));
-            return datePicker;
-        }
 
         public static T FontAttributes<T>(this T datePicker, Microsoft.Maui.Controls.FontAttributes fontAttributes) where T : IDatePicker
         {
@@ -288,20 +280,6 @@ namespace MauiReactor
         public static T FontAutoScalingEnabled<T>(this T datePicker, Func<bool> fontAutoScalingEnabledFunc) where T : IDatePicker
         {
             datePicker.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
-            return datePicker;
-        }
-
-
-
-        public static T TextTransform<T>(this T datePicker, Microsoft.Maui.TextTransform textTransform) where T : IDatePicker
-        {
-            datePicker.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransform);
-            return datePicker;
-        }
-
-        public static T TextTransform<T>(this T datePicker, Func<Microsoft.Maui.TextTransform> textTransformFunc) where T : IDatePicker
-        {
-            datePicker.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc);
             return datePicker;
         }
 

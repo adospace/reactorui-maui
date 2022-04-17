@@ -78,7 +78,7 @@ namespace MauiReactor
                 }
             }
 
-            public Microsoft.Maui.Controls.Page? ContainerPage => GetPageHost().ContainerPage;
+            public Microsoft.Maui.Controls.Page? ContainerPage => GetPageHost()?.ContainerPage;
 
             protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
             {

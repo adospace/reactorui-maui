@@ -41,6 +41,10 @@ namespace MauiReactor
         PropertyValue<double>? MaximumHeightRequest { get; set; }
         PropertyValue<Microsoft.Maui.FlowDirection>? FlowDirection { get; set; }
 
+        Action? LoadedAction { get; set; }
+        Action<object?, EventArgs>? LoadedActionWithArgs { get; set; }
+        Action? UnloadedAction { get; set; }
+        Action<object?, EventArgs>? UnloadedActionWithArgs { get; set; }
         Action? ChildrenReorderedAction { get; set; }
         Action<object?, EventArgs>? ChildrenReorderedActionWithArgs { get; set; }
         Action? FocusedAction { get; set; }
@@ -93,6 +97,10 @@ namespace MauiReactor
         PropertyValue<double>? IVisualElement.MaximumHeightRequest { get; set; }
         PropertyValue<Microsoft.Maui.FlowDirection>? IVisualElement.FlowDirection { get; set; }
 
+        Action? IVisualElement.LoadedAction { get; set; }
+        Action<object?, EventArgs>? IVisualElement.LoadedActionWithArgs { get; set; }
+        Action? IVisualElement.UnloadedAction { get; set; }
+        Action<object?, EventArgs>? IVisualElement.UnloadedActionWithArgs { get; set; }
         Action? IVisualElement.ChildrenReorderedAction { get; set; }
         Action<object?, EventArgs>? IVisualElement.ChildrenReorderedActionWithArgs { get; set; }
         Action? IVisualElement.FocusedAction { get; set; }
@@ -176,6 +184,14 @@ namespace MauiReactor
             Validate.EnsureNotNull(NativeControl);
 
             var thisAsIVisualElement = (IVisualElement)this;
+            if (thisAsIVisualElement.LoadedAction != null || thisAsIVisualElement.LoadedActionWithArgs != null)
+            {
+                NativeControl.Loaded += NativeControl_Loaded;
+            }
+            if (thisAsIVisualElement.UnloadedAction != null || thisAsIVisualElement.UnloadedActionWithArgs != null)
+            {
+                NativeControl.Unloaded += NativeControl_Unloaded;
+            }
             if (thisAsIVisualElement.ChildrenReorderedAction != null || thisAsIVisualElement.ChildrenReorderedActionWithArgs != null)
             {
                 NativeControl.ChildrenReordered += NativeControl_ChildrenReordered;
@@ -200,6 +216,18 @@ namespace MauiReactor
             base.OnAttachNativeEvents();
         }
 
+        private void NativeControl_Loaded(object? sender, EventArgs e)
+        {
+            var thisAsIVisualElement = (IVisualElement)this;
+            thisAsIVisualElement.LoadedAction?.Invoke();
+            thisAsIVisualElement.LoadedActionWithArgs?.Invoke(sender, e);
+        }
+        private void NativeControl_Unloaded(object? sender, EventArgs e)
+        {
+            var thisAsIVisualElement = (IVisualElement)this;
+            thisAsIVisualElement.UnloadedAction?.Invoke();
+            thisAsIVisualElement.UnloadedActionWithArgs?.Invoke(sender, e);
+        }
         private void NativeControl_ChildrenReordered(object? sender, EventArgs e)
         {
             var thisAsIVisualElement = (IVisualElement)this;
@@ -235,6 +263,8 @@ namespace MauiReactor
         {
             if (NativeControl != null)
             {
+                NativeControl.Loaded -= NativeControl_Loaded;
+                NativeControl.Unloaded -= NativeControl_Unloaded;
                 NativeControl.ChildrenReordered -= NativeControl_ChildrenReordered;
                 NativeControl.Focused -= NativeControl_Focused;
                 NativeControl.MeasureInvalidated -= NativeControl_MeasureInvalidated;
@@ -618,6 +648,28 @@ namespace MauiReactor
 
 
 
+        public static T OnLoaded<T>(this T visualElement, Action loadedAction) where T : IVisualElement
+        {
+            visualElement.LoadedAction = loadedAction;
+            return visualElement;
+        }
+
+        public static T OnLoaded<T>(this T visualElement, Action<object?, EventArgs> loadedActionWithArgs) where T : IVisualElement
+        {
+            visualElement.LoadedActionWithArgs = loadedActionWithArgs;
+            return visualElement;
+        }
+        public static T OnUnloaded<T>(this T visualElement, Action unloadedAction) where T : IVisualElement
+        {
+            visualElement.UnloadedAction = unloadedAction;
+            return visualElement;
+        }
+
+        public static T OnUnloaded<T>(this T visualElement, Action<object?, EventArgs> unloadedActionWithArgs) where T : IVisualElement
+        {
+            visualElement.UnloadedActionWithArgs = unloadedActionWithArgs;
+            return visualElement;
+        }
         public static T OnChildrenReordered<T>(this T visualElement, Action childrenReorderedAction) where T : IVisualElement
         {
             visualElement.ChildrenReorderedAction = childrenReorderedAction;

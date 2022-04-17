@@ -27,10 +27,5 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Compatibility\" />
-    <Folder Include="Shapes\" />
-  </ItemGroup>
-
+  
 </Project>

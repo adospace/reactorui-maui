@@ -126,10 +126,10 @@ namespace MauiReactor.TestApp.Pages
                     new StackLayout()
                     {
                         new Label(monkey.Name)
-                            .FontSize(NamedSize.Default)
+                            .FontSize(12.0)
                             .Margin(5),
                         new Label(monkey.Location)
-                            .FontSize(NamedSize.Caption)
+                            .FontSize(12.0)
                             .Margin(5)
                     }
                 }

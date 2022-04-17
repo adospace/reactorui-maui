@@ -63,7 +63,7 @@ namespace MauiReactor
                 }
             }
 
-            public Microsoft.Maui.Controls.Page? ContainerPage => GetPageHost().ContainerPage;
+            public Microsoft.Maui.Controls.Page? ContainerPage => GetPageHost()?.ContainerPage;
 
             protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
             {
@@ -167,7 +167,7 @@ namespace MauiReactor
             public DataTemplate DataTemplate { get; }
             public ItemsView<T> Owner { get; set; }
 
-            private readonly Dictionary<object, VisualNode> _recycledVisualNode = new();
+            //private readonly Dictionary<object, VisualNode> _recycledVisualNode = new();
 
             public CustomDataTemplate(ItemsView<T> owner)
             {
@@ -239,7 +239,7 @@ namespace MauiReactor
             return itemsview;
         }
 
-        public static T ItemVisualState<T>(this T itemsview, string groupName, string stateName, BindableProperty property, object value, string? targetName = null) where T : IItemsView
+        public static T ItemVisualState<T>(this T itemsview, string groupName, string stateName, BindableProperty property, object value) where T : IItemsView
         {
             var group = itemsview.ItemVisualStateGroups.FirstOrDefault(_ => _.Name == groupName);
 

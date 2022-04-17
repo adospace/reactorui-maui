@@ -9,7 +9,6 @@ using MauiReactor.Compatibility;
 using Location = MauiReactor.WeatherTwentyOne.Services.Location;
 using MauiReactor.Shapes;
 using MauiReactor.WeatherTwentyOne.Services;
-using Microsoft.Maui.Essentials;
 
 namespace MauiReactor.WeatherTwentyOne.Pages
 {
