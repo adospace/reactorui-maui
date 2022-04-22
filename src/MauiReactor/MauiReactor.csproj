@@ -19,7 +19,7 @@
     <Authors>adospace</Authors>
     <Description>MauiReactorUI is MVU library (heavily inspired to ReactJS and Flutter) written on top of Microsoft Maui Controls.</Description>
     <Copyright>Adolfo Marinucci</Copyright>
-    <PackageProjectUrl>https://github.com/adospace/reactorui-avalonia</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/adospace/reactorui-maui</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/adospace/reactorui-maui</RepositoryUrl>
     <PackageTags>maui mvu components reactjs flutter</PackageTags>

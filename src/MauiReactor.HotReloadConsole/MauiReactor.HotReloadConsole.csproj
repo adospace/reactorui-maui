@@ -19,7 +19,7 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>MauiReactor</ToolCommandName>
+    <ToolCommandName>dotnet-reactorui-reload</ToolCommandName>
   </PropertyGroup>
     
     
