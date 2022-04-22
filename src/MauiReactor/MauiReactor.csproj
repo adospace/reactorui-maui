@@ -25,6 +25,7 @@
     <PackageTags>maui mvu components reactjs flutter</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageId>Reactor.Maui</PackageId>
 
   </PropertyGroup>
   
