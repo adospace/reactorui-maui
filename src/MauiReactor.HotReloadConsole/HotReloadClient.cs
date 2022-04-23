@@ -51,7 +51,7 @@ namespace MauiReactor.HotReloadConsole
         public HotReloadClient(Options options)
         {
             _options = options;
-            _workingDirectory = _options.WorkingDirectory ?? Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException();
+            _workingDirectory = _options.WorkingDirectory ?? Directory.GetCurrentDirectory();
 
             if (_options.ProjectFileName == null)
             {
