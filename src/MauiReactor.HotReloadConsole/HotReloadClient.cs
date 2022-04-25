@@ -228,7 +228,14 @@ namespace MauiReactor.HotReloadConsole
         {
             Console.Write($"Setting up build pipeline for {_projFileName} project...");
 
-            _workspace ??= MSBuildWorkspace.Create();
+            var properties = new Dictionary<string, string>
+            {
+               { "Configuration", "Debug" } // Or "Release", or whatever is known to your projects.
+               // ... more properties that could influence your property,
+               // e.g. "Platform" ("x86", "AnyCPU", etc.)
+            };
+
+            _workspace ??= MSBuildWorkspace.Create(properties);
 
             _workspace.CloseSolution();
 
@@ -274,7 +281,7 @@ namespace MauiReactor.HotReloadConsole
                 {
                     //this is a notification for a file not included in the project according to
                     //the current solution configuration
-                    return false;
+                    continue;
                 };
 
                 var currentFileLastWriteTime = File.GetLastWriteTime(notification.FilePath);
@@ -382,7 +389,7 @@ namespace MauiReactor.HotReloadConsole
 
             await networkStream.WriteAsync(lengthBytes, cancellationToken);
 
-            await networkStream.WriteAsync(stream.GetBuffer(), 0, (int)stream.Length, cancellationToken);
+            await networkStream.WriteAsync(stream.GetBuffer().AsMemory(0, (int)stream.Length), cancellationToken);
 
             await networkStream.FlushAsync(cancellationToken);
 
@@ -392,7 +399,7 @@ namespace MauiReactor.HotReloadConsole
 
                 await networkStream.WriteAsync(lengthBytes, cancellationToken);
 
-                await networkStream.WriteAsync(pdbStream.GetBuffer(), 0, (int)pdbStream.Length, cancellationToken);
+                await networkStream.WriteAsync(pdbStream.GetBuffer().AsMemory(0, (int)pdbStream.Length), cancellationToken);
 
                 await networkStream.FlushAsync(cancellationToken);
             }
@@ -406,7 +413,7 @@ namespace MauiReactor.HotReloadConsole
             }
 
             var booleanBuffer = new byte[1];
-            if (await networkStream.ReadAsync(booleanBuffer, 0, 1, cancellationToken) == 0)
+            if (await networkStream.ReadAsync(booleanBuffer.AsMemory(0, 1), cancellationToken) == 0)
                 throw new SocketException();
         }
 

@@ -11,7 +11,7 @@ Microsoft.Maui.Controls.Page
 Microsoft.Maui.Controls.TemplatedPage
 Microsoft.Maui.Controls.ContentPage
 Microsoft.Maui.Controls.NavigationPage
-//Microsoft.Maui.Controls.CarouselPage
+Microsoft.Maui.Controls.FlyoutPage
 
 Microsoft.Maui.Controls.View
 Microsoft.Maui.Controls.Button
