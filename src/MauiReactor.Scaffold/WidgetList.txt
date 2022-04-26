@@ -75,3 +75,4 @@ Microsoft.Maui.Controls.SwitchCell
 Microsoft.Maui.Controls.EntryCell
 Microsoft.Maui.Controls.ViewCell
 
+Microsoft.Maui.Controls.CarouselView
