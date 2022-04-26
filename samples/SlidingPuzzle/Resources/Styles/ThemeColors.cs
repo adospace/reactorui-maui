@@ -37,5 +37,6 @@ namespace SlidingPuzzle.Resources.Styles
         public static Color DarkGray { get; } = Color.Parse("#212125");
         public static Color MidGray { get; } = Color.Parse("#CFCFD3");
         public static Color LightGray { get; } = Color.Parse("#EFEFEF");
+        public static Color Transparent => Colors.Transparent;
     }
 }

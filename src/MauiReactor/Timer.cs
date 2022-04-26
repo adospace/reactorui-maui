@@ -34,10 +34,10 @@ namespace MauiReactor
         protected override void OnUpdate()
         {
             Validate.EnsureNotNull(NativeControl);
-            var thisAsIBorder = (ITimer)this;
-            SetPropertyValue(NativeControl, MauiReactor.Internals.Timer.IntervalProperty, thisAsIBorder.Interval);
-            SetPropertyValue(NativeControl, MauiReactor.Internals.Timer.DueTimeProperty, thisAsIBorder.DueTime);
-            SetPropertyValue(NativeControl, MauiReactor.Internals.Timer.IsEnabledProperty, thisAsIBorder.IsEnabled);
+            var thisAsITimer = (ITimer)this;
+            SetPropertyValue(NativeControl, MauiReactor.Internals.Timer.IntervalProperty, thisAsITimer.Interval);
+            SetPropertyValue(NativeControl, MauiReactor.Internals.Timer.DueTimeProperty, thisAsITimer.DueTime);
+            SetPropertyValue(NativeControl, MauiReactor.Internals.Timer.IsEnabledProperty, thisAsITimer.IsEnabled);
 
 
             base.OnUpdate();

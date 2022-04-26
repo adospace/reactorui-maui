@@ -17,6 +17,13 @@
                 return false;
             }
 
+            if (left is SolidColorBrush leftSolidColorBrush &&
+                right is SolidColorBrush rightSolidColorBrush)
+            {
+                //NOTE: Color is null if IsEmpty==true
+                return leftSolidColorBrush.Color?.ToUint() == rightSolidColorBrush.Color?.ToUint();
+            }
+
             if (left is ImageSource leftImageSource &&
                 right is ImageSource rightImageSource)
             { 

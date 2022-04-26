@@ -13,6 +13,10 @@ namespace SlidingPuzzle.Pages
     {
         public bool IsStarted { get; set; }
 
+        public DateTime Started { get; set; }
+
+        public TimeSpan Elapsed { get; set; }
+
         public DateTime StartTimeStamp { get; set; }
     
         public int[,] CellPositions { get; set; } = new int[4, 4] { { 0, 1, 2, 3 }, { 4, 5, 6, 7 }, { 8, 9, 10, 11 }, { 12, 13, 14, -1 } };
@@ -24,8 +28,6 @@ namespace SlidingPuzzle.Pages
     {
         protected override void OnMounted()
         {
-            //State.CellPositions = new int[4, 4] { { 0, 1, 2, 3 }, { 4, 5, 6, 7 }, { 8, 9, 10, 11 }, { 12, 13, 14, -1 } };
-
             base.OnMounted();
         }
 
@@ -33,8 +35,60 @@ namespace SlidingPuzzle.Pages
         {
             return new ContentPage
             {
-                new GameBoard(State)
+                new Grid("Auto,*", "*")
+                {
+                    new GameTimer(State),
+
+                    new GameBoard(State)
+                        .GridRow(1)
+                }
+                .Background(ThemeColors.Warning)
             };
+        }
+    }
+
+    class GameTimer : Component<GameState>
+    {
+        public GameTimer(GameState state) : base(state)
+        { }
+
+        public override VisualNode Render()
+        {
+            return new HorizontalStackLayout
+            {
+                new Label()
+                    .Text(() => State.Elapsed.ToString("hh\\:mm\\:ss"))
+                    .FontSize(28)
+                    .FontAttributes(Microsoft.Maui.Controls.FontAttributes.Bold)
+                    .VCenter(),
+
+                new ImageButton()
+                    .Background(ThemeColors.Transparent)
+                    .Source("play_svgrepo_com.png")
+                    .OnClicked(()=>SetState(s =>
+                    {
+                        s.IsStarted = true;
+                        s.Started = DateTime.Now;
+                        s.Elapsed = TimeSpan.Zero;
+
+                    }, invalidateComponent: false))
+                    .IsVisible(()=>!State.IsStarted),
+
+                new ImageButton()
+                    .Background(ThemeColors.Transparent)
+                    .Source("stop_pause_svgrepo_com.png")
+                    .OnClicked(()=>SetState(s => s.IsStarted = false, invalidateComponent: false))
+                    .IsVisible(()=>State.IsStarted),
+
+                //NOTE: For now Timer must be the last child
+                new Timer(100, () => SetState(s => s.Elapsed = (DateTime.Now - State.Started), invalidateComponent: false))
+                    .DueTime(TimeSpan.Zero)
+                    .IsEnabled(()=>State.IsStarted),
+            }
+            .Spacing(20)
+            .HCenter()
+            .VCenter()
+            .Padding(0,40);
         }
     }
 
@@ -79,7 +133,6 @@ namespace SlidingPuzzle.Pages
                 .VCenter()
             }
             .OnSizeChanged(OnContainerSizeChanged)
-            .Background(ThemeColors.Warning)
             .VFill()
             .HFill()            
             ;
@@ -225,16 +278,24 @@ namespace SlidingPuzzle.Pages
 
         public override VisualNode Render()
         {
-            return new Button((_index + 1).ToString())
-                .AbsoluteLayoutBounds(new Rect(State.X, State.Y, _size, _size))
-                .WithAnimation(duration: 150)
-                .AbsoluteLayoutFlags(Microsoft.Maui.Layouts.AbsoluteLayoutFlags.None)
-                .Background(ThemeColors.Primary)
-                .FontSize(28)
-                .FontAttributes(Microsoft.Maui.Controls.FontAttributes.Bold)
-                .CornerRadius(14)
-                .Margin(4)
-                .OnClicked(()=> _onCellTapped?.Invoke(_index, _row, _column))
+            return new Grid
+            {
+                new ImageButton()
+                    .Source("red_square_svgrepo_com.png")
+                    .CornerRadius(18)
+                    .Margin(4)
+                    .OnClicked(() => _onCellTapped?.Invoke(_index, _row, _column)),
+
+                    new Label((_index + 1).ToString())
+                        .VCenter()
+                        .HCenter()
+                        .TextColor(ThemeColors.White)
+                        .FontSize(36)
+                        .FontAttributes(Microsoft.Maui.Controls.FontAttributes.Bold)
+            }
+            .AbsoluteLayoutBounds(new Rect(State.X, State.Y, _size, _size))
+            .WithAnimation(easing: Easing.BounceOut)
+            .AbsoluteLayoutFlags(Microsoft.Maui.Layouts.AbsoluteLayoutFlags.None)
             ;
         }
     }
