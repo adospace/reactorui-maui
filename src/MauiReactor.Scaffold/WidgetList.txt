@@ -40,10 +40,22 @@ Microsoft.Maui.Controls.Image
 Microsoft.Maui.Controls.Compatibility.Layout
 Microsoft.Maui.Controls.GestureRecognizer
 Microsoft.Maui.Controls.TapGestureRecognizer
+
 Microsoft.Maui.Controls.Shapes.Shape
 Microsoft.Maui.Controls.Shapes.Geometry
 Microsoft.Maui.Controls.Shapes.EllipseGeometry
+Microsoft.Maui.Controls.Shapes.LineGeometry
+Microsoft.Maui.Controls.Shapes.RectangleGeometry
+Microsoft.Maui.Controls.Shapes.PathGeometry
+Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry
 Microsoft.Maui.Controls.Shapes.RoundRectangle
+Microsoft.Maui.Controls.Shapes.Line
+Microsoft.Maui.Controls.Shapes.Path
+Microsoft.Maui.Controls.Shapes.Polygon
+Microsoft.Maui.Controls.Shapes.Polyline
+Microsoft.Maui.Controls.Shapes.Rectangle
+Microsoft.Maui.Controls.Shapes.GeometryGroup
+
 Microsoft.Maui.Controls.Border
 Microsoft.Maui.Controls.FlexLayout
 Microsoft.Maui.Controls.CollectionView
@@ -59,7 +71,18 @@ Microsoft.Maui.Controls.ItemsLayout
 Microsoft.Maui.Controls.GridItemsLayout
 Microsoft.Maui.Controls.LinearItemsLayout
 Microsoft.Maui.Controls.ImageButton
+Microsoft.Maui.Controls.RadioButton
 Microsoft.Maui.Controls.WebView
+Microsoft.Maui.Controls.RefreshView
+Microsoft.Maui.Controls.SearchBar
+Microsoft.Maui.Controls.SwipeView
+
+Microsoft.Maui.Controls.CheckBox
+Microsoft.Maui.Controls.Slider
+Microsoft.Maui.Controls.Stepper
+Microsoft.Maui.Controls.Editor
+
+
 Microsoft.Maui.Controls.Switch
 Microsoft.Maui.Controls.DatePicker
 Microsoft.Maui.Controls.InputView
@@ -67,6 +90,10 @@ Microsoft.Maui.Controls.Entry
 Microsoft.Maui.Controls.ActivityIndicator
 Microsoft.Maui.Controls.ProgressBar
 Microsoft.Maui.Controls.AbsoluteLayout
+
+Microsoft.Maui.Controls.IndicatorView
+Microsoft.Maui.Controls.Picker
+Microsoft.Maui.Controls.TableView
 
 Microsoft.Maui.Controls.Cell
 Microsoft.Maui.Controls.TextCell
@@ -76,3 +103,5 @@ Microsoft.Maui.Controls.EntryCell
 Microsoft.Maui.Controls.ViewCell
 
 Microsoft.Maui.Controls.CarouselView
+
+Microsoft.Maui.Controls.GraphicsView
