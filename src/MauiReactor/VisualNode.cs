@@ -273,24 +273,33 @@ namespace MauiReactor
 
         internal virtual void MergeWith(VisualNode newNode)
         {
-            if (newNode == this)
-                return;
-
-            for (int i = 0; i < Children.Count; i++)
+            if (newNode.GetType() == GetType())
             {
-                if (newNode.Children.Count > i)
+                OnMigrated(newNode);
+
+                if (newNode == this)
+                    return;
+
+                for (int i = 0; i < Children.Count; i++)
                 {
-                    Children[i].MergeWith(newNode.Children[i]);
+                    if (newNode.Children.Count > i)
+                    {
+                        Children[i].MergeWith(newNode.Children[i]);
+                    }
                 }
-            }
 
-            for (int i = newNode.Children.Count; i < Children.Count; i++)
+                for (int i = newNode.Children.Count; i < Children.Count; i++)
+                {
+                    Children[i].Unmount();
+                    Children[i].Parent = null;
+                }
+
+                Parent = null;
+            }
+            else
             {
-                Children[i].Unmount();
-                Children[i].Parent = null;
+                this.Unmount();
             }
-
-            Parent = null;
         }
 
         internal void RemoveChild(VisualNode widget, BindableObject childNativeControl)
@@ -493,25 +502,12 @@ namespace MauiReactor
             base.Layout(containerComponent);
         }
 
-        internal override void MergeWith(VisualNode newNode)
-        {
-            if (newNode.GetType() == GetType())
-            {
-                ((VisualNode<T>)newNode)._nativeControl = this._nativeControl;
-                ((VisualNode<T>)newNode)._isMounted = this._nativeControl != null;
-                ((VisualNode<T>)newNode)._componentRefAction?.Invoke(NativeControl);
-                OnMigrated(newNode);
-
-                base.MergeWith(newNode);
-            }
-            else
-            {
-                this.Unmount();
-            }
-        }
-
         protected override void OnMigrated(VisualNode newNode)
         {
+            ((VisualNode<T>)newNode)._nativeControl = this._nativeControl;
+            ((VisualNode<T>)newNode)._isMounted = this._nativeControl != null;
+            ((VisualNode<T>)newNode)._componentRefAction?.Invoke(NativeControl);
+
             if (NativeControl != null)
             {
                 OnDetachNativeEvents();
