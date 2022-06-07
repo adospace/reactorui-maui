@@ -8,7 +8,7 @@ namespace MauiReactor.WeatherTwentyOne.MacCatalyst;
 public class TrayService : NSObject, ITrayService
 {
     [DllImport("/usr/lib/libobjc.dylib", EntryPoint = "objc_msgSend")]
-    public static extern IntPtr IntPtr_objc_msgSend_nfloat(IntPtr receiver, IntPtr selector, nfloat arg1);
+    public static extern IntPtr IntPtr_objc_msgSend_nfloat(IntPtr receiver, IntPtr selector, NFloat arg1);
 
     [DllImport("/usr/lib/libobjc.dylib", EntryPoint = "objc_msgSend")]
     public static extern IntPtr IntPtr_objc_msgSend_IntPtr(IntPtr receiver, IntPtr selector, IntPtr arg1);
