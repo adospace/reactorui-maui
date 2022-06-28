@@ -7,11 +7,11 @@ namespace MauiReactor
 {
     internal abstract class ReactorApplicationHost : VisualNode, IHostElement
     { 
-        protected readonly Application _application;
+        protected readonly ReactorApplication _application;
 
-        protected ReactorApplicationHost(Application application, bool enableHotReload)
+        protected ReactorApplicationHost(ReactorApplication application, bool enableHotReload)
         {
-            Instance = this;
+            _instance = this;
 
             _application = application ?? throw new ArgumentNullException(nameof(application));
 
@@ -27,7 +27,8 @@ namespace MauiReactor
 
         }
 
-        public static ReactorApplicationHost? Instance { get; private set; }
+        private static ReactorApplicationHost? _instance;
+        public static ReactorApplicationHost Instance => _instance ?? throw new InvalidOperationException();
         
         internal IComponentLoader ComponentLoader { get; }
 
@@ -56,6 +57,8 @@ namespace MauiReactor
 
         public INavigation? Navigation =>  _application.MainPage?.Navigation;
 
+        public IServiceProvider Services => _application.Services;
+
         public Microsoft.Maui.Controls.Page? ContainerPage => _application?.MainPage;
 
     }
@@ -67,7 +70,7 @@ namespace MauiReactor
         private IDispatcherTimer? _animationTimer;
         private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
 
-        internal ReactorApplicationHost(Application application, bool enableHotReload)
+        internal ReactorApplicationHost(ReactorApplication<T> application, bool enableHotReload)
             :base(application, enableHotReload)
         {
         }
@@ -228,14 +231,25 @@ namespace MauiReactor
     }
 
     public abstract class ReactorApplication : Application
-    { 
+    {
+        protected ReactorApplication(IServiceProvider sp)
+        {
+            Services = sp;
+        }
+
         internal static bool HotReloadEnabled { get; set; }
+
+        public IServiceProvider Services { get; }
     }
 
     public class ReactorApplication<T> : ReactorApplication where T : Component, new()
     {
 
         private ReactorApplicationHost<T>? _host;
+
+        public ReactorApplication(IServiceProvider sp)
+            : base(sp)
+        { }
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
@@ -272,7 +286,7 @@ namespace MauiReactor
         public static MauiAppBuilder UseMauiReactorApp<TComponent>(this MauiAppBuilder appBuilder, Action<Application>? configureApplication = null) where TComponent : Component, new()
             => appBuilder.UseMauiApp(sp => 
             {
-                var app = new ReactorApplication<TComponent>();
+                var app = new ReactorApplication<TComponent>(sp);
                 configureApplication?.Invoke(app);
                 return app;
             });

@@ -10,12 +10,15 @@ namespace MauiReactor
         VisualNode? FlyoutHeader { get; set; }
 
         VisualNode? FlyoutFooter { get; set; }
+
+        VisualNode? FlyoutContent { get; set; }
     }
 
     public partial class Shell<T> : IEnumerable
     {
         VisualNode? IShell.FlyoutHeader { get; set; }
         VisualNode? IShell.FlyoutFooter { get; set; }
+        VisualNode? IShell.FlyoutContent { get; set; }
 
         protected override IEnumerable<VisualNode> RenderChildren()
         {
@@ -25,11 +28,15 @@ namespace MauiReactor
 
             if (thisAsIShell.FlyoutHeader != null)
             {
-                children = children.Concat(new[] { (VisualNode)thisAsIShell.FlyoutHeader });
+                children = children.Concat(new[] { thisAsIShell.FlyoutHeader });
             }
             if (thisAsIShell.FlyoutFooter != null)
             {
-                children = children.Concat(new[] { (VisualNode)thisAsIShell.FlyoutFooter });
+                children = children.Concat(new[] { thisAsIShell.FlyoutFooter });
+            }
+            if (thisAsIShell.FlyoutContent != null)
+            {
+                children = children.Concat(new[] { thisAsIShell.FlyoutContent });
             }
 
             return children;
@@ -229,6 +236,10 @@ namespace MauiReactor
             {
                 NativeControl.FlyoutFooter = childControl;
             }
+            else if (widget == thisAsIShell.FlyoutContent)
+            {
+                NativeControl.FlyoutContent = childControl;
+            }
 
             base.OnAddChild(widget, childControl);
         }
@@ -254,6 +265,10 @@ namespace MauiReactor
             {
                 NativeControl.FlyoutFooter = null;
             }
+            else if (widget == thisAsIShell.FlyoutContent)
+            {
+                NativeControl.FlyoutContent = null;
+            }
 
             base.OnRemoveChild(widget, childControl);
         }
@@ -275,15 +290,21 @@ namespace MauiReactor
             return shell;
         }
 
-        public static T FlyoutHeader<T>(this T shell, VisualNode header) where T : IShell
+        public static T FlyoutHeader<T>(this T shell, VisualNode fluoutHeader) where T : IShell
         {
-            shell.FlyoutHeader = header;
+            shell.FlyoutHeader = fluoutHeader;
             return shell;
         }
 
-        public static T FlyoutFooter<T>(this T shell, VisualNode footer) where T : IShell
+        public static T FlyoutFooter<T>(this T shell, VisualNode flyoutFooter) where T : IShell
         {
-            shell.FlyoutFooter = footer;
+            shell.FlyoutFooter = flyoutFooter;
+            return shell;
+        }
+
+        public static T FlyoutContent<T>(this T shell, VisualNode flyoutContent) where T : IShell
+        {
+            shell.FlyoutContent = flyoutContent;
             return shell;
         }
 

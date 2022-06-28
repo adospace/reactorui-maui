@@ -27,7 +27,6 @@ namespace MauiReactor
         PropertyValue<bool>? FlyoutIsPresented { get; set; }
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? FlyoutIcon { get; set; }
         PropertyValue<Microsoft.Maui.Controls.ScrollMode>? FlyoutVerticalScrollMode { get; set; }
-        PropertyValue<object>? FlyoutContent { get; set; }
 
         Action? NavigatedAction { get; set; }
         Action<object?, ShellNavigatedEventArgs>? NavigatedActionWithArgs { get; set; }
@@ -61,7 +60,6 @@ namespace MauiReactor
         PropertyValue<bool>? IShell.FlyoutIsPresented { get; set; }
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IShell.FlyoutIcon { get; set; }
         PropertyValue<Microsoft.Maui.Controls.ScrollMode>? IShell.FlyoutVerticalScrollMode { get; set; }
-        PropertyValue<object>? IShell.FlyoutContent { get; set; }
 
         Action? IShell.NavigatedAction { get; set; }
         Action<object?, ShellNavigatedEventArgs>? IShell.NavigatedActionWithArgs { get; set; }
@@ -86,7 +84,6 @@ namespace MauiReactor
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutIsPresentedProperty, thisAsIShell.FlyoutIsPresented);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutIconProperty, thisAsIShell.FlyoutIcon);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutVerticalScrollModeProperty, thisAsIShell.FlyoutVerticalScrollMode);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutContentProperty, thisAsIShell.FlyoutContent);
 
 
             base.OnUpdate();
@@ -392,20 +389,6 @@ namespace MauiReactor
         public static T FlyoutVerticalScrollMode<T>(this T shell, Func<Microsoft.Maui.Controls.ScrollMode> flyoutVerticalScrollModeFunc) where T : IShell
         {
             shell.FlyoutVerticalScrollMode = new PropertyValue<Microsoft.Maui.Controls.ScrollMode>(flyoutVerticalScrollModeFunc);
-            return shell;
-        }
-
-
-
-        public static T FlyoutContent<T>(this T shell, object flyoutContent) where T : IShell
-        {
-            shell.FlyoutContent = new PropertyValue<object>(flyoutContent);
-            return shell;
-        }
-
-        public static T FlyoutContent<T>(this T shell, Func<object> flyoutContentFunc) where T : IShell
-        {
-            shell.FlyoutContent = new PropertyValue<object>(flyoutContentFunc);
             return shell;
         }
 

@@ -163,7 +163,10 @@ namespace MauiReactor
         { }
 
         public static INavigation? Navigation
-            => ReactorApplicationHost.Instance?.Navigation;
+            => ReactorApplicationHost.Instance.Navigation;
+
+        public static IServiceProvider Services
+            => ReactorApplicationHost.Instance.Services;
 
         internal void InvalidateComponent()
         {
