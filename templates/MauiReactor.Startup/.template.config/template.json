@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Adolfo Marinucci",
+  "classifications": [ "Maui" ],
+  "identity": "MauiReactor.StartupProject",
+  "name": "MauiReactor startup project template",
+  "shortName": "maui-reactor-startup",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  }
+}

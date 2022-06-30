@@ -9,7 +9,7 @@
     <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' == '' ">0.0.1-local</Version>
     <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' != '' ">$(APPVEYOR_BUILD_VERSION)-beta</Version>
     <Authors>adospace</Authors>
-    <Description>This command allows hot-reload of an application written with MauiReactorUI.</Description>
+    <Description>This command allows hot-reload of an application written with MauiReactor.</Description>
     <Copyright>Adolfo Marinucci</Copyright>
     <PackageProjectUrl>https://github.com/adospace/reactorui-maui</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -20,7 +20,7 @@
     <PackageId>Reactor.Maui.HotReload</PackageId>
     
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>dotnet-reactorui-reload</ToolCommandName>
+    <ToolCommandName>dotnet-maui-reactor</ToolCommandName>
   </PropertyGroup>
     
     
