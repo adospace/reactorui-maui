@@ -2,7 +2,9 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>1.0</PackageVersion>
+    <PackageVersion Condition=" '$(APPVEYOR_BUILD_VERSION)' == '' ">0.0.1-local</PackageVersion>
+    <PackageVersion Condition=" '$(APPVEYOR_BUILD_VERSION)' != '' ">$(APPVEYOR_BUILD_VERSION)-beta</PackageVersion>
+
     <PackageId>Reactor.Maui.TemplatePack</PackageId>
     <Title>MauiReactor Templates</Title>
     <Authors>adospace</Authors>
