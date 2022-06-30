@@ -8,6 +8,7 @@
     <Authors>adospace</Authors>
     <Description>Templates for the MauiReactor library.</Description>
     <PackageTags>maui mvu components reactjs flutter</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
     <TargetFramework>netstandard2.0</TargetFramework>
 
