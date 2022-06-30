@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.MSBuild;
 using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -312,7 +313,11 @@ namespace MauiReactor.HotReloadConsole
             {
                 try
                 {
-                    return await File.ReadAllTextAsync(filePath, cancellationToken);
+                    using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    using (var sr = new StreamReader(fs, Encoding.Default))
+                    {
+                        return await sr.ReadToEndAsync();
+                    }
                 }
                 catch (IOException)
                 {

@@ -1,5 +1,4 @@
 ﻿using MauiReactor.Startup.Pages;
-using Microsoft.Maui.Hosting;
 
 namespace MauiReactor.Startup;
 
