@@ -5,6 +5,8 @@
   "identity": "MauiReactor.StartupProject",
   "name": "MauiReactor startup project template",
   "shortName": "maui-reactor-startup",
+  "sourceName": "MauiReactor.Startup",
+  "preferNameDirectory": true,
   "tags": {
     "language": "C#",
     "type": "project"

@@ -1,4 +1,6 @@
-﻿using MauiReactor.Startup.Pages;
+﻿using MauiReactor;
+using MauiReactor.Startup.Pages;
+
 
 namespace MauiReactor.Startup;
 
