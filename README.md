@@ -29,7 +29,7 @@ cd .\my-new-project\
 dotnet build -t:Run -f net6.0-android
 ```
 
-5. Hot-relad console
+5. Hot-reload console
 ```
 dotnet-maui-reactor
 ```
