@@ -40,6 +40,7 @@ namespace MauiReactor.Scaffold
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.ShellItem" && _.Name == "CurrentItem"))
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.ShellSection" && _.Name == "CurrentItem"))
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.Shapes.Geometry")
+                .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.Shadow")
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Graphics.IShape")
                 .Where(_ => _.Name != "Content")
                 .Where(_ => !_.Name.Contains("Command"))

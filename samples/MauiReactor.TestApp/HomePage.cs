@@ -30,6 +30,10 @@ namespace MauiReactor.TestApp
                 {
                     new Pages.ListViewPage()
                 },
+                new FlyoutItem("Image")
+                {
+                    new Pages.ImagePage()
+                },
 
             }
             .ItemTemplate(RenderItemTemplate);

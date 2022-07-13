@@ -16,15 +16,14 @@ using System.Threading.Tasks.Dataflow;
 
 namespace MauiReactor.HotReloadConsole
 {
-    internal class HotReloadClient
+    internal abstract class HotReloadClient
     {
-        private readonly Options _options;
-        private readonly string _workingDirectory;
-        private readonly string _projFileName;
+        protected readonly Options _options;
+        protected readonly string _workingDirectory;
+        protected readonly string _projFileName;
 
-        private record ParsedFileInfo(string FilePath, SyntaxTree SyntaxTree, DateTime LastModified);
 
-        private enum FileChangeKind
+        protected enum FileChangeKind
         { 
             Changed,
 
@@ -35,21 +34,20 @@ namespace MauiReactor.HotReloadConsole
             Renamed
         }
 
-        private record FileChangeNotification(string FilePath, FileChangeKind FileChangeKind, string? OldFilePath = null);
+        protected record FileChangeNotification(string FilePath, FileChangeKind FileChangeKind, string? OldFilePath = null);
 
         private readonly BufferBlock<FileChangeNotification> _fileChangedQueue = new();
 
-        private MSBuildWorkspace? _workspace;
-        private Project? _project;
-        private Compilation? _projectCompilation;
-        private readonly Dictionary<string, ParsedFileInfo> _parsedFiles = new();
+        //private MSBuildWorkspace? _workspace;
+        //private Project? _project;
+        //private Compilation? _projectCompilation;
 
-        static HotReloadClient()
-        {
-            MSBuildLocator.RegisterDefaults();
-        }
+        //static HotReloadClient()
+        //{
+        //    MSBuildLocator.RegisterDefaults();
+        //}
 
-        public HotReloadClient(Options options)
+        protected HotReloadClient(Options options)
         {
             _options = options;
             _workingDirectory = _options.WorkingDirectory ?? Directory.GetCurrentDirectory();
@@ -88,23 +86,28 @@ namespace MauiReactor.HotReloadConsole
             }
         }
 
-        private bool IsAndroidTargetFramework() => _project?.Name.EndsWith("(net6.0-android)") ?? throw new InvalidOperationException();
+        protected abstract bool IsAndroidTargetFramework();
 
-        public async Task Run(CancellationToken cancellationToken)
+        public virtual Task Startup(CancellationToken cancellationToken)
         {
-            await SetupProjectCompilation(cancellationToken);
+            return Task.CompletedTask;
+        }
 
+        public Task Run(CancellationToken cancellationToken)
+        {
             if (IsAndroidTargetFramework())
             {
                 if (!ExecutePortForwardCommmand())
                 {
-                    return;
+                    return Task.CompletedTask;
                 }
             }
 
             Task.WaitAll(
                 ConnectionLoop(cancellationToken),
                 FolderMonitorLoop(cancellationToken));
+
+            return Task.CompletedTask;
         }
 
         private async Task ConnectionLoop(CancellationToken cancellationToken)
@@ -136,7 +139,7 @@ namespace MauiReactor.HotReloadConsole
                     assemblyMemoryStream.Position = 0;
                     assemblyPdbMemoryStream.Position = 0;
 
-                    if (!CompileProjectInMemory(assemblyMemoryStream, assemblyPdbMemoryStream, cancellationToken))
+                    if (!CompileProject(assemblyMemoryStream, assemblyPdbMemoryStream, cancellationToken))
                     {
                         continue;
                     }
@@ -225,99 +228,53 @@ namespace MauiReactor.HotReloadConsole
             watcher.Deleted -= deletedHandler;
         }
 
-        private async Task SetupProjectCompilation(CancellationToken cancellationToken)
-        {
-            Console.Write($"Setting up build pipeline for {_projFileName} project...");
+        //private async Task SetupProjectCompilation(CancellationToken cancellationToken)
+        //{
+        //    Console.Write($"Setting up build pipeline for {_projFileName} project...");
 
-            var properties = new Dictionary<string, string>
-            {
-               { "Configuration", "Debug" } // Or "Release", or whatever is known to your projects.
-               // ... more properties that could influence your property,
-               // e.g. "Platform" ("x86", "AnyCPU", etc.)
-            };
+        //    var properties = new Dictionary<string, string>
+        //    {
+        //        { "Configuration", "Debug" },
+        //        { "CheckForSystemRuntimeDependency", "true" },
+        //        { "DesignTimeBuild", "true" },
+        //        { "BuildingInsideVisualStudio", "true" }
+        //    };
 
-            _workspace ??= MSBuildWorkspace.Create(properties);
+        //    _workspace ??= MSBuildWorkspace.Create(properties);
 
-            _workspace.CloseSolution();
+        //    _workspace.CloseSolution();
 
-            _project = await _workspace.OpenProjectAsync(Path.Combine(_workingDirectory, $"{_projFileName}.csproj"), cancellationToken: cancellationToken);
-            _projectCompilation = await _project.GetCompilationAsync(cancellationToken);
+        //    _project = await _workspace.OpenProjectAsync(Path.Combine(_workingDirectory, $"{_projFileName}.csproj"), cancellationToken: cancellationToken);
+        //    _projectCompilation = await _project.GetCompilationAsync(cancellationToken);
 
-            if (_projectCompilation == null)
-            {
-                throw new InvalidOperationException();
-            }
-            
-            _parsedFiles.Clear();
+        //    if (_projectCompilation == null)
+        //    {
+        //        throw new InvalidOperationException();
+        //    }
 
-            foreach (var syntaxTree in _projectCompilation.SyntaxTrees)
-            {
-                _parsedFiles[syntaxTree.FilePath] = new ParsedFileInfo(syntaxTree.FilePath, syntaxTree, File.GetLastWriteTime(syntaxTree.FilePath));
-            }
+        //    _parsedFiles.Clear();
 
-            Console.WriteLine("done.");
-        }
+        //    foreach (var syntaxTree in _projectCompilation.SyntaxTrees)
+        //    {
+        //        _parsedFiles[syntaxTree.FilePath] = new ParsedFileInfo(syntaxTree.FilePath, syntaxTree, File.GetLastWriteTime(syntaxTree.FilePath));
+        //    }
 
-        private async Task<bool> HandleFileChangeNotifications(IEnumerable<FileChangeNotification> notifications, CancellationToken cancellationToken)
-        {
-            if (_projectCompilation == null)
-            {
-                throw new InvalidOperationException();
-            }
+        //    Console.WriteLine("done.");
+        //}
 
-            if (notifications.Any(_ => 
-                _.FileChangeKind == FileChangeKind.Created || 
-                _.FileChangeKind == FileChangeKind.Deleted ||
-                _.FileChangeKind == FileChangeKind.Renamed && !_parsedFiles.ContainsKey(_.FilePath)))
-            {
-                await SetupProjectCompilation(cancellationToken);
-                return true;
-            }
-
-            bool requiredHotReload = false;
-
-            foreach (var notification in notifications)
-            {
-                if (!_parsedFiles.TryGetValue(notification.FilePath, out var parsedFileInfo))
-                {
-                    //this is a notification for a file not included in the project according to
-                    //the current solution configuration
-                    continue;
-                };
-
-                var currentFileLastWriteTime = File.GetLastWriteTime(notification.FilePath);
-
-                if (parsedFileInfo.LastModified != currentFileLastWriteTime)
-                {
-                    var newSyntaxTree = SyntaxFactory.ParseSyntaxTree(
-                        await ReadAllTextFileAsync(notification.FilePath, cancellationToken), cancellationToken: cancellationToken);
-
-                    Console.WriteLine($"Replacing syntax tree for: {Path.GetRelativePath(_workingDirectory, notification.FilePath)}");
-
-                    _projectCompilation = _projectCompilation.ReplaceSyntaxTree(parsedFileInfo.SyntaxTree, newSyntaxTree);
-
-                    _parsedFiles[notification.FilePath] = new ParsedFileInfo(notification.FilePath, newSyntaxTree, currentFileLastWriteTime);
-
-                    requiredHotReload = true;
-                }
-            }
+        protected abstract Task<bool> HandleFileChangeNotifications(IEnumerable<FileChangeNotification> notifications, CancellationToken cancellationToken);
 
 
-            return requiredHotReload;
-        }
-
-        private static async Task<string> ReadAllTextFileAsync(string filePath, CancellationToken cancellationToken)
+        protected static async Task<string> ReadAllTextFileAsync(string filePath, CancellationToken cancellationToken)
         {
             int retry = 3;
             while (retry >= 0)
             {
                 try
                 {
-                    using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-                    using (var sr = new StreamReader(fs, Encoding.Default))
-                    {
-                        return await sr.ReadToEndAsync();
-                    }
+                    using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    using var sr = new StreamReader(fs, Encoding.Default);
+                    return await sr.ReadToEndAsync();
                 }
                 catch (IOException)
                 {
@@ -332,50 +289,7 @@ namespace MauiReactor.HotReloadConsole
             throw new InvalidOperationException($"Unable to access file {filePath}");
         }
 
-        private bool CompileProjectInMemory(Stream stream, Stream pdbStream, CancellationToken cancellationToken)
-        {
-            if (_projectCompilation == null)
-            {
-                throw new InvalidOperationException();
-            }
-
-            //Dictionary<SyntaxTree, SyntaxTree>? replaceTreeMap = new();
-
-            //foreach (var syntaxTree in _projectCompilation.SyntaxTrees)
-            //{
-            //    if (_parsedFiles.TryGetValue(syntaxTree, out var parsedFileInfo))
-            //    { 
-            //        var currentWriteTimeStamp = File.GetLastWriteTime(parsedFileInfo.FilePath);
-
-            //        if (currentWriteTimeStamp != parsedFileInfo.LastModified)
-            //        {
-            //            var newSyntaxTree = SyntaxFactory.ParseSyntaxTree(
-            //                await File.ReadAllTextAsync(parsedFileInfo.FilePath, cancellationToken), cancellationToken: cancellationToken);
-                        
-            //            _parsedFiles.Remove(syntaxTree);
-            //            _parsedFiles.Add(newSyntaxTree, new ParsedFileInfo(parsedFileInfo.FilePath, newSyntaxTree, currentWriteTimeStamp));                    
-
-            //            Console.WriteLine($"Replacing syntax tree for: {Path.GetRelativePath(_workingDirectory, parsedFileInfo.FilePath)}");
-
-            //            replaceTreeMap.Add(syntaxTree, newSyntaxTree);
-            //        }
-            //    }
-            //}
-
-            //foreach (var (oldTree, newTree) in replaceTreeMap)
-            //{
-            //    _projectCompilation = _projectCompilation.ReplaceSyntaxTree(oldTree, newTree);
-            //}
-
-            var result = _projectCompilation.Emit(stream, pdbStream, cancellationToken: cancellationToken);
-
-            if (!result.Success)
-            {
-                Console.WriteLine(string.Join(Environment.NewLine, result.Diagnostics.Select(_ => _.GetMessage())));
-            }
-
-            return result.Success;
-        }
+        protected abstract bool CompileProject(Stream stream, Stream pdbStream, CancellationToken cancellationToken);
 
         private async Task SendAssemblyFileToServer(MemoryStream stream, MemoryStream pdbStream, CancellationToken cancellationToken)
         {
