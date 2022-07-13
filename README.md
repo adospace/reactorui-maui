@@ -10,7 +10,7 @@ MauiReactor is the successor of ReactorUI for Xamarin-Forms (https://github.com/
 
 1. Install MauiReactor templates
 ```
-dotnet new --install Reactor.Maui.TemplatePack
+dotnet new --install Reactor.Maui.TemplatePack::1.0.47-beta
 ```
 
 2. Install MauiReactor hot reload console command
@@ -29,7 +29,7 @@ cd .\my-new-project\
 dotnet build -t:Run -f net6.0-android
 ```
 
-5. Hot-relad console
+5. Hot-reload console
 ```
 dotnet-maui-reactor
 ```
