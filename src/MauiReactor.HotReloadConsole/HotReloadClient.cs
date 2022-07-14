@@ -16,7 +16,14 @@ using System.Threading.Tasks.Dataflow;
 
 namespace MauiReactor.HotReloadConsole
 {
-    internal abstract class HotReloadClient
+    internal interface IHotReloadClient
+    {
+        Task Startup(CancellationToken cancellationToken);
+
+        Task Run(CancellationToken cancellationToken);
+    }
+
+    internal abstract class HotReloadClient : IHotReloadClient
     {
         protected readonly Options _options;
         protected readonly string _workingDirectory;
@@ -139,7 +146,7 @@ namespace MauiReactor.HotReloadConsole
                     assemblyMemoryStream.Position = 0;
                     assemblyPdbMemoryStream.Position = 0;
 
-                    if (!CompileProject(assemblyMemoryStream, assemblyPdbMemoryStream, cancellationToken))
+                    if (!await CompileProject(assemblyMemoryStream, assemblyPdbMemoryStream, cancellationToken))
                     {
                         continue;
                     }
@@ -289,7 +296,7 @@ namespace MauiReactor.HotReloadConsole
             throw new InvalidOperationException($"Unable to access file {filePath}");
         }
 
-        protected abstract bool CompileProject(Stream stream, Stream pdbStream, CancellationToken cancellationToken);
+        protected abstract Task<bool> CompileProject(Stream stream, Stream pdbStream, CancellationToken cancellationToken);
 
         private async Task SendAssemblyFileToServer(MemoryStream stream, MemoryStream pdbStream, CancellationToken cancellationToken)
         {

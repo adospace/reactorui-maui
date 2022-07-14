@@ -24,7 +24,10 @@ namespace MauiReactor.HotReloadConsole
 
         private static async Task RunMonitorAndConnectionClient(Options options)
         {
-            var hotReloadClient = new HotReloadClientEmit(options);
+            IHotReloadClient hotReloadClient = options.CompilationMode == CompilationMode.Slim ?
+                new HotReloadClientEmit(options)
+                :
+                new HotReloadClientFull(options);
 
             Console.WriteLine("Press Ctrl+C or Ctrl+Break to quit");
 

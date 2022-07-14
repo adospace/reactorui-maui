@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp;
+using System.IO;
 
 namespace MauiReactor.HotReloadConsole
 {
@@ -27,7 +28,7 @@ namespace MauiReactor.HotReloadConsole
         {
         }
 
-        protected override bool CompileProject(Stream stream, Stream pdbStream, CancellationToken cancellationToken)
+        protected override Task<bool> CompileProject(Stream stream, Stream pdbStream, CancellationToken cancellationToken)
         {
             if (_projectCompilation == null)
             {
@@ -38,10 +39,10 @@ namespace MauiReactor.HotReloadConsole
 
             if (!result.Success)
             {
-                Console.WriteLine(string.Join(Environment.NewLine, result.Diagnostics.Select(_ => _.GetMessage())));
+                Console.WriteLine(string.Join(Environment.NewLine, result.Diagnostics.Select(_ => _.ToString())));
             }
 
-            return result.Success;
+            return Task.FromResult(result.Success);
         }
 
         public override async Task Startup(CancellationToken cancellationToken)
@@ -56,9 +57,6 @@ namespace MauiReactor.HotReloadConsole
             var properties = new Dictionary<string, string>
             {
                 { "Configuration", "Debug" },
-                { "CheckForSystemRuntimeDependency", "true" },
-                { "DesignTimeBuild", "true" },
-                { "BuildingInsideVisualStudio", "true" }
             };
 
             _workspace ??= MSBuildWorkspace.Create(properties);
