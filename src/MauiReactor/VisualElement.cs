@@ -15,7 +15,6 @@ namespace MauiReactor
 {
     public partial interface IVisualElement : INavigableElement
     {
-        PropertyValue<Microsoft.Maui.Controls.Shadow>? Shadow { get; set; }
         PropertyValue<bool>? InputTransparent { get; set; }
         PropertyValue<bool>? IsEnabled { get; set; }
         PropertyValue<double>? AnchorX { get; set; }
@@ -71,7 +70,6 @@ namespace MauiReactor
 
         }
 
-        PropertyValue<Microsoft.Maui.Controls.Shadow>? IVisualElement.Shadow { get; set; }
         PropertyValue<bool>? IVisualElement.InputTransparent { get; set; }
         PropertyValue<bool>? IVisualElement.IsEnabled { get; set; }
         PropertyValue<double>? IVisualElement.AnchorX { get; set; }
@@ -118,7 +116,6 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(NativeControl);
             var thisAsIVisualElement = (IVisualElement)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.ShadowProperty, thisAsIVisualElement.Shadow);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.InputTransparentProperty, thisAsIVisualElement.InputTransparent);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.IsEnabledProperty, thisAsIVisualElement.IsEnabled);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.AnchorXProperty, thisAsIVisualElement.AnchorX);
@@ -280,20 +277,6 @@ namespace MauiReactor
 
     public static partial class VisualElementExtensions
     {
-        public static T Shadow<T>(this T visualElement, Microsoft.Maui.Controls.Shadow shadow) where T : IVisualElement
-        {
-            visualElement.Shadow = new PropertyValue<Microsoft.Maui.Controls.Shadow>(shadow);
-            return visualElement;
-        }
-
-        public static T Shadow<T>(this T visualElement, Func<Microsoft.Maui.Controls.Shadow> shadowFunc) where T : IVisualElement
-        {
-            visualElement.Shadow = new PropertyValue<Microsoft.Maui.Controls.Shadow>(shadowFunc);
-            return visualElement;
-        }
-
-
-
         public static T InputTransparent<T>(this T visualElement, bool inputTransparent) where T : IVisualElement
         {
             visualElement.InputTransparent = new PropertyValue<bool>(inputTransparent);

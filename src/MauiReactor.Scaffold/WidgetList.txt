@@ -105,3 +105,4 @@ Microsoft.Maui.Controls.ViewCell
 Microsoft.Maui.Controls.CarouselView
 
 Microsoft.Maui.Controls.GraphicsView
+Microsoft.Maui.Controls.Shadow

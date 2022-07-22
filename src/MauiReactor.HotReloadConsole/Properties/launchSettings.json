@@ -2,7 +2,7 @@
   "profiles": {
     "MauiReactor.HotReloadConsole": {
       "commandName": "Project",
-      "commandLineArgs": "--dir \"C:\\source\\tests\\maui-reactor-tests\\test-project\""
+      "commandLineArgs": "--dir \"C:\\Source\\github\\reactorui-maui\\samples\\MauiReactor.TestApp\" --mode Full"
     }
   }
 }

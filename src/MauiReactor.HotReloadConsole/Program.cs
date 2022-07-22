@@ -24,7 +24,10 @@ namespace MauiReactor.HotReloadConsole
 
         private static async Task RunMonitorAndConnectionClient(Options options)
         {
-            var hotReloadClient = new HotReloadClient(options);
+            IHotReloadClient hotReloadClient = options.CompilationMode == CompilationMode.Slim ?
+                new HotReloadClientEmit(options)
+                :
+                new HotReloadClientFull(options);
 
             Console.WriteLine("Press Ctrl+C or Ctrl+Break to quit");
 
@@ -33,6 +36,8 @@ namespace MauiReactor.HotReloadConsole
             {
                 Console.CancelKeyPress += (object? sender, ConsoleCancelEventArgs e) => tsc.Cancel();
             }
+
+            await hotReloadClient.Startup(tsc.Token);
 
             await hotReloadClient.Run(tsc.Token);            
         }
