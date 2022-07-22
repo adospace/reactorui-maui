@@ -12,7 +12,7 @@
         public double? StartValue { get; private set; }
 
         private bool _isCompleted;
-        public override bool IsCompleted() => _isCompleted || StartValue == TargetValue;
+        public override bool IsCompleted() => _isCompleted || StartValue == null || StartValue.Value == TargetValue;
         
         public double CurrentValue()
         {
@@ -53,7 +53,7 @@
 
         protected override void OnMigrateFrom(RxAnimation previousAnimation)
         {
-            //System.Diagnostics.Debug.Assert(previousAnimation != this);
+            System.Diagnostics.Debug.Assert(previousAnimation != this);
             //System.Diagnostics.Debug.WriteLine($"Migrate StartValue from {StartValue} to {((RxDoubleAnimation)previousAnimation).TargetValue} (TargetValue={TargetValue})");
             var previousDoubleAnimation = ((RxDoubleAnimation)previousAnimation);
 

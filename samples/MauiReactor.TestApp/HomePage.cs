@@ -30,6 +30,10 @@ namespace MauiReactor.TestApp
                 {
                     new Pages.ListViewPage()
                 },
+                new FlyoutItem("Animation")
+                {
+                    new Pages.AnimationPage()
+                },
 
             }
             .ItemTemplate(RenderItemTemplate);

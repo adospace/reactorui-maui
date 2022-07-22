@@ -5,11 +5,13 @@ namespace MauiReactor
     public partial interface IVisualElement
     {
         Shapes.IGeometry? Clip { get; set; }   
+        int? ZIndex { get; set; }
     }
 
     public abstract partial class VisualElement<T>
     {
         Shapes.IGeometry? IVisualElement.Clip { get; set; }
+        int? IVisualElement.ZIndex { get; set; }
 
         protected override IEnumerable<VisualNode> RenderChildren()
         {
@@ -52,6 +54,18 @@ namespace MauiReactor
 
             base.OnRemoveChild(widget, childNativeControl);
         }
+
+        partial void OnBeginUpdate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+
+            var thisAsIVisualElement = (IVisualElement)this;
+
+            if (thisAsIVisualElement.ZIndex != null)
+            {
+                NativeControl.ZIndex = thisAsIVisualElement.ZIndex.Value;
+            }
+        }
     }
 
     public static partial class VisualElementExtensions
@@ -59,6 +73,12 @@ namespace MauiReactor
         public static T Clip<T>(this T visualelement, Shapes.IGeometry geometry) where T : IVisualElement
         {
             visualelement.Clip = geometry;
+            return visualelement;
+        }
+
+        public static T ZIndex<T>(this T visualelement, int zIndex) where T : IVisualElement
+        {
+            visualelement.ZIndex = zIndex;
             return visualelement;
         }
     }
