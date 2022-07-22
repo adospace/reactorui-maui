@@ -56,7 +56,7 @@ namespace MauiReactor.TestApp.Pages
                     })
                     .IsEnabled(State.MovingBackCardIndex != -1)
                 }
-                .Background(Brush.Black)
+                .Background(Microsoft.Maui.Controls.Brush.Black)
             };
         }
     }
@@ -68,7 +68,7 @@ namespace MauiReactor.TestApp.Pages
 
     class CardPage : Component<CardState>
     {
-        private static readonly Brush[] _cardBackgrounds = new[]
+        private static readonly Microsoft.Maui.Controls.Brush[] _cardBackgrounds = new[]
         { 
             (From: "#36D1DC", To: "#5B86E5"),
             (From: "#CB356B", To: "#BD3F32"),
@@ -84,11 +84,11 @@ namespace MauiReactor.TestApp.Pages
         .Select(MakeBrush)
         .ToArray();
 
-        public static Brush MakeBrush((string From, string To) fromTo)
+        public static Microsoft.Maui.Controls.Brush MakeBrush((string From, string To) fromTo)
         {
-            var brush = new LinearGradientBrush();
-            brush.GradientStops.Add(new GradientStop(Color.FromArgb(fromTo.From), 0.0f));
-            brush.GradientStops.Add(new GradientStop(Color.FromArgb(fromTo.To), 0.0f));
+            var brush = new Microsoft.Maui.Controls.LinearGradientBrush();
+            brush.GradientStops.Add(new Microsoft.Maui.Controls.GradientStop(Color.FromArgb(fromTo.From), 0.0f));
+            brush.GradientStops.Add(new Microsoft.Maui.Controls.GradientStop(Color.FromArgb(fromTo.To), 0.0f));
             return brush;
         }
 
