@@ -17,8 +17,6 @@ namespace MauiReactor.TestApp.Pages
     class AnimationPageState : IState
     {
         public List<Card> Cards { get; set; } = Enumerable.Range(1, 10).Select(index => new Card { Index = index - 1, Position = index }).ToList();
-
-        public int MovingBackCardIndex { get; set; } = -1;
     }
 
     class AnimationPage : Component<AnimationPageState>
@@ -32,29 +30,20 @@ namespace MauiReactor.TestApp.Pages
                     State.Cards
                         .Select(card => new CardPage()
                             .Index(card.Index)
-                            .ZIndex(card.Position)
-                            .TopPosition(card.Position == State.Cards.Count)
-                            .MovingBackUp(card.Index == State.MovingBackCardIndex)
-                            .OnTapped(cardIndex =>
+                            .Position(card.Position)
+                            .OnMovedBack(cardIndex =>
                             {
-                                SetState(s => s.MovingBackCardIndex = cardIndex);                            
-                            })),
+                                SetState(s => 
+                                {
+                                    foreach (var card in s.Cards)
+                                    {
+                                        card.Position++;
+                                    }
 
-                    new Timer(600, ()=>
-                    {
-                        SetState(s =>
-                        {
-                            foreach(var card in State.Cards)
-                            {
-                                card.Position++;
-                            }
-                            
-                            State.Cards[s.MovingBackCardIndex].Position = 1;
-                            
-                            s.MovingBackCardIndex = -1;
-                        });
-                    })
-                    .IsEnabled(State.MovingBackCardIndex != -1)
+                                    s.Cards[cardIndex].Position = 1;
+                                });
+                            })
+                            ),
                 }
                 .Background(Microsoft.Maui.Controls.Brush.Black)
             };
@@ -64,6 +53,8 @@ namespace MauiReactor.TestApp.Pages
     class CardState : IState
     {
         public double Rotation { get; set; } = Random.Shared.NextDouble() * 5 - 2.5;
+
+        public bool MovingBack { get; set; }
     }
 
     class CardPage : Component<CardState>
@@ -94,9 +85,7 @@ namespace MauiReactor.TestApp.Pages
 
         private int _cardIndex;
         private int _zIndex;
-        private Action<int>? _onTappedAction;
-        private bool _topPosition;
-        private bool _movingBackUp;
+        private Action<int>? _onMovedBackAction;
 
         public CardPage Index(int cardIndex)
         {
@@ -104,51 +93,48 @@ namespace MauiReactor.TestApp.Pages
             return this;
         }
 
-        public CardPage ZIndex(int zIndex)
+        public CardPage Position(int zIndex)
         {
             _zIndex = zIndex;
             return this;
         }
 
-        public CardPage TopPosition(bool topPosition)
+        public CardPage OnMovedBack(Action<int> onMovedBackAction)
         {
-            _topPosition = topPosition;
+            _onMovedBackAction = onMovedBackAction;
             return this;
         }
-
-        public CardPage MovingBackUp(bool movingBackUp)
-        {
-            _movingBackUp = movingBackUp;
-            return this;
-        }
-
-        public CardPage OnTapped(Action<int> onTappedAction)
-        {
-            _onTappedAction = onTappedAction;
-            return this;
-        }        
 
         public override VisualNode Render()
         {
             return new Frame()
-                .ZIndex(_zIndex)
-                .TranslationY(_movingBackUp ? -250 : 0)
-                .Rotation(State.Rotation + (_movingBackUp ? 360 : 0))
-                .WithAnimation()
-                .Background(_cardBackgrounds[_cardIndex])
-                .WidthRequest(300)
-                .HeightRequest(200)
-                .CornerRadius(5)
-                .VEnd()
-                .HCenter()
-                .Margin(0, 40)
-                .OnTapped(()=>
-                { 
-                    if (_topPosition && !_movingBackUp)
-                    {
-                        _onTappedAction?.Invoke(_cardIndex);
-                    }
+            {
+                new Timer(300, ()=>
+                {
+                    State.MovingBack = false;
+                    _onMovedBackAction?.Invoke(_cardIndex);
                 })
+                .IsEnabled(State.MovingBack)
+            }
+            .ZIndex(_zIndex)
+            .TranslationY(State.MovingBack ? -230 : 0)
+            .Rotation(State.Rotation)
+            .WithAnimation()
+            .Background(_cardBackgrounds[_cardIndex])
+            .WidthRequest(300)
+            .HeightRequest(200)
+            .CornerRadius(5)
+            .VEnd()
+            .HCenter()
+            .Margin(0, 40)
+            .OnTapped(()=>
+            { 
+                SetState(s =>
+                {
+                    s.MovingBack = true;
+                    s.Rotation += 360 * 2;
+                });
+            })
             ;
 
         }
