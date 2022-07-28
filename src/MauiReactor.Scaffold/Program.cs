@@ -8,7 +8,7 @@ Directory.CreateDirectory(outputPath);
 Console.WriteLine($"Generating MauiReactor wrappers...");
 Console.WriteLine($"Output Path: {outputPath}");
 
-//force XF assembly load
+//force Maui assembly load
 var _ = new Microsoft.Maui.Controls.Shapes.Rectangle();
 
 var types = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
@@ -28,7 +28,7 @@ foreach (var classNameToGenerate in File
 
 Console.WriteLine("Done");
 
-void Scaffold(Type typeToScaffold, string outputPath)
+static void Scaffold(Type typeToScaffold, string outputPath)
 {
     var typeGenerator = new TypeGenerator(typeToScaffold);
     var outputFileName = (typeToScaffold.FullName ?? throw new InvalidOperationException())

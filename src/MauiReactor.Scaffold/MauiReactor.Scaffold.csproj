@@ -9,6 +9,7 @@
   </PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommandLineParser" Version="2.9.1" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.1.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.1.0" />
 		<PackageReference Include="System.CodeDom" Version="6.0.0" />

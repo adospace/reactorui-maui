@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MauiReactor.WrapperGenTool": {
+      "commandName": "Project",
+      "commandLineArgs": "list --proj \"C:\\Source\\github\\reactorui-maui\\samples\\MauiReactor.TestApp\\MauiReactor.TestApp.csproj\""
+    }
+  }
+}

@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseMaui>true</UseMaui>
+    
+    <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' == '' ">0.0.1-local</Version>
+    <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' != '' ">$(APPVEYOR_BUILD_VERSION)-beta</Version>
+    <Authors>adospace</Authors>
+    <Description>This command create a Maui.ReactorUI wrapper for a Maui control.</Description>
+    <Copyright>Adolfo Marinucci</Copyright>
+    <PackageProjectUrl>https://github.com/adospace/reactorui-maui</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/adospace/reactorui-maui</RepositoryUrl>
+    <PackageTags>maui mvu components reactjs flutter</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageId>Reactor.Maui.WrapperGenTool</PackageId>
+
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>dotnet-maui-reactor-gen</ToolCommandName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\MauiReactor.Scaffold\EventInfoEqualityComparer.cs" Link="EventInfoEqualityComparer.cs" />
+    <Compile Include="..\MauiReactor.Scaffold\PropertyInfoEqualityComparer.cs" Link="PropertyInfoEqualityComparer.cs" />
+    <Compile Include="..\MauiReactor.Scaffold\StringExtensions.cs" Link="StringExtensions.cs" />
+    <Compile Include="..\MauiReactor.Scaffold\TypeGenerator.cs" Link="TypeGenerator.cs" />
+    <Compile Include="..\MauiReactor.Scaffold\TypeGenerator.partial.cs" Link="TypeGenerator.partial.cs" />
+    <Compile Include="..\MauiReactor.Scaffold\Validation.cs" Link="Validation.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.1.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.1.0" />
+    <PackageReference Include="System.CodeDom" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Build.Locator" Version="1.4.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.1.0" />
+  </ItemGroup>
+
+</Project>

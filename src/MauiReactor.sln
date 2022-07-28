@@ -17,7 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{FF33
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlidingPuzzle", "..\samples\SlidingPuzzle\SlidingPuzzle.csproj", "{369BD6EE-E28D-40A8-BB1C-439C6DACDC61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiReactor.TemplatePack", "MauiReactor.TemplatePack\MauiReactor.TemplatePack.csproj", "{026C69FE-124E-4059-8E63-5DABE2F338C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.TemplatePack", "MauiReactor.TemplatePack\MauiReactor.TemplatePack.csproj", "{026C69FE-124E-4059-8E63-5DABE2F338C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiReactor.WrapperGenTool", "MauiReactor.WrapperGenTool\MauiReactor.WrapperGenTool.csproj", "{4DA0ECC3-884C-44CA-8C5E-9B038D54658F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{026C69FE-124E-4059-8E63-5DABE2F338C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{026C69FE-124E-4059-8E63-5DABE2F338C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{026C69FE-124E-4059-8E63-5DABE2F338C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DA0ECC3-884C-44CA-8C5E-9B038D54658F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DA0ECC3-884C-44CA-8C5E-9B038D54658F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DA0ECC3-884C-44CA-8C5E-9B038D54658F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DA0ECC3-884C-44CA-8C5E-9B038D54658F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
