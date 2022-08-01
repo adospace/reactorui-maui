@@ -223,17 +223,14 @@ namespace MauiReactor.Internals
             if (_internalTimer != null)
             {
                 _internalTimer.Change(Timeout.Infinite, Timeout.Infinite);
-                _internalTimer?.Dispose();
+                _internalTimer.Dispose();
                 _internalTimer = null;
             }
         }
 
         public void StartTimer()
         {
-            if (_internalTimer == null)
-            {
-                _internalTimer = new System.Threading.Timer(OnTick, null, DueTime, Interval);
-            }
+            _internalTimer ??= new System.Threading.Timer(OnTick, null, DueTime, Interval);
         }
 
         public void Dispose()

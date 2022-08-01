@@ -57,8 +57,8 @@
             //System.Diagnostics.Debug.WriteLine($"Migrate StartValue from {StartValue} to {((RxDoubleAnimation)previousAnimation).TargetValue} (TargetValue={TargetValue})");
             var previousDoubleAnimation = ((RxDoubleAnimation)previousAnimation);
 
-            //StartValue = previousDoubleAnimation.CurrentValue();
-            StartValue = previousDoubleAnimation.TargetValue;
+            StartValue = previousDoubleAnimation.CurrentValue();
+            //StartValue = previousDoubleAnimation.TargetValue;
 
             if (!previousDoubleAnimation.IsCompleted())
             {
