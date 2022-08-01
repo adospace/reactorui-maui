@@ -240,6 +240,11 @@ namespace MauiReactor
                 _invalidated = false;
             }
 
+            OnLayout(containerComponent);
+        }
+
+        internal virtual void OnLayout(IComponentWithState? containerComponent = null)
+        {
             if (!_isMounted && Parent != null)
                 OnMount();
 
@@ -542,10 +547,23 @@ namespace MauiReactor
             base.OnMigrated(newNode);
         }
 
+        internal override void OnLayout(IComponentWithState? containerComponent = null)
+        {
+            bool addToParent = !_isMounted && Parent != null;
+
+            base.OnLayout(containerComponent);
+
+            Validate.EnsureNotNull(_nativeControl);
+
+            if (addToParent)
+            {
+                Parent?.AddChild(this, _nativeControl);
+            }            
+        }
+
         protected override void OnMount()
         {
             _nativeControl ??= new T();
-            Parent?.AddChild(this, _nativeControl);
             _componentRefAction?.Invoke(NativeControl);
 
             base.OnMount();

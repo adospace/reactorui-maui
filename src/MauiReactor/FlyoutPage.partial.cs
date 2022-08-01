@@ -81,5 +81,11 @@ namespace MauiReactor
             shell.Flyout = flyout;
             return shell;
         }
+
+        public static T OnIsPresentedChanged<T>(this T flyoutPage, Action<bool> isPresentedChangedAction) where T : IFlyoutPage
+        {
+            flyoutPage.IsPresentedChangedActionWithArgs = (sender, args) => isPresentedChangedAction(((sender as Microsoft.Maui.Controls.FlyoutPage) ?? throw new InvalidOperationException()).IsPresented);
+            return flyoutPage;
+        }
     }
 }
