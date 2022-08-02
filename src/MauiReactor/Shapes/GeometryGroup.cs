@@ -138,13 +138,13 @@ namespace MauiReactor.Shapes
 
 
 
-        public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Action invalidateGeometryRequestedAction) where T : IGeometryGroup
+        public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Action? invalidateGeometryRequestedAction) where T : IGeometryGroup
         {
             geometryGroup.InvalidateGeometryRequestedAction = invalidateGeometryRequestedAction;
             return geometryGroup;
         }
 
-        public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Action<object?, EventArgs> invalidateGeometryRequestedActionWithArgs) where T : IGeometryGroup
+        public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Action<object?, EventArgs>? invalidateGeometryRequestedActionWithArgs) where T : IGeometryGroup
         {
             geometryGroup.InvalidateGeometryRequestedActionWithArgs = invalidateGeometryRequestedActionWithArgs;
             return geometryGroup;

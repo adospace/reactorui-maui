@@ -138,13 +138,13 @@ namespace MauiReactor
 
 
 
-        public static T OnSelectionChanged<T>(this T selectableItemsView, Action selectionChangedAction) where T : ISelectableItemsView
+        public static T OnSelectionChanged<T>(this T selectableItemsView, Action? selectionChangedAction) where T : ISelectableItemsView
         {
             selectableItemsView.SelectionChangedAction = selectionChangedAction;
             return selectableItemsView;
         }
 
-        public static T OnSelectionChanged<T>(this T selectableItemsView, Action<object?, SelectionChangedEventArgs> selectionChangedActionWithArgs) where T : ISelectableItemsView
+        public static T OnSelectionChanged<T>(this T selectableItemsView, Action<object?, SelectionChangedEventArgs>? selectionChangedActionWithArgs) where T : ISelectableItemsView
         {
             selectableItemsView.SelectionChangedActionWithArgs = selectionChangedActionWithArgs;
             return selectableItemsView;

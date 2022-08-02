@@ -206,35 +206,35 @@ namespace MauiReactor
 
 
 
-        public static T OnScrollToRequested<T>(this T itemsView, Action scrollToRequestedAction) where T : IItemsView
+        public static T OnScrollToRequested<T>(this T itemsView, Action? scrollToRequestedAction) where T : IItemsView
         {
             itemsView.ScrollToRequestedAction = scrollToRequestedAction;
             return itemsView;
         }
 
-        public static T OnScrollToRequested<T>(this T itemsView, Action<object?, ScrollToRequestEventArgs> scrollToRequestedActionWithArgs) where T : IItemsView
+        public static T OnScrollToRequested<T>(this T itemsView, Action<object?, ScrollToRequestEventArgs>? scrollToRequestedActionWithArgs) where T : IItemsView
         {
             itemsView.ScrollToRequestedActionWithArgs = scrollToRequestedActionWithArgs;
             return itemsView;
         }
-        public static T OnScrolled<T>(this T itemsView, Action scrolledAction) where T : IItemsView
+        public static T OnScrolled<T>(this T itemsView, Action? scrolledAction) where T : IItemsView
         {
             itemsView.ScrolledAction = scrolledAction;
             return itemsView;
         }
 
-        public static T OnScrolled<T>(this T itemsView, Action<object?, ItemsViewScrolledEventArgs> scrolledActionWithArgs) where T : IItemsView
+        public static T OnScrolled<T>(this T itemsView, Action<object?, ItemsViewScrolledEventArgs>? scrolledActionWithArgs) where T : IItemsView
         {
             itemsView.ScrolledActionWithArgs = scrolledActionWithArgs;
             return itemsView;
         }
-        public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Action remainingItemsThresholdReachedAction) where T : IItemsView
+        public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Action? remainingItemsThresholdReachedAction) where T : IItemsView
         {
             itemsView.RemainingItemsThresholdReachedAction = remainingItemsThresholdReachedAction;
             return itemsView;
         }
 
-        public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Action<object?, EventArgs> remainingItemsThresholdReachedActionWithArgs) where T : IItemsView
+        public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Action<object?, EventArgs>? remainingItemsThresholdReachedActionWithArgs) where T : IItemsView
         {
             itemsView.RemainingItemsThresholdReachedActionWithArgs = remainingItemsThresholdReachedActionWithArgs;
             return itemsView;

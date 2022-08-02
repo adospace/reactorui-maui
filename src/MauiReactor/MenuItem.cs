@@ -202,13 +202,13 @@ namespace MauiReactor
 
 
 
-        public static T OnClicked<T>(this T menuItem, Action clickedAction) where T : IMenuItem
+        public static T OnClicked<T>(this T menuItem, Action? clickedAction) where T : IMenuItem
         {
             menuItem.ClickedAction = clickedAction;
             return menuItem;
         }
 
-        public static T OnClicked<T>(this T menuItem, Action<object?, EventArgs> clickedActionWithArgs) where T : IMenuItem
+        public static T OnClicked<T>(this T menuItem, Action<object?, EventArgs>? clickedActionWithArgs) where T : IMenuItem
         {
             menuItem.ClickedActionWithArgs = clickedActionWithArgs;
             return menuItem;

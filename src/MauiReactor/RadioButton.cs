@@ -339,13 +339,13 @@ namespace MauiReactor
 
 
 
-        public static T OnCheckedChanged<T>(this T radioButton, Action checkedChangedAction) where T : IRadioButton
+        public static T OnCheckedChanged<T>(this T radioButton, Action? checkedChangedAction) where T : IRadioButton
         {
             radioButton.CheckedChangedAction = checkedChangedAction;
             return radioButton;
         }
 
-        public static T OnCheckedChanged<T>(this T radioButton, Action<object?, CheckedChangedEventArgs> checkedChangedActionWithArgs) where T : IRadioButton
+        public static T OnCheckedChanged<T>(this T radioButton, Action<object?, CheckedChangedEventArgs>? checkedChangedActionWithArgs) where T : IRadioButton
         {
             radioButton.CheckedChangedActionWithArgs = checkedChangedActionWithArgs;
             return radioButton;

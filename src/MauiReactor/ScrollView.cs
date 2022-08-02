@@ -155,13 +155,13 @@ namespace MauiReactor
 
 
 
-        public static T OnScrolled<T>(this T scrollView, Action scrolledAction) where T : IScrollView
+        public static T OnScrolled<T>(this T scrollView, Action? scrolledAction) where T : IScrollView
         {
             scrollView.ScrolledAction = scrolledAction;
             return scrollView;
         }
 
-        public static T OnScrolled<T>(this T scrollView, Action<object?, ScrolledEventArgs> scrolledActionWithArgs) where T : IScrollView
+        public static T OnScrolled<T>(this T scrollView, Action<object?, ScrolledEventArgs>? scrolledActionWithArgs) where T : IScrollView
         {
             scrollView.ScrolledActionWithArgs = scrolledActionWithArgs;
             return scrollView;

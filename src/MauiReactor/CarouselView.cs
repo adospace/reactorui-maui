@@ -263,24 +263,24 @@ namespace MauiReactor
 
 
 
-        public static T OnCurrentItemChanged<T>(this T carouselView, Action currentItemChangedAction) where T : ICarouselView
+        public static T OnCurrentItemChanged<T>(this T carouselView, Action? currentItemChangedAction) where T : ICarouselView
         {
             carouselView.CurrentItemChangedAction = currentItemChangedAction;
             return carouselView;
         }
 
-        public static T OnCurrentItemChanged<T>(this T carouselView, Action<object?, CurrentItemChangedEventArgs> currentItemChangedActionWithArgs) where T : ICarouselView
+        public static T OnCurrentItemChanged<T>(this T carouselView, Action<object?, CurrentItemChangedEventArgs>? currentItemChangedActionWithArgs) where T : ICarouselView
         {
             carouselView.CurrentItemChangedActionWithArgs = currentItemChangedActionWithArgs;
             return carouselView;
         }
-        public static T OnPositionChanged<T>(this T carouselView, Action positionChangedAction) where T : ICarouselView
+        public static T OnPositionChanged<T>(this T carouselView, Action? positionChangedAction) where T : ICarouselView
         {
             carouselView.PositionChangedAction = positionChangedAction;
             return carouselView;
         }
 
-        public static T OnPositionChanged<T>(this T carouselView, Action<object?, PositionChangedEventArgs> positionChangedActionWithArgs) where T : ICarouselView
+        public static T OnPositionChanged<T>(this T carouselView, Action<object?, PositionChangedEventArgs>? positionChangedActionWithArgs) where T : ICarouselView
         {
             carouselView.PositionChangedActionWithArgs = positionChangedActionWithArgs;
             return carouselView;

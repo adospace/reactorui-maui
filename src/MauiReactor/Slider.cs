@@ -297,35 +297,35 @@ namespace MauiReactor
         }
 
 
-        public static T OnValueChanged<T>(this T slider, Action valueChangedAction) where T : ISlider
+        public static T OnValueChanged<T>(this T slider, Action? valueChangedAction) where T : ISlider
         {
             slider.ValueChangedAction = valueChangedAction;
             return slider;
         }
 
-        public static T OnValueChanged<T>(this T slider, Action<object?, ValueChangedEventArgs> valueChangedActionWithArgs) where T : ISlider
+        public static T OnValueChanged<T>(this T slider, Action<object?, ValueChangedEventArgs>? valueChangedActionWithArgs) where T : ISlider
         {
             slider.ValueChangedActionWithArgs = valueChangedActionWithArgs;
             return slider;
         }
-        public static T OnDragStarted<T>(this T slider, Action dragStartedAction) where T : ISlider
+        public static T OnDragStarted<T>(this T slider, Action? dragStartedAction) where T : ISlider
         {
             slider.DragStartedAction = dragStartedAction;
             return slider;
         }
 
-        public static T OnDragStarted<T>(this T slider, Action<object?, EventArgs> dragStartedActionWithArgs) where T : ISlider
+        public static T OnDragStarted<T>(this T slider, Action<object?, EventArgs>? dragStartedActionWithArgs) where T : ISlider
         {
             slider.DragStartedActionWithArgs = dragStartedActionWithArgs;
             return slider;
         }
-        public static T OnDragCompleted<T>(this T slider, Action dragCompletedAction) where T : ISlider
+        public static T OnDragCompleted<T>(this T slider, Action? dragCompletedAction) where T : ISlider
         {
             slider.DragCompletedAction = dragCompletedAction;
             return slider;
         }
 
-        public static T OnDragCompleted<T>(this T slider, Action<object?, EventArgs> dragCompletedActionWithArgs) where T : ISlider
+        public static T OnDragCompleted<T>(this T slider, Action<object?, EventArgs>? dragCompletedActionWithArgs) where T : ISlider
         {
             slider.DragCompletedActionWithArgs = dragCompletedActionWithArgs;
             return slider;

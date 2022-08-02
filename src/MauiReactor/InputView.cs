@@ -271,13 +271,13 @@ namespace MauiReactor
 
 
 
-        public static T OnTextChanged<T>(this T inputView, Action textChangedAction) where T : IInputView
+        public static T OnTextChanged<T>(this T inputView, Action? textChangedAction) where T : IInputView
         {
             inputView.TextChangedAction = textChangedAction;
             return inputView;
         }
 
-        public static T OnTextChanged<T>(this T inputView, Action<object?, TextChangedEventArgs> textChangedActionWithArgs) where T : IInputView
+        public static T OnTextChanged<T>(this T inputView, Action<object?, TextChangedEventArgs>? textChangedActionWithArgs) where T : IInputView
         {
             inputView.TextChangedActionWithArgs = textChangedActionWithArgs;
             return inputView;

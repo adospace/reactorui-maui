@@ -123,24 +123,24 @@ namespace MauiReactor
 
 
 
-        public static T OnCurrentPageChanged<T>(this T multiPage, Action currentPageChangedAction) where T : IGenericMultiPage
+        public static T OnCurrentPageChanged<T>(this T multiPage, Action? currentPageChangedAction) where T : IGenericMultiPage
         {
             multiPage.CurrentPageChangedAction = currentPageChangedAction;
             return multiPage;
         }
 
-        public static T OnCurrentPageChanged<T>(this T multiPage, Action<object?, EventArgs> currentPageChangedActionWithArgs) where T : IGenericMultiPage
+        public static T OnCurrentPageChanged<T>(this T multiPage, Action<object?, EventArgs>? currentPageChangedActionWithArgs) where T : IGenericMultiPage
         {
             multiPage.CurrentPageChangedActionWithArgs = currentPageChangedActionWithArgs;
             return multiPage;
         }
-        public static T OnPagesChanged<T>(this T multiPage, Action pagesChangedAction) where T : IGenericMultiPage
+        public static T OnPagesChanged<T>(this T multiPage, Action? pagesChangedAction) where T : IGenericMultiPage
         {
             multiPage.PagesChangedAction = pagesChangedAction;
             return multiPage;
         }
 
-        public static T OnPagesChanged<T>(this T multiPage, Action<object?, EventArgs> pagesChangedActionWithArgs) where T : IGenericMultiPage
+        public static T OnPagesChanged<T>(this T multiPage, Action<object?, EventArgs>? pagesChangedActionWithArgs) where T : IGenericMultiPage
         {
             multiPage.PagesChangedActionWithArgs = pagesChangedActionWithArgs;
             return multiPage;

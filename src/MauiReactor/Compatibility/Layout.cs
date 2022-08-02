@@ -167,13 +167,13 @@ namespace MauiReactor.Compatibility
 
 
 
-        public static T OnLayoutChanged<T>(this T layout, Action layoutChangedAction) where T : ILayout
+        public static T OnLayoutChanged<T>(this T layout, Action? layoutChangedAction) where T : ILayout
         {
             layout.LayoutChangedAction = layoutChangedAction;
             return layout;
         }
 
-        public static T OnLayoutChanged<T>(this T layout, Action<object?, EventArgs> layoutChangedActionWithArgs) where T : ILayout
+        public static T OnLayoutChanged<T>(this T layout, Action<object?, EventArgs>? layoutChangedActionWithArgs) where T : ILayout
         {
             layout.LayoutChangedActionWithArgs = layoutChangedActionWithArgs;
             return layout;

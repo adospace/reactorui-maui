@@ -188,13 +188,13 @@ namespace MauiReactor
 
 
 
-        public static T OnValueChanged<T>(this T stepper, Action valueChangedAction) where T : IStepper
+        public static T OnValueChanged<T>(this T stepper, Action? valueChangedAction) where T : IStepper
         {
             stepper.ValueChangedAction = valueChangedAction;
             return stepper;
         }
 
-        public static T OnValueChanged<T>(this T stepper, Action<object?, ValueChangedEventArgs> valueChangedActionWithArgs) where T : IStepper
+        public static T OnValueChanged<T>(this T stepper, Action<object?, ValueChangedEventArgs>? valueChangedActionWithArgs) where T : IStepper
         {
             stepper.ValueChangedActionWithArgs = valueChangedActionWithArgs;
             return stepper;

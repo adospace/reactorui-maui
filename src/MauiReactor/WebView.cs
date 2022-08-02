@@ -153,24 +153,24 @@ namespace MauiReactor
 
 
 
-        public static T OnNavigated<T>(this T webView, Action navigatedAction) where T : IWebView
+        public static T OnNavigated<T>(this T webView, Action? navigatedAction) where T : IWebView
         {
             webView.NavigatedAction = navigatedAction;
             return webView;
         }
 
-        public static T OnNavigated<T>(this T webView, Action<object?, WebNavigatedEventArgs> navigatedActionWithArgs) where T : IWebView
+        public static T OnNavigated<T>(this T webView, Action<object?, WebNavigatedEventArgs>? navigatedActionWithArgs) where T : IWebView
         {
             webView.NavigatedActionWithArgs = navigatedActionWithArgs;
             return webView;
         }
-        public static T OnNavigating<T>(this T webView, Action navigatingAction) where T : IWebView
+        public static T OnNavigating<T>(this T webView, Action? navigatingAction) where T : IWebView
         {
             webView.NavigatingAction = navigatingAction;
             return webView;
         }
 
-        public static T OnNavigating<T>(this T webView, Action<object?, WebNavigatingEventArgs> navigatingActionWithArgs) where T : IWebView
+        public static T OnNavigating<T>(this T webView, Action<object?, WebNavigatingEventArgs>? navigatingActionWithArgs) where T : IWebView
         {
             webView.NavigatingActionWithArgs = navigatingActionWithArgs;
             return webView;

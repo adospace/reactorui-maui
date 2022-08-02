@@ -264,24 +264,24 @@ namespace MauiReactor
 
 
 
-        public static T OnAppearing<T>(this T baseShellItem, Action appearingAction) where T : IBaseShellItem
+        public static T OnAppearing<T>(this T baseShellItem, Action? appearingAction) where T : IBaseShellItem
         {
             baseShellItem.AppearingAction = appearingAction;
             return baseShellItem;
         }
 
-        public static T OnAppearing<T>(this T baseShellItem, Action<object?, EventArgs> appearingActionWithArgs) where T : IBaseShellItem
+        public static T OnAppearing<T>(this T baseShellItem, Action<object?, EventArgs>? appearingActionWithArgs) where T : IBaseShellItem
         {
             baseShellItem.AppearingActionWithArgs = appearingActionWithArgs;
             return baseShellItem;
         }
-        public static T OnDisappearing<T>(this T baseShellItem, Action disappearingAction) where T : IBaseShellItem
+        public static T OnDisappearing<T>(this T baseShellItem, Action? disappearingAction) where T : IBaseShellItem
         {
             baseShellItem.DisappearingAction = disappearingAction;
             return baseShellItem;
         }
 
-        public static T OnDisappearing<T>(this T baseShellItem, Action<object?, EventArgs> disappearingActionWithArgs) where T : IBaseShellItem
+        public static T OnDisappearing<T>(this T baseShellItem, Action<object?, EventArgs>? disappearingActionWithArgs) where T : IBaseShellItem
         {
             baseShellItem.DisappearingActionWithArgs = disappearingActionWithArgs;
             return baseShellItem;

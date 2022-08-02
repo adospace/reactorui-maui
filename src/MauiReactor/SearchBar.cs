@@ -284,13 +284,13 @@ namespace MauiReactor
 
 
 
-        public static T OnSearchButtonPressed<T>(this T searchBar, Action searchButtonPressedAction) where T : ISearchBar
+        public static T OnSearchButtonPressed<T>(this T searchBar, Action? searchButtonPressedAction) where T : ISearchBar
         {
             searchBar.SearchButtonPressedAction = searchButtonPressedAction;
             return searchBar;
         }
 
-        public static T OnSearchButtonPressed<T>(this T searchBar, Action<object?, EventArgs> searchButtonPressedActionWithArgs) where T : ISearchBar
+        public static T OnSearchButtonPressed<T>(this T searchBar, Action<object?, EventArgs>? searchButtonPressedActionWithArgs) where T : ISearchBar
         {
             searchBar.SearchButtonPressedActionWithArgs = searchButtonPressedActionWithArgs;
             return searchBar;

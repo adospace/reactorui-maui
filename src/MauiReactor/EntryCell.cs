@@ -223,13 +223,13 @@ namespace MauiReactor
 
 
 
-        public static T OnCompleted<T>(this T entryCell, Action completedAction) where T : IEntryCell
+        public static T OnCompleted<T>(this T entryCell, Action? completedAction) where T : IEntryCell
         {
             entryCell.CompletedAction = completedAction;
             return entryCell;
         }
 
-        public static T OnCompleted<T>(this T entryCell, Action<object?, EventArgs> completedActionWithArgs) where T : IEntryCell
+        public static T OnCompleted<T>(this T entryCell, Action<object?, EventArgs>? completedActionWithArgs) where T : IEntryCell
         {
             entryCell.CompletedActionWithArgs = completedActionWithArgs;
             return entryCell;

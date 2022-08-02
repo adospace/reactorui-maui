@@ -395,24 +395,24 @@ namespace MauiReactor
 
 
 
-        public static T OnNavigated<T>(this T shell, Action navigatedAction) where T : IShell
+        public static T OnNavigated<T>(this T shell, Action? navigatedAction) where T : IShell
         {
             shell.NavigatedAction = navigatedAction;
             return shell;
         }
 
-        public static T OnNavigated<T>(this T shell, Action<object?, ShellNavigatedEventArgs> navigatedActionWithArgs) where T : IShell
+        public static T OnNavigated<T>(this T shell, Action<object?, ShellNavigatedEventArgs>? navigatedActionWithArgs) where T : IShell
         {
             shell.NavigatedActionWithArgs = navigatedActionWithArgs;
             return shell;
         }
-        public static T OnNavigating<T>(this T shell, Action navigatingAction) where T : IShell
+        public static T OnNavigating<T>(this T shell, Action? navigatingAction) where T : IShell
         {
             shell.NavigatingAction = navigatingAction;
             return shell;
         }
 
-        public static T OnNavigating<T>(this T shell, Action<object?, ShellNavigatingEventArgs> navigatingActionWithArgs) where T : IShell
+        public static T OnNavigating<T>(this T shell, Action<object?, ShellNavigatingEventArgs>? navigatingActionWithArgs) where T : IShell
         {
             shell.NavigatingActionWithArgs = navigatingActionWithArgs;
             return shell;

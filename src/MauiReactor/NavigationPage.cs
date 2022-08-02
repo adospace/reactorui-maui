@@ -185,35 +185,35 @@ namespace MauiReactor
 
 
 
-        public static T OnPopped<T>(this T navigationPage, Action poppedAction) where T : INavigationPage
+        public static T OnPopped<T>(this T navigationPage, Action? poppedAction) where T : INavigationPage
         {
             navigationPage.PoppedAction = poppedAction;
             return navigationPage;
         }
 
-        public static T OnPopped<T>(this T navigationPage, Action<object?, NavigationEventArgs> poppedActionWithArgs) where T : INavigationPage
+        public static T OnPopped<T>(this T navigationPage, Action<object?, NavigationEventArgs>? poppedActionWithArgs) where T : INavigationPage
         {
             navigationPage.PoppedActionWithArgs = poppedActionWithArgs;
             return navigationPage;
         }
-        public static T OnPoppedToRoot<T>(this T navigationPage, Action poppedToRootAction) where T : INavigationPage
+        public static T OnPoppedToRoot<T>(this T navigationPage, Action? poppedToRootAction) where T : INavigationPage
         {
             navigationPage.PoppedToRootAction = poppedToRootAction;
             return navigationPage;
         }
 
-        public static T OnPoppedToRoot<T>(this T navigationPage, Action<object?, NavigationEventArgs> poppedToRootActionWithArgs) where T : INavigationPage
+        public static T OnPoppedToRoot<T>(this T navigationPage, Action<object?, NavigationEventArgs>? poppedToRootActionWithArgs) where T : INavigationPage
         {
             navigationPage.PoppedToRootActionWithArgs = poppedToRootActionWithArgs;
             return navigationPage;
         }
-        public static T OnPushed<T>(this T navigationPage, Action pushedAction) where T : INavigationPage
+        public static T OnPushed<T>(this T navigationPage, Action? pushedAction) where T : INavigationPage
         {
             navigationPage.PushedAction = pushedAction;
             return navigationPage;
         }
 
-        public static T OnPushed<T>(this T navigationPage, Action<object?, NavigationEventArgs> pushedActionWithArgs) where T : INavigationPage
+        public static T OnPushed<T>(this T navigationPage, Action<object?, NavigationEventArgs>? pushedActionWithArgs) where T : INavigationPage
         {
             navigationPage.PushedActionWithArgs = pushedActionWithArgs;
             return navigationPage;

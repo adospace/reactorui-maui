@@ -450,35 +450,35 @@ namespace MauiReactor
 
 
 
-        public static T OnClicked<T>(this T button, Action clickedAction) where T : IButton
+        public static T OnClicked<T>(this T button, Action? clickedAction) where T : IButton
         {
             button.ClickedAction = clickedAction;
             return button;
         }
 
-        public static T OnClicked<T>(this T button, Action<object?, EventArgs> clickedActionWithArgs) where T : IButton
+        public static T OnClicked<T>(this T button, Action<object?, EventArgs>? clickedActionWithArgs) where T : IButton
         {
             button.ClickedActionWithArgs = clickedActionWithArgs;
             return button;
         }
-        public static T OnPressed<T>(this T button, Action pressedAction) where T : IButton
+        public static T OnPressed<T>(this T button, Action? pressedAction) where T : IButton
         {
             button.PressedAction = pressedAction;
             return button;
         }
 
-        public static T OnPressed<T>(this T button, Action<object?, EventArgs> pressedActionWithArgs) where T : IButton
+        public static T OnPressed<T>(this T button, Action<object?, EventArgs>? pressedActionWithArgs) where T : IButton
         {
             button.PressedActionWithArgs = pressedActionWithArgs;
             return button;
         }
-        public static T OnReleased<T>(this T button, Action releasedAction) where T : IButton
+        public static T OnReleased<T>(this T button, Action? releasedAction) where T : IButton
         {
             button.ReleasedAction = releasedAction;
             return button;
         }
 
-        public static T OnReleased<T>(this T button, Action<object?, EventArgs> releasedActionWithArgs) where T : IButton
+        public static T OnReleased<T>(this T button, Action<object?, EventArgs>? releasedActionWithArgs) where T : IButton
         {
             button.ReleasedActionWithArgs = releasedActionWithArgs;
             return button;

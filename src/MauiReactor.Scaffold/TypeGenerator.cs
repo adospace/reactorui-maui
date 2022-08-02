@@ -2304,7 +2304,7 @@ namespace MauiReactor.Scaffold
             
             #line default
             #line hidden
-            this.Write(", Action ");
+            this.Write(", Action? ");
             
             #line 339 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name.ToLocalVariableName()));
@@ -2367,7 +2367,7 @@ namespace MauiReactor.Scaffold
             
             #line default
             #line hidden
-            this.Write("> ");
+            this.Write(">? ");
             
             #line 345 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name.ToLocalVariableName()));

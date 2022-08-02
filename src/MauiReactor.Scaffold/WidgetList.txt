@@ -55,6 +55,7 @@ Microsoft.Maui.Controls.Shapes.Polygon
 Microsoft.Maui.Controls.Shapes.Polyline
 Microsoft.Maui.Controls.Shapes.Rectangle
 Microsoft.Maui.Controls.Shapes.GeometryGroup
+Microsoft.Maui.Controls.Shapes.Ellipse
 
 Microsoft.Maui.Controls.Border
 Microsoft.Maui.Controls.FlexLayout

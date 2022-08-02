@@ -155,13 +155,13 @@ namespace MauiReactor
 
 
 
-        public static T OnIsPresentedChanged<T>(this T flyoutPage, Action isPresentedChangedAction) where T : IFlyoutPage
+        public static T OnIsPresentedChanged<T>(this T flyoutPage, Action? isPresentedChangedAction) where T : IFlyoutPage
         {
             flyoutPage.IsPresentedChangedAction = isPresentedChangedAction;
             return flyoutPage;
         }
 
-        public static T OnIsPresentedChanged<T>(this T flyoutPage, Action<object?, EventArgs> isPresentedChangedActionWithArgs) where T : IFlyoutPage
+        public static T OnIsPresentedChanged<T>(this T flyoutPage, Action<object?, EventArgs>? isPresentedChangedActionWithArgs) where T : IFlyoutPage
         {
             flyoutPage.IsPresentedChangedActionWithArgs = isPresentedChangedActionWithArgs;
             return flyoutPage;

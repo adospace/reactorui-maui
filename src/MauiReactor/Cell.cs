@@ -138,35 +138,35 @@ namespace MauiReactor
 
 
 
-        public static T OnAppearing<T>(this T cell, Action appearingAction) where T : ICell
+        public static T OnAppearing<T>(this T cell, Action? appearingAction) where T : ICell
         {
             cell.AppearingAction = appearingAction;
             return cell;
         }
 
-        public static T OnAppearing<T>(this T cell, Action<object?, EventArgs> appearingActionWithArgs) where T : ICell
+        public static T OnAppearing<T>(this T cell, Action<object?, EventArgs>? appearingActionWithArgs) where T : ICell
         {
             cell.AppearingActionWithArgs = appearingActionWithArgs;
             return cell;
         }
-        public static T OnDisappearing<T>(this T cell, Action disappearingAction) where T : ICell
+        public static T OnDisappearing<T>(this T cell, Action? disappearingAction) where T : ICell
         {
             cell.DisappearingAction = disappearingAction;
             return cell;
         }
 
-        public static T OnDisappearing<T>(this T cell, Action<object?, EventArgs> disappearingActionWithArgs) where T : ICell
+        public static T OnDisappearing<T>(this T cell, Action<object?, EventArgs>? disappearingActionWithArgs) where T : ICell
         {
             cell.DisappearingActionWithArgs = disappearingActionWithArgs;
             return cell;
         }
-        public static T OnTapped<T>(this T cell, Action tappedAction) where T : ICell
+        public static T OnTapped<T>(this T cell, Action? tappedAction) where T : ICell
         {
             cell.TappedAction = tappedAction;
             return cell;
         }
 
-        public static T OnTapped<T>(this T cell, Action<object?, EventArgs> tappedActionWithArgs) where T : ICell
+        public static T OnTapped<T>(this T cell, Action<object?, EventArgs>? tappedActionWithArgs) where T : ICell
         {
             cell.TappedActionWithArgs = tappedActionWithArgs;
             return cell;

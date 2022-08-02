@@ -155,13 +155,13 @@ namespace MauiReactor
 
 
 
-        public static T OnToggled<T>(this T @switch, Action toggledAction) where T : ISwitch
+        public static T OnToggled<T>(this T @switch, Action? toggledAction) where T : ISwitch
         {
             @switch.ToggledAction = toggledAction;
             return @switch;
         }
 
-        public static T OnToggled<T>(this T @switch, Action<object?, ToggledEventArgs> toggledActionWithArgs) where T : ISwitch
+        public static T OnToggled<T>(this T @switch, Action<object?, ToggledEventArgs>? toggledActionWithArgs) where T : ISwitch
         {
             @switch.ToggledActionWithArgs = toggledActionWithArgs;
             return @switch;

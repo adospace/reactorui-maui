@@ -138,13 +138,13 @@ namespace MauiReactor
 
 
 
-        public static T OnReorderCompleted<T>(this T reorderableItemsView, Action reorderCompletedAction) where T : IReorderableItemsView
+        public static T OnReorderCompleted<T>(this T reorderableItemsView, Action? reorderCompletedAction) where T : IReorderableItemsView
         {
             reorderableItemsView.ReorderCompletedAction = reorderCompletedAction;
             return reorderableItemsView;
         }
 
-        public static T OnReorderCompleted<T>(this T reorderableItemsView, Action<object?, EventArgs> reorderCompletedActionWithArgs) where T : IReorderableItemsView
+        public static T OnReorderCompleted<T>(this T reorderableItemsView, Action<object?, EventArgs>? reorderCompletedActionWithArgs) where T : IReorderableItemsView
         {
             reorderableItemsView.ReorderCompletedActionWithArgs = reorderCompletedActionWithArgs;
             return reorderableItemsView;

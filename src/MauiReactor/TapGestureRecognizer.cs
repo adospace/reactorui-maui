@@ -108,13 +108,13 @@ namespace MauiReactor
 
 
 
-        public static T OnTapped<T>(this T tapGestureRecognizer, Action tappedAction) where T : ITapGestureRecognizer
+        public static T OnTapped<T>(this T tapGestureRecognizer, Action? tappedAction) where T : ITapGestureRecognizer
         {
             tapGestureRecognizer.TappedAction = tappedAction;
             return tapGestureRecognizer;
         }
 
-        public static T OnTapped<T>(this T tapGestureRecognizer, Action<object?, EventArgs> tappedActionWithArgs) where T : ITapGestureRecognizer
+        public static T OnTapped<T>(this T tapGestureRecognizer, Action<object?, EventArgs>? tappedActionWithArgs) where T : ITapGestureRecognizer
         {
             tapGestureRecognizer.TappedActionWithArgs = tappedActionWithArgs;
             return tapGestureRecognizer;

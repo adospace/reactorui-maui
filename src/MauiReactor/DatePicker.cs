@@ -286,13 +286,13 @@ namespace MauiReactor
 
 
 
-        public static T OnDateSelected<T>(this T datePicker, Action dateSelectedAction) where T : IDatePicker
+        public static T OnDateSelected<T>(this T datePicker, Action? dateSelectedAction) where T : IDatePicker
         {
             datePicker.DateSelectedAction = dateSelectedAction;
             return datePicker;
         }
 
-        public static T OnDateSelected<T>(this T datePicker, Action<object?, DateChangedEventArgs> dateSelectedActionWithArgs) where T : IDatePicker
+        public static T OnDateSelected<T>(this T datePicker, Action<object?, DateChangedEventArgs>? dateSelectedActionWithArgs) where T : IDatePicker
         {
             datePicker.DateSelectedActionWithArgs = dateSelectedActionWithArgs;
             return datePicker;

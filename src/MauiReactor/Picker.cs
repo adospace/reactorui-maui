@@ -320,13 +320,13 @@ namespace MauiReactor
 
 
 
-        public static T OnSelectedIndexChanged<T>(this T picker, Action selectedIndexChangedAction) where T : IPicker
+        public static T OnSelectedIndexChanged<T>(this T picker, Action? selectedIndexChangedAction) where T : IPicker
         {
             picker.SelectedIndexChangedAction = selectedIndexChangedAction;
             return picker;
         }
 
-        public static T OnSelectedIndexChanged<T>(this T picker, Action<object?, EventArgs> selectedIndexChangedActionWithArgs) where T : IPicker
+        public static T OnSelectedIndexChanged<T>(this T picker, Action<object?, EventArgs>? selectedIndexChangedActionWithArgs) where T : IPicker
         {
             picker.SelectedIndexChangedActionWithArgs = selectedIndexChangedActionWithArgs;
             return picker;

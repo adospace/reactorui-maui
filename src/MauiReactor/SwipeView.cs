@@ -229,35 +229,35 @@ namespace MauiReactor
 
 
 
-        public static T OnSwipeStarted<T>(this T swipeView, Action swipeStartedAction) where T : ISwipeView
+        public static T OnSwipeStarted<T>(this T swipeView, Action? swipeStartedAction) where T : ISwipeView
         {
             swipeView.SwipeStartedAction = swipeStartedAction;
             return swipeView;
         }
 
-        public static T OnSwipeStarted<T>(this T swipeView, Action<object?, SwipeStartedEventArgs> swipeStartedActionWithArgs) where T : ISwipeView
+        public static T OnSwipeStarted<T>(this T swipeView, Action<object?, SwipeStartedEventArgs>? swipeStartedActionWithArgs) where T : ISwipeView
         {
             swipeView.SwipeStartedActionWithArgs = swipeStartedActionWithArgs;
             return swipeView;
         }
-        public static T OnSwipeChanging<T>(this T swipeView, Action swipeChangingAction) where T : ISwipeView
+        public static T OnSwipeChanging<T>(this T swipeView, Action? swipeChangingAction) where T : ISwipeView
         {
             swipeView.SwipeChangingAction = swipeChangingAction;
             return swipeView;
         }
 
-        public static T OnSwipeChanging<T>(this T swipeView, Action<object?, SwipeChangingEventArgs> swipeChangingActionWithArgs) where T : ISwipeView
+        public static T OnSwipeChanging<T>(this T swipeView, Action<object?, SwipeChangingEventArgs>? swipeChangingActionWithArgs) where T : ISwipeView
         {
             swipeView.SwipeChangingActionWithArgs = swipeChangingActionWithArgs;
             return swipeView;
         }
-        public static T OnSwipeEnded<T>(this T swipeView, Action swipeEndedAction) where T : ISwipeView
+        public static T OnSwipeEnded<T>(this T swipeView, Action? swipeEndedAction) where T : ISwipeView
         {
             swipeView.SwipeEndedAction = swipeEndedAction;
             return swipeView;
         }
 
-        public static T OnSwipeEnded<T>(this T swipeView, Action<object?, SwipeEndedEventArgs> swipeEndedActionWithArgs) where T : ISwipeView
+        public static T OnSwipeEnded<T>(this T swipeView, Action<object?, SwipeEndedEventArgs>? swipeEndedActionWithArgs) where T : ISwipeView
         {
             swipeView.SwipeEndedActionWithArgs = swipeEndedActionWithArgs;
             return swipeView;

@@ -631,79 +631,79 @@ namespace MauiReactor
 
 
 
-        public static T OnLoaded<T>(this T visualElement, Action loadedAction) where T : IVisualElement
+        public static T OnLoaded<T>(this T visualElement, Action? loadedAction) where T : IVisualElement
         {
             visualElement.LoadedAction = loadedAction;
             return visualElement;
         }
 
-        public static T OnLoaded<T>(this T visualElement, Action<object?, EventArgs> loadedActionWithArgs) where T : IVisualElement
+        public static T OnLoaded<T>(this T visualElement, Action<object?, EventArgs>? loadedActionWithArgs) where T : IVisualElement
         {
             visualElement.LoadedActionWithArgs = loadedActionWithArgs;
             return visualElement;
         }
-        public static T OnUnloaded<T>(this T visualElement, Action unloadedAction) where T : IVisualElement
+        public static T OnUnloaded<T>(this T visualElement, Action? unloadedAction) where T : IVisualElement
         {
             visualElement.UnloadedAction = unloadedAction;
             return visualElement;
         }
 
-        public static T OnUnloaded<T>(this T visualElement, Action<object?, EventArgs> unloadedActionWithArgs) where T : IVisualElement
+        public static T OnUnloaded<T>(this T visualElement, Action<object?, EventArgs>? unloadedActionWithArgs) where T : IVisualElement
         {
             visualElement.UnloadedActionWithArgs = unloadedActionWithArgs;
             return visualElement;
         }
-        public static T OnChildrenReordered<T>(this T visualElement, Action childrenReorderedAction) where T : IVisualElement
+        public static T OnChildrenReordered<T>(this T visualElement, Action? childrenReorderedAction) where T : IVisualElement
         {
             visualElement.ChildrenReorderedAction = childrenReorderedAction;
             return visualElement;
         }
 
-        public static T OnChildrenReordered<T>(this T visualElement, Action<object?, EventArgs> childrenReorderedActionWithArgs) where T : IVisualElement
+        public static T OnChildrenReordered<T>(this T visualElement, Action<object?, EventArgs>? childrenReorderedActionWithArgs) where T : IVisualElement
         {
             visualElement.ChildrenReorderedActionWithArgs = childrenReorderedActionWithArgs;
             return visualElement;
         }
-        public static T OnFocused<T>(this T visualElement, Action focusedAction) where T : IVisualElement
+        public static T OnFocused<T>(this T visualElement, Action? focusedAction) where T : IVisualElement
         {
             visualElement.FocusedAction = focusedAction;
             return visualElement;
         }
 
-        public static T OnFocused<T>(this T visualElement, Action<object?, FocusEventArgs> focusedActionWithArgs) where T : IVisualElement
+        public static T OnFocused<T>(this T visualElement, Action<object?, FocusEventArgs>? focusedActionWithArgs) where T : IVisualElement
         {
             visualElement.FocusedActionWithArgs = focusedActionWithArgs;
             return visualElement;
         }
-        public static T OnMeasureInvalidated<T>(this T visualElement, Action measureInvalidatedAction) where T : IVisualElement
+        public static T OnMeasureInvalidated<T>(this T visualElement, Action? measureInvalidatedAction) where T : IVisualElement
         {
             visualElement.MeasureInvalidatedAction = measureInvalidatedAction;
             return visualElement;
         }
 
-        public static T OnMeasureInvalidated<T>(this T visualElement, Action<object?, EventArgs> measureInvalidatedActionWithArgs) where T : IVisualElement
+        public static T OnMeasureInvalidated<T>(this T visualElement, Action<object?, EventArgs>? measureInvalidatedActionWithArgs) where T : IVisualElement
         {
             visualElement.MeasureInvalidatedActionWithArgs = measureInvalidatedActionWithArgs;
             return visualElement;
         }
-        public static T OnSizeChanged<T>(this T visualElement, Action sizeChangedAction) where T : IVisualElement
+        public static T OnSizeChanged<T>(this T visualElement, Action? sizeChangedAction) where T : IVisualElement
         {
             visualElement.SizeChangedAction = sizeChangedAction;
             return visualElement;
         }
 
-        public static T OnSizeChanged<T>(this T visualElement, Action<object?, EventArgs> sizeChangedActionWithArgs) where T : IVisualElement
+        public static T OnSizeChanged<T>(this T visualElement, Action<object?, EventArgs>? sizeChangedActionWithArgs) where T : IVisualElement
         {
             visualElement.SizeChangedActionWithArgs = sizeChangedActionWithArgs;
             return visualElement;
         }
-        public static T OnUnfocused<T>(this T visualElement, Action unfocusedAction) where T : IVisualElement
+        public static T OnUnfocused<T>(this T visualElement, Action? unfocusedAction) where T : IVisualElement
         {
             visualElement.UnfocusedAction = unfocusedAction;
             return visualElement;
         }
 
-        public static T OnUnfocused<T>(this T visualElement, Action<object?, FocusEventArgs> unfocusedActionWithArgs) where T : IVisualElement
+        public static T OnUnfocused<T>(this T visualElement, Action<object?, FocusEventArgs>? unfocusedActionWithArgs) where T : IVisualElement
         {
             visualElement.UnfocusedActionWithArgs = unfocusedActionWithArgs;
             return visualElement;

@@ -230,90 +230,90 @@ namespace MauiReactor
 
 
 
-        public static T OnChildAdded<T>(this T element, Action childAddedAction) where T : IElement
+        public static T OnChildAdded<T>(this T element, Action? childAddedAction) where T : IElement
         {
             element.ChildAddedAction = childAddedAction;
             return element;
         }
 
-        public static T OnChildAdded<T>(this T element, Action<object?, ElementEventArgs> childAddedActionWithArgs) where T : IElement
+        public static T OnChildAdded<T>(this T element, Action<object?, ElementEventArgs>? childAddedActionWithArgs) where T : IElement
         {
             element.ChildAddedActionWithArgs = childAddedActionWithArgs;
             return element;
         }
-        public static T OnChildRemoved<T>(this T element, Action childRemovedAction) where T : IElement
+        public static T OnChildRemoved<T>(this T element, Action? childRemovedAction) where T : IElement
         {
             element.ChildRemovedAction = childRemovedAction;
             return element;
         }
 
-        public static T OnChildRemoved<T>(this T element, Action<object?, ElementEventArgs> childRemovedActionWithArgs) where T : IElement
+        public static T OnChildRemoved<T>(this T element, Action<object?, ElementEventArgs>? childRemovedActionWithArgs) where T : IElement
         {
             element.ChildRemovedActionWithArgs = childRemovedActionWithArgs;
             return element;
         }
-        public static T OnDescendantAdded<T>(this T element, Action descendantAddedAction) where T : IElement
+        public static T OnDescendantAdded<T>(this T element, Action? descendantAddedAction) where T : IElement
         {
             element.DescendantAddedAction = descendantAddedAction;
             return element;
         }
 
-        public static T OnDescendantAdded<T>(this T element, Action<object?, ElementEventArgs> descendantAddedActionWithArgs) where T : IElement
+        public static T OnDescendantAdded<T>(this T element, Action<object?, ElementEventArgs>? descendantAddedActionWithArgs) where T : IElement
         {
             element.DescendantAddedActionWithArgs = descendantAddedActionWithArgs;
             return element;
         }
-        public static T OnDescendantRemoved<T>(this T element, Action descendantRemovedAction) where T : IElement
+        public static T OnDescendantRemoved<T>(this T element, Action? descendantRemovedAction) where T : IElement
         {
             element.DescendantRemovedAction = descendantRemovedAction;
             return element;
         }
 
-        public static T OnDescendantRemoved<T>(this T element, Action<object?, ElementEventArgs> descendantRemovedActionWithArgs) where T : IElement
+        public static T OnDescendantRemoved<T>(this T element, Action<object?, ElementEventArgs>? descendantRemovedActionWithArgs) where T : IElement
         {
             element.DescendantRemovedActionWithArgs = descendantRemovedActionWithArgs;
             return element;
         }
-        public static T OnParentChanging<T>(this T element, Action parentChangingAction) where T : IElement
+        public static T OnParentChanging<T>(this T element, Action? parentChangingAction) where T : IElement
         {
             element.ParentChangingAction = parentChangingAction;
             return element;
         }
 
-        public static T OnParentChanging<T>(this T element, Action<object?, ParentChangingEventArgs> parentChangingActionWithArgs) where T : IElement
+        public static T OnParentChanging<T>(this T element, Action<object?, ParentChangingEventArgs>? parentChangingActionWithArgs) where T : IElement
         {
             element.ParentChangingActionWithArgs = parentChangingActionWithArgs;
             return element;
         }
-        public static T OnParentChanged<T>(this T element, Action parentChangedAction) where T : IElement
+        public static T OnParentChanged<T>(this T element, Action? parentChangedAction) where T : IElement
         {
             element.ParentChangedAction = parentChangedAction;
             return element;
         }
 
-        public static T OnParentChanged<T>(this T element, Action<object?, EventArgs> parentChangedActionWithArgs) where T : IElement
+        public static T OnParentChanged<T>(this T element, Action<object?, EventArgs>? parentChangedActionWithArgs) where T : IElement
         {
             element.ParentChangedActionWithArgs = parentChangedActionWithArgs;
             return element;
         }
-        public static T OnHandlerChanging<T>(this T element, Action handlerChangingAction) where T : IElement
+        public static T OnHandlerChanging<T>(this T element, Action? handlerChangingAction) where T : IElement
         {
             element.HandlerChangingAction = handlerChangingAction;
             return element;
         }
 
-        public static T OnHandlerChanging<T>(this T element, Action<object?, HandlerChangingEventArgs> handlerChangingActionWithArgs) where T : IElement
+        public static T OnHandlerChanging<T>(this T element, Action<object?, HandlerChangingEventArgs>? handlerChangingActionWithArgs) where T : IElement
         {
             element.HandlerChangingActionWithArgs = handlerChangingActionWithArgs;
             return element;
         }
-        public static T OnHandlerChanged<T>(this T element, Action handlerChangedAction) where T : IElement
+        public static T OnHandlerChanged<T>(this T element, Action? handlerChangedAction) where T : IElement
         {
             element.HandlerChangedAction = handlerChangedAction;
             return element;
         }
 
-        public static T OnHandlerChanged<T>(this T element, Action<object?, EventArgs> handlerChangedActionWithArgs) where T : IElement
+        public static T OnHandlerChanged<T>(this T element, Action<object?, EventArgs>? handlerChangedActionWithArgs) where T : IElement
         {
             element.HandlerChangedActionWithArgs = handlerChangedActionWithArgs;
             return element;

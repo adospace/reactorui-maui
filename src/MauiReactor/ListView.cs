@@ -417,68 +417,68 @@ namespace MauiReactor
 
 
 
-        public static T OnItemAppearing<T>(this T listView, Action itemAppearingAction) where T : IListView
+        public static T OnItemAppearing<T>(this T listView, Action? itemAppearingAction) where T : IListView
         {
             listView.ItemAppearingAction = itemAppearingAction;
             return listView;
         }
 
-        public static T OnItemAppearing<T>(this T listView, Action<object?, ItemVisibilityEventArgs> itemAppearingActionWithArgs) where T : IListView
+        public static T OnItemAppearing<T>(this T listView, Action<object?, ItemVisibilityEventArgs>? itemAppearingActionWithArgs) where T : IListView
         {
             listView.ItemAppearingActionWithArgs = itemAppearingActionWithArgs;
             return listView;
         }
-        public static T OnItemDisappearing<T>(this T listView, Action itemDisappearingAction) where T : IListView
+        public static T OnItemDisappearing<T>(this T listView, Action? itemDisappearingAction) where T : IListView
         {
             listView.ItemDisappearingAction = itemDisappearingAction;
             return listView;
         }
 
-        public static T OnItemDisappearing<T>(this T listView, Action<object?, ItemVisibilityEventArgs> itemDisappearingActionWithArgs) where T : IListView
+        public static T OnItemDisappearing<T>(this T listView, Action<object?, ItemVisibilityEventArgs>? itemDisappearingActionWithArgs) where T : IListView
         {
             listView.ItemDisappearingActionWithArgs = itemDisappearingActionWithArgs;
             return listView;
         }
-        public static T OnItemSelected<T>(this T listView, Action itemSelectedAction) where T : IListView
+        public static T OnItemSelected<T>(this T listView, Action? itemSelectedAction) where T : IListView
         {
             listView.ItemSelectedAction = itemSelectedAction;
             return listView;
         }
 
-        public static T OnItemSelected<T>(this T listView, Action<object?, SelectedItemChangedEventArgs> itemSelectedActionWithArgs) where T : IListView
+        public static T OnItemSelected<T>(this T listView, Action<object?, SelectedItemChangedEventArgs>? itemSelectedActionWithArgs) where T : IListView
         {
             listView.ItemSelectedActionWithArgs = itemSelectedActionWithArgs;
             return listView;
         }
-        public static T OnItemTapped<T>(this T listView, Action itemTappedAction) where T : IListView
+        public static T OnItemTapped<T>(this T listView, Action? itemTappedAction) where T : IListView
         {
             listView.ItemTappedAction = itemTappedAction;
             return listView;
         }
 
-        public static T OnItemTapped<T>(this T listView, Action<object?, ItemTappedEventArgs> itemTappedActionWithArgs) where T : IListView
+        public static T OnItemTapped<T>(this T listView, Action<object?, ItemTappedEventArgs>? itemTappedActionWithArgs) where T : IListView
         {
             listView.ItemTappedActionWithArgs = itemTappedActionWithArgs;
             return listView;
         }
-        public static T OnScrolled<T>(this T listView, Action scrolledAction) where T : IListView
+        public static T OnScrolled<T>(this T listView, Action? scrolledAction) where T : IListView
         {
             listView.ScrolledAction = scrolledAction;
             return listView;
         }
 
-        public static T OnScrolled<T>(this T listView, Action<object?, ScrolledEventArgs> scrolledActionWithArgs) where T : IListView
+        public static T OnScrolled<T>(this T listView, Action<object?, ScrolledEventArgs>? scrolledActionWithArgs) where T : IListView
         {
             listView.ScrolledActionWithArgs = scrolledActionWithArgs;
             return listView;
         }
-        public static T OnRefreshing<T>(this T listView, Action refreshingAction) where T : IListView
+        public static T OnRefreshing<T>(this T listView, Action? refreshingAction) where T : IListView
         {
             listView.RefreshingAction = refreshingAction;
             return listView;
         }
 
-        public static T OnRefreshing<T>(this T listView, Action<object?, EventArgs> refreshingActionWithArgs) where T : IListView
+        public static T OnRefreshing<T>(this T listView, Action<object?, EventArgs>? refreshingActionWithArgs) where T : IListView
         {
             listView.RefreshingActionWithArgs = refreshingActionWithArgs;
             return listView;

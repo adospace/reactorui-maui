@@ -138,13 +138,13 @@ namespace MauiReactor
 
 
 
-        public static T OnCheckedChanged<T>(this T checkBox, Action checkedChangedAction) where T : ICheckBox
+        public static T OnCheckedChanged<T>(this T checkBox, Action? checkedChangedAction) where T : ICheckBox
         {
             checkBox.CheckedChangedAction = checkedChangedAction;
             return checkBox;
         }
 
-        public static T OnCheckedChanged<T>(this T checkBox, Action<object?, CheckedChangedEventArgs> checkedChangedActionWithArgs) where T : ICheckBox
+        public static T OnCheckedChanged<T>(this T checkBox, Action<object?, CheckedChangedEventArgs>? checkedChangedActionWithArgs) where T : ICheckBox
         {
             checkBox.CheckedChangedActionWithArgs = checkedChangedActionWithArgs;
             return checkBox;

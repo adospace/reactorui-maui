@@ -349,68 +349,68 @@ namespace MauiReactor
         }
 
 
-        public static T OnNavigatedTo<T>(this T page, Action navigatedToAction) where T : IPage
+        public static T OnNavigatedTo<T>(this T page, Action? navigatedToAction) where T : IPage
         {
             page.NavigatedToAction = navigatedToAction;
             return page;
         }
 
-        public static T OnNavigatedTo<T>(this T page, Action<object?, NavigatedToEventArgs> navigatedToActionWithArgs) where T : IPage
+        public static T OnNavigatedTo<T>(this T page, Action<object?, NavigatedToEventArgs>? navigatedToActionWithArgs) where T : IPage
         {
             page.NavigatedToActionWithArgs = navigatedToActionWithArgs;
             return page;
         }
-        public static T OnNavigatingFrom<T>(this T page, Action navigatingFromAction) where T : IPage
+        public static T OnNavigatingFrom<T>(this T page, Action? navigatingFromAction) where T : IPage
         {
             page.NavigatingFromAction = navigatingFromAction;
             return page;
         }
 
-        public static T OnNavigatingFrom<T>(this T page, Action<object?, NavigatingFromEventArgs> navigatingFromActionWithArgs) where T : IPage
+        public static T OnNavigatingFrom<T>(this T page, Action<object?, NavigatingFromEventArgs>? navigatingFromActionWithArgs) where T : IPage
         {
             page.NavigatingFromActionWithArgs = navigatingFromActionWithArgs;
             return page;
         }
-        public static T OnNavigatedFrom<T>(this T page, Action navigatedFromAction) where T : IPage
+        public static T OnNavigatedFrom<T>(this T page, Action? navigatedFromAction) where T : IPage
         {
             page.NavigatedFromAction = navigatedFromAction;
             return page;
         }
 
-        public static T OnNavigatedFrom<T>(this T page, Action<object?, NavigatedFromEventArgs> navigatedFromActionWithArgs) where T : IPage
+        public static T OnNavigatedFrom<T>(this T page, Action<object?, NavigatedFromEventArgs>? navigatedFromActionWithArgs) where T : IPage
         {
             page.NavigatedFromActionWithArgs = navigatedFromActionWithArgs;
             return page;
         }
-        public static T OnLayoutChanged<T>(this T page, Action layoutChangedAction) where T : IPage
+        public static T OnLayoutChanged<T>(this T page, Action? layoutChangedAction) where T : IPage
         {
             page.LayoutChangedAction = layoutChangedAction;
             return page;
         }
 
-        public static T OnLayoutChanged<T>(this T page, Action<object?, EventArgs> layoutChangedActionWithArgs) where T : IPage
+        public static T OnLayoutChanged<T>(this T page, Action<object?, EventArgs>? layoutChangedActionWithArgs) where T : IPage
         {
             page.LayoutChangedActionWithArgs = layoutChangedActionWithArgs;
             return page;
         }
-        public static T OnAppearing<T>(this T page, Action appearingAction) where T : IPage
+        public static T OnAppearing<T>(this T page, Action? appearingAction) where T : IPage
         {
             page.AppearingAction = appearingAction;
             return page;
         }
 
-        public static T OnAppearing<T>(this T page, Action<object?, EventArgs> appearingActionWithArgs) where T : IPage
+        public static T OnAppearing<T>(this T page, Action<object?, EventArgs>? appearingActionWithArgs) where T : IPage
         {
             page.AppearingActionWithArgs = appearingActionWithArgs;
             return page;
         }
-        public static T OnDisappearing<T>(this T page, Action disappearingAction) where T : IPage
+        public static T OnDisappearing<T>(this T page, Action? disappearingAction) where T : IPage
         {
             page.DisappearingAction = disappearingAction;
             return page;
         }
 
-        public static T OnDisappearing<T>(this T page, Action<object?, EventArgs> disappearingActionWithArgs) where T : IPage
+        public static T OnDisappearing<T>(this T page, Action<object?, EventArgs>? disappearingActionWithArgs) where T : IPage
         {
             page.DisappearingActionWithArgs = disappearingActionWithArgs;
             return page;

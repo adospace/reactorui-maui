@@ -284,13 +284,13 @@ namespace MauiReactor
 
 
 
-        public static T OnCompleted<T>(this T editor, Action completedAction) where T : IEditor
+        public static T OnCompleted<T>(this T editor, Action? completedAction) where T : IEditor
         {
             editor.CompletedAction = completedAction;
             return editor;
         }
 
-        public static T OnCompleted<T>(this T editor, Action<object?, EventArgs> completedActionWithArgs) where T : IEditor
+        public static T OnCompleted<T>(this T editor, Action<object?, EventArgs>? completedActionWithArgs) where T : IEditor
         {
             editor.CompletedActionWithArgs = completedActionWithArgs;
             return editor;

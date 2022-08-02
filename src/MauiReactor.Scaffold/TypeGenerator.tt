@@ -336,13 +336,13 @@ namespace <#= Namespace() #>
         <# foreach (var ev in Events) {
         var genericArgs = ev.EventHandlerType.GetGenericArguments();
         #>
-        public static T On<#= ev.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, Action <#= ev.Name.ToLocalVariableName() #>Action) where T : <#= InterfaceName() #>
+        public static T On<#= ev.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, Action? <#= ev.Name.ToLocalVariableName() #>Action) where T : <#= InterfaceName() #>
         {
             <#= TypeName().ToLocalVariableName() #>.<#= ev.Name #>Action = <#= ev.Name.ToLocalVariableName() #>Action;
             return <#= TypeName().ToLocalVariableName() #>;
         }
 
-        public static T On<#= ev.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, Action<object?, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>> <#= ev.Name.ToLocalVariableName() #>ActionWithArgs) where T : <#= InterfaceName() #>
+        public static T On<#= ev.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, Action<object?, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>>? <#= ev.Name.ToLocalVariableName() #>ActionWithArgs) where T : <#= InterfaceName() #>
         {
             <#= TypeName().ToLocalVariableName() #>.<#= ev.Name #>ActionWithArgs = <#= ev.Name.ToLocalVariableName() #>ActionWithArgs;
             return <#= TypeName().ToLocalVariableName() #>;

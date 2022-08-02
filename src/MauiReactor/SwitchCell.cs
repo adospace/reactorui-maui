@@ -155,13 +155,13 @@ namespace MauiReactor
 
 
 
-        public static T OnOnChanged<T>(this T switchCell, Action onChangedAction) where T : ISwitchCell
+        public static T OnOnChanged<T>(this T switchCell, Action? onChangedAction) where T : ISwitchCell
         {
             switchCell.OnChangedAction = onChangedAction;
             return switchCell;
         }
 
-        public static T OnOnChanged<T>(this T switchCell, Action<object?, ToggledEventArgs> onChangedActionWithArgs) where T : ISwitchCell
+        public static T OnOnChanged<T>(this T switchCell, Action<object?, ToggledEventArgs>? onChangedActionWithArgs) where T : ISwitchCell
         {
             switchCell.OnChangedActionWithArgs = onChangedActionWithArgs;
             return switchCell;

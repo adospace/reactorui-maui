@@ -310,35 +310,35 @@ namespace MauiReactor
 
 
 
-        public static T OnClicked<T>(this T imageButton, Action clickedAction) where T : IImageButton
+        public static T OnClicked<T>(this T imageButton, Action? clickedAction) where T : IImageButton
         {
             imageButton.ClickedAction = clickedAction;
             return imageButton;
         }
 
-        public static T OnClicked<T>(this T imageButton, Action<object?, EventArgs> clickedActionWithArgs) where T : IImageButton
+        public static T OnClicked<T>(this T imageButton, Action<object?, EventArgs>? clickedActionWithArgs) where T : IImageButton
         {
             imageButton.ClickedActionWithArgs = clickedActionWithArgs;
             return imageButton;
         }
-        public static T OnPressed<T>(this T imageButton, Action pressedAction) where T : IImageButton
+        public static T OnPressed<T>(this T imageButton, Action? pressedAction) where T : IImageButton
         {
             imageButton.PressedAction = pressedAction;
             return imageButton;
         }
 
-        public static T OnPressed<T>(this T imageButton, Action<object?, EventArgs> pressedActionWithArgs) where T : IImageButton
+        public static T OnPressed<T>(this T imageButton, Action<object?, EventArgs>? pressedActionWithArgs) where T : IImageButton
         {
             imageButton.PressedActionWithArgs = pressedActionWithArgs;
             return imageButton;
         }
-        public static T OnReleased<T>(this T imageButton, Action releasedAction) where T : IImageButton
+        public static T OnReleased<T>(this T imageButton, Action? releasedAction) where T : IImageButton
         {
             imageButton.ReleasedAction = releasedAction;
             return imageButton;
         }
 
-        public static T OnReleased<T>(this T imageButton, Action<object?, EventArgs> releasedActionWithArgs) where T : IImageButton
+        public static T OnReleased<T>(this T imageButton, Action<object?, EventArgs>? releasedActionWithArgs) where T : IImageButton
         {
             imageButton.ReleasedActionWithArgs = releasedActionWithArgs;
             return imageButton;

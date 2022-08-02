@@ -211,79 +211,79 @@ namespace MauiReactor
 
 
 
-        public static T OnStartHoverInteraction<T>(this T graphicsView, Action startHoverInteractionAction) where T : IGraphicsView
+        public static T OnStartHoverInteraction<T>(this T graphicsView, Action? startHoverInteractionAction) where T : IGraphicsView
         {
             graphicsView.StartHoverInteractionAction = startHoverInteractionAction;
             return graphicsView;
         }
 
-        public static T OnStartHoverInteraction<T>(this T graphicsView, Action<object?, TouchEventArgs> startHoverInteractionActionWithArgs) where T : IGraphicsView
+        public static T OnStartHoverInteraction<T>(this T graphicsView, Action<object?, TouchEventArgs>? startHoverInteractionActionWithArgs) where T : IGraphicsView
         {
             graphicsView.StartHoverInteractionActionWithArgs = startHoverInteractionActionWithArgs;
             return graphicsView;
         }
-        public static T OnMoveHoverInteraction<T>(this T graphicsView, Action moveHoverInteractionAction) where T : IGraphicsView
+        public static T OnMoveHoverInteraction<T>(this T graphicsView, Action? moveHoverInteractionAction) where T : IGraphicsView
         {
             graphicsView.MoveHoverInteractionAction = moveHoverInteractionAction;
             return graphicsView;
         }
 
-        public static T OnMoveHoverInteraction<T>(this T graphicsView, Action<object?, TouchEventArgs> moveHoverInteractionActionWithArgs) where T : IGraphicsView
+        public static T OnMoveHoverInteraction<T>(this T graphicsView, Action<object?, TouchEventArgs>? moveHoverInteractionActionWithArgs) where T : IGraphicsView
         {
             graphicsView.MoveHoverInteractionActionWithArgs = moveHoverInteractionActionWithArgs;
             return graphicsView;
         }
-        public static T OnEndHoverInteraction<T>(this T graphicsView, Action endHoverInteractionAction) where T : IGraphicsView
+        public static T OnEndHoverInteraction<T>(this T graphicsView, Action? endHoverInteractionAction) where T : IGraphicsView
         {
             graphicsView.EndHoverInteractionAction = endHoverInteractionAction;
             return graphicsView;
         }
 
-        public static T OnEndHoverInteraction<T>(this T graphicsView, Action<object?, EventArgs> endHoverInteractionActionWithArgs) where T : IGraphicsView
+        public static T OnEndHoverInteraction<T>(this T graphicsView, Action<object?, EventArgs>? endHoverInteractionActionWithArgs) where T : IGraphicsView
         {
             graphicsView.EndHoverInteractionActionWithArgs = endHoverInteractionActionWithArgs;
             return graphicsView;
         }
-        public static T OnStartInteraction<T>(this T graphicsView, Action startInteractionAction) where T : IGraphicsView
+        public static T OnStartInteraction<T>(this T graphicsView, Action? startInteractionAction) where T : IGraphicsView
         {
             graphicsView.StartInteractionAction = startInteractionAction;
             return graphicsView;
         }
 
-        public static T OnStartInteraction<T>(this T graphicsView, Action<object?, TouchEventArgs> startInteractionActionWithArgs) where T : IGraphicsView
+        public static T OnStartInteraction<T>(this T graphicsView, Action<object?, TouchEventArgs>? startInteractionActionWithArgs) where T : IGraphicsView
         {
             graphicsView.StartInteractionActionWithArgs = startInteractionActionWithArgs;
             return graphicsView;
         }
-        public static T OnDragInteraction<T>(this T graphicsView, Action dragInteractionAction) where T : IGraphicsView
+        public static T OnDragInteraction<T>(this T graphicsView, Action? dragInteractionAction) where T : IGraphicsView
         {
             graphicsView.DragInteractionAction = dragInteractionAction;
             return graphicsView;
         }
 
-        public static T OnDragInteraction<T>(this T graphicsView, Action<object?, TouchEventArgs> dragInteractionActionWithArgs) where T : IGraphicsView
+        public static T OnDragInteraction<T>(this T graphicsView, Action<object?, TouchEventArgs>? dragInteractionActionWithArgs) where T : IGraphicsView
         {
             graphicsView.DragInteractionActionWithArgs = dragInteractionActionWithArgs;
             return graphicsView;
         }
-        public static T OnEndInteraction<T>(this T graphicsView, Action endInteractionAction) where T : IGraphicsView
+        public static T OnEndInteraction<T>(this T graphicsView, Action? endInteractionAction) where T : IGraphicsView
         {
             graphicsView.EndInteractionAction = endInteractionAction;
             return graphicsView;
         }
 
-        public static T OnEndInteraction<T>(this T graphicsView, Action<object?, TouchEventArgs> endInteractionActionWithArgs) where T : IGraphicsView
+        public static T OnEndInteraction<T>(this T graphicsView, Action<object?, TouchEventArgs>? endInteractionActionWithArgs) where T : IGraphicsView
         {
             graphicsView.EndInteractionActionWithArgs = endInteractionActionWithArgs;
             return graphicsView;
         }
-        public static T OnCancelInteraction<T>(this T graphicsView, Action cancelInteractionAction) where T : IGraphicsView
+        public static T OnCancelInteraction<T>(this T graphicsView, Action? cancelInteractionAction) where T : IGraphicsView
         {
             graphicsView.CancelInteractionAction = cancelInteractionAction;
             return graphicsView;
         }
 
-        public static T OnCancelInteraction<T>(this T graphicsView, Action<object?, EventArgs> cancelInteractionActionWithArgs) where T : IGraphicsView
+        public static T OnCancelInteraction<T>(this T graphicsView, Action<object?, EventArgs>? cancelInteractionActionWithArgs) where T : IGraphicsView
         {
             graphicsView.CancelInteractionActionWithArgs = cancelInteractionActionWithArgs;
             return graphicsView;

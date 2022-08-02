@@ -138,13 +138,13 @@ namespace MauiReactor
 
 
 
-        public static T OnRefreshing<T>(this T refreshView, Action refreshingAction) where T : IRefreshView
+        public static T OnRefreshing<T>(this T refreshView, Action? refreshingAction) where T : IRefreshView
         {
             refreshView.RefreshingAction = refreshingAction;
             return refreshView;
         }
 
-        public static T OnRefreshing<T>(this T refreshView, Action<object?, EventArgs> refreshingActionWithArgs) where T : IRefreshView
+        public static T OnRefreshing<T>(this T refreshView, Action<object?, EventArgs>? refreshingActionWithArgs) where T : IRefreshView
         {
             refreshView.RefreshingActionWithArgs = refreshingActionWithArgs;
             return refreshView;
