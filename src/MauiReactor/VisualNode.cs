@@ -7,6 +7,10 @@ namespace MauiReactor
     public interface IVisualNode
     {
         void AppendAnimatable<T>(object key, T animation, Action<T> action) where T : RxAnimation;
+
+        Microsoft.Maui.Controls.Page? GetContainerPage();
+
+        IHostElement? GetPageHost();
     }
 
     public static class VisualNodeExtensions
@@ -312,7 +316,7 @@ namespace MauiReactor
         {
         }
 
-        internal IHostElement? GetPageHost()
+        IHostElement? IVisualNode.GetPageHost()
         {
             var current = Parent;
             while (current != null && current is not IHostElement)
@@ -321,11 +325,16 @@ namespace MauiReactor
             return current as IHostElement;
         }
 
+        Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
+        {
+            return ((IVisualNode?)Parent)?.GetContainerPage();
+        }
+
         protected virtual void CommitAnimations()
         {
             if (_animatables.Any(_ => _.Value.IsEnabled.GetValueOrDefault() && !_.Value.Animation.IsCompleted()))
             {
-                var pageHost = GetPageHost();
+                var pageHost = ((IVisualNode)this).GetPageHost();
                 if (pageHost != null)
                 {
                     pageHost.RequestAnimationFrame(this);
@@ -348,6 +357,14 @@ namespace MauiReactor
             return parent.GetParent<T>();
             //return (T?)parent;
         }
+
+        //internal virtual Microsoft.Maui.Controls.Page? ContainerPage
+        //{ 
+        //    get
+        //    {
+        //        return null;
+        //    }
+        //}
 
         protected void Invalidate()
         {
@@ -743,5 +760,14 @@ namespace MauiReactor
             base.OnAnimate();
         }
 
+        Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
+        {
+            if (_nativeControl is Microsoft.Maui.Controls.Page containerPage)
+            {
+                return containerPage;
+            }
+
+            return ((IVisualNode?)Parent)?.GetContainerPage();
+        }
     }
 }

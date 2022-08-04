@@ -67,7 +67,8 @@ namespace MauiReactor
             }
             else
             {
-                NativeControl.Detail = null;
+                //Detail cannot be set to null once a value is set. (Parameter 'value')
+                //NativeControl.Detail = null;
             }
 
             base.OnRemoveChild(widget, childControl);

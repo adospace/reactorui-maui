@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MauiReactor
 {
-    internal class PageHost<T> : VisualNode, IHostElement where T : Component, new()
+    internal class PageHost<T> : VisualNode, IVisualNode, IHostElement where T : Component, new()
     {
         private Component? _component;
 
@@ -21,6 +21,12 @@ namespace MauiReactor
         protected PageHost()
         {
         }
+
+        Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
+        {
+            return ContainerPage;
+        }
+
 
         public static Microsoft.Maui.Controls.Page CreatePage()
         {

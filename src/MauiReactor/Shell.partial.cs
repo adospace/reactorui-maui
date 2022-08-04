@@ -48,7 +48,7 @@ namespace MauiReactor
         
         private readonly Dictionary<BindableObject, Microsoft.Maui.Controls.ToolbarItem> _elementToolbarItemMap = new();
 
-        private class ItemTemplateNode : VisualNode, IHostElement
+        private class ItemTemplateNode : VisualNode, IVisualNode//, IHostElement
         {
             private readonly ItemTemplatePresenter? _presenter = null;
             private readonly VisualNode _owner;
@@ -84,7 +84,17 @@ namespace MauiReactor
                 }
             }
 
-            public Microsoft.Maui.Controls.Page? ContainerPage => GetPageHost()?.ContainerPage;
+            Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
+            {
+                return ((IVisualNode)_owner).GetContainerPage();
+            }
+
+            IHostElement? IVisualNode.GetPageHost()
+            {
+                return ((IVisualNode)_owner).GetPageHost();
+            }
+
+            //public Microsoft.Maui.Controls.Page? ContainerPage => GetPageHost()?.ContainerPage;
 
             protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
             {
@@ -113,32 +123,32 @@ namespace MauiReactor
                 base.OnLayoutCycleRequested();
             }
 
-            public IHostElement Run()
-            {
-                var ownerPageHost = GetPageHost();
-                if (ownerPageHost == null)
-                {
-                    throw new NotSupportedException();
-                }
+            //public IHostElement Run()
+            //{
+            //    var ownerPageHost = GetPageHost();
+            //    if (ownerPageHost == null)
+            //    {
+            //        throw new NotSupportedException();
+            //    }
 
-                return ownerPageHost.Run();
-            }
+            //    return ownerPageHost.Run();
+            //}
 
-            public void Stop()
-            {
-                var ownerPageHost = GetPageHost();
-                if (ownerPageHost == null)
-                {
-                    throw new NotSupportedException();
-                }
+            //public void Stop()
+            //{
+            //    var ownerPageHost = GetPageHost();
+            //    if (ownerPageHost == null)
+            //    {
+            //        throw new NotSupportedException();
+            //    }
 
-                ownerPageHost.Stop();
-            }
+            //    ownerPageHost.Stop();
+            //}
 
-            public void RequestAnimationFrame(VisualNode visualNode)
-            {
-                throw new NotImplementedException();
-            }
+            //public void RequestAnimationFrame(VisualNode visualNode)
+            //{
+            //    throw new NotImplementedException();
+            //}
         }
 
         private class ItemTemplatePresenter : Microsoft.Maui.Controls.ContentView

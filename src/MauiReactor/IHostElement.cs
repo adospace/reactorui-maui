@@ -6,7 +6,7 @@
 
         void Stop();
 
-        Microsoft.Maui.Controls.Page? ContainerPage { get; }
+        //Microsoft.Maui.Controls.Page? ContainerPage { get; }
 
         void RequestAnimationFrame(VisualNode visualNode);
     }

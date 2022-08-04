@@ -49,13 +49,19 @@ namespace MauiReactor
         protected new IReadOnlyList<VisualNode> Children()
             => _children;
 
-        protected Microsoft.Maui.Controls.Page? ContainerPage
-        {
-            get
-            {
-                return GetPageHost()?.ContainerPage;
-            }
-        }
+        //protected new Microsoft.Maui.Controls.Page? ContainerPage
+        //{
+        //    get
+        //    {
+        //        //if (Parent == null)
+        //        //{
+        //        //    return null;
+        //        //}
+
+        //        //return Parent.ContainerPage;
+        //        return GetPageHost()?.ContainerPage;
+        //    }
+        //}
 
         protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
         {
@@ -162,8 +168,18 @@ namespace MauiReactor
         protected virtual void OnPropsChanged()
         { }
 
-        public static INavigation? Navigation
-            => ReactorApplicationHost.Instance.Navigation;
+        public INavigation? Navigation
+            => ContainerPage?.Navigation;
+
+        private Microsoft.Maui.Controls.Page? _containerPage;
+        public Microsoft.Maui.Controls.Page? ContainerPage
+        {
+            get
+            {
+                _containerPage ??= ((IVisualNode)this).GetContainerPage();
+                return _containerPage;
+            }
+        }
 
         public static IServiceProvider Services
             => ReactorApplicationHost.Instance.Services;
