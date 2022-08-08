@@ -17,7 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{FF33
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlidingPuzzle", "..\samples\SlidingPuzzle\SlidingPuzzle.csproj", "{369BD6EE-E28D-40A8-BB1C-439C6DACDC61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiReactor.TemplatePack", "MauiReactor.TemplatePack\MauiReactor.TemplatePack.csproj", "{026C69FE-124E-4059-8E63-5DABE2F338C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.TemplatePack", "MauiReactor.TemplatePack\MauiReactor.TemplatePack.csproj", "{026C69FE-124E-4059-8E63-5DABE2F338C4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.Calendar", "..\samples\MauiReactor.Calendar\MauiReactor.Calendar.csproj", "{DFBB99F9-B208-45A0-93E0-E503D514359D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,12 @@ Global
 		{026C69FE-124E-4059-8E63-5DABE2F338C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{026C69FE-124E-4059-8E63-5DABE2F338C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{026C69FE-124E-4059-8E63-5DABE2F338C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFBB99F9-B208-45A0-93E0-E503D514359D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFBB99F9-B208-45A0-93E0-E503D514359D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFBB99F9-B208-45A0-93E0-E503D514359D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{DFBB99F9-B208-45A0-93E0-E503D514359D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFBB99F9-B208-45A0-93E0-E503D514359D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFBB99F9-B208-45A0-93E0-E503D514359D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +75,7 @@ Global
 		{67CE0554-D905-4F82-BCD2-A4BD497D5F65} = {FF33D69E-8D8E-4604-9800-EEF2EE776B35}
 		{4E6CC507-A889-4B36-AB7B-156B3CCE54BE} = {FF33D69E-8D8E-4604-9800-EEF2EE776B35}
 		{369BD6EE-E28D-40A8-BB1C-439C6DACDC61} = {FF33D69E-8D8E-4604-9800-EEF2EE776B35}
+		{DFBB99F9-B208-45A0-93E0-E503D514359D} = {FF33D69E-8D8E-4604-9800-EEF2EE776B35}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {52AD377B-6F53-46B0-A934-D9607EF7A143}
