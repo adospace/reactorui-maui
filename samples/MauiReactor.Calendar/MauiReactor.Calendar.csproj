@@ -8,6 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>MauiReactor.Calendar</RootNamespace>
     <UseMaui>true</UseMaui>
+    <Nullable>enable</Nullable>
     <SingleProject>true</SingleProject>
     <!-- Display name -->
     <ApplicationTitle>MauiReactor.Calendar</ApplicationTitle>
