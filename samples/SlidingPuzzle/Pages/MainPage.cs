@@ -56,6 +56,12 @@ namespace SlidingPuzzle.Pages
         {
             return new HorizontalStackLayout
             {
+
+                //NOTE: For now Timer must be the last child
+                new Timer(100, () => SetState(s => s.Elapsed = (DateTime.Now - State.Started), invalidateComponent: false))
+                    .DueTime(TimeSpan.Zero)
+                    .IsEnabled(()=>State.IsStarted),
+
                 new Label()
                     .Text(() => State.Elapsed.ToString("hh\\:mm\\:ss"))
                     .FontSize(28)
@@ -79,11 +85,6 @@ namespace SlidingPuzzle.Pages
                     .Source("stop_pause_svgrepo_com.png")
                     .OnClicked(()=>SetState(s => s.IsStarted = false, invalidateComponent: false))
                     .IsVisible(()=>State.IsStarted),
-
-                //NOTE: For now Timer must be the last child
-                new Timer(100, () => SetState(s => s.Elapsed = (DateTime.Now - State.Started), invalidateComponent: false))
-                    .DueTime(TimeSpan.Zero)
-                    .IsEnabled(()=>State.IsStarted),
             }
             .Spacing(20)
             .HCenter()

@@ -89,7 +89,7 @@
             //System.Diagnostics.Debug.Assert(previousAnimation != this);
             //System.Diagnostics.Debug.WriteLine($"Migrate StartValue from {StartValue} to {((RxDoubleAnimation)previousAnimation).TargetValue} (TargetValue={TargetValue})");
             var previousDoubleAnimation = ((RxSimpleColorAnimation)previousAnimation);
-            StartColor = previousDoubleAnimation.TargetColor;
+            StartColor = previousDoubleAnimation.CurrentValue();
 
             if (!previousDoubleAnimation.IsCompleted())
             {

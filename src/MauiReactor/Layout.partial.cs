@@ -20,7 +20,10 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
 
-            NativeControl.Children.Remove((Microsoft.Maui.IView)childControl);
+            if (childControl is Microsoft.Maui.IView control)
+            {
+                NativeControl.Children.Remove(control);
+            }
 
             base.OnRemoveChild(widget, childControl);
         }

@@ -81,7 +81,7 @@
             //    StartTime -= (long)(duration - duration * previousDoubleAnimation.Completion());
             //    System.Diagnostics.Debug.Assert(StartTime >= 0);
             //}
-            StartPoint = previousRectAnimation.TargetPoint;
+            StartPoint = previousRectAnimation.CurrentValue();
 
             if (previousRectAnimation?.IsCompleted() == false)
             {
