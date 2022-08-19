@@ -31,6 +31,7 @@ namespace MauiReactor
         Action? ITimer.TickAction { get; set; }
         Action<EventArgs>? ITimer.TickActionWithArgs { get; set; }
 
+        protected override bool SupportChildIndexing => false;
         protected override void OnUpdate()
         {
             Validate.EnsureNotNull(NativeControl);

@@ -90,8 +90,29 @@ namespace MauiReactor
         {
             //System.Diagnostics.Debug.WriteLine($"{this}->Created()");
         }
+        private int _childIndex;
+        public int ChildIndex
+        {
+            get
+            {
+                if (!SupportChildIndexing)
+                {
+                    throw new InvalidOperationException("Node of type {} doesn't support child index property");
+                }
 
-        public int ChildIndex { get; private set; }
+                return _childIndex;
+            }
+            set
+            {
+                if (!SupportChildIndexing)
+                {
+                    throw new InvalidOperationException("Node of type {} doesn't support child index property");
+                }
+
+                _childIndex = value;
+            }
+        }
+        protected virtual bool SupportChildIndexing { get; } = true;
         public object? Key { get; set; }
         public Action<object?, PropertyChangedEventArgs>? PropertyChangedAction { get; set; }
         public Action<object?, System.ComponentModel.PropertyChangingEventArgs>? PropertyChangingAction { get; set; }
@@ -102,10 +123,15 @@ namespace MauiReactor
             {
                 if (_children == null)
                 {
-                    _children = new List<VisualNode>(RenderChildren().Where(_ => _ != null)!);
+                    _children = RenderChildren().Where(_ => _ != null).ToList()!;
+                    var childIndex = 0;
                     for (int i = 0; i < _children.Count; i++)
                     {
-                        _children[i].ChildIndex = i;
+                        if (_children[i].SupportChildIndexing)
+                        {
+                            _children[i].ChildIndex = childIndex;
+                            childIndex++;
+                        }
                         _children[i].Parent = this;
                     }
                 }

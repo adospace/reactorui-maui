@@ -57,7 +57,6 @@ namespace SlidingPuzzle.Pages
             return new HorizontalStackLayout
             {
 
-                //NOTE: For now Timer must be the last child
                 new Timer(100, () => SetState(s => s.Elapsed = (DateTime.Now - State.Started), invalidateComponent: false))
                     .DueTime(TimeSpan.Zero)
                     .IsEnabled(()=>State.IsStarted),
