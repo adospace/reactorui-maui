@@ -77,8 +77,8 @@ namespace MauiReactor
     internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Component, new()
     {
         private Component? _rootComponent;
-        private bool _sleeping = true;
-        private IDispatcherTimer? _animationTimer;
+        private bool _sleeping = false;
+        private bool _started = false;
         private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
 
         internal ReactorApplicationHost(ReactorApplication<T> application, bool enableHotReload)
@@ -102,12 +102,22 @@ namespace MauiReactor
             //_application.MainPage = null;
         }
 
+        public void Pause()
+        {
+            _sleeping = true;
+        }
+
+        public void Resume()
+        {
+            _sleeping = false;
+        }
+
         public override IHostElement Run()
         {
-            if (_sleeping)
+            if (!_started)
             {
+                _started = true;
                 _rootComponent ??= new T();
-                _sleeping = false;
                 OnLayout();
                 ComponentLoader.Run();
             }
@@ -141,18 +151,17 @@ namespace MauiReactor
 
         public override void Stop()
         {
-            if (!_sleeping)
+            if (_started)
             {
-                _sleeping = true;
+                _started = false;
                 ComponentLoader.Stop();
             }
         }
 
         protected internal override void OnLayoutCycleRequested()
         {
-            if (!_sleeping)
+            if (_started && !_sleeping)
             {
-                //Device.BeginInvokeOnMainThread(OnLayout);
                 ContainerPage?.Dispatcher.Dispatch(OnLayout);
             }
             base.OnLayoutCycleRequested();
@@ -183,44 +192,22 @@ namespace MauiReactor
 
         private void SetupAnimationTimer()
         {
-            if (_listOfVisualsToAnimate.Count > 0 && _animationTimer == null)
+            if (_listOfVisualsToAnimate.Count > 0 && Application.Current != null)
             {
-                //Device.StartTimer(TimeSpan.FromMilliseconds(16), () =>
-                _animationTimer = ContainerPage?.Dispatcher.CreateTimer();
-                if (_animationTimer == null)
-                {
-                    return;
-                }
-
-                _animationTimer.Interval = TimeSpan.FromMilliseconds(1);
-                _animationTimer.IsRepeating = true;
-                //var now = DateTime.Now;
-
-
-                _animationTimer.Tick += _animationTimer_Tick;
-
-                _animationTimer.Start();
+                Application.Current.Dispatcher.Dispatch(AnimationCallback);
             }
         }
 
-        private void _animationTimer_Tick(object? sender, EventArgs e)
+        private void AnimationCallback()
         {
-            if (_sleeping)
+            if (!_started || _sleeping)
             {
-                if (_animationTimer != null)
-                {
-                    _animationTimer.Tick -= _animationTimer_Tick;
-                    _animationTimer.Stop();
-                }
                 return;
             }
 
-            if (_animationTimer != null && !AnimateVisuals())
-            {                
-                _animationTimer.Tick -= _animationTimer_Tick;
-                _animationTimer.Stop();
-                _animationTimer = null;
-                //System.Diagnostics.Debug.WriteLine($"Animate() {DateTime.Now - now} elapsed");
+            if (Application.Current != null && AnimateVisuals())
+            {
+                Application.Current.Dispatcher.Dispatch(AnimationCallback);
             }
         }
 
@@ -290,9 +277,15 @@ namespace MauiReactor
             base.OnStart();
         }
 
+        protected override void OnResume()
+        {
+            _host?.Resume();
+            base.OnResume();
+        }
+
         protected override void OnSleep()
         {
-            _host?.Stop();
+            _host?.Pause();
             base.OnSleep();
         }
         protected override void CleanUp()

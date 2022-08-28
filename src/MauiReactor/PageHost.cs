@@ -14,7 +14,7 @@ namespace MauiReactor
 
         public Microsoft.Maui.Controls.Page? ContainerPage { get; private set; }
 
-        private IDispatcherTimer? _animationTimer;
+        //private IDispatcherTimer? _animationTimer;
 
         private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
 
@@ -165,32 +165,21 @@ namespace MauiReactor
 
         private void SetupAnimationTimer()
         {
-            if (_listOfVisualsToAnimate.Count > 0 && _animationTimer == null)
+            if (_listOfVisualsToAnimate.Count > 0 && Application.Current != null)
             {
-                //Device.StartTimer(TimeSpan.FromMilliseconds(16), () =>
-                _animationTimer = ContainerPage?.Dispatcher.CreateTimer();
-                if (_animationTimer == null)
-                {
-                    return;
-                }
-
-                _animationTimer.Interval = TimeSpan.FromMilliseconds(1);
-                _animationTimer.IsRepeating = true;
-
-                _animationTimer.Tick += _animationTimer_Tick;
-
-                _animationTimer.Start();
+                Application.Current.Dispatcher.Dispatch(AnimationCallback);
             }
         }
-
-        private void _animationTimer_Tick(object? sender, EventArgs e)
+        private void AnimationCallback()
         {
-            if (_animationTimer != null && !AnimateVisuals())
+            if (_sleeping)
             {
-                _animationTimer.Tick -= _animationTimer_Tick;
-                _animationTimer.Stop();
-                _animationTimer = null;
-                //System.Diagnostics.Debug.WriteLine($"Animate() {DateTime.Now - now} elapsed");
+                return;
+            }
+
+            if (Application.Current != null && AnimateVisuals())
+            {
+                Application.Current.Dispatcher.Dispatch(AnimationCallback);
             }
         }
 
