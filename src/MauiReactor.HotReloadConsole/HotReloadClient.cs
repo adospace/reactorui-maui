@@ -45,15 +45,6 @@ namespace MauiReactor.HotReloadConsole
 
         private readonly BufferBlock<FileChangeNotification> _fileChangedQueue = new();
 
-        //private MSBuildWorkspace? _workspace;
-        //private Project? _project;
-        //private Compilation? _projectCompilation;
-
-        //static HotReloadClient()
-        //{
-        //    MSBuildLocator.RegisterDefaults();
-        //}
-
         protected HotReloadClient(Options options)
         {
             _options = options;
@@ -235,42 +226,7 @@ namespace MauiReactor.HotReloadConsole
             watcher.Deleted -= deletedHandler;
         }
 
-        //private async Task SetupProjectCompilation(CancellationToken cancellationToken)
-        //{
-        //    Console.Write($"Setting up build pipeline for {_projFileName} project...");
-
-        //    var properties = new Dictionary<string, string>
-        //    {
-        //        { "Configuration", "Debug" },
-        //        { "CheckForSystemRuntimeDependency", "true" },
-        //        { "DesignTimeBuild", "true" },
-        //        { "BuildingInsideVisualStudio", "true" }
-        //    };
-
-        //    _workspace ??= MSBuildWorkspace.Create(properties);
-
-        //    _workspace.CloseSolution();
-
-        //    _project = await _workspace.OpenProjectAsync(Path.Combine(_workingDirectory, $"{_projFileName}.csproj"), cancellationToken: cancellationToken);
-        //    _projectCompilation = await _project.GetCompilationAsync(cancellationToken);
-
-        //    if (_projectCompilation == null)
-        //    {
-        //        throw new InvalidOperationException();
-        //    }
-
-        //    _parsedFiles.Clear();
-
-        //    foreach (var syntaxTree in _projectCompilation.SyntaxTrees)
-        //    {
-        //        _parsedFiles[syntaxTree.FilePath] = new ParsedFileInfo(syntaxTree.FilePath, syntaxTree, File.GetLastWriteTime(syntaxTree.FilePath));
-        //    }
-
-        //    Console.WriteLine("done.");
-        //}
-
         protected abstract Task<bool> HandleFileChangeNotifications(IEnumerable<FileChangeNotification> notifications, CancellationToken cancellationToken);
-
 
         protected static async Task<string> ReadAllTextFileAsync(string filePath, CancellationToken cancellationToken)
         {
@@ -345,6 +301,18 @@ namespace MauiReactor.HotReloadConsole
 
         private static bool ExecutePortForwardCommmand()
         {
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                return ExecuteMacPortForwardCommmand();
+            }
+            else
+            {
+                return ExecuteWindowsPortForwardCommmand();
+            }
+        }
+
+        private static bool ExecuteWindowsPortForwardCommmand()
+        {
             var adbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
                 "Android", "android-sdk", "platform-tools", "adb.exe");
 
@@ -378,5 +346,38 @@ namespace MauiReactor.HotReloadConsole
             return true;
         }
 
+        
+        private static bool ExecuteMacPortForwardCommmand()
+        {
+            var adbCommandLine = "adb forward tcp:45820 tcp:45820";
+
+            var process = new System.Diagnostics.Process();
+
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardInput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.Arguments = string.Format("-c \"{0}\"", adbCommandLine);
+            process.StartInfo.FileName = "/bin/bash";
+
+            try
+            {
+                process.Start();
+
+                var adb_output = process.StandardOutput.ReadToEnd();
+
+                if (adb_output.Length > 0 && adb_output != "45820" + Environment.NewLine)
+                    throw new InvalidOperationException($"Unable to forward tcp port from emulator, is emulator running? (adb tool returned '{adb_output}')");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{process.StandardOutput.ReadToEnd()}{Environment.NewLine}{process.StandardError.ReadToEnd()}{Environment.NewLine}{ex}");
+                return false;
+            }
+
+            return true;
+        }
+        
     }
 }
