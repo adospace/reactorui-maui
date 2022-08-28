@@ -38,6 +38,10 @@ namespace MauiReactor.TestApp
                 {
                     new Pages.ImagePage()
                 },
+                new FlyoutItem("AnimatedCollectionView")
+                {
+                    new Pages.AnimatedCollectionViewPage()
+                },
 
             }
             .ItemTemplate(RenderItemTemplate);

@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace MauiReactor
 {
-    internal abstract class ReactorApplicationHost : VisualNode, IHostElement
+    internal abstract class ReactorApplicationHost : VisualNode, IHostElement, IVisualNode
     { 
         protected readonly ReactorApplication _application;
 
@@ -60,6 +60,17 @@ namespace MauiReactor
         public IServiceProvider Services => _application.Services;
 
         public Microsoft.Maui.Controls.Page? ContainerPage => _application?.MainPage;
+
+        IHostElement? IVisualNode.GetPageHost()
+        {
+            return this;
+        }
+
+        Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
+        {
+            return ContainerPage;
+        }
+
 
     }
 
@@ -194,6 +205,16 @@ namespace MauiReactor
 
         private void _animationTimer_Tick(object? sender, EventArgs e)
         {
+            if (_sleeping)
+            {
+                if (_animationTimer != null)
+                {
+                    _animationTimer.Tick -= _animationTimer_Tick;
+                    _animationTimer.Stop();
+                }
+                return;
+            }
+
             if (_animationTimer != null && !AnimateVisuals())
             {                
                 _animationTimer.Tick -= _animationTimer_Tick;

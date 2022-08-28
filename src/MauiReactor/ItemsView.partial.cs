@@ -9,6 +9,8 @@ namespace MauiReactor
 
         Func<object, VisualNode>? ItemTemplate { get; set; }
 
+        Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>? ItemTemplateWithNativeView { get; set; }
+
         VisualStateGroupList ItemVisualStateGroups { get; set; }  
     }
 
@@ -19,41 +21,26 @@ namespace MauiReactor
 
         Func<object, VisualNode>? IItemsView.ItemTemplate { get; set; }
 
+        Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>? IItemsView.ItemTemplateWithNativeView { get; set; }
+
         public VisualStateGroupList ItemVisualStateGroups { get; set; } = new VisualStateGroupList();
 
         private class ItemTemplateNode : VisualNode, IVisualNode//, IHostElement
         {
-            private readonly ItemTemplatePresenter? _presenter = null;
-            private readonly VisualNode _owner;
+            private readonly ItemTemplatePresenter _presenter;
+            //private readonly VisualNode _owner;
 
-            public ItemTemplateNode(VisualNode root, ItemTemplatePresenter presenter, VisualNode owner)
+            public ItemTemplateNode(VisualNode root, ItemTemplatePresenter presenter)
             {
                 _root = root;
                 _presenter = presenter;
-                _owner = owner;
+                //_owner = owner;
+                //Parent = owner;
 
-                Invalidate();
+                //Invalidate();
             }
 
             private VisualNode _root;
-
-            //private IHostElement GetPageHost()
-            //{
-            //    var current = _owner;
-            //    while (current != null && current is not IHostElement)
-            //        current = current.Parent;
-
-            //    return Validate.EnsureNotNull(current as IHostElement);
-            //}
-            Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
-            {
-                return ((IVisualNode)_owner).GetContainerPage();
-            }
-
-            IHostElement? IVisualNode.GetPageHost()
-            {
-                return ((IVisualNode)_owner).GetPageHost();
-            }
 
             public VisualNode Root
             {
@@ -72,7 +59,11 @@ namespace MauiReactor
                 }
             }
 
-            //public Microsoft.Maui.Controls.Page? ContainerPage => GetPageHost()?.ContainerPage;
+            internal override VisualNode? Parent
+            {
+                get => _presenter.Template.Owner;
+                set => throw new InvalidOperationException();
+            }
 
             protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
             {
@@ -100,45 +91,19 @@ namespace MauiReactor
                 Layout();
                 base.OnLayoutCycleRequested();
             }
-
-            //public IHostElement Run()
-            //{
-            //    var ownerPageHost = GetPageHost();
-            //    if (ownerPageHost == null)
-            //    {
-            //        throw new NotSupportedException();
-            //    }
-
-            //    return ownerPageHost.Run();
-            //}
-
-            //public void Stop()
-            //{
-            //    var ownerPageHost = GetPageHost();
-            //    if (ownerPageHost == null)
-            //    {
-            //        throw new NotSupportedException();
-            //    }
-
-            //    ownerPageHost.Stop();
-            //}
-
-            //public void RequestAnimationFrame(VisualNode visualNode)
-            //{
-            //    throw new NotImplementedException();
-            //}
         }
 
         private class ItemTemplatePresenter : Microsoft.Maui.Controls.ContentView
         {
             private ItemTemplateNode? _itemTemplateNode;
-            private readonly CustomDataTemplate _template;
 
             public ItemTemplatePresenter(CustomDataTemplate template)
             {
-                _template = template;
+                Template = template;
                 VisualStateManager.SetVisualStateGroups(this, template.Owner.ItemVisualStateGroups);
             }
+
+            public CustomDataTemplate Template { get; }
 
             protected override void OnBindingContextChanged()
             {
@@ -149,18 +114,20 @@ namespace MauiReactor
                     if (item == null)
                         break;
 
-                    VisualNode? newRoot = _template.GetVisualNodeForItem(item);
+                    var itemsView = (Microsoft.Maui.Controls.ItemsView)Validate.EnsureNotNull(Template.Owner.NativeControl);
+
+                    VisualNode? newRoot = Template.GetVisualNodeForItem(item, itemsView);
                     
                     if (newRoot == null)
                         break;
 
-                    if (_itemTemplateNode != null)
+                    //if (_itemTemplateNode != null)
+                    //{
+                    //    _itemTemplateNode.Root = newRoot;
+                    //}
+                    //else
                     {
-                        _itemTemplateNode.Root = newRoot;
-                    }
-                    else
-                    {
-                        _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template.Owner);
+                        _itemTemplateNode = new ItemTemplateNode(newRoot, this);
                         _itemTemplateNode.Layout();
                     }
 
@@ -184,7 +151,7 @@ namespace MauiReactor
                 DataTemplate = new DataTemplate(() => new ItemTemplatePresenter(this));
             }
 
-            public VisualNode? GetVisualNodeForItem(object item)
+            public VisualNode? GetVisualNodeForItem(object item, Microsoft.Maui.Controls.ItemsView nativeItemsView)
             {
                 IItemsView itemsView = Owner;
 
@@ -227,7 +194,13 @@ namespace MauiReactor
 
         protected override void OnMigrated(VisualNode newNode)
         {
-            ((ItemsView<T>)newNode)._customDataTemplate = _customDataTemplate;
+            var newItemsView = ((ItemsView<T>)newNode);
+            newItemsView._customDataTemplate = _customDataTemplate;
+            if (newItemsView._customDataTemplate != null)
+            {
+                newItemsView._customDataTemplate.Owner = newItemsView;
+            }
+            
 
             base.OnMigrated(newNode);
         }
@@ -245,6 +218,13 @@ namespace MauiReactor
         {
             itemsview.ItemsSource = itemsSource;
             itemsview.ItemTemplate = new Func<object, VisualNode>(item => template((TItem)item));
+            return itemsview;
+        }
+
+        public static T ItemsSource<T, TItem>(this T itemsview, IEnumerable<TItem> itemsSource, Func<TItem, Microsoft.Maui.Controls.ItemsView, VisualNode> template) where T : IItemsView
+        {
+            itemsview.ItemsSource = itemsSource;
+            itemsview.ItemTemplateWithNativeView = new Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>((item, nativeView) => template((TItem)item, nativeView));
             return itemsview;
         }
 

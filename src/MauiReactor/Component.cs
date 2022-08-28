@@ -122,7 +122,7 @@ namespace MauiReactor
                 _parameterContext.MigrateTo(newComponent._parameterContext);
             }
 
-            if (newNode.GetType().FullName == GetType().FullName)
+            if (newNode.GetType().FullName == GetType().FullName && _isMounted)
             {
                 ((Component)newNode)._isMounted = true;
                 ((Component)newNode)._nativeControl = _nativeControl;

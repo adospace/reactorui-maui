@@ -48,7 +48,7 @@ namespace MauiReactor.Scaffold
                 .Where(_ => _.Name != "ItemsSource")
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.IItemsLayout")
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.StructuredItemsView" && (_.Name == "Header" || _.Name == "Footer")))
-                .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.LinearItemsLayout")
+                //.Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.LinearItemsLayout")
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.Shell" && (_.Name == "FlyoutHeader" || _.Name == "FlyoutFooter" || _.Name == "FlyoutContent")))
                 //.Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.WebView" && (_.Name == "Source")))
 

@@ -22,6 +22,7 @@ namespace MauiReactor
         PropertyValue<bool>? IsScrollAnimated { get; set; }
         PropertyValue<object>? CurrentItem { get; set; }
         PropertyValue<int>? Position { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.LinearItemsLayout>? ItemsLayout { get; set; }
 
         Action? CurrentItemChangedAction { get; set; }
         Action<object?, CurrentItemChangedEventArgs>? CurrentItemChangedActionWithArgs { get; set; }
@@ -50,6 +51,7 @@ namespace MauiReactor
         PropertyValue<bool>? ICarouselView.IsScrollAnimated { get; set; }
         PropertyValue<object>? ICarouselView.CurrentItem { get; set; }
         PropertyValue<int>? ICarouselView.Position { get; set; }
+        PropertyValue<Microsoft.Maui.Controls.LinearItemsLayout>? ICarouselView.ItemsLayout { get; set; }
 
         Action? ICarouselView.CurrentItemChangedAction { get; set; }
         Action<object?, CurrentItemChangedEventArgs>? ICarouselView.CurrentItemChangedActionWithArgs { get; set; }
@@ -69,6 +71,7 @@ namespace MauiReactor
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.CarouselView.IsScrollAnimatedProperty, thisAsICarouselView.IsScrollAnimated);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.CarouselView.CurrentItemProperty, thisAsICarouselView.CurrentItem);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.CarouselView.PositionProperty, thisAsICarouselView.Position);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.CarouselView.ItemsLayoutProperty, thisAsICarouselView.ItemsLayout);
 
 
             base.OnUpdate();
@@ -257,6 +260,20 @@ namespace MauiReactor
         public static T Position<T>(this T carouselView, Func<int> positionFunc) where T : ICarouselView
         {
             carouselView.Position = new PropertyValue<int>(positionFunc);
+            return carouselView;
+        }
+
+
+
+        public static T ItemsLayout<T>(this T carouselView, Microsoft.Maui.Controls.LinearItemsLayout itemsLayout) where T : ICarouselView
+        {
+            carouselView.ItemsLayout = new PropertyValue<Microsoft.Maui.Controls.LinearItemsLayout>(itemsLayout);
+            return carouselView;
+        }
+
+        public static T ItemsLayout<T>(this T carouselView, Func<Microsoft.Maui.Controls.LinearItemsLayout> itemsLayoutFunc) where T : ICarouselView
+        {
+            carouselView.ItemsLayout = new PropertyValue<Microsoft.Maui.Controls.LinearItemsLayout>(itemsLayoutFunc);
             return carouselView;
         }
 

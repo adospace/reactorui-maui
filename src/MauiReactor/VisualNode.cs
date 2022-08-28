@@ -141,7 +141,7 @@ namespace MauiReactor
 
         //internal bool IsAnimationFrameRequested { get; private set; } = false;
         internal bool IsLayoutCycleRequired { get; set; } = true;
-        internal VisualNode? Parent { get; private set; }
+        internal virtual VisualNode? Parent { get; set; }
 
         public void AppendAnimatable<T>(object key, T animation, Action<T> action) where T : RxAnimation
         {
@@ -344,11 +344,13 @@ namespace MauiReactor
 
         IHostElement? IVisualNode.GetPageHost()
         {
-            var current = Parent;
-            while (current != null && current is not IHostElement)
-                current = current.Parent;
+            var parentVisualNode = Parent as IVisualNode;
+            if (parentVisualNode != null)
+            {
+                return parentVisualNode.GetPageHost();
+            }
 
-            return current as IHostElement;
+            return null;
         }
 
         Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
@@ -364,6 +366,10 @@ namespace MauiReactor
                 if (pageHost != null)
                 {
                     pageHost.RequestAnimationFrame(this);
+                }
+                else
+                {
+                    throw new InvalidOperationException();
                 }
                 //RequestAnimationFrame();
             }

@@ -39,36 +39,24 @@ namespace MauiReactor
         private class ItemTemplateNode : VisualNode, IVisualNode//, IHostElement
         {
             private readonly Cell? _presenter = null;
-            private readonly VisualNode _owner;
 
-            public ItemTemplateNode(VisualNode root, Cell presenter, VisualNode owner)
+            public ItemTemplateNode(VisualNode root, Cell presenter)
             {
                 _root = root;
                 _presenter = presenter;
-                _owner = owner;
 
                 Invalidate();
             }
 
             private VisualNode _root;
 
-            //private IHostElement GetPageHost()
-            //{
-            //    var current = _owner;
-            //    while (current != null && current is not IHostElement)
-            //        current = current.Parent;
 
-            //    return Validate.EnsureNotNull(current as IHostElement);
-            //}
-            Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
+            public VisualNode? Owner
             {
-                return ((IVisualNode)_owner).GetContainerPage();
+                get => Parent;
+                set => Parent = value;
             }
 
-            IHostElement? IVisualNode.GetPageHost()
-            {
-                return ((IVisualNode)_owner).GetPageHost();
-            }
             public VisualNode Root
             {
                 get => _root;
@@ -102,33 +90,6 @@ namespace MauiReactor
                 Layout();
                 base.OnLayoutCycleRequested();
             }
-
-            //public IHostElement Run()
-            //{
-            //    var ownerPageHost = GetPageHost();
-            //    if (ownerPageHost == null)
-            //    {
-            //        throw new NotSupportedException();
-            //    }
-
-            //    return ownerPageHost.Run();
-            //}
-
-            //public void Stop()
-            //{
-            //    var ownerPageHost = GetPageHost();
-            //    if (ownerPageHost == null)
-            //    {
-            //        throw new NotSupportedException();
-            //    }
-
-            //    ownerPageHost.Stop();
-            //}
-
-            //public void RequestAnimationFrame(VisualNode visualNode)
-            //{
-            //    throw new NotImplementedException();
-            //}
         }
 
         private class ViewCellItemTemplatePresenter : Microsoft.Maui.Controls.ViewCell
@@ -159,11 +120,15 @@ namespace MauiReactor
 
                     if (_itemTemplateNode != null)
                     {
+                        _itemTemplateNode.Owner = _template.Owner;
                         _itemTemplateNode.Root = newRoot;
                     }
                     else
                     {
-                        _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template.Owner);
+                        _itemTemplateNode = new ItemTemplateNode(newRoot, this)
+                        {
+                            Owner = _template.Owner
+                        };
                         _itemTemplateNode.Layout();
                     }
 
@@ -202,11 +167,15 @@ namespace MauiReactor
 
                     if (_itemTemplateNode != null)
                     {
+                        _itemTemplateNode.Owner = _template.Owner;
                         _itemTemplateNode.Root = newRoot;
                     }
                     else
                     {
-                        _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template.Owner);
+                        _itemTemplateNode = new ItemTemplateNode(newRoot, this)
+                        {
+                            Owner = _template.Owner
+                        };
                         _itemTemplateNode.Layout();
                     }
 
@@ -245,11 +214,15 @@ namespace MauiReactor
 
                     if (_itemTemplateNode != null)
                     {
+                        _itemTemplateNode.Owner = _template.Owner;
                         _itemTemplateNode.Root = newRoot;
                     }
                     else
                     {
-                        _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template.Owner);
+                        _itemTemplateNode = new ItemTemplateNode(newRoot, this)
+                        {
+                            Owner = _template.Owner
+                        };
                         _itemTemplateNode.Layout();
                     }
 
@@ -288,11 +261,15 @@ namespace MauiReactor
 
                     if (_itemTemplateNode != null)
                     {
+                        _itemTemplateNode.Owner = _template.Owner;
                         _itemTemplateNode.Root = newRoot;
                     }
                     else
                     {
-                        _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template.Owner);
+                        _itemTemplateNode = new ItemTemplateNode(newRoot, this)
+                        {
+                            Owner = _template.Owner
+                        };
                         _itemTemplateNode.Layout();
                     }
 
@@ -331,11 +308,15 @@ namespace MauiReactor
 
                     if (_itemTemplateNode != null)
                     {
+                        _itemTemplateNode.Owner = _template.Owner;
                         _itemTemplateNode.Root = newRoot;
                     }
                     else
                     {
-                        _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template.Owner);
+                        _itemTemplateNode = new ItemTemplateNode(newRoot, this)
+                        {
+                            Owner = _template.Owner
+                        };
                         _itemTemplateNode.Layout();
                     }
 
@@ -454,7 +435,12 @@ namespace MauiReactor
 
         protected override void OnMigrated(VisualNode newNode)
         {
-            ((ItemsView<T, TChild>)newNode)._customDataTemplate = _customDataTemplate;
+            var newItemsView = ((ItemsView<T, TChild>)newNode);
+            newItemsView._customDataTemplate = _customDataTemplate;
+            if (newItemsView._customDataTemplate != null)
+            {
+                newItemsView._customDataTemplate.Owner = ((ItemsView<T, TChild>)newNode);
+            }
 
             base.OnMigrated(newNode);
         }

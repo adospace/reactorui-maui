@@ -27,6 +27,11 @@ namespace MauiReactor
             return ContainerPage;
         }
 
+        IHostElement? IVisualNode.GetPageHost()
+        {
+            return this;
+        }
+
 
         public static Microsoft.Maui.Controls.Page CreatePage()
         {
