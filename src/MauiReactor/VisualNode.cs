@@ -232,7 +232,7 @@ namespace MauiReactor
             };
         }
 
-        internal void EnableCurrentAnimatableProperties(Easing? easing = null, double duration = 600)
+        internal void EnableCurrentAnimatableProperties(Easing? easing = null, double duration = 600, double initialDelay = 0)
         {
             foreach (var animatable in _animatables.Where(_ => _.Value.IsEnabled == null).Select(_ => _.Value))
             {
@@ -240,6 +240,7 @@ namespace MauiReactor
                 {
                     tweenAnimation.Easing ??= easing;
                     tweenAnimation.Duration ??= duration;
+                    tweenAnimation.InitialDelay ??= initialDelay;
                     animatable.IsEnabled = true;
                 }
             };

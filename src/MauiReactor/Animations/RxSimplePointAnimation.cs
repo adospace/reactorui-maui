@@ -20,7 +20,13 @@
                 return TargetPoint;
 
             var currentTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-            var elapsedTime = currentTime - StartTime;
+            var elapsedTime = currentTime - StartTime - InitialDelay.GetValueOrDefault();
+
+            if (elapsedTime < 0)
+            {
+                return StartPoint.Value;
+            }
+
             var duration = Duration ?? DefaultDuration;
 
             if (elapsedTime >= duration)
