@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.TemplatePack", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.Calendar", "..\samples\MauiReactor.Calendar\MauiReactor.Calendar.csproj", "{DFBB99F9-B208-45A0-93E0-E503D514359D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trackizer", "..\samples\Trackizer\Trackizer.csproj", "{F5F0E9C6-9C0F-408E-9723-2F971EDA9866}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,12 @@ Global
 		{DFBB99F9-B208-45A0-93E0-E503D514359D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFBB99F9-B208-45A0-93E0-E503D514359D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DFBB99F9-B208-45A0-93E0-E503D514359D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F5F0E9C6-9C0F-408E-9723-2F971EDA9866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5F0E9C6-9C0F-408E-9723-2F971EDA9866}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5F0E9C6-9C0F-408E-9723-2F971EDA9866}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F5F0E9C6-9C0F-408E-9723-2F971EDA9866}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5F0E9C6-9C0F-408E-9723-2F971EDA9866}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5F0E9C6-9C0F-408E-9723-2F971EDA9866}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +84,7 @@ Global
 		{4E6CC507-A889-4B36-AB7B-156B3CCE54BE} = {FF33D69E-8D8E-4604-9800-EEF2EE776B35}
 		{369BD6EE-E28D-40A8-BB1C-439C6DACDC61} = {FF33D69E-8D8E-4604-9800-EEF2EE776B35}
 		{DFBB99F9-B208-45A0-93E0-E503D514359D} = {FF33D69E-8D8E-4604-9800-EEF2EE776B35}
+		{F5F0E9C6-9C0F-408E-9723-2F971EDA9866} = {FF33D69E-8D8E-4604-9800-EEF2EE776B35}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {52AD377B-6F53-46B0-A934-D9607EF7A143}

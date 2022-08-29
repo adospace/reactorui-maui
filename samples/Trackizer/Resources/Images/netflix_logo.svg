@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="72" height="72" fill="none" viewBox="0 0 72 72">
+  <rect width="72" height="72" fill="#000" rx="24"/>
+  <g clip-path="url(#a)">
+    <path fill="url(#b)" d="M25.2 14.4h9v43.2h-9z"/>
+    <path fill="url(#c)" d="M39.6 14.4h9v43.2h-9z"/>
+    <path fill="#E50914" d="M33.574 14.43H25.24l14.755 42.448c4.147.106 8.582.72 8.582.72L33.574 14.43Z"/>
+  </g>
+  <defs>
+    <pattern id="b" width="1" height="1" patternContentUnits="objectBoundingBox">
+      <use xlink:href="#d" transform="scale(.00562 .00111)"/>
+    </pattern>
+    <pattern id="c" width="1" height="1" patternContentUnits="objectBoundingBox">
+      <use xlink:href="#e" transform="scale(.00562 .00111)"/>
+    </pattern>
+    <clipPath id="a">
+      <path fill="#fff" d="M0 0h23.4v43.2H0z" transform="translate(25.2 14.4)"/>
+    </clipPath>
+  </defs>
+</svg>
