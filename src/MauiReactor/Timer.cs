@@ -25,9 +25,9 @@ namespace MauiReactor
 
         public Timer(TimeSpan interval, TimeSpan dueTime, Action onTick) => this.Interval(interval).DueTime(dueTime).OnTick(onTick);
 
-        public PropertyValue<bool>? IsEnabled { get; set; }
-        public PropertyValue<TimeSpan>? Interval { get; set; }
-        public PropertyValue<TimeSpan>? DueTime { get; set; }
+        PropertyValue<bool>? ITimer.IsEnabled { get; set; }
+        PropertyValue<TimeSpan>? ITimer.Interval { get; set; }
+        PropertyValue<TimeSpan>? ITimer.DueTime { get; set; }
         Action? ITimer.TickAction { get; set; }
         Action<EventArgs>? ITimer.TickActionWithArgs { get; set; }
 
