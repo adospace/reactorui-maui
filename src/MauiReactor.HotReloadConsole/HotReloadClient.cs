@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
@@ -28,6 +29,8 @@ namespace MauiReactor.HotReloadConsole
         protected readonly Options _options;
         protected readonly string _workingDirectory;
         protected readonly string _projFileName;
+        protected MSBuildWorkspace? _workspace;
+        protected Project? _project;
 
 
         protected enum FileChangeKind
@@ -84,7 +87,15 @@ namespace MauiReactor.HotReloadConsole
             }
         }
 
-        protected abstract bool IsAndroidTargetFramework();
+        protected static Regex _frameworkRegex = new(
+              "(?<project>[^\\(]+)\\((?<framework>[\\w|\\.|\\-]+)\\)",
+            RegexOptions.CultureInvariant
+            | RegexOptions.Compiled
+            );
+
+        public string TargetFramework => _frameworkRegex.Match(_project?.Name ?? throw new InvalidOperationException()).Groups["framework"].Value;
+
+        protected bool IsAndroidTargetFramework() => TargetFramework.Contains("android");
 
         public virtual Task Startup(CancellationToken cancellationToken)
         {
@@ -345,7 +356,6 @@ namespace MauiReactor.HotReloadConsole
 
             return true;
         }
-
         
         private static bool ExecuteMacPortForwardCommmand()
         {

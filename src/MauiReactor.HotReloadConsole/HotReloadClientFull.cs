@@ -17,9 +17,6 @@ namespace MauiReactor.HotReloadConsole
 {
     internal class HotReloadClientFull : HotReloadClient
     {
-        private MSBuildWorkspace? _workspace;
-        private Project? _project;
-        
         static HotReloadClientFull()
         {
             MSBuildLocator.RegisterDefaults();
@@ -34,7 +31,7 @@ namespace MauiReactor.HotReloadConsole
         {
             var diagnosticEntries = new Dictionary<string, List<Diagnostic>>();
 
-            var exitCode = PlatformSupport.ExecuteShellCommand("dotnet", $"build -f net6.0-android --no-restore --no-dependencies", (s, e) =>
+            var exitCode = PlatformSupport.ExecuteShellCommand("dotnet", $"build -f {TargetFramework} --no-restore --no-dependencies", (s, e) =>
             {
                 Console.WriteLine(e.Data);
             }, (s, e) =>
@@ -74,7 +71,7 @@ namespace MauiReactor.HotReloadConsole
 
         private async Task SetupProjectCompilation(CancellationToken cancellationToken)
         {
-            Console.Write($"Setting up build pipeline for {_projFileName} project...");
+            Console.Write($"Setting up build pipeline (full mode) for {_projFileName} project...");
 
             var properties = new Dictionary<string, string>
             {
@@ -88,10 +85,9 @@ namespace MauiReactor.HotReloadConsole
             _project = await _workspace.OpenProjectAsync(Path.Combine(_workingDirectory, $"{_projFileName}.csproj"), cancellationToken: cancellationToken);
 
             Console.WriteLine("done.");
-        }
 
-        protected override bool IsAndroidTargetFramework()
-            => _project?.Name.EndsWith("(net6.0-android)") ?? throw new InvalidOperationException();
+            Console.WriteLine($"Target framework: {TargetFramework}");
+        }
 
         protected override Task<bool> HandleFileChangeNotifications(IEnumerable<FileChangeNotification> notifications, CancellationToken cancellationToken)
         {

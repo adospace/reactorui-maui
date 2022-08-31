@@ -13,8 +13,6 @@ namespace MauiReactor.HotReloadConsole
 {
     internal class HotReloadClientEmit : HotReloadClient
     {
-        private MSBuildWorkspace? _workspace;
-        private Project? _project;
         private Compilation? _projectCompilation;
         private record ParsedFileInfo(string FilePath, SyntaxTree SyntaxTree, DateTime LastModified);
         private readonly Dictionary<string, ParsedFileInfo> _parsedFiles = new();
@@ -79,10 +77,9 @@ namespace MauiReactor.HotReloadConsole
             }
 
             Console.WriteLine("done.");
-        }
 
-        protected override bool IsAndroidTargetFramework()
-            => _project?.Name.EndsWith("(net6.0-android)") ?? throw new InvalidOperationException();
+            Console.WriteLine($"Target framework: {TargetFramework}");
+        }
 
         protected override async Task<bool> HandleFileChangeNotifications(IEnumerable<FileChangeNotification> notifications, CancellationToken cancellationToken)
         {
