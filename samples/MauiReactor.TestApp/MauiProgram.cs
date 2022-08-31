@@ -6,7 +6,12 @@
         {
             var builder = MauiApp.CreateBuilder();
             builder
-                .UseMauiReactorApp<HomePage>()
+                .UseMauiReactorApp<HomePage>(app =>
+                {
+                    app.AddResource("Resources/Styles/DefaultTheme.xaml");
+
+                    app.SetWindowsSpecificAssectDirectory("Assets");
+                })
 #if DEBUG
                 .EnableMauiReactorHotReload()
 #endif                

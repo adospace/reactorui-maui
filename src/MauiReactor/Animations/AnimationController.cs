@@ -14,6 +14,11 @@ namespace MauiReactor.Animations
         PropertyValue<bool>? IsEnabled { get; set; }
 
         PropertyValue<bool>? IsPaused { get; set; }
+
+        Action<bool>? IsEnabledChangedAction { get; set; }
+
+        Action<bool>? IsPausedChangedAction { get; set; }
+
     }
 
     public class AnimationController : VisualNode<MauiReactor.Animations.Internals.AnimationController>, IAnimationController, IEnumerable
@@ -21,6 +26,10 @@ namespace MauiReactor.Animations
         PropertyValue<bool>? IAnimationController.IsEnabled { get; set; }
 
         PropertyValue<bool>? IAnimationController.IsPaused { get; set; }
+
+        Action<bool>? IAnimationController.IsEnabledChangedAction { get; set; }
+        Action<bool>? IAnimationController.IsPausedChangedAction { get; set; }
+
 
         protected readonly List<VisualNode> _internalChildren = new();
 
@@ -94,11 +103,48 @@ namespace MauiReactor.Animations
             base.OnUpdate();
         }
 
+        protected override void OnAttachNativeEvents()
+        {
+            Validate.EnsureNotNull(NativeControl);
+
+            var thisAsIAnimationController = (IAnimationController)this;
+            if (thisAsIAnimationController.IsEnabledChangedAction != null)
+            {
+                NativeControl.IsEnabledChanged += NativeControl_IsEnabledChanged;
+                NativeControl.IsPausedChanged += NativeControl_IsPausedChanged;
+            }
+
+            base.OnAttachNativeEvents();
+        }
+
+        private void NativeControl_IsEnabledChanged(object? sender, GenericAnimationEventArgs<bool> e)
+        {
+            var thisAsIAnimationController = (IAnimationController)this;
+            thisAsIAnimationController.IsEnabledChangedAction?.Invoke(e.Value);
+        }
+
+        private void NativeControl_IsPausedChanged(object? sender, GenericAnimationEventArgs<bool> e)
+        {
+            var thisAsIAnimationController = (IAnimationController)this;
+            thisAsIAnimationController.IsPausedChangedAction?.Invoke(e.Value);
+        }
+
+        protected override void OnDetachNativeEvents()
+        {
+            if (NativeControl != null)
+            {
+                NativeControl.IsEnabledChanged -= NativeControl_IsEnabledChanged;
+                NativeControl.IsPausedChanged -= NativeControl_IsPausedChanged;
+            }
+
+            base.OnDetachNativeEvents();
+        }
+
         protected override void OnUnmount()
         {
             Validate.EnsureNotNull(NativeControl);
 
-            NativeControl.IsEnabled = false;
+            //NativeControl.IsEnabled = false;
 
             base.OnUnmount();
         }
@@ -119,13 +165,25 @@ namespace MauiReactor.Animations
         }
         public static T IsPaused<T>(this T animationController, bool isPaused) where T : IAnimationController
         {
-            animationController.IsEnabled = new PropertyValue<bool>(isPaused);
+            animationController.IsPaused = new PropertyValue<bool>(isPaused);
             return animationController;
         }
-        public static T IsPaused<T>(this T timer, Func<bool> isPausedFunc) where T : IAnimationController
+        public static T IsPaused<T>(this T animationController, Func<bool> isPausedFunc) where T : IAnimationController
         {
-            timer.IsEnabled = new PropertyValue<bool>(isPausedFunc);
-            return timer;
+            animationController.IsPaused = new PropertyValue<bool>(isPausedFunc);
+            return animationController;
+        }
+
+        public static T OnIsEnabledChanged<T>(this T animationController, Action<bool> isEnabledChangedAction) where T : IAnimationController
+        {
+            animationController.IsEnabledChangedAction = isEnabledChangedAction;
+            return animationController;
+        }
+
+        public static T OnIsPausedChanged<T>(this T animationController, Action<bool> isPausedChangedAction) where T : IAnimationController
+        {
+            animationController.IsPausedChangedAction = isPausedChangedAction;
+            return animationController;
         }
     }
 }
@@ -139,9 +197,6 @@ namespace MauiReactor.Animations
     public abstract class Animation<T> : VisualNode<T>, IAnimation where T : MauiReactor.Animations.Internals.Animation, new()
 
     {
-        //protected override bool SupportChildIndexing => false;
-
-
     }
 
     public static class AnimationExtensions
@@ -322,14 +377,29 @@ namespace MauiReactor.Animations
             timer.InitialDelay = new PropertyValue<double>(initialDelayFunc);
             return timer;
         }
+        public static T InitialDelay<T>(this T timer, TimeSpan initialDelay) where T : ITweenAnimation
+        {
+            timer.InitialDelay = new PropertyValue<double>(initialDelay.TotalMilliseconds);
+            return timer;
+        }
         public static T IterationCount<T>(this T timer, int? iterationCount) where T : ITweenAnimation
         {
             timer.IterationCount = new PropertyValue<int?>(iterationCount);
             return timer;
         }
+        public static T IterationCount<T>(this T timer, Func<int?> iterationCountFunc) where T : ITweenAnimation
+        {
+            timer.IterationCount = new PropertyValue<int?>(iterationCountFunc);
+            return timer;
+        }
         public static T Loop<T>(this T timer, bool loop) where T : ITweenAnimation
         {
             timer.Loop = new PropertyValue<bool>(loop);
+            return timer;
+        }
+        public static T Loop<T>(this T timer, Func<bool> loopFunc) where T : ITweenAnimation
+        {
+            timer.Loop = new PropertyValue<bool>(loopFunc);
             return timer;
         }
     }
@@ -376,7 +446,7 @@ namespace MauiReactor.Animations
             base.OnAttachNativeEvents();
         }
 
-        private void NativeControl_Tick(object? sender, TweenAnimationEventArgs<double> e)
+        private void NativeControl_Tick(object? sender, GenericAnimationEventArgs<double> e)
         {
             var thisAsIDoubleAnimation = (IDoubleAnimation)this;
             thisAsIDoubleAnimation.TickAction?.Invoke(e.Value);
@@ -436,6 +506,7 @@ namespace MauiReactor.Animations.Internals
             propertyChanged: new BindableProperty.BindingPropertyChangedDelegate((bindableObject, oldValue, newValue) =>
             {
                 var animationController = (AnimationController)bindableObject;
+                animationController.IsPaused = false;
                 if ((bool)newValue)
                 {
                     animationController.Start();
@@ -472,40 +543,69 @@ namespace MauiReactor.Animations.Internals
             set => SetValue(IsPausedProperty, value);
         }
 
+        public event EventHandler<GenericAnimationEventArgs<bool>>? IsEnabledChanged;
+        public event EventHandler<GenericAnimationEventArgs<bool>>? IsPausedChanged;
+
         public List<Animation> Children { get; } = new();
 
-        private long _startTime;
+        private double _time;
+        private double _elapsedTime;
 
         private void Start()
         {
-            _startTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-            Application.Current?.Dispatcher.Dispatch(OnTick);            
+            _time = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+            _elapsedTime = 0;
+            Application.Current?.Dispatcher.Dispatch(OnTick);
+
+            IsEnabledChanged?.Invoke(this, new GenericAnimationEventArgs<bool>(true));
         }
 
         private void Stop()
         {
-
+            IsEnabledChanged?.Invoke(this, new GenericAnimationEventArgs<bool>(false));
         }
 
         private void Pause()
         {
-
+            IsPausedChanged?.Invoke(this, new GenericAnimationEventArgs<bool>(true));
         }
 
         private void Resume()
         {
-
+            if (IsEnabled)
+            {
+                _time = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                Application.Current?.Dispatcher.Dispatch(OnTick);
+            }
+            IsPausedChanged?.Invoke(this, new GenericAnimationEventArgs<bool>(false));
         }
+
         private void OnTick()
         {
-            var initialTime = _startTime;
-            var currentTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+            var newTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+            _elapsedTime += newTime - _time;
+            _time = newTime;
+
+            bool allCompleted = true;
             foreach (var child in Children)
             {
-                child.Progress(currentTime - initialTime, out var _);
+                if (!child.Progress(_elapsedTime, out var _))
+                {
+                    allCompleted = false;
+                }
             }
 
-            Application.Current?.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(1), OnTick);
+            if (allCompleted)
+            {
+                IsEnabled = false;
+                IsPaused = false;
+            }
+
+            if (IsEnabled && !IsPaused)
+            {
+                //Application.Current?.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(1), OnTick);
+                Application.Current?.Dispatcher.Dispatch(OnTick);
+            }
         }
     }
 
@@ -665,9 +765,9 @@ namespace MauiReactor.Animations.Internals
         protected abstract void OnFireTick(double offset);
     }
 
-    public class TweenAnimationEventArgs<T> : EventArgs
+    public class GenericAnimationEventArgs<T> : EventArgs
     { 
-        public TweenAnimationEventArgs(T value)
+        public GenericAnimationEventArgs(T value)
         {
             Value = value;
         }
@@ -702,11 +802,11 @@ namespace MauiReactor.Animations.Internals
         }
 
 
-        public event EventHandler<TweenAnimationEventArgs<double>>? Tick;
+        public event EventHandler<GenericAnimationEventArgs<double>>? Tick;
 
         protected override void OnFireTick(double offset)
         {
-            Tick?.Invoke(this, new TweenAnimationEventArgs<double>(StartValue + (TargetValue - StartValue) * offset));
+            Tick?.Invoke(this, new GenericAnimationEventArgs<double>(StartValue + (TargetValue - StartValue) * offset));
         }
     }
 }
