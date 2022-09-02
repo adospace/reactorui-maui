@@ -16,6 +16,8 @@ class AnimationShowcasePageState: IState
     public double InitialDelay { get; set; }
 
     public double DoubleValue { get; set; }
+    public double DoubleValueSequence { get; set; }
+    public double DoubleValueParallel { get; set; }
 }
 
 
@@ -81,12 +83,48 @@ class AnimationShowcasePage : Component<AnimationShowcasePageState>
                             .TranslationX(()=>State.DoubleValue)
                             .HStart()
                             ,
+                        new BoxView()
+                            .BackgroundColor(Colors.Blue)
+                            .HeightRequest(10)
+                            .WidthRequest(10)
+                            .TranslationX(()=>State.DoubleValueSequence)
+                            .HStart()
+                            ,
+                        new BoxView()
+                            .BackgroundColor(Colors.Yellow)
+                            .HeightRequest(10)
+                            .WidthRequest(10)
+                            .TranslationX(()=>State.DoubleValueParallel)
+                            .HStart()
+                            ,
                     }
+                    .Spacing(20)
                 }
                 .GridRow(1),
 
                 new AnimationController
                 {
+                    new SequenceAnimation
+                    {
+                        new DoubleAnimation()
+                            .StartValue(0)
+                            .TargetValue(300)
+                            .Duration(TimeSpan.FromSeconds(2))
+                            .Loop(() => State.IsLooping)
+                            .IterationCount(() => State.IterationCount)
+                            .InitialDelay(()=>State.InitialDelay)
+                            .OnTick(v => SetState(s => s.DoubleValue = v, false)),
+
+                        new DoubleAnimation()
+                            .StartValue(0)
+                            .TargetValue(300)
+                            .Duration(TimeSpan.FromSeconds(2))
+                            .Loop(() => State.IsLooping)
+                            .IterationCount(() => State.IterationCount)
+                            .InitialDelay(()=>State.InitialDelay)
+                            .OnTick(v => SetState(s => s.DoubleValueSequence = v, false)),
+                    },
+
                     new DoubleAnimation()
                         .StartValue(0)
                         .TargetValue(300)
@@ -94,7 +132,8 @@ class AnimationShowcasePage : Component<AnimationShowcasePageState>
                         .Loop(() => State.IsLooping)
                         .IterationCount(() => State.IterationCount)
                         .InitialDelay(()=>State.InitialDelay)
-                        .OnTick(v => SetState(s => s.DoubleValue = v, false))
+                        .OnTick(v => SetState(s => s.DoubleValueParallel = v, false)),
+
                 }
                 .IsEnabled(()=>State.IsEnabled)
                 .OnIsEnabledChanged((isEnabled)=>SetState(s => s.IsEnabled = isEnabled, false))

@@ -23,6 +23,17 @@ namespace MauiReactor.Animations
 
     public class AnimationController : VisualNode<MauiReactor.Animations.Internals.AnimationController>, IAnimationController, IEnumerable
     {
+        public AnimationController()
+        {
+
+        }
+
+        public AnimationController(Action<MauiReactor.Animations.Internals.AnimationController?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+
         PropertyValue<bool>? IAnimationController.IsEnabled { get; set; }
 
         PropertyValue<bool>? IAnimationController.IsPaused { get; set; }
@@ -197,6 +208,17 @@ namespace MauiReactor.Animations
     public abstract class Animation<T> : VisualNode<T>, IAnimation where T : MauiReactor.Animations.Internals.Animation, new()
 
     {
+        public Animation()
+        {
+
+        }
+
+        public Animation(Action<T?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+
     }
 
     public static class AnimationExtensions
@@ -214,6 +236,17 @@ namespace MauiReactor.Animations
     public abstract class AnimationContainer<T> : VisualNode<T>, IAnimationContainer, IEnumerable where T : MauiReactor.Animations.Internals.AnimationContainer, new()
     {
         protected readonly List<VisualNode> _internalChildren = new();
+
+        public AnimationContainer()
+        {
+
+        }
+
+        public AnimationContainer(Action<T?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
 
         protected override IEnumerable<VisualNode> RenderChildren()
         {
@@ -285,11 +318,35 @@ namespace MauiReactor.Animations
     {
     }
 
-    public class ParallelAnimation<T> : AnimationContainer<MauiReactor.Animations.Internals.ParallelAnimation>, IParallelAnimation
+    public class ParallelAnimation<T> : AnimationContainer<T>, IParallelAnimation where T : MauiReactor.Animations.Internals.ParallelAnimation, new ()
+    {
+        public ParallelAnimation()
+        {
+
+        }
+
+        public ParallelAnimation(Action<T?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+
+
+    }
+
+    public class ParallelAnimation : AnimationContainer<MauiReactor.Animations.Internals.ParallelAnimation>
 
     {
+        public ParallelAnimation()
+        {
 
+        }
 
+        public ParallelAnimation(Action<MauiReactor.Animations.Internals.ParallelAnimation?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
     }
 
     public static class ParallelAnimationExtensions
@@ -304,10 +361,35 @@ namespace MauiReactor.Animations
     {
     }
 
-    public class SequenceAnimation<T> : AnimationContainer<MauiReactor.Animations.Internals.SequenceAnimation>, ISequenceAnimation
+    public class SequenceAnimation<T> : AnimationContainer<T>, ISequenceAnimation where T : MauiReactor.Animations.Internals.SequenceAnimation, new()
 
     {
+        public SequenceAnimation()
+        {
 
+        }
+
+        public SequenceAnimation(Action<T?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+
+    }
+
+    public class SequenceAnimation : AnimationContainer<MauiReactor.Animations.Internals.SequenceAnimation>
+
+    {
+        public SequenceAnimation()
+        {
+
+        }
+
+        public SequenceAnimation(Action<MauiReactor.Animations.Internals.SequenceAnimation?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
 
     }
 
@@ -329,6 +411,17 @@ namespace MauiReactor.Animations
 
     public abstract class TweenAnimation<T> : Animation<T>, ITweenAnimation where T : MauiReactor.Animations.Internals.TweenAnimation, new ()
     {
+        public TweenAnimation()
+        {
+
+        }
+
+        public TweenAnimation(Action<T?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+
         PropertyValue<double>? ITweenAnimation.Duration { get; set; }
         PropertyValue<double>? ITweenAnimation.InitialDelay { get; set; }
         PropertyValue<bool>? ITweenAnimation.Loop { get; set; }
@@ -417,6 +510,16 @@ namespace MauiReactor.Animations
 
     public class DoubleAnimation<T> : TweenAnimation<T>, IDoubleAnimation where T : MauiReactor.Animations.Internals.DoubleAnimation, new()
     {
+        public DoubleAnimation()
+        {
+
+        }
+
+        public DoubleAnimation(Action<T?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
         PropertyValue<double>? IDoubleAnimation.StartValue { get; set; }
         PropertyValue<double>? IDoubleAnimation.TargetValue { get; set; }
         Action<double>? IDoubleAnimation.TickAction { get; set; }
@@ -464,7 +567,18 @@ namespace MauiReactor.Animations
     }
 
     public class DoubleAnimation : DoubleAnimation<MauiReactor.Animations.Internals.DoubleAnimation>
-    { }
+    {
+        public DoubleAnimation()
+        {
+
+        }
+
+        public DoubleAnimation(Action<MauiReactor.Animations.Internals.DoubleAnimation?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+    }
 
     public static class DoubleAnimationExtensions
     {
@@ -603,8 +717,14 @@ namespace MauiReactor.Animations.Internals
 
             if (IsEnabled && !IsPaused)
             {
-                //Application.Current?.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(1), OnTick);
-                Application.Current?.Dispatcher.Dispatch(OnTick);
+                if (Microsoft.Maui.Devices.DeviceInfo.Idiom == DeviceIdiom.Desktop)
+                {
+                    Application.Current?.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(1), OnTick);
+                }
+                else
+                {
+                    Application.Current?.Dispatcher.Dispatch(OnTick);
+                }
             }
         }
     }
@@ -651,6 +771,7 @@ namespace MauiReactor.Animations.Internals
                 }
 
                 remainingTime -= childRemainingTime;
+                elapsedTime = childRemainingTime;
 
                 System.Diagnostics.Debug.Assert(remainingTime > 0);
             }
