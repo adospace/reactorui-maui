@@ -1,5 +1,7 @@
 ﻿using MauiReactor.Animations;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MauiReactor.TestApp.Pages;
 
@@ -15,6 +17,8 @@ class AnimationShowcasePageState: IState
 
     public double InitialDelay { get; set; }
 
+    public int SelectedEasingIndex { get; set; }
+
     public double DoubleValue { get; set; }
     public double DoubleValueSequence { get; set; }
     public double DoubleValueParallel { get; set; }
@@ -23,6 +27,22 @@ class AnimationShowcasePageState: IState
 
 class AnimationShowcasePage : Component<AnimationShowcasePageState>
 {
+    public static List<(string Name, Easing Easing)> Easings { get; }
+    = new()
+    {
+        ("Linear", Easing.Linear ),
+        ("SinOut", Easing.SinOut ),
+        ("SinIn", Easing.SinIn ),
+        ("SinInOut", Easing.SinInOut ),
+        ("CubicIn", Easing.CubicIn ),
+        ("CubicOut", Easing.CubicOut ),
+        ("CubicInOut", Easing.CubicInOut ),
+        ("BounceOut", Easing.BounceOut ),
+        ("BounceIn", Easing.BounceIn ),
+        ("SpringIn", Easing.SpringIn ),
+        ("SpringOut", Easing.SpringOut ),
+    };
+
     public override VisualNode Render()
     {
         System.Diagnostics.Debug.WriteLine("AnimationShowcasePage.Render()");
@@ -68,6 +88,17 @@ class AnimationShowcasePage : Component<AnimationShowcasePageState>
                                 .OnValueChanged((sender, args)=> SetState(s => s.InitialDelay = args.NewValue, false)),
                         }
                         .Spacing(5),
+                        new VerticalStackLayout
+                        {
+                            new Label("Easing").VCenter(),
+                            new Picker()
+                                .Title("Easing Function")
+                                .ItemsSource(Easings.Select(_=>_.Name))
+                                .SelectedIndex(()=> State.SelectedEasingIndex)
+                                .OnSelectedIndexChanged((index)=> SetState(s => s.SelectedEasingIndex = index, false))
+                            ,
+                        }
+                        .Spacing(5),
                     }
                     .Spacing(10)
                 },
@@ -109,21 +140,20 @@ class AnimationShowcasePage : Component<AnimationShowcasePageState>
                         new DoubleAnimation()
                             .StartValue(0)
                             .TargetValue(300)
-                            .Duration(TimeSpan.FromSeconds(2))
-                            .Loop(() => State.IsLooping)
-                            .IterationCount(() => State.IterationCount)
-                            .InitialDelay(()=>State.InitialDelay)
+                            .Duration(TimeSpan.FromSeconds(2.5))
+                            .Easing(() => Easings[State.SelectedEasingIndex].Easing)
                             .OnTick(v => SetState(s => s.DoubleValue = v, false)),
 
                         new DoubleAnimation()
                             .StartValue(0)
                             .TargetValue(300)
-                            .Duration(TimeSpan.FromSeconds(2))
-                            .Loop(() => State.IsLooping)
-                            .IterationCount(() => State.IterationCount)
-                            .InitialDelay(()=>State.InitialDelay)
+                            .Duration(TimeSpan.FromSeconds(1.5))
                             .OnTick(v => SetState(s => s.DoubleValueSequence = v, false)),
-                    },
+                    }
+                    .Loop(() => State.IsLooping)
+                    .IterationCount(() => State.IterationCount)
+                    .InitialDelay(()=>State.InitialDelay)                    
+                    ,
 
                     new DoubleAnimation()
                         .StartValue(0)
@@ -133,6 +163,8 @@ class AnimationShowcasePage : Component<AnimationShowcasePageState>
                         .IterationCount(() => State.IterationCount)
                         .InitialDelay(()=>State.InitialDelay)
                         .OnTick(v => SetState(s => s.DoubleValueParallel = v, false)),
+
+                    
 
                 }
                 .IsEnabled(()=>State.IsEnabled)
