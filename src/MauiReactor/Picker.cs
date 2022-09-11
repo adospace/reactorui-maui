@@ -20,7 +20,6 @@ namespace MauiReactor
         PropertyValue<string>? Title { get; set; }
         PropertyValue<Microsoft.Maui.Graphics.Color>? TitleColor { get; set; }
         PropertyValue<int>? SelectedIndex { get; set; }
-        PropertyValue<object>? SelectedItem { get; set; }
         PropertyValue<string>? FontFamily { get; set; }
         PropertyValue<double>? FontSize { get; set; }
         PropertyValue<Microsoft.Maui.Controls.FontAttributes>? FontAttributes { get; set; }
@@ -51,7 +50,6 @@ namespace MauiReactor
         PropertyValue<string>? IPicker.Title { get; set; }
         PropertyValue<Microsoft.Maui.Graphics.Color>? IPicker.TitleColor { get; set; }
         PropertyValue<int>? IPicker.SelectedIndex { get; set; }
-        PropertyValue<object>? IPicker.SelectedItem { get; set; }
         PropertyValue<string>? IPicker.FontFamily { get; set; }
         PropertyValue<double>? IPicker.FontSize { get; set; }
         PropertyValue<Microsoft.Maui.Controls.FontAttributes>? IPicker.FontAttributes { get; set; }
@@ -73,7 +71,6 @@ namespace MauiReactor
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.TitleProperty, thisAsIPicker.Title);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.TitleColorProperty, thisAsIPicker.TitleColor);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.SelectedIndexProperty, thisAsIPicker.SelectedIndex);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.SelectedItemProperty, thisAsIPicker.SelectedItem);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.FontFamilyProperty, thisAsIPicker.FontFamily);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.FontSizeProperty, thisAsIPicker.FontSize);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.FontAttributesProperty, thisAsIPicker.FontAttributes);
@@ -220,20 +217,6 @@ namespace MauiReactor
 
 
 
-        public static T SelectedItem<T>(this T picker, object selectedItem) where T : IPicker
-        {
-            picker.SelectedItem = new PropertyValue<object>(selectedItem);
-            return picker;
-        }
-
-        public static T SelectedItem<T>(this T picker, Func<object> selectedItemFunc) where T : IPicker
-        {
-            picker.SelectedItem = new PropertyValue<object>(selectedItemFunc);
-            return picker;
-        }
-
-
-
         public static T FontFamily<T>(this T picker, string fontFamily) where T : IPicker
         {
             picker.FontFamily = new PropertyValue<string>(fontFamily);
@@ -329,6 +312,18 @@ namespace MauiReactor
         public static T OnSelectedIndexChanged<T>(this T picker, Action<object?, EventArgs>? selectedIndexChangedActionWithArgs) where T : IPicker
         {
             picker.SelectedIndexChangedActionWithArgs = selectedIndexChangedActionWithArgs;
+            return picker;
+        }
+
+        public static T OnSelectedIndexChanged<T>(this T picker, Action<int>? selectedIndexChangedAction) where T : IPicker
+        {
+            picker.SelectedIndexChangedActionWithArgs = (sender, args) =>
+            {
+                if (sender is Microsoft.Maui.Controls.Picker picker)
+                {
+                    selectedIndexChangedAction?.Invoke(picker.SelectedIndex);
+                }
+            };
             return picker;
         }
     }

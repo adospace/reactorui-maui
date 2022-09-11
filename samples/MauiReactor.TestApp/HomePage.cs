@@ -30,9 +30,9 @@ namespace MauiReactor.TestApp
                 {
                     new Pages.ListViewPage()
                 },
-                new FlyoutItem("Animation")
+                new FlyoutItem("CardsAnimation")
                 {
-                    new Pages.AnimationPage()
+                    new Pages.CardsAnimationPage()
                 },
                 new FlyoutItem("Image")
                 {
@@ -41,6 +41,10 @@ namespace MauiReactor.TestApp
                 new FlyoutItem("AnimatedCollectionView")
                 {
                     new Pages.AnimatedCollectionViewPage()
+                },
+                new FlyoutItem("AnimationShowcase")
+                {
+                    new Pages.AnimationShowcasePage()
                 },
 
             }

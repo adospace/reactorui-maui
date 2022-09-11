@@ -97,7 +97,7 @@ namespace MauiReactor
             {
                 if (!SupportChildIndexing)
                 {
-                    throw new InvalidOperationException("Node of type {} doesn't support child index property");
+                    throw new InvalidOperationException($"Node of type {GetType()} doesn't support child index property");
                 }
 
                 return _childIndex;
@@ -106,7 +106,7 @@ namespace MauiReactor
             {
                 if (!SupportChildIndexing)
                 {
-                    throw new InvalidOperationException("Node of type {} doesn't support child index property");
+                    throw new InvalidOperationException($"Node of type {GetType()} doesn't support child index property");
                 }
 
                 _childIndex = value;
