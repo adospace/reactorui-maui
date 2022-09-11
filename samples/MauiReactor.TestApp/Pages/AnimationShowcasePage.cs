@@ -23,28 +23,27 @@ class AnimationShowcasePageState: IState
     public double DoubleValueSequence { get; set; }
     public double DoubleValueParallel { get; set; }
     public Point PointValueCubicBezier { get; set; }
-    
+
+    public List<(string Name, Easing Easing)> Easings { get; set; }
+        = new()
+        {
+            ("Linear", Easing.Linear ),
+            ("SinOut", Easing.SinOut ),
+            ("SinIn", Easing.SinIn ),
+            ("SinInOut", Easing.SinInOut ),
+            ("CubicIn", Easing.CubicIn ),
+            ("CubicOut", Easing.CubicOut ),
+            ("CubicInOut", Easing.CubicInOut ),
+            ("BounceOut", Easing.BounceOut ),
+            ("BounceIn", Easing.BounceIn ),
+            ("SpringIn", Easing.SpringIn ),
+            ("SpringOut", Easing.SpringOut ),
+        };    
 }
 
 
 class AnimationShowcasePage : Component<AnimationShowcasePageState>
 {
-    public static List<(string Name, Easing Easing)> Easings { get; }
-    = new()
-    {
-        ("Linear", Easing.Linear ),
-        ("SinOut", Easing.SinOut ),
-        ("SinIn", Easing.SinIn ),
-        ("SinInOut", Easing.SinInOut ),
-        ("CubicIn", Easing.CubicIn ),
-        ("CubicOut", Easing.CubicOut ),
-        ("CubicInOut", Easing.CubicInOut ),
-        ("BounceOut", Easing.BounceOut ),
-        ("BounceIn", Easing.BounceIn ),
-        ("SpringIn", Easing.SpringIn ),
-        ("SpringOut", Easing.SpringOut ),
-    };
-
     public override VisualNode Render()
     {
         System.Diagnostics.Debug.WriteLine("AnimationShowcasePage.Render()");
@@ -95,7 +94,7 @@ class AnimationShowcasePage : Component<AnimationShowcasePageState>
                             new Label("Easing").VCenter(),
                             new Picker()
                                 .Title("Easing Function")
-                                .ItemsSource(Easings.Select(_=>_.Name))
+                                .ItemsSource(State.Easings.Select(_=>_.Name))
                                 .SelectedIndex(()=> State.SelectedEasingIndex)
                                 .OnSelectedIndexChanged((index)=> SetState(s => s.SelectedEasingIndex = index, false))
                             ,
@@ -151,7 +150,7 @@ class AnimationShowcasePage : Component<AnimationShowcasePageState>
                             .StartValue(0)
                             .TargetValue(300)
                             .Duration(TimeSpan.FromSeconds(2.5))
-                            .Easing(() => Easings[State.SelectedEasingIndex].Easing)
+                            .Easing(() => State.Easings[State.SelectedEasingIndex == -1 ? 0 : State.SelectedEasingIndex].Easing)
                             .OnTick(v => SetState(s => s.DoubleValue = v, false)),
 
                         new DoubleAnimation()

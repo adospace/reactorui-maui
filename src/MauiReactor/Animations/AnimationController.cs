@@ -328,40 +328,45 @@ namespace MauiReactor.Animations
 
     public static class AnimationContainerExtensions
     {
-        public static T InitialDelay<T>(this T timer, double initialDelay) where T : IAnimationContainer
+        public static T InitialDelay<T>(this T animation, double initialDelay) where T : IAnimationContainer
         {
-            timer.InitialDelay = new PropertyValue<double>(initialDelay);
-            return timer;
+            animation.InitialDelay = new PropertyValue<double>(initialDelay);
+            return animation;
         }
-        public static T InitialDelay<T>(this T timer, Func<double> initialDelayFunc) where T : IAnimationContainer
+        public static T InitialDelay<T>(this T animation, Func<double> initialDelayFunc) where T : IAnimationContainer
         {
-            timer.InitialDelay = new PropertyValue<double>(initialDelayFunc);
-            return timer;
+            animation.InitialDelay = new PropertyValue<double>(initialDelayFunc);
+            return animation;
         }
-        public static T InitialDelay<T>(this T timer, TimeSpan initialDelay) where T : IAnimationContainer
+        public static T InitialDelay<T>(this T animation, TimeSpan initialDelay) where T : IAnimationContainer
         {
-            timer.InitialDelay = new PropertyValue<double>(initialDelay.TotalMilliseconds);
-            return timer;
+            animation.InitialDelay = new PropertyValue<double>(initialDelay.TotalMilliseconds);
+            return animation;
         }
-        public static T IterationCount<T>(this T timer, int? iterationCount) where T : IAnimationContainer
+        public static T IterationCount<T>(this T animation, int? iterationCount) where T : IAnimationContainer
         {
-            timer.IterationCount = new PropertyValue<int?>(iterationCount);
-            return timer;
+            animation.IterationCount = new PropertyValue<int?>(iterationCount);
+            return animation;
         }
-        public static T IterationCount<T>(this T timer, Func<int?> iterationCountFunc) where T : IAnimationContainer
+        public static T IterationCount<T>(this T animation, Func<int?> iterationCountFunc) where T : IAnimationContainer
         {
-            timer.IterationCount = new PropertyValue<int?>(iterationCountFunc);
-            return timer;
+            animation.IterationCount = new PropertyValue<int?>(iterationCountFunc);
+            return animation;
         }
-        public static T Loop<T>(this T timer, bool loop) where T : IAnimationContainer
+        public static T RepeatForever<T>(this T animation) where T : IAnimationContainer
         {
-            timer.Loop = new PropertyValue<bool>(loop);
-            return timer;
+            animation.IterationCount = new PropertyValue<int?>((int?)null);
+            return animation;
         }
-        public static T Loop<T>(this T timer, Func<bool> loopFunc) where T : IAnimationContainer
+        public static T Loop<T>(this T animation, bool loop) where T : IAnimationContainer
         {
-            timer.Loop = new PropertyValue<bool>(loopFunc);
-            return timer;
+            animation.Loop = new PropertyValue<bool>(loop);
+            return animation;
+        }
+        public static T Loop<T>(this T animation, Func<bool> loopFunc) where T : IAnimationContainer
+        {
+            animation.Loop = new PropertyValue<bool>(loopFunc);
+            return animation;
         }
     }
 }

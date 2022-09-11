@@ -46,6 +46,10 @@ namespace MauiReactor.TestApp
                 {
                     new Pages.AnimationShowcasePage()
                 },
+                new FlyoutItem("AnimationLoop")
+                {
+                    new Pages.AnimationLoopPage()
+                },
 
             }
             .ItemTemplate(RenderItemTemplate);

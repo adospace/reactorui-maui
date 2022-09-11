@@ -140,18 +140,24 @@ namespace MauiReactor
             return view;
         }
 
-        public static T OnTapped<T>(this T view, Action action) where T : IView
+        public static T OnTapped<T>(this T view, Action? action) where T : IView
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
-            view.GestureRecognizers.Add(new TapGestureRecognizer(action));
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                view.GestureRecognizers.Add(new TapGestureRecognizer(action));
+            }
 
             return view;
         }
 
-        public static T OnTapped<T>(this T view, Action<object?, EventArgs> action) where T : IView
+        public static T OnTapped<T>(this T view, Action<object?, EventArgs>? action) where T : IView
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
-            view.GestureRecognizers.Add(new TapGestureRecognizer(action));
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                view.GestureRecognizers.Add(new TapGestureRecognizer(action));
+            }
 
             return view;
         }
