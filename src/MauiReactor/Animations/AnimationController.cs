@@ -84,9 +84,9 @@ namespace MauiReactor.Animations
         {
             Validate.EnsureNotNull(NativeControl);
 
-            if (childControl is MauiReactor.Animations.Internals.Animation animation)
+            if (childControl is MauiReactor.Animations.Internals.AnimationContainer animationContainer)
             {
-                NativeControl.Children.Insert(widget.ChildIndex, animation);
+                NativeControl.Children.Insert(widget.ChildIndex, animationContainer);
             }
 
             base.OnAddChild(widget, childControl);
@@ -96,9 +96,9 @@ namespace MauiReactor.Animations
         {
             Validate.EnsureNotNull(NativeControl);
 
-            if (childControl is MauiReactor.Animations.Internals.Animation animation)
+            if (childControl is MauiReactor.Animations.Internals.AnimationContainer animationContainer)
             {
-                NativeControl.Children.Remove(animation);
+                NativeControl.Children.Remove(animationContainer);
             }
 
             base.OnRemoveChild(widget, childControl);
@@ -204,9 +204,6 @@ namespace MauiReactor.Animations
 {
     public interface IAnimation
     {
-        PropertyValue<double>? InitialDelay { get; set; }
-        PropertyValue<bool>? Loop { get; set; }
-        PropertyValue<int?>? IterationCount { get; set; }
     }
 
     public abstract class Animation<T> : VisualNode<T>, IAnimation where T : MauiReactor.Animations.Internals.Animation, new()
@@ -223,60 +220,10 @@ namespace MauiReactor.Animations
 
         }
 
-        PropertyValue<double>? IAnimation.InitialDelay { get; set; }
-        PropertyValue<bool>? IAnimation.Loop { get; set; }
-        PropertyValue<int?>? IAnimation.IterationCount { get; set; }
-
-        protected override void OnUpdate()
-        {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIAnimation = (IAnimation)this;
-            SetPropertyValue(NativeControl, MauiReactor.Animations.Internals.Animation.InitialDelayProperty, thisAsIAnimation.InitialDelay);
-            SetPropertyValue(NativeControl, MauiReactor.Animations.Internals.Animation.LoopProperty, thisAsIAnimation.Loop);
-            SetPropertyValue(NativeControl, MauiReactor.Animations.Internals.Animation.IterationCountProperty, thisAsIAnimation.IterationCount);
-
-
-            base.OnUpdate();
-        }
     }
 
     public static class AnimationExtensions
     {
-        public static T InitialDelay<T>(this T timer, double initialDelay) where T : IAnimation
-        {
-            timer.InitialDelay = new PropertyValue<double>(initialDelay);
-            return timer;
-        }
-        public static T InitialDelay<T>(this T timer, Func<double> initialDelayFunc) where T : IAnimation
-        {
-            timer.InitialDelay = new PropertyValue<double>(initialDelayFunc);
-            return timer;
-        }
-        public static T InitialDelay<T>(this T timer, TimeSpan initialDelay) where T : IAnimation
-        {
-            timer.InitialDelay = new PropertyValue<double>(initialDelay.TotalMilliseconds);
-            return timer;
-        }
-        public static T IterationCount<T>(this T timer, int? iterationCount) where T : IAnimation
-        {
-            timer.IterationCount = new PropertyValue<int?>(iterationCount);
-            return timer;
-        }
-        public static T IterationCount<T>(this T timer, Func<int?> iterationCountFunc) where T : IAnimation
-        {
-            timer.IterationCount = new PropertyValue<int?>(iterationCountFunc);
-            return timer;
-        }
-        public static T Loop<T>(this T timer, bool loop) where T : IAnimation
-        {
-            timer.Loop = new PropertyValue<bool>(loop);
-            return timer;
-        }
-        public static T Loop<T>(this T timer, Func<bool> loopFunc) where T : IAnimation
-        {
-            timer.Loop = new PropertyValue<bool>(loopFunc);
-            return timer;
-        }
     }
 }
 
@@ -284,6 +231,9 @@ namespace MauiReactor.Animations
 {
     public interface IAnimationContainer
     {
+        PropertyValue<double>? InitialDelay { get; set; }
+        PropertyValue<bool>? Loop { get; set; }
+        PropertyValue<int?>? IterationCount { get; set; }
     }
 
     public abstract class AnimationContainer<T> : Animation<T>, IAnimationContainer, IEnumerable where T : MauiReactor.Animations.Internals.AnimationContainer, new()
@@ -300,6 +250,11 @@ namespace MauiReactor.Animations
         {
 
         }
+
+
+        PropertyValue<double>? IAnimationContainer.InitialDelay { get; set; }
+        PropertyValue<bool>? IAnimationContainer.Loop { get; set; }
+        PropertyValue<int?>? IAnimationContainer.IterationCount { get; set; }
 
 
         protected override IEnumerable<VisualNode> RenderChildren()
@@ -358,11 +313,56 @@ namespace MauiReactor.Animations
             base.OnRemoveChild(widget, childControl);
         }
 
+        protected override void OnUpdate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIAnimationContainer = (IAnimationContainer)this;
+            SetPropertyValue(NativeControl, MauiReactor.Animations.Internals.AnimationContainer.InitialDelayProperty, thisAsIAnimationContainer.InitialDelay);
+            SetPropertyValue(NativeControl, MauiReactor.Animations.Internals.AnimationContainer.LoopProperty, thisAsIAnimationContainer.Loop);
+            SetPropertyValue(NativeControl, MauiReactor.Animations.Internals.AnimationContainer.IterationCountProperty, thisAsIAnimationContainer.IterationCount);
+
+
+            base.OnUpdate();
+        }
     }
 
     public static class AnimationContainerExtensions
     {
-
+        public static T InitialDelay<T>(this T timer, double initialDelay) where T : IAnimationContainer
+        {
+            timer.InitialDelay = new PropertyValue<double>(initialDelay);
+            return timer;
+        }
+        public static T InitialDelay<T>(this T timer, Func<double> initialDelayFunc) where T : IAnimationContainer
+        {
+            timer.InitialDelay = new PropertyValue<double>(initialDelayFunc);
+            return timer;
+        }
+        public static T InitialDelay<T>(this T timer, TimeSpan initialDelay) where T : IAnimationContainer
+        {
+            timer.InitialDelay = new PropertyValue<double>(initialDelay.TotalMilliseconds);
+            return timer;
+        }
+        public static T IterationCount<T>(this T timer, int? iterationCount) where T : IAnimationContainer
+        {
+            timer.IterationCount = new PropertyValue<int?>(iterationCount);
+            return timer;
+        }
+        public static T IterationCount<T>(this T timer, Func<int?> iterationCountFunc) where T : IAnimationContainer
+        {
+            timer.IterationCount = new PropertyValue<int?>(iterationCountFunc);
+            return timer;
+        }
+        public static T Loop<T>(this T timer, bool loop) where T : IAnimationContainer
+        {
+            timer.Loop = new PropertyValue<bool>(loop);
+            return timer;
+        }
+        public static T Loop<T>(this T timer, Func<bool> loopFunc) where T : IAnimationContainer
+        {
+            timer.Loop = new PropertyValue<bool>(loopFunc);
+            return timer;
+        }
     }
 }
 
@@ -640,6 +640,7 @@ namespace MauiReactor.Animations
     {
         PropertyValue<Point>? StartPoint { get; set; }
         PropertyValue<Point>? EndPoint { get; set; }
+        Action<Point>? TickAction { get; set; }
     }
 
     public abstract class PathAnimation<T> : TweenAnimation<T>, IPathAnimation where T : MauiReactor.Animations.Internals.PathAnimation, new()
@@ -657,6 +658,7 @@ namespace MauiReactor.Animations
 
         PropertyValue<Point>? IPathAnimation.StartPoint { get; set; }
         PropertyValue<Point>? IPathAnimation.EndPoint { get; set; }
+        Action<Point>? IPathAnimation.TickAction { get; set; }
 
         protected override void OnUpdate()
         {
@@ -667,6 +669,36 @@ namespace MauiReactor.Animations
 
 
             base.OnUpdate();
+        }
+
+
+        protected override void OnAttachNativeEvents()
+        {
+            Validate.EnsureNotNull(NativeControl);
+
+            var thisAsIPathAnimation = (IPathAnimation)this;
+            if (thisAsIPathAnimation.TickAction != null)
+            {
+                NativeControl.Tick += NativeControl_Tick;
+            }
+
+            base.OnAttachNativeEvents();
+        }
+
+        private void NativeControl_Tick(object? sender, GenericAnimationEventArgs<Point> e)
+        {
+            var thisAsIPathAnimation = (IPathAnimation)this;
+            thisAsIPathAnimation.TickAction?.Invoke(e.Value);
+        }
+
+        protected override void OnDetachNativeEvents()
+        {
+            if (NativeControl != null)
+            {
+                NativeControl.Tick -= NativeControl_Tick;
+            }
+
+            base.OnDetachNativeEvents();
         }
 
     }
@@ -693,6 +725,12 @@ namespace MauiReactor.Animations
             animation.EndPoint = new PropertyValue<Point>(ptFunc);
             return animation;
         }
+
+        public static T OnTick<T>(this T animation, Action<Point> tickAction) where T : IPathAnimation
+        {
+            animation.TickAction = tickAction;
+            return animation;
+        }
     }
 }
 
@@ -702,7 +740,6 @@ namespace MauiReactor.Animations
     {
         PropertyValue<Point>? ControlPoint { get; set; }
 
-        Action<Point>? TickAction { get; set; }
     }
 
     public class QuadraticBezierPathAnimation<T> : PathAnimation<T>, IQuadraticBezierPathAnimation where T : MauiReactor.Animations.Internals.QuadraticBezierPathAnimation, new()
@@ -719,7 +756,6 @@ namespace MauiReactor.Animations
         }
         PropertyValue<Point>? IQuadraticBezierPathAnimation.ControlPoint { get; set; }
 
-        Action<Point>? IQuadraticBezierPathAnimation.TickAction { get; set; }
 
         protected override void OnUpdate()
         {
@@ -729,36 +765,6 @@ namespace MauiReactor.Animations
 
 
             base.OnUpdate();
-        }
-
-
-        protected override void OnAttachNativeEvents()
-        {
-            Validate.EnsureNotNull(NativeControl);
-
-            var thisAsIQuadraticBezierPathAnimation = (IQuadraticBezierPathAnimation)this;
-            if (thisAsIQuadraticBezierPathAnimation.TickAction != null)
-            {
-                NativeControl.Tick += NativeControl_Tick;
-            }
-
-            base.OnAttachNativeEvents();
-        }
-
-        private void NativeControl_Tick(object? sender, GenericAnimationEventArgs<Point> e)
-        {
-            var thisAsIQuadraticBezierPathAnimation = (IQuadraticBezierPathAnimation)this;
-            thisAsIQuadraticBezierPathAnimation.TickAction?.Invoke(e.Value);
-        }
-
-        protected override void OnDetachNativeEvents()
-        {
-            if (NativeControl != null)
-            {
-                NativeControl.Tick -= NativeControl_Tick;
-            }
-
-            base.OnDetachNativeEvents();
         }
     }
 
@@ -797,8 +803,6 @@ namespace MauiReactor.Animations
     {
         PropertyValue<Point>? ControlPoint1 { get; set; }
         PropertyValue<Point>? ControlPoint2 { get; set; }
-
-        Action<Point>? TickAction { get; set; }
     }
 
     public class CubicBezierPathAnimation<T> : PathAnimation<T>, ICubicBezierPathAnimation where T : MauiReactor.Animations.Internals.CubicBezierPathAnimation, new()
@@ -817,8 +821,6 @@ namespace MauiReactor.Animations
         PropertyValue<Point>? ICubicBezierPathAnimation.ControlPoint1 { get; set; }
         PropertyValue<Point>? ICubicBezierPathAnimation.ControlPoint2 { get; set; }
 
-        Action<Point>? ICubicBezierPathAnimation.TickAction { get; set; }
-
         protected override void OnUpdate()
         {
             Validate.EnsureNotNull(NativeControl);
@@ -828,36 +830,6 @@ namespace MauiReactor.Animations
 
 
             base.OnUpdate();
-        }
-
-
-        protected override void OnAttachNativeEvents()
-        {
-            Validate.EnsureNotNull(NativeControl);
-
-            var thisAsIQuadraticBezierPathAnimation = (IQuadraticBezierPathAnimation)this;
-            if (thisAsIQuadraticBezierPathAnimation.TickAction != null)
-            {
-                NativeControl.Tick += NativeControl_Tick;
-            }
-
-            base.OnAttachNativeEvents();
-        }
-
-        private void NativeControl_Tick(object? sender, GenericAnimationEventArgs<Point> e)
-        {
-            var thisAsIQuadraticBezierPathAnimation = (IQuadraticBezierPathAnimation)this;
-            thisAsIQuadraticBezierPathAnimation.TickAction?.Invoke(e.Value);
-        }
-
-        protected override void OnDetachNativeEvents()
-        {
-            if (NativeControl != null)
-            {
-                NativeControl.Tick -= NativeControl_Tick;
-            }
-
-            base.OnDetachNativeEvents();
         }
     }
 
@@ -948,7 +920,7 @@ namespace MauiReactor.Animations.Internals
         public event EventHandler<GenericAnimationEventArgs<bool>>? IsEnabledChanged;
         public event EventHandler<GenericAnimationEventArgs<bool>>? IsPausedChanged;
 
-        public List<Animation> Children { get; } = new();
+        public List<AnimationContainer> Children { get; } = new();
 
         private double _time;
         private double _elapsedTime;
@@ -1019,6 +991,16 @@ namespace MauiReactor.Animations.Internals
 
     public abstract class Animation : BindableObject
     {
+        internal void FireTick(double offset)
+            => OnTick(offset);
+
+        protected abstract void OnTick(double offset);
+
+        public abstract double GetDuration();
+    }
+
+    public abstract class AnimationContainer : Animation
+    {
         public static readonly BindableProperty InitialDelayProperty = BindableProperty.Create(nameof(InitialDelay), typeof(double), typeof(TweenAnimation), 0.0,
             propertyChanged: new BindableProperty.BindingPropertyChangedDelegate((bindableObject, oldValue, newValue) =>
             {
@@ -1036,6 +1018,11 @@ namespace MauiReactor.Animations.Internals
             {
 
             }));
+
+
+        private readonly List<Animation> _children = new();
+
+        public IReadOnlyList<Animation> Children => _children;
 
         public double InitialDelay
         {
@@ -1055,8 +1042,29 @@ namespace MauiReactor.Animations.Internals
             set => SetValue(IterationCountProperty, value);
         }
 
+
+        public void InsertChild(int index, Animation animation)
+        {
+            _children.Insert(index, animation);
+            OnChildInsert(index, animation);
+        }
+
+        public void RemoveChild(Animation animation)
+        {
+            _children.Remove(animation);
+            OnChildRemoved(animation);
+        }
+
+        protected virtual void OnChildRemoved(Animation animation)
+        {
+        }
+
+        protected virtual void OnChildInsert(int index, Animation animation)
+        {
+        }
+
         public bool Progress(double elapsedTime)
-        { 
+        {
             if (elapsedTime <= InitialDelay)
             {
                 OnTick(0.0);
@@ -1095,38 +1103,6 @@ namespace MauiReactor.Animations.Internals
             return false;
         }
 
-        internal void Tick(double offset)
-            => OnTick(offset);
-
-        protected abstract void OnTick(double offset);
-
-        public abstract double GetDuration();
-    }
-
-    public abstract class AnimationContainer : Animation
-    {
-        private readonly List<Animation> _children = new();
-        public IReadOnlyList<Animation> Children => _children;
-
-        public void InsertChild(int index, Animation animation)
-        {
-            _children.Insert(index, animation);
-            OnChildInsert(index, animation);
-        }
-
-        public void RemoveChild(Animation animation)
-        {
-            _children.Remove(animation);
-            OnChildRemoved(animation);
-        }
-
-        protected virtual void OnChildRemoved(Animation animation)
-        {
-        }
-
-        protected virtual void OnChildInsert(int index, Animation animation)
-        {
-        }
     }
 
     public class ParallelAnimation : AnimationContainer
@@ -1153,7 +1129,7 @@ namespace MauiReactor.Animations.Internals
         {
             foreach (var childAnimation in Children)
             {
-                childAnimation.Tick(offset);
+                childAnimation.FireTick(offset);
             }
         }
     }
@@ -1190,7 +1166,7 @@ namespace MauiReactor.Animations.Internals
                 }
                 else
                 {
-                    childAnimation.Tick(offset / childOffset);
+                    childAnimation.FireTick(offset / childOffset);
                     return;
                 }
             }

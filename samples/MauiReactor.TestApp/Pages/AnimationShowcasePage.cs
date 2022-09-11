@@ -22,6 +22,8 @@ class AnimationShowcasePageState: IState
     public double DoubleValue { get; set; }
     public double DoubleValueSequence { get; set; }
     public double DoubleValueParallel { get; set; }
+    public Point PointValueCubicBezier { get; set; }
+    
 }
 
 
@@ -128,6 +130,14 @@ class AnimationShowcasePage : Component<AnimationShowcasePageState>
                             .TranslationX(()=>State.DoubleValueParallel)
                             .HStart()
                             ,
+                        new BoxView()
+                            .BackgroundColor(Colors.DarkViolet)
+                            .HeightRequest(10)
+                            .WidthRequest(10)
+                            .TranslationX(()=>State.PointValueCubicBezier.X)
+                            .TranslationY(()=>State.PointValueCubicBezier.Y)
+                            .HStart()
+                            ,
                     }
                     .Spacing(20)
                 }
@@ -152,20 +162,33 @@ class AnimationShowcasePage : Component<AnimationShowcasePageState>
                     }
                     .Loop(() => State.IsLooping)
                     .IterationCount(() => State.IterationCount)
-                    .InitialDelay(()=>State.InitialDelay)                    
-                    ,
+                    .InitialDelay(()=>State.InitialDelay),
 
-                    new DoubleAnimation()
-                        .StartValue(0)
-                        .TargetValue(300)
-                        .Duration(TimeSpan.FromSeconds(2))
-                        .Loop(() => State.IsLooping)
-                        .IterationCount(() => State.IterationCount)
-                        .InitialDelay(()=>State.InitialDelay)
-                        .OnTick(v => SetState(s => s.DoubleValueParallel = v, false)),
+                    new SequenceAnimation
+                    {
+                        new DoubleAnimation()
+                            .StartValue(0)
+                            .TargetValue(300)
+                            .Duration(TimeSpan.FromSeconds(2))                            
+                            .OnTick(v => SetState(s => s.DoubleValueParallel = v, false)),
 
-                    
+                        new CubicBezierPathAnimation()
+                            .StartPoint(new Point(0,100))
+                            .EndPoint(new Point(300,100))
+                            .ControlPoint1(new Point(0,0))
+                            .ControlPoint2(new Point(300,200))
+                            .OnTick(v => SetState(s => s.PointValueCubicBezier = v, false)),
 
+                        new QuadraticBezierPathAnimation()
+                            .StartPoint(new Point(300,100))
+                            .EndPoint(new Point(0,100))
+                            .ControlPoint(new Point(150,200))
+                            .OnTick(v => SetState(s => s.PointValueCubicBezier = v, false)),
+
+                    }
+                    .Loop(() => State.IsLooping)
+                    .IterationCount(() => State.IterationCount)
+                    .InitialDelay(()=>State.InitialDelay)
                 }
                 .IsEnabled(()=>State.IsEnabled)
                 .OnIsEnabledChanged((isEnabled)=>SetState(s => s.IsEnabled = isEnabled, false))
