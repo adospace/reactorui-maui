@@ -50,6 +50,14 @@ namespace MauiReactor.TestApp
                 {
                     new Pages.AnimationLoopPage()
                 },
+                new FlyoutItem("Navigation")
+                {
+                    new Pages.NavigationMainPage()
+                },
+                new FlyoutItem("ElementRef")
+                {
+                    new Pages.ElementRefPage()
+                },
 
             }
             .ItemTemplate(RenderItemTemplate);

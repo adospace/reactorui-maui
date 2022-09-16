@@ -13,15 +13,24 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IImage : IView
+
     {
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? Source { get; set; }
+
         PropertyValue<Microsoft.Maui.Aspect>? Aspect { get; set; }
+
         PropertyValue<bool>? IsOpaque { get; set; }
+
         PropertyValue<bool>? IsAnimationPlaying { get; set; }
 
 
+
+
     }
+
 
     public partial class Image<T> : View<T>, IImage where T : Microsoft.Maui.Controls.Image, new()
     {
@@ -36,22 +45,44 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IImage.Source { get; set; }
+
         PropertyValue<Microsoft.Maui.Aspect>? IImage.Aspect { get; set; }
+
         PropertyValue<bool>? IImage.IsOpaque { get; set; }
+
         PropertyValue<bool>? IImage.IsAnimationPlaying { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIImage = (IImage)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Image.SourceProperty, thisAsIImage.Source);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Image.AspectProperty, thisAsIImage.Aspect);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Image.IsOpaqueProperty, thisAsIImage.IsOpaque);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Image.IsAnimationPlayingProperty, thisAsIImage.IsAnimationPlaying);
+
+
+
 
 
             base.OnUpdate();
@@ -60,11 +91,14 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class Image : Image<Microsoft.Maui.Controls.Image>
     {
@@ -80,19 +114,27 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class ImageExtensions
     {
+
+
         public static T Source<T>(this T image, Microsoft.Maui.Controls.ImageSource source) where T : IImage
         {
             image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(source);
             return image;
         }
 
+
         public static T Source<T>(this T image, Func<Microsoft.Maui.Controls.ImageSource> sourceFunc) where T : IImage
         {
             image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(sourceFunc);
             return image;
         }
+
+
+
+
 
 
         public static T Source<T>(this T image, string file) where T : IImage
@@ -126,11 +168,15 @@ namespace MauiReactor
             return image;
         }
 
+
+
+
         public static T Aspect<T>(this T image, Microsoft.Maui.Aspect aspect) where T : IImage
         {
             image.Aspect = new PropertyValue<Microsoft.Maui.Aspect>(aspect);
             return image;
         }
+
 
         public static T Aspect<T>(this T image, Func<Microsoft.Maui.Aspect> aspectFunc) where T : IImage
         {
@@ -140,11 +186,18 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T IsOpaque<T>(this T image, bool isOpaque) where T : IImage
         {
             image.IsOpaque = new PropertyValue<bool>(isOpaque);
             return image;
         }
+
 
         public static T IsOpaque<T>(this T image, Func<bool> isOpaqueFunc) where T : IImage
         {
@@ -154,17 +207,30 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T IsAnimationPlaying<T>(this T image, bool isAnimationPlaying) where T : IImage
         {
             image.IsAnimationPlaying = new PropertyValue<bool>(isAnimationPlaying);
             return image;
         }
 
+
         public static T IsAnimationPlaying<T>(this T image, Func<bool> isAnimationPlayingFunc) where T : IImage
         {
             image.IsAnimationPlaying = new PropertyValue<bool>(isAnimationPlayingFunc);
             return image;
         }
+
+
+
+
+
+
 
 
 

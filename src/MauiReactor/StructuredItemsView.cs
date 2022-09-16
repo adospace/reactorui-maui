@@ -13,12 +13,18 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IStructuredItemsView : IItemsView
+
     {
+
         PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>? ItemSizingStrategy { get; set; }
 
 
+
+
     }
+
 
     public partial class StructuredItemsView<T> : ItemsView<T>, IStructuredItemsView where T : Microsoft.Maui.Controls.StructuredItemsView, new()
     {
@@ -33,16 +39,26 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>? IStructuredItemsView.ItemSizingStrategy { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIStructuredItemsView = (IStructuredItemsView)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.StructuredItemsView.ItemSizingStrategyProperty, thisAsIStructuredItemsView.ItemSizingStrategy);
+
+
+
 
 
             base.OnUpdate();
@@ -51,11 +67,14 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class StructuredItemsView : StructuredItemsView<Microsoft.Maui.Controls.StructuredItemsView>
     {
@@ -71,19 +90,29 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class StructuredItemsViewExtensions
     {
+
+
         public static T ItemSizingStrategy<T>(this T structuredItemsView, Microsoft.Maui.Controls.ItemSizingStrategy itemSizingStrategy) where T : IStructuredItemsView
         {
             structuredItemsView.ItemSizingStrategy = new PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>(itemSizingStrategy);
             return structuredItemsView;
         }
 
+
         public static T ItemSizingStrategy<T>(this T structuredItemsView, Func<Microsoft.Maui.Controls.ItemSizingStrategy> itemSizingStrategyFunc) where T : IStructuredItemsView
         {
             structuredItemsView.ItemSizingStrategy = new PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>(itemSizingStrategyFunc);
             return structuredItemsView;
         }
+
+
+
+
+
+
 
 
 

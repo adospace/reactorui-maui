@@ -13,23 +13,39 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IEditor : IInputView
+
     {
+
         PropertyValue<string>? FontFamily { get; set; }
+
         PropertyValue<double>? FontSize { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.FontAttributes>? FontAttributes { get; set; }
+
         PropertyValue<bool>? FontAutoScalingEnabled { get; set; }
+
         PropertyValue<bool>? IsTextPredictionEnabled { get; set; }
+
         PropertyValue<int>? CursorPosition { get; set; }
+
         PropertyValue<int>? SelectionLength { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>? AutoSize { get; set; }
+
         PropertyValue<Microsoft.Maui.TextAlignment>? HorizontalTextAlignment { get; set; }
+
         PropertyValue<Microsoft.Maui.TextAlignment>? VerticalTextAlignment { get; set; }
+
+
 
         Action? CompletedAction { get; set; }
         Action<object?, EventArgs>? CompletedActionWithArgs { get; set; }
 
+
     }
+
 
     public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.Controls.Editor, new()
     {
@@ -44,36 +60,83 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<string>? IEditor.FontFamily { get; set; }
+
         PropertyValue<double>? IEditor.FontSize { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.FontAttributes>? IEditor.FontAttributes { get; set; }
+
         PropertyValue<bool>? IEditor.FontAutoScalingEnabled { get; set; }
+
         PropertyValue<bool>? IEditor.IsTextPredictionEnabled { get; set; }
+
         PropertyValue<int>? IEditor.CursorPosition { get; set; }
+
         PropertyValue<int>? IEditor.SelectionLength { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>? IEditor.AutoSize { get; set; }
+
         PropertyValue<Microsoft.Maui.TextAlignment>? IEditor.HorizontalTextAlignment { get; set; }
+
         PropertyValue<Microsoft.Maui.TextAlignment>? IEditor.VerticalTextAlignment { get; set; }
+
+
 
         Action? IEditor.CompletedAction { get; set; }
         Action<object?, EventArgs>? IEditor.CompletedActionWithArgs { get; set; }
+
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIEditor = (IEditor)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.FontFamilyProperty, thisAsIEditor.FontFamily);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.FontSizeProperty, thisAsIEditor.FontSize);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.FontAttributesProperty, thisAsIEditor.FontAttributes);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.FontAutoScalingEnabledProperty, thisAsIEditor.FontAutoScalingEnabled);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.IsTextPredictionEnabledProperty, thisAsIEditor.IsTextPredictionEnabled);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.CursorPositionProperty, thisAsIEditor.CursorPosition);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.SelectionLengthProperty, thisAsIEditor.SelectionLength);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.AutoSizeProperty, thisAsIEditor.AutoSize);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.HorizontalTextAlignmentProperty, thisAsIEditor.HorizontalTextAlignment);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.VerticalTextAlignmentProperty, thisAsIEditor.VerticalTextAlignment);
+
+
+
 
 
             base.OnUpdate();
@@ -81,31 +144,47 @@ namespace MauiReactor
             OnEndUpdate();
         }
 
+
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIEditor = (IEditor)this;
 
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.FontSizeProperty, thisAsIEditor.FontSize);
+
+
 
             base.OnAnimate();
         }
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
+
+
+        partial void OnAttachingNativeEvents();
+        partial void OnDetachingNativeEvents();
 
         protected override void OnAttachNativeEvents()
         {
             Validate.EnsureNotNull(NativeControl);
 
             var thisAsIEditor = (IEditor)this;
+
             if (thisAsIEditor.CompletedAction != null || thisAsIEditor.CompletedActionWithArgs != null)
             {
                 NativeControl.Completed += NativeControl_Completed;
             }
 
+
+            OnAttachingNativeEvents();
+
             base.OnAttachNativeEvents();
         }
+
 
         private void NativeControl_Completed(object? sender, EventArgs e)
         {
@@ -114,17 +193,24 @@ namespace MauiReactor
             thisAsIEditor.CompletedActionWithArgs?.Invoke(sender, e);
         }
 
+
         protected override void OnDetachNativeEvents()
         {
             if (NativeControl != null)
             {
+
                 NativeControl.Completed -= NativeControl_Completed;
+
             }
+
+            OnDetachingNativeEvents();
 
             base.OnDetachNativeEvents();
         }
 
+
     }
+
 
     public partial class Editor : Editor<Microsoft.Maui.Controls.Editor>
     {
@@ -140,19 +226,29 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class EditorExtensions
     {
+
+
         public static T FontFamily<T>(this T editor, string fontFamily) where T : IEditor
         {
             editor.FontFamily = new PropertyValue<string>(fontFamily);
             return editor;
         }
 
+
         public static T FontFamily<T>(this T editor, Func<string> fontFamilyFunc) where T : IEditor
         {
             editor.FontFamily = new PropertyValue<string>(fontFamilyFunc);
             return editor;
         }
+
+
+
+
+
+
 
 
 
@@ -163,11 +259,18 @@ namespace MauiReactor
             return editor;
         }
 
+
         public static T FontSize<T>(this T editor, Func<double> fontSizeFunc) where T : IEditor
         {
             editor.FontSize = new PropertyValue<double>(fontSizeFunc);
             return editor;
         }
+
+
+
+
+
+
 
 
 
@@ -177,11 +280,18 @@ namespace MauiReactor
             return editor;
         }
 
+
         public static T FontAttributes<T>(this T editor, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc) where T : IEditor
         {
             editor.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
             return editor;
         }
+
+
+
+
+
+
 
 
 
@@ -191,11 +301,18 @@ namespace MauiReactor
             return editor;
         }
 
+
         public static T FontAutoScalingEnabled<T>(this T editor, Func<bool> fontAutoScalingEnabledFunc) where T : IEditor
         {
             editor.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
             return editor;
         }
+
+
+
+
+
+
 
 
 
@@ -205,11 +322,18 @@ namespace MauiReactor
             return editor;
         }
 
+
         public static T IsTextPredictionEnabled<T>(this T editor, Func<bool> isTextPredictionEnabledFunc) where T : IEditor
         {
             editor.IsTextPredictionEnabled = new PropertyValue<bool>(isTextPredictionEnabledFunc);
             return editor;
         }
+
+
+
+
+
+
 
 
 
@@ -219,11 +343,18 @@ namespace MauiReactor
             return editor;
         }
 
+
         public static T CursorPosition<T>(this T editor, Func<int> cursorPositionFunc) where T : IEditor
         {
             editor.CursorPosition = new PropertyValue<int>(cursorPositionFunc);
             return editor;
         }
+
+
+
+
+
+
 
 
 
@@ -233,11 +364,18 @@ namespace MauiReactor
             return editor;
         }
 
+
         public static T SelectionLength<T>(this T editor, Func<int> selectionLengthFunc) where T : IEditor
         {
             editor.SelectionLength = new PropertyValue<int>(selectionLengthFunc);
             return editor;
         }
+
+
+
+
+
+
 
 
 
@@ -247,11 +385,18 @@ namespace MauiReactor
             return editor;
         }
 
+
         public static T AutoSize<T>(this T editor, Func<Microsoft.Maui.Controls.EditorAutoSizeOption> autoSizeFunc) where T : IEditor
         {
             editor.AutoSize = new PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>(autoSizeFunc);
             return editor;
         }
+
+
+
+
+
+
 
 
 
@@ -261,11 +406,18 @@ namespace MauiReactor
             return editor;
         }
 
+
         public static T HorizontalTextAlignment<T>(this T editor, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc) where T : IEditor
         {
             editor.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
             return editor;
         }
+
+
+
+
+
+
 
 
 
@@ -275,11 +427,18 @@ namespace MauiReactor
             return editor;
         }
 
+
         public static T VerticalTextAlignment<T>(this T editor, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc) where T : IEditor
         {
             editor.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
             return editor;
         }
+
+
+
+
+
+
 
 
 
@@ -295,5 +454,6 @@ namespace MauiReactor
             editor.CompletedActionWithArgs = completedActionWithArgs;
             return editor;
         }
+
     }
 }

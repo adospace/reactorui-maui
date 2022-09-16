@@ -13,11 +13,16 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IFlyoutItem : IShellItem
+
     {
 
 
+
+
     }
+
 
     public partial class FlyoutItem<T> : ShellItem<T>, IFlyoutItem where T : Microsoft.Maui.Controls.FlyoutItem, new()
     {
@@ -34,9 +39,13 @@ namespace MauiReactor
 
 
 
+
+
+
         protected override void OnUpdate()
         {
             OnBeginUpdate();
+
 
             base.OnUpdate();
 
@@ -44,11 +53,14 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class FlyoutItem : FlyoutItem<Microsoft.Maui.Controls.FlyoutItem>
     {
@@ -64,8 +76,11 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class FlyoutItemExtensions
     {
+
+
 
     }
 }

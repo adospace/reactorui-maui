@@ -13,12 +13,18 @@ using MauiReactor.Internals;
 
 namespace MauiReactor.Shapes
 {
+
     public partial interface IPath : Shapes.IShape
+
     {
+
         PropertyValue<Microsoft.Maui.Controls.Shapes.Transform>? RenderTransform { get; set; }
 
 
+
+
     }
+
 
     public sealed partial class Path : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Path>, IPath
     {
@@ -33,16 +39,26 @@ namespace MauiReactor.Shapes
 
         }
 
+
+
         PropertyValue<Microsoft.Maui.Controls.Shapes.Transform>? IPath.RenderTransform { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIPath = (IPath)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Path.RenderTransformProperty, thisAsIPath.RenderTransform);
+
+
+
 
 
             base.OnUpdate();
@@ -51,26 +67,38 @@ namespace MauiReactor.Shapes
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
 
 
     }
 
 
+
     public static partial class PathExtensions
     {
+
+
         public static T RenderTransform<T>(this T path, Microsoft.Maui.Controls.Shapes.Transform renderTransform) where T : IPath
         {
             path.RenderTransform = new PropertyValue<Microsoft.Maui.Controls.Shapes.Transform>(renderTransform);
             return path;
         }
 
+
         public static T RenderTransform<T>(this T path, Func<Microsoft.Maui.Controls.Shapes.Transform> renderTransformFunc) where T : IPath
         {
             path.RenderTransform = new PropertyValue<Microsoft.Maui.Controls.Shapes.Transform>(renderTransformFunc);
             return path;
         }
+
+
+
+
+
+
 
 
 

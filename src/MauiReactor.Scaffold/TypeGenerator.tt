@@ -158,6 +158,10 @@ namespace <#= Namespace() #>
         partial void OnEndUpdate();
 
         <# if (Events.Any()) { #>
+
+        partial void OnAttachingNativeEvents();
+        partial void OnDetachingNativeEvents();
+
         protected override void OnAttachNativeEvents()
         {
             Validate.EnsureNotNull(NativeControl);
@@ -169,6 +173,8 @@ namespace <#= Namespace() #>
                 NativeControl.<#= ev.Name #> += NativeControl_<#= ev.Name #>;
             }
             <# } #>
+
+            OnAttachingNativeEvents();
 
             base.OnAttachNativeEvents();
         }
@@ -192,6 +198,8 @@ namespace <#= Namespace() #>
             NativeControl.<#= ev.Name #> -= NativeControl_<#= ev.Name #>;
             <# } #>
             }
+
+            OnDetachingNativeEvents();
 
             base.OnDetachNativeEvents();
         }

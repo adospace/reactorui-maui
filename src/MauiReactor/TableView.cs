@@ -13,13 +13,20 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface ITableView : IView
+
     {
+
         PropertyValue<int>? RowHeight { get; set; }
+
         PropertyValue<bool>? HasUnevenRows { get; set; }
 
 
+
+
     }
+
 
     public partial class TableView<T> : View<T>, ITableView where T : Microsoft.Maui.Controls.TableView, new()
     {
@@ -34,18 +41,32 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<int>? ITableView.RowHeight { get; set; }
+
         PropertyValue<bool>? ITableView.HasUnevenRows { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsITableView = (ITableView)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TableView.RowHeightProperty, thisAsITableView.RowHeight);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TableView.HasUnevenRowsProperty, thisAsITableView.HasUnevenRows);
+
+
+
 
 
             base.OnUpdate();
@@ -54,11 +75,14 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class TableView : TableView<Microsoft.Maui.Controls.TableView>
     {
@@ -74,13 +98,17 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class TableViewExtensions
     {
+
+
         public static T RowHeight<T>(this T tableView, int rowHeight) where T : ITableView
         {
             tableView.RowHeight = new PropertyValue<int>(rowHeight);
             return tableView;
         }
+
 
         public static T RowHeight<T>(this T tableView, Func<int> rowHeightFunc) where T : ITableView
         {
@@ -90,17 +118,30 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T HasUnevenRows<T>(this T tableView, bool hasUnevenRows) where T : ITableView
         {
             tableView.HasUnevenRows = new PropertyValue<bool>(hasUnevenRows);
             return tableView;
         }
 
+
         public static T HasUnevenRows<T>(this T tableView, Func<bool> hasUnevenRowsFunc) where T : ITableView
         {
             tableView.HasUnevenRows = new PropertyValue<bool>(hasUnevenRowsFunc);
             return tableView;
         }
+
+
+
+
+
+
 
 
 

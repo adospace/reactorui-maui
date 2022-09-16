@@ -13,11 +13,16 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IShellItem : IShellGroupItem
+
     {
 
 
+
+
     }
+
 
     public partial class ShellItem<T> : ShellGroupItem<T>, IShellItem where T : Microsoft.Maui.Controls.ShellItem, new()
     {
@@ -34,9 +39,13 @@ namespace MauiReactor
 
 
 
+
+
+
         protected override void OnUpdate()
         {
             OnBeginUpdate();
+
 
             base.OnUpdate();
 
@@ -44,11 +53,14 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class ShellItem : ShellItem<Microsoft.Maui.Controls.ShellItem>
     {
@@ -64,8 +76,11 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class ShellItemExtensions
     {
+
+
 
     }
 }

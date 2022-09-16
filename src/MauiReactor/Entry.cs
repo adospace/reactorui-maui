@@ -13,25 +13,43 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IEntry : IInputView
+
     {
+
         PropertyValue<Microsoft.Maui.ReturnType>? ReturnType { get; set; }
+
         PropertyValue<bool>? IsPassword { get; set; }
+
         PropertyValue<Microsoft.Maui.TextAlignment>? HorizontalTextAlignment { get; set; }
+
         PropertyValue<Microsoft.Maui.TextAlignment>? VerticalTextAlignment { get; set; }
+
         PropertyValue<string>? FontFamily { get; set; }
+
         PropertyValue<double>? FontSize { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.FontAttributes>? FontAttributes { get; set; }
+
         PropertyValue<bool>? FontAutoScalingEnabled { get; set; }
+
         PropertyValue<bool>? IsTextPredictionEnabled { get; set; }
+
         PropertyValue<int>? CursorPosition { get; set; }
+
         PropertyValue<int>? SelectionLength { get; set; }
+
         PropertyValue<Microsoft.Maui.ClearButtonVisibility>? ClearButtonVisibility { get; set; }
+
+
 
         Action? CompletedAction { get; set; }
         Action<object?, EventArgs>? CompletedActionWithArgs { get; set; }
 
+
     }
+
 
     public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Controls.Entry, new()
     {
@@ -46,40 +64,95 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<Microsoft.Maui.ReturnType>? IEntry.ReturnType { get; set; }
+
         PropertyValue<bool>? IEntry.IsPassword { get; set; }
+
         PropertyValue<Microsoft.Maui.TextAlignment>? IEntry.HorizontalTextAlignment { get; set; }
+
         PropertyValue<Microsoft.Maui.TextAlignment>? IEntry.VerticalTextAlignment { get; set; }
+
         PropertyValue<string>? IEntry.FontFamily { get; set; }
+
         PropertyValue<double>? IEntry.FontSize { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.FontAttributes>? IEntry.FontAttributes { get; set; }
+
         PropertyValue<bool>? IEntry.FontAutoScalingEnabled { get; set; }
+
         PropertyValue<bool>? IEntry.IsTextPredictionEnabled { get; set; }
+
         PropertyValue<int>? IEntry.CursorPosition { get; set; }
+
         PropertyValue<int>? IEntry.SelectionLength { get; set; }
+
         PropertyValue<Microsoft.Maui.ClearButtonVisibility>? IEntry.ClearButtonVisibility { get; set; }
+
+
 
         Action? IEntry.CompletedAction { get; set; }
         Action<object?, EventArgs>? IEntry.CompletedActionWithArgs { get; set; }
+
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIEntry = (IEntry)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.ReturnTypeProperty, thisAsIEntry.ReturnType);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.IsPasswordProperty, thisAsIEntry.IsPassword);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.HorizontalTextAlignmentProperty, thisAsIEntry.HorizontalTextAlignment);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.VerticalTextAlignmentProperty, thisAsIEntry.VerticalTextAlignment);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.FontFamilyProperty, thisAsIEntry.FontFamily);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.FontSizeProperty, thisAsIEntry.FontSize);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.FontAttributesProperty, thisAsIEntry.FontAttributes);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.FontAutoScalingEnabledProperty, thisAsIEntry.FontAutoScalingEnabled);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.IsTextPredictionEnabledProperty, thisAsIEntry.IsTextPredictionEnabled);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.CursorPositionProperty, thisAsIEntry.CursorPosition);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.SelectionLengthProperty, thisAsIEntry.SelectionLength);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.ClearButtonVisibilityProperty, thisAsIEntry.ClearButtonVisibility);
+
+
+
 
 
             base.OnUpdate();
@@ -87,31 +160,47 @@ namespace MauiReactor
             OnEndUpdate();
         }
 
+
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIEntry = (IEntry)this;
 
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.FontSizeProperty, thisAsIEntry.FontSize);
+
+
 
             base.OnAnimate();
         }
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
+
+
+        partial void OnAttachingNativeEvents();
+        partial void OnDetachingNativeEvents();
 
         protected override void OnAttachNativeEvents()
         {
             Validate.EnsureNotNull(NativeControl);
 
             var thisAsIEntry = (IEntry)this;
+
             if (thisAsIEntry.CompletedAction != null || thisAsIEntry.CompletedActionWithArgs != null)
             {
                 NativeControl.Completed += NativeControl_Completed;
             }
 
+
+            OnAttachingNativeEvents();
+
             base.OnAttachNativeEvents();
         }
+
 
         private void NativeControl_Completed(object? sender, EventArgs e)
         {
@@ -120,17 +209,24 @@ namespace MauiReactor
             thisAsIEntry.CompletedActionWithArgs?.Invoke(sender, e);
         }
 
+
         protected override void OnDetachNativeEvents()
         {
             if (NativeControl != null)
             {
+
                 NativeControl.Completed -= NativeControl_Completed;
+
             }
+
+            OnDetachingNativeEvents();
 
             base.OnDetachNativeEvents();
         }
 
+
     }
+
 
     public partial class Entry : Entry<Microsoft.Maui.Controls.Entry>
     {
@@ -146,13 +242,17 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class EntryExtensions
     {
+
+
         public static T ReturnType<T>(this T entry, Microsoft.Maui.ReturnType returnType) where T : IEntry
         {
             entry.ReturnType = new PropertyValue<Microsoft.Maui.ReturnType>(returnType);
             return entry;
         }
+
 
         public static T ReturnType<T>(this T entry, Func<Microsoft.Maui.ReturnType> returnTypeFunc) where T : IEntry
         {
@@ -162,11 +262,18 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T IsPassword<T>(this T entry, bool isPassword) where T : IEntry
         {
             entry.IsPassword = new PropertyValue<bool>(isPassword);
             return entry;
         }
+
 
         public static T IsPassword<T>(this T entry, Func<bool> isPasswordFunc) where T : IEntry
         {
@@ -176,11 +283,18 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T HorizontalTextAlignment<T>(this T entry, Microsoft.Maui.TextAlignment horizontalTextAlignment) where T : IEntry
         {
             entry.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignment);
             return entry;
         }
+
 
         public static T HorizontalTextAlignment<T>(this T entry, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc) where T : IEntry
         {
@@ -190,11 +304,18 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T VerticalTextAlignment<T>(this T entry, Microsoft.Maui.TextAlignment verticalTextAlignment) where T : IEntry
         {
             entry.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignment);
             return entry;
         }
+
 
         public static T VerticalTextAlignment<T>(this T entry, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc) where T : IEntry
         {
@@ -204,17 +325,30 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T FontFamily<T>(this T entry, string fontFamily) where T : IEntry
         {
             entry.FontFamily = new PropertyValue<string>(fontFamily);
             return entry;
         }
 
+
         public static T FontFamily<T>(this T entry, Func<string> fontFamilyFunc) where T : IEntry
         {
             entry.FontFamily = new PropertyValue<string>(fontFamilyFunc);
             return entry;
         }
+
+
+
+
+
+
 
 
 
@@ -225,11 +359,18 @@ namespace MauiReactor
             return entry;
         }
 
+
         public static T FontSize<T>(this T entry, Func<double> fontSizeFunc) where T : IEntry
         {
             entry.FontSize = new PropertyValue<double>(fontSizeFunc);
             return entry;
         }
+
+
+
+
+
+
 
 
 
@@ -239,11 +380,18 @@ namespace MauiReactor
             return entry;
         }
 
+
         public static T FontAttributes<T>(this T entry, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc) where T : IEntry
         {
             entry.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
             return entry;
         }
+
+
+
+
+
+
 
 
 
@@ -253,11 +401,18 @@ namespace MauiReactor
             return entry;
         }
 
+
         public static T FontAutoScalingEnabled<T>(this T entry, Func<bool> fontAutoScalingEnabledFunc) where T : IEntry
         {
             entry.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
             return entry;
         }
+
+
+
+
+
+
 
 
 
@@ -267,11 +422,18 @@ namespace MauiReactor
             return entry;
         }
 
+
         public static T IsTextPredictionEnabled<T>(this T entry, Func<bool> isTextPredictionEnabledFunc) where T : IEntry
         {
             entry.IsTextPredictionEnabled = new PropertyValue<bool>(isTextPredictionEnabledFunc);
             return entry;
         }
+
+
+
+
+
+
 
 
 
@@ -281,11 +443,18 @@ namespace MauiReactor
             return entry;
         }
 
+
         public static T CursorPosition<T>(this T entry, Func<int> cursorPositionFunc) where T : IEntry
         {
             entry.CursorPosition = new PropertyValue<int>(cursorPositionFunc);
             return entry;
         }
+
+
+
+
+
+
 
 
 
@@ -295,11 +464,18 @@ namespace MauiReactor
             return entry;
         }
 
+
         public static T SelectionLength<T>(this T entry, Func<int> selectionLengthFunc) where T : IEntry
         {
             entry.SelectionLength = new PropertyValue<int>(selectionLengthFunc);
             return entry;
         }
+
+
+
+
+
+
 
 
 
@@ -309,11 +485,18 @@ namespace MauiReactor
             return entry;
         }
 
+
         public static T ClearButtonVisibility<T>(this T entry, Func<Microsoft.Maui.ClearButtonVisibility> clearButtonVisibilityFunc) where T : IEntry
         {
             entry.ClearButtonVisibility = new PropertyValue<Microsoft.Maui.ClearButtonVisibility>(clearButtonVisibilityFunc);
             return entry;
         }
+
+
+
+
+
+
 
 
 
@@ -329,5 +512,6 @@ namespace MauiReactor
             entry.CompletedActionWithArgs = completedActionWithArgs;
             return entry;
         }
+
     }
 }

@@ -13,11 +13,16 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IContentPage : ITemplatedPage
+
     {
 
 
+
+
     }
+
 
     public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : Microsoft.Maui.Controls.ContentPage, new()
     {
@@ -34,9 +39,13 @@ namespace MauiReactor
 
 
 
+
+
+
         protected override void OnUpdate()
         {
             OnBeginUpdate();
+
 
             base.OnUpdate();
 
@@ -44,11 +53,14 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class ContentPage : ContentPage<Microsoft.Maui.Controls.ContentPage>
     {
@@ -64,8 +76,11 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class ContentPageExtensions
     {
+
+
 
     }
 }

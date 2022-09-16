@@ -13,12 +13,18 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IImageCell : ITextCell
+
     {
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? ImageSource { get; set; }
 
 
+
+
     }
+
 
     public partial class ImageCell<T> : TextCell<T>, IImageCell where T : Microsoft.Maui.Controls.ImageCell, new()
     {
@@ -33,16 +39,26 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IImageCell.ImageSource { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIImageCell = (IImageCell)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ImageCell.ImageSourceProperty, thisAsIImageCell.ImageSource);
+
+
+
 
 
             base.OnUpdate();
@@ -51,11 +67,14 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class ImageCell : ImageCell<Microsoft.Maui.Controls.ImageCell>
     {
@@ -71,19 +90,27 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class ImageCellExtensions
     {
+
+
         public static T ImageSource<T>(this T imageCell, Microsoft.Maui.Controls.ImageSource imageSource) where T : IImageCell
         {
             imageCell.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(imageSource);
             return imageCell;
         }
 
+
         public static T ImageSource<T>(this T imageCell, Func<Microsoft.Maui.Controls.ImageSource> imageSourceFunc) where T : IImageCell
         {
             imageCell.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(imageSourceFunc);
             return imageCell;
         }
+
+
+
+
 
 
         public static T Image<T>(this T imageCell, string file) where T : IImageCell
@@ -116,6 +143,9 @@ namespace MauiReactor
             imageCell.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
             return imageCell;
         }
+
+
+
 
 
     }

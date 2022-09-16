@@ -13,12 +13,18 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IGroupableItemsView : ISelectableItemsView
+
     {
+
         PropertyValue<bool>? IsGrouped { get; set; }
 
 
+
+
     }
+
 
     public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableItemsView where T : Microsoft.Maui.Controls.GroupableItemsView, new()
     {
@@ -33,16 +39,26 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<bool>? IGroupableItemsView.IsGrouped { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIGroupableItemsView = (IGroupableItemsView)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.GroupableItemsView.IsGroupedProperty, thisAsIGroupableItemsView.IsGrouped);
+
+
+
 
 
             base.OnUpdate();
@@ -51,11 +67,14 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class GroupableItemsView : GroupableItemsView<Microsoft.Maui.Controls.GroupableItemsView>
     {
@@ -71,19 +90,29 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class GroupableItemsViewExtensions
     {
+
+
         public static T IsGrouped<T>(this T groupableItemsView, bool isGrouped) where T : IGroupableItemsView
         {
             groupableItemsView.IsGrouped = new PropertyValue<bool>(isGrouped);
             return groupableItemsView;
         }
 
+
         public static T IsGrouped<T>(this T groupableItemsView, Func<bool> isGroupedFunc) where T : IGroupableItemsView
         {
             groupableItemsView.IsGrouped = new PropertyValue<bool>(isGroupedFunc);
             return groupableItemsView;
         }
+
+
+
+
+
+
 
 
 

@@ -13,11 +13,16 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface ITabBar : IShellItem
+
     {
 
 
+
+
     }
+
 
     public partial class TabBar<T> : ShellItem<T>, ITabBar where T : Microsoft.Maui.Controls.TabBar, new()
     {
@@ -34,9 +39,13 @@ namespace MauiReactor
 
 
 
+
+
+
         protected override void OnUpdate()
         {
             OnBeginUpdate();
+
 
             base.OnUpdate();
 
@@ -44,11 +53,14 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class TabBar : TabBar<Microsoft.Maui.Controls.TabBar>
     {
@@ -64,8 +76,11 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class TabBarExtensions
     {
+
+
 
     }
 }

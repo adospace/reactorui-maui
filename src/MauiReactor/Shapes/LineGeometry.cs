@@ -13,13 +13,20 @@ using MauiReactor.Internals;
 
 namespace MauiReactor.Shapes
 {
+
     public partial interface ILineGeometry : Shapes.IGeometry
+
     {
+
         PropertyValue<Microsoft.Maui.Graphics.Point>? StartPoint { get; set; }
+
         PropertyValue<Microsoft.Maui.Graphics.Point>? EndPoint { get; set; }
 
 
+
+
     }
+
 
     public partial class LineGeometry<T> : Shapes.Geometry<T>, ILineGeometry where T : Microsoft.Maui.Controls.Shapes.LineGeometry, new()
     {
@@ -34,18 +41,32 @@ namespace MauiReactor.Shapes
 
         }
 
+
+
         PropertyValue<Microsoft.Maui.Graphics.Point>? ILineGeometry.StartPoint { get; set; }
+
         PropertyValue<Microsoft.Maui.Graphics.Point>? ILineGeometry.EndPoint { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsILineGeometry = (ILineGeometry)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, thisAsILineGeometry.StartPoint);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, thisAsILineGeometry.EndPoint);
+
+
+
 
 
             base.OnUpdate();
@@ -53,22 +74,33 @@ namespace MauiReactor.Shapes
             OnEndUpdate();
         }
 
+
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsILineGeometry = (ILineGeometry)this;
 
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, thisAsILineGeometry.StartPoint);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, thisAsILineGeometry.EndPoint);
+
+
 
             base.OnAnimate();
         }
+
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class LineGeometry : LineGeometry<Microsoft.Maui.Controls.Shapes.LineGeometry>
     {
@@ -84,8 +116,11 @@ namespace MauiReactor.Shapes
         }
     }
 
+
     public static partial class LineGeometryExtensions
     {
+
+
         public static T StartPoint<T>(this T lineGeometry, Microsoft.Maui.Graphics.Point startPoint, RxPointAnimation? customAnimation = null) where T : ILineGeometry
         {
             lineGeometry.StartPoint = new PropertyValue<Microsoft.Maui.Graphics.Point>(startPoint);
@@ -93,16 +128,24 @@ namespace MauiReactor.Shapes
             return lineGeometry;
         }
 
+
         public static T StartPoint<T>(this T lineGeometry, Func<Microsoft.Maui.Graphics.Point> startPointFunc) where T : ILineGeometry
         {
             lineGeometry.StartPoint = new PropertyValue<Microsoft.Maui.Graphics.Point>(startPointFunc);
             return lineGeometry;
         }
+
+
         public static T StartPoint<T>(this T lineGeometry, double x, double y) where T : ILineGeometry
         {
             lineGeometry.StartPoint = new PropertyValue<Microsoft.Maui.Graphics.Point>(new Microsoft.Maui.Graphics.Point(x, y));
             return lineGeometry;
         }
+
+
+
+
+
 
 
 
@@ -113,16 +156,24 @@ namespace MauiReactor.Shapes
             return lineGeometry;
         }
 
+
         public static T EndPoint<T>(this T lineGeometry, Func<Microsoft.Maui.Graphics.Point> endPointFunc) where T : ILineGeometry
         {
             lineGeometry.EndPoint = new PropertyValue<Microsoft.Maui.Graphics.Point>(endPointFunc);
             return lineGeometry;
         }
+
+
         public static T EndPoint<T>(this T lineGeometry, double x, double y) where T : ILineGeometry
         {
             lineGeometry.EndPoint = new PropertyValue<Microsoft.Maui.Graphics.Point>(new Microsoft.Maui.Graphics.Point(x, y));
             return lineGeometry;
         }
+
+
+
+
+
 
 
 

@@ -13,13 +13,20 @@ using MauiReactor.Internals;
 
 namespace MauiReactor.Shapes
 {
+
     public partial interface IRoundRectangleGeometry : Shapes.IGeometryGroup
+
     {
+
         PropertyValue<Microsoft.Maui.Graphics.Rect>? Rect { get; set; }
+
         PropertyValue<Microsoft.Maui.CornerRadius>? CornerRadius { get; set; }
 
 
+
+
     }
+
 
     public partial class RoundRectangleGeometry<T> : Shapes.GeometryGroup<T>, IRoundRectangleGeometry where T : Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry, new()
     {
@@ -34,18 +41,32 @@ namespace MauiReactor.Shapes
 
         }
 
+
+
         PropertyValue<Microsoft.Maui.Graphics.Rect>? IRoundRectangleGeometry.Rect { get; set; }
+
         PropertyValue<Microsoft.Maui.CornerRadius>? IRoundRectangleGeometry.CornerRadius { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIRoundRectangleGeometry = (IRoundRectangleGeometry)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry.RectProperty, thisAsIRoundRectangleGeometry.Rect);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry.CornerRadiusProperty, thisAsIRoundRectangleGeometry.CornerRadius);
+
+
+
 
 
             base.OnUpdate();
@@ -53,21 +74,29 @@ namespace MauiReactor.Shapes
             OnEndUpdate();
         }
 
+
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIRoundRectangleGeometry = (IRoundRectangleGeometry)this;
 
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry.RectProperty, thisAsIRoundRectangleGeometry.Rect);
+
+
 
             base.OnAnimate();
         }
+
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class RoundRectangleGeometry : RoundRectangleGeometry<Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry>
     {
@@ -83,14 +112,18 @@ namespace MauiReactor.Shapes
         }
     }
 
+
     public static partial class RoundRectangleGeometryExtensions
     {
+
+
         public static T Rect<T>(this T roundRectangleGeometry, Microsoft.Maui.Graphics.Rect rect, RxRectAnimation? customAnimation = null) where T : IRoundRectangleGeometry
         {
             roundRectangleGeometry.Rect = new PropertyValue<Microsoft.Maui.Graphics.Rect>(rect);
             roundRectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry.RectProperty, customAnimation ?? new RxSimpleRectAnimation(rect), v => roundRectangleGeometry.Rect = new PropertyValue<Microsoft.Maui.Graphics.Rect>(v.CurrentValue()));
             return roundRectangleGeometry;
         }
+
 
         public static T Rect<T>(this T roundRectangleGeometry, Func<Microsoft.Maui.Graphics.Rect> rectFunc) where T : IRoundRectangleGeometry
         {
@@ -100,17 +133,27 @@ namespace MauiReactor.Shapes
 
 
 
+
+
+
+
+
+
         public static T CornerRadius<T>(this T roundRectangleGeometry, Microsoft.Maui.CornerRadius cornerRadius) where T : IRoundRectangleGeometry
         {
             roundRectangleGeometry.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadius);
             return roundRectangleGeometry;
         }
 
+
         public static T CornerRadius<T>(this T roundRectangleGeometry, Func<Microsoft.Maui.CornerRadius> cornerRadiusFunc) where T : IRoundRectangleGeometry
         {
             roundRectangleGeometry.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadiusFunc);
             return roundRectangleGeometry;
         }
+
+
+
 
 
         public static T CornerRadius<T>(this T roundRectangleGeometry, double uniformRadius) where T : IRoundRectangleGeometry
@@ -123,6 +166,10 @@ namespace MauiReactor.Shapes
             roundRectangleGeometry.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight));
             return roundRectangleGeometry;
         }
+
+
+
+
 
 
     }

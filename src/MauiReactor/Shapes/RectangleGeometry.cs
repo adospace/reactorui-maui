@@ -13,12 +13,18 @@ using MauiReactor.Internals;
 
 namespace MauiReactor.Shapes
 {
+
     public partial interface IRectangleGeometry : Shapes.IGeometry
+
     {
+
         PropertyValue<Microsoft.Maui.Graphics.Rect>? Rect { get; set; }
 
 
+
+
     }
+
 
     public partial class RectangleGeometry<T> : Shapes.Geometry<T>, IRectangleGeometry where T : Microsoft.Maui.Controls.Shapes.RectangleGeometry, new()
     {
@@ -33,16 +39,26 @@ namespace MauiReactor.Shapes
 
         }
 
+
+
         PropertyValue<Microsoft.Maui.Graphics.Rect>? IRectangleGeometry.Rect { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIRectangleGeometry = (IRectangleGeometry)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, thisAsIRectangleGeometry.Rect);
+
+
+
 
 
             base.OnUpdate();
@@ -50,21 +66,29 @@ namespace MauiReactor.Shapes
             OnEndUpdate();
         }
 
+
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIRectangleGeometry = (IRectangleGeometry)this;
 
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, thisAsIRectangleGeometry.Rect);
+
+
 
             base.OnAnimate();
         }
+
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class RectangleGeometry : RectangleGeometry<Microsoft.Maui.Controls.Shapes.RectangleGeometry>
     {
@@ -80,8 +104,11 @@ namespace MauiReactor.Shapes
         }
     }
 
+
     public static partial class RectangleGeometryExtensions
     {
+
+
         public static T Rect<T>(this T rectangleGeometry, Microsoft.Maui.Graphics.Rect rect, RxRectAnimation? customAnimation = null) where T : IRectangleGeometry
         {
             rectangleGeometry.Rect = new PropertyValue<Microsoft.Maui.Graphics.Rect>(rect);
@@ -89,11 +116,18 @@ namespace MauiReactor.Shapes
             return rectangleGeometry;
         }
 
+
         public static T Rect<T>(this T rectangleGeometry, Func<Microsoft.Maui.Graphics.Rect> rectFunc) where T : IRectangleGeometry
         {
             rectangleGeometry.Rect = new PropertyValue<Microsoft.Maui.Graphics.Rect>(rectFunc);
             return rectangleGeometry;
         }
+
+
+
+
+
+
 
 
 

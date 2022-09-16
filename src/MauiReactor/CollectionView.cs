@@ -13,11 +13,16 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface ICollectionView : IReorderableItemsView
+
     {
 
 
+
+
     }
+
 
     public partial class CollectionView<T> : ReorderableItemsView<T>, ICollectionView where T : Microsoft.Maui.Controls.CollectionView, new()
     {
@@ -34,9 +39,13 @@ namespace MauiReactor
 
 
 
+
+
+
         protected override void OnUpdate()
         {
             OnBeginUpdate();
+
 
             base.OnUpdate();
 
@@ -44,11 +53,14 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class CollectionView : CollectionView<Microsoft.Maui.Controls.CollectionView>
     {
@@ -64,8 +76,11 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class CollectionViewExtensions
     {
+
+
 
     }
 }

@@ -13,14 +13,22 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IGridItemsLayout : IItemsLayout
+
     {
+
         PropertyValue<int>? Span { get; set; }
+
         PropertyValue<double>? VerticalItemSpacing { get; set; }
+
         PropertyValue<double>? HorizontalItemSpacing { get; set; }
 
 
+
+
     }
+
 
     public abstract partial class GridItemsLayout<T> : ItemsLayout<T>, IGridItemsLayout where T : Microsoft.Maui.Controls.GridItemsLayout, new()
     {
@@ -35,20 +43,38 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<int>? IGridItemsLayout.Span { get; set; }
+
         PropertyValue<double>? IGridItemsLayout.VerticalItemSpacing { get; set; }
+
         PropertyValue<double>? IGridItemsLayout.HorizontalItemSpacing { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIGridItemsLayout = (IGridItemsLayout)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.GridItemsLayout.SpanProperty, thisAsIGridItemsLayout.Span);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.GridItemsLayout.VerticalItemSpacingProperty, thisAsIGridItemsLayout.VerticalItemSpacing);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.GridItemsLayout.HorizontalItemSpacingProperty, thisAsIGridItemsLayout.HorizontalItemSpacing);
+
+
+
 
 
             base.OnUpdate();
@@ -56,37 +82,57 @@ namespace MauiReactor
             OnEndUpdate();
         }
 
+
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIGridItemsLayout = (IGridItemsLayout)this;
 
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.GridItemsLayout.VerticalItemSpacingProperty, thisAsIGridItemsLayout.VerticalItemSpacing);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.GridItemsLayout.HorizontalItemSpacingProperty, thisAsIGridItemsLayout.HorizontalItemSpacing);
+
+
 
             base.OnAnimate();
         }
+
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
 
     public static partial class GridItemsLayoutExtensions
     {
+
+
         public static T Span<T>(this T gridItemsLayout, int span) where T : IGridItemsLayout
         {
             gridItemsLayout.Span = new PropertyValue<int>(span);
             return gridItemsLayout;
         }
 
+
         public static T Span<T>(this T gridItemsLayout, Func<int> spanFunc) where T : IGridItemsLayout
         {
             gridItemsLayout.Span = new PropertyValue<int>(spanFunc);
             return gridItemsLayout;
         }
+
+
+
+
+
+
 
 
 
@@ -97,11 +143,18 @@ namespace MauiReactor
             return gridItemsLayout;
         }
 
+
         public static T VerticalItemSpacing<T>(this T gridItemsLayout, Func<double> verticalItemSpacingFunc) where T : IGridItemsLayout
         {
             gridItemsLayout.VerticalItemSpacing = new PropertyValue<double>(verticalItemSpacingFunc);
             return gridItemsLayout;
         }
+
+
+
+
+
+
 
 
 
@@ -112,11 +165,18 @@ namespace MauiReactor
             return gridItemsLayout;
         }
 
+
         public static T HorizontalItemSpacing<T>(this T gridItemsLayout, Func<double> horizontalItemSpacingFunc) where T : IGridItemsLayout
         {
             gridItemsLayout.HorizontalItemSpacing = new PropertyValue<double>(horizontalItemSpacingFunc);
             return gridItemsLayout;
         }
+
+
+
+
+
+
 
 
 

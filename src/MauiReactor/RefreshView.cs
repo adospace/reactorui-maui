@@ -13,15 +13,23 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IRefreshView : IContentView
+
     {
+
         PropertyValue<bool>? IsRefreshing { get; set; }
+
         PropertyValue<Microsoft.Maui.Graphics.Color>? RefreshColor { get; set; }
+
+
 
         Action? RefreshingAction { get; set; }
         Action<object?, EventArgs>? RefreshingActionWithArgs { get; set; }
 
+
     }
+
 
     public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Microsoft.Maui.Controls.RefreshView, new()
     {
@@ -36,20 +44,35 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<bool>? IRefreshView.IsRefreshing { get; set; }
+
         PropertyValue<Microsoft.Maui.Graphics.Color>? IRefreshView.RefreshColor { get; set; }
+
+
 
         Action? IRefreshView.RefreshingAction { get; set; }
         Action<object?, EventArgs>? IRefreshView.RefreshingActionWithArgs { get; set; }
+
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIRefreshView = (IRefreshView)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.RefreshView.IsRefreshingProperty, thisAsIRefreshView.IsRefreshing);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.RefreshView.RefreshColorProperty, thisAsIRefreshView.RefreshColor);
+
+
+
 
 
             base.OnUpdate();
@@ -58,21 +81,32 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
+
+
+        partial void OnAttachingNativeEvents();
+        partial void OnDetachingNativeEvents();
 
         protected override void OnAttachNativeEvents()
         {
             Validate.EnsureNotNull(NativeControl);
 
             var thisAsIRefreshView = (IRefreshView)this;
+
             if (thisAsIRefreshView.RefreshingAction != null || thisAsIRefreshView.RefreshingActionWithArgs != null)
             {
                 NativeControl.Refreshing += NativeControl_Refreshing;
             }
 
+
+            OnAttachingNativeEvents();
+
             base.OnAttachNativeEvents();
         }
+
 
         private void NativeControl_Refreshing(object? sender, EventArgs e)
         {
@@ -81,17 +115,24 @@ namespace MauiReactor
             thisAsIRefreshView.RefreshingActionWithArgs?.Invoke(sender, e);
         }
 
+
         protected override void OnDetachNativeEvents()
         {
             if (NativeControl != null)
             {
+
                 NativeControl.Refreshing -= NativeControl_Refreshing;
+
             }
+
+            OnDetachingNativeEvents();
 
             base.OnDetachNativeEvents();
         }
 
+
     }
+
 
     public partial class RefreshView : RefreshView<Microsoft.Maui.Controls.RefreshView>
     {
@@ -107,13 +148,17 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class RefreshViewExtensions
     {
+
+
         public static T IsRefreshing<T>(this T refreshView, bool isRefreshing) where T : IRefreshView
         {
             refreshView.IsRefreshing = new PropertyValue<bool>(isRefreshing);
             return refreshView;
         }
+
 
         public static T IsRefreshing<T>(this T refreshView, Func<bool> isRefreshingFunc) where T : IRefreshView
         {
@@ -123,17 +168,30 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T RefreshColor<T>(this T refreshView, Microsoft.Maui.Graphics.Color refreshColor) where T : IRefreshView
         {
             refreshView.RefreshColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(refreshColor);
             return refreshView;
         }
 
+
         public static T RefreshColor<T>(this T refreshView, Func<Microsoft.Maui.Graphics.Color> refreshColorFunc) where T : IRefreshView
         {
             refreshView.RefreshColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(refreshColorFunc);
             return refreshView;
         }
+
+
+
+
+
+
 
 
 
@@ -149,5 +207,6 @@ namespace MauiReactor
             refreshView.RefreshingActionWithArgs = refreshingActionWithArgs;
             return refreshView;
         }
+
     }
 }

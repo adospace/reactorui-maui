@@ -13,15 +13,24 @@ using MauiReactor.Internals;
 
 namespace MauiReactor.Shapes
 {
+
     public partial interface ILine : Shapes.IShape
+
     {
+
         PropertyValue<double>? X1 { get; set; }
+
         PropertyValue<double>? Y1 { get; set; }
+
         PropertyValue<double>? X2 { get; set; }
+
         PropertyValue<double>? Y2 { get; set; }
 
 
+
+
     }
+
 
     public sealed partial class Line : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Line>, ILine
     {
@@ -36,22 +45,44 @@ namespace MauiReactor.Shapes
 
         }
 
+
+
         PropertyValue<double>? ILine.X1 { get; set; }
+
         PropertyValue<double>? ILine.Y1 { get; set; }
+
         PropertyValue<double>? ILine.X2 { get; set; }
+
         PropertyValue<double>? ILine.Y2 { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsILine = (ILine)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Line.X1Property, thisAsILine.X1);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Line.Y1Property, thisAsILine.Y1);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Line.X2Property, thisAsILine.X2);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Line.Y2Property, thisAsILine.Y2);
+
+
+
 
 
             base.OnUpdate();
@@ -59,28 +90,47 @@ namespace MauiReactor.Shapes
             OnEndUpdate();
         }
 
+
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsILine = (ILine)this;
 
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Line.X1Property, thisAsILine.X1);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Line.Y1Property, thisAsILine.Y1);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Line.X2Property, thisAsILine.X2);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Line.Y2Property, thisAsILine.Y2);
+
+
 
             base.OnAnimate();
         }
+
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
 
     public static partial class LineExtensions
     {
+
+
         public static T X1<T>(this T line, double x1, RxDoubleAnimation? customAnimation = null) where T : ILine
         {
             line.X1 = new PropertyValue<double>(x1);
@@ -88,11 +138,18 @@ namespace MauiReactor.Shapes
             return line;
         }
 
+
         public static T X1<T>(this T line, Func<double> x1Func) where T : ILine
         {
             line.X1 = new PropertyValue<double>(x1Func);
             return line;
         }
+
+
+
+
+
+
 
 
 
@@ -103,11 +160,18 @@ namespace MauiReactor.Shapes
             return line;
         }
 
+
         public static T Y1<T>(this T line, Func<double> y1Func) where T : ILine
         {
             line.Y1 = new PropertyValue<double>(y1Func);
             return line;
         }
+
+
+
+
+
+
 
 
 
@@ -118,11 +182,18 @@ namespace MauiReactor.Shapes
             return line;
         }
 
+
         public static T X2<T>(this T line, Func<double> x2Func) where T : ILine
         {
             line.X2 = new PropertyValue<double>(x2Func);
             return line;
         }
+
+
+
+
+
+
 
 
 
@@ -133,11 +204,18 @@ namespace MauiReactor.Shapes
             return line;
         }
 
+
         public static T Y2<T>(this T line, Func<double> y2Func) where T : ILine
         {
             line.Y2 = new PropertyValue<double>(y2Func);
             return line;
         }
+
+
+
+
+
+
 
 
 

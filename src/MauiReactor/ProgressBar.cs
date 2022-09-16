@@ -13,13 +13,20 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IProgressBar : IView
+
     {
+
         PropertyValue<Microsoft.Maui.Graphics.Color>? ProgressColor { get; set; }
+
         PropertyValue<double>? Progress { get; set; }
 
 
+
+
     }
+
 
     public partial class ProgressBar<T> : View<T>, IProgressBar where T : Microsoft.Maui.Controls.ProgressBar, new()
     {
@@ -34,18 +41,32 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<Microsoft.Maui.Graphics.Color>? IProgressBar.ProgressColor { get; set; }
+
         PropertyValue<double>? IProgressBar.Progress { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIProgressBar = (IProgressBar)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ProgressBar.ProgressColorProperty, thisAsIProgressBar.ProgressColor);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ProgressBar.ProgressProperty, thisAsIProgressBar.Progress);
+
+
+
 
 
             base.OnUpdate();
@@ -53,21 +74,29 @@ namespace MauiReactor
             OnEndUpdate();
         }
 
+
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIProgressBar = (IProgressBar)this;
 
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ProgressBar.ProgressProperty, thisAsIProgressBar.Progress);
+
+
 
             base.OnAnimate();
         }
+
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class ProgressBar : ProgressBar<Microsoft.Maui.Controls.ProgressBar>
     {
@@ -83,19 +112,29 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class ProgressBarExtensions
     {
+
+
         public static T ProgressColor<T>(this T progressBar, Microsoft.Maui.Graphics.Color progressColor) where T : IProgressBar
         {
             progressBar.ProgressColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(progressColor);
             return progressBar;
         }
 
+
         public static T ProgressColor<T>(this T progressBar, Func<Microsoft.Maui.Graphics.Color> progressColorFunc) where T : IProgressBar
         {
             progressBar.ProgressColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(progressColorFunc);
             return progressBar;
         }
+
+
+
+
+
+
 
 
 
@@ -106,11 +145,18 @@ namespace MauiReactor
             return progressBar;
         }
 
+
         public static T Progress<T>(this T progressBar, Func<double> progressFunc) where T : IProgressBar
         {
             progressBar.Progress = new PropertyValue<double>(progressFunc);
             return progressBar;
         }
+
+
+
+
+
+
 
 
 

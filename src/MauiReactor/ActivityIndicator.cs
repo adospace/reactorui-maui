@@ -13,13 +13,20 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IActivityIndicator : IView
+
     {
+
         PropertyValue<bool>? IsRunning { get; set; }
+
         PropertyValue<Microsoft.Maui.Graphics.Color>? Color { get; set; }
 
 
+
+
     }
+
 
     public partial class ActivityIndicator<T> : View<T>, IActivityIndicator where T : Microsoft.Maui.Controls.ActivityIndicator, new()
     {
@@ -34,18 +41,32 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<bool>? IActivityIndicator.IsRunning { get; set; }
+
         PropertyValue<Microsoft.Maui.Graphics.Color>? IActivityIndicator.Color { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIActivityIndicator = (IActivityIndicator)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ActivityIndicator.IsRunningProperty, thisAsIActivityIndicator.IsRunning);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ActivityIndicator.ColorProperty, thisAsIActivityIndicator.Color);
+
+
+
 
 
             base.OnUpdate();
@@ -54,11 +75,14 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class ActivityIndicator : ActivityIndicator<Microsoft.Maui.Controls.ActivityIndicator>
     {
@@ -74,13 +98,17 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class ActivityIndicatorExtensions
     {
+
+
         public static T IsRunning<T>(this T activityIndicator, bool isRunning) where T : IActivityIndicator
         {
             activityIndicator.IsRunning = new PropertyValue<bool>(isRunning);
             return activityIndicator;
         }
+
 
         public static T IsRunning<T>(this T activityIndicator, Func<bool> isRunningFunc) where T : IActivityIndicator
         {
@@ -90,17 +118,30 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T Color<T>(this T activityIndicator, Microsoft.Maui.Graphics.Color color) where T : IActivityIndicator
         {
             activityIndicator.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(color);
             return activityIndicator;
         }
 
+
         public static T Color<T>(this T activityIndicator, Func<Microsoft.Maui.Graphics.Color> colorFunc) where T : IActivityIndicator
         {
             activityIndicator.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc);
             return activityIndicator;
         }
+
+
+
+
+
+
 
 
 

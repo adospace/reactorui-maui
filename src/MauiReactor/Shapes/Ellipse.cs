@@ -13,11 +13,16 @@ using MauiReactor.Internals;
 
 namespace MauiReactor.Shapes
 {
+
     public partial interface IEllipse : Shapes.IShape
+
     {
 
 
+
+
     }
+
 
     public sealed partial class Ellipse : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Ellipse>, IEllipse
     {
@@ -34,9 +39,13 @@ namespace MauiReactor.Shapes
 
 
 
+
+
+
         protected override void OnUpdate()
         {
             OnBeginUpdate();
+
 
             base.OnUpdate();
 
@@ -44,15 +53,20 @@ namespace MauiReactor.Shapes
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
 
 
     }
 
 
+
     public static partial class EllipseExtensions
     {
+
+
 
     }
 }

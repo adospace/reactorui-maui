@@ -13,16 +13,25 @@ using MauiReactor.Internals;
 
 namespace MauiReactor.Compatibility
 {
+
     public partial interface ILayout : IView
+
     {
+
         PropertyValue<bool>? IsClippedToBounds { get; set; }
+
         PropertyValue<bool>? CascadeInputTransparent { get; set; }
+
         PropertyValue<Microsoft.Maui.Thickness>? Padding { get; set; }
+
+
 
         Action? LayoutChangedAction { get; set; }
         Action<object?, EventArgs>? LayoutChangedActionWithArgs { get; set; }
 
+
     }
+
 
     public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.Maui.Controls.Compatibility.Layout, new()
     {
@@ -37,22 +46,41 @@ namespace MauiReactor.Compatibility
 
         }
 
+
+
         PropertyValue<bool>? ILayout.IsClippedToBounds { get; set; }
+
         PropertyValue<bool>? ILayout.CascadeInputTransparent { get; set; }
+
         PropertyValue<Microsoft.Maui.Thickness>? ILayout.Padding { get; set; }
+
+
 
         Action? ILayout.LayoutChangedAction { get; set; }
         Action<object?, EventArgs>? ILayout.LayoutChangedActionWithArgs { get; set; }
+
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsILayout = (ILayout)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Compatibility.Layout.IsClippedToBoundsProperty, thisAsILayout.IsClippedToBounds);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Compatibility.Layout.CascadeInputTransparentProperty, thisAsILayout.CascadeInputTransparent);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, thisAsILayout.Padding);
+
+
+
 
 
             base.OnUpdate();
@@ -60,31 +88,47 @@ namespace MauiReactor.Compatibility
             OnEndUpdate();
         }
 
+
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsILayout = (ILayout)this;
 
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, thisAsILayout.Padding);
+
+
 
             base.OnAnimate();
         }
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
+
+
+        partial void OnAttachingNativeEvents();
+        partial void OnDetachingNativeEvents();
 
         protected override void OnAttachNativeEvents()
         {
             Validate.EnsureNotNull(NativeControl);
 
             var thisAsILayout = (ILayout)this;
+
             if (thisAsILayout.LayoutChangedAction != null || thisAsILayout.LayoutChangedActionWithArgs != null)
             {
                 NativeControl.LayoutChanged += NativeControl_LayoutChanged;
             }
 
+
+            OnAttachingNativeEvents();
+
             base.OnAttachNativeEvents();
         }
+
 
         private void NativeControl_LayoutChanged(object? sender, EventArgs e)
         {
@@ -93,26 +137,36 @@ namespace MauiReactor.Compatibility
             thisAsILayout.LayoutChangedActionWithArgs?.Invoke(sender, e);
         }
 
+
         protected override void OnDetachNativeEvents()
         {
             if (NativeControl != null)
             {
+
                 NativeControl.LayoutChanged -= NativeControl_LayoutChanged;
+
             }
+
+            OnDetachingNativeEvents();
 
             base.OnDetachNativeEvents();
         }
 
+
     }
+
 
 
     public static partial class LayoutExtensions
     {
+
+
         public static T IsClippedToBounds<T>(this T layout, bool isClippedToBounds) where T : ILayout
         {
             layout.IsClippedToBounds = new PropertyValue<bool>(isClippedToBounds);
             return layout;
         }
+
 
         public static T IsClippedToBounds<T>(this T layout, Func<bool> isClippedToBoundsFunc) where T : ILayout
         {
@@ -122,17 +176,30 @@ namespace MauiReactor.Compatibility
 
 
 
+
+
+
+
+
+
         public static T CascadeInputTransparent<T>(this T layout, bool cascadeInputTransparent) where T : ILayout
         {
             layout.CascadeInputTransparent = new PropertyValue<bool>(cascadeInputTransparent);
             return layout;
         }
 
+
         public static T CascadeInputTransparent<T>(this T layout, Func<bool> cascadeInputTransparentFunc) where T : ILayout
         {
             layout.CascadeInputTransparent = new PropertyValue<bool>(cascadeInputTransparentFunc);
             return layout;
         }
+
+
+
+
+
+
 
 
 
@@ -143,11 +210,13 @@ namespace MauiReactor.Compatibility
             return layout;
         }
 
+
         public static T Padding<T>(this T layout, Func<Microsoft.Maui.Thickness> paddingFunc) where T : ILayout
         {
             layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
             return layout;
         }
+
         public static T Padding<T>(this T layout, double leftRight, double topBottom) where T : ILayout
         {
             layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
@@ -167,6 +236,12 @@ namespace MauiReactor.Compatibility
 
 
 
+
+
+
+
+
+
         public static T OnLayoutChanged<T>(this T layout, Action? layoutChangedAction) where T : ILayout
         {
             layout.LayoutChangedAction = layoutChangedAction;
@@ -178,5 +253,6 @@ namespace MauiReactor.Compatibility
             layout.LayoutChangedActionWithArgs = layoutChangedActionWithArgs;
             return layout;
         }
+
     }
 }

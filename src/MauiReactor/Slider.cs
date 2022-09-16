@@ -13,24 +13,39 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface ISlider : IView
+
     {
+
         PropertyValue<double>? Minimum { get; set; }
+
         PropertyValue<double>? Maximum { get; set; }
+
         PropertyValue<double>? Value { get; set; }
+
         PropertyValue<Microsoft.Maui.Graphics.Color>? MinimumTrackColor { get; set; }
+
         PropertyValue<Microsoft.Maui.Graphics.Color>? MaximumTrackColor { get; set; }
+
         PropertyValue<Microsoft.Maui.Graphics.Color>? ThumbColor { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? ThumbImageSource { get; set; }
+
+
 
         Action? ValueChangedAction { get; set; }
         Action<object?, ValueChangedEventArgs>? ValueChangedActionWithArgs { get; set; }
+
         Action? DragStartedAction { get; set; }
         Action<object?, EventArgs>? DragStartedActionWithArgs { get; set; }
+
         Action? DragCompletedAction { get; set; }
         Action<object?, EventArgs>? DragCompletedActionWithArgs { get; set; }
 
+
     }
+
 
     public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Controls.Slider, new()
     {
@@ -45,34 +60,71 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<double>? ISlider.Minimum { get; set; }
+
         PropertyValue<double>? ISlider.Maximum { get; set; }
+
         PropertyValue<double>? ISlider.Value { get; set; }
+
         PropertyValue<Microsoft.Maui.Graphics.Color>? ISlider.MinimumTrackColor { get; set; }
+
         PropertyValue<Microsoft.Maui.Graphics.Color>? ISlider.MaximumTrackColor { get; set; }
+
         PropertyValue<Microsoft.Maui.Graphics.Color>? ISlider.ThumbColor { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? ISlider.ThumbImageSource { get; set; }
+
+
 
         Action? ISlider.ValueChangedAction { get; set; }
         Action<object?, ValueChangedEventArgs>? ISlider.ValueChangedActionWithArgs { get; set; }
+
         Action? ISlider.DragStartedAction { get; set; }
         Action<object?, EventArgs>? ISlider.DragStartedActionWithArgs { get; set; }
+
         Action? ISlider.DragCompletedAction { get; set; }
         Action<object?, EventArgs>? ISlider.DragCompletedActionWithArgs { get; set; }
+
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsISlider = (ISlider)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Slider.MinimumProperty, thisAsISlider.Minimum);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Slider.MaximumProperty, thisAsISlider.Maximum);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Slider.ValueProperty, thisAsISlider.Value);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Slider.MinimumTrackColorProperty, thisAsISlider.MinimumTrackColor);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Slider.MaximumTrackColorProperty, thisAsISlider.MaximumTrackColor);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Slider.ThumbColorProperty, thisAsISlider.ThumbColor);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Slider.ThumbImageSourceProperty, thisAsISlider.ThumbImageSource);
+
+
+
 
 
             base.OnUpdate();
@@ -80,41 +132,65 @@ namespace MauiReactor
             OnEndUpdate();
         }
 
+
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsISlider = (ISlider)this;
 
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Slider.MinimumProperty, thisAsISlider.Minimum);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Slider.MaximumProperty, thisAsISlider.Maximum);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Slider.ValueProperty, thisAsISlider.Value);
+
+
 
             base.OnAnimate();
         }
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
+
+
+        partial void OnAttachingNativeEvents();
+        partial void OnDetachingNativeEvents();
 
         protected override void OnAttachNativeEvents()
         {
             Validate.EnsureNotNull(NativeControl);
 
             var thisAsISlider = (ISlider)this;
+
             if (thisAsISlider.ValueChangedAction != null || thisAsISlider.ValueChangedActionWithArgs != null)
             {
                 NativeControl.ValueChanged += NativeControl_ValueChanged;
             }
+
             if (thisAsISlider.DragStartedAction != null || thisAsISlider.DragStartedActionWithArgs != null)
             {
                 NativeControl.DragStarted += NativeControl_DragStarted;
             }
+
             if (thisAsISlider.DragCompletedAction != null || thisAsISlider.DragCompletedActionWithArgs != null)
             {
                 NativeControl.DragCompleted += NativeControl_DragCompleted;
             }
 
+
+            OnAttachingNativeEvents();
+
             base.OnAttachNativeEvents();
         }
+
 
         private void NativeControl_ValueChanged(object? sender, ValueChangedEventArgs e)
         {
@@ -122,12 +198,14 @@ namespace MauiReactor
             thisAsISlider.ValueChangedAction?.Invoke();
             thisAsISlider.ValueChangedActionWithArgs?.Invoke(sender, e);
         }
+
         private void NativeControl_DragStarted(object? sender, EventArgs e)
         {
             var thisAsISlider = (ISlider)this;
             thisAsISlider.DragStartedAction?.Invoke();
             thisAsISlider.DragStartedActionWithArgs?.Invoke(sender, e);
         }
+
         private void NativeControl_DragCompleted(object? sender, EventArgs e)
         {
             var thisAsISlider = (ISlider)this;
@@ -135,19 +213,28 @@ namespace MauiReactor
             thisAsISlider.DragCompletedActionWithArgs?.Invoke(sender, e);
         }
 
+
         protected override void OnDetachNativeEvents()
         {
             if (NativeControl != null)
             {
+
                 NativeControl.ValueChanged -= NativeControl_ValueChanged;
+
                 NativeControl.DragStarted -= NativeControl_DragStarted;
+
                 NativeControl.DragCompleted -= NativeControl_DragCompleted;
+
             }
+
+            OnDetachingNativeEvents();
 
             base.OnDetachNativeEvents();
         }
 
+
     }
+
 
     public partial class Slider : Slider<Microsoft.Maui.Controls.Slider>
     {
@@ -163,8 +250,11 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class SliderExtensions
     {
+
+
         public static T Minimum<T>(this T slider, double minimum, RxDoubleAnimation? customAnimation = null) where T : ISlider
         {
             slider.Minimum = new PropertyValue<double>(minimum);
@@ -172,11 +262,18 @@ namespace MauiReactor
             return slider;
         }
 
+
         public static T Minimum<T>(this T slider, Func<double> minimumFunc) where T : ISlider
         {
             slider.Minimum = new PropertyValue<double>(minimumFunc);
             return slider;
         }
+
+
+
+
+
+
 
 
 
@@ -187,11 +284,18 @@ namespace MauiReactor
             return slider;
         }
 
+
         public static T Maximum<T>(this T slider, Func<double> maximumFunc) where T : ISlider
         {
             slider.Maximum = new PropertyValue<double>(maximumFunc);
             return slider;
         }
+
+
+
+
+
+
 
 
 
@@ -202,11 +306,18 @@ namespace MauiReactor
             return slider;
         }
 
+
         public static T Value<T>(this T slider, Func<double> valueFunc) where T : ISlider
         {
             slider.Value = new PropertyValue<double>(valueFunc);
             return slider;
         }
+
+
+
+
+
+
 
 
 
@@ -216,11 +327,18 @@ namespace MauiReactor
             return slider;
         }
 
+
         public static T MinimumTrackColor<T>(this T slider, Func<Microsoft.Maui.Graphics.Color> minimumTrackColorFunc) where T : ISlider
         {
             slider.MinimumTrackColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(minimumTrackColorFunc);
             return slider;
         }
+
+
+
+
+
+
 
 
 
@@ -230,11 +348,18 @@ namespace MauiReactor
             return slider;
         }
 
+
         public static T MaximumTrackColor<T>(this T slider, Func<Microsoft.Maui.Graphics.Color> maximumTrackColorFunc) where T : ISlider
         {
             slider.MaximumTrackColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(maximumTrackColorFunc);
             return slider;
         }
+
+
+
+
+
+
 
 
 
@@ -244,11 +369,18 @@ namespace MauiReactor
             return slider;
         }
 
+
         public static T ThumbColor<T>(this T slider, Func<Microsoft.Maui.Graphics.Color> thumbColorFunc) where T : ISlider
         {
             slider.ThumbColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(thumbColorFunc);
             return slider;
         }
+
+
+
+
+
+
 
 
 
@@ -258,11 +390,16 @@ namespace MauiReactor
             return slider;
         }
 
+
         public static T ThumbImageSource<T>(this T slider, Func<Microsoft.Maui.Controls.ImageSource> thumbImageSourceFunc) where T : ISlider
         {
             slider.ThumbImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(thumbImageSourceFunc);
             return slider;
         }
+
+
+
+
 
 
         public static T ThumbImage<T>(this T slider, string file) where T : ISlider
@@ -297,6 +434,9 @@ namespace MauiReactor
         }
 
 
+
+
+
         public static T OnValueChanged<T>(this T slider, Action? valueChangedAction) where T : ISlider
         {
             slider.ValueChangedAction = valueChangedAction;
@@ -308,6 +448,7 @@ namespace MauiReactor
             slider.ValueChangedActionWithArgs = valueChangedActionWithArgs;
             return slider;
         }
+
         public static T OnDragStarted<T>(this T slider, Action? dragStartedAction) where T : ISlider
         {
             slider.DragStartedAction = dragStartedAction;
@@ -319,6 +460,7 @@ namespace MauiReactor
             slider.DragStartedActionWithArgs = dragStartedActionWithArgs;
             return slider;
         }
+
         public static T OnDragCompleted<T>(this T slider, Action? dragCompletedAction) where T : ISlider
         {
             slider.DragCompletedAction = dragCompletedAction;
@@ -330,5 +472,6 @@ namespace MauiReactor
             slider.DragCompletedActionWithArgs = dragCompletedActionWithArgs;
             return slider;
         }
+
     }
 }

@@ -13,28 +13,44 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IPage : IVisualElement
+
     {
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? BackgroundImageSource { get; set; }
+
         PropertyValue<bool>? IsBusy { get; set; }
+
         PropertyValue<Microsoft.Maui.Thickness>? Padding { get; set; }
+
         PropertyValue<string>? Title { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IconImageSource { get; set; }
+
+
 
         Action? NavigatedToAction { get; set; }
         Action<object?, NavigatedToEventArgs>? NavigatedToActionWithArgs { get; set; }
+
         Action? NavigatingFromAction { get; set; }
         Action<object?, NavigatingFromEventArgs>? NavigatingFromActionWithArgs { get; set; }
+
         Action? NavigatedFromAction { get; set; }
         Action<object?, NavigatedFromEventArgs>? NavigatedFromActionWithArgs { get; set; }
+
         Action? LayoutChangedAction { get; set; }
         Action<object?, EventArgs>? LayoutChangedActionWithArgs { get; set; }
+
         Action? AppearingAction { get; set; }
         Action<object?, EventArgs>? AppearingActionWithArgs { get; set; }
+
         Action? DisappearingAction { get; set; }
         Action<object?, EventArgs>? DisappearingActionWithArgs { get; set; }
 
+
     }
+
 
     public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.Controls.Page, new()
     {
@@ -49,36 +65,68 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IPage.BackgroundImageSource { get; set; }
+
         PropertyValue<bool>? IPage.IsBusy { get; set; }
+
         PropertyValue<Microsoft.Maui.Thickness>? IPage.Padding { get; set; }
+
         PropertyValue<string>? IPage.Title { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IPage.IconImageSource { get; set; }
+
+
 
         Action? IPage.NavigatedToAction { get; set; }
         Action<object?, NavigatedToEventArgs>? IPage.NavigatedToActionWithArgs { get; set; }
+
         Action? IPage.NavigatingFromAction { get; set; }
         Action<object?, NavigatingFromEventArgs>? IPage.NavigatingFromActionWithArgs { get; set; }
+
         Action? IPage.NavigatedFromAction { get; set; }
         Action<object?, NavigatedFromEventArgs>? IPage.NavigatedFromActionWithArgs { get; set; }
+
         Action? IPage.LayoutChangedAction { get; set; }
         Action<object?, EventArgs>? IPage.LayoutChangedActionWithArgs { get; set; }
+
         Action? IPage.AppearingAction { get; set; }
         Action<object?, EventArgs>? IPage.AppearingActionWithArgs { get; set; }
+
         Action? IPage.DisappearingAction { get; set; }
         Action<object?, EventArgs>? IPage.DisappearingActionWithArgs { get; set; }
+
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIPage = (IPage)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.BackgroundImageSourceProperty, thisAsIPage.BackgroundImageSource);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.IsBusyProperty, thisAsIPage.IsBusy);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.PaddingProperty, thisAsIPage.Padding);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.TitleProperty, thisAsIPage.Title);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.IconImageSourceProperty, thisAsIPage.IconImageSource);
+
+
+
 
 
             base.OnUpdate();
@@ -86,51 +134,72 @@ namespace MauiReactor
             OnEndUpdate();
         }
 
+
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIPage = (IPage)this;
 
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.PaddingProperty, thisAsIPage.Padding);
+
+
 
             base.OnAnimate();
         }
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
+
+
+        partial void OnAttachingNativeEvents();
+        partial void OnDetachingNativeEvents();
 
         protected override void OnAttachNativeEvents()
         {
             Validate.EnsureNotNull(NativeControl);
 
             var thisAsIPage = (IPage)this;
+
             if (thisAsIPage.NavigatedToAction != null || thisAsIPage.NavigatedToActionWithArgs != null)
             {
                 NativeControl.NavigatedTo += NativeControl_NavigatedTo;
             }
+
             if (thisAsIPage.NavigatingFromAction != null || thisAsIPage.NavigatingFromActionWithArgs != null)
             {
                 NativeControl.NavigatingFrom += NativeControl_NavigatingFrom;
             }
+
             if (thisAsIPage.NavigatedFromAction != null || thisAsIPage.NavigatedFromActionWithArgs != null)
             {
                 NativeControl.NavigatedFrom += NativeControl_NavigatedFrom;
             }
+
             if (thisAsIPage.LayoutChangedAction != null || thisAsIPage.LayoutChangedActionWithArgs != null)
             {
                 NativeControl.LayoutChanged += NativeControl_LayoutChanged;
             }
+
             if (thisAsIPage.AppearingAction != null || thisAsIPage.AppearingActionWithArgs != null)
             {
                 NativeControl.Appearing += NativeControl_Appearing;
             }
+
             if (thisAsIPage.DisappearingAction != null || thisAsIPage.DisappearingActionWithArgs != null)
             {
                 NativeControl.Disappearing += NativeControl_Disappearing;
             }
 
+
+            OnAttachingNativeEvents();
+
             base.OnAttachNativeEvents();
         }
+
 
         private void NativeControl_NavigatedTo(object? sender, NavigatedToEventArgs e)
         {
@@ -138,30 +207,35 @@ namespace MauiReactor
             thisAsIPage.NavigatedToAction?.Invoke();
             thisAsIPage.NavigatedToActionWithArgs?.Invoke(sender, e);
         }
+
         private void NativeControl_NavigatingFrom(object? sender, NavigatingFromEventArgs e)
         {
             var thisAsIPage = (IPage)this;
             thisAsIPage.NavigatingFromAction?.Invoke();
             thisAsIPage.NavigatingFromActionWithArgs?.Invoke(sender, e);
         }
+
         private void NativeControl_NavigatedFrom(object? sender, NavigatedFromEventArgs e)
         {
             var thisAsIPage = (IPage)this;
             thisAsIPage.NavigatedFromAction?.Invoke();
             thisAsIPage.NavigatedFromActionWithArgs?.Invoke(sender, e);
         }
+
         private void NativeControl_LayoutChanged(object? sender, EventArgs e)
         {
             var thisAsIPage = (IPage)this;
             thisAsIPage.LayoutChangedAction?.Invoke();
             thisAsIPage.LayoutChangedActionWithArgs?.Invoke(sender, e);
         }
+
         private void NativeControl_Appearing(object? sender, EventArgs e)
         {
             var thisAsIPage = (IPage)this;
             thisAsIPage.AppearingAction?.Invoke();
             thisAsIPage.AppearingActionWithArgs?.Invoke(sender, e);
         }
+
         private void NativeControl_Disappearing(object? sender, EventArgs e)
         {
             var thisAsIPage = (IPage)this;
@@ -169,22 +243,34 @@ namespace MauiReactor
             thisAsIPage.DisappearingActionWithArgs?.Invoke(sender, e);
         }
 
+
         protected override void OnDetachNativeEvents()
         {
             if (NativeControl != null)
             {
+
                 NativeControl.NavigatedTo -= NativeControl_NavigatedTo;
+
                 NativeControl.NavigatingFrom -= NativeControl_NavigatingFrom;
+
                 NativeControl.NavigatedFrom -= NativeControl_NavigatedFrom;
+
                 NativeControl.LayoutChanged -= NativeControl_LayoutChanged;
+
                 NativeControl.Appearing -= NativeControl_Appearing;
+
                 NativeControl.Disappearing -= NativeControl_Disappearing;
+
             }
+
+            OnDetachingNativeEvents();
 
             base.OnDetachNativeEvents();
         }
 
+
     }
+
 
     public partial class Page : Page<Microsoft.Maui.Controls.Page>
     {
@@ -200,19 +286,27 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class PageExtensions
     {
+
+
         public static T BackgroundImageSource<T>(this T page, Microsoft.Maui.Controls.ImageSource backgroundImageSource) where T : IPage
         {
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(backgroundImageSource);
             return page;
         }
 
+
         public static T BackgroundImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> backgroundImageSourceFunc) where T : IPage
         {
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(backgroundImageSourceFunc);
             return page;
         }
+
+
+
+
 
 
         public static T BackgroundImage<T>(this T page, string file) where T : IPage
@@ -246,17 +340,27 @@ namespace MauiReactor
             return page;
         }
 
+
+
+
         public static T IsBusy<T>(this T page, bool isBusy) where T : IPage
         {
             page.IsBusy = new PropertyValue<bool>(isBusy);
             return page;
         }
 
+
         public static T IsBusy<T>(this T page, Func<bool> isBusyFunc) where T : IPage
         {
             page.IsBusy = new PropertyValue<bool>(isBusyFunc);
             return page;
         }
+
+
+
+
+
+
 
 
 
@@ -267,11 +371,13 @@ namespace MauiReactor
             return page;
         }
 
+
         public static T Padding<T>(this T page, Func<Microsoft.Maui.Thickness> paddingFunc) where T : IPage
         {
             page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
             return page;
         }
+
         public static T Padding<T>(this T page, double leftRight, double topBottom) where T : IPage
         {
             page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
@@ -290,11 +396,18 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T Title<T>(this T page, string title) where T : IPage
         {
             page.Title = new PropertyValue<string>(title);
             return page;
         }
+
 
         public static T Title<T>(this T page, Func<string> titleFunc) where T : IPage
         {
@@ -304,17 +417,28 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T IconImageSource<T>(this T page, Microsoft.Maui.Controls.ImageSource iconImageSource) where T : IPage
         {
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSource);
             return page;
         }
 
+
         public static T IconImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> iconImageSourceFunc) where T : IPage
         {
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc);
             return page;
         }
+
+
+
+
 
 
         public static T IconImage<T>(this T page, string file) where T : IPage
@@ -349,6 +473,9 @@ namespace MauiReactor
         }
 
 
+
+
+
         public static T OnNavigatedTo<T>(this T page, Action? navigatedToAction) where T : IPage
         {
             page.NavigatedToAction = navigatedToAction;
@@ -360,6 +487,7 @@ namespace MauiReactor
             page.NavigatedToActionWithArgs = navigatedToActionWithArgs;
             return page;
         }
+
         public static T OnNavigatingFrom<T>(this T page, Action? navigatingFromAction) where T : IPage
         {
             page.NavigatingFromAction = navigatingFromAction;
@@ -371,6 +499,7 @@ namespace MauiReactor
             page.NavigatingFromActionWithArgs = navigatingFromActionWithArgs;
             return page;
         }
+
         public static T OnNavigatedFrom<T>(this T page, Action? navigatedFromAction) where T : IPage
         {
             page.NavigatedFromAction = navigatedFromAction;
@@ -382,6 +511,7 @@ namespace MauiReactor
             page.NavigatedFromActionWithArgs = navigatedFromActionWithArgs;
             return page;
         }
+
         public static T OnLayoutChanged<T>(this T page, Action? layoutChangedAction) where T : IPage
         {
             page.LayoutChangedAction = layoutChangedAction;
@@ -393,6 +523,7 @@ namespace MauiReactor
             page.LayoutChangedActionWithArgs = layoutChangedActionWithArgs;
             return page;
         }
+
         public static T OnAppearing<T>(this T page, Action? appearingAction) where T : IPage
         {
             page.AppearingAction = appearingAction;
@@ -404,6 +535,7 @@ namespace MauiReactor
             page.AppearingActionWithArgs = appearingActionWithArgs;
             return page;
         }
+
         public static T OnDisappearing<T>(this T page, Action? disappearingAction) where T : IPage
         {
             page.DisappearingAction = disappearingAction;
@@ -415,5 +547,6 @@ namespace MauiReactor
             page.DisappearingActionWithArgs = disappearingActionWithArgs;
             return page;
         }
+
     }
 }

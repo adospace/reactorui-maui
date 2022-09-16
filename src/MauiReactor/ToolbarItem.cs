@@ -13,11 +13,16 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IToolbarItem : IMenuItem
+
     {
 
 
+
+
     }
+
 
     public partial class ToolbarItem<T> : MenuItem<T>, IToolbarItem where T : Microsoft.Maui.Controls.ToolbarItem, new()
     {
@@ -34,9 +39,13 @@ namespace MauiReactor
 
 
 
+
+
+
         protected override void OnUpdate()
         {
             OnBeginUpdate();
+
 
             base.OnUpdate();
 
@@ -44,11 +53,14 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class ToolbarItem : ToolbarItem<Microsoft.Maui.Controls.ToolbarItem>
     {
@@ -64,8 +76,11 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class ToolbarItemExtensions
     {
+
+
 
     }
 }

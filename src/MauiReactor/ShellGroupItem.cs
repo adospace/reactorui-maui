@@ -13,12 +13,18 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IShellGroupItem : IBaseShellItem
+
     {
+
         PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>? FlyoutDisplayOptions { get; set; }
 
 
+
+
     }
+
 
     public partial class ShellGroupItem<T> : BaseShellItem<T>, IShellGroupItem where T : Microsoft.Maui.Controls.ShellGroupItem, new()
     {
@@ -33,16 +39,26 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>? IShellGroupItem.FlyoutDisplayOptions { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIShellGroupItem = (IShellGroupItem)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ShellGroupItem.FlyoutDisplayOptionsProperty, thisAsIShellGroupItem.FlyoutDisplayOptions);
+
+
+
 
 
             base.OnUpdate();
@@ -51,11 +67,14 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class ShellGroupItem : ShellGroupItem<Microsoft.Maui.Controls.ShellGroupItem>
     {
@@ -71,19 +90,29 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class ShellGroupItemExtensions
     {
+
+
         public static T FlyoutDisplayOptions<T>(this T shellGroupItem, Microsoft.Maui.Controls.FlyoutDisplayOptions flyoutDisplayOptions) where T : IShellGroupItem
         {
             shellGroupItem.FlyoutDisplayOptions = new PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>(flyoutDisplayOptions);
             return shellGroupItem;
         }
 
+
         public static T FlyoutDisplayOptions<T>(this T shellGroupItem, Func<Microsoft.Maui.Controls.FlyoutDisplayOptions> flyoutDisplayOptionsFunc) where T : IShellGroupItem
         {
             shellGroupItem.FlyoutDisplayOptions = new PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>(flyoutDisplayOptionsFunc);
             return shellGroupItem;
         }
+
+
+
+
+
+
 
 
 

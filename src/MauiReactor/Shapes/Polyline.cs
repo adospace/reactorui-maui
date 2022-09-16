@@ -13,13 +13,20 @@ using MauiReactor.Internals;
 
 namespace MauiReactor.Shapes
 {
+
     public partial interface IPolyline : Shapes.IShape
+
     {
+
         PropertyValue<Microsoft.Maui.Controls.PointCollection>? Points { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>? FillRule { get; set; }
 
 
+
+
     }
+
 
     public sealed partial class Polyline : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Polyline>, IPolyline
     {
@@ -34,18 +41,32 @@ namespace MauiReactor.Shapes
 
         }
 
+
+
         PropertyValue<Microsoft.Maui.Controls.PointCollection>? IPolyline.Points { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>? IPolyline.FillRule { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIPolyline = (IPolyline)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Polyline.PointsProperty, thisAsIPolyline.Points);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Polyline.FillRuleProperty, thisAsIPolyline.FillRule);
+
+
+
 
 
             base.OnUpdate();
@@ -54,20 +75,26 @@ namespace MauiReactor.Shapes
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
 
 
     }
 
 
+
     public static partial class PolylineExtensions
     {
+
+
         public static T Points<T>(this T polyline, Microsoft.Maui.Controls.PointCollection points) where T : IPolyline
         {
             polyline.Points = new PropertyValue<Microsoft.Maui.Controls.PointCollection>(points);
             return polyline;
         }
+
 
         public static T Points<T>(this T polyline, Func<Microsoft.Maui.Controls.PointCollection> pointsFunc) where T : IPolyline
         {
@@ -77,17 +104,30 @@ namespace MauiReactor.Shapes
 
 
 
+
+
+
+
+
+
         public static T FillRule<T>(this T polyline, Microsoft.Maui.Controls.Shapes.FillRule fillRule) where T : IPolyline
         {
             polyline.FillRule = new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRule);
             return polyline;
         }
 
+
         public static T FillRule<T>(this T polyline, Func<Microsoft.Maui.Controls.Shapes.FillRule> fillRuleFunc) where T : IPolyline
         {
             polyline.FillRule = new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc);
             return polyline;
         }
+
+
+
+
+
+
 
 
 

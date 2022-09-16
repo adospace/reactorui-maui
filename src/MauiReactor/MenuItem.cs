@@ -13,17 +13,27 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IMenuItem : IBaseMenuItem
+
     {
+
         PropertyValue<bool>? IsDestructive { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IconImageSource { get; set; }
+
         PropertyValue<bool>? IsEnabled { get; set; }
+
         PropertyValue<string>? Text { get; set; }
+
+
 
         Action? ClickedAction { get; set; }
         Action<object?, EventArgs>? ClickedActionWithArgs { get; set; }
 
+
     }
+
 
     public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsoft.Maui.Controls.MenuItem, new()
     {
@@ -38,24 +48,47 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<bool>? IMenuItem.IsDestructive { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IMenuItem.IconImageSource { get; set; }
+
         PropertyValue<bool>? IMenuItem.IsEnabled { get; set; }
+
         PropertyValue<string>? IMenuItem.Text { get; set; }
+
+
 
         Action? IMenuItem.ClickedAction { get; set; }
         Action<object?, EventArgs>? IMenuItem.ClickedActionWithArgs { get; set; }
+
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIMenuItem = (IMenuItem)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuItem.IsDestructiveProperty, thisAsIMenuItem.IsDestructive);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, thisAsIMenuItem.IconImageSource);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuItem.IsEnabledProperty, thisAsIMenuItem.IsEnabled);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuItem.TextProperty, thisAsIMenuItem.Text);
+
+
+
 
 
             base.OnUpdate();
@@ -64,21 +97,32 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
+
+
+        partial void OnAttachingNativeEvents();
+        partial void OnDetachingNativeEvents();
 
         protected override void OnAttachNativeEvents()
         {
             Validate.EnsureNotNull(NativeControl);
 
             var thisAsIMenuItem = (IMenuItem)this;
+
             if (thisAsIMenuItem.ClickedAction != null || thisAsIMenuItem.ClickedActionWithArgs != null)
             {
                 NativeControl.Clicked += NativeControl_Clicked;
             }
 
+
+            OnAttachingNativeEvents();
+
             base.OnAttachNativeEvents();
         }
+
 
         private void NativeControl_Clicked(object? sender, EventArgs e)
         {
@@ -87,17 +131,24 @@ namespace MauiReactor
             thisAsIMenuItem.ClickedActionWithArgs?.Invoke(sender, e);
         }
 
+
         protected override void OnDetachNativeEvents()
         {
             if (NativeControl != null)
             {
+
                 NativeControl.Clicked -= NativeControl_Clicked;
+
             }
+
+            OnDetachingNativeEvents();
 
             base.OnDetachNativeEvents();
         }
 
+
     }
+
 
     public partial class MenuItem : MenuItem<Microsoft.Maui.Controls.MenuItem>
     {
@@ -113,13 +164,17 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class MenuItemExtensions
     {
+
+
         public static T IsDestructive<T>(this T menuItem, bool isDestructive) where T : IMenuItem
         {
             menuItem.IsDestructive = new PropertyValue<bool>(isDestructive);
             return menuItem;
         }
+
 
         public static T IsDestructive<T>(this T menuItem, Func<bool> isDestructiveFunc) where T : IMenuItem
         {
@@ -129,17 +184,28 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T IconImageSource<T>(this T menuItem, Microsoft.Maui.Controls.ImageSource iconImageSource) where T : IMenuItem
         {
             menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSource);
             return menuItem;
         }
 
+
         public static T IconImageSource<T>(this T menuItem, Func<Microsoft.Maui.Controls.ImageSource> iconImageSourceFunc) where T : IMenuItem
         {
             menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc);
             return menuItem;
         }
+
+
+
+
 
 
         public static T IconImage<T>(this T menuItem, string file) where T : IMenuItem
@@ -173,11 +239,15 @@ namespace MauiReactor
             return menuItem;
         }
 
+
+
+
         public static T IsEnabled<T>(this T menuItem, bool isEnabled) where T : IMenuItem
         {
             menuItem.IsEnabled = new PropertyValue<bool>(isEnabled);
             return menuItem;
         }
+
 
         public static T IsEnabled<T>(this T menuItem, Func<bool> isEnabledFunc) where T : IMenuItem
         {
@@ -187,17 +257,30 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T Text<T>(this T menuItem, string text) where T : IMenuItem
         {
             menuItem.Text = new PropertyValue<string>(text);
             return menuItem;
         }
 
+
         public static T Text<T>(this T menuItem, Func<string> textFunc) where T : IMenuItem
         {
             menuItem.Text = new PropertyValue<string>(textFunc);
             return menuItem;
         }
+
+
+
+
+
+
 
 
 
@@ -213,5 +296,6 @@ namespace MauiReactor
             menuItem.ClickedActionWithArgs = clickedActionWithArgs;
             return menuItem;
         }
+
     }
 }

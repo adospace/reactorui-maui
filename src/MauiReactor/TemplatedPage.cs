@@ -13,12 +13,18 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface ITemplatedPage : IPage
+
     {
+
         PropertyValue<Microsoft.Maui.Controls.ControlTemplate>? ControlTemplate { get; set; }
 
 
+
+
     }
+
 
     public partial class TemplatedPage<T> : Page<T>, ITemplatedPage where T : Microsoft.Maui.Controls.TemplatedPage, new()
     {
@@ -33,16 +39,26 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<Microsoft.Maui.Controls.ControlTemplate>? ITemplatedPage.ControlTemplate { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsITemplatedPage = (ITemplatedPage)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TemplatedPage.ControlTemplateProperty, thisAsITemplatedPage.ControlTemplate);
+
+
+
 
 
             base.OnUpdate();
@@ -51,11 +67,14 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
     public partial class TemplatedPage : TemplatedPage<Microsoft.Maui.Controls.TemplatedPage>
     {
@@ -71,19 +90,29 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class TemplatedPageExtensions
     {
+
+
         public static T ControlTemplate<T>(this T templatedPage, Microsoft.Maui.Controls.ControlTemplate controlTemplate) where T : ITemplatedPage
         {
             templatedPage.ControlTemplate = new PropertyValue<Microsoft.Maui.Controls.ControlTemplate>(controlTemplate);
             return templatedPage;
         }
 
+
         public static T ControlTemplate<T>(this T templatedPage, Func<Microsoft.Maui.Controls.ControlTemplate> controlTemplateFunc) where T : ITemplatedPage
         {
             templatedPage.ControlTemplate = new PropertyValue<Microsoft.Maui.Controls.ControlTemplate>(controlTemplateFunc);
             return templatedPage;
         }
+
+
+
+
+
+
 
 
 

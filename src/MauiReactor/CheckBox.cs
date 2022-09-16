@@ -13,15 +13,23 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface ICheckBox : IView
+
     {
+
         PropertyValue<bool>? IsChecked { get; set; }
+
         PropertyValue<Microsoft.Maui.Graphics.Color>? Color { get; set; }
+
+
 
         Action? CheckedChangedAction { get; set; }
         Action<object?, CheckedChangedEventArgs>? CheckedChangedActionWithArgs { get; set; }
 
+
     }
+
 
     public partial class CheckBox<T> : View<T>, ICheckBox where T : Microsoft.Maui.Controls.CheckBox, new()
     {
@@ -36,20 +44,35 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<bool>? ICheckBox.IsChecked { get; set; }
+
         PropertyValue<Microsoft.Maui.Graphics.Color>? ICheckBox.Color { get; set; }
+
+
 
         Action? ICheckBox.CheckedChangedAction { get; set; }
         Action<object?, CheckedChangedEventArgs>? ICheckBox.CheckedChangedActionWithArgs { get; set; }
+
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsICheckBox = (ICheckBox)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.CheckBox.IsCheckedProperty, thisAsICheckBox.IsChecked);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.CheckBox.ColorProperty, thisAsICheckBox.Color);
+
+
+
 
 
             base.OnUpdate();
@@ -58,21 +81,32 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
+
+
+        partial void OnAttachingNativeEvents();
+        partial void OnDetachingNativeEvents();
 
         protected override void OnAttachNativeEvents()
         {
             Validate.EnsureNotNull(NativeControl);
 
             var thisAsICheckBox = (ICheckBox)this;
+
             if (thisAsICheckBox.CheckedChangedAction != null || thisAsICheckBox.CheckedChangedActionWithArgs != null)
             {
                 NativeControl.CheckedChanged += NativeControl_CheckedChanged;
             }
 
+
+            OnAttachingNativeEvents();
+
             base.OnAttachNativeEvents();
         }
+
 
         private void NativeControl_CheckedChanged(object? sender, CheckedChangedEventArgs e)
         {
@@ -81,17 +115,24 @@ namespace MauiReactor
             thisAsICheckBox.CheckedChangedActionWithArgs?.Invoke(sender, e);
         }
 
+
         protected override void OnDetachNativeEvents()
         {
             if (NativeControl != null)
             {
+
                 NativeControl.CheckedChanged -= NativeControl_CheckedChanged;
+
             }
+
+            OnDetachingNativeEvents();
 
             base.OnDetachNativeEvents();
         }
 
+
     }
+
 
     public partial class CheckBox : CheckBox<Microsoft.Maui.Controls.CheckBox>
     {
@@ -107,13 +148,17 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class CheckBoxExtensions
     {
+
+
         public static T IsChecked<T>(this T checkBox, bool isChecked) where T : ICheckBox
         {
             checkBox.IsChecked = new PropertyValue<bool>(isChecked);
             return checkBox;
         }
+
 
         public static T IsChecked<T>(this T checkBox, Func<bool> isCheckedFunc) where T : ICheckBox
         {
@@ -123,17 +168,30 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T Color<T>(this T checkBox, Microsoft.Maui.Graphics.Color color) where T : ICheckBox
         {
             checkBox.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(color);
             return checkBox;
         }
 
+
         public static T Color<T>(this T checkBox, Func<Microsoft.Maui.Graphics.Color> colorFunc) where T : ICheckBox
         {
             checkBox.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc);
             return checkBox;
         }
+
+
+
+
+
+
 
 
 
@@ -149,5 +207,6 @@ namespace MauiReactor
             checkBox.CheckedChangedActionWithArgs = checkedChangedActionWithArgs;
             return checkBox;
         }
+
     }
 }

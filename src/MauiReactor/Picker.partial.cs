@@ -32,5 +32,17 @@ namespace MauiReactor
             picker.ItemsSource = itemsSource;
             return picker;
         }
+
+        public static T OnSelectedIndexChanged<T>(this T picker, Action<int>? selectedIndexChangedAction) where T : IPicker
+        {
+            picker.SelectedIndexChangedActionWithArgs = (sender, args) =>
+            {
+                if (sender is Microsoft.Maui.Controls.Picker picker)
+                {
+                    selectedIndexChangedAction?.Invoke(picker.SelectedIndex);
+                }
+            };
+            return picker;
+        }
     }
 }

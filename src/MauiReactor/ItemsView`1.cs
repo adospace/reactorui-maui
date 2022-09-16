@@ -13,11 +13,16 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IGenericItemsView : IView
+
     {
 
 
+
+
     }
+
 
     public abstract partial class ItemsView<T, TChild> : View<T>, IGenericItemsView where T : Microsoft.Maui.Controls.ItemsView<TChild>, new() where TChild : Microsoft.Maui.Controls.BindableObject
     {
@@ -34,9 +39,13 @@ namespace MauiReactor
 
 
 
+
+
+
         protected override void OnUpdate()
         {
             OnBeginUpdate();
+
 
             base.OnUpdate();
 
@@ -44,15 +53,20 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
 
 
     }
 
 
+
     public static partial class ItemsViewExtensions
     {
+
+
 
     }
 }

@@ -13,20 +13,32 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IBaseShellItem : INavigableElement
+
     {
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? FlyoutIcon { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? Icon { get; set; }
+
         PropertyValue<bool>? IsEnabled { get; set; }
+
         PropertyValue<string>? Title { get; set; }
+
         PropertyValue<bool>? IsVisible { get; set; }
+
+
 
         Action? AppearingAction { get; set; }
         Action<object?, EventArgs>? AppearingActionWithArgs { get; set; }
+
         Action? DisappearingAction { get; set; }
         Action<object?, EventArgs>? DisappearingActionWithArgs { get; set; }
 
+
     }
+
 
     public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem where T : Microsoft.Maui.Controls.BaseShellItem, new()
     {
@@ -41,28 +53,56 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IBaseShellItem.FlyoutIcon { get; set; }
+
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IBaseShellItem.Icon { get; set; }
+
         PropertyValue<bool>? IBaseShellItem.IsEnabled { get; set; }
+
         PropertyValue<string>? IBaseShellItem.Title { get; set; }
+
         PropertyValue<bool>? IBaseShellItem.IsVisible { get; set; }
+
+
 
         Action? IBaseShellItem.AppearingAction { get; set; }
         Action<object?, EventArgs>? IBaseShellItem.AppearingActionWithArgs { get; set; }
+
         Action? IBaseShellItem.DisappearingAction { get; set; }
         Action<object?, EventArgs>? IBaseShellItem.DisappearingActionWithArgs { get; set; }
+
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsIBaseShellItem = (IBaseShellItem)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BaseShellItem.FlyoutIconProperty, thisAsIBaseShellItem.FlyoutIcon);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BaseShellItem.IconProperty, thisAsIBaseShellItem.Icon);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BaseShellItem.IsEnabledProperty, thisAsIBaseShellItem.IsEnabled);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BaseShellItem.TitleProperty, thisAsIBaseShellItem.Title);
+
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BaseShellItem.IsVisibleProperty, thisAsIBaseShellItem.IsVisible);
+
+
+
 
 
             base.OnUpdate();
@@ -71,25 +111,37 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
+
+
+        partial void OnAttachingNativeEvents();
+        partial void OnDetachingNativeEvents();
 
         protected override void OnAttachNativeEvents()
         {
             Validate.EnsureNotNull(NativeControl);
 
             var thisAsIBaseShellItem = (IBaseShellItem)this;
+
             if (thisAsIBaseShellItem.AppearingAction != null || thisAsIBaseShellItem.AppearingActionWithArgs != null)
             {
                 NativeControl.Appearing += NativeControl_Appearing;
             }
+
             if (thisAsIBaseShellItem.DisappearingAction != null || thisAsIBaseShellItem.DisappearingActionWithArgs != null)
             {
                 NativeControl.Disappearing += NativeControl_Disappearing;
             }
 
+
+            OnAttachingNativeEvents();
+
             base.OnAttachNativeEvents();
         }
+
 
         private void NativeControl_Appearing(object? sender, EventArgs e)
         {
@@ -97,6 +149,7 @@ namespace MauiReactor
             thisAsIBaseShellItem.AppearingAction?.Invoke();
             thisAsIBaseShellItem.AppearingActionWithArgs?.Invoke(sender, e);
         }
+
         private void NativeControl_Disappearing(object? sender, EventArgs e)
         {
             var thisAsIBaseShellItem = (IBaseShellItem)this;
@@ -104,18 +157,26 @@ namespace MauiReactor
             thisAsIBaseShellItem.DisappearingActionWithArgs?.Invoke(sender, e);
         }
 
+
         protected override void OnDetachNativeEvents()
         {
             if (NativeControl != null)
             {
+
                 NativeControl.Appearing -= NativeControl_Appearing;
+
                 NativeControl.Disappearing -= NativeControl_Disappearing;
+
             }
+
+            OnDetachingNativeEvents();
 
             base.OnDetachNativeEvents();
         }
 
+
     }
+
 
     public partial class BaseShellItem : BaseShellItem<Microsoft.Maui.Controls.BaseShellItem>
     {
@@ -131,19 +192,27 @@ namespace MauiReactor
         }
     }
 
+
     public static partial class BaseShellItemExtensions
     {
+
+
         public static T FlyoutIcon<T>(this T baseShellItem, Microsoft.Maui.Controls.ImageSource flyoutIcon) where T : IBaseShellItem
         {
             baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIcon);
             return baseShellItem;
         }
 
+
         public static T FlyoutIcon<T>(this T baseShellItem, Func<Microsoft.Maui.Controls.ImageSource> flyoutIconFunc) where T : IBaseShellItem
         {
             baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIconFunc);
             return baseShellItem;
         }
+
+
+
+
 
 
         public static T Flyo<T>(this T baseShellItem, string file) where T : IBaseShellItem
@@ -177,17 +246,25 @@ namespace MauiReactor
             return baseShellItem;
         }
 
+
+
+
         public static T Icon<T>(this T baseShellItem, Microsoft.Maui.Controls.ImageSource icon) where T : IBaseShellItem
         {
             baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(icon);
             return baseShellItem;
         }
 
+
         public static T Icon<T>(this T baseShellItem, Func<Microsoft.Maui.Controls.ImageSource> iconFunc) where T : IBaseShellItem
         {
             baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc);
             return baseShellItem;
         }
+
+
+
+
 
 
         public static T Icon<T>(this T baseShellItem, string file) where T : IBaseShellItem
@@ -221,11 +298,15 @@ namespace MauiReactor
             return baseShellItem;
         }
 
+
+
+
         public static T IsEnabled<T>(this T baseShellItem, bool isEnabled) where T : IBaseShellItem
         {
             baseShellItem.IsEnabled = new PropertyValue<bool>(isEnabled);
             return baseShellItem;
         }
+
 
         public static T IsEnabled<T>(this T baseShellItem, Func<bool> isEnabledFunc) where T : IBaseShellItem
         {
@@ -235,11 +316,18 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T Title<T>(this T baseShellItem, string title) where T : IBaseShellItem
         {
             baseShellItem.Title = new PropertyValue<string>(title);
             return baseShellItem;
         }
+
 
         public static T Title<T>(this T baseShellItem, Func<string> titleFunc) where T : IBaseShellItem
         {
@@ -249,17 +337,30 @@ namespace MauiReactor
 
 
 
+
+
+
+
+
+
         public static T IsVisible<T>(this T baseShellItem, bool isVisible) where T : IBaseShellItem
         {
             baseShellItem.IsVisible = new PropertyValue<bool>(isVisible);
             return baseShellItem;
         }
 
+
         public static T IsVisible<T>(this T baseShellItem, Func<bool> isVisibleFunc) where T : IBaseShellItem
         {
             baseShellItem.IsVisible = new PropertyValue<bool>(isVisibleFunc);
             return baseShellItem;
         }
+
+
+
+
+
+
 
 
 
@@ -275,6 +376,7 @@ namespace MauiReactor
             baseShellItem.AppearingActionWithArgs = appearingActionWithArgs;
             return baseShellItem;
         }
+
         public static T OnDisappearing<T>(this T baseShellItem, Action? disappearingAction) where T : IBaseShellItem
         {
             baseShellItem.DisappearingAction = disappearingAction;
@@ -286,5 +388,6 @@ namespace MauiReactor
             baseShellItem.DisappearingActionWithArgs = disappearingActionWithArgs;
             return baseShellItem;
         }
+
     }
 }

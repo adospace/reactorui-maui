@@ -13,12 +13,18 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface ILinearItemsLayout : IItemsLayout
+
     {
+
         PropertyValue<double>? ItemSpacing { get; set; }
 
 
+
+
     }
+
 
     public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItemsLayout where T : Microsoft.Maui.Controls.LinearItemsLayout, new()
     {
@@ -33,16 +39,26 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<double>? ILinearItemsLayout.ItemSpacing { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsILinearItemsLayout = (ILinearItemsLayout)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, thisAsILinearItemsLayout.ItemSpacing);
+
+
+
 
 
             base.OnUpdate();
@@ -50,25 +66,35 @@ namespace MauiReactor
             OnEndUpdate();
         }
 
+
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsILinearItemsLayout = (ILinearItemsLayout)this;
 
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, thisAsILinearItemsLayout.ItemSpacing);
+
+
 
             base.OnAnimate();
         }
+
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
 
 
+
     }
+
 
 
     public static partial class LinearItemsLayoutExtensions
     {
+
+
         public static T ItemSpacing<T>(this T linearItemsLayout, double itemSpacing, RxDoubleAnimation? customAnimation = null) where T : ILinearItemsLayout
         {
             linearItemsLayout.ItemSpacing = new PropertyValue<double>(itemSpacing);
@@ -76,11 +102,18 @@ namespace MauiReactor
             return linearItemsLayout;
         }
 
+
         public static T ItemSpacing<T>(this T linearItemsLayout, Func<double> itemSpacingFunc) where T : ILinearItemsLayout
         {
             linearItemsLayout.ItemSpacing = new PropertyValue<double>(itemSpacingFunc);
             return linearItemsLayout;
         }
+
+
+
+
+
+
 
 
 

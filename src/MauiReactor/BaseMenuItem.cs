@@ -13,11 +13,16 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface IBaseMenuItem : IElement
+
     {
 
 
+
+
     }
+
 
     public abstract partial class BaseMenuItem<T> : Element<T>, IBaseMenuItem where T : Microsoft.Maui.Controls.BaseMenuItem, new()
     {
@@ -34,9 +39,13 @@ namespace MauiReactor
 
 
 
+
+
+
         protected override void OnUpdate()
         {
             OnBeginUpdate();
+
 
             base.OnUpdate();
 
@@ -44,15 +53,20 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
 
 
     }
 
 
+
     public static partial class BaseMenuItemExtensions
     {
+
+
 
     }
 }

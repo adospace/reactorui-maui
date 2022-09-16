@@ -13,12 +13,18 @@ using MauiReactor.Internals;
 
 namespace MauiReactor
 {
+
     public partial interface INavigableElement : IElement
+
     {
+
         PropertyValue<Microsoft.Maui.Controls.Style>? Style { get; set; }
 
 
+
+
     }
+
 
     public abstract partial class NavigableElement<T> : Element<T>, INavigableElement where T : Microsoft.Maui.Controls.NavigableElement, new()
     {
@@ -33,16 +39,26 @@ namespace MauiReactor
 
         }
 
+
+
         PropertyValue<Microsoft.Maui.Controls.Style>? INavigableElement.Style { get; set; }
+
+
 
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
 
+
             Validate.EnsureNotNull(NativeControl);
             var thisAsINavigableElement = (INavigableElement)this;
+
+
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.NavigableElement.StyleProperty, thisAsINavigableElement.Style);
+
+
+
 
 
             base.OnUpdate();
@@ -51,26 +67,38 @@ namespace MauiReactor
         }
 
 
+
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
 
 
     }
 
 
+
     public static partial class NavigableElementExtensions
     {
+
+
         public static T Style<T>(this T navigableElement, Microsoft.Maui.Controls.Style style) where T : INavigableElement
         {
             navigableElement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(style);
             return navigableElement;
         }
 
+
         public static T Style<T>(this T navigableElement, Func<Microsoft.Maui.Controls.Style> styleFunc) where T : INavigableElement
         {
             navigableElement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc);
             return navigableElement;
         }
+
+
+
+
+
+
 
 
 
