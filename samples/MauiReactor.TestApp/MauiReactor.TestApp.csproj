@@ -47,4 +47,8 @@
     <ProjectReference Include="..\..\src\MauiReactor\MauiReactor.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\Embedded\norway_1.jpeg" />
+  </ItemGroup>
+
 </Project>

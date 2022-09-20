@@ -71,7 +71,7 @@ namespace MauiReactor
             else if (widget == thisAsIVisualElement.Shadow &&
                 childNativeControl is Microsoft.Maui.Controls.Shadow)
             {
-                NativeControl.Shadow = null;
+                NativeControl.Shadow = null!;
             }
 
             base.OnRemoveChild(widget, childNativeControl);

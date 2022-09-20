@@ -18,9 +18,14 @@ namespace MauiReactor.TestApp.Pages
                     new Row
                     {
                         new Box()
-                            .Margin(new Thickness(10))
-                            .BackgroundColor(Colors.Green)
-                            .CornerRadius(10),
+                        {
+                            new Picture("MauiReactor.TestApp.Resources.Images.Embedded.norway_1.jpeg")
+                        
+                        }
+                        .Margin(new Thickness(10))
+                        .BackgroundColor(Colors.Green)
+                        .CornerRadius(10)
+                        ,
 
                         new Align
                         {

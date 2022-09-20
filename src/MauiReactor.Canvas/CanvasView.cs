@@ -17,6 +17,7 @@ using System.Threading;
 using System.Collections;
 using System.Xml.Linq;
 using System.Xml.Xsl;
+using System.IO;
 
 namespace MauiReactor.Canvas
 {
@@ -1083,6 +1084,132 @@ namespace MauiReactor.Canvas
         }
     }
 }
+
+namespace MauiReactor.Canvas
+{
+    public partial interface IPicture : ICanvasNode
+    {
+        PropertyValue<Microsoft.Maui.Graphics.IImage?>? Source { get; set; }
+    }
+
+    public partial class Picture<T> : CanvasNode<T>, IPicture where T : Internals.Picture, new()
+    {
+        protected readonly List<VisualNode> _internalChildren = new();
+
+        public Picture()
+        {
+
+        }
+
+        public Picture(Action<T?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+
+        PropertyValue<Microsoft.Maui.Graphics.IImage?>? IPicture.Source { get; set; }
+
+        protected override void OnUpdate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIPicture = (IPicture)this;
+
+            SetPropertyValue(NativeControl, Internals.Picture.SourceProperty, thisAsIPicture.Source);
+
+            base.OnUpdate();
+        }
+    }
+
+    public partial class Picture : Picture<Internals.Picture>
+    {
+        public Picture()
+        {
+
+        }
+
+        public Picture(string imageSource)
+        {
+            this.Source(imageSource, true, Assembly.GetCallingAssembly());
+        }
+
+        public Picture(Action<Internals.Picture?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+    }
+
+    public static partial class PictureExtensions
+    {
+        private static readonly Dictionary<string, Microsoft.Maui.Graphics.IImage> _imageCache = new();
+
+        public static T Source<T>(this T node, Microsoft.Maui.Graphics.IImage? value) where T : IPicture
+        {
+            node.Source = new PropertyValue<Microsoft.Maui.Graphics.IImage?>(value);
+            return node;
+        }
+
+        public static T Source<T>(this T node, Func<Microsoft.Maui.Graphics.IImage?> valueFunc) where T : IPicture
+        {
+            node.Source = new PropertyValue<Microsoft.Maui.Graphics.IImage?>(valueFunc);
+            return node;
+        }
+
+        public static T Source<T>(this T node, string? imageSource, bool cacheImage = true, Assembly? resourceAssembly = null) where T : IPicture
+        {
+            resourceAssembly ??= Assembly.GetCallingAssembly();
+            node.Source = new PropertyValue<Microsoft.Maui.Graphics.IImage?>(LoadImage(imageSource, cacheImage, resourceAssembly));
+            return node;
+        }
+
+        public static T Source<T>(this T node, Func<string?> valueFunc, bool cacheImage = true, Assembly? resourceAssembly = null) where T : IPicture
+        {
+            resourceAssembly ??= Assembly.GetCallingAssembly();
+            node.Source = new PropertyValue<Microsoft.Maui.Graphics.IImage?>(() => LoadImage(valueFunc.Invoke(), cacheImage, resourceAssembly));
+            return node;
+        }
+
+        private static Microsoft.Maui.Graphics.IImage? LoadImage(string? imageSource, bool cacheImage, Assembly resourceAssembly)
+        {
+            if (imageSource == null)
+            {
+                return null;
+            }
+            else
+            {
+                if (_imageCache.TryGetValue(imageSource, out var cachedImage))
+                {
+                    return cachedImage;
+                }
+                else
+                {
+                    Microsoft.Maui.Graphics.IImage? image = null;
+                    var imageResourceStream = resourceAssembly.GetManifestResourceStream(imageSource);
+
+                    if (imageResourceStream == null)
+                    {
+                        throw new InvalidOperationException($"Unable to load resource: '{imageSource}'. Available resources: {string.Join(",", resourceAssembly.GetManifestResourceNames())}");
+                    }
+
+                    using (Stream stream = imageResourceStream)
+                    {
+#if !WINDOWS
+                        image = Microsoft.Maui.Graphics.Platform.PlatformImage.FromStream(stream);
+#endif
+                    }
+
+                    if (cacheImage && image != null)
+                    {
+                        _imageCache.Add(imageSource, image);
+                    }
+
+                    return image;
+                }
+            }
+        }
+    }
+}
+
 namespace MauiReactor.Canvas.Internals
 { 
     public class CanvasView : Microsoft.Maui.Controls.GraphicsView
@@ -1642,6 +1769,43 @@ namespace MauiReactor.Canvas.Internals
                 }
 
                 canvas.DrawString(Value, dirtyRect, HorizontalAlignment, VerticalAlignment);
+
+                canvas.RestoreState();
+            }
+
+            base.OnDraw(context);
+        }
+    }
+
+    public class Picture : CanvasNode
+    {
+        public static readonly BindableProperty SourceProperty = BindableProperty.Create(nameof(Source), typeof(Microsoft.Maui.Graphics.IImage), typeof(Picture), null);
+
+        public Microsoft.Maui.Graphics.IImage? Source
+        {
+            get => (Microsoft.Maui.Graphics.IImage?)GetValue(SourceProperty);
+            set => SetValue(SourceProperty, value);
+        }
+
+        
+        public static readonly BindableProperty AspectProperty = BindableProperty.Create(nameof(Source), typeof(Aspect), typeof(Picture), Aspect.AspectFit);
+
+        public Aspect Aspect
+        {
+            get => (Aspect)GetValue(AspectProperty);
+            set => SetValue(AspectProperty, value);
+        }
+
+        protected override void OnDraw(DrawingContext context)
+        {
+            if (Source != null)
+            {
+                var canvas = context.Canvas;
+                var dirtyRect = context.DirtyRect;
+
+                canvas.SaveState();
+
+                canvas.DrawImage(Source, dirtyRect.X, dirtyRect.Y, dirtyRect.Width, dirtyRect.Height);
 
                 canvas.RestoreState();
             }
