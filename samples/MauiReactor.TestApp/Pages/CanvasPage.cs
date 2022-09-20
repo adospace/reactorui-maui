@@ -25,12 +25,17 @@ namespace MauiReactor.TestApp.Pages
                         new Align
                         {
                             new Box()
-                                .Margin(new Thickness(10))
-                                .BackgroundColor(Colors.Red)
-                                .CornerRadius(10)
+                            {
+                                new Text("Text")
+                                    .FontSize(14f)
+                                    .FontColor(Colors.Bisque)
+                                    .VerticalAlignment(VerticalAlignment.Center)
+                                    .HorizontalAlignment(HorizontalAlignment.Center)
+                            }
+                            .Margin(new Thickness(10))
+                            .BackgroundColor(Colors.Red)
+                            .CornerRadius(10)
                         }
-                        //.Width(100)
-                        //.HorizontalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Center)
                         .Height(300)
                         .VerticalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Center)
                     }

@@ -928,6 +928,9 @@ namespace MauiReactor.Canvas
         PropertyValue<VerticalAlignment>? VerticalAlignment { get; set; }
         PropertyValue<HorizontalAlignment>? HorizontalAlignment { get; set; }
         PropertyValue<string>? Value { get; set; }
+        PropertyValue<float>? FontSize { get; set; }
+        PropertyValue<Color?>? FontColor { get; set; }
+        PropertyValue<IFont?>? Font { get; set; }
     }
 
     public partial class Text<T> : CanvasNode<T>, IText where T : Internals.Text, new()
@@ -948,6 +951,9 @@ namespace MauiReactor.Canvas
         PropertyValue<HorizontalAlignment>? IText.HorizontalAlignment { get; set; }
         PropertyValue<VerticalAlignment>? IText.VerticalAlignment { get; set; }
         PropertyValue<string>? IText.Value { get; set; }
+        PropertyValue<float>? IText.FontSize { get; set; }
+        PropertyValue<Color?>? IText.FontColor { get; set; }
+        PropertyValue<IFont?>? IText.Font { get; set; }
 
         protected override void OnUpdate()
         {
@@ -955,8 +961,11 @@ namespace MauiReactor.Canvas
             var thisAsIText = (IText)this;
 
             SetPropertyValue(NativeControl, Internals.Text.HorizontalAlignmentProperty, thisAsIText.HorizontalAlignment);
-            SetPropertyValue(NativeControl, Internals.Text.HorizontalAlignmentProperty, thisAsIText.HorizontalAlignment);
+            SetPropertyValue(NativeControl, Internals.Text.VerticalAlignmentProperty, thisAsIText.VerticalAlignment);
             SetPropertyValue(NativeControl, Internals.Text.ValueProperty, thisAsIText.Value);
+            SetPropertyValue(NativeControl, Internals.Text.FontSizeProperty, thisAsIText.FontSize);
+            SetPropertyValue(NativeControl, Internals.Text.FontColorProperty, thisAsIText.FontColor);
+            SetPropertyValue(NativeControl, Internals.Text.FontProperty, thisAsIText.Font);
 
             base.OnUpdate();
         }
@@ -967,6 +976,11 @@ namespace MauiReactor.Canvas
         public Text()
         {
 
+        }
+
+        public Text(string value)
+        {
+            this.Value(value);
         }
 
         public Text(Action<Internals.Text?> componentRefAction)
@@ -1010,6 +1024,61 @@ namespace MauiReactor.Canvas
         public static T Value<T>(this T node, Func<string> valueFunc) where T : IText
         {
             node.Value = new PropertyValue<string>(valueFunc);
+            return node;
+        }
+
+        public static T FontSize<T>(this T node, float value) where T : IText
+        {
+            node.FontSize = new PropertyValue<float>(value);
+            return node;
+        }
+
+        public static T FontSize<T>(this T node, Func<float> valueFunc) where T : IText
+        {
+            node.FontSize = new PropertyValue<float>(valueFunc);
+            return node;
+        }
+
+        public static T FontColor<T>(this T node, Color? value) where T : IText
+        {
+            node.FontColor = new PropertyValue<Color?>(value);
+            return node;
+        }
+
+        public static T FontColor<T>(this T node, Func<Color?> valueFunc) where T : IText
+        {
+            node.FontColor = new PropertyValue<Color?>(valueFunc);
+            return node;
+        }
+
+        public static T Font<T>(this T node, IFont? value) where T : IText
+        {
+            node.Font = new PropertyValue<IFont?>(value);
+            return node;
+        }
+
+        public static T Font<T>(this T node, string? fontName) where T : IText
+        {
+            node.Font = new PropertyValue<IFont?>(fontName == null ? null : new Microsoft.Maui.Graphics.Font(fontName));
+            return node;
+        }
+
+        public static T Font<T>(this T node, Func<IFont?> valueFunc) where T : IText
+        {
+            node.Font = new PropertyValue<IFont?>(valueFunc);
+            return node;
+        }
+        public static T Font<T>(this T node, Func<string?> valueFunc) where T : IText
+        {
+            node.Font = new PropertyValue<IFont?>(()=>
+            {
+                var fontName = valueFunc.Invoke();
+                if (fontName != null)
+                {
+                    return new Microsoft.Maui.Graphics.Font(fontName);
+                }
+                return null;
+            });
             return node;
         }
     }
@@ -1528,6 +1597,31 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(HorizontalAlignmentProperty, value);
         }
 
+        public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(nameof(FontSizeProperty), typeof(float), typeof(Text), 12.0f,
+            coerceValue: (bindableObject, value) => ((float)value) <= 0.0f ? 12.0f : (float)value);
+
+        public float FontSize
+        {
+            get => (float)GetValue(FontSizeProperty);
+            set => SetValue(FontSizeProperty, value);
+        }
+
+        public static readonly BindableProperty FontColorProperty = BindableProperty.Create(nameof(FontColorProperty), typeof(Color), typeof(Text), null);
+
+        public Color? FontColor
+        {
+            get => (Color?)GetValue(FontColorProperty);
+            set => SetValue(FontColorProperty, value);
+        }
+
+        public static readonly BindableProperty FontProperty = BindableProperty.Create(nameof(FontProperty), typeof(IFont), typeof(Text), Microsoft.Maui.Graphics.Font.Default);
+
+        public IFont? Font
+        {
+            get => (IFont?)GetValue(FontProperty);
+            set => SetValue(FontProperty, value);
+        }
+
         protected override void OnDraw(DrawingContext context)
         {
             if (Value != null)
@@ -1535,7 +1629,21 @@ namespace MauiReactor.Canvas.Internals
                 var canvas = context.Canvas;
                 var dirtyRect = context.DirtyRect;
 
+                canvas.SaveState();
+
+                canvas.FontSize = FontSize;
+                if (FontColor != null)
+                {
+                    canvas.FontColor = FontColor;
+                }
+                if (Font != null)
+                {
+                    canvas.Font = Font;
+                }
+
                 canvas.DrawString(Value, dirtyRect, HorizontalAlignment, VerticalAlignment);
+
+                canvas.RestoreState();
             }
 
             base.OnDraw(context);
