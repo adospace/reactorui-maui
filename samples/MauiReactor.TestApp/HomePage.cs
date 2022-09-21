@@ -14,50 +14,50 @@ namespace MauiReactor.TestApp
         {
             return new Shell
             {
-                //new FlyoutItem("Counter")
-                //{
-                //    new Pages.CounterPage()
-                //},
-                //new FlyoutItem("Parameters")
-                //{
-                //    new Pages.ParametersPage()
-                //},
-                //new FlyoutItem("CollectionView")
-                //{
-                //    new Pages.CollectionViewPage()
-                //},
-                //new FlyoutItem("ListView")
-                //{
-                //    new Pages.ListViewPage()
-                //},
-                //new FlyoutItem("CardsAnimation")
-                //{
-                //    new Pages.CardsAnimationPage()
-                //},
-                //new FlyoutItem("Image")
-                //{
-                //    new Pages.ImagePage()
-                //},
-                //new FlyoutItem("AnimatedCollectionView")
-                //{
-                //    new Pages.AnimatedCollectionViewPage()
-                //},
-                //new FlyoutItem("AnimationShowcase")
-                //{
-                //    new Pages.AnimationShowcasePage()
-                //},
-                //new FlyoutItem("AnimationLoop")
-                //{
-                //    new Pages.AnimationLoopPage()
-                //},
-                //new FlyoutItem("Navigation")
-                //{
-                //    new Pages.NavigationMainPage()
-                //},
-                //new FlyoutItem("ElementRef")
-                //{
-                //    new Pages.ElementRefPage()
-                //},
+                new FlyoutItem("Counter")
+                {
+                    new Pages.CounterPage()
+                },
+                new FlyoutItem("Parameters")
+                {
+                    new Pages.ParametersPage()
+                },
+                new FlyoutItem("CollectionView")
+                {
+                    new Pages.CollectionViewPage()
+                },
+                new FlyoutItem("ListView")
+                {
+                    new Pages.ListViewPage()
+                },
+                new FlyoutItem("CardsAnimation")
+                {
+                    new Pages.CardsAnimationPage()
+                },
+                new FlyoutItem("Image")
+                {
+                    new Pages.ImagePage()
+                },
+                new FlyoutItem("AnimatedCollectionView")
+                {
+                    new Pages.AnimatedCollectionViewPage()
+                },
+                new FlyoutItem("AnimationShowcase")
+                {
+                    new Pages.AnimationShowcasePage()
+                },
+                new FlyoutItem("AnimationLoop")
+                {
+                    new Pages.AnimationLoopPage()
+                },
+                new FlyoutItem("Navigation")
+                {
+                    new Pages.NavigationMainPage()
+                },
+                new FlyoutItem("ElementRef")
+                {
+                    new Pages.ElementRefPage()
+                },
                 new FlyoutItem("Landscape")
                 {
                     new Pages.LandscapePage()
