@@ -292,18 +292,21 @@ namespace MauiReactor
 
         internal virtual void MergeChildrenFrom(IReadOnlyList<VisualNode> oldChildren)
         {
-            for (int i = 0; i < Children.Count; i++)
+            if (oldChildren != Children)
             {
-                if (oldChildren.Count > i)
+                for (int i = 0; i < Children.Count; i++)
                 {
-                    oldChildren[i].MergeWith(Children[i]);
+                    if (oldChildren.Count > i)
+                    {
+                        oldChildren[i].MergeWith(Children[i]);
+                    }
                 }
-            }
 
-            for (int i = Children.Count; i < oldChildren.Count; i++)
-            {
-                oldChildren[i].Unmount();
-                oldChildren[i].Parent = null;
+                for (int i = Children.Count; i < oldChildren.Count; i++)
+                {
+                    oldChildren[i].Unmount();
+                    oldChildren[i].Parent = null;
+                }
             }
         }
 
@@ -552,6 +555,9 @@ namespace MauiReactor
 
         internal override void MergeWith(VisualNode newNode)
         {
+            if (newNode == this)
+                return;
+
             if (newNode.GetType() == GetType())
             {
                 ((VisualNode<T>)newNode)._nativeControl = this._nativeControl;

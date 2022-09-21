@@ -139,10 +139,9 @@ namespace MauiReactor
         protected sealed override void OnMount()
         {
             //System.Diagnostics.Debug.WriteLine($"Mounting {Key ?? GetType()} under {Parent.Key ?? Parent.GetType()} at index {ChildIndex}");
+            OnMounted();
 
             base.OnMount();
-
-            OnMounted();
         }
 
         protected virtual void OnMounted()
@@ -172,6 +171,7 @@ namespace MauiReactor
             => ContainerPage?.Navigation;
 
         private Microsoft.Maui.Controls.Page? _containerPage;
+
         public Microsoft.Maui.Controls.Page? ContainerPage
         {
             get
@@ -366,7 +366,7 @@ namespace MauiReactor
 
             Validate.EnsureNotNull(Application.Current);
 
-            if (invalidateComponent)
+            if (invalidateComponent && _isMounted)
             {
                 if (Application.Current.Dispatcher.IsDispatchRequired)
                     Application.Current.Dispatcher.Dispatch(Invalidate);
