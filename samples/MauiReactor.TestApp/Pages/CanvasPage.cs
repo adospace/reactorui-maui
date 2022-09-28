@@ -20,7 +20,7 @@ namespace MauiReactor.TestApp.Pages
                         new Box()
                         {
                             new Picture("MauiReactor.TestApp.Resources.Images.Embedded.norway_1.jpeg")
-                        
+                                .Aspect(Aspect.AspectFill)
                         }
                         .Margin(new Thickness(10))
                         .BackgroundColor(Colors.Green)
