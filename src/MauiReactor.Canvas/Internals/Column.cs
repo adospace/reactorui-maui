@@ -65,18 +65,18 @@ namespace MauiReactor.Canvas.Internals
         protected override void OnDraw(DrawingContext context)
         {
             var rowHeights = GetRowWidths(context.DirtyRect.Width).ToArray();
-            var y = context.DirtyRect.Y;
+            var dirtyRect = context.DirtyRect;
+            var y = dirtyRect.Y;
             for (int i = 0; i < Children.Count; i++)
             {
-                Children[i].Draw(context with
-                {
-                    DirtyRect = new RectF(
-                        context.DirtyRect.Left,
-                        y,
-                        context.DirtyRect.Height,
-                        rowHeights[i]
-                        )
-                });
+                context.DirtyRect = new RectF(
+                    dirtyRect.Left,
+                    y,
+                    dirtyRect.Height,
+                    rowHeights[i]
+                    );
+
+                Children[i].Draw(context);
 
                 y += rowHeights[i];
             }

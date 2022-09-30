@@ -18,8 +18,6 @@ namespace MauiReactor.Canvas
 
     public partial class Picture<T> : CanvasNode<T>, IPicture where T : Internals.Picture, new()
     {
-        protected readonly List<VisualNode> _internalChildren = new();
-
         public Picture()
         {
 

@@ -29,17 +29,22 @@ namespace MauiReactor.TestApp.Pages
 
                         new Align
                         {
-                            new Box()
+                            new PointIterationHandler
                             {
-                                new Text("Text")
-                                    .FontSize(14f)
-                                    .FontColor(Colors.Bisque)
-                                    .VerticalAlignment(VerticalAlignment.Center)
-                                    .HorizontalAlignment(HorizontalAlignment.Center)
+                                new Box()
+                                {
+                                    new Text("Text")
+                                        .FontSize(14f)
+                                        .FontColor(Colors.Bisque)
+                                        .VerticalAlignment(VerticalAlignment.Center)
+                                        .HorizontalAlignment(HorizontalAlignment.Center)
+                                }
+                                .Margin(new Thickness(10))
+                                .BackgroundColor(Colors.Red)
+                                .CornerRadius(10)
                             }
-                            .Margin(new Thickness(10))
-                            .BackgroundColor(Colors.Red)
-                            .CornerRadius(10)
+                            .Rotate(10)
+                            .OnTap(OnClicked)
                         }
                         .Height(300)
                         .VerticalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Center)
@@ -47,6 +52,16 @@ namespace MauiReactor.TestApp.Pages
                     .Columns("100, *")
                 }
             };
+        }
+
+        private async void OnClicked()
+        {
+            if (ContainerPage == null)
+            {
+                return;
+            }
+
+            await ContainerPage.DisplayAlert("Test Message", "Tap event", "OK");
         }
     }
 }

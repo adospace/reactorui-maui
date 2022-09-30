@@ -52,34 +52,25 @@ namespace MauiReactor.Canvas.Internals
                     switch (HorizontalAlignment)
                     {
                         case Microsoft.Maui.Primitives.LayoutAlignment.Start:
-                            context = context with
-                            {
-                                DirtyRect = new RectF(
-                                    context.DirtyRect.X,
-                                    context.DirtyRect.Y,
-                                    Width,
-                                    context.DirtyRect.Height)
-                            };
+                            context.DirtyRect = new RectF(
+                                context.DirtyRect.X,
+                                context.DirtyRect.Y,
+                                Width,
+                                context.DirtyRect.Height);
                             break;
                         case Microsoft.Maui.Primitives.LayoutAlignment.Center:
-                            context = context with
-                            {
-                                DirtyRect = new RectF(
-                                    context.DirtyRect.X + (context.DirtyRect.Width - Width) / 2.0f,
-                                    context.DirtyRect.Y,
-                                    Width,
-                                    context.DirtyRect.Height)
-                            };
+                            context.DirtyRect = new RectF(
+                                context.DirtyRect.X + (context.DirtyRect.Width - Width) / 2.0f,
+                                context.DirtyRect.Y,
+                                Width,
+                                context.DirtyRect.Height);
                             break;
                         case Microsoft.Maui.Primitives.LayoutAlignment.End:
-                            context = context with
-                            {
-                                DirtyRect = new RectF(
-                                    context.DirtyRect.X + (context.DirtyRect.Width - Width),
-                                    context.DirtyRect.Y,
-                                    Width,
-                                    context.DirtyRect.Height)
-                            };
+                            context.DirtyRect = new RectF(
+                                context.DirtyRect.X + (context.DirtyRect.Width - Width),
+                                context.DirtyRect.Y,
+                                Width,
+                                context.DirtyRect.Height);
                             break;
                     }
                 }
@@ -90,34 +81,25 @@ namespace MauiReactor.Canvas.Internals
                     switch (VerticalAlignment)
                     {
                         case Microsoft.Maui.Primitives.LayoutAlignment.Start:
-                            context = context with
-                            {
-                                DirtyRect = new RectF(
-                                    context.DirtyRect.X,
-                                    context.DirtyRect.Y,
-                                    context.DirtyRect.Width,
-                                    Height)
-                            };
+                            context.DirtyRect = new RectF(
+                                context.DirtyRect.X,
+                                context.DirtyRect.Y,
+                                context.DirtyRect.Width,
+                                Height);
                             break;
                         case Microsoft.Maui.Primitives.LayoutAlignment.Center:
-                            context = context with
-                            {
-                                DirtyRect = new RectF(
-                                    context.DirtyRect.X,
-                                    context.DirtyRect.Y + (context.DirtyRect.Height - Height) / 2.0f,
-                                    context.DirtyRect.Width,
-                                    Height)
-                            };
+                            context.DirtyRect = new RectF(
+                                context.DirtyRect.X,
+                                context.DirtyRect.Y + (context.DirtyRect.Height - Height) / 2.0f,
+                                context.DirtyRect.Width,
+                                Height);
                             break;
                         case Microsoft.Maui.Primitives.LayoutAlignment.End:
-                            context = context with
-                            {
-                                DirtyRect = new RectF(
-                                    context.DirtyRect.X,
-                                    context.DirtyRect.Y + (context.DirtyRect.Height - Height),
-                                    context.DirtyRect.Width,
-                                    Height)
-                            };
+                            context.DirtyRect = new RectF(
+                                context.DirtyRect.X,
+                                context.DirtyRect.Y + (context.DirtyRect.Height - Height),
+                                context.DirtyRect.Width,
+                                Height);
                             break;
                     }
                 }
