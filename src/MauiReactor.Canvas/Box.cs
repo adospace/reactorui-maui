@@ -1,4 +1,5 @@
-﻿using MauiReactor.Internals;
+﻿using MauiReactor.Canvas.Internals;
+using MauiReactor.Internals;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 using System;
@@ -14,7 +15,7 @@ namespace MauiReactor.Canvas
     {
         PropertyValue<Color?>? BackgroundColor { get; set; }
         PropertyValue<Color?>? BorderColor { get; set; }
-        PropertyValue<float>? CornerRadius { get; set; }
+        PropertyValue<CornerRadiusF>? CornerRadius { get; set; }
         PropertyValue<float>? BorderSize { get; set; }
     }
 
@@ -35,7 +36,7 @@ namespace MauiReactor.Canvas
 
         PropertyValue<Color?>? IBox.BackgroundColor { get; set; }
         PropertyValue<Color?>? IBox.BorderColor { get; set; }
-        PropertyValue<float>? IBox.CornerRadius { get; set; }
+        PropertyValue<CornerRadiusF>? IBox.CornerRadius { get; set; }
         PropertyValue<float>? IBox.BorderSize { get; set; }
 
         protected override IEnumerable<VisualNode> RenderChildren()
@@ -136,6 +137,7 @@ namespace MauiReactor.Canvas
             node.BackgroundColor = new PropertyValue<Color?>(valueFunc);
             return node;
         }
+
         public static T BorderColor<T>(this T ndoe, Color? value) where T : IBox
         {
             ndoe.BorderColor = new PropertyValue<Color?>(value);
@@ -147,6 +149,7 @@ namespace MauiReactor.Canvas
             node.BorderColor = new PropertyValue<Color?>(valueFunc);
             return node;
         }
+
         public static T BorderSize<T>(this T node, float value) where T : IBox
         {
             node.BorderSize = new PropertyValue<float>(value);
@@ -158,15 +161,28 @@ namespace MauiReactor.Canvas
             node.BorderSize = new PropertyValue<float>(valueFunc);
             return node;
         }
+
         public static T CornerRadius<T>(this T ndoe, float value) where T : IBox
         {
-            ndoe.CornerRadius = new PropertyValue<float>(value);
+            ndoe.CornerRadius = new PropertyValue<CornerRadiusF>(new CornerRadiusF(value));
             return ndoe;
         }
 
         public static T CornerRadius<T>(this T node, Func<float> valueFunc) where T : IBox
         {
-            node.CornerRadius = new PropertyValue<float>(valueFunc);
+            node.CornerRadius = new PropertyValue<CornerRadiusF>(()=> new CornerRadiusF(valueFunc()));
+            return node;
+        }
+
+        public static T CornerRadius<T>(this T ndoe, CornerRadiusF value) where T : IBox
+        {
+            ndoe.CornerRadius = new PropertyValue<CornerRadiusF>(value);
+            return ndoe;
+        }
+
+        public static T CornerRadius<T>(this T node, Func<CornerRadiusF> valueFunc) where T : IBox
+        {
+            node.CornerRadius = new PropertyValue<CornerRadiusF>(valueFunc);
             return node;
         }
     }
