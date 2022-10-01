@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 
@@ -22,12 +23,11 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(BorderColorProperty, value);
         }
 
-        public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(nameof(CornerRadius), typeof(float), typeof(Box), 0.0f,
-            coerceValue: (BindableObject bindable, object value) => Math.Max((float)value, 0.0f));
+        public static readonly BindableProperty CornerRadiusProperty = BindableProperty.Create(nameof(CornerRadius), typeof(CornerRadiusF), typeof(Box), new CornerRadiusF());
 
-        public float CornerRadius
+        public CornerRadiusF CornerRadius
         {
-            get => (float)GetValue(CornerRadiusProperty);
+            get => (CornerRadiusF)GetValue(CornerRadiusProperty);
             set => SetValue(CornerRadiusProperty, value);
         }
 
@@ -49,17 +49,25 @@ namespace MauiReactor.Canvas.Internals
 
             var fillColor = BackgroundColor;
             var strokeColor = BorderColor;
-            var corderRadius = CornerRadius;
+            var cornerRadius = CornerRadius;
             var borderSize = BorderSize;
 
             canvas.SaveState();
 
-            if (corderRadius > 0.0f)
+            if (!cornerRadius.IsZero)
             {
                 if (fillColor != null)
                 {
-                    canvas.FillColor = fillColor;
-                    canvas.FillRoundedRectangle(dirtyRect, corderRadius);
+                    canvas.FillColor = fillColor; 
+                    
+                    if (cornerRadius.UniformSize())
+                    {
+                        canvas.FillRoundedRectangle(dirtyRect, cornerRadius.TopLeft);
+                    }
+                    else
+                    {
+                        canvas.FillRoundedRectangle(dirtyRect, cornerRadius.TopLeft, cornerRadius.TopRight, cornerRadius.BottomLeft, cornerRadius.BottomRight);
+                    }                    
                 }
 
                 Child?.Draw(context);
@@ -68,7 +76,14 @@ namespace MauiReactor.Canvas.Internals
                 {
                     canvas.StrokeColor = strokeColor;
                     canvas.StrokeSize = borderSize;
-                    canvas.DrawRoundedRectangle(dirtyRect, corderRadius);
+                    if (cornerRadius.UniformSize())
+                    {
+                        canvas.DrawRoundedRectangle(dirtyRect, cornerRadius.TopLeft);
+                    }
+                    else
+                    {
+                        canvas.DrawRoundedRectangle(dirtyRect, cornerRadius.TopLeft, cornerRadius.TopRight, cornerRadius.BottomLeft, cornerRadius.BottomRight);
+                    }
                 }
             }
             else

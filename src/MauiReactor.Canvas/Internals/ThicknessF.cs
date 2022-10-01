@@ -41,12 +41,12 @@ namespace MauiReactor.Canvas.Internals
 
         public static implicit operator ThicknessF(SizeF size)
         {
-            return new ThicknessF(size.Width, size.Height, size.Width, size.Height);
+            return new(size.Width, size.Height, size.Width, size.Height);
         }
 
         public static implicit operator ThicknessF(float uniformSize)
         {
-            return new ThicknessF(uniformSize);
+            return new(uniformSize);
         }
 
         bool Equals(ThicknessF other)
@@ -56,21 +56,14 @@ namespace MauiReactor.Canvas.Internals
 
         public override bool Equals(object? obj)
         {
-            if (ReferenceEquals(null, obj))
+            if (obj is null)
                 return false;
-            return obj is ThicknessF && Equals((ThicknessF)obj);
+            return obj is ThicknessF f && Equals(f);
         }
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                int hashCode = Left.GetHashCode();
-                hashCode = (hashCode * 397) ^ Top.GetHashCode();
-                hashCode = (hashCode * 397) ^ Right.GetHashCode();
-                hashCode = (hashCode * 397) ^ Bottom.GetHashCode();
-                return hashCode;
-            }
+            return System.HashCode.Combine(Left, Top, Right, Bottom);
         }
 
         public static bool operator ==(ThicknessF left, ThicknessF right)
@@ -91,16 +84,20 @@ namespace MauiReactor.Canvas.Internals
             bottom = Bottom;
         }
 
-        public static ThicknessF Zero = new ThicknessF(0);
+        private static readonly ThicknessF _zero = new(0);
+        public static ThicknessF Zero => _zero;
 
         public static ThicknessF operator +(ThicknessF left, float addend) =>
-            new ThicknessF(left.Left + addend, left.Top + addend, left.Right + addend, left.Bottom + addend);
+            new(left.Left + addend, left.Top + addend, left.Right + addend, left.Bottom + addend);
 
         public static ThicknessF operator +(ThicknessF left, ThicknessF right) =>
-            new ThicknessF(left.Left + right.Left, left.Top + right.Top, left.Right + right.Right, left.Bottom + right.Bottom);
+            new(left.Left + right.Left, left.Top + right.Top, left.Right + right.Right, left.Bottom + right.Bottom);
 
         public static ThicknessF operator -(ThicknessF left, float addend) =>
             left + (-addend);
+
+        public bool UniformSize()
+            => FloatUtils.AreClose(Left, Top, Right, Bottom);
     }
 
 }
