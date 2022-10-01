@@ -62,6 +62,10 @@ namespace MauiReactor.TestApp
                 {
                     new Pages.CanvasPage()
                 },
+                new FlyoutItem("Landscape")
+                {
+                    new Pages.LandscapePage()
+                },
 
             }
             .ItemTemplate(RenderItemTemplate);
