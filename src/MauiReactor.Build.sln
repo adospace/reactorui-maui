@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.HotReloadConsol
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.TemplatePack", "MauiReactor.TemplatePack\MauiReactor.TemplatePack.csproj", "{A54BA658-CBC4-4E90-B529-CD8D60716E4F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.Canvas", "MauiReactor.Canvas\MauiReactor.Canvas.csproj", "{02A82F56-4CAE-4253-81CF-8E4AAF39404B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{A54BA658-CBC4-4E90-B529-CD8D60716E4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A54BA658-CBC4-4E90-B529-CD8D60716E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A54BA658-CBC4-4E90-B529-CD8D60716E4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02A82F56-4CAE-4253-81CF-8E4AAF39404B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02A82F56-4CAE-4253-81CF-8E4AAF39404B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02A82F56-4CAE-4253-81CF-8E4AAF39404B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02A82F56-4CAE-4253-81CF-8E4AAF39404B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

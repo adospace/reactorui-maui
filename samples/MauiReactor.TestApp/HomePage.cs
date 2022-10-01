@@ -58,6 +58,10 @@ namespace MauiReactor.TestApp
                 {
                     new Pages.ElementRefPage()
                 },
+                new FlyoutItem("Canvas")
+                {
+                    new Pages.CanvasPage()
+                },
                 new FlyoutItem("Landscape")
                 {
                     new Pages.LandscapePage()
