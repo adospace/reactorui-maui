@@ -3,7 +3,7 @@ using Microsoft.Maui.Graphics;
 
 namespace MauiReactor.Canvas.Internals
 {
-    public class Text : CanvasNode
+    public class Text : CanvasVisualElement
     {
         public static readonly BindableProperty ValueProperty = BindableProperty.Create(nameof(Value), typeof(string), typeof(Text), null);
 
@@ -29,7 +29,7 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(HorizontalAlignmentProperty, value);
         }
 
-        public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(nameof(FontSizeProperty), typeof(float), typeof(Text), 12.0f,
+        public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(nameof(FontSize), typeof(float), typeof(Text), 12.0f,
             coerceValue: (bindableObject, value) => ((float)value) <= 0.0f ? 12.0f : (float)value);
 
         public float FontSize
@@ -38,7 +38,7 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(FontSizeProperty, value);
         }
 
-        public static readonly BindableProperty FontColorProperty = BindableProperty.Create(nameof(FontColorProperty), typeof(Color), typeof(Text), null);
+        public static readonly BindableProperty FontColorProperty = BindableProperty.Create(nameof(FontColor), typeof(Color), typeof(Text), null);
 
         public Color? FontColor
         {
@@ -46,7 +46,7 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(FontColorProperty, value);
         }
 
-        public static readonly BindableProperty FontProperty = BindableProperty.Create(nameof(FontProperty), typeof(IFont), typeof(Text), Microsoft.Maui.Graphics.Font.Default);
+        public static readonly BindableProperty FontProperty = BindableProperty.Create(nameof(Font), typeof(IFont), typeof(Text), Microsoft.Maui.Graphics.Font.Default);
 
         public IFont? Font
         {

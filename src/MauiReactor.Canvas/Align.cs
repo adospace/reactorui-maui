@@ -73,7 +73,7 @@ namespace MauiReactor.Canvas
         {
             Validate.EnsureNotNull(NativeControl);
 
-            if (childControl is Internals.CanvasNode node)
+            if (childControl is Internals.CanvasVisualElement node)
             {
                 NativeControl.Child = node;
             }
@@ -85,7 +85,7 @@ namespace MauiReactor.Canvas
         {
             Validate.EnsureNotNull(NativeControl);
 
-            if (childControl is Internals.CanvasNode node &&
+            if (childControl is Internals.CanvasVisualElement node &&
                 node == NativeControl.Child)
             {
                 NativeControl.Child = null;
@@ -124,10 +124,28 @@ namespace MauiReactor.Canvas
 
     public static partial class AlignExtensions
     {
-        public static T HorizontalAlignment<T>(this T ndoe, Microsoft.Maui.Primitives.LayoutAlignment value) where T : IAlign
+        public static T HorizontalAlignment<T>(this T node, Microsoft.Maui.Primitives.LayoutAlignment value) where T : IAlign
         {
-            ndoe.HorizontalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(value);
-            return ndoe;
+            node.HorizontalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(value);
+            return node;
+        }
+
+        public static T HStart<T>(this T view) where T : IAlign
+        {
+            view.HorizontalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.Start);
+            return view;
+        }
+
+        public static T HCenter<T>(this T view) where T : IAlign
+        {
+            view.HorizontalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.Center);
+            return view;
+        }
+
+        public static T HEnd<T>(this T view) where T : IAlign
+        {
+            view.HorizontalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.End);
+            return view;
         }
 
         public static T HorizontalAlignment<T>(this T node, Func<Microsoft.Maui.Primitives.LayoutAlignment> valueFunc) where T : IAlign
@@ -135,11 +153,32 @@ namespace MauiReactor.Canvas
             node.HorizontalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(valueFunc);
             return node;
         }
-        public static T VerticalAlignment<T>(this T ndoe, Microsoft.Maui.Primitives.LayoutAlignment value) where T : IAlign
+
+        public static T VerticalAlignment<T>(this T node, Microsoft.Maui.Primitives.LayoutAlignment value) where T : IAlign
         {
-            ndoe.VerticalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(value);
-            return ndoe;
+            node.VerticalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(value);
+            return node;
         }
+
+
+        public static T VStart<T>(this T view) where T : IAlign
+        {
+            view.VerticalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.Start);
+            return view;
+        }
+
+        public static T VCenter<T>(this T view) where T : IAlign
+        {
+            view.VerticalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.Center);
+            return view;
+        }
+
+        public static T VEnd<T>(this T view) where T : IAlign
+        {
+            view.VerticalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.End);
+            return view;
+        }
+
 
         public static T VerticalAlignment<T>(this T node, Func<Microsoft.Maui.Primitives.LayoutAlignment> valueFunc) where T : IAlign
         {

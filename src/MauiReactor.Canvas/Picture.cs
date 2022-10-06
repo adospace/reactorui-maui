@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.Canvas
 {
-    public partial interface IPicture : ICanvasNode
+    public partial interface IPicture : ICanvasVisualElement
     {
         PropertyValue<Microsoft.Maui.Graphics.IImage?>? Source { get; set; }
         PropertyValue<Aspect>? Aspect { get; set; }
     }
 
-    public partial class Picture<T> : CanvasNode<T>, IPicture where T : Internals.Picture, new()
+    public partial class Picture<T> : CanvasVisualElement<T>, IPicture where T : Internals.Picture, new()
     {
         public Picture()
         {

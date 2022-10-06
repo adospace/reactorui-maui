@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion Condition=" '$(APPVEYOR_BUILD_VERSION)' == '' ">0.0.1-local</PackageVersion>
-    <PackageVersion Condition=" '$(APPVEYOR_BUILD_VERSION)' != '' ">$(APPVEYOR_BUILD_VERSION)-beta</PackageVersion>
+    <PackageVersion>0.0.1-local</PackageVersion>  
 
     <PackageId>Reactor.Maui.TemplatePack</PackageId>
     <Title>MauiReactor Templates</Title>

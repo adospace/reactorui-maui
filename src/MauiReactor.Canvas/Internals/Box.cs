@@ -5,7 +5,7 @@ using Microsoft.Maui.Graphics;
 
 namespace MauiReactor.Canvas.Internals
 {
-    public class Box : CanvasNode
+    public class Box : CanvasVisualElement
     {
         public static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(Box), null);
 
@@ -40,7 +40,7 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(BorderSizeProperty, value);
         }
 
-        public CanvasNode? Child { get; set; }
+        public CanvasVisualElement? Child { get; set; }
 
         protected override void OnDraw(DrawingContext context)
         {

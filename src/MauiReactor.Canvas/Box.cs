@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.Canvas
 {
-    public partial interface IBox : ICanvasNode
+    public partial interface IBox : ICanvasVisualElement
     {
         PropertyValue<Color?>? BackgroundColor { get; set; }
         PropertyValue<Color?>? BorderColor { get; set; }
@@ -19,7 +19,7 @@ namespace MauiReactor.Canvas
         PropertyValue<float>? BorderSize { get; set; }
     }
 
-    public partial class Box<T> : CanvasNode<T>, IBox, IEnumerable where T : Internals.Box, new()
+    public partial class Box<T> : CanvasVisualElement<T>, IBox, IEnumerable where T : Internals.Box, new()
     {
         protected readonly List<VisualNode> _internalChildren = new();
 
@@ -75,7 +75,7 @@ namespace MauiReactor.Canvas
         {
             Validate.EnsureNotNull(NativeControl);
 
-            if (childControl is Internals.CanvasNode node)
+            if (childControl is Internals.CanvasVisualElement node)
             {
                 NativeControl.Child = node;
             }
@@ -87,7 +87,7 @@ namespace MauiReactor.Canvas
         {
             Validate.EnsureNotNull(NativeControl);
 
-            if (childControl is Internals.CanvasNode node &&
+            if (childControl is Internals.CanvasVisualElement node &&
                 node == NativeControl.Child)
             {
                 NativeControl.Child = null;
@@ -126,10 +126,10 @@ namespace MauiReactor.Canvas
 
     public static partial class BoxExtensions
     {
-        public static T BackgroundColor<T>(this T ndoe, Color? value) where T : IBox
+        public static T BackgroundColor<T>(this T node, Color? value) where T : IBox
         {
-            ndoe.BackgroundColor = new PropertyValue<Color?>(value);
-            return ndoe;
+            node.BackgroundColor = new PropertyValue<Color?>(value);
+            return node;
         }
 
         public static T BackgroundColor<T>(this T node, Func<Color?> valueFunc) where T : IBox
@@ -138,10 +138,10 @@ namespace MauiReactor.Canvas
             return node;
         }
 
-        public static T BorderColor<T>(this T ndoe, Color? value) where T : IBox
+        public static T BorderColor<T>(this T node, Color? value) where T : IBox
         {
-            ndoe.BorderColor = new PropertyValue<Color?>(value);
-            return ndoe;
+            node.BorderColor = new PropertyValue<Color?>(value);
+            return node;
         }
 
         public static T BorderColor<T>(this T node, Func<Color?> valueFunc) where T : IBox
@@ -162,10 +162,10 @@ namespace MauiReactor.Canvas
             return node;
         }
 
-        public static T CornerRadius<T>(this T ndoe, float value) where T : IBox
+        public static T CornerRadius<T>(this T node, float value) where T : IBox
         {
-            ndoe.CornerRadius = new PropertyValue<CornerRadiusF>(new CornerRadiusF(value));
-            return ndoe;
+            node.CornerRadius = new PropertyValue<CornerRadiusF>(new CornerRadiusF(value));
+            return node;
         }
 
         public static T CornerRadius<T>(this T node, Func<float> valueFunc) where T : IBox
@@ -174,10 +174,16 @@ namespace MauiReactor.Canvas
             return node;
         }
 
-        public static T CornerRadius<T>(this T ndoe, CornerRadiusF value) where T : IBox
+        public static T CornerRadius<T>(this T node, CornerRadiusF value) where T : IBox
         {
-            ndoe.CornerRadius = new PropertyValue<CornerRadiusF>(value);
-            return ndoe;
+            node.CornerRadius = new PropertyValue<CornerRadiusF>(value);
+            return node;
+        }
+
+        public static T CornerRadius<T>(this T node, float topLeft, float topRight, float bottomRight, float bottomLeft) where T : IBox
+        {
+            node.CornerRadius = new PropertyValue<CornerRadiusF>(new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft));
+            return node;
         }
 
         public static T CornerRadius<T>(this T node, Func<CornerRadiusF> valueFunc) where T : IBox

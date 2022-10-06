@@ -30,7 +30,7 @@ namespace MauiReactor.Canvas
 
         }
 
-        protected override bool SupportChildIndexing => false;
+        protected override bool SupportChildIndexing => true;
 
         protected override void OnAddChild(VisualNode widget, BindableObject childControl)
         {
@@ -65,61 +65,6 @@ namespace MauiReactor.Canvas
 
             base.OnUpdate();
         }
-
-        protected override void OnAttachNativeEvents()
-        {
-            //Validate.EnsureNotNull(NativeControl);
-
-            //var thisAsIGraphicsView = (IGraphicsView)this;
-
-            //if (thisAsIGraphicsView.StartHoverInteractionAction != null || thisAsIGraphicsView.StartHoverInteractionActionWithArgs != null)
-            //{
-            //    NativeControl.StartHoverInteraction += NativeControl_StartHoverInteraction;
-            //}
-
-            //if (thisAsIGraphicsView.MoveHoverInteractionAction != null || thisAsIGraphicsView.MoveHoverInteractionActionWithArgs != null)
-            //{
-            //    NativeControl.MoveHoverInteraction += NativeControl_MoveHoverInteraction;
-            //}
-
-            //if (thisAsIGraphicsView.EndHoverInteractionAction != null || thisAsIGraphicsView.EndHoverInteractionActionWithArgs != null)
-            //{
-            //    NativeControl.EndHoverInteraction += NativeControl_EndHoverInteraction;
-            //}
-
-            //if (thisAsIGraphicsView.StartInteractionAction != null || thisAsIGraphicsView.StartInteractionActionWithArgs != null)
-            //{
-            //    NativeControl.StartInteraction += NativeControl_StartInteraction;
-            //}
-
-            //if (thisAsIGraphicsView.DragInteractionAction != null || thisAsIGraphicsView.DragInteractionActionWithArgs != null)
-            //{
-            //    NativeControl.DragInteraction += NativeControl_DragInteraction;
-            //}
-
-            //if (thisAsIGraphicsView.EndInteractionAction != null || thisAsIGraphicsView.EndInteractionActionWithArgs != null)
-            //{
-            //    NativeControl.EndInteraction += NativeControl_EndInteraction;
-            //}
-
-            //if (thisAsIGraphicsView.CancelInteractionAction != null || thisAsIGraphicsView.CancelInteractionActionWithArgs != null)
-            //{
-            //    NativeControl.CancelInteraction += NativeControl_CancelInteraction;
-            //}
-
-
-            //OnAttachingNativeEvents();
-
-            base.OnAttachNativeEvents();
-        }
-
-        protected override void OnDetachNativeEvents()
-        {
-
-            base.OnDetachNativeEvents();
-        }
-
-
     }
 
 

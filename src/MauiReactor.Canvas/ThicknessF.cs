@@ -1,11 +1,13 @@
-﻿using Microsoft.Maui;
+﻿using MauiReactor.Canvas.Internals;
+using Microsoft.Maui;
 using Microsoft.Maui.Graphics;
+using System;
 using System.Diagnostics;
 
-namespace MauiReactor.Canvas.Internals
+namespace MauiReactor.Canvas
 {
     [DebuggerDisplay("Left={Left}, Top={Top}, Right={Right}, Bottom={Bottom}, HorizontalThickness={HorizontalThickness}, VerticalThickness={VerticalThickness}")]
-    public struct ThicknessF
+    public struct ThicknessF : IEquatable<ThicknessF>
     {
         public float Left { get; set; }
 
@@ -23,6 +25,10 @@ namespace MauiReactor.Canvas.Internals
 
         public bool IsNaN => float.IsNaN(Left) && float.IsNaN(Top) && float.IsNaN(Right) && float.IsNaN(Bottom);
 
+        public ThicknessF()
+            :this(0.0f)
+        { }
+
         public ThicknessF(float uniformSize) : this(uniformSize, uniformSize, uniformSize, uniformSize)
         {
         }
@@ -31,7 +37,7 @@ namespace MauiReactor.Canvas.Internals
         {
         }
 
-        public ThicknessF(float left, float top, float right, float bottom) : this()
+        public ThicknessF(float left, float top, float right, float bottom)
         {
             Left = left;
             Top = top;
@@ -49,7 +55,7 @@ namespace MauiReactor.Canvas.Internals
             return new(uniformSize);
         }
 
-        bool Equals(ThicknessF other)
+        public bool Equals(ThicknessF other)
         {
             return Left.Equals(other.Left) && Top.Equals(other.Top) && Right.Equals(other.Right) && Bottom.Equals(other.Bottom);
         }

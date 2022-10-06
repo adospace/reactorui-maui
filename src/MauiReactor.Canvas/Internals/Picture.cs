@@ -5,7 +5,7 @@ using Microsoft.Maui.Graphics;
 
 namespace MauiReactor.Canvas.Internals
 {
-    public class Picture : CanvasNode
+    public class Picture : CanvasVisualElement
     {
         public static readonly BindableProperty SourceProperty = BindableProperty.Create(nameof(Source), typeof(Microsoft.Maui.Graphics.IImage), typeof(Picture), null);
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.Canvas
 {
-    public partial interface IText : ICanvasNode
+    public partial interface IText : ICanvasVisualElement
     {
         PropertyValue<VerticalAlignment>? VerticalAlignment { get; set; }
         PropertyValue<HorizontalAlignment>? HorizontalAlignment { get; set; }
@@ -18,7 +18,7 @@ namespace MauiReactor.Canvas
         PropertyValue<IFont?>? Font { get; set; }
     }
 
-    public partial class Text<T> : CanvasNode<T>, IText where T : Internals.Text, new()
+    public partial class Text<T> : CanvasVisualElement<T>, IText where T : Internals.Text, new()
     {
         protected readonly List<VisualNode> _internalChildren = new();
 

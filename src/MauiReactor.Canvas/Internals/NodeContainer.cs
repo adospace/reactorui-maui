@@ -2,7 +2,7 @@
 
 namespace MauiReactor.Canvas.Internals
 {
-    public abstract class NodeContainer : CanvasNode
+    public abstract class NodeContainer : CanvasVisualElement
     {
         private readonly List<CanvasNode> _children = new();
 
