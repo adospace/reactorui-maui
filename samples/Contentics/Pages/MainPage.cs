@@ -95,7 +95,7 @@ class MainPage : Component<MainPageState>
                 .Width(48)
                 .HCenter()
                 .VStart()
-                .Margin(new ThicknessF(0,72.0f,0,0)),
+                .Margin(0,72,0,0),
 
                 new Align
                 {
@@ -168,7 +168,7 @@ class MainPage : Component<MainPageState>
                 .PlaceholderColor(ThemeBrushes.Gray100)
                 .Placeholder("Search in app")
                 .TextColor(ThemeBrushes.Gray100)
-                .Margin(new Thickness(48 + 24,10))
+                .Margin(new Thickness(48 + 32,10))
         }
         .Margin(0,221,0,0)
         .GridRowSpan(2);
@@ -284,7 +284,7 @@ class MainPage : Component<MainPageState>
 
         }
         .GridRow(1)
-        .Margin(0, 24, 0, 0)
+        .Margin(0, 0, 0, 0)
         ;
     }
 
