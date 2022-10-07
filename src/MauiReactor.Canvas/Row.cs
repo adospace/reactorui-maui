@@ -50,6 +50,11 @@ namespace MauiReactor.Canvas
         {
 
         }
+
+        public Row(string columns)
+        {
+            this.Columns(columns);
+        }
     }
 
     public static partial class RowExtensions

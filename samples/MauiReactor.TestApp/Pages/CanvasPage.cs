@@ -22,7 +22,7 @@ namespace MauiReactor.TestApp.Pages
                             new Picture("MauiReactor.TestApp.Resources.Images.Embedded.norway_1.jpeg")
                                 .Aspect(Aspect.AspectFill)
                         }
-                        .Margin(new Thickness(10))
+                        .Margin(10)
                         .BackgroundColor(Colors.Green)
                         .CornerRadius(10)
                         ,
@@ -39,11 +39,10 @@ namespace MauiReactor.TestApp.Pages
                                         .VerticalAlignment(VerticalAlignment.Center)
                                         .HorizontalAlignment(HorizontalAlignment.Center)
                                 }
-                                .Margin(new Thickness(10))
+                                .Margin(10)
                                 .BackgroundColor(Colors.Red)
                                 .CornerRadius(10)
                             }
-                            .Rotate(10)
                             .OnTap(OnClicked)
                         }
                         .Height(300)

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.Canvas
 {
-    public partial interface ICanvasVisualElement : IVisualNode
+    public partial interface ICanvasVisualElement : ICanvasNode
     {
         PropertyValue<ThicknessF>? Margin { get; set; }
         PropertyValue<Vector2>? Translation { get; set; }
@@ -17,7 +17,7 @@ namespace MauiReactor.Canvas
         PropertyValue<float>? Rotation { get; set; }
     }
 
-    public partial class CanvasVisualElement<T> : VisualNode<T>, ICanvasVisualElement where T : Internals.CanvasVisualElement, new()
+    public partial class CanvasVisualElement<T> : CanvasNode<T>, ICanvasVisualElement where T : Internals.CanvasVisualElement, new()
     {
         public CanvasVisualElement()
         {
@@ -75,6 +75,22 @@ namespace MauiReactor.Canvas
         {
             node.Margin = new PropertyValue<ThicknessF>(valueFunc);
             return node;
+        }
+
+        public static T Margin<T>(this T view, float leftRight, float topBottom) where T : ICanvasVisualElement
+        {
+            view.Margin = new PropertyValue<ThicknessF>(new ThicknessF(leftRight, topBottom));
+            return view;
+        }
+        public static T Margin<T>(this T view, float uniformSize) where T : ICanvasVisualElement
+        {
+            view.Margin = new PropertyValue<ThicknessF>(new ThicknessF(uniformSize));
+            return view;
+        }
+        public static T Margin<T>(this T view, float left, float top, float right, float bottom) where T : ICanvasVisualElement
+        {
+            view.Margin = new PropertyValue<ThicknessF>(new ThicknessF(left, top, right, bottom));
+            return view;
         }
 
         public static T Translate<T>(this T node, Vector2 value) where T : ICanvasVisualElement

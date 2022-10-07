@@ -36,16 +36,20 @@
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
-    <MauiImage Remove="Resources\Images\photo1.png" />
+    <MauiImage Remove="Resources\Images\chevron_right.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Resources\Images\Home.txt" />
-  </ItemGroup>
-  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\background1.png" />
+    <EmbeddedResource Include="Resources\Images\background2.png" />
+    <EmbeddedResource Include="Resources\Images\chevron_right.png" />
     <EmbeddedResource Include="Resources\Images\photo1.png" />
+    <EmbeddedResource Include="Resources\Images\photo1_small.png" />
+    <EmbeddedResource Include="Resources\Images\photo2_small.png" />
+    <EmbeddedResource Include="Resources\Images\search_small.png" />
+    <EmbeddedResource Include="Resources\Images\top.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MauiReactor.Canvas\MauiReactor.Canvas.csproj" />
     <ProjectReference Include="..\..\src\MauiReactor\MauiReactor.csproj" />
+    <ProjectReference Include="..\..\src\MauiReactor.Canvas\MauiReactor.Canvas.csproj" />
   </ItemGroup>
 </Project>

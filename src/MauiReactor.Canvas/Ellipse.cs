@@ -73,7 +73,7 @@ namespace MauiReactor.Canvas
         {
             Validate.EnsureNotNull(NativeControl);
 
-            if (childControl is Internals.CanvasVisualElement node)
+            if (childControl is Internals.CanvasNode node)
             {
                 NativeControl.Child = node;
             }
@@ -85,7 +85,7 @@ namespace MauiReactor.Canvas
         {
             Validate.EnsureNotNull(NativeControl);
 
-            if (childControl is Internals.CanvasVisualElement node &&
+            if (childControl is Internals.CanvasNode node &&
                 node == NativeControl.Child)
             {
                 NativeControl.Child = null;

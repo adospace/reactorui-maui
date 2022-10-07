@@ -4,7 +4,7 @@ using Microsoft.Maui.Graphics;
 
 namespace MauiReactor.Canvas.Internals
 {
-    public class Align : CanvasNode
+    public class Align : CanvasVisualElement
     {
         public static readonly BindableProperty WidthProperty = BindableProperty.Create(nameof(Width), typeof(float), typeof(Align), float.NaN,
             coerceValue: (BindableObject bindable, object value) => float.IsNaN((float)value) ? float.NaN : Math.Max(((float)value), 0.0f));
@@ -46,6 +46,8 @@ namespace MauiReactor.Canvas.Internals
         {
             if (Child != null)
             {
+                var oldRect = context.DirtyRect;
+
                 if (HorizontalAlignment != Microsoft.Maui.Primitives.LayoutAlignment.Fill &&
                     !float.IsNaN(Width))
                 {
@@ -104,8 +106,9 @@ namespace MauiReactor.Canvas.Internals
                     }
                 }
 
-
                 Child.Draw(context);
+
+                context.DirtyRect = oldRect;
             }
 
             base.OnDraw(context);

@@ -112,7 +112,9 @@ namespace MauiReactor.Canvas
 
                     if (imageResourceStream == null)
                     {
-                        throw new InvalidOperationException($"Unable to load resource: '{imageSource}'. Available resources: {string.Join(",", resourceAssembly.GetManifestResourceNames())}");
+                        System.Diagnostics.Debug.WriteLine($"[MauiReactor] Unable to load resource: '{imageSource}'. Available resources: {string.Join(", ", resourceAssembly.GetManifestResourceNames())}");
+                        return null;
+                        //throw new InvalidOperationException($"Unable to load resource: '{imageSource}'. Available resources: {string.Join(",", resourceAssembly.GetManifestResourceNames())}");
                     }
 
                     using (Stream stream = imageResourceStream)

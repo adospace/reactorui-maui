@@ -46,12 +46,28 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(FontColorProperty, value);
         }
 
-        public static readonly BindableProperty FontProperty = BindableProperty.Create(nameof(Font), typeof(IFont), typeof(Text), Microsoft.Maui.Graphics.Font.Default);
+        public static readonly BindableProperty FontNameProperty = BindableProperty.Create(nameof(FontName), typeof(string), typeof(Text), null);
 
-        public IFont? Font
+        public string? FontName
         {
-            get => (IFont?)GetValue(FontProperty);
-            set => SetValue(FontProperty, value);
+            get => (string?)GetValue(FontNameProperty);
+            set => SetValue(FontNameProperty, value);
+        }
+
+        public static readonly BindableProperty FontWeightProperty = BindableProperty.Create(nameof(FontWeight), typeof(int), typeof(Text), FontWeights.Normal);
+
+        public int FontWeight
+        {
+            get => (int)GetValue(FontWeightProperty);
+            set => SetValue(FontWeightProperty, value);
+        }
+
+        public static readonly BindableProperty FontStyleProperty = BindableProperty.Create(nameof(FontStyle), typeof(FontStyleType), typeof(Text), FontStyleType.Normal);
+
+        public FontStyleType FontStyle
+        {
+            get => (FontStyleType)GetValue(FontStyleProperty);
+            set => SetValue(FontStyleProperty, value);
         }
 
         protected override void OnDraw(DrawingContext context)
@@ -64,13 +80,18 @@ namespace MauiReactor.Canvas.Internals
                 canvas.SaveState();
 
                 canvas.FontSize = FontSize;
+
                 if (FontColor != null)
                 {
                     canvas.FontColor = FontColor;
                 }
-                if (Font != null)
+                if (FontName != null || FontWeight != FontWeights.Normal || FontStyle != FontStyleType.Normal)
                 {
-                    canvas.Font = Font;
+                    canvas.Font = new Font(FontName, FontWeight, FontStyle);
+                }
+                else
+                {
+                    canvas.Font = Font.Default;
                 }
 
                 canvas.DrawString(Value, dirtyRect, HorizontalAlignment, VerticalAlignment);

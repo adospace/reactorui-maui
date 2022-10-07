@@ -66,6 +66,7 @@ namespace MauiReactor.Canvas.Internals
             var columnWidths = GetColumnWidths(context.DirtyRect.Width).ToArray();
             var dirtyRect = context.DirtyRect;
             var x = dirtyRect.X;
+            var oldRect = context.DirtyRect;
             for (int i = 0; i < Children.Count; i++)
             {
                 context.DirtyRect = new RectF(
@@ -79,6 +80,8 @@ namespace MauiReactor.Canvas.Internals
 
                 x += columnWidths[i];
             }
+
+            context.DirtyRect = oldRect;
 
             base.OnDraw(context);
         }

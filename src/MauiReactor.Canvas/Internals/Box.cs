@@ -7,6 +7,14 @@ namespace MauiReactor.Canvas.Internals
 {
     public class Box : CanvasVisualElement
     {
+        public static readonly BindableProperty PaddingProperty = BindableProperty.Create(nameof(Padding), typeof(ThicknessF), typeof(Box), new ThicknessF());
+
+        public ThicknessF Padding
+        {
+            get => (ThicknessF)GetValue(PaddingProperty);
+            set => SetValue(PaddingProperty, value);
+        }
+
         public static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(Box), null);
 
         public Color? BackgroundColor
@@ -40,7 +48,7 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(BorderSizeProperty, value);
         }
 
-        public CanvasVisualElement? Child { get; set; }
+        public CanvasNode? Child { get; set; }
 
         protected override void OnDraw(DrawingContext context)
         {
@@ -51,6 +59,18 @@ namespace MauiReactor.Canvas.Internals
             var strokeColor = BorderColor;
             var cornerRadius = CornerRadius;
             var borderSize = BorderSize;
+
+            var padding = Padding;
+            var oldRect = context.DirtyRect;
+            if (!padding.IsEmpty)
+            {
+                context.DirtyRect = new RectF(
+                    context.DirtyRect.X + (float)padding.Left,
+                    context.DirtyRect.Y + (float)padding.Top,
+                    context.DirtyRect.Width - (float)(padding.Left + padding.Right),
+                    context.DirtyRect.Height - (float)(padding.Top + padding.Bottom)
+                );
+            }
 
             canvas.SaveState();
 
@@ -105,6 +125,8 @@ namespace MauiReactor.Canvas.Internals
             }
 
             canvas.RestoreState();
+
+            context.DirtyRect = oldRect;
 
             base.OnDraw(context);
         }

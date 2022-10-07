@@ -6,6 +6,15 @@ namespace MauiReactor.Canvas.Internals
 {
     public class CanvasNode : BindableObject
     {
+
+        public static readonly BindableProperty IsVisibleProperty = BindableProperty.Create(nameof(IsVisible), typeof(bool), typeof(CanvasNode), true);
+
+        public bool IsVisible
+        {
+            get => (bool)GetValue(IsVisibleProperty);
+            set => SetValue(IsVisibleProperty, value);
+        }
+
         //internal SizeF Measure(SizeF containerSize)
         //{
         //    var marginSize = new SizeF(Margin.Left + Margin.Right, Margin.Top + Margin.Bottom);
@@ -21,7 +30,10 @@ namespace MauiReactor.Canvas.Internals
 
         public void Draw(DrawingContext context)
         {
-            DrawOverride(context);
+            if (IsVisible)
+            {
+                DrawOverride(context);
+            }
         }
 
         protected virtual void DrawOverride(DrawingContext context)

@@ -43,10 +43,10 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(RotationProperty, value);
         }
 
-
         protected override sealed void DrawOverride(DrawingContext context)
         {
             var margin = Margin;
+            var oldRect = context.DirtyRect;
             if (!margin.IsEmpty)
             {
                 context.DirtyRect = new RectF(
@@ -99,6 +99,8 @@ namespace MauiReactor.Canvas.Internals
                     context.Canvas.ResetState();
                 }
             }
+
+            context.DirtyRect = oldRect;
         }
     }
 }

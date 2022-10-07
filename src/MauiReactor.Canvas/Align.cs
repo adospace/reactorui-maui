@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.Canvas
 {
-    public partial interface IAlign : ICanvasNode
+    public partial interface IAlign : ICanvasVisualElement
     {
         PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>? HorizontalAlignment { get; set; }
         PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>? VerticalAlignment { get; set; }
@@ -17,7 +17,7 @@ namespace MauiReactor.Canvas
         PropertyValue<float>? Height { get; set; }
     }
 
-    public partial class Align<T> : CanvasNode<T>, IAlign, IEnumerable where T : Internals.Align, new()
+    public partial class Align<T> : CanvasVisualElement<T>, IAlign, IEnumerable where T : Internals.Align, new()
     {
         protected readonly List<VisualNode> _internalChildren = new();
 
@@ -73,7 +73,7 @@ namespace MauiReactor.Canvas
         {
             Validate.EnsureNotNull(NativeControl);
 
-            if (childControl is Internals.CanvasVisualElement node)
+            if (childControl is Internals.CanvasNode node)
             {
                 NativeControl.Child = node;
             }
@@ -85,7 +85,7 @@ namespace MauiReactor.Canvas
         {
             Validate.EnsureNotNull(NativeControl);
 
-            if (childControl is Internals.CanvasVisualElement node &&
+            if (childControl is Internals.CanvasNode node &&
                 node == NativeControl.Child)
             {
                 NativeControl.Child = null;

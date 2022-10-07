@@ -17,6 +17,7 @@ namespace MauiReactor.Canvas
         PropertyValue<Color?>? BorderColor { get; set; }
         PropertyValue<CornerRadiusF>? CornerRadius { get; set; }
         PropertyValue<float>? BorderSize { get; set; }
+        PropertyValue<ThicknessF>? Padding { get; set; }
     }
 
     public partial class Box<T> : CanvasVisualElement<T>, IBox, IEnumerable where T : Internals.Box, new()
@@ -38,6 +39,7 @@ namespace MauiReactor.Canvas
         PropertyValue<Color?>? IBox.BorderColor { get; set; }
         PropertyValue<CornerRadiusF>? IBox.CornerRadius { get; set; }
         PropertyValue<float>? IBox.BorderSize { get; set; }
+        PropertyValue<ThicknessF>? IBox.Padding { get; set; }
 
         protected override IEnumerable<VisualNode> RenderChildren()
         {
@@ -75,7 +77,7 @@ namespace MauiReactor.Canvas
         {
             Validate.EnsureNotNull(NativeControl);
 
-            if (childControl is Internals.CanvasVisualElement node)
+            if (childControl is Internals.CanvasNode node)
             {
                 NativeControl.Child = node;
             }
@@ -87,7 +89,7 @@ namespace MauiReactor.Canvas
         {
             Validate.EnsureNotNull(NativeControl);
 
-            if (childControl is Internals.CanvasVisualElement node &&
+            if (childControl is Internals.CanvasNode node &&
                 node == NativeControl.Child)
             {
                 NativeControl.Child = null;
@@ -105,6 +107,7 @@ namespace MauiReactor.Canvas
             SetPropertyValue(NativeControl, Internals.Box.BorderColorProperty, thisAsIBorder.BorderColor);
             SetPropertyValue(NativeControl, Internals.Box.CornerRadiusProperty, thisAsIBorder.CornerRadius);
             SetPropertyValue(NativeControl, Internals.Box.BorderSizeProperty, thisAsIBorder.BorderSize);
+            SetPropertyValue(NativeControl, Internals.Box.PaddingProperty, thisAsIBorder.Padding);
 
             base.OnUpdate();
         }
@@ -191,5 +194,19 @@ namespace MauiReactor.Canvas
             node.CornerRadius = new PropertyValue<CornerRadiusF>(valueFunc);
             return node;
         }
+
+        public static T Padding<T>(this T node, ThicknessF value) where T : IBox
+        {
+            node.Padding = new PropertyValue<ThicknessF>(value);
+            return node;
+        }
+
+        public static T Padding<T>(this T node, Func<ThicknessF> valueFunc) where T : IBox
+        {
+            node.Padding = new PropertyValue<ThicknessF>(valueFunc);
+            return node;
+        }
+
+
     }
 }

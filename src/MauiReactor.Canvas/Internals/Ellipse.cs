@@ -35,7 +35,7 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(StrokeSizeProperty, value);
         }
 
-        public CanvasVisualElement? Child { get; set; }
+        public CanvasNode? Child { get; set; }
 
         protected override void OnDraw(DrawingContext context)
         {

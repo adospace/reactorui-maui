@@ -20,7 +20,7 @@ namespace MauiReactor.HotReload
 
             if (type == null)
             {
-                System.Diagnostics.Debug.WriteLine($"Unable to hot reload component {typeof(T).FullName}: type not found in received assembly");
+                System.Diagnostics.Debug.WriteLine($"[MauiReactor] Unable to hot reload component {typeof(T).FullName}: type not found in received assembly");
                 return null;
                 //throw new InvalidOperationException($"Unable to hot relead component {typeof(T).FullName}: type not found in received assembly");
             }

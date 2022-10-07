@@ -15,7 +15,9 @@ namespace MauiReactor.Canvas
         PropertyValue<string>? Value { get; set; }
         PropertyValue<float>? FontSize { get; set; }
         PropertyValue<Color?>? FontColor { get; set; }
-        PropertyValue<IFont?>? Font { get; set; }
+        PropertyValue<string?>? FontName { get; set; }
+        PropertyValue<int>? FontWeight { get; set; }
+        PropertyValue<FontStyleType>? FontStyle { get; set; }
     }
 
     public partial class Text<T> : CanvasVisualElement<T>, IText where T : Internals.Text, new()
@@ -38,7 +40,9 @@ namespace MauiReactor.Canvas
         PropertyValue<string>? IText.Value { get; set; }
         PropertyValue<float>? IText.FontSize { get; set; }
         PropertyValue<Color?>? IText.FontColor { get; set; }
-        PropertyValue<IFont?>? IText.Font { get; set; }
+        PropertyValue<string?>? IText.FontName { get; set; }
+        PropertyValue<int>? IText.FontWeight { get; set; }
+        PropertyValue<FontStyleType>? IText.FontStyle { get; set; }
 
         protected override void OnUpdate()
         {
@@ -50,7 +54,9 @@ namespace MauiReactor.Canvas
             SetPropertyValue(NativeControl, Internals.Text.ValueProperty, thisAsIText.Value);
             SetPropertyValue(NativeControl, Internals.Text.FontSizeProperty, thisAsIText.FontSize);
             SetPropertyValue(NativeControl, Internals.Text.FontColorProperty, thisAsIText.FontColor);
-            SetPropertyValue(NativeControl, Internals.Text.FontProperty, thisAsIText.Font);
+            SetPropertyValue(NativeControl, Internals.Text.FontNameProperty, thisAsIText.FontName);
+            SetPropertyValue(NativeControl, Internals.Text.FontWeightProperty, thisAsIText.FontWeight);
+            SetPropertyValue(NativeControl, Internals.Text.FontStyleProperty, thisAsIText.FontStyle);
 
             base.OnUpdate();
         }
@@ -136,35 +142,41 @@ namespace MauiReactor.Canvas
             return node;
         }
 
-        public static T Font<T>(this T node, IFont? value) where T : IText
+        public static T FontName<T>(this T node, string? fontName) where T : IText
         {
-            node.Font = new PropertyValue<IFont?>(value);
+            node.FontName = new PropertyValue<string?>(fontName);
             return node;
         }
 
-        public static T Font<T>(this T node, string? fontName) where T : IText
+        public static T FontName<T>(this T node, Func<string?> valueFunc) where T : IText
         {
-            node.Font = new PropertyValue<IFont?>(fontName == null ? null : new Microsoft.Maui.Graphics.Font(fontName));
+            node.FontName = new PropertyValue<string?>(valueFunc);
             return node;
         }
 
-        public static T Font<T>(this T node, Func<IFont?> valueFunc) where T : IText
+        public static T FontWeight<T>(this T node, int value) where T : IText
         {
-            node.Font = new PropertyValue<IFont?>(valueFunc);
+            node.FontWeight = new PropertyValue<int>(value);
             return node;
         }
-        public static T Font<T>(this T node, Func<string?> valueFunc) where T : IText
+
+        public static T FontWeight<T>(this T node, Func<int> valueFunc) where T : IText
         {
-            node.Font = new PropertyValue<IFont?>(() =>
-            {
-                var fontName = valueFunc.Invoke();
-                if (fontName != null)
-                {
-                    return new Microsoft.Maui.Graphics.Font(fontName);
-                }
-                return null;
-            });
+            node.FontWeight = new PropertyValue<int>(valueFunc);
             return node;
         }
+
+        public static T FontStyle<T>(this T node, FontStyleType value) where T : IText
+        {
+            node.FontStyle = new PropertyValue<FontStyleType>(value);
+            return node;
+        }
+
+        public static T FontStyle<T>(this T node, Func<FontStyleType> valueFunc) where T : IText
+        {
+            node.FontStyle = new PropertyValue<FontStyleType>(valueFunc);
+            return node;
+        }
+
     }
 }
