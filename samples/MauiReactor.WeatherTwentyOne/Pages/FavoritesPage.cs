@@ -70,7 +70,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
             }
             .VStart()
             .Spacing(18)
-            .Padding(Device.Idiom == TargetIdiom.Phone ? new Thickness(15) : new Thickness(25, 25, 25, 0));
+            .Padding(DeviceInfo.Idiom == DeviceIdiom.Phone ? new Thickness(15) : new Thickness(25, 25, 25, 0));
         }
 
         VisualNode RenderActualContent()

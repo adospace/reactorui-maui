@@ -13,7 +13,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
         {
             return new ContentPage(title: "Redmond, WA")
             {
-                Device.Idiom == TargetIdiom.Desktop ?
+                DeviceInfo.Idiom == DeviceIdiom.Desktop  ?
                 RenderDesktopLayout()
                 :
                 RenderPhoneLayout()
