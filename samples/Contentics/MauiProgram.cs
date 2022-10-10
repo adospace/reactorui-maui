@@ -10,7 +10,7 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UseMauiReactorApp<MainPage>()
+            .UseMauiReactorApp<Main>()
 #if DEBUG
             .EnableMauiReactorHotReload()
 #endif

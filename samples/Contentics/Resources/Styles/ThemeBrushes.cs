@@ -14,17 +14,20 @@ namespace Contentics.Resources.Styles
 
         public static Color Dark => Color.FromArgb("#292932");
         public static Color Gray100 => Color.FromArgb("#95959D");
-        public static Color Purple10 => Color.FromArgb("#7455F6");
         public static Color Danger => Color.FromArgb("#FF8B77");
+        public static Color Purple10 => Color.FromArgb("#7455F6");
         public static Color Purple20 => Color.FromArgb("#A5A7FF");
         public static Color Purple30 => Color.FromArgb("#B9AAFA");
         public static Color Purple40 => Color.FromArgb("#E3DDFD");
-        
+        public static Color Purple50 => Color.FromArgb("#F1EEFE");
+
         public static Color Green => Color.FromArgb("#43E2C6");
         public static Color Pink10 => Color.FromArgb("#FFE1D6");
         public static Color Pink20 => Color.FromArgb("#FF8B77");
         public static Color Green10 => Color.FromArgb("#D9F9F4");
         public static Color Green20 => Color.FromArgb("#43E2C6");
+
+        public static Color Gray => Color.FromArgb("#F7F6FA");
         
 
         //Shadows

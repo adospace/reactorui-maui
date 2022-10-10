@@ -36,15 +36,22 @@
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
-    <MauiImage Remove="Resources\Images\chevron_right.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\avatar1.png" />
+    <EmbeddedResource Include="Resources\Images\avatar2.png" />
     <EmbeddedResource Include="Resources\Images\background1.png" />
     <EmbeddedResource Include="Resources\Images\background2.png" />
     <EmbeddedResource Include="Resources\Images\chevron_right.png" />
+    <EmbeddedResource Include="Resources\Images\event1.png" />
+    <EmbeddedResource Include="Resources\Images\event1_details.png" />
+    <EmbeddedResource Include="Resources\Images\event2.png" />
+    <EmbeddedResource Include="Resources\Images\fav.png" />
+    <EmbeddedResource Include="Resources\Images\fav_small.png" />
     <EmbeddedResource Include="Resources\Images\photo1.png" />
+    <EmbeddedResource Include="Resources\Images\photo1_circle.png" />
     <EmbeddedResource Include="Resources\Images\photo1_small.png" />
+    <EmbeddedResource Include="Resources\Images\photo2_circle.png" />
     <EmbeddedResource Include="Resources\Images\photo2_small.png" />
+    <EmbeddedResource Include="Resources\Images\photo3_circle.png" />
     <EmbeddedResource Include="Resources\Images\search_small.png" />
     <EmbeddedResource Include="Resources\Images\top.png" />
   </ItemGroup>

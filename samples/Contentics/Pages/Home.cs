@@ -1,62 +1,37 @@
-﻿using System;
+﻿using Contentics.Models;
+using Contentics.Resources.Styles;
+using MauiReactor;
+using MauiReactor.Compatibility;
+using MauiReactor.Canvas;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Contentics.Models;
-using Contentics.Resources.Styles;
-using MauiReactor;
-using MauiReactor.Canvas;
-using MauiReactor.Compatibility;
 
 namespace Contentics.Pages;
 
-enum PageEnum
-{
-    Home,
-
-    Events,
-
-    Community,
-
-    Assets,
-
-    Calendar
-}
-
-
-class MainPageState : IState
-{
-    public PageEnum CurrentPage { get; set; } = PageEnum.Home;
-}
-
-class MainPage : Component<MainPageState>
+class Home : Component
 {
     public override VisualNode Render()
     {
-        return new ContentPage
+        return new Grid("268, *", "*")
         {
-            new Grid("268, *, 72", "*")
+            RenderTopPanel(),
+
+            RenderSearchBox(),
+
+            new ScrollView
             {
-                RenderTopPanel(),
-
-                RenderSearchBox(),
-
-                new ScrollView
+                new Grid("360, 400", "*")
                 {
-                    new Grid("360, 400", "*")
-                    {
-                        RenderNewsPanel(),
-                        RenderTasksPanel()
-                    }
+                    RenderNewsPanel(),
+                    RenderTasksPanel()
                 }
-                .Margin(0,16,0,0)
-                .GridRow(1),
-
-                RenderTabBar()
             }
-        }
-        .BackgroundColor(ThemeBrushes.Background);
+            .Margin(0,16,0,0)
+            .GridRow(1)
+        };
     }
 
     VisualNode RenderTopPanel()
@@ -120,7 +95,7 @@ class MainPage : Component<MainPageState>
             .VStart()
             .HeightRequest(253)
             .Background(Colors.Transparent),
-            
+
             new ImageButton("notify.png")
                 .VStart()
                 .HStart()
@@ -170,10 +145,10 @@ class MainPage : Component<MainPageState>
                 .TextColor(ThemeBrushes.Gray100)
                 .Margin(new Thickness(48 + 32,10))
         }
-        .Margin(0,221,0,0)
+        .Margin(0, 221, 0, 0)
         .GridRowSpan(2);
     }
-    
+
     VisualNode RenderNewsPanel()
     {
         return new Grid("42 *", "*")
@@ -246,7 +221,7 @@ class MainPage : Component<MainPageState>
                             .VerticalAlignment(VerticalAlignment.Center)
                             .FontColor(ThemeBrushes.Gray100)
                     }
-                    
+
                 }
             }
             .Padding(16)
@@ -318,64 +293,4 @@ class MainPage : Component<MainPageState>
         .HeightRequest(54);
     }
 
-    VisualNode RenderTabBar()
-    {
-        ImageButton createButton(PageEnum page, int column) =>
-            new ImageButton()
-                .Aspect(Aspect.Center)
-                .Source(() => State.CurrentPage != page ? $"{page.ToString().ToLowerInvariant()}.png" : $"{page.ToString().ToLowerInvariant()}_on.png")
-                .GridColumn(column)
-                .OnClicked(() => SetState(s => s.CurrentPage = page))
-                .Margin(State.CurrentPage == page ? new Thickness(0,0,0,10) : new Thickness())
-                .WithAnimation(Easing.BounceOut, 300)
-                ;
-
-        return new Grid("*", "*")
-        {
-            new CanvasView()
-            {
-                new DropShadow
-                {
-                    new Box()
-                        .CornerRadius(24,24,0,0)
-                        .BackgroundColor (ThemeBrushes.White)
-                }
-                .Color(ThemeBrushes.DarkShadow)
-                .Size(0, -8)
-                .Blur(32),
-
-                new Row("* * * * *")
-                {
-                    Enum.GetValues(typeof(PageEnum))
-                        .Cast<PageEnum>()
-                        .Select(page =>
-                            new Align()
-                            {
-                                new Ellipse()
-                                    .FillColor(ThemeBrushes.Purple10)
-                            }
-                            .IsVisible(State.CurrentPage == page)
-                            .Width(4)
-                            .Height(4)
-                            .VEnd()
-                            .HCenter()
-                            .Margin(16)
-                        )
-                        .ToArray()
-                }
-            }
-            .BackgroundColor(Colors.Transparent)
-            .GridRow(1),
-
-            new Grid("*", "* * * * *")
-            {
-                createButton(PageEnum.Home, 0),
-                createButton(PageEnum.Events, 1),
-                createButton(PageEnum.Community, 2),
-                createButton(PageEnum.Assets, 3),
-                createButton(PageEnum.Calendar, 4)
-            }
-        }
-        .GridRow(2);
-    }
 }

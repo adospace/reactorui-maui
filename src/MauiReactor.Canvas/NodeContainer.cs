@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.Canvas
 {
-    public partial interface INodeContainer : ICanvasNode
+    public partial interface INodeContainer : ICanvasVisualElement
     {
     }
 
-    public abstract partial class NodeContainer<T> : CanvasNode<T>, INodeContainer, IEnumerable where T : Internals.NodeContainer, new()
+    public abstract partial class NodeContainer<T> : CanvasVisualElement<T>, INodeContainer, IEnumerable where T : Internals.NodeContainer, new()
     {
         protected readonly List<VisualNode> _internalChildren = new();
 

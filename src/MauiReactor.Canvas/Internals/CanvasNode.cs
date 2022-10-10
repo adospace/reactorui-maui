@@ -1,12 +1,12 @@
 ﻿using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace MauiReactor.Canvas.Internals
 {
-    public class CanvasNode : BindableObject
+    public class CanvasNode : BindableObject, ICanvasItem
     {
-
         public static readonly BindableProperty IsVisibleProperty = BindableProperty.Create(nameof(IsVisible), typeof(bool), typeof(CanvasNode), true);
 
         public bool IsVisible
@@ -28,6 +28,12 @@ namespace MauiReactor.Canvas.Internals
         //    return new SizeF();
         //}
 
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            
+            base.OnPropertyChanged(propertyName);
+        }
+
         public void Draw(DrawingContext context)
         {
             if (IsVisible)
@@ -44,6 +50,11 @@ namespace MauiReactor.Canvas.Internals
         protected virtual void OnDraw(DrawingContext context)
         {
 
+        }
+
+        void ICanvasItem.RequestInvalidate()
+        {
+            
         }
     }
 

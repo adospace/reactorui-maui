@@ -23,7 +23,7 @@ using System.Diagnostics;
 
 namespace MauiReactor.Canvas.Internals
 {
-    public class CanvasView : Microsoft.Maui.Controls.GraphicsView
+    public class CanvasView : Microsoft.Maui.Controls.GraphicsView, ICanvasItem
     {
         private IReadOnlyList<IDragInteractionHandler>? _dragInteractionHandlers;
         private IReadOnlyList<IHoverInteractionHandler>? _hoverInteractionHandlers;
@@ -129,6 +129,11 @@ namespace MauiReactor.Canvas.Internals
 
             _dragInteractionHandlers = context.DragInteractionHandlers;
             _hoverInteractionHandlers = context.HoverInteractionHandlers;
+        }
+
+        public void RequestInvalidate()
+        {
+            Invalidate();
         }
     }
 }
