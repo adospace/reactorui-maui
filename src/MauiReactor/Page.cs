@@ -378,19 +378,22 @@ namespace MauiReactor
             return page;
         }
 
-        public static T Padding<T>(this T page, double leftRight, double topBottom) where T : IPage
+        public static T Padding<T>(this T page, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null) where T : IPage
         {
             page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
+            page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return page;
         }
-        public static T Padding<T>(this T page, double uniformSize) where T : IPage
+        public static T Padding<T>(this T page, double uniformSize, RxThicknessAnimation? customAnimation = null) where T : IPage
         {
             page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
+            page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return page;
         }
-        public static T Padding<T>(this T page, double left, double top, double right, double bottom) where T : IPage
+        public static T Padding<T>(this T page, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null) where T : IPage
         {
             page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(left, top, right, bottom));
+            page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return page;
         }
 

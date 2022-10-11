@@ -109,19 +109,22 @@ namespace MauiReactor
             return view;
         }
 
-        public static T Margin<T>(this T view, double leftRight, double topBottom) where T : IView
+        public static T Margin<T>(this T view, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null) where T : IView
         {
             view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
+            view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return view;
         }
-        public static T Margin<T>(this T view, double uniformSize) where T : IView
+        public static T Margin<T>(this T view, double uniformSize, RxThicknessAnimation? customAnimation = null) where T : IView
         {
             view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
+            view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return view;
         }
-        public static T Margin<T>(this T view, double left, double top, double right, double bottom) where T : IView
+        public static T Margin<T>(this T view, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null) where T : IView
         {
             view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(left, top, right, bottom));
+            view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return view;
         }
 

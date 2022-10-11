@@ -644,19 +644,22 @@ namespace MauiReactor
             return button;
         }
 
-        public static T Padding<T>(this T button, double leftRight, double topBottom) where T : IButton
+        public static T Padding<T>(this T button, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null) where T : IButton
         {
             button.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
+            button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => button.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return button;
         }
-        public static T Padding<T>(this T button, double uniformSize) where T : IButton
+        public static T Padding<T>(this T button, double uniformSize, RxThicknessAnimation? customAnimation = null) where T : IButton
         {
             button.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
+            button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => button.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return button;
         }
-        public static T Padding<T>(this T button, double left, double top, double right, double bottom) where T : IButton
+        public static T Padding<T>(this T button, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null) where T : IButton
         {
             button.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(left, top, right, bottom));
+            button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => button.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return button;
         }
 

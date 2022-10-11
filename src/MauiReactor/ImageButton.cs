@@ -423,19 +423,22 @@ namespace MauiReactor
             return imageButton;
         }
 
-        public static T Padding<T>(this T imageButton, double leftRight, double topBottom) where T : IImageButton
+        public static T Padding<T>(this T imageButton, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null) where T : IImageButton
         {
             imageButton.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
+            imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => imageButton.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return imageButton;
         }
-        public static T Padding<T>(this T imageButton, double uniformSize) where T : IImageButton
+        public static T Padding<T>(this T imageButton, double uniformSize, RxThicknessAnimation? customAnimation = null) where T : IImageButton
         {
             imageButton.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
+            imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => imageButton.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return imageButton;
         }
-        public static T Padding<T>(this T imageButton, double left, double top, double right, double bottom) where T : IImageButton
+        public static T Padding<T>(this T imageButton, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null) where T : IImageButton
         {
             imageButton.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(left, top, right, bottom));
+            imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => imageButton.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return imageButton;
         }
 

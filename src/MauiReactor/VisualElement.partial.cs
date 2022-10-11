@@ -1,4 +1,5 @@
 ﻿using MauiReactor.Internals;
+using Microsoft.Maui.Controls;
 using System.Linq;
 
 namespace MauiReactor
@@ -108,6 +109,20 @@ namespace MauiReactor
         {
             visualelement.Shadow = shadow;
             return visualelement;
+        }
+    }
+
+    public static class VisualElementNativeExtentsions
+    { 
+        public static Rect BoundsToScreenSize(this VisualElement visualElement)
+        {
+            if (visualElement.Parent is VisualElement parentVisualElement)
+            {
+                var parentFrameToScreenSize = parentVisualElement.BoundsToScreenSize();
+                return new Rect(parentFrameToScreenSize.Left + visualElement.Bounds.Left, parentFrameToScreenSize.Top + visualElement.Bounds.Top, visualElement.Bounds.Width, visualElement.Bounds.Height);
+            }
+
+            return visualElement.Bounds;
         }
     }
     

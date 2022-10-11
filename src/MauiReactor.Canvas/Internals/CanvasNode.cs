@@ -9,25 +9,27 @@ namespace MauiReactor.Canvas.Internals
     public class CanvasNode : BindableObject, INodeContainer, ICanvasNodeParent
     {
         private bool _invalidateRequested = false;
-        public static readonly BindableProperty IsVisibleProperty = BindableProperty.Create(nameof(IsVisible), typeof(bool), typeof(CanvasNode), true);
 
+        private readonly List<CanvasNode> _children = new();
+
+        public static readonly BindableProperty IsVisibleProperty = BindableProperty.Create(nameof(IsVisible), typeof(bool), typeof(CanvasNode), true);
         public bool IsVisible
         {
             get => (bool)GetValue(IsVisibleProperty);
             set => SetValue(IsVisibleProperty, value);
         }
 
+        public IReadOnlyList<CanvasNode> Children => _children;
+
+        public ICanvasNodeParent? Parent { get; internal set; }
+
+        public RectF Bounds { get; private set; }
+
         protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             RequestInvalidate();
             base.OnPropertyChanged(propertyName);
         }
-
-        private readonly List<CanvasNode> _children = new();
-
-        public IReadOnlyList<CanvasNode> Children => _children;
-
-        public ICanvasNodeParent? Parent { get; internal set; }
 
         public void InsertChild(int index, CanvasNode child)
         {
@@ -60,6 +62,8 @@ namespace MauiReactor.Canvas.Internals
 
         public void Draw(DrawingContext context)
         {
+            Bounds = context.DirtyRect;
+
             if (IsVisible)
             {
                 DrawOverride(context);
@@ -82,6 +86,38 @@ namespace MauiReactor.Canvas.Internals
             {
                 Parent?.RequestInvalidate();
             }
+        }
+    }
+
+
+
+    public static class CanvasNodeNativeExtentsions
+    {
+        public static Rect BoundsToScreenSize(this CanvasNode canvasNode)
+        {
+            if (canvasNode.Parent is VisualElement parentVisualElement)
+            {
+                var parentFrameToScreenSize = parentVisualElement.BoundsToScreenSize();
+                return new Rect(parentFrameToScreenSize.Left + canvasNode.Bounds.Left, parentFrameToScreenSize.Top + canvasNode.Bounds.Top, canvasNode.Bounds.Width, canvasNode.Bounds.Height);
+            }
+            else if (canvasNode.Parent is CanvasNode parentCanvasNode)
+            {
+                var parentFrameToScreenSize = parentCanvasNode.BoundsToScreenSize();
+                return new Rect(parentFrameToScreenSize.Left + canvasNode.Bounds.Left, parentFrameToScreenSize.Top + canvasNode.Bounds.Top, canvasNode.Bounds.Width, canvasNode.Bounds.Height);
+            }
+
+            return canvasNode.Bounds;
+        }
+
+        public static Rect BoundsToCanvasView(this CanvasNode canvasNode)
+        {
+            if (canvasNode.Parent is CanvasNode parentCanvasNode)
+            {
+                var parentFrameToScreenSize = parentCanvasNode.BoundsToScreenSize();
+                return new Rect(parentFrameToScreenSize.Left + canvasNode.Bounds.Left, parentFrameToScreenSize.Top + canvasNode.Bounds.Top, canvasNode.Bounds.Width, canvasNode.Bounds.Height);
+            }
+
+            return canvasNode.Bounds;
         }
     }
 

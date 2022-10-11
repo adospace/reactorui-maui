@@ -29,16 +29,20 @@ class Main : Component<MainPageState>
 {
     public override VisualNode Render()
     {
-        return new ContentPage
+        return new NavigationPage
         {
-            new Grid("*, 72", "*")
+            new ContentPage
             {
-                RenderPage(),
+                new Grid("*, 72", "*")
+                {
+                    RenderPage(),
 
-                RenderTabBar()
+                    RenderTabBar()
+                }
             }
-        }
-        .BackgroundColor(ThemeBrushes.Background);
+            .Set(MauiControls.NavigationPage.HasNavigationBarProperty, false)
+            .BackgroundColor(ThemeBrushes.Background)
+        };
     }
 
     VisualNode RenderPage() => State.CurrentPage switch

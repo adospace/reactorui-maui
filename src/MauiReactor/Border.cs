@@ -191,19 +191,22 @@ namespace MauiReactor
             return border;
         }
 
-        public static T Padding<T>(this T border, double leftRight, double topBottom) where T : IBorder
+        public static T Padding<T>(this T border, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null) where T : IBorder
         {
             border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
+            border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return border;
         }
-        public static T Padding<T>(this T border, double uniformSize) where T : IBorder
+        public static T Padding<T>(this T border, double uniformSize, RxThicknessAnimation? customAnimation = null) where T : IBorder
         {
             border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
+            border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return border;
         }
-        public static T Padding<T>(this T border, double left, double top, double right, double bottom) where T : IBorder
+        public static T Padding<T>(this T border, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null) where T : IBorder
         {
             border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(left, top, right, bottom));
+            border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return border;
         }
 

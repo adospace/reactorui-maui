@@ -581,19 +581,22 @@ namespace MauiReactor
             return label;
         }
 
-        public static T Padding<T>(this T label, double leftRight, double topBottom) where T : ILabel
+        public static T Padding<T>(this T label, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null) where T : ILabel
         {
             label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
+            label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return label;
         }
-        public static T Padding<T>(this T label, double uniformSize) where T : ILabel
+        public static T Padding<T>(this T label, double uniformSize, RxThicknessAnimation? customAnimation = null) where T : ILabel
         {
             label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
+            label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return label;
         }
-        public static T Padding<T>(this T label, double left, double top, double right, double bottom) where T : ILabel
+        public static T Padding<T>(this T label, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null) where T : ILabel
         {
             label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(left, top, right, bottom));
+            label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return label;
         }
 

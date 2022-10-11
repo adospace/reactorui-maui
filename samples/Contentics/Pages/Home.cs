@@ -155,9 +155,9 @@ class Home : Component
 
             new Entry()
                 .BackgroundColor(ThemeBrushes.White)
-                .PlaceholderColor(ThemeBrushes.Gray100)
+                .PlaceholderColor(ThemeBrushes.Grey100)
                 .Placeholder("Search in app")
-                .TextColor(ThemeBrushes.Gray100)                
+                .TextColor(ThemeBrushes.Grey100)                
                 .Margin(48 + 32, 6, 48, 24)
         }
         .Margin(0,221,0,0)
@@ -176,7 +176,7 @@ class Home : Component
                 .Margin(16,0),
 
             new Label("See all")
-                .TextColor(ThemeBrushes.Gray100)
+                .TextColor(ThemeBrushes.Grey100)
                 .FontSize(16)
                 .HEnd()
                 .Margin(16,0),
@@ -235,7 +235,7 @@ class Home : Component
                             .Margin(8, 0)
                             .FontSize(12)
                             .VerticalAlignment(VerticalAlignment.Center)
-                            .FontColor(ThemeBrushes.Gray100)
+                            .FontColor(ThemeBrushes.Grey100)
                     }
                     
                 }
@@ -260,7 +260,7 @@ class Home : Component
                 .Margin(16,0),
 
             new Label("See all")
-                .TextColor(ThemeBrushes.Gray100)
+                .TextColor(ThemeBrushes.Grey100)
                 .FontSize(16)
                 .HEnd()
                 .Margin(16,0),

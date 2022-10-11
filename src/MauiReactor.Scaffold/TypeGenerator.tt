@@ -268,19 +268,22 @@ namespace <#= Namespace() #>
             return <#= TypeName().ToLocalVariableName() #>;
         }
         <# if (property.PropertyType.Name == "Thickness") { #>
-        public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, double leftRight, double topBottom) where T : <#= InterfaceName() #>
+        public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName() #>
         {
             <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(new Thickness(leftRight, topBottom));
+            <#= TypeName().ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName() #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(v.CurrentValue()));
             return <#= TypeName().ToLocalVariableName() #>;
         }
-        public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, double uniformSize) where T : <#= InterfaceName() #>
+        public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, double uniformSize, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName() #>
         {
             <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(new Thickness(uniformSize));
+            <#= TypeName().ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName() #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(v.CurrentValue()));
             return <#= TypeName().ToLocalVariableName() #>;
         }
-        public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, double left, double top, double right, double bottom) where T : <#= InterfaceName() #>
+        public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName() #>
         {
             <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(new Thickness(left, top, right, bottom));
+            <#= TypeName().ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName() #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(v.CurrentValue()));
             return <#= TypeName().ToLocalVariableName() #>;
         }
         <# } #>

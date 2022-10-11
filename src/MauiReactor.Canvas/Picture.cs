@@ -51,7 +51,7 @@ namespace MauiReactor.Canvas
 
         }
 
-        public Picture(string imageSource)
+        public Picture(string? imageSource)
         {
             this.Source(imageSource, true, Assembly.GetCallingAssembly());
         }
@@ -65,6 +65,8 @@ namespace MauiReactor.Canvas
 
     public static partial class PictureExtensions
     {
+        private static Assembly? _fallbackResourceAssembly;
+
         private static readonly Dictionary<string, Microsoft.Maui.Graphics.IImage> _imageCache = new();
 
         public static T Source<T>(this T node, Microsoft.Maui.Graphics.IImage? value) where T : IPicture
@@ -110,11 +112,21 @@ namespace MauiReactor.Canvas
                     Microsoft.Maui.Graphics.IImage? image = null;
                     var imageResourceStream = resourceAssembly.GetManifestResourceStream(imageSource);
 
+                    if (imageResourceStream == null && _fallbackResourceAssembly != null)
+                    {
+                        imageResourceStream = _fallbackResourceAssembly.GetManifestResourceStream(imageSource);
+                    }
+
                     if (imageResourceStream == null)
                     {
-                        System.Diagnostics.Debug.WriteLine($"[MauiReactor] Unable to load resource: '{imageSource}'. Available resources: {string.Join(", ", resourceAssembly.GetManifestResourceNames())}");
+                        System.Diagnostics.Debug.WriteLine($"[MauiReactor] Unable to load resource: '{imageSource}'. Available resources: {string.Join(", ", (_fallbackResourceAssembly ?? resourceAssembly).GetManifestResourceNames())}");
                         return null;
                         //throw new InvalidOperationException($"Unable to load resource: '{imageSource}'. Available resources: {string.Join(",", resourceAssembly.GetManifestResourceNames())}");
+                    }
+
+                    if (_fallbackResourceAssembly == null)
+                    {
+                        _fallbackResourceAssembly = resourceAssembly;
                     }
 
                     using (Stream stream = imageResourceStream)
