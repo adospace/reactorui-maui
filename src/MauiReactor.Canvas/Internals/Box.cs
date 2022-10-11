@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
@@ -48,7 +49,7 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(BorderSizeProperty, value);
         }
 
-        public CanvasNode? Child { get; set; }
+        public CanvasNode? Child => Children.Count > 0 ? Children[0] : null;
 
         protected override void OnDraw(DrawingContext context)
         {

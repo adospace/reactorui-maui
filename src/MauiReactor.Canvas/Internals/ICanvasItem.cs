@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.Canvas.Internals;
 
-internal interface ICanvasItem
+public interface ICanvasNodeParent
 {
     void RequestInvalidate();
 }

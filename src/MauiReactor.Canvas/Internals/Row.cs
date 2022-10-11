@@ -8,7 +8,7 @@ using Microsoft.Maui.Graphics;
 
 namespace MauiReactor.Canvas.Internals
 {
-    public class Row : NodeContainer
+    public class Row : CanvasVisualElement
     {
         private static readonly GridLengthTypeConverter _gridLengthTypeConverter = new GridLengthTypeConverter();
 

@@ -40,7 +40,7 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(VerticalAlignmentProperty, value);
         }
 
-        public CanvasNode? Child { get; set; }
+        public CanvasNode? Child => Children.Count > 0 ? Children[0] : null;
 
         protected override void OnDraw(DrawingContext context)
         {

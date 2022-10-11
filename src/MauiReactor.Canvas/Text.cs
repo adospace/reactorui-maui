@@ -22,8 +22,6 @@ namespace MauiReactor.Canvas
 
     public partial class Text<T> : CanvasVisualElement<T>, IText where T : Internals.Text, new()
     {
-        protected readonly List<VisualNode> _internalChildren = new();
-
         public Text()
         {
 

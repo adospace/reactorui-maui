@@ -22,8 +22,6 @@ namespace MauiReactor.Canvas
 
     public partial class Box<T> : CanvasVisualElement<T>, IBox, IEnumerable where T : Internals.Box, new()
     {
-        protected readonly List<VisualNode> _internalChildren = new();
-
         public Box()
         {
 
@@ -40,63 +38,6 @@ namespace MauiReactor.Canvas
         PropertyValue<CornerRadiusF>? IBox.CornerRadius { get; set; }
         PropertyValue<float>? IBox.BorderSize { get; set; }
         PropertyValue<ThicknessF>? IBox.Padding { get; set; }
-
-        protected override IEnumerable<VisualNode> RenderChildren()
-        {
-            return _internalChildren;
-        }
-
-
-        public IEnumerator<VisualNode> GetEnumerator()
-        {
-            return _internalChildren.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _internalChildren.GetEnumerator();
-        }
-
-        public void Add(params VisualNode?[]? animations)
-        {
-            if (animations is null)
-            {
-                return;
-            }
-
-            foreach (var node in animations)
-            {
-                if (node != null)
-                {
-                    _internalChildren.Add(node);
-                }
-            }
-        }
-
-        protected override void OnAddChild(VisualNode widget, BindableObject childControl)
-        {
-            Validate.EnsureNotNull(NativeControl);
-
-            if (childControl is Internals.CanvasNode node)
-            {
-                NativeControl.Child = node;
-            }
-
-            base.OnAddChild(widget, childControl);
-        }
-
-        protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
-        {
-            Validate.EnsureNotNull(NativeControl);
-
-            if (childControl is Internals.CanvasNode node &&
-                node == NativeControl.Child)
-            {
-                NativeControl.Child = null;
-            }
-
-            base.OnRemoveChild(widget, childControl);
-        }
 
         protected override void OnUpdate()
         {

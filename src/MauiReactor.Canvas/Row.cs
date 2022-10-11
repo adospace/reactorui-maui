@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.Canvas
 {
-    public partial interface IRow : INodeContainer
+    public partial interface IRow : ICanvasVisualElement
     {
         PropertyValue<string>? Columns { get; set; }
     }
 
-    public partial class Row<T> : NodeContainer<T>, IRow where T : Internals.Row, new()
+    public partial class Row<T> : CanvasVisualElement<T>, IRow where T : Internals.Row, new()
     {
         public Row()
         {

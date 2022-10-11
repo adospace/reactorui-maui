@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.Canvas
 {
-    public partial interface IGroup : INodeContainer
+    public partial interface IGroup : ICanvasNode
     {
     }
 
-    public partial class Group<T> : NodeContainer<T>, IGroup where T : Internals.Group, new()
+    public partial class Group<T> : CanvasNode<T>, IGroup where T : Internals.Group, new()
     {
         public Group()
         {

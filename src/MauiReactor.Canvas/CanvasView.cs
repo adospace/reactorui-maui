@@ -38,7 +38,7 @@ namespace MauiReactor.Canvas
 
             if (childControl is Internals.CanvasNode node)
             {
-                NativeControl.Children.Insert(widget.ChildIndex, node);
+                NativeControl.InsertChild(widget.ChildIndex, node);
             }
 
             base.OnAddChild(widget, childControl);
@@ -50,7 +50,7 @@ namespace MauiReactor.Canvas
 
             if (childControl is Internals.CanvasNode node)
             {
-                NativeControl.Children.Remove(node);
+                NativeControl.RemoveChild(node);
             }
 
             base.OnRemoveChild(widget, childControl);

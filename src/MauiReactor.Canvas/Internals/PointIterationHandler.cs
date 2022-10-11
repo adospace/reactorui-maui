@@ -12,7 +12,7 @@ namespace MauiReactor.Canvas.Internals
         private RectF _hitRect;
 
         public event EventHandler? Tap;
-        public CanvasNode? Child { get; set; }
+        public CanvasNode? Child => Children.Count > 0 ? Children[0] : null;
 
         public void CancelDrag()
         {

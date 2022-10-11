@@ -19,8 +19,6 @@ namespace MauiReactor.Canvas
 
     public partial class ClipRectangle<T> : CanvasNode<T>, IClipRectangle, IEnumerable where T : Internals.ClipRectangle, new()
     {
-        protected readonly List<VisualNode> _internalChildren = new();
-
         public ClipRectangle()
         {
 
@@ -34,62 +32,6 @@ namespace MauiReactor.Canvas
 
         PropertyValue<CornerRadiusF>? IClipRectangle.CornerRadius { get; set; }
 
-        protected override IEnumerable<VisualNode> RenderChildren()
-        {
-            return _internalChildren;
-        }
-
-
-        public IEnumerator<VisualNode> GetEnumerator()
-        {
-            return _internalChildren.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _internalChildren.GetEnumerator();
-        }
-
-        public void Add(params VisualNode?[]? animations)
-        {
-            if (animations is null)
-            {
-                return;
-            }
-
-            foreach (var node in animations)
-            {
-                if (node != null)
-                {
-                    _internalChildren.Add(node);
-                }
-            }
-        }
-
-        protected override void OnAddChild(VisualNode widget, BindableObject childControl)
-        {
-            Validate.EnsureNotNull(NativeControl);
-
-            if (childControl is Internals.CanvasNode node)
-            {
-                NativeControl.Child = node;
-            }
-
-            base.OnAddChild(widget, childControl);
-        }
-
-        protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
-        {
-            Validate.EnsureNotNull(NativeControl);
-
-            if (childControl is Internals.CanvasNode node &&
-                node == NativeControl.Child)
-            {
-                NativeControl.Child = null;
-            }
-
-            base.OnRemoveChild(widget, childControl);
-        }
 
         protected override void OnUpdate()
         {

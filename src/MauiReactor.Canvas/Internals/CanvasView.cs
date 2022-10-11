@@ -23,7 +23,7 @@ using System.Diagnostics;
 
 namespace MauiReactor.Canvas.Internals
 {
-    public class CanvasView : Microsoft.Maui.Controls.GraphicsView, ICanvasItem
+    public class CanvasView : Microsoft.Maui.Controls.GraphicsView, INodeContainer, ICanvasNodeParent
     {
         private IReadOnlyList<IDragInteractionHandler>? _dragInteractionHandlers;
         private IReadOnlyList<IHoverInteractionHandler>? _hoverInteractionHandlers;
@@ -117,7 +117,38 @@ namespace MauiReactor.Canvas.Internals
             _currentHoverHandler?.CancelHover();
         }
 
-        public List<CanvasNode> Children { get; } = new();
+        private readonly List<CanvasNode> _children = new();
+
+        public IReadOnlyList<CanvasNode> Children => _children;
+
+        public void InsertChild(int index, CanvasNode child)
+        {
+            _children.Insert(index, child);
+            child.Parent = this;
+
+            OnChildAdded(child);
+        }
+
+        protected virtual void OnChildAdded(CanvasNode child)
+        {
+        }
+
+        public void RemoveChild(CanvasNode child)
+        {
+            _children.Remove(child);
+
+            if (child.Parent == this)
+            {
+                child.Parent = null;
+            }
+
+            OnChildRemoved(child);
+        }
+
+        protected virtual void OnChildRemoved(CanvasNode child)
+        {
+
+        }
 
         private void OnDraw(ICanvas canvas, RectF dirtyRect)
         {
