@@ -1,37 +1,65 @@
-﻿using Contentics.Models;
-using Contentics.Resources.Styles;
-using MauiReactor;
-using MauiReactor.Compatibility;
-using MauiReactor.Canvas;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Contentics.Models;
+using Contentics.Resources.Styles;
+using MauiReactor;
+using MauiReactor.Canvas;
+using MauiReactor.Compatibility;
+using Microsoft.Maui.Devices;
 
 namespace Contentics.Pages;
 
-class Home : Component
+enum PageEnum
+{
+    Home,
+
+    Events,
+
+    Community,
+
+    Assets,
+
+    Calendar
+}
+
+
+class MainPageState : IState
+{
+    public PageEnum CurrentPage { get; set; } = PageEnum.Home;
+}
+
+class MainPage : Component<MainPageState>
 {
     public override VisualNode Render()
     {
-        return new Grid("268, *", "*")
+        return new ContentPage
         {
-            RenderTopPanel(),
-
-            RenderSearchBox(),
-
-            new ScrollView
+            new Grid("268, *, 92", "*")
             {
-                new Grid("360, 400", "*")
+                new ScrollView
                 {
-                    RenderNewsPanel(),
-                    RenderTasksPanel()
+                    new Grid("360, 400", "*")
+                    {
+                        RenderNewsPanel(),
+                        RenderTasksPanel()
+                    }
                 }
+                .Padding(0,14,0,14)
+                .Margin(0,-14,0,0)
+                .GridRow(1)
+                .GridRowSpan(2),
+
+                RenderTopPanel(),
+
+                RenderSearchBox(),
+
+                RenderTabBar()
             }
-            .Margin(0,16,0,0)
-            .GridRow(1)
-        };
+        }
+        .BackgroundColor(ThemeBrushes.Background);
     }
 
     VisualNode RenderTopPanel()
@@ -90,12 +118,12 @@ class Home : Component
                 }
                 .Height(61)
                 .VEnd()
-                .Margin(new ThicknessF(0,0,0,56))
+                .Margin(0,0,0,56)
             }
             .VStart()
             .HeightRequest(253)
             .Background(Colors.Transparent),
-
+            
             new ImageButton("notify.png")
                 .VStart()
                 .HStart()
@@ -112,43 +140,51 @@ class Home : Component
 
     VisualNode RenderSearchBox()
     {
-        return new Grid("56", "*")
+        return new Grid("72", "*")
         {
             new CanvasView
             {
-                new DropShadow
+                new Align
                 {
-                    new Box
+                    new DropShadow
                     {
-                        new Align
+                        new Box
                         {
-                            new Picture("Contentics.Resources.Images.search_small.png")
+                            new Align
+                            {
+                                new Picture("Contentics.Resources.Images.search_small.png")
+                            }
+                            .Width(32)
+                            .Height(32)
+                            .HStart()
+                            .Margin(16,20,0,20)
                         }
-                        .Width(32)
-                        .Height(32)
-                        .HStart()
-                        .Margin(new ThicknessF(16,20,0,20))
+                        .CornerRadius(12)
+                        .BackgroundColor(ThemeBrushes.White)
+                        .Margin(24,0,24,0)
                     }
-                    .CornerRadius(12)
-                    .BackgroundColor(ThemeBrushes.White)
-                    .Margin(new ThicknessF(24,0,24,0))
+                    .Color(ThemeBrushes.DarkShadow10)
+                    .Size(0, 8)
+                    .Blur(16)
                 }
-                .Color(ThemeBrushes.DarkShadow10)
-                .Size(0, 8)
-                .Blur(16)
-            },
+                .Margin(0,0,0,18)
+            }
+            .VStart()
+            .HeightRequest(72)
+            .BackgroundColor(Colors.Transparent),
 
             new Entry()
                 .BackgroundColor(ThemeBrushes.White)
                 .PlaceholderColor(ThemeBrushes.Gray100)
                 .Placeholder("Search in app")
-                .TextColor(ThemeBrushes.Gray100)
-                .Margin(new Thickness(48 + 32,10))
+                .TextColor(ThemeBrushes.Gray100)                
+                .Margin(48 + 32, 6, 48, 24)
         }
-        .Margin(0, 221, 0, 0)
-        .GridRowSpan(2);
-    }
+        .Margin(0,221,0,0)
 
+        .GridRow(0);
+    }
+    
     VisualNode RenderNewsPanel()
     {
         return new Grid("42 *", "*")
@@ -200,7 +236,7 @@ class Home : Component
                         .FontWeight(FontWeights.Bold)
                         .FontColor(ThemeBrushes.Dark)
                         .FontSize(14)
-                        .Margin(new ThicknessF(0,16)),
+                        .Margin(0,16),
 
                     new Row("16, *")
                     {
@@ -216,18 +252,19 @@ class Home : Component
                         .Height(16),
 
                         new Text($"{newsItem.AgentName} {newsItem.Date.ToLongDateString()}")
-                            .Margin(new ThicknessF(8, 0))
+                            .Margin(8, 0)
                             .FontSize(12)
                             .VerticalAlignment(VerticalAlignment.Center)
                             .FontColor(ThemeBrushes.Gray100)
                     }
-
+                    
                 }
             }
             .Padding(16)
             .CornerRadius(16)
             .BackgroundColor(ThemeBrushes.White)
         }
+        .BackgroundColor(Colors.Transparent)
         .HeightRequest(277)
         .WidthRequest(298);
     }
@@ -290,7 +327,74 @@ class Home : Component
             .CornerRadius(16)
             .BackgroundColor(item.BackgroundColor)
         }
+        .BackgroundColor(Colors.Transparent)
         .HeightRequest(54);
     }
 
+    VisualNode RenderTabBar()
+    {
+        ImageButton createButton(PageEnum page, int column) =>
+            new ImageButton()
+                .Aspect(Aspect.Center)
+                .Source(() => State.CurrentPage != page ? $"{page.ToString().ToLowerInvariant()}.png" : $"{page.ToString().ToLowerInvariant()}_on.png")
+                .GridColumn(column)
+                .OnClicked(() => SetState(s => s.CurrentPage = page))
+                .Margin(State.CurrentPage == page ? new Thickness(0,0,0,10) : new Thickness())
+                .WithAnimation(Easing.BounceOut, 300)
+                ;
+
+        return new Grid("*", "*")
+        {
+            new CanvasView()
+            {
+                new Align
+                {
+                    new DropShadow
+                    {
+                        new Box()
+                            .CornerRadius(24,24,0,0)
+                            .BackgroundColor (ThemeBrushes.White)
+                            
+                    }
+                    .Color(ThemeBrushes.DarkShadow)
+                    .Size(0, -8)
+                    .Blur(32),
+                }
+                .Margin(0,20,0,0),
+
+                new Row("* * * * *")
+                {
+                    Enum.GetValues(typeof(PageEnum))
+                        .Cast<PageEnum>()
+                        .Select(page =>
+                            new Align()
+                            {
+                                new Ellipse()
+                                    .FillColor(ThemeBrushes.Purple10)
+                            }
+                            .IsVisible(State.CurrentPage == page)
+                            .Width(4)
+                            .Height(4)
+                            .VEnd()
+                            .HCenter()
+                            .Margin(16)
+                        )
+                        .ToArray()
+                }
+            }
+            .BackgroundColor(Colors.Transparent)
+            .GridRow(1),
+
+            new Grid("72", "* * * * *")
+            {
+                createButton(PageEnum.Home, 0),
+                createButton(PageEnum.Events, 1),
+                createButton(PageEnum.Community, 2),
+                createButton(PageEnum.Assets, 3),
+                createButton(PageEnum.Calendar, 4)
+            }
+            .VEnd()
+        }
+        .GridRow(2);
+    }
 }
