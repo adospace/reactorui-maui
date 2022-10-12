@@ -32,14 +32,15 @@ class Home : Component
                 }
             }
             .Padding(0,14,0,14)
-            .Margin(0,-14,0,0)
+            .Margin(0,-14,0,-14)
             .GridRow(1)
             .GridRowSpan(2),
 
             RenderTopPanel(),
 
             RenderSearchBox()
-        };
+        }
+        .Margin(0, 0, 0, 88);
     }
 
     VisualNode RenderTopPanel()
