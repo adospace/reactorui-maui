@@ -78,4 +78,5 @@
             base.OnMigrateFrom(previousAnimation);
         }
     }
+
 }

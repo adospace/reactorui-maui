@@ -1,6 +1,9 @@
-﻿using MauiReactor.Canvas.Internals;
+﻿using MauiReactor.Animations;
+using MauiReactor.Canvas.Internals;
 using MauiReactor.Internals;
+using Microsoft.Maui;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
 using Microsoft.Maui.Graphics;
 using System;
 using System.Collections;
@@ -70,9 +73,13 @@ namespace MauiReactor.Canvas
 
     public static partial class BoxExtensions
     {
-        public static T BackgroundColor<T>(this T node, Color? value) where T : IBox
+        public static T BackgroundColor<T>(this T node, Color? value, RxColorAnimation? customAnimation = null) where T : IBox
         {
             node.BackgroundColor = new PropertyValue<Color?>(value);
+            if (value != null)
+            {
+                node.AppendAnimatable(Internals.Box.BackgroundColorProperty, customAnimation ?? new RxSimpleColorAnimation(value), v => node.BackgroundColor = new PropertyValue<Color?>(v.CurrentValue()));
+            }
             return node;
         }
 
@@ -82,9 +89,13 @@ namespace MauiReactor.Canvas
             return node;
         }
 
-        public static T BorderColor<T>(this T node, Color? value) where T : IBox
+        public static T BorderColor<T>(this T node, Color? value, RxColorAnimation? customAnimation = null) where T : IBox
         {
             node.BorderColor = new PropertyValue<Color?>(value);
+            if (value != null)
+            {
+                node.AppendAnimatable(Internals.Box.BorderColorProperty, customAnimation ?? new RxSimpleColorAnimation(value), v => node.BorderColor = new PropertyValue<Color?>(v.CurrentValue()));
+            }
             return node;
         }
 
@@ -94,9 +105,10 @@ namespace MauiReactor.Canvas
             return node;
         }
 
-        public static T BorderSize<T>(this T node, float value) where T : IBox
+        public static T BorderSize<T>(this T node, float value, RxFloatAnimation? customAnimation = null) where T : IBox
         {
             node.BorderSize = new PropertyValue<float>(value);
+            node.AppendAnimatable(Internals.Box.CornerRadiusProperty, customAnimation ?? new RxFloatAnimation(value), v => node.BorderSize = new PropertyValue<float>(v.CurrentValue()));
             return node;
         }
 
@@ -106,9 +118,10 @@ namespace MauiReactor.Canvas
             return node;
         }
 
-        public static T CornerRadius<T>(this T node, float value) where T : IBox
+        public static T CornerRadius<T>(this T node, float value, RxCornerRadiusFAnimation? customAnimation = null) where T : IBox
         {
             node.CornerRadius = new PropertyValue<CornerRadiusF>(new CornerRadiusF(value));
+            node.AppendAnimatable(Internals.Box.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusFAnimation(new CornerRadiusF(value)), v => node.CornerRadius = new PropertyValue<CornerRadiusF>(v.CurrentValue()));
             return node;
         }
 
@@ -118,15 +131,17 @@ namespace MauiReactor.Canvas
             return node;
         }
 
-        public static T CornerRadius<T>(this T node, CornerRadiusF value) where T : IBox
+        public static T CornerRadius<T>(this T node, CornerRadiusF value, RxCornerRadiusFAnimation? customAnimation = null) where T : IBox
         {
             node.CornerRadius = new PropertyValue<CornerRadiusF>(value);
+            node.AppendAnimatable(Internals.Box.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusFAnimation(value), v => node.CornerRadius = new PropertyValue<CornerRadiusF>(v.CurrentValue()));
             return node;
         }
 
-        public static T CornerRadius<T>(this T node, float topLeft, float topRight, float bottomRight, float bottomLeft) where T : IBox
+        public static T CornerRadius<T>(this T node, float topLeft, float topRight, float bottomRight, float bottomLeft, RxCornerRadiusFAnimation? customAnimation = null) where T : IBox
         {
             node.CornerRadius = new PropertyValue<CornerRadiusF>(new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft));
+            node.AppendAnimatable(Internals.Box.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusFAnimation(new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft)), v => node.CornerRadius = new PropertyValue<CornerRadiusF>(v.CurrentValue()));
             return node;
         }
 
@@ -136,9 +151,24 @@ namespace MauiReactor.Canvas
             return node;
         }
 
-        public static T Padding<T>(this T node, ThicknessF value) where T : IBox
+        public static T Padding<T>(this T node, ThicknessF value, RxThicknessFAnimation? customAnimation = null) where T : IBox
         {
             node.Padding = new PropertyValue<ThicknessF>(value);
+            node.AppendAnimatable(Internals.Box.PaddingProperty, customAnimation ?? new RxSimpleThicknessFAnimation(value), v => node.Padding = new PropertyValue<ThicknessF>(v.CurrentValue()));
+            return node;
+        }
+
+        public static T Padding<T>(this T node, float topLeft, float topRight, float bottomRight, float bottomLeft, RxThicknessFAnimation? customAnimation = null) where T : IBox
+        {
+            node.Padding = new PropertyValue<ThicknessF>(new ThicknessF(topLeft, topRight, bottomRight, bottomLeft));
+            node.AppendAnimatable(Internals.Box.PaddingProperty, customAnimation ?? new RxSimpleThicknessFAnimation(new ThicknessF(topLeft, topRight, bottomRight, bottomLeft)), v => node.Padding = new PropertyValue<ThicknessF>(v.CurrentValue()));
+            return node;
+        }
+
+        public static T Padding<T>(this T node, float value, RxThicknessFAnimation? customAnimation = null) where T : IBox
+        {
+            node.Padding = new PropertyValue<ThicknessF>(new ThicknessF(value));
+            node.AppendAnimatable(Internals.Box.PaddingProperty, customAnimation ?? new RxSimpleThicknessFAnimation(new ThicknessF(value)), v => node.Padding = new PropertyValue<ThicknessF>(v.CurrentValue()));
             return node;
         }
 

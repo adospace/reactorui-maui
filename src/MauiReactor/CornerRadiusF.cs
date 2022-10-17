@@ -1,4 +1,4 @@
-﻿using MauiReactor.Canvas.Internals;
+﻿using MauiReactor.Internals;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MauiReactor.Canvas
+namespace MauiReactor
 {
     /// 
 
@@ -235,7 +235,7 @@ namespace MauiReactor.Canvas
             return (true);
         }
 
-        internal bool IsZero
+        public bool IsZero
         {
             get
             {

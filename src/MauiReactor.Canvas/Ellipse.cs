@@ -1,4 +1,5 @@
-﻿using MauiReactor.Canvas.Internals;
+﻿using MauiReactor.Animations;
+using MauiReactor.Canvas.Internals;
 using MauiReactor.Internals;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
@@ -64,9 +65,13 @@ namespace MauiReactor.Canvas
 
     public static partial class EllipseExtensions
     {
-        public static T FillColor<T>(this T node, Color? value) where T : IEllipse
+        public static T FillColor<T>(this T node, Color? value, RxColorAnimation? customAnimation = null) where T : IEllipse
         {
             node.FillColor = new PropertyValue<Color?>(value);
+            if (value != null)
+            {
+                node.AppendAnimatable(Internals.Ellipse.FillColorProperty, customAnimation ?? new RxSimpleColorAnimation(value), v => node.FillColor = new PropertyValue<Color?>(v.CurrentValue()));
+            }
             return node;
         }
 
@@ -76,9 +81,13 @@ namespace MauiReactor.Canvas
             return node;
         }
 
-        public static T StrokeColor<T>(this T node, Color? value) where T : IEllipse
+        public static T StrokeColor<T>(this T node, Color? value, RxColorAnimation? customAnimation = null) where T : IEllipse
         {
             node.StrokeColor = new PropertyValue<Color?>(value);
+            if (value != null)
+            {
+                node.AppendAnimatable(Internals.Ellipse.StrokeColorProperty, customAnimation ?? new RxSimpleColorAnimation(value), v => node.StrokeColor = new PropertyValue<Color?>(v.CurrentValue()));
+            }
             return node;
         }
 
@@ -88,9 +97,10 @@ namespace MauiReactor.Canvas
             return node;
         }
 
-        public static T StrokeSize<T>(this T node, float value) where T : IEllipse
+        public static T StrokeSize<T>(this T node, float value, RxFloatAnimation? customAnimation = null) where T : IEllipse
         {
             node.StrokeSize = new PropertyValue<float>(value);
+            node.AppendAnimatable(Internals.Ellipse.StrokeSizeProperty, customAnimation ?? new RxFloatAnimation(value), v => node.StrokeSize = new PropertyValue<float>(v.CurrentValue()));
             return node;
         }
 

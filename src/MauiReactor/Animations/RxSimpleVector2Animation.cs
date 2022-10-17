@@ -1,20 +1,22 @@
-﻿namespace MauiReactor.Animations
+﻿using System.Numerics;
+
+namespace MauiReactor.Animations
 {
-    public class RxSimplePointAnimation : RxPointAnimation
+    public class RxSimpleVector2Animation : RxVector2Animation
     {
-        public RxSimplePointAnimation(Point targetPoint, Easing? easing = null, double? duration = null)
+        public RxSimpleVector2Animation(Vector2 targetPoint, Easing? easing = null, double? duration = null)
             : base(easing, duration)
         {
             TargetPoint = targetPoint;
         }
 
-        public Point TargetPoint { get; }
-        public Point? StartPoint { get; private set; }
+        public Vector2 TargetPoint { get; }
+        public Vector2? StartPoint { get; private set; }
 
         private bool _isCompleted;
         public override bool IsCompleted() => _isCompleted;
 
-        public override Point CurrentValue()
+        public override Vector2 CurrentValue()
         {
             if (StartPoint == null)
                 return TargetPoint;
@@ -39,9 +41,9 @@
 
             var easingValue = easing.Ease(elapsedTime / duration);
 
-            return new Point(
-                StartPoint.Value.X + (TargetPoint.X - StartPoint.Value.X) * easingValue,
-                StartPoint.Value.Y + (TargetPoint.Y - StartPoint.Value.Y) * easingValue
+            return new Vector2(
+                (float)(StartPoint.Value.X + (TargetPoint.X - StartPoint.Value.X) * easingValue),
+                (float)(StartPoint.Value.Y + (TargetPoint.Y - StartPoint.Value.Y) * easingValue)
                 );
         }
 
@@ -64,7 +66,7 @@
 
         protected override void OnMigrateFrom(RxAnimation previousAnimation)
         {
-            var previousDoubleAnimation = ((RxSimplePointAnimation)previousAnimation);
+            var previousDoubleAnimation = ((RxSimpleVector2Animation)previousAnimation);
             StartPoint = previousDoubleAnimation.CurrentValue();
 
             if (!previousDoubleAnimation.IsCompleted())
@@ -77,5 +79,4 @@
         }
 
     }
-
 }

@@ -1,4 +1,5 @@
-﻿using MauiReactor.Canvas.Internals;
+﻿using MauiReactor.Animations;
+using MauiReactor.Canvas.Internals;
 using MauiReactor.Internals;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
@@ -66,27 +67,30 @@ namespace MauiReactor.Canvas
 
     public static partial class DropShadowExtensions
     {
-        public static T Color<T>(this T node, Color value) where T : IDropShadow
+        public static T Color<T>(this T node, Color value, RxColorAnimation? customAnimation = null) where T : IDropShadow
         {
             node.Color = new PropertyValue<Color>(value);
+            node.AppendAnimatable(Internals.DropShadow.ColorProperty, customAnimation ?? new RxSimpleColorAnimation(value), v => node.Color = new PropertyValue<Color>(v.CurrentValue()));
             return node;
         }
 
-        public static T BackgColorroundColor<T>(this T node, Func<Color> valueFunc) where T : IDropShadow
+        public static T Color<T>(this T node, Func<Color> valueFunc) where T : IDropShadow
         {
             node.Color = new PropertyValue<Color>(valueFunc);
             return node;
         }
 
-        public static T Size<T>(this T node, SizeF value) where T : IDropShadow
+        public static T Size<T>(this T node, SizeF value, RxSizeFAnimation? customAnimation = null) where T : IDropShadow
         {
             node.Size = new PropertyValue<SizeF>(value);
+            node.AppendAnimatable(Internals.DropShadow.SizeProperty, customAnimation ?? new RxSimpleSizeFAnimation(value), v => node.Size = new PropertyValue<SizeF>(v.CurrentValue()));
             return node;
         }
 
-        public static T Size<T>(this T node, float x, float y) where T : IDropShadow
+        public static T Size<T>(this T node, float x, float y, RxSizeFAnimation? customAnimation = null) where T : IDropShadow
         {
             node.Size = new PropertyValue<SizeF>(new SizeF(x, y));
+            node.AppendAnimatable(Internals.DropShadow.SizeProperty, customAnimation ?? new RxSimpleSizeFAnimation(new SizeF(x, y)), v => node.Size = new PropertyValue<SizeF>(v.CurrentValue()));
             return node;
         }
 
@@ -96,9 +100,10 @@ namespace MauiReactor.Canvas
             return node;
         }
 
-        public static T Blur<T>(this T node, float value) where T : IDropShadow
+        public static T Blur<T>(this T node, float value, RxFloatAnimation? customAnimation = null) where T : IDropShadow
         {
             node.Blur = new PropertyValue<float>(value);
+            node.AppendAnimatable(Internals.DropShadow.BlurProperty, customAnimation ?? new RxFloatAnimation(value), v => node.Blur = new PropertyValue<float>(v.CurrentValue()));
             return node;
         }
 

@@ -1,20 +1,22 @@
-﻿namespace MauiReactor.Animations
+﻿using System.Numerics;
+
+namespace MauiReactor.Animations
 {
-    public class RxSimplePointAnimation : RxPointAnimation
+    public class RxSimpleSizeFAnimation : RxSizeFAnimation
     {
-        public RxSimplePointAnimation(Point targetPoint, Easing? easing = null, double? duration = null)
+        public RxSimpleSizeFAnimation(SizeF targetPoint, Easing? easing = null, double? duration = null)
             : base(easing, duration)
         {
             TargetPoint = targetPoint;
         }
 
-        public Point TargetPoint { get; }
-        public Point? StartPoint { get; private set; }
+        public SizeF TargetPoint { get; }
+        public SizeF? StartPoint { get; private set; }
 
         private bool _isCompleted;
         public override bool IsCompleted() => _isCompleted;
 
-        public override Point CurrentValue()
+        public override SizeF CurrentValue()
         {
             if (StartPoint == null)
                 return TargetPoint;
@@ -39,9 +41,9 @@
 
             var easingValue = easing.Ease(elapsedTime / duration);
 
-            return new Point(
-                StartPoint.Value.X + (TargetPoint.X - StartPoint.Value.X) * easingValue,
-                StartPoint.Value.Y + (TargetPoint.Y - StartPoint.Value.Y) * easingValue
+            return new SizeF(
+                (float)(StartPoint.Value.Width + (TargetPoint.Width - StartPoint.Value.Width) * easingValue),
+                (float)(StartPoint.Value.Height + (TargetPoint.Height - StartPoint.Value.Height) * easingValue)
                 );
         }
 
@@ -50,13 +52,10 @@
             if (StartPoint == null)
                 return 1.0;
 
-            //return Math.Pow(
-            //    Math.Pow((CurrentValue().X - StartPoint.Value.X) / (TargetPoint.X - StartPoint.Value.X), 2.0) +
-            //    Math.Pow((CurrentValue().Y - StartPoint.Value.Y) / (TargetPoint.Y - StartPoint.Value.Y), 2.0), 0.50);
             var currentValue = CurrentValue();
 
-            var v = ((TargetPoint.X != StartPoint.Value.X) ? (currentValue.X - StartPoint.Value.X) / (TargetPoint.X - StartPoint.Value.X) : 1.0) *
-                ((TargetPoint.Y != StartPoint.Value.Y) ? (currentValue.Y - StartPoint.Value.Y) / (TargetPoint.Y - StartPoint.Value.Y) : 1.0);
+            var v = ((TargetPoint.Width != StartPoint.Value.Width) ? (currentValue.Width - StartPoint.Value.Width) / (TargetPoint.Width - StartPoint.Value.Width) : 1.0) *
+                ((TargetPoint.Height != StartPoint.Value.Height) ? (currentValue.Height - StartPoint.Value.Height) / (TargetPoint.Height - StartPoint.Value.Height) : 1.0);
 
             return v;
 
@@ -64,7 +63,7 @@
 
         protected override void OnMigrateFrom(RxAnimation previousAnimation)
         {
-            var previousDoubleAnimation = ((RxSimplePointAnimation)previousAnimation);
+            var previousDoubleAnimation = ((RxSimpleSizeFAnimation)previousAnimation);
             StartPoint = previousDoubleAnimation.CurrentValue();
 
             if (!previousDoubleAnimation.IsCompleted())
@@ -77,5 +76,4 @@
         }
 
     }
-
 }

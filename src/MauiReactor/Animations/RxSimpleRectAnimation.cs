@@ -14,8 +14,6 @@
         private bool _isCompleted;
         public override bool IsCompleted()
         {
-            //System.Diagnostics.Debug.WriteLine($"RxSimpleRectAnimation.IsCompleted(_isCompleted={_isCompleted}) StartPoint = {(StartPoint == null ? string.Empty : StartPoint.Value.X)} TargetPoint = {TargetPoint.X} => {_isCompleted || StartPoint == null || StartPoint.Value == TargetPoint}");
-
             return _isCompleted || StartPoint == null || StartPoint.Value == TargetPoint;
         }
         
@@ -54,9 +52,7 @@
                 StartPoint.Value.Height + (TargetPoint.Height - StartPoint.Value.Height) * easingValue
                 );
            
-            //System.Diagnostics.Debug.WriteLine($"RxSimpleRectAnimation.CurrentValue() From {StartPoint.Value.X} to {TargetPoint.X} (Current={currentValue} Elapsed={easingValue})");
-
-            return currentValue;
+           return currentValue;
         }
 
         private double Completion()
@@ -66,34 +62,24 @@
 
             var currentValue = CurrentValue();
 
-            return Math.Pow(
-                Math.Pow((currentValue.X - StartPoint.Value.X) / (TargetPoint.X - StartPoint.Value.X), 2.0) +
-                Math.Pow((currentValue.Y - StartPoint.Value.Y) / (TargetPoint.Y - StartPoint.Value.Y), 2.0) +
-                Math.Pow((currentValue.Width - StartPoint.Value.Width) / (TargetPoint.Width - StartPoint.Value.Width), 2.0) +
-                Math.Pow((currentValue.Height - StartPoint.Value.Height) / (TargetPoint.Height - StartPoint.Value.Height), 2.0), 
-                0.25);
+            var v = ((TargetPoint.Left != StartPoint.Value.Left) ? (currentValue.Left - StartPoint.Value.Left) / (TargetPoint.Left - StartPoint.Value.Left) : 1.0) *
+                ((TargetPoint.Top != StartPoint.Value.Top) ? (currentValue.Top - StartPoint.Value.Top) / (TargetPoint.Top - StartPoint.Value.Top) : 1.0) *
+                ((TargetPoint.Right != StartPoint.Value.Right) ? (currentValue.Right - StartPoint.Value.Right) / (TargetPoint.Right - StartPoint.Value.Right) : 1.0) *
+                ((TargetPoint.Bottom != StartPoint.Value.Bottom) ? (currentValue.Bottom - StartPoint.Value.Bottom) / (TargetPoint.Bottom - StartPoint.Value.Bottom) : 1.0);
+
+            return v;
         }
 
         protected override void OnMigrateFrom(RxAnimation previousAnimation)
         {
-            //System.Diagnostics.Debug.Assert(previousAnimation != this);
-            //System.Diagnostics.Debug.WriteLine($"Migrate StartValue from {StartValue} to {((RxDoubleAnimation)previousAnimation).TargetValue} (TargetValue={TargetValue})");
-            var previousRectAnimation = ((RxSimpleRectAnimation)previousAnimation);
-            //StartPoint = previousDoubleAnimation.TargetPoint;
-            //StartTime = previousDoubleAnimation.StartTime;
-            //if (!previousDoubleAnimation.IsCompleted())
-            //{
-            //    var duration = Duration ?? DefaultDuration;
-            //    StartTime -= (long)(duration - duration * previousDoubleAnimation.Completion());
-            //    System.Diagnostics.Debug.Assert(StartTime >= 0);
-            //}
-            StartPoint = previousRectAnimation.CurrentValue();
+            var previousDoubleAnimation = ((RxSimpleRectAnimation)previousAnimation);
 
-            if (previousRectAnimation?.IsCompleted() == false)
+            StartPoint = previousDoubleAnimation.CurrentValue();
+
+            if (!previousDoubleAnimation.IsCompleted())
             {
-                //StartPoint = previousRectAnimation.StartPoint;
-                //TargetPoint = previousRectAnimation.TargetPoint;
-                //StartTime = previousRectAnimation.StartTime;
+                var duration = Duration ?? DefaultDuration;
+                StartTime -= (long)(duration - duration * previousDoubleAnimation.Completion());
             }
 
             base.OnMigrateFrom(previousAnimation);

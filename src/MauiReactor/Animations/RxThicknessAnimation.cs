@@ -14,4 +14,5 @@ namespace MauiReactor.Animations
 
         public abstract Thickness CurrentValue();
     }
+    
 }

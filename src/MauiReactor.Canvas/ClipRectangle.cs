@@ -1,4 +1,5 @@
-﻿using MauiReactor.Canvas.Internals;
+﻿using MauiReactor.Animations;
+using MauiReactor.Canvas.Internals;
 using MauiReactor.Internals;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls;
@@ -60,21 +61,24 @@ namespace MauiReactor.Canvas
 
     public static partial class ClipRectangleExtensions
     {
-        public static T CornerRadius<T>(this T node, CornerRadiusF value) where T : IClipRectangle
+        public static T CornerRadius<T>(this T node, CornerRadiusF value, RxCornerRadiusFAnimation? customAnimation = null) where T : IClipRectangle
         {
             node.CornerRadius = new PropertyValue<CornerRadiusF>(value);
+            node.AppendAnimatable(Internals.Box.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusFAnimation(value), v => node.CornerRadius = new PropertyValue<CornerRadiusF>(v.CurrentValue()));
             return node;
         }
 
-        public static T CornerRadius<T>(this T node, float topLeft, float topRight, float bottomRight, float bottomLeft) where T : IClipRectangle
+        public static T CornerRadius<T>(this T node, float topLeft, float topRight, float bottomRight, float bottomLeft, RxCornerRadiusFAnimation? customAnimation = null) where T : IClipRectangle
         {
             node.CornerRadius = new PropertyValue<CornerRadiusF>(new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft));
+            node.AppendAnimatable(Internals.Box.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusFAnimation(new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft)), v => node.CornerRadius = new PropertyValue<CornerRadiusF>(v.CurrentValue()));
             return node;
         }
 
-        public static T CornerRadius<T>(this T node, float uniformSize) where T : IClipRectangle
+        public static T CornerRadius<T>(this T node, float uniformSize, RxCornerRadiusFAnimation? customAnimation = null) where T : IClipRectangle
         {
             node.CornerRadius = new PropertyValue<CornerRadiusF>(new CornerRadiusF(uniformSize));
+            node.AppendAnimatable(Internals.Box.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusFAnimation(new CornerRadiusF(uniformSize)), v => node.CornerRadius = new PropertyValue<CornerRadiusF>(v.CurrentValue()));
             return node;
         }
 

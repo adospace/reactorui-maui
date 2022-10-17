@@ -35,6 +35,14 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(ScaleProperty, value);
         }
 
+        public static readonly BindableProperty AnchorProperty = BindableProperty.Create(nameof(Anchor), typeof(Vector2), typeof(CanvasVisualElement), Vector2.Zero);
+
+        public Vector2 Anchor
+        {
+            get => (Vector2)GetValue(AnchorProperty);
+            set => SetValue(AnchorProperty, value);
+        }
+
         public static readonly BindableProperty RotationProperty = BindableProperty.Create(nameof(Rotation), typeof(float), typeof(CanvasVisualElement), 0.0f);
 
         public float Rotation
@@ -60,6 +68,14 @@ namespace MauiReactor.Canvas.Internals
             var restoreState = false;
             try
             {
+                if (Anchor != Vector2.Zero)
+                {
+                    restoreState = true;
+                    context.Canvas.SaveState();
+
+                    context.Canvas.Translate(Anchor.X, Anchor.Y);
+                }
+
                 if (Translation != Vector2.Zero)
                 {
                     restoreState = true;
@@ -89,6 +105,12 @@ namespace MauiReactor.Canvas.Internals
 
                     context.Canvas.Rotate(Rotation);
                 }
+
+                if (Anchor != Vector2.Zero)
+                {
+                    context.Canvas.Translate(-Anchor.X, -Anchor.Y);
+                }
+
 
                 OnDraw(context);
             }

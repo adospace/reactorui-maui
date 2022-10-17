@@ -1,4 +1,5 @@
-﻿using MauiReactor.Internals;
+﻿using MauiReactor.Animations;
+using MauiReactor.Internals;
 using Microsoft.Maui.Controls;
 using System;
 using System.Collections;
@@ -127,9 +128,10 @@ namespace MauiReactor.Canvas
             return node;
         }
 
-        public static T Width<T>(this T node, float value) where T : IAlign
+        public static T Width<T>(this T node, float value, RxFloatAnimation? customAnimation = null) where T : IAlign
         {
             node.Width = new PropertyValue<float>(value);
+            node.AppendAnimatable(Internals.Align.WidthProperty, customAnimation ?? new RxFloatAnimation(value), v => node.Width = new PropertyValue<float>(v.CurrentValue()));
             return node;
         }
 
@@ -139,9 +141,10 @@ namespace MauiReactor.Canvas
             return node;
         }
 
-        public static T Height<T>(this T node, float value) where T : IAlign
+        public static T Height<T>(this T node, float value, RxFloatAnimation? customAnimation = null) where T : IAlign
         {
             node.Height = new PropertyValue<float>(value);
+            node.AppendAnimatable(Internals.Align.HeightProperty, customAnimation ?? new RxFloatAnimation(value), v => node.Height = new PropertyValue<float>(v.CurrentValue()));
             return node;
         }
 

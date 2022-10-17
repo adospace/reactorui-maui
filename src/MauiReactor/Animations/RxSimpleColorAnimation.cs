@@ -73,20 +73,31 @@
 
             var currentValue = CurrentValue();
 
+
             if (TransitionModel == ColorTransitionModel.RGB)
             {
-                return Math.Pow(
-                    Math.Pow((currentValue.Red - StartColor.Red) / (TargetColor.Red - StartColor.Red), 2.0) +
-                    Math.Pow((currentValue.Green - StartColor.Green) / (TargetColor.Green - StartColor.Green), 2.0) +
-                    Math.Pow((currentValue.Blue - StartColor.Blue) / (TargetColor.Blue - StartColor.Blue), 2.0) +
-                    Math.Pow((currentValue.Alpha - StartColor.Alpha) / (TargetColor.Alpha - StartColor.Alpha), 2.0), 0.25);
+                return ((TargetColor.Red != StartColor.Red) ? (currentValue.Red - StartColor.Red) / (TargetColor.Red - StartColor.Red) : 1.0) *
+                    ((TargetColor.Green != StartColor.Green) ? (currentValue.Green - StartColor.Green) / (TargetColor.Green - StartColor.Green) : 1.0) *
+                    ((TargetColor.Blue != StartColor.Blue) ? (currentValue.Blue - StartColor.Blue) / (TargetColor.Blue - StartColor.Blue) : 1.0) *
+                    ((TargetColor.Alpha != StartColor.Alpha) ? (currentValue.Alpha - StartColor.Alpha) / (TargetColor.Alpha - StartColor.Alpha) : 1.0);
+
+                //return Math.Pow(
+                //    Math.Pow((currentValue.Red - StartColor.Red) / (TargetColor.Red - StartColor.Red), 2.0) +
+                //    Math.Pow((currentValue.Green - StartColor.Green) / (TargetColor.Green - StartColor.Green), 2.0) +
+                //    Math.Pow((currentValue.Blue - StartColor.Blue) / (TargetColor.Blue - StartColor.Blue), 2.0) +
+                //    Math.Pow((currentValue.Alpha - StartColor.Alpha) / (TargetColor.Alpha - StartColor.Alpha), 2.0), 0.25);
             }
 
-            return Math.Pow(
-                Math.Pow((currentValue.GetHue() - StartColor.GetHue()) / (TargetColor.GetHue() - StartColor.GetHue()), 2.0) +
-                Math.Pow((currentValue.GetSaturation() - StartColor.GetSaturation()) / (TargetColor.GetSaturation() - StartColor.GetSaturation()), 2.0) +
-                Math.Pow((currentValue.GetLuminosity() - StartColor.GetLuminosity()) / (TargetColor.GetLuminosity() - StartColor.GetLuminosity()), 2.0) +
-                Math.Pow((currentValue.Alpha - StartColor.Alpha) / (TargetColor.Alpha - StartColor.Alpha), 2.0), 0.25);
+            return ((TargetColor.GetHue() != StartColor.GetHue()) ? (currentValue.GetHue() - StartColor.GetHue()) / (TargetColor.GetHue() - StartColor.GetHue()) : 1.0) *
+                ((TargetColor.GetSaturation() != StartColor.GetSaturation()) ? (currentValue.GetSaturation() - StartColor.GetSaturation()) / (TargetColor.GetSaturation() - StartColor.GetSaturation()) : 1.0) *
+                ((TargetColor.GetLuminosity() != StartColor.GetLuminosity()) ? (currentValue.GetLuminosity() - StartColor.GetLuminosity()) / (TargetColor.GetLuminosity() - StartColor.GetLuminosity()) : 1.0) *
+                ((TargetColor.Alpha != StartColor.Alpha) ? (currentValue.Alpha - StartColor.Alpha) / (TargetColor.Alpha - StartColor.Alpha) : 1.0);
+
+            //return Math.Pow(
+            //    Math.Pow((currentValue.GetHue() - StartColor.GetHue()) / (TargetColor.GetHue() - StartColor.GetHue()), 2.0) +
+            //    Math.Pow((currentValue.GetSaturation() - StartColor.GetSaturation()) / (TargetColor.GetSaturation() - StartColor.GetSaturation()), 2.0) +
+            //    Math.Pow((currentValue.GetLuminosity() - StartColor.GetLuminosity()) / (TargetColor.GetLuminosity() - StartColor.GetLuminosity()), 2.0) +
+            //    Math.Pow((currentValue.Alpha - StartColor.Alpha) / (TargetColor.Alpha - StartColor.Alpha), 2.0), 0.25);
 
         }
 

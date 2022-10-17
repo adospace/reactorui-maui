@@ -1,10 +1,10 @@
-﻿using MauiReactor.Canvas.Internals;
+﻿using MauiReactor.Internals;
 using Microsoft.Maui;
 using Microsoft.Maui.Graphics;
 using System;
 using System.Diagnostics;
 
-namespace MauiReactor.Canvas
+namespace MauiReactor
 {
     [DebuggerDisplay("Left={Left}, Top={Top}, Right={Right}, Bottom={Bottom}, HorizontalThickness={HorizontalThickness}, VerticalThickness={VerticalThickness}")]
     public struct ThicknessF : IEquatable<ThicknessF>

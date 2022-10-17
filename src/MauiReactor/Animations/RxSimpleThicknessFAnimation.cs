@@ -1,20 +1,20 @@
 ﻿namespace MauiReactor.Animations
 {
-    public class RxSimpleThicknessAnimation : RxThicknessAnimation
+    public class RxSimpleThicknessFAnimation : RxThicknessFAnimation
     {
-        public RxSimpleThicknessAnimation(Thickness targetPoint, Easing? easing = null, double? duration = null)
+        public RxSimpleThicknessFAnimation(ThicknessF targetPoint, Easing? easing = null, double? duration = null)
             : base(easing, duration)
         {
             TargetPoint = targetPoint;
         }
 
-        public Thickness TargetPoint { get; }
-        public Thickness? StartPoint { get; private set; }
+        public ThicknessF TargetPoint { get; }
+        public ThicknessF? StartPoint { get; private set; }
 
         private bool _isCompleted;
         public override bool IsCompleted() => _isCompleted || StartPoint == null || StartPoint.Value == TargetPoint;
 
-        public override Thickness CurrentValue()
+        public override ThicknessF CurrentValue()
         {
             if (StartPoint == null)
                 return TargetPoint;
@@ -41,11 +41,11 @@
 
             var easingValue = easing.Ease(elapsedTime / duration);
 
-            var v = new Thickness(
-                StartPoint.Value.Left + (TargetPoint.Left - StartPoint.Value.Left) * easingValue,
-                StartPoint.Value.Top + (TargetPoint.Top - StartPoint.Value.Top) * easingValue,
-                StartPoint.Value.Right + (TargetPoint.Right - StartPoint.Value.Right) * easingValue,
-                StartPoint.Value.Bottom + (TargetPoint.Bottom - StartPoint.Value.Bottom) * easingValue
+            var v = new ThicknessF(
+                (float)(StartPoint.Value.Left + (TargetPoint.Left - StartPoint.Value.Left) * easingValue),
+                (float)(StartPoint.Value.Top + (TargetPoint.Top - StartPoint.Value.Top) * easingValue),
+                (float)(StartPoint.Value.Right + (TargetPoint.Right - StartPoint.Value.Right) * easingValue),
+                (float)(StartPoint.Value.Bottom + (TargetPoint.Bottom - StartPoint.Value.Bottom) * easingValue)
                 );
 
             //System.Diagnostics.Debug.WriteLine($"RxSimpleThicknessAnimation(EasingValue={easingValue} CurrentValue={v} StartValue={StartPoint} TargetValue={TargetPoint} StartTime={StartTime} CurrentTime={currentTime} ElapsedTime={elapsedTime})");
@@ -57,7 +57,7 @@
         {
             if (StartPoint == null)
                 return 1.0;
-            
+
             var currentValue = CurrentValue();
 
             var v = ((TargetPoint.Left != StartPoint.Value.Left) ? (currentValue.Left - StartPoint.Value.Left) / (TargetPoint.Left - StartPoint.Value.Left) : 1.0) *
@@ -70,10 +70,8 @@
 
         protected override void OnMigrateFrom(RxAnimation previousAnimation)
         {
-            //System.Diagnostics.Debug.Assert(previousAnimation != this);
-            //System.Diagnostics.Debug.WriteLine($"Migrate StartValue from {StartValue} to {((RxDoubleAnimation)previousAnimation).TargetValue} (TargetValue={TargetValue})");
-            var previousDoubleAnimation = ((RxSimpleThicknessAnimation)previousAnimation);
-            
+            var previousDoubleAnimation = ((RxSimpleThicknessFAnimation)previousAnimation);
+
             StartPoint = previousDoubleAnimation.CurrentValue();
 
             if (!previousDoubleAnimation.IsCompleted())
