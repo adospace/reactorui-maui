@@ -33,7 +33,7 @@ class Main : Component<MainPageState>
         {
             new ContentPage
             {
-                new Grid("*, 72", "*")
+                new Grid("*", "*")
                 {
                     RenderPage(),
 
@@ -74,6 +74,7 @@ class Main : Component<MainPageState>
                 new DropShadow
                 {
                     new Box()
+                        .Margin(0,20,0,0)
                         .CornerRadius(24,24,0,0)
                         .BackgroundColor (ThemeBrushes.White)
                 }
@@ -100,6 +101,7 @@ class Main : Component<MainPageState>
                         )
                         .ToArray()
                 }
+                
             }
             .BackgroundColor(Colors.Transparent)
             .GridRow(1),
@@ -112,7 +114,9 @@ class Main : Component<MainPageState>
                 createButton(PageEnum.Assets, 3),
                 createButton(PageEnum.Calendar, 4)
             }
+            .Padding(0,20,0,0)
         }
-        .GridRow(2);
+        .VEnd()
+        .HeightRequest(92);
     }
 }

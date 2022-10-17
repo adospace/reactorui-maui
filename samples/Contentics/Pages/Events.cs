@@ -1,14 +1,10 @@
-﻿using Contentics.Models;
+﻿using System;
+using System.Linq;
+using Contentics.Models;
 using Contentics.Resources.Styles;
 using MauiReactor;
-using MauiReactor.Compatibility;
 using MauiReactor.Canvas;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Authentication.ExtendedProtection;
+using MauiReactor.Compatibility;
 
 namespace Contentics.Pages;
 
@@ -32,7 +28,7 @@ class Events : Component<EventsPageState>
 {
     public override VisualNode Render()
     {
-        return new Grid("164, Auto, Auto, Auto *", "*")
+        return new Grid("164, Auto, Auto, Auto, *", "*")
         {
             RenderTopPanel(),
             
@@ -43,7 +39,9 @@ class Events : Component<EventsPageState>
             RenderCategories(),
 
             RenderEvents()
-        };
+
+        }
+        .Margin(0,0,0,88);
     }
 
     VisualNode RenderTopPanel()
@@ -129,14 +127,14 @@ class Events : Component<EventsPageState>
                 {
                     new Frame
                     {
-                        new Image($"{title.Replace("-", string.Empty)}.png")
+                        new Image($"{title.ToLowerInvariant().Replace("-", string.Empty)}.png")
                             .HeightRequest(16)
                             .HeightRequest(16)
                             .VCenter()
                             .HCenter()
                     }
                     .Padding(0)
-                    .CornerRadius(99)
+                    .CornerRadius(16)
                     .HeightRequest(32)
                     .WidthRequest(32)
                     .BackgroundColor(ThemeBrushes.Grey)
@@ -152,7 +150,7 @@ class Events : Component<EventsPageState>
             .Padding(8)
             .HasShadow(false)
             .BorderColor(ThemeBrushes.White)
-            .CornerRadius(99)
+            .CornerRadius(16)
             .BackgroundColor(ThemeBrushes.White);
         };
 
@@ -215,7 +213,6 @@ class EventsComponent : Component
             }
         }
         .Orientation(ScrollOrientation.Vertical)
-        .VStart()
         .GridRow(4)
         .Padding(16, 0);
     }
@@ -291,12 +288,17 @@ class EventComponent : Component
         {
             new Column("133, 80, 32, *")
             {
-                new ClipRectangle()
+
+                new PointIterationHandler
                 {
-                    new Picture($"Contentics.Resources.Images.{_model.ImageSource}")
-                        .Aspect(Aspect.Fill)
+                    new ClipRectangle()
+                    {
+                        new Picture($"Contentics.Resources.Images.{_model.ImageSource}")
+                            .Aspect(Aspect.Fill)
+                    }
+                    .CornerRadius(8),
                 }
-                .CornerRadius(8),
+                .OnTap(_selectedAction),
 
                 new Row("*, 24")
                 {
@@ -387,9 +389,10 @@ class EventComponent : Component
                                     .FontSize(15)
                                     .FontColor(ThemeBrushes.Purple10)
                                     .VerticalAlignment(VerticalAlignment.Center)
+                                    .HorizontalAlignment(HorizontalAlignment.Left)
                                     .Margin(10,0,0,0)
                             }
-                            .Margin(32,9)
+                            .Margin(32,0)
                         }
                         .CornerRadius(8)
                         .BackgroundColor(ThemeBrushes.Purple50)
