@@ -39,6 +39,11 @@
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\moon.png" />
+    <EmbeddedResource Include="Resources\Images\sun.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MauiReactor.Canvas\MauiReactor.Canvas.csproj" />
     <ProjectReference Include="..\..\src\MauiReactor\MauiReactor.csproj" />
   </ItemGroup>
 </Project>

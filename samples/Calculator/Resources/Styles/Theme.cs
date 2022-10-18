@@ -11,6 +11,14 @@ static class Theme
 {
     public static bool IsDarkTheme => MauiControls.Application.Current?.UserAppTheme == Microsoft.Maui.ApplicationModel.AppTheme.Dark;
 
+    public static void ToggleCurrentAppTheme()
+    {
+        if (MauiControls.Application.Current != null)
+        {
+            MauiControls.Application.Current.UserAppTheme = IsDarkTheme ? Microsoft.Maui.ApplicationModel.AppTheme.Light : Microsoft.Maui.ApplicationModel.AppTheme.Dark;
+        }
+    }
+
     public static Color DarkBackground { get; } = Color.FromArgb("#FF17171C");
     public static Color DarkText { get; } = Color.FromArgb("#FFFFFFFF");
     public static Color DarkButtonHighEmphasis { get; } = Color.FromArgb("#FF4B5EFC");
@@ -33,6 +41,11 @@ static class Theme
 
     public static Label Label(string text)
         => new Label(text)
+            .TextColor(Text)
+            .FontFamily("WorkSansLight");
+
+    public static Label Label(Func<string> textStateAction)
+        => new Label(textStateAction)
             .TextColor(Text)
             .FontFamily("WorkSansLight");
 
@@ -80,4 +93,5 @@ static class Theme
 
     public static Grid ImageButtonLowEmphasis(string imageSource, Action? clickAction)
         => ImageButton(imageSource, ButtonLowEmphasisBackground, clickAction);
+
 }
