@@ -47,10 +47,23 @@ namespace MauiReactor.Canvas
             SetPropertyValue(NativeControl, Internals.CanvasVisualElement.MarginProperty, thisAsICanvasVisualElement.Margin);
             SetPropertyValue(NativeControl, Internals.CanvasVisualElement.TranslationProperty, thisAsICanvasVisualElement.Translation);
             SetPropertyValue(NativeControl, Internals.CanvasVisualElement.ScaleProperty, thisAsICanvasVisualElement.Scale);
-            SetPropertyValue(NativeControl, Internals.CanvasVisualElement.AnchorProperty, thisAsICanvasVisualElement.Scale);
+            SetPropertyValue(NativeControl, Internals.CanvasVisualElement.AnchorProperty, thisAsICanvasVisualElement.Anchor);
             SetPropertyValue(NativeControl, Internals.CanvasVisualElement.RotationProperty, thisAsICanvasVisualElement.Rotation);
 
             base.OnUpdate();
+        }
+
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsICanvasVisualElement = (ICanvasVisualElement)this;
+
+            SetPropertyValue(NativeControl, Internals.CanvasVisualElement.MarginProperty, thisAsICanvasVisualElement.Margin);
+            SetPropertyValue(NativeControl, Internals.CanvasVisualElement.TranslationProperty, thisAsICanvasVisualElement.Translation);
+            SetPropertyValue(NativeControl, Internals.CanvasVisualElement.ScaleProperty, thisAsICanvasVisualElement.Scale);
+            SetPropertyValue(NativeControl, Internals.CanvasVisualElement.RotationProperty, thisAsICanvasVisualElement.Rotation);
+
+            base.OnAnimate();
         }
     }
 

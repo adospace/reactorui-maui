@@ -49,7 +49,7 @@ namespace MauiReactor.Canvas.Internals
         {
             get => (float)GetValue(RotationProperty);
             set => SetValue(RotationProperty, value);
-        }
+        } 
 
         protected override sealed void DrawOverride(DrawingContext context)
         {
@@ -68,14 +68,6 @@ namespace MauiReactor.Canvas.Internals
             var restoreState = false;
             try
             {
-                if (Anchor != Vector2.Zero)
-                {
-                    restoreState = true;
-                    context.Canvas.SaveState();
-
-                    context.Canvas.Translate(Anchor.X, Anchor.Y);
-                }
-
                 if (Translation != Vector2.Zero)
                 {
                     restoreState = true;
@@ -92,7 +84,10 @@ namespace MauiReactor.Canvas.Internals
                         context.Canvas.SaveState();
                     }
 
+                    context.Canvas.Translate(context.DirtyRect.Left + Anchor.X * context.DirtyRect.Width, context.DirtyRect.Top + Anchor.Y * context.DirtyRect.Height);
                     context.Canvas.Scale(Scale.X, Scale.Y);
+                    context.Canvas.Translate(-(context.DirtyRect.Left + Anchor.X * context.DirtyRect.Width), -(context.DirtyRect.Top + Anchor.Y * context.DirtyRect.Height));
+
                 }
 
                 if (Rotation != 0.0f)
@@ -103,14 +98,8 @@ namespace MauiReactor.Canvas.Internals
                         context.Canvas.SaveState();
                     }
 
-                    context.Canvas.Rotate(Rotation);
+                    context.Canvas.Rotate(Rotation, context.DirtyRect.Left + Anchor.X * context.DirtyRect.Width, context.DirtyRect.Top + Anchor.Y * context.DirtyRect.Height);
                 }
-
-                if (Anchor != Vector2.Zero)
-                {
-                    context.Canvas.Translate(-Anchor.X, -Anchor.Y);
-                }
-
 
                 OnDraw(context);
             }
@@ -118,7 +107,7 @@ namespace MauiReactor.Canvas.Internals
             {
                 if (restoreState)
                 {
-                    context.Canvas.ResetState();
+                    context.Canvas.RestoreState();
                 }
             }
 

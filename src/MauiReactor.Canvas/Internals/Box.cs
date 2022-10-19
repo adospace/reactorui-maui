@@ -24,6 +24,14 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(BackgroundColorProperty, value);
         }
 
+        public static readonly BindableProperty BackgroundProperty = BindableProperty.Create(nameof(Background), typeof(Paint), typeof(Box), null);
+
+        public Paint? Background
+        {
+            get => (Paint?)GetValue(BackgroundProperty);
+            set => SetValue(BackgroundProperty, value);        
+        }        
+
         public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(nameof(BorderColor), typeof(Color), typeof(Box), null);
 
         public Color? BorderColor
@@ -57,6 +65,7 @@ namespace MauiReactor.Canvas.Internals
             var dirtyRect = context.DirtyRect;
 
             var fillColor = BackgroundColor;
+            var fillPaint = Background;
             var strokeColor = BorderColor;
             var cornerRadius = CornerRadius;
             var borderSize = BorderSize;
@@ -77,10 +86,17 @@ namespace MauiReactor.Canvas.Internals
 
             if (!cornerRadius.IsZero)
             {
-                if (fillColor != null)
+                if (fillColor != null || fillPaint != null)
                 {
-                    canvas.FillColor = fillColor; 
-                    
+                    if (fillPaint!= null)
+                    {
+                        canvas.SetFillPaint(fillPaint, dirtyRect);
+                    }
+                    else
+                    {
+                        canvas.FillColor = fillColor;
+                    }
+
                     if (cornerRadius.UniformSize())
                     {
                         canvas.FillRoundedRectangle(dirtyRect, cornerRadius.TopLeft);
@@ -109,7 +125,12 @@ namespace MauiReactor.Canvas.Internals
             }
             else
             {
-                if (fillColor != null)
+                if (fillPaint != null)
+                {
+                    canvas.SetFillPaint(fillPaint, dirtyRect);
+                    canvas.FillRectangle(dirtyRect);
+                }
+                else if (fillColor != null)
                 {
                     canvas.FillColor = fillColor;
                     canvas.FillRectangle(dirtyRect);

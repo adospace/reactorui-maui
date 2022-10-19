@@ -165,6 +165,7 @@ namespace MauiReactor.Canvas.Internals
         public void RequestInvalidate()
         {
             Invalidate();
+            
         }
     }
 }

@@ -47,6 +47,18 @@ namespace MauiReactor.Canvas
 
             base.OnUpdate();
         }
+
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIBorder = (IEllipse)this;
+
+            SetPropertyValue(NativeControl, Internals.Ellipse.FillColorProperty, thisAsIBorder.FillColor);
+            SetPropertyValue(NativeControl, Internals.Ellipse.StrokeColorProperty, thisAsIBorder.StrokeColor);
+            SetPropertyValue(NativeControl, Internals.Ellipse.StrokeSizeProperty, thisAsIBorder.StrokeSize);
+
+            base.OnAnimate();
+        }
     }
 
     public partial class Ellipse : Ellipse<Internals.Ellipse>

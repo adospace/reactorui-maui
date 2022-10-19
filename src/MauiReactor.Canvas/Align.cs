@@ -48,6 +48,17 @@ namespace MauiReactor.Canvas
 
             base.OnUpdate();
         }
+
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIAlign = (IAlign)this;
+
+            SetPropertyValue(NativeControl, Internals.Align.WidthProperty, thisAsIAlign.Width);
+            SetPropertyValue(NativeControl, Internals.Align.HeightProperty, thisAsIAlign.Height);
+
+            base.OnAnimate();
+        }
     }
 
     public partial class Align : Align<Internals.Align>

@@ -203,23 +203,9 @@ namespace MauiReactor
 
         internal virtual bool Animate()
         {
-            //if (!IsAnimationFrameRequested)
-            //    return false;
-
             var animated = AnimateThis();
 
             OnAnimate();
-
-            //foreach (var child in Children)
-            //{
-            //    if (child.Animate())
-            //        animated = true;
-            //}
-
-            //if (!animated)
-            //{
-            //    IsAnimationFrameRequested = false;
-            //}
 
             return animated;
         }
@@ -348,8 +334,7 @@ namespace MauiReactor
 
         IHostElement? IVisualNode.GetPageHost()
         {
-            var parentVisualNode = Parent as IVisualNode;
-            if (parentVisualNode != null)
+            if (Parent is IVisualNode parentVisualNode)
             {
                 return parentVisualNode.GetPageHost();
             }
@@ -375,15 +360,13 @@ namespace MauiReactor
                 {
                     throw new InvalidOperationException();
                 }
-                //RequestAnimationFrame();
             }
         }
 
         protected virtual T? GetParent<T>() where T : VisualNode
         {
             var parent = Parent;
-            //while (parent != null && parent is not T)
-            //    parent = parent.Parent;
+
             if (parent is T)
                 return (T?)parent;
 
@@ -391,16 +374,7 @@ namespace MauiReactor
                 return null;
 
             return parent.GetParent<T>();
-            //return (T?)parent;
         }
-
-        //internal virtual Microsoft.Maui.Controls.Page? ContainerPage
-        //{ 
-        //    get
-        //    {
-        //        return null;
-        //    }
-        //}
 
         protected void Invalidate()
         {
@@ -479,12 +453,6 @@ namespace MauiReactor
 
             return animated;
         }
-
-        //private void RequestAnimationFrame()
-        //{
-        //    IsAnimationFrameRequested = true;
-        //    Parent?.RequestAnimationFrame();
-        //}
 
         private void RequireLayoutCycle()
         {

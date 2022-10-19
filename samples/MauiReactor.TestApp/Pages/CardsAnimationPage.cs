@@ -79,7 +79,7 @@ namespace MauiReactor.TestApp.Pages
         {
             var brush = new Microsoft.Maui.Controls.LinearGradientBrush();
             brush.GradientStops.Add(new Microsoft.Maui.Controls.GradientStop(Color.FromArgb(fromTo.From), 0.0f));
-            brush.GradientStops.Add(new Microsoft.Maui.Controls.GradientStop(Color.FromArgb(fromTo.To), 0.0f));
+            brush.GradientStops.Add(new Microsoft.Maui.Controls.GradientStop(Color.FromArgb(fromTo.To), 1.0f));
             return brush;
         }
 
@@ -111,8 +111,11 @@ namespace MauiReactor.TestApp.Pages
             {
                 new Timer(300, ()=>
                 {
-                    State.MovingBack = false;
-                    _onMovedBackAction?.Invoke(_cardIndex);
+                    if (State.MovingBack)
+                    {
+                        State.MovingBack = false;
+                        _onMovedBackAction?.Invoke(_cardIndex);
+                    }
                 })
                 .IsEnabled(State.MovingBack)
             }

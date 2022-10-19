@@ -241,7 +241,10 @@ namespace MauiReactor.Internals
 
         private void OnTick(object? state)
         {
-            Dispatcher.Dispatch(() => Tick?.Invoke(this, EventArgs.Empty));
+            if (IsEnabled)
+            {
+                Dispatcher.Dispatch(() => Tick?.Invoke(this, EventArgs.Empty));
+            }
         }
     }
 }

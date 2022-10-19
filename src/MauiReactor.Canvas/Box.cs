@@ -17,6 +17,7 @@ namespace MauiReactor.Canvas
     public partial interface IBox : ICanvasVisualElement
     {
         PropertyValue<Color?>? BackgroundColor { get; set; }
+        PropertyValue<Paint?>? Background { get; set; }
         PropertyValue<Color?>? BorderColor { get; set; }
         PropertyValue<CornerRadiusF>? CornerRadius { get; set; }
         PropertyValue<float>? BorderSize { get; set; }
@@ -37,6 +38,7 @@ namespace MauiReactor.Canvas
         }
 
         PropertyValue<Color?>? IBox.BackgroundColor { get; set; }
+        PropertyValue<Paint?>? IBox.Background { get; set; }
         PropertyValue<Color?>? IBox.BorderColor { get; set; }
         PropertyValue<CornerRadiusF>? IBox.CornerRadius { get; set; }
         PropertyValue<float>? IBox.BorderSize { get; set; }
@@ -48,12 +50,27 @@ namespace MauiReactor.Canvas
             var thisAsIBorder = (IBox)this;
 
             SetPropertyValue(NativeControl, Internals.Box.BackgroundColorProperty, thisAsIBorder.BackgroundColor);
+            SetPropertyValue(NativeControl, Internals.Box.BackgroundProperty, thisAsIBorder.Background);
             SetPropertyValue(NativeControl, Internals.Box.BorderColorProperty, thisAsIBorder.BorderColor);
             SetPropertyValue(NativeControl, Internals.Box.CornerRadiusProperty, thisAsIBorder.CornerRadius);
             SetPropertyValue(NativeControl, Internals.Box.BorderSizeProperty, thisAsIBorder.BorderSize);
             SetPropertyValue(NativeControl, Internals.Box.PaddingProperty, thisAsIBorder.Padding);
 
             base.OnUpdate();
+        }
+
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIBorder = (IBox)this;
+
+            SetPropertyValue(NativeControl, Internals.Box.BackgroundColorProperty, thisAsIBorder.BackgroundColor);
+            SetPropertyValue(NativeControl, Internals.Box.BorderColorProperty, thisAsIBorder.BorderColor);
+            SetPropertyValue(NativeControl, Internals.Box.CornerRadiusProperty, thisAsIBorder.CornerRadius);
+            SetPropertyValue(NativeControl, Internals.Box.BorderSizeProperty, thisAsIBorder.BorderSize);
+            SetPropertyValue(NativeControl, Internals.Box.PaddingProperty, thisAsIBorder.Padding);
+
+            base.OnAnimate();
         }
     }
 
@@ -86,6 +103,18 @@ namespace MauiReactor.Canvas
         public static T BackgroundColor<T>(this T node, Func<Color?> valueFunc) where T : IBox
         {
             node.BackgroundColor = new PropertyValue<Color?>(valueFunc);
+            return node;
+        }
+
+        public static T Background<T>(this T node, Paint? value, RxColorAnimation? customAnimation = null) where T : IBox
+        {
+            node.Background = new PropertyValue<Paint?>(value);
+            return node;
+        }
+
+        public static T Background<T>(this T node, Func<Paint?> valueFunc) where T : IBox
+        {
+            node.Background = new PropertyValue<Paint?>(valueFunc);
             return node;
         }
 

@@ -27,6 +27,7 @@ namespace MauiReactor.Canvas.Internals
 
         protected override void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
+            //System.Diagnostics.Debug.WriteLine($"OnPropertyChanged(propertyName={propertyName})");
             RequestInvalidate();
             base.OnPropertyChanged(propertyName);
         }
@@ -84,6 +85,7 @@ namespace MauiReactor.Canvas.Internals
         {
             if (!_invalidateRequested)
             {
+                _invalidateRequested = true;
                 Parent?.RequestInvalidate();
             }
         }

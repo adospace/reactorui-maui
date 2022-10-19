@@ -42,7 +42,7 @@ namespace MauiReactor.Canvas.Internals
 
             Child?.Draw(context);
 
-            context.DragInteractionHandlers.Add(this);
+            context.DragInteractionHandlers.Insert(0, this);
 
             base.OnDraw(context);
         }

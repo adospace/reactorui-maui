@@ -5,14 +5,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MauiReactor.TestApp.Pages
+namespace MauiReactor.TestApp.Pages;
+
+class CanvasPageState : IState
 {
-    class CanvasPage : Component
+    public float Degrees { get; set; }
+
+    public float ScaleX { get; set; } = 1.0f;
+
+    public float ScaleY { get; set; } = 1.0f;
+}
+
+class CanvasPage : Component<CanvasPageState>
+{
+    public override VisualNode Render()
     {
-        public override VisualNode Render()
+        return new ContentPage("Canvas Test Page")
         {
-            return new ContentPage("Canvas Test Page")
+            new Grid("Auto,Auto,Auto,*", "*")
             {
+                new Slider()
+                    .Minimum(0)
+                    .Maximum(360)
+                    .Value(State.Degrees)
+                    .OnValueChanged((s, args)=>SetState(s => s.Degrees = (float)args.NewValue)),
+
+                new Slider()
+                    .Minimum(0.5)
+                    .Maximum(2.0)
+                    .Value(State.ScaleX)
+                    .OnValueChanged((s, args)=>SetState(s => s.ScaleX = (float)args.NewValue))
+                    .GridRow(1),
+
+                new Slider()
+                    .Minimum(0.5)
+                    .Maximum(2.0)
+                    .Value(State.ScaleY)
+                    .OnValueChanged((s, args)=>SetState(s => s.ScaleY = (float)args.NewValue))
+                    .GridRow(2),
+
                 new CanvasView
                 {
                     new Row
@@ -42,6 +73,9 @@ namespace MauiReactor.TestApp.Pages
                                 .Margin(10)
                                 .BackgroundColor(Colors.Red)
                                 .CornerRadius(10)
+                                .Anchor(0.5f, 0.5f)
+                                .Rotate(State.Degrees)
+                                .Scale(State.ScaleX, State.ScaleY)
                             }
                             .OnTap(OnClicked)
                         }
@@ -50,17 +84,18 @@ namespace MauiReactor.TestApp.Pages
                     }
                     .Columns("100, *")
                 }
-            };
-        }
-
-        private async void OnClicked()
-        {
-            if (ContainerPage == null)
-            {
-                return;
+                .GridRow(3)
             }
+        };
+    }
 
-            await ContainerPage.DisplayAlert("Test Message", "Tap event", "OK");
+    private async void OnClicked()
+    {
+        if (ContainerPage == null)
+        {
+            return;
         }
+
+        await ContainerPage.DisplayAlert("Test Message", "Tap event", "OK");
     }
 }

@@ -49,6 +49,18 @@ namespace MauiReactor.Canvas
 
             base.OnUpdate();
         }
+
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIBorder = (IDropShadow)this;
+
+            SetPropertyValue(NativeControl, Internals.DropShadow.ColorProperty, thisAsIBorder.Color);
+            SetPropertyValue(NativeControl, Internals.DropShadow.SizeProperty, thisAsIBorder.Size);
+            SetPropertyValue(NativeControl, Internals.DropShadow.BlurProperty, thisAsIBorder.Blur);
+
+            base.OnAnimate();
+        }
     }
 
     public partial class DropShadow : DropShadow<Internals.DropShadow>

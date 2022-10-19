@@ -43,6 +43,16 @@ namespace MauiReactor.Canvas
 
             base.OnUpdate();
         }
+
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIBorder = (IClipRectangle)this;
+
+            SetPropertyValue(NativeControl, Internals.ClipRectangle.CornerRadiusProperty, thisAsIBorder.CornerRadius);
+
+            base.OnAnimate();
+        }
     }
 
     public partial class ClipRectangle : ClipRectangle<Internals.ClipRectangle>

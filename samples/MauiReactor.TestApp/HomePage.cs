@@ -34,6 +34,10 @@ namespace MauiReactor.TestApp
                 {
                     new Pages.CardsAnimationPage()
                 },
+                new FlyoutItem("CanvasCardsAnimationPage")
+                {
+                    new Pages.CanvasCardsAnimationPage()
+                },
                 new FlyoutItem("Image")
                 {
                     new Pages.ImagePage()
