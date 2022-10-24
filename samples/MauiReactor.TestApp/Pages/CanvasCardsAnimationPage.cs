@@ -22,9 +22,9 @@ class CanvasCardsAnimationPage : Component<CanvasAnimationPageState>
             new CanvasView
             {
                 State.Cards
-                    .OrderBy(card => card.Position)
                     .Select(card => new CanvasCardPage()
                         .Index(card.Index)
+                        .Position(card.Position)
                         .OnMovedBack(cardIndex =>
                         {
                             foreach (var card in State.Cards)
@@ -76,11 +76,18 @@ class CanvasCardPage : Component<CanvasCardState>
     }
 
     private int _cardIndex;
+    private int _zIndex;
     private Action<int>? _onMovedBackAction;
 
     public CanvasCardPage Index(int cardIndex)
     {
         _cardIndex = cardIndex;
+        return this;
+    }
+
+    public CanvasCardPage Position(int zIndex)
+    {
+        _zIndex = zIndex;
         return this;
     }
 
@@ -98,7 +105,7 @@ class CanvasCardPage : Component<CanvasCardState>
             {
                 new Box()
                 {
-                    new Timer(300, ()=>
+                    new Timer(100, ()=>
                     {
                         if (State.MovingBack)
                         {
@@ -113,8 +120,9 @@ class CanvasCardPage : Component<CanvasCardState>
                 .WithAnimation()
                 .Anchor(0.5f, 0.5f)
                 .Background(_cardBackgrounds[_cardIndex])
-                .CornerRadius(5)
+                .CornerRadius(5)            
             }
+            .IsEnabled(!State.MovingBack)
             .OnTap(() =>
             {
                 SetState(s =>
@@ -126,6 +134,7 @@ class CanvasCardPage : Component<CanvasCardState>
         }
         .Width(300)
         .Height(200)
+        .ZIndex(_zIndex)
         .VEnd()
         .HCenter()
         .Margin(0, 40);

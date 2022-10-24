@@ -14,6 +14,7 @@ namespace MauiReactor.Canvas
     public partial interface ICanvasNode : IVisualNode
     {
         PropertyValue<bool>? IsVisible { get; set; }
+        PropertyValue<int>? ZIndex { get; set; }
     }
 
     public partial class CanvasNode<T> : VisualNode<T>, ICanvasNode, IEnumerable where T : Internals.CanvasNode, new()
@@ -88,13 +89,15 @@ namespace MauiReactor.Canvas
         }
 
         PropertyValue<bool>? ICanvasNode.IsVisible { get; set; }
+        PropertyValue<int>? ICanvasNode.ZIndex { get; set; }
 
         protected override void OnUpdate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsICanvasNode = (ICanvasNode)this;
 
-            SetPropertyValue(NativeControl, Internals.CanvasVisualElement.IsVisibleProperty, thisAsICanvasNode.IsVisible);
+            SetPropertyValue(NativeControl, Internals.CanvasNode.IsVisibleProperty, thisAsICanvasNode.IsVisible); 
+            SetPropertyValue(NativeControl, Internals.CanvasNode.ZIndexProperty, thisAsICanvasNode.ZIndex); 
 
             base.OnUpdate();
         }
@@ -130,6 +133,16 @@ namespace MauiReactor.Canvas
             return node;
         }
 
+        public static T ZIndex<T>(this T node, int value) where T : ICanvasNode
+        {
+            node.ZIndex = new PropertyValue<int>(value);
+            return node;
+        }
 
+        public static T ZIndex<T>(this T node, Func<int> valueFunc) where T : ICanvasNode
+        {
+            node.ZIndex = new PropertyValue<int>(valueFunc);
+            return node;
+        }
     }
 }

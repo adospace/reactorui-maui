@@ -68,18 +68,26 @@ namespace MauiReactor.Canvas.Internals
             var dirtyRect = context.DirtyRect;
             var y = dirtyRect.Y;
             var oldRect = context.DirtyRect;
+
+            var listOfChildren = new List<(CanvasNode Child, RectF TargetRect)>();
+
             for (int i = 0; i < Children.Count; i++)
             {
-                context.DirtyRect = new RectF(
+                listOfChildren.Add((Children[i], new RectF(
                     dirtyRect.Left,
                     y,
                     dirtyRect.Width,
                     rowHeights[i]
-                    );
-
-                Children[i].Draw(context);
+                    )));
 
                 y += rowHeights[i];
+            }
+
+            foreach (var (Child, TargetRect) in listOfChildren.OrderBy(_ => _.Child.ZIndex))
+            {
+                context.DirtyRect = TargetRect;
+
+                Child.Draw(context);
             }
 
             context.DirtyRect = oldRect;

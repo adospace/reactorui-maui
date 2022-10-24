@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui.Graphics;
+﻿using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,13 @@ namespace MauiReactor.Canvas.Internals
         public event EventHandler? Tap;
         public CanvasNode? Child => Children.Count > 0 ? Children[0] : null;
 
+        public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create(nameof(IsEnabled), typeof(bool), typeof(PointIterationHandler), true);
+        public bool IsEnabled
+        {
+            get => (bool)GetValue(IsEnabledProperty);
+            set => SetValue(IsEnabledProperty, value);
+        }
+
         public void CancelDrag()
         {
         }
@@ -24,7 +32,12 @@ namespace MauiReactor.Canvas.Internals
 
         public bool HitTest(PointF[] touchPoints)
         {
-            return touchPoints.Any(_ => _hitRect.Contains(_));
+            if (IsEnabled)
+            {
+                return touchPoints.Any(_ => _hitRect.Contains(_));
+            }
+
+            return false;
         }
 
         public void StartDrag(PointF[] touchPoints)

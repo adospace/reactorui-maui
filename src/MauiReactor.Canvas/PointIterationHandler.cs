@@ -14,6 +14,7 @@ namespace MauiReactor.Canvas
 {
     public partial interface IPointIterationHandler : ICanvasNode
     {
+        PropertyValue<bool>? IsEnabled { get; set; }
         Action? TapAction { get; set; }
     }
 
@@ -67,6 +68,18 @@ namespace MauiReactor.Canvas
 
             base.OnDetachNativeEvents();
         }
+
+        PropertyValue<bool>? IPointIterationHandler.IsEnabled { get; set; }
+
+        protected override void OnUpdate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIPointIterationHandler = (IPointIterationHandler)this;
+
+            SetPropertyValue(NativeControl, Internals.PointIterationHandler.IsEnabledProperty, thisAsIPointIterationHandler.IsEnabled);
+
+            base.OnUpdate();
+        }
     }
 
     public partial class PointIterationHandler : PointIterationHandler<Internals.PointIterationHandler>
@@ -85,11 +98,25 @@ namespace MauiReactor.Canvas
 
     public static partial class PointIterationHandlerExtensions
     {
+
+        public static T IsEnabled<T>(this T node, bool value) where T : IPointIterationHandler
+        {
+            node.IsEnabled = new PropertyValue<bool>(value);
+            return node;
+        }
+
+        public static T IsEnabled<T>(this T node, Func<bool> valueFunc) where T : IPointIterationHandler
+        {
+            node.IsEnabled = new PropertyValue<bool>(valueFunc);
+            return node;
+        }       
+        
         public static T OnTap<T>(this T node, Action? action) where T : IPointIterationHandler
         {
             node.TapAction = action;
             return node;
         }
+
     }
 
 }

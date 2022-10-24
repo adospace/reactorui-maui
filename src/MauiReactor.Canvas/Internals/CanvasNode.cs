@@ -19,6 +19,13 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(IsVisibleProperty, value);
         }
 
+        public static readonly BindableProperty ZIndexProperty = BindableProperty.Create(nameof(ZIndex), typeof(int), typeof(CanvasNode), 0);
+        public int ZIndex
+        {
+            get => (int)GetValue(ZIndexProperty);
+            set => SetValue(ZIndexProperty, value);
+        }
+
         public IReadOnlyList<CanvasNode> Children => _children;
 
         public ICanvasNodeParent? Parent { get; internal set; }

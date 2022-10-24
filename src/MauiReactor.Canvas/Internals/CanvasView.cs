@@ -153,7 +153,7 @@ namespace MauiReactor.Canvas.Internals
         private void OnDraw(ICanvas canvas, RectF dirtyRect)
         {
             var context = new DrawingContext(canvas, dirtyRect);
-            foreach (var child in Children)
+            foreach (var child in Children.OrderBy(_ => _.ZIndex))
             {
                 child.Draw(context);
             }
@@ -164,8 +164,7 @@ namespace MauiReactor.Canvas.Internals
 
         public void RequestInvalidate()
         {
-            Invalidate();
-            
+            Invalidate();            
         }
     }
 }
