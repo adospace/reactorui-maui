@@ -4,20 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-
 using MauiReactor.Animations;
 using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-
 namespace MauiReactor
 {
-
     public partial interface ISwipeView : IContentView
-
     {
-
         PropertyValue<double>? Threshold { get; set; }
 
         PropertyValue<Microsoft.Maui.Controls.SwipeItems>? LeftItems { get; set; }
@@ -28,35 +23,28 @@ namespace MauiReactor
 
         PropertyValue<Microsoft.Maui.Controls.SwipeItems>? BottomItems { get; set; }
 
-
-
         Action? SwipeStartedAction { get; set; }
+
         Action<object?, SwipeStartedEventArgs>? SwipeStartedActionWithArgs { get; set; }
 
         Action? SwipeChangingAction { get; set; }
+
         Action<object?, SwipeChangingEventArgs>? SwipeChangingActionWithArgs { get; set; }
 
         Action? SwipeEndedAction { get; set; }
+
         Action<object?, SwipeEndedEventArgs>? SwipeEndedActionWithArgs { get; set; }
-
-
     }
-
 
     public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microsoft.Maui.Controls.SwipeView, new()
     {
         public SwipeView()
         {
-
         }
 
-        public SwipeView(Action<T?> componentRefAction)
-            : base(componentRefAction)
+        public SwipeView(Action<T?> componentRefAction) : base(componentRefAction)
         {
-
         }
-
-
 
         PropertyValue<double>? ISwipeView.Threshold { get; set; }
 
@@ -68,84 +56,48 @@ namespace MauiReactor
 
         PropertyValue<Microsoft.Maui.Controls.SwipeItems>? ISwipeView.BottomItems { get; set; }
 
-
-
         Action? ISwipeView.SwipeStartedAction { get; set; }
+
         Action<object?, SwipeStartedEventArgs>? ISwipeView.SwipeStartedActionWithArgs { get; set; }
 
         Action? ISwipeView.SwipeChangingAction { get; set; }
+
         Action<object?, SwipeChangingEventArgs>? ISwipeView.SwipeChangingActionWithArgs { get; set; }
 
         Action? ISwipeView.SwipeEndedAction { get; set; }
-        Action<object?, SwipeEndedEventArgs>? ISwipeView.SwipeEndedActionWithArgs { get; set; }
 
+        Action<object?, SwipeEndedEventArgs>? ISwipeView.SwipeEndedActionWithArgs { get; set; }
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
-
-
             Validate.EnsureNotNull(NativeControl);
             var thisAsISwipeView = (ISwipeView)this;
-
-
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeView.ThresholdProperty, thisAsISwipeView.Threshold);
-
-
-
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeView.LeftItemsProperty, thisAsISwipeView.LeftItems);
-
-
-
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeView.RightItemsProperty, thisAsISwipeView.RightItems);
-
-
-
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeView.TopItemsProperty, thisAsISwipeView.TopItems);
-
-
-
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeView.BottomItemsProperty, thisAsISwipeView.BottomItems);
-
-
-
-
-
             base.OnUpdate();
-
             OnEndUpdate();
         }
-
 
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsISwipeView = (ISwipeView)this;
-
-
-
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeView.ThresholdProperty, thisAsISwipeView.Threshold);
-
-
-
             base.OnAnimate();
         }
 
-
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
-
-
-
         partial void OnAttachingNativeEvents();
         partial void OnDetachingNativeEvents();
-
         protected override void OnAttachNativeEvents()
         {
             Validate.EnsureNotNull(NativeControl);
-
             var thisAsISwipeView = (ISwipeView)this;
-
             if (thisAsISwipeView.SwipeStartedAction != null || thisAsISwipeView.SwipeStartedActionWithArgs != null)
             {
                 NativeControl.SwipeStarted += NativeControl_SwipeStarted;
@@ -161,12 +113,9 @@ namespace MauiReactor
                 NativeControl.SwipeEnded += NativeControl_SwipeEnded;
             }
 
-
             OnAttachingNativeEvents();
-
             base.OnAttachNativeEvents();
         }
-
 
         private void NativeControl_SwipeStarted(object? sender, SwipeStartedEventArgs e)
         {
@@ -189,190 +138,144 @@ namespace MauiReactor
             thisAsISwipeView.SwipeEndedActionWithArgs?.Invoke(sender, e);
         }
 
-
         protected override void OnDetachNativeEvents()
         {
             if (NativeControl != null)
             {
-
                 NativeControl.SwipeStarted -= NativeControl_SwipeStarted;
-
                 NativeControl.SwipeChanging -= NativeControl_SwipeChanging;
-
                 NativeControl.SwipeEnded -= NativeControl_SwipeEnded;
-
             }
 
             OnDetachingNativeEvents();
-
             base.OnDetachNativeEvents();
         }
-
-
     }
-
 
     public partial class SwipeView : SwipeView<Microsoft.Maui.Controls.SwipeView>
     {
         public SwipeView()
         {
-
         }
 
-        public SwipeView(Action<Microsoft.Maui.Controls.SwipeView?> componentRefAction)
-            : base(componentRefAction)
+        public SwipeView(Action<Microsoft.Maui.Controls.SwipeView?> componentRefAction) : base(componentRefAction)
         {
-
         }
     }
 
-
     public static partial class SwipeViewExtensions
     {
-
-
-        public static T Threshold<T>(this T swipeView, double threshold, RxDoubleAnimation? customAnimation = null) where T : ISwipeView
+        public static T Threshold<T>(this T swipeView, double threshold, RxDoubleAnimation? customAnimation = null)
+            where T : ISwipeView
         {
             swipeView.Threshold = new PropertyValue<double>(threshold);
             swipeView.AppendAnimatable(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, customAnimation ?? new RxDoubleAnimation(threshold), v => swipeView.Threshold = new PropertyValue<double>(v.CurrentValue()));
             return swipeView;
         }
 
-
-        public static T Threshold<T>(this T swipeView, Func<double> thresholdFunc) where T : ISwipeView
+        public static T Threshold<T>(this T swipeView, Func<double> thresholdFunc)
+            where T : ISwipeView
         {
             swipeView.Threshold = new PropertyValue<double>(thresholdFunc);
             return swipeView;
         }
 
-
-
-
-
-
-
-
-
-        public static T LeftItems<T>(this T swipeView, Microsoft.Maui.Controls.SwipeItems leftItems) where T : ISwipeView
+        public static T LeftItems<T>(this T swipeView, Microsoft.Maui.Controls.SwipeItems leftItems)
+            where T : ISwipeView
         {
             swipeView.LeftItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(leftItems);
             return swipeView;
         }
 
-
-        public static T LeftItems<T>(this T swipeView, Func<Microsoft.Maui.Controls.SwipeItems> leftItemsFunc) where T : ISwipeView
+        public static T LeftItems<T>(this T swipeView, Func<Microsoft.Maui.Controls.SwipeItems> leftItemsFunc)
+            where T : ISwipeView
         {
             swipeView.LeftItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(leftItemsFunc);
             return swipeView;
         }
 
-
-
-
-
-
-
-
-
-        public static T RightItems<T>(this T swipeView, Microsoft.Maui.Controls.SwipeItems rightItems) where T : ISwipeView
+        public static T RightItems<T>(this T swipeView, Microsoft.Maui.Controls.SwipeItems rightItems)
+            where T : ISwipeView
         {
             swipeView.RightItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(rightItems);
             return swipeView;
         }
 
-
-        public static T RightItems<T>(this T swipeView, Func<Microsoft.Maui.Controls.SwipeItems> rightItemsFunc) where T : ISwipeView
+        public static T RightItems<T>(this T swipeView, Func<Microsoft.Maui.Controls.SwipeItems> rightItemsFunc)
+            where T : ISwipeView
         {
             swipeView.RightItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(rightItemsFunc);
             return swipeView;
         }
 
-
-
-
-
-
-
-
-
-        public static T TopItems<T>(this T swipeView, Microsoft.Maui.Controls.SwipeItems topItems) where T : ISwipeView
+        public static T TopItems<T>(this T swipeView, Microsoft.Maui.Controls.SwipeItems topItems)
+            where T : ISwipeView
         {
             swipeView.TopItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(topItems);
             return swipeView;
         }
 
-
-        public static T TopItems<T>(this T swipeView, Func<Microsoft.Maui.Controls.SwipeItems> topItemsFunc) where T : ISwipeView
+        public static T TopItems<T>(this T swipeView, Func<Microsoft.Maui.Controls.SwipeItems> topItemsFunc)
+            where T : ISwipeView
         {
             swipeView.TopItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(topItemsFunc);
             return swipeView;
         }
 
-
-
-
-
-
-
-
-
-        public static T BottomItems<T>(this T swipeView, Microsoft.Maui.Controls.SwipeItems bottomItems) where T : ISwipeView
+        public static T BottomItems<T>(this T swipeView, Microsoft.Maui.Controls.SwipeItems bottomItems)
+            where T : ISwipeView
         {
             swipeView.BottomItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(bottomItems);
             return swipeView;
         }
 
-
-        public static T BottomItems<T>(this T swipeView, Func<Microsoft.Maui.Controls.SwipeItems> bottomItemsFunc) where T : ISwipeView
+        public static T BottomItems<T>(this T swipeView, Func<Microsoft.Maui.Controls.SwipeItems> bottomItemsFunc)
+            where T : ISwipeView
         {
             swipeView.BottomItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(bottomItemsFunc);
             return swipeView;
         }
 
-
-
-
-
-
-
-
-
-
-        public static T OnSwipeStarted<T>(this T swipeView, Action? swipeStartedAction) where T : ISwipeView
+        public static T OnSwipeStarted<T>(this T swipeView, Action? swipeStartedAction)
+            where T : ISwipeView
         {
             swipeView.SwipeStartedAction = swipeStartedAction;
             return swipeView;
         }
 
-        public static T OnSwipeStarted<T>(this T swipeView, Action<object?, SwipeStartedEventArgs>? swipeStartedActionWithArgs) where T : ISwipeView
+        public static T OnSwipeStarted<T>(this T swipeView, Action<object?, SwipeStartedEventArgs>? swipeStartedActionWithArgs)
+            where T : ISwipeView
         {
             swipeView.SwipeStartedActionWithArgs = swipeStartedActionWithArgs;
             return swipeView;
         }
 
-        public static T OnSwipeChanging<T>(this T swipeView, Action? swipeChangingAction) where T : ISwipeView
+        public static T OnSwipeChanging<T>(this T swipeView, Action? swipeChangingAction)
+            where T : ISwipeView
         {
             swipeView.SwipeChangingAction = swipeChangingAction;
             return swipeView;
         }
 
-        public static T OnSwipeChanging<T>(this T swipeView, Action<object?, SwipeChangingEventArgs>? swipeChangingActionWithArgs) where T : ISwipeView
+        public static T OnSwipeChanging<T>(this T swipeView, Action<object?, SwipeChangingEventArgs>? swipeChangingActionWithArgs)
+            where T : ISwipeView
         {
             swipeView.SwipeChangingActionWithArgs = swipeChangingActionWithArgs;
             return swipeView;
         }
 
-        public static T OnSwipeEnded<T>(this T swipeView, Action? swipeEndedAction) where T : ISwipeView
+        public static T OnSwipeEnded<T>(this T swipeView, Action? swipeEndedAction)
+            where T : ISwipeView
         {
             swipeView.SwipeEndedAction = swipeEndedAction;
             return swipeView;
         }
 
-        public static T OnSwipeEnded<T>(this T swipeView, Action<object?, SwipeEndedEventArgs>? swipeEndedActionWithArgs) where T : ISwipeView
+        public static T OnSwipeEnded<T>(this T swipeView, Action<object?, SwipeEndedEventArgs>? swipeEndedActionWithArgs)
+            where T : ISwipeView
         {
             swipeView.SwipeEndedActionWithArgs = swipeEndedActionWithArgs;
             return swipeView;
         }
-
     }
 }

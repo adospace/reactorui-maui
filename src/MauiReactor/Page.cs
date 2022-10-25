@@ -4,20 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-
 using MauiReactor.Animations;
 using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-
 namespace MauiReactor
 {
-
     public partial interface IPage : IVisualElement
-
     {
-
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? BackgroundImageSource { get; set; }
 
         PropertyValue<bool>? IsBusy { get; set; }
@@ -28,44 +23,40 @@ namespace MauiReactor
 
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IconImageSource { get; set; }
 
-
-
         Action? NavigatedToAction { get; set; }
+
         Action<object?, NavigatedToEventArgs>? NavigatedToActionWithArgs { get; set; }
 
         Action? NavigatingFromAction { get; set; }
+
         Action<object?, NavigatingFromEventArgs>? NavigatingFromActionWithArgs { get; set; }
 
         Action? NavigatedFromAction { get; set; }
+
         Action<object?, NavigatedFromEventArgs>? NavigatedFromActionWithArgs { get; set; }
 
         Action? LayoutChangedAction { get; set; }
+
         Action<object?, EventArgs>? LayoutChangedActionWithArgs { get; set; }
 
         Action? AppearingAction { get; set; }
+
         Action<object?, EventArgs>? AppearingActionWithArgs { get; set; }
 
         Action? DisappearingAction { get; set; }
+
         Action<object?, EventArgs>? DisappearingActionWithArgs { get; set; }
-
-
     }
-
 
     public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.Controls.Page, new()
     {
         public Page()
         {
-
         }
 
-        public Page(Action<T?> componentRefAction)
-            : base(componentRefAction)
+        public Page(Action<T?> componentRefAction) : base(componentRefAction)
         {
-
         }
-
-
 
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IPage.BackgroundImageSource { get; set; }
 
@@ -77,93 +68,60 @@ namespace MauiReactor
 
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IPage.IconImageSource { get; set; }
 
-
-
         Action? IPage.NavigatedToAction { get; set; }
+
         Action<object?, NavigatedToEventArgs>? IPage.NavigatedToActionWithArgs { get; set; }
 
         Action? IPage.NavigatingFromAction { get; set; }
+
         Action<object?, NavigatingFromEventArgs>? IPage.NavigatingFromActionWithArgs { get; set; }
 
         Action? IPage.NavigatedFromAction { get; set; }
+
         Action<object?, NavigatedFromEventArgs>? IPage.NavigatedFromActionWithArgs { get; set; }
 
         Action? IPage.LayoutChangedAction { get; set; }
+
         Action<object?, EventArgs>? IPage.LayoutChangedActionWithArgs { get; set; }
 
         Action? IPage.AppearingAction { get; set; }
+
         Action<object?, EventArgs>? IPage.AppearingActionWithArgs { get; set; }
 
         Action? IPage.DisappearingAction { get; set; }
-        Action<object?, EventArgs>? IPage.DisappearingActionWithArgs { get; set; }
 
+        Action<object?, EventArgs>? IPage.DisappearingActionWithArgs { get; set; }
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
-
-
             Validate.EnsureNotNull(NativeControl);
             var thisAsIPage = (IPage)this;
-
-
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.BackgroundImageSourceProperty, thisAsIPage.BackgroundImageSource);
-
-
-
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.IsBusyProperty, thisAsIPage.IsBusy);
-
-
-
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.PaddingProperty, thisAsIPage.Padding);
-
-
-
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.TitleProperty, thisAsIPage.Title);
-
-
-
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.IconImageSourceProperty, thisAsIPage.IconImageSource);
-
-
-
-
-
             base.OnUpdate();
-
             OnEndUpdate();
         }
-
 
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIPage = (IPage)this;
-
-
-
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Page.PaddingProperty, thisAsIPage.Padding);
-
-
-
             base.OnAnimate();
         }
 
-
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
-
-
-
         partial void OnAttachingNativeEvents();
         partial void OnDetachingNativeEvents();
-
         protected override void OnAttachNativeEvents()
         {
             Validate.EnsureNotNull(NativeControl);
-
             var thisAsIPage = (IPage)this;
-
             if (thisAsIPage.NavigatedToAction != null || thisAsIPage.NavigatedToActionWithArgs != null)
             {
                 NativeControl.NavigatedTo += NativeControl_NavigatedTo;
@@ -194,12 +152,9 @@ namespace MauiReactor
                 NativeControl.Disappearing += NativeControl_Disappearing;
             }
 
-
             OnAttachingNativeEvents();
-
             base.OnAttachNativeEvents();
         }
-
 
         private void NativeControl_NavigatedTo(object? sender, NavigatedToEventArgs e)
         {
@@ -243,313 +198,283 @@ namespace MauiReactor
             thisAsIPage.DisappearingActionWithArgs?.Invoke(sender, e);
         }
 
-
         protected override void OnDetachNativeEvents()
         {
             if (NativeControl != null)
             {
-
                 NativeControl.NavigatedTo -= NativeControl_NavigatedTo;
-
                 NativeControl.NavigatingFrom -= NativeControl_NavigatingFrom;
-
                 NativeControl.NavigatedFrom -= NativeControl_NavigatedFrom;
-
                 NativeControl.LayoutChanged -= NativeControl_LayoutChanged;
-
                 NativeControl.Appearing -= NativeControl_Appearing;
-
                 NativeControl.Disappearing -= NativeControl_Disappearing;
-
             }
 
             OnDetachingNativeEvents();
-
             base.OnDetachNativeEvents();
         }
-
-
     }
-
 
     public partial class Page : Page<Microsoft.Maui.Controls.Page>
     {
         public Page()
         {
-
         }
 
-        public Page(Action<Microsoft.Maui.Controls.Page?> componentRefAction)
-            : base(componentRefAction)
+        public Page(Action<Microsoft.Maui.Controls.Page?> componentRefAction) : base(componentRefAction)
         {
-
         }
     }
 
-
     public static partial class PageExtensions
     {
-
-
-        public static T BackgroundImageSource<T>(this T page, Microsoft.Maui.Controls.ImageSource backgroundImageSource) where T : IPage
+        public static T BackgroundImageSource<T>(this T page, Microsoft.Maui.Controls.ImageSource backgroundImageSource)
+            where T : IPage
         {
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(backgroundImageSource);
             return page;
         }
 
-
-        public static T BackgroundImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> backgroundImageSourceFunc) where T : IPage
+        public static T BackgroundImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> backgroundImageSourceFunc)
+            where T : IPage
         {
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(backgroundImageSourceFunc);
             return page;
         }
 
-
-
-
-
-
-        public static T BackgroundImage<T>(this T page, string file) where T : IPage
+        public static T BackgroundImage<T>(this T page, string file)
+            where T : IPage
         {
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return page;
         }
-        public static T BackgroundImage<T>(this T page, string resourceName, Assembly sourceAssembly) where T : IPage
+
+        public static T BackgroundImage<T>(this T page, string resourceName, Assembly sourceAssembly)
+            where T : IPage
         {
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
             return page;
         }
-        public static T BackgroundImage<T>(this T page, Uri imageUri) where T : IPage
+
+        public static T BackgroundImage<T>(this T page, Uri imageUri)
+            where T : IPage
         {
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
             return page;
         }
-        public static T BackgroundImage<T>(this T page, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : IPage
+
+        public static T BackgroundImage<T>(this T page, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
+            where T : IPage
         {
-            page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource
-            {
-                Uri = imageUri,
-                CachingEnabled = cachingEnabled,
-                CacheValidity = cacheValidity
-            });
+            page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource{Uri = imageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity});
             return page;
         }
-        public static T BackgroundImage<T>(this T page, Func<Stream> imageStream) where T : IPage
+
+        public static T BackgroundImage<T>(this T page, Func<Stream> imageStream)
+            where T : IPage
         {
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
             return page;
         }
 
-
-
-
-        public static T IsBusy<T>(this T page, bool isBusy) where T : IPage
+        public static T IsBusy<T>(this T page, bool isBusy)
+            where T : IPage
         {
             page.IsBusy = new PropertyValue<bool>(isBusy);
             return page;
         }
 
-
-        public static T IsBusy<T>(this T page, Func<bool> isBusyFunc) where T : IPage
+        public static T IsBusy<T>(this T page, Func<bool> isBusyFunc)
+            where T : IPage
         {
             page.IsBusy = new PropertyValue<bool>(isBusyFunc);
             return page;
         }
 
-
-
-
-
-
-
-
-
-        public static T Padding<T>(this T page, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null) where T : IPage
+        public static T Padding<T>(this T page, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
+            where T : IPage
         {
             page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
             page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return page;
         }
 
-
-        public static T Padding<T>(this T page, Func<Microsoft.Maui.Thickness> paddingFunc) where T : IPage
+        public static T Padding<T>(this T page, Func<Microsoft.Maui.Thickness> paddingFunc)
+            where T : IPage
         {
             page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
             return page;
         }
 
-        public static T Padding<T>(this T page, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null) where T : IPage
+        public static T Padding<T>(this T page, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
+            where T : IPage
         {
             page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
             page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return page;
         }
-        public static T Padding<T>(this T page, double uniformSize, RxThicknessAnimation? customAnimation = null) where T : IPage
+
+        public static T Padding<T>(this T page, double uniformSize, RxThicknessAnimation? customAnimation = null)
+            where T : IPage
         {
             page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
             page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return page;
         }
-        public static T Padding<T>(this T page, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null) where T : IPage
+
+        public static T Padding<T>(this T page, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
+            where T : IPage
         {
             page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(left, top, right, bottom));
             page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
             return page;
         }
 
-
-
-
-
-
-
-
-
-        public static T Title<T>(this T page, string title) where T : IPage
+        public static T Title<T>(this T page, string title)
+            where T : IPage
         {
             page.Title = new PropertyValue<string>(title);
             return page;
         }
 
-
-        public static T Title<T>(this T page, Func<string> titleFunc) where T : IPage
+        public static T Title<T>(this T page, Func<string> titleFunc)
+            where T : IPage
         {
             page.Title = new PropertyValue<string>(titleFunc);
             return page;
         }
 
-
-
-
-
-
-
-
-
-        public static T IconImageSource<T>(this T page, Microsoft.Maui.Controls.ImageSource iconImageSource) where T : IPage
+        public static T IconImageSource<T>(this T page, Microsoft.Maui.Controls.ImageSource iconImageSource)
+            where T : IPage
         {
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSource);
             return page;
         }
 
-
-        public static T IconImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> iconImageSourceFunc) where T : IPage
+        public static T IconImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> iconImageSourceFunc)
+            where T : IPage
         {
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc);
             return page;
         }
 
-
-
-
-
-
-        public static T IconImage<T>(this T page, string file) where T : IPage
+        public static T IconImage<T>(this T page, string file)
+            where T : IPage
         {
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return page;
         }
-        public static T IconImage<T>(this T page, string resourceName, Assembly sourceAssembly) where T : IPage
+
+        public static T IconImage<T>(this T page, string resourceName, Assembly sourceAssembly)
+            where T : IPage
         {
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
             return page;
         }
-        public static T IconImage<T>(this T page, Uri imageUri) where T : IPage
+
+        public static T IconImage<T>(this T page, Uri imageUri)
+            where T : IPage
         {
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
             return page;
         }
-        public static T IconImage<T>(this T page, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : IPage
+
+        public static T IconImage<T>(this T page, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
+            where T : IPage
         {
-            page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource
-            {
-                Uri = imageUri,
-                CachingEnabled = cachingEnabled,
-                CacheValidity = cacheValidity
-            });
+            page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource{Uri = imageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity});
             return page;
         }
-        public static T IconImage<T>(this T page, Func<Stream> imageStream) where T : IPage
+
+        public static T IconImage<T>(this T page, Func<Stream> imageStream)
+            where T : IPage
         {
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
             return page;
         }
 
-
-
-
-
-        public static T OnNavigatedTo<T>(this T page, Action? navigatedToAction) where T : IPage
+        public static T OnNavigatedTo<T>(this T page, Action? navigatedToAction)
+            where T : IPage
         {
             page.NavigatedToAction = navigatedToAction;
             return page;
         }
 
-        public static T OnNavigatedTo<T>(this T page, Action<object?, NavigatedToEventArgs>? navigatedToActionWithArgs) where T : IPage
+        public static T OnNavigatedTo<T>(this T page, Action<object?, NavigatedToEventArgs>? navigatedToActionWithArgs)
+            where T : IPage
         {
             page.NavigatedToActionWithArgs = navigatedToActionWithArgs;
             return page;
         }
 
-        public static T OnNavigatingFrom<T>(this T page, Action? navigatingFromAction) where T : IPage
+        public static T OnNavigatingFrom<T>(this T page, Action? navigatingFromAction)
+            where T : IPage
         {
             page.NavigatingFromAction = navigatingFromAction;
             return page;
         }
 
-        public static T OnNavigatingFrom<T>(this T page, Action<object?, NavigatingFromEventArgs>? navigatingFromActionWithArgs) where T : IPage
+        public static T OnNavigatingFrom<T>(this T page, Action<object?, NavigatingFromEventArgs>? navigatingFromActionWithArgs)
+            where T : IPage
         {
             page.NavigatingFromActionWithArgs = navigatingFromActionWithArgs;
             return page;
         }
 
-        public static T OnNavigatedFrom<T>(this T page, Action? navigatedFromAction) where T : IPage
+        public static T OnNavigatedFrom<T>(this T page, Action? navigatedFromAction)
+            where T : IPage
         {
             page.NavigatedFromAction = navigatedFromAction;
             return page;
         }
 
-        public static T OnNavigatedFrom<T>(this T page, Action<object?, NavigatedFromEventArgs>? navigatedFromActionWithArgs) where T : IPage
+        public static T OnNavigatedFrom<T>(this T page, Action<object?, NavigatedFromEventArgs>? navigatedFromActionWithArgs)
+            where T : IPage
         {
             page.NavigatedFromActionWithArgs = navigatedFromActionWithArgs;
             return page;
         }
 
-        public static T OnLayoutChanged<T>(this T page, Action? layoutChangedAction) where T : IPage
+        public static T OnLayoutChanged<T>(this T page, Action? layoutChangedAction)
+            where T : IPage
         {
             page.LayoutChangedAction = layoutChangedAction;
             return page;
         }
 
-        public static T OnLayoutChanged<T>(this T page, Action<object?, EventArgs>? layoutChangedActionWithArgs) where T : IPage
+        public static T OnLayoutChanged<T>(this T page, Action<object?, EventArgs>? layoutChangedActionWithArgs)
+            where T : IPage
         {
             page.LayoutChangedActionWithArgs = layoutChangedActionWithArgs;
             return page;
         }
 
-        public static T OnAppearing<T>(this T page, Action? appearingAction) where T : IPage
+        public static T OnAppearing<T>(this T page, Action? appearingAction)
+            where T : IPage
         {
             page.AppearingAction = appearingAction;
             return page;
         }
 
-        public static T OnAppearing<T>(this T page, Action<object?, EventArgs>? appearingActionWithArgs) where T : IPage
+        public static T OnAppearing<T>(this T page, Action<object?, EventArgs>? appearingActionWithArgs)
+            where T : IPage
         {
             page.AppearingActionWithArgs = appearingActionWithArgs;
             return page;
         }
 
-        public static T OnDisappearing<T>(this T page, Action? disappearingAction) where T : IPage
+        public static T OnDisappearing<T>(this T page, Action? disappearingAction)
+            where T : IPage
         {
             page.DisappearingAction = disappearingAction;
             return page;
         }
 
-        public static T OnDisappearing<T>(this T page, Action<object?, EventArgs>? disappearingActionWithArgs) where T : IPage
+        public static T OnDisappearing<T>(this T page, Action<object?, EventArgs>? disappearingActionWithArgs)
+            where T : IPage
         {
             page.DisappearingActionWithArgs = disappearingActionWithArgs;
             return page;
         }
-
     }
 }
