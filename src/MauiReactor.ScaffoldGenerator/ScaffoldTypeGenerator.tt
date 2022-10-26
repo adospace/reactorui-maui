@@ -33,7 +33,7 @@ namespace <#= Namespace #>
     var genericArgs = ((INamedTypeSymbol)ev.Type).TypeArguments;
     #>
         Action? <#= ev.Name #>Action { get; set; }
-        Action<object?, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>>? <#= ev.Name #>ActionWithArgs { get; set; }
+        Action<<#= GetActionWithArgsParameters(ev) #>>? <#= ev.Name #>ActionWithArgs { get; set; }
     <# } #>
 
     }
@@ -113,7 +113,7 @@ namespace <#= Namespace #>
         var genericArgs = ((INamedTypeSymbol)ev.Type).TypeArguments;
         #>
         Action? <#= InterfaceName #>.<#= ev.Name #>Action { get; set; }
-        Action<object?, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>>? <#= InterfaceName #>.<#= ev.Name #>ActionWithArgs { get; set; }
+        Action<<#= GetActionWithArgsParameters(ev) #>>? <#= InterfaceName #>.<#= ev.Name #>ActionWithArgs { get; set; }
         <# } #>
 
         protected override void OnUpdate()
@@ -184,11 +184,11 @@ namespace <#= Namespace #>
         <# foreach (var ev in Events) { 
         var genericArgs = ((INamedTypeSymbol)ev.Type).TypeArguments;
         #>
-        private void NativeControl_<#= ev.Name #>(object? sender, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #> e)
+        <#= GetDelegateParametersDescriptor(ev) #>
         {
             var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
             thisAs<#= InterfaceName #>.<#= ev.Name #>Action?.Invoke();
-            thisAs<#= InterfaceName #>.<#= ev.Name #>ActionWithArgs?.Invoke(sender, e);
+            <#= GetDelegateInvokeDescriptor(ev) #>
         }
         <# } #>
 
@@ -355,7 +355,7 @@ namespace <#= Namespace #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
 
-        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Action<object?, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>>? <#= ev.Name.ToLocalVariableName() #>ActionWithArgs) where T : <#= InterfaceName #>
+        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Action<<#= GetActionWithArgsParameters(ev) #>>? <#= ev.Name.ToLocalVariableName() #>ActionWithArgs) where T : <#= InterfaceName #>
         {
             <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>ActionWithArgs = <#= ev.Name.ToLocalVariableName() #>ActionWithArgs;
             return <#= TypeName.ToLocalVariableName() #>;

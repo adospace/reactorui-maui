@@ -22,10 +22,11 @@ static class Helper
 
     public static string GetFullyQualifiedName(this ISymbol typeSymbol)
     {
-        var symbolDisplayFormat = new SymbolDisplayFormat(
-            typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces);
+        //var symbolDisplayFormat = new SymbolDisplayFormat(
+        //    typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces);
 
-        return typeSymbol.ToDisplayString(symbolDisplayFormat);
+        //return typeSymbol.ToDisplayString(symbolDisplayFormat);
+        return typeSymbol.ToString();
     }
 
     public static string? GetFullyQualifiedName(this ClassDeclarationSyntax classDeclarationSyntax)

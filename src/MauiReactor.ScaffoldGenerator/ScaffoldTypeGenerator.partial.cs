@@ -20,7 +20,7 @@ public partial class ScaffoldTypeGenerator
             .Cast<IPropertySymbol>()
             .Where(_ => !_.IsReadOnly && !_.IsWriteOnly)
             .Where(_ => (_.ContainingType is INamedTypeSymbol namedTypeSymbol) && namedTypeSymbol.GetFullyQualifiedName() == typeToScaffold.GetFullyQualifiedName())
-            .Where(_ => !((INamedTypeSymbol)_.Type).IsGenericType)
+            //.Where(_ => !((INamedTypeSymbol)_.Type).IsGenericType)
             .GroupBy(p => p.Name, StringComparer.OrdinalIgnoreCase)
             .ToDictionary(g => g.Key, g => g.First(), StringComparer.OrdinalIgnoreCase);
 
@@ -50,7 +50,7 @@ public partial class ScaffoldTypeGenerator
             .Where(_ => !(declaringTypeFullName == "Microsoft.Maui.Controls.StructuredItemsView" && (_.Name == "Header" || _.Name == "Footer")))
             .Where(_ => !(declaringTypeFullName == "Microsoft.Maui.Controls.Shell" && (_.Name == "FlyoutHeader" || _.Name == "FlyoutFooter" || _.Name == "FlyoutContent")))
             .Where(_ => !(declaringTypeFullName == "Microsoft.Maui.Controls.Picker" && _.Name == "SelectedItem"))
-
+            .OrderBy(_=>_.Name)
             .ToArray();
 
         Events = typeToScaffold.GetMembers()
@@ -59,8 +59,9 @@ public partial class ScaffoldTypeGenerator
             .Where(_ => !_.Name.Contains('.'))
             .Where(_ => (_.ContainingType is INamedTypeSymbol namedTypeSymbol) && namedTypeSymbol.GetFullyQualifiedName() == typeToScaffold.GetFullyQualifiedName())
             .Where(_ => !_.GetAttributes().Any(_ => _.AttributeClass.EnsureNotNull().Equals(editorBrowsableAttribute, SymbolEqualityComparer.Default)))
-            .GroupBy(p => p.Name, StringComparer.OrdinalIgnoreCase)
+            .GroupBy(_ => _.Name, StringComparer.OrdinalIgnoreCase)
             .Select(_ => _.First())
+            .OrderBy(_ => _.Name)
             .ToArray();
 
 
@@ -153,6 +154,59 @@ public partial class ScaffoldTypeGenerator
 
     private bool IsTypeSealed
         => TypeToScaffold.IsSealed;
+
+    private string GetDelegateParametersDescriptor(IEventSymbol ev)
+    {
+        /*
+    private void NativeControl_<#= ev.Name #>(object? sender, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #> e)
+    {
+        var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
+        thisAs<#= InterfaceName #>.<#= ev.Name #>Action?.Invoke();
+        thisAs<#= InterfaceName #>.<#= ev.Name #>ActionWithArgs?.Invoke(sender, e);
+    }             
+         */
+
+        var invokeMember = (IMethodSymbol)ev.Type.GetMembers().First(_ => _.Name == "Invoke");
+        if (invokeMember.Parameters.Length == 1)
+        {
+            return $"private void NativeControl_{ev.Name}({invokeMember.Parameters[0].Type.GetFullyQualifiedName()} sender)";
+        }
+
+        return $"private void NativeControl_{ev.Name}({invokeMember.Parameters[0].Type.GetFullyQualifiedName()} sender, {invokeMember.Parameters[1].Type.GetFullyQualifiedName()} e)";
+    }
+
+    private string GetDelegateInvokeDescriptor(IEventSymbol ev)
+    {
+        /*
+    private void NativeControl_<#= ev.Name #>(object? sender, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #> e)
+    {
+        var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
+        thisAs<#= InterfaceName #>.<#= ev.Name #>Action?.Invoke();
+        thisAs<#= InterfaceName #>.<#= ev.Name #>ActionWithArgs?.Invoke(sender, e);
+    }             
+         */
+
+        var invokeMember = (IMethodSymbol)ev.Type.GetMembers().First(_ => _.Name == "Invoke");
+        if (invokeMember.Parameters.Length == 1)
+        {
+            return $"thisAs{InterfaceName}.{ev.Name}ActionWithArgs?.Invoke(sender);";
+        }
+
+        return $"thisAs{InterfaceName}.{ev.Name}ActionWithArgs?.Invoke(sender, e);";
+    }
+
+    private string GetActionWithArgsParameters(IEventSymbol ev)
+    {
+        //object?, <#= genericArgs.Length > 0 ? genericArgs[0].GetFullyQualifiedName().ToResevedWordFullTypeName() : "EventArgs" #>
+        var invokeMember = (IMethodSymbol)ev.Type.GetMembers().First(_ => _.Name == "Invoke");
+        if (invokeMember.Parameters.Length == 1)
+        {
+            return $"{invokeMember.Parameters[0].Type.GetFullyQualifiedName()}";
+        }
+
+        return $"{invokeMember.Parameters[0].Type.GetFullyQualifiedName()}, {invokeMember.Parameters[1].Type.GetFullyQualifiedName()}";
+
+    }
 
     public string TransformAndPrettify()
     {

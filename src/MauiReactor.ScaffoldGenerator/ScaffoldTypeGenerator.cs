@@ -142,10 +142,10 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("Action { get; set; }\r\n        Action<object?, ");
+            this.Write("Action { get; set; }\r\n        Action<");
             
             #line 36 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetActionWithArgsParameters(ev)));
             
             #line default
             #line hidden
@@ -499,10 +499,10 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("Action { get; set; }\r\n        Action<object?, ");
+            this.Write("Action { get; set; }\r\n        Action<");
             
             #line 116 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetActionWithArgsParameters(ev)));
             
             #line default
             #line hidden
@@ -859,21 +859,14 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("        private void NativeControl_");
+            this.Write("        ");
             
             #line 187 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetDelegateParametersDescriptor(ev)));
             
             #line default
             #line hidden
-            this.Write("(object? sender, ");
-            
-            #line 187 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
-            
-            #line default
-            #line hidden
-            this.Write(" e)\r\n        {\r\n            var thisAs");
+            this.Write("\r\n        {\r\n            var thisAs");
             
             #line 189 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName));
@@ -901,21 +894,14 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("Action?.Invoke();\r\n            thisAs");
+            this.Write("Action?.Invoke();\r\n            ");
             
             #line 191 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetDelegateInvokeDescriptor(ev)));
             
             #line default
             #line hidden
-            this.Write(".");
-            
-            #line 191 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
-            
-            #line default
-            #line hidden
-            this.Write("ActionWithArgs?.Invoke(sender, e);\r\n        }\r\n        ");
+            this.Write("\r\n        }\r\n        ");
             
             #line 193 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
  } 
@@ -2507,10 +2493,10 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(", Action<object?, ");
+            this.Write(", Action<");
             
             #line 358 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetActionWithArgsParameters(ev)));
             
             #line default
             #line hidden

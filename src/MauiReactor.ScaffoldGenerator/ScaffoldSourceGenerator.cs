@@ -70,8 +70,8 @@ class ScaffoldSyntaxReceiver : ISyntaxReceiver
         if (syntaxNode is ClassDeclarationSyntax cds)
         {
             var scaffoldAttribute = cds.AttributeLists
-                .Where(_ => _.Attributes.Any(attr => ((IdentifierNameSyntax)attr.Name).Identifier.Text == "Scaffold" ||
-                    ((IdentifierNameSyntax)attr.Name).Identifier.Text == "ScaffoldAttribute"))
+                .Where(_ => _.Attributes.Any(attr => attr.Name is IdentifierNameSyntax nameSyntax && (nameSyntax.Identifier.Text == "Scaffold" ||
+                    nameSyntax.Identifier.Text == "ScaffoldAttribute")))
                 .Select(_ => _.Attributes.First())
                 .FirstOrDefault();
 
