@@ -56,8 +56,13 @@ public partial class ScaffoldTypeGenerator
         Events = typeToScaffold.GetMembers()
             .Where(_ => _.Kind == SymbolKind.Event)
             .Cast<IEventSymbol>()
+            .Where(_ => !_.Name.Contains('.'))
+            .Where(_ => (_.ContainingType is INamedTypeSymbol namedTypeSymbol) && namedTypeSymbol.GetFullyQualifiedName() == typeToScaffold.GetFullyQualifiedName())
             .Where(_ => !_.GetAttributes().Any(_ => _.AttributeClass.EnsureNotNull().Equals(editorBrowsableAttribute, SymbolEqualityComparer.Default)))
+            .GroupBy(p => p.Name, StringComparer.OrdinalIgnoreCase)
+            .Select(_ => _.First())
             .ToArray();
+
 
         Namespace = generatorType.ContainingNamespace.GetFullyQualifiedName();
         TypeName = typeToScaffold.Name.Replace("`1", string.Empty);
@@ -144,7 +149,7 @@ public partial class ScaffoldTypeGenerator
     }
 
     private bool IsTypeNotAbstractWithEmptyConstructor
-        => !TypeToScaffold.IsAbstract && TypeToScaffold.Constructors.Any(_ => _.Parameters.Length == 0);
+        => !TypeToScaffold.IsAbstract && TypeToScaffold.Constructors.Any(_ => _.DeclaredAccessibility == Accessibility.Public && _.Parameters.Length == 0);
 
     private bool IsTypeSealed
         => TypeToScaffold.IsSealed;

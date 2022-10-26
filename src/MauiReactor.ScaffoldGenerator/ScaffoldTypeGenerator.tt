@@ -228,28 +228,28 @@ namespace <#= Namespace #>
     public static partial class <#= TypeName #>Extensions
     {
         <# foreach (var property in Properties) { #>
-        <# if (property.Type == typeof(double)) { #>
+        <# if (property.Type.Equals(TypeofDouble, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxDoubleAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>);
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxDoubleAnimation(<#= property.Name.CamelCase() #>), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
             return <#= TypeName.ToLocalVariableName() #>;
         }        
-        <# } else if (property.Type == TypeofRect) { #>
+        <# } else if (property.Type.Equals(TypeofRect, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxRectAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>);
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleRectAnimation(<#= property.Name.CamelCase() #>), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
             return <#= TypeName.ToLocalVariableName() #>;
         }        
-        <# } else if (property.Type == TypeofPoint) { #>
+        <# } else if (property.Type.Equals(TypeofPoint, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxPointAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>);
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimplePointAnimation(<#= property.Name.CamelCase() #>), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
             return <#= TypeName.ToLocalVariableName() #>;
         }        
-        <# } else if (property.Type == TypeofThickness) { #>
+        <# } else if (property.Type.Equals(TypeofThickness, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>);

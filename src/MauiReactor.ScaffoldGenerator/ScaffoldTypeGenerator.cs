@@ -1033,7 +1033,7 @@ namespace ");
             this.Write("        ");
             
             #line 231 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
- if (property.Type == typeof(double)) { 
+ if (property.Type.Equals(TypeofDouble, SymbolEqualityComparer.Default)) { 
             
             #line default
             #line hidden
@@ -1159,7 +1159,7 @@ namespace ");
             this.Write(";\r\n        }        \r\n        ");
             
             #line 238 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
- } else if (property.Type == TypeofRect) { 
+ } else if (property.Type.Equals(TypeofRect, SymbolEqualityComparer.Default)) { 
             
             #line default
             #line hidden
@@ -1285,7 +1285,7 @@ namespace ");
             this.Write(";\r\n        }        \r\n        ");
             
             #line 245 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
- } else if (property.Type == TypeofPoint) { 
+ } else if (property.Type.Equals(TypeofPoint, SymbolEqualityComparer.Default)) { 
             
             #line default
             #line hidden
@@ -1411,7 +1411,7 @@ namespace ");
             this.Write(";\r\n        }        \r\n        ");
             
             #line 252 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
- } else if (property.Type == TypeofThickness) { 
+ } else if (property.Type.Equals(TypeofThickness, SymbolEqualityComparer.Default)) { 
             
             #line default
             #line hidden

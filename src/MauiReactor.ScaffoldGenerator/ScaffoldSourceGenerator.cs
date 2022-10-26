@@ -20,7 +20,7 @@ public class ScaffoldSourceGenerator : ISourceGenerator
 
 namespace MauiReactor
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class ScaffoldAttribute : Attribute
     {
         public ScaffoldAttribute(Type nativeControlType) 
