@@ -4,118 +4,69 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-
 using MauiReactor.Animations;
 using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-
 namespace MauiReactor
 {
-
     public partial interface ITemplatedPage : IPage
-
     {
-
         PropertyValue<Microsoft.Maui.Controls.ControlTemplate>? ControlTemplate { get; set; }
-
-
-
-
     }
-
 
     public partial class TemplatedPage<T> : Page<T>, ITemplatedPage where T : Microsoft.Maui.Controls.TemplatedPage, new()
     {
         public TemplatedPage()
         {
-
         }
 
-        public TemplatedPage(Action<T?> componentRefAction)
-            : base(componentRefAction)
+        public TemplatedPage(Action<T?> componentRefAction) : base(componentRefAction)
         {
-
         }
-
-
 
         PropertyValue<Microsoft.Maui.Controls.ControlTemplate>? ITemplatedPage.ControlTemplate { get; set; }
-
-
-
 
         protected override void OnUpdate()
         {
             OnBeginUpdate();
-
-
             Validate.EnsureNotNull(NativeControl);
             var thisAsITemplatedPage = (ITemplatedPage)this;
-
-
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TemplatedPage.ControlTemplateProperty, thisAsITemplatedPage.ControlTemplate);
-
-
-
-
-
             base.OnUpdate();
-
             OnEndUpdate();
         }
 
-
-
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
-
-
-
     }
-
 
     public partial class TemplatedPage : TemplatedPage<Microsoft.Maui.Controls.TemplatedPage>
     {
         public TemplatedPage()
         {
-
         }
 
-        public TemplatedPage(Action<Microsoft.Maui.Controls.TemplatedPage?> componentRefAction)
-            : base(componentRefAction)
+        public TemplatedPage(Action<Microsoft.Maui.Controls.TemplatedPage?> componentRefAction) : base(componentRefAction)
         {
-
         }
     }
 
-
     public static partial class TemplatedPageExtensions
     {
-
-
-        public static T ControlTemplate<T>(this T templatedPage, Microsoft.Maui.Controls.ControlTemplate controlTemplate) where T : ITemplatedPage
+        public static T ControlTemplate<T>(this T templatedPage, Microsoft.Maui.Controls.ControlTemplate controlTemplate)
+            where T : ITemplatedPage
         {
             templatedPage.ControlTemplate = new PropertyValue<Microsoft.Maui.Controls.ControlTemplate>(controlTemplate);
             return templatedPage;
         }
 
-
-        public static T ControlTemplate<T>(this T templatedPage, Func<Microsoft.Maui.Controls.ControlTemplate> controlTemplateFunc) where T : ITemplatedPage
+        public static T ControlTemplate<T>(this T templatedPage, Func<Microsoft.Maui.Controls.ControlTemplate> controlTemplateFunc)
+            where T : ITemplatedPage
         {
             templatedPage.ControlTemplate = new PropertyValue<Microsoft.Maui.Controls.ControlTemplate>(controlTemplateFunc);
             return templatedPage;
         }
-
-
-
-
-
-
-
-
-
-
     }
 }

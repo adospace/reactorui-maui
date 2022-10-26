@@ -1,0 +1,365 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Microsoft.CodeAnalysis" #>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Reflection;
+
+using MauiReactor;
+using MauiReactor.Animations;
+using MauiReactor.Shapes;
+using MauiReactor.Internals;
+
+#nullable enable
+
+namespace <#= Namespace #>
+{
+    <# if (IsBaseGenericType) { #>
+    public partial interface <#= InterfaceName #> : IGeneric<#= BaseTypeName() #>
+    <# } else { #>
+    public partial interface <#= InterfaceName #> : <#= BaseInterfaceName() #>
+    <# } #>
+    {
+    <# foreach (var property in Properties) { #>
+        PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>? <#= property.Name #> { get; set; }
+    <# } #>
+
+    <# foreach (var ev in Events) { 
+    var genericArgs = ((INamedTypeSymbol)ev.Type).TypeArguments;
+    #>
+        Action? <#= ev.Name #>Action { get; set; }
+        Action<<#= GetActionWithArgsParameters(ev) #>>? <#= ev.Name #>ActionWithArgs { get; set; }
+    <# } #>
+
+    }
+
+    <# if (IsBaseGenericType) { #>
+    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T, <#= GenericArgumentBaseFullBaseTypeName #>>, <#= InterfaceName #> where T : <#= FullTypeName #>, new()
+    {
+        public <#= TypeName #>()
+        { 
+        
+        }
+
+        public <#= TypeName #>(Action<T?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+    <# } else if (IsGenericType) { #>
+    public abstract partial class <#= TypeName #><T, TChild> : <#= BaseTypeName() #><T>, <#= InterfaceName #> where T : <#= FullTypeName #><TChild>, new() where TChild : <#= GenericArgumentBaseFullTypeName #>
+    {
+        public <#= TypeName #>()
+        { 
+        
+        }
+
+        public <#= TypeName #>(Action<T?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+    <# } else if (IsTypeSealed) { #>
+    public sealed partial class <#= TypeName #> : <#= BaseTypeName() #><<#= FullTypeName #>>, <#= InterfaceName #>
+    {
+        public <#= TypeName #>()
+        { 
+        
+        }
+
+        public <#= TypeName #>(Action<<#= FullTypeName #>?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+    <# } else if (IsTypeNotAbstractWithEmptyConstructor) { #>
+    public partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #> where T : <#= FullTypeName #>, new()
+    {
+        public <#= TypeName #>()
+        { 
+        
+        }
+
+        public <#= TypeName #>(Action<T?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+    <# } else { #>
+    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #> where T : <#= FullTypeName #>, new()
+    {
+        protected <#= TypeName #>()
+        { 
+        
+        }
+
+        protected <#= TypeName #>(Action<T?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }    
+    <# } #>
+
+        <# foreach (var property in Properties) { #>
+        PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>? <#= InterfaceName #>.<#= property.Name #> { get; set; }
+        <# } #>
+
+        <# foreach (var ev in Events) {
+        var genericArgs = ((INamedTypeSymbol)ev.Type).TypeArguments;
+        #>
+        Action? <#= InterfaceName #>.<#= ev.Name #>Action { get; set; }
+        Action<<#= GetActionWithArgsParameters(ev) #>>? <#= InterfaceName #>.<#= ev.Name #>ActionWithArgs { get; set; }
+        <# } #>
+
+        protected override void OnUpdate()
+        {
+            OnBeginUpdate();
+            <# if (Properties.Any()) { #>
+
+            Validate.EnsureNotNull(NativeControl);
+            var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
+            <# foreach (var property in Properties) { #>
+            <# if (IsGenericType) { #>
+            SetPropertyValue(NativeControl, <#= FullTypeName #><TChild>.<#= property.Name #>Property, thisAs<#= InterfaceName #>.<#= property.Name #>);
+            <# } else { #>
+            SetPropertyValue(NativeControl, <#= FullTypeName #>.<#= property.Name #>Property, thisAs<#= InterfaceName #>.<#= property.Name #>);
+            <# } #>
+            <# } #>
+
+            <# } #>
+
+            base.OnUpdate();
+
+            OnEndUpdate();
+        }
+
+        <# if (AnimatableProperties.Any()) { #>
+        protected override void OnAnimate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
+
+            <# foreach (var property in AnimatableProperties) { #>
+            <# if (IsGenericType) { #>
+            SetPropertyValue(NativeControl, <#= FullTypeName #><TChild>.<#= property.Name #>Property, thisAs<#= InterfaceName #>.<#= property.Name #>);
+            <# } else { #>
+            SetPropertyValue(NativeControl, <#= FullTypeName #>.<#= property.Name #>Property, thisAs<#= InterfaceName #>.<#= property.Name #>);
+            <# } #>
+            <# } #>
+
+            base.OnAnimate();
+        }
+        <# } #>
+
+        partial void OnBeginUpdate();
+        partial void OnEndUpdate();
+
+        <# if (Events.Any()) { #>
+
+        partial void OnAttachingNativeEvents();
+        partial void OnDetachingNativeEvents();
+
+        protected override void OnAttachNativeEvents()
+        {
+            Validate.EnsureNotNull(NativeControl);
+
+            var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
+            <# foreach (var ev in Events) { #>
+            if (thisAs<#= InterfaceName #>.<#= ev.Name #>Action != null || thisAs<#= InterfaceName #>.<#= ev.Name #>ActionWithArgs != null)
+            {
+                NativeControl.<#= ev.Name #> += NativeControl_<#= ev.Name #>;
+            }
+            <# } #>
+
+            OnAttachingNativeEvents();
+
+            base.OnAttachNativeEvents();
+        }
+
+        <# foreach (var ev in Events) { 
+        var genericArgs = ((INamedTypeSymbol)ev.Type).TypeArguments;
+        #>
+        <#= GetDelegateParametersDescriptor(ev) #>
+        {
+            var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
+            thisAs<#= InterfaceName #>.<#= ev.Name #>Action?.Invoke();
+            <#= GetDelegateInvokeDescriptor(ev) #>
+        }
+        <# } #>
+
+        protected override void OnDetachNativeEvents()
+        {
+            if (NativeControl != null)
+            {
+            <# foreach (var ev in Events) { #>
+            NativeControl.<#= ev.Name #> -= NativeControl_<#= ev.Name #>;
+            <# } #>
+            }
+
+            OnDetachingNativeEvents();
+
+            base.OnDetachNativeEvents();
+        }
+        <# } #>
+
+    }
+
+    <# if (IsTypeNotAbstractWithEmptyConstructor && !IsTypeSealed) { #>
+    public partial class <#= TypeName #> : <#= TypeName #><<#= FullTypeName #>>
+    {
+        public <#= TypeName #>()
+        { 
+        
+        }
+
+        public <#= TypeName #>(Action<<#= FullTypeName #>?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+    }
+    <# } #>
+
+    public static partial class <#= TypeName #>Extensions
+    {
+        <# foreach (var property in Properties) { #>
+        <# if (property.Type.Equals(TypeofDouble, SymbolEqualityComparer.Default)) { #>
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxDoubleAnimation? customAnimation = null) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxDoubleAnimation(<#= property.Name.CamelCase() #>), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }        
+        <# } else if (property.Type.Equals(TypeofRect, SymbolEqualityComparer.Default)) { #>
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxRectAnimation? customAnimation = null) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleRectAnimation(<#= property.Name.CamelCase() #>), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }        
+        <# } else if (property.Type.Equals(TypeofPoint, SymbolEqualityComparer.Default)) { #>
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxPointAnimation? customAnimation = null) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimplePointAnimation(<#= property.Name.CamelCase() #>), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }        
+        <# } else if (property.Type.Equals(TypeofThickness, SymbolEqualityComparer.Default)) { #>
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(<#= property.Name.CamelCase() #>), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }        
+        <# } else { #>
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>);
+            return <#= TypeName.ToLocalVariableName() #>;
+        }       
+        <# } #>
+
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>> <#= property.Name.CamelCase() #>Func) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func);
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        <# if (property.Type.Name == "Thickness") { #>
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new Thickness(leftRight, topBottom));
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double uniformSize, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new Thickness(uniformSize));
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new Thickness(left, top, right, bottom));
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        <# } #>
+        <# if (property.Type.GetFullyQualifiedName() == "Microsoft.Maui.Graphics.Point") { #>
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double x, double y) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new Microsoft.Maui.Graphics.Point(x, y));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        <# } #>
+        
+
+        <# if (property.Type.Name == "CornerRadius") { #>
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double uniformRadius) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new CornerRadius(uniformRadius));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double topLeft, double topRight, double bottomLeft, double bottomRight) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        <# } #>
+        <# if (property.Type.Name == "ImageSource") { 
+        var propertyName = property.Name.Length <= 6 ? property.Name : property.Name.Substring(0, property.Name.Length - 6); #>
+        public static T <#= propertyName #><T>(this T <#= TypeName.ToLocalVariableName() #>, string file) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        public static T <#= propertyName #><T>(this T <#= TypeName.ToLocalVariableName() #>, string resourceName, Assembly sourceAssembly) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        public static T <#= propertyName #><T>(this T <#= TypeName.ToLocalVariableName() #>, Uri imageUri) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        public static T <#= propertyName #><T>(this T <#= TypeName.ToLocalVariableName() #>, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new UriImageSource
+            {
+                Uri = imageUri,
+                CachingEnabled = cachingEnabled,
+                CacheValidity = cacheValidity
+            });
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        public static T <#= propertyName #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<Stream> imageStream) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        <# } #>
+
+        <# } #>
+        
+        <# foreach (var ev in Events) {
+        var genericArgs = ((INamedTypeSymbol)ev.Type).TypeArguments;
+        #>
+        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Action? <#= ev.Name.ToLocalVariableName() #>Action) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>Action = <#= ev.Name.ToLocalVariableName() #>Action;
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+
+        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Action<<#= GetActionWithArgsParameters(ev) #>>? <#= ev.Name.ToLocalVariableName() #>ActionWithArgs) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>ActionWithArgs = <#= ev.Name.ToLocalVariableName() #>ActionWithArgs;
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        <# } #>
+    }
+}

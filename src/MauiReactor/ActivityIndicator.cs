@@ -4,147 +4,88 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-
 using MauiReactor.Animations;
 using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-
 namespace MauiReactor
 {
-
     public partial interface IActivityIndicator : IView
-
     {
-
         PropertyValue<bool>? IsRunning { get; set; }
 
         PropertyValue<Microsoft.Maui.Graphics.Color>? Color { get; set; }
-
-
-
-
     }
-
 
     public partial class ActivityIndicator<T> : View<T>, IActivityIndicator where T : Microsoft.Maui.Controls.ActivityIndicator, new()
     {
         public ActivityIndicator()
         {
-
         }
 
-        public ActivityIndicator(Action<T?> componentRefAction)
-            : base(componentRefAction)
+        public ActivityIndicator(Action<T?> componentRefAction) : base(componentRefAction)
         {
-
         }
-
-
 
         PropertyValue<bool>? IActivityIndicator.IsRunning { get; set; }
 
         PropertyValue<Microsoft.Maui.Graphics.Color>? IActivityIndicator.Color { get; set; }
 
-
-
-
         protected override void OnUpdate()
         {
             OnBeginUpdate();
-
-
             Validate.EnsureNotNull(NativeControl);
             var thisAsIActivityIndicator = (IActivityIndicator)this;
-
-
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ActivityIndicator.IsRunningProperty, thisAsIActivityIndicator.IsRunning);
-
-
-
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ActivityIndicator.ColorProperty, thisAsIActivityIndicator.Color);
-
-
-
-
-
             base.OnUpdate();
-
             OnEndUpdate();
         }
 
-
-
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
-
-
-
     }
-
 
     public partial class ActivityIndicator : ActivityIndicator<Microsoft.Maui.Controls.ActivityIndicator>
     {
         public ActivityIndicator()
         {
-
         }
 
-        public ActivityIndicator(Action<Microsoft.Maui.Controls.ActivityIndicator?> componentRefAction)
-            : base(componentRefAction)
+        public ActivityIndicator(Action<Microsoft.Maui.Controls.ActivityIndicator?> componentRefAction) : base(componentRefAction)
         {
-
         }
     }
 
-
     public static partial class ActivityIndicatorExtensions
     {
-
-
-        public static T IsRunning<T>(this T activityIndicator, bool isRunning) where T : IActivityIndicator
+        public static T IsRunning<T>(this T activityIndicator, bool isRunning)
+            where T : IActivityIndicator
         {
             activityIndicator.IsRunning = new PropertyValue<bool>(isRunning);
             return activityIndicator;
         }
 
-
-        public static T IsRunning<T>(this T activityIndicator, Func<bool> isRunningFunc) where T : IActivityIndicator
+        public static T IsRunning<T>(this T activityIndicator, Func<bool> isRunningFunc)
+            where T : IActivityIndicator
         {
             activityIndicator.IsRunning = new PropertyValue<bool>(isRunningFunc);
             return activityIndicator;
         }
 
-
-
-
-
-
-
-
-
-        public static T Color<T>(this T activityIndicator, Microsoft.Maui.Graphics.Color color) where T : IActivityIndicator
+        public static T Color<T>(this T activityIndicator, Microsoft.Maui.Graphics.Color color)
+            where T : IActivityIndicator
         {
             activityIndicator.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(color);
             return activityIndicator;
         }
 
-
-        public static T Color<T>(this T activityIndicator, Func<Microsoft.Maui.Graphics.Color> colorFunc) where T : IActivityIndicator
+        public static T Color<T>(this T activityIndicator, Func<Microsoft.Maui.Graphics.Color> colorFunc)
+            where T : IActivityIndicator
         {
             activityIndicator.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc);
             return activityIndicator;
         }
-
-
-
-
-
-
-
-
-
-
     }
 }
