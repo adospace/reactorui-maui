@@ -76,6 +76,7 @@ namespace MauiReactor.HotReloadConsole
             var properties = new Dictionary<string, string>
             {
                 { "Configuration", "Debug" },
+                { "TargetFramework", _options.Framework ?? throw new InvalidOperationException() }
             };
 
             _workspace ??= MSBuildWorkspace.Create(properties);
