@@ -101,7 +101,7 @@ class CanvasCardPage : Component<CanvasCardState>
     {
         return new Align
         {
-            new PointIterationHandler
+            new PointInterationHandler
             {
                 new Box()
                 {

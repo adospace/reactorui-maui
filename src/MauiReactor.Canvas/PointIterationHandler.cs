@@ -12,26 +12,26 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.Canvas
 {
-    public partial interface IPointIterationHandler : ICanvasNode
+    public partial interface IPointInterationHandler : ICanvasNode
     {
         PropertyValue<bool>? IsEnabled { get; set; }
         Action? TapAction { get; set; }
     }
 
-    public partial class PointIterationHandler<T> : CanvasNode<T>, IPointIterationHandler, IEnumerable where T : Internals.PointIterationHandler, new()
+    public partial class PointInterationHandler<T> : CanvasNode<T>, IPointInterationHandler, IEnumerable where T : Internals.PointInterationHandler, new()
     {
-        public PointIterationHandler()
+        public PointInterationHandler()
         {
 
         }
 
-        public PointIterationHandler(Action<T?> componentRefAction)
+        public PointInterationHandler(Action<T?> componentRefAction)
             : base(componentRefAction)
         {
 
         }
 
-        Action? IPointIterationHandler.TapAction { get; set; }
+        Action? IPointInterationHandler.TapAction { get; set; }
 
 
         protected override IEnumerable<VisualNode> RenderChildren()
@@ -41,7 +41,7 @@ namespace MauiReactor.Canvas
 
         protected override void OnAttachNativeEvents()
         {
-            var thisAsIPointIterationHandler = (IPointIterationHandler)this;
+            var thisAsIPointIterationHandler = (IPointInterationHandler)this;
 
             if (thisAsIPointIterationHandler.TapAction != null)
             {
@@ -56,7 +56,7 @@ namespace MauiReactor.Canvas
 
         private void NativeControl_Tap(object? sender, EventArgs e)
         {
-            var thisAsIPointIterationHandler = (IPointIterationHandler)this;
+            var thisAsIPointIterationHandler = (IPointInterationHandler)this;
             thisAsIPointIterationHandler.TapAction?.Invoke();
         }
 
@@ -69,49 +69,49 @@ namespace MauiReactor.Canvas
             base.OnDetachNativeEvents();
         }
 
-        PropertyValue<bool>? IPointIterationHandler.IsEnabled { get; set; }
+        PropertyValue<bool>? IPointInterationHandler.IsEnabled { get; set; }
 
         protected override void OnUpdate()
         {
             Validate.EnsureNotNull(NativeControl);
-            var thisAsIPointIterationHandler = (IPointIterationHandler)this;
+            var thisAsIPointIterationHandler = (IPointInterationHandler)this;
 
-            SetPropertyValue(NativeControl, Internals.PointIterationHandler.IsEnabledProperty, thisAsIPointIterationHandler.IsEnabled);
+            SetPropertyValue(NativeControl, Internals.PointInterationHandler.IsEnabledProperty, thisAsIPointIterationHandler.IsEnabled);
 
             base.OnUpdate();
         }
     }
 
-    public partial class PointIterationHandler : PointIterationHandler<Internals.PointIterationHandler>
+    public partial class PointInterationHandler : PointInterationHandler<Internals.PointInterationHandler>
     {
-        public PointIterationHandler()
+        public PointInterationHandler()
         {
 
         }
 
-        public PointIterationHandler(Action<Internals.PointIterationHandler?> componentRefAction)
+        public PointInterationHandler(Action<Internals.PointInterationHandler?> componentRefAction)
             : base(componentRefAction)
         {
 
         }
     }
 
-    public static partial class PointIterationHandlerExtensions
+    public static partial class PointInterationHandlerExtensions
     {
 
-        public static T IsEnabled<T>(this T node, bool value) where T : IPointIterationHandler
+        public static T IsEnabled<T>(this T node, bool value) where T : IPointInterationHandler
         {
             node.IsEnabled = new PropertyValue<bool>(value);
             return node;
         }
 
-        public static T IsEnabled<T>(this T node, Func<bool> valueFunc) where T : IPointIterationHandler
+        public static T IsEnabled<T>(this T node, Func<bool> valueFunc) where T : IPointInterationHandler
         {
             node.IsEnabled = new PropertyValue<bool>(valueFunc);
             return node;
         }       
         
-        public static T OnTap<T>(this T node, Action? action) where T : IPointIterationHandler
+        public static T OnTap<T>(this T node, Action? action) where T : IPointInterationHandler
         {
             node.TapAction = action;
             return node;

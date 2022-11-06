@@ -21,7 +21,7 @@
         public Color? StartColor { get; private set; }
 
         private bool _isCompleted;
-        public override bool IsCompleted() => _isCompleted;
+        public override bool IsCompleted() => _isCompleted || StartColor == null || StartColor == TargetColor;
 
         public override Color CurrentValue()
         {

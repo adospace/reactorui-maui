@@ -14,7 +14,7 @@ namespace MauiReactor.Animations
         public SizeF? StartPoint { get; private set; }
 
         private bool _isCompleted;
-        public override bool IsCompleted() => _isCompleted;
+        public override bool IsCompleted() => _isCompleted || StartPoint == null || StartPoint.Value == TargetPoint;
 
         public override SizeF CurrentValue()
         {

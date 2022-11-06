@@ -14,7 +14,7 @@ namespace MauiReactor.Animations
         public Vector2? StartPoint { get; private set; }
 
         private bool _isCompleted;
-        public override bool IsCompleted() => _isCompleted;
+        public override bool IsCompleted() => _isCompleted || StartPoint == null || StartPoint.Value == TargetPoint;
 
         public override Vector2 CurrentValue()
         {

@@ -289,7 +289,7 @@ class EventComponent : Component
             new Column("133, 80, 32, *")
             {
 
-                new PointIterationHandler
+                new PointInterationHandler
                 {
                     new ClipRectangle()
                     {
@@ -376,7 +376,7 @@ class EventComponent : Component
 
                 new Row
                 {
-                    new PointIterationHandler
+                    new PointInterationHandler
                     {
                         new Box
                         {
@@ -398,7 +398,7 @@ class EventComponent : Component
                         .BackgroundColor(ThemeBrushes.Purple50)
                         .Margin(0,0,4,0)
                     },
-                    new PointIterationHandler
+                    new PointInterationHandler
                     {
                         new Box
                         {

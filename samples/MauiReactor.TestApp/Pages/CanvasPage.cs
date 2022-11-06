@@ -22,80 +22,119 @@ class CanvasPage : Component<CanvasPageState>
     {
         return new ContentPage("Canvas Test Page")
         {
-            new Grid("Auto,Auto,Auto,*", "*")
+            new CanvasView
             {
-                new Slider()
-                    .Minimum(0)
-                    .Maximum(360)
-                    .Value(State.Degrees)
-                    .OnValueChanged((s, args)=>SetState(s => s.Degrees = (float)args.NewValue)),
-
-                new Slider()
-                    .Minimum(0.5)
-                    .Maximum(2.0)
-                    .Value(State.ScaleX)
-                    .OnValueChanged((s, args)=>SetState(s => s.ScaleX = (float)args.NewValue))
-                    .GridRow(1),
-
-                new Slider()
-                    .Minimum(0.5)
-                    .Maximum(2.0)
-                    .Value(State.ScaleY)
-                    .OnValueChanged((s, args)=>SetState(s => s.ScaleY = (float)args.NewValue))
-                    .GridRow(2),
-
-                new CanvasView
+                new Column("100,*")
                 {
-                    new Row
-                    {
-                        new Box()
-                        {
-                            new Picture("MauiReactor.TestApp.Resources.Images.Embedded.norway_1.jpeg")
-                                .Aspect(Aspect.AspectFill)
-                        }
-                        .Margin(10)
-                        .BackgroundColor(Colors.Green)
-                        .CornerRadius(10)
-                        ,
-
-                        new Align
-                        {
-                            new PointIterationHandler
-                            {
-                                new Box()
-                                {
-                                    new Text("Text")
-                                        .FontSize(14f)
-                                        .FontColor(Colors.Bisque)
-                                        .VerticalAlignment(VerticalAlignment.Center)
-                                        .HorizontalAlignment(HorizontalAlignment.Center)
-                                }
-                                .Margin(10)
-                                .BackgroundColor(Colors.Red)
-                                .CornerRadius(10)
-                                .Anchor(0.5f, 0.5f)
-                                .Rotate(State.Degrees)
-                                .Scale(State.ScaleX, State.ScaleY)
-                            }
-                            .OnTap(OnClicked)
-                        }
-                        .Height(300)
-                        .VerticalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Center)
+                    new Box()
+                    { 
+                        new Text("This a Text element!")
+                            .HorizontalAlignment(HorizontalAlignment.Center)
+                            .VerticalAlignment(VerticalAlignment.Center)
+                            .FontColor(Colors.White)
+                            .FontSize(24)                    
                     }
-                    .Columns("100, *")
+                    .Margin(10)
+                    .BackgroundColor(Colors.Green)
+                    .CornerRadius(10)
+                    ,
+                    new Box()
+                    { 
+                        new Column("*, 50")
+                        {
+                            new Picture("MauiReactor.TestApp.Resources.Images.Embedded.norway_1.jpeg"),
+                            new Text("Awesome Norway!")
+                                .HorizontalAlignment(HorizontalAlignment.Center)
+                                .VerticalAlignment(VerticalAlignment.Center)
+                                .FontColor(Colors.White)
+                                .FontSize(24)
+                        },
+                    }
+                    .Margin(10)
+                    .BackgroundColor(Colors.Red)
+                    .CornerRadius(10)
                 }
-                .GridRow(3)
             }
         };
     }
+    //public override VisualNode Render()
+    //{
+    //    return new ContentPage("Canvas Test Page")
+    //    {
+    //        new Grid("Auto,Auto,Auto,*", "*")
+    //        {
+    //            new Slider()
+    //                .Minimum(0)
+    //                .Maximum(360)
+    //                .Value(State.Degrees)
+    //                .OnValueChanged((s, args)=>SetState(s => s.Degrees = (float)args.NewValue)),
 
-    private async void OnClicked()
-    {
-        if (ContainerPage == null)
-        {
-            return;
-        }
+    //            new Slider()
+    //                .Minimum(0.5)
+    //                .Maximum(2.0)
+    //                .Value(State.ScaleX)
+    //                .OnValueChanged((s, args)=>SetState(s => s.ScaleX = (float)args.NewValue))
+    //                .GridRow(1),
 
-        await ContainerPage.DisplayAlert("Test Message", "Tap event", "OK");
-    }
+    //            new Slider()
+    //                .Minimum(0.5)
+    //                .Maximum(2.0)
+    //                .Value(State.ScaleY)
+    //                .OnValueChanged((s, args)=>SetState(s => s.ScaleY = (float)args.NewValue))
+    //                .GridRow(2),
+
+    //            new CanvasView
+    //            {
+    //                new Row
+    //                {
+    //                    new Box()
+    //                    {
+    //                        new Picture("MauiReactor.TestApp.Resources.Images.Embedded.norway_1.jpeg")
+    //                            .Aspect(Aspect.AspectFill)
+    //                    }
+    //                    .Margin(10)
+    //                    .BackgroundColor(Colors.Green)
+    //                    .CornerRadius(10)
+    //                    ,
+
+    //                    new Align
+    //                    {
+    //                        new PointIterationHandler
+    //                        {
+    //                            new Box()
+    //                            {
+    //                                new Text("Text")
+    //                                    .FontSize(14f)
+    //                                    .FontColor(Colors.Bisque)
+    //                                    .VerticalAlignment(VerticalAlignment.Center)
+    //                                    .HorizontalAlignment(HorizontalAlignment.Center)
+    //                            }
+    //                            .Margin(10)
+    //                            .BackgroundColor(Colors.Red)
+    //                            .CornerRadius(10)
+    //                            .Anchor(0.5f, 0.5f)
+    //                            .Rotate(State.Degrees)
+    //                            .Scale(State.ScaleX, State.ScaleY)
+    //                        }
+    //                        .OnTap(OnClicked)
+    //                    }
+    //                    .Height(300)
+    //                    .VerticalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Center)
+    //                }
+    //                .Columns("100, *")
+    //            }
+    //            .GridRow(3)
+    //        }
+    //    };
+    //}
+
+    //private async void OnClicked()
+    //{
+    //    if (ContainerPage == null)
+    //    {
+    //        return;
+    //    }
+
+    //    await ContainerPage.DisplayAlert("Test Message", "Tap event", "OK");
+    //}
 }

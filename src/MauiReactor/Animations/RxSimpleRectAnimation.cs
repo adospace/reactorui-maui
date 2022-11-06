@@ -12,11 +12,8 @@
         public Rect? StartPoint { get; private set; }
 
         private bool _isCompleted;
-        public override bool IsCompleted()
-        {
-            return _isCompleted || StartPoint == null || StartPoint.Value == TargetPoint;
-        }
-        
+        public override bool IsCompleted() => _isCompleted || StartPoint == null || StartPoint.Value == TargetPoint;
+
 
         public override Rect CurrentValue()
         {

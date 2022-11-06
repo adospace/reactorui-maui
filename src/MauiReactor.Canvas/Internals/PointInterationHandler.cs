@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.Canvas.Internals
 {
-    public class PointIterationHandler : CanvasNode, IDragInteractionHandler
+    public class PointInterationHandler : CanvasNode, IDragInteractionHandler
     {
         private RectF _hitRect;
 
         public event EventHandler? Tap;
         public CanvasNode? Child => Children.Count > 0 ? Children[0] : null;
 
-        public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create(nameof(IsEnabled), typeof(bool), typeof(PointIterationHandler), true);
+        public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create(nameof(IsEnabled), typeof(bool), typeof(PointInterationHandler), true);
         public bool IsEnabled
         {
             get => (bool)GetValue(IsEnabledProperty);
