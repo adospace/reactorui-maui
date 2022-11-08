@@ -162,7 +162,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
             return new VerticalStackLayout
             {
                 new Label("Next 24 Hours")
-                    .Margin(Device.Idiom == TargetIdiom.Phone ? new Thickness(15,0) : new Thickness(25,0))
+                    .Margin(DeviceInfo.Current.Idiom == DeviceIdiom.Phone ? new Thickness(15,0) : new Thickness(25,0))
                     .Class("SectionTitle"),
 
                 new HorizontalScrollView
@@ -186,7 +186,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
                         })
                     }
                     .Spacing(12)
-                    .Padding(Device.Idiom == TargetIdiom.Phone ? new Thickness(15, 0) : new Thickness(25,0))
+                    .Padding(DeviceInfo.Current.Idiom == DeviceIdiom.Phone ? new Thickness(15, 0) : new Thickness(25,0))
                 }
             };
         }

@@ -13,6 +13,8 @@ namespace MauiReactor
 {
     public partial interface IVisualElement : INavigableElement
     {
+        PropertyValue<int>? ZIndex { get; set; }
+
         PropertyValue<bool>? InputTransparent { get; set; }
 
         PropertyValue<bool>? IsEnabled { get; set; }
@@ -100,6 +102,8 @@ namespace MauiReactor
         {
         }
 
+        PropertyValue<int>? IVisualElement.ZIndex { get; set; }
+
         PropertyValue<bool>? IVisualElement.InputTransparent { get; set; }
 
         PropertyValue<bool>? IVisualElement.IsEnabled { get; set; }
@@ -181,6 +185,7 @@ namespace MauiReactor
             OnBeginUpdate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsIVisualElement = (IVisualElement)this;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.ZIndexProperty, thisAsIVisualElement.ZIndex);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.InputTransparentProperty, thisAsIVisualElement.InputTransparent);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.IsEnabledProperty, thisAsIVisualElement.IsEnabled);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.AnchorXProperty, thisAsIVisualElement.AnchorX);
@@ -349,6 +354,20 @@ namespace MauiReactor
 
     public static partial class VisualElementExtensions
     {
+        public static T ZIndex<T>(this T visualElement, int zIndex)
+            where T : IVisualElement
+        {
+            visualElement.ZIndex = new PropertyValue<int>(zIndex);
+            return visualElement;
+        }
+
+        public static T ZIndex<T>(this T visualElement, Func<int> zIndexFunc)
+            where T : IVisualElement
+        {
+            visualElement.ZIndex = new PropertyValue<int>(zIndexFunc);
+            return visualElement;
+        }
+
         public static T InputTransparent<T>(this T visualElement, bool inputTransparent)
             where T : IVisualElement
         {

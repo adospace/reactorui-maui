@@ -13,7 +13,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
         {
             return new ContentPage(title: "Wind Map")
             {
-                Device.Idiom == TargetIdiom.Phone ?
+                DeviceInfo.Current.Idiom == DeviceIdiom.Phone ?
                 RenderPhoneLayout()
                 :
                 RenderDesktopLayout()

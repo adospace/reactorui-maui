@@ -97,7 +97,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
             .HeightRequest(132)
             .WidthRequest(132)
             .HCenter()
-            .Margin(Device.Idiom == TargetIdiom.Phone ? 15 : 25)
+            .Margin(DeviceInfo.Current.Idiom == DeviceIdiom.Phone ? 15 : 25)
             .Stroke(Brush.Transparent)
             .StrokeThickness(1)
             .BackgroundColor(ThemeColors.Background_Mid)

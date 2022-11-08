@@ -5,7 +5,7 @@ namespace MauiReactor.HotReloadConsole
 {
     public class Options
     {
-        [Option('f', "framework", Required = true, HelpText = "Specify the framework: net6.0-android, net6.0-ios or net6.0-maccatalyst")]
+        [Option('f', "framework", Required = true, HelpText = "Specify the framework: net7.0-android, net7.0-ios or net7.0-maccatalyst")]
         public string? Framework { get; set; }
 
         [Option('p', "proj")]

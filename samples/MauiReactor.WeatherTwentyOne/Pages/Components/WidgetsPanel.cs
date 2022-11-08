@@ -82,7 +82,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
             .BackgroundColor(Application.Current?.RequestedTheme == AppTheme.Dark ? ThemeColors.Background_Mid : ThemeColors.LightGray);
         }
 
-        async void OnTapped(object? sender, EventArgs eventArgs)
+        async void OnTapped(object sender, EventArgs eventArgs)
         {
             var g = (sender as Microsoft.Maui.Controls.Grid) ?? throw new InvalidOperationException();
 

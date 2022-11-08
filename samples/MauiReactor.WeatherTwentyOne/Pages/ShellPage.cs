@@ -10,7 +10,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
     {
         public override VisualNode Render()
         {
-            if (Device.Idiom == TargetIdiom.Phone)
+            if (DeviceInfo.Current.Idiom == DeviceIdiom.Phone)
             {
                 return RenderPhoneLayout();
             }

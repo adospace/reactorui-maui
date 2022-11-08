@@ -2,6 +2,7 @@
 using Foundation;
 using ObjCRuntime;
 using MauiReactor.WeatherTwentyOne.Services;
+using CoreFoundation;
 
 namespace MauiReactor.WeatherTwentyOne.MacCatalyst;
 
@@ -39,7 +40,7 @@ public class TrayService : NSObject, ITrayService
         statusBarImage = Runtime.GetNSObject(IntPtr_objc_msgSend(ObjCRuntime.Class.GetHandle("NSImage"), Selector.GetHandle("alloc")));
 
         var imgPath = System.IO.Path.Combine(NSBundle.MainBundle.BundlePath, "Contents", "Resources", "MacCatalyst", "trayicon.png");
-        var imageFileStr = NSString.CreateNative(imgPath);
+        var imageFileStr = CFString.CreateNative(imgPath);
         var nsImagePtr = IntPtr_objc_msgSend_IntPtr(statusBarImage.Handle, Selector.GetHandle("initWithContentsOfFile:"), imageFileStr);
 
         void_objc_msgSend_IntPtr(statusBarButton.Handle, Selector.GetHandle("setImage:"), statusBarImage.Handle);

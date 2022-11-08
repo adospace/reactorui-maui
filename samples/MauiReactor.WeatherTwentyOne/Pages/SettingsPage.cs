@@ -137,9 +137,9 @@ namespace MauiReactor.WeatherTwentyOne.Pages
                     .JustifyContent(Microsoft.Maui.Layouts.FlexJustify.SpaceBetween)
                 }
             }
-            .Margin(Device.Idiom == TargetIdiom.Phone ? 15.0 : 25.0);
+            .Margin(DeviceInfo.Current.Idiom == DeviceIdiom.Phone ? 15.0 : 25.0);
 
-        void OnSwitchTheme(object? sender, ToggledEventArgs args)
+        void OnSwitchTheme(object sender, ToggledEventArgs args)
         {
             if (Application.Current != null)
             {

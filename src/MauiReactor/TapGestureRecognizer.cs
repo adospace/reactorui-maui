@@ -15,9 +15,11 @@ namespace MauiReactor
     {
         PropertyValue<int>? NumberOfTapsRequired { get; set; }
 
+        PropertyValue<Microsoft.Maui.Controls.ButtonsMask>? Buttons { get; set; }
+
         Action? TappedAction { get; set; }
 
-        Action<object?, EventArgs>? TappedActionWithArgs { get; set; }
+        Action<object?, TappedEventArgs>? TappedActionWithArgs { get; set; }
     }
 
     public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.TapGestureRecognizer>, ITapGestureRecognizer
@@ -32,9 +34,11 @@ namespace MauiReactor
 
         PropertyValue<int>? ITapGestureRecognizer.NumberOfTapsRequired { get; set; }
 
+        PropertyValue<Microsoft.Maui.Controls.ButtonsMask>? ITapGestureRecognizer.Buttons { get; set; }
+
         Action? ITapGestureRecognizer.TappedAction { get; set; }
 
-        Action<object?, EventArgs>? ITapGestureRecognizer.TappedActionWithArgs { get; set; }
+        Action<object?, TappedEventArgs>? ITapGestureRecognizer.TappedActionWithArgs { get; set; }
 
         protected override void OnUpdate()
         {
@@ -42,6 +46,7 @@ namespace MauiReactor
             Validate.EnsureNotNull(NativeControl);
             var thisAsITapGestureRecognizer = (ITapGestureRecognizer)this;
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TapGestureRecognizer.NumberOfTapsRequiredProperty, thisAsITapGestureRecognizer.NumberOfTapsRequired);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TapGestureRecognizer.ButtonsProperty, thisAsITapGestureRecognizer.Buttons);
             base.OnUpdate();
             OnEndUpdate();
         }
@@ -63,7 +68,7 @@ namespace MauiReactor
             base.OnAttachNativeEvents();
         }
 
-        private void NativeControl_Tapped(object? sender, EventArgs e)
+        private void NativeControl_Tapped(object? sender, TappedEventArgs e)
         {
             var thisAsITapGestureRecognizer = (ITapGestureRecognizer)this;
             thisAsITapGestureRecognizer.TappedAction?.Invoke();
@@ -98,6 +103,20 @@ namespace MauiReactor
             return tapGestureRecognizer;
         }
 
+        public static T Buttons<T>(this T tapGestureRecognizer, Microsoft.Maui.Controls.ButtonsMask buttons)
+            where T : ITapGestureRecognizer
+        {
+            tapGestureRecognizer.Buttons = new PropertyValue<Microsoft.Maui.Controls.ButtonsMask>(buttons);
+            return tapGestureRecognizer;
+        }
+
+        public static T Buttons<T>(this T tapGestureRecognizer, Func<Microsoft.Maui.Controls.ButtonsMask> buttonsFunc)
+            where T : ITapGestureRecognizer
+        {
+            tapGestureRecognizer.Buttons = new PropertyValue<Microsoft.Maui.Controls.ButtonsMask>(buttonsFunc);
+            return tapGestureRecognizer;
+        }
+
         public static T OnTapped<T>(this T tapGestureRecognizer, Action? tappedAction)
             where T : ITapGestureRecognizer
         {
@@ -105,7 +124,7 @@ namespace MauiReactor
             return tapGestureRecognizer;
         }
 
-        public static T OnTapped<T>(this T tapGestureRecognizer, Action<object?, EventArgs>? tappedActionWithArgs)
+        public static T OnTapped<T>(this T tapGestureRecognizer, Action<object?, TappedEventArgs>? tappedActionWithArgs)
             where T : ITapGestureRecognizer
         {
             tapGestureRecognizer.TappedActionWithArgs = tappedActionWithArgs;
