@@ -1,7 +1,8 @@
 {
   "profiles": {
     "Profile 1": {
-      "commandName": "DebugRoslynComponent"
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\MauiReactor.Maps\\MauiReactor.Maps.csproj"
     }
   }
 }

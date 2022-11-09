@@ -27,9 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contentics", "..\samples\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator", "..\samples\Calculator\Calculator.csproj", "{A28B7230-BFE6-4F71-B7D4-DB90059623AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiReactor.ScaffoldGenerator", "MauiReactor.ScaffoldGenerator\MauiReactor.ScaffoldGenerator.csproj", "{F887FB22-EC3C-430A-B202-E7FF9E38E31A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.ScaffoldGenerator", "MauiReactor.ScaffoldGenerator\MauiReactor.ScaffoldGenerator.csproj", "{F887FB22-EC3C-430A-B202-E7FF9E38E31A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChartApp", "..\samples\ChartApp\ChartApp.csproj", "{EB3CC953-7952-4209-B3F3-85E7D4BC680C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChartApp", "..\samples\ChartApp\ChartApp.csproj", "{EB3CC953-7952-4209-B3F3-85E7D4BC680C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiReactor.Maps", "MauiReactor.Maps\MauiReactor.Maps.csproj", "{C34442B7-D43D-4DE3-8D70-B1EB73740EF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +103,10 @@ Global
 		{EB3CC953-7952-4209-B3F3-85E7D4BC680C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB3CC953-7952-4209-B3F3-85E7D4BC680C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB3CC953-7952-4209-B3F3-85E7D4BC680C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C34442B7-D43D-4DE3-8D70-B1EB73740EF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C34442B7-D43D-4DE3-8D70-B1EB73740EF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C34442B7-D43D-4DE3-8D70-B1EB73740EF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C34442B7-D43D-4DE3-8D70-B1EB73740EF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

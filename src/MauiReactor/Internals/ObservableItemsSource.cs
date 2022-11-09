@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 
 namespace MauiReactor.Internals
 {
-    internal class ObservableItemsSource<T> : IEnumerable<T>, IEnumerable, INotifyCollectionChanged
+    public class ObservableItemsSource<T> : IEnumerable<T>, IEnumerable, INotifyCollectionChanged
     {
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
         private readonly bool _collectionWithNotifyEvent;
@@ -52,7 +52,7 @@ namespace MauiReactor.Internals
         public IEnumerable<T> ItemsSource { get; }
     }
 
-    internal class ObservableListItemsSource<T> : ObservableItemsSource<T>, IReadOnlyList<T>
+    public class ObservableListItemsSource<T> : ObservableItemsSource<T>, IReadOnlyList<T>
     {
         private readonly IReadOnlyList<T> _itemsSource;
 
@@ -67,7 +67,7 @@ namespace MauiReactor.Internals
         public int Count => _itemsSource.Count;
     }
 
-    internal class ObservableItemsSource : IEnumerable, INotifyCollectionChanged
+    public class ObservableItemsSource : IEnumerable, INotifyCollectionChanged
     {
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
         private readonly bool _collectionWithNotifyEvent;

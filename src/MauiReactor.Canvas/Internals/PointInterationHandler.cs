@@ -40,13 +40,26 @@ namespace MauiReactor.Canvas.Internals
             return false;
         }
 
+        private PointF[]? _touchPoints;
+
         public void StartDrag(PointF[] touchPoints)
         {
-            Tap?.Invoke(this, EventArgs.Empty);
+            _touchPoints = touchPoints;
         }
 
         public void StopDrag(PointF[] touchPoints)
         {
+            if (_touchPoints != null &&
+                _touchPoints.Length > 0)
+            {
+                if (touchPoints.Length > 0 &&
+                    touchPoints[0].Distance(_touchPoints[0]) < 0.1)
+                {
+                    Tap?.Invoke(this, EventArgs.Empty);
+                }
+
+                _touchPoints = null;
+            }
         }
 
         protected override void OnDraw(DrawingContext context)

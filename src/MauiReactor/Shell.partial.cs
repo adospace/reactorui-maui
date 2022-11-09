@@ -64,15 +64,6 @@ namespace MauiReactor
 
             private VisualNode _root;
 
-            //private IHostElement GetPageHost()
-            //{
-            //    var current = _owner;
-            //    while (current != null && current is not IHostElement)
-            //        current = current.Parent;
-
-            //    return Validate.EnsureNotNull(current as IHostElement);
-            //}
-
             private VisualNode Root
             {
                 get => _root;
@@ -94,7 +85,6 @@ namespace MauiReactor
                 return ((IVisualNode)_owner).GetPageHost();
             }
 
-            //public Microsoft.Maui.Controls.Page? ContainerPage => GetPageHost()?.ContainerPage;
 
             protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
             {

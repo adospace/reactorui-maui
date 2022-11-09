@@ -5,6 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="Microsoft.CodeAnalysis" #>
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,12 @@ namespace <#= Namespace #>
     public partial interface <#= InterfaceName #> : <#= BaseInterfaceName() #>
     <# } #>
     {
+    <# if (SupportItemTemplate) { #>
+        IEnumerable? ItemsSource { get; set; }
+
+        Func<object, VisualNode>? ItemTemplate { get; set; }
+    <# } #>
+
     <# foreach (var property in Properties) { #>
         PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>? <#= property.Name #> { get; set; }
     <# } #>
@@ -39,7 +46,7 @@ namespace <#= Namespace #>
     }
 
     <# if (IsBaseGenericType) { #>
-    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T, <#= GenericArgumentBaseFullBaseTypeName #>>, <#= InterfaceName #> where T : <#= FullTypeName #>, new()
+    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T, <#= GenericArgumentBaseFullBaseTypeName #>><#= SupportItemTemplate ? ", ICustomDataTemplateOwner" : string.Empty #>, ICustomDataTemplateOwner where T : <#= FullTypeName #>, new()
     {
         public <#= TypeName #>()
         { 
@@ -52,7 +59,7 @@ namespace <#= Namespace #>
 
         }
     <# } else if (IsGenericType) { #>
-    public abstract partial class <#= TypeName #><T, TChild> : <#= BaseTypeName() #><T>, <#= InterfaceName #> where T : <#= FullTypeName #><TChild>, new() where TChild : <#= GenericArgumentBaseFullTypeName #>
+    public abstract partial class <#= TypeName #><T, TChild> : <#= BaseTypeName() #><T>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner" : string.Empty #> where T : <#= FullTypeName #><TChild>, new() where TChild : <#= GenericArgumentBaseFullTypeName #>
     {
         public <#= TypeName #>()
         { 
@@ -65,7 +72,7 @@ namespace <#= Namespace #>
 
         }
     <# } else if (IsTypeSealed) { #>
-    public sealed partial class <#= TypeName #> : <#= BaseTypeName() #><<#= FullTypeName #>>, <#= InterfaceName #>
+    public sealed partial class <#= TypeName #> : <#= BaseTypeName() #><<#= FullTypeName #>>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner" : string.Empty #>
     {
         public <#= TypeName #>()
         { 
@@ -78,7 +85,7 @@ namespace <#= Namespace #>
 
         }
     <# } else if (IsTypeNotAbstractWithEmptyConstructor) { #>
-    public partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #> where T : <#= FullTypeName #>, new()
+    public partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner" : string.Empty #> where T : <#= FullTypeName #>, new()
     {
         public <#= TypeName #>()
         { 
@@ -91,7 +98,7 @@ namespace <#= Namespace #>
 
         }
     <# } else { #>
-    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #> where T : <#= FullTypeName #>, new()
+    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #> <#= SupportItemTemplate ? ", ICustomDataTemplateOwner" : string.Empty #> where T : <#= FullTypeName #>, new()
     {
         protected <#= TypeName #>()
         { 
@@ -104,6 +111,13 @@ namespace <#= Namespace #>
 
         }    
     <# } #>
+        <# if (SupportItemTemplate) { #>
+        IEnumerable? <#= InterfaceName #>.ItemsSource { get; set; }
+
+        Func<object, VisualNode>? <#= InterfaceName #>.ItemTemplate { get; set; }
+
+        Func<object, VisualNode>? ICustomDataTemplateOwner.ItemTemplate => ((<#= InterfaceName #>)this).ItemTemplate;
+        <# } #>
 
         <# foreach (var property in Properties) { #>
         PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>? <#= InterfaceName #>.<#= property.Name #> { get; set; }
@@ -116,13 +130,88 @@ namespace <#= Namespace #>
         Action<<#= GetActionWithArgsParameters(ev) #>>? <#= InterfaceName #>.<#= ev.Name #>ActionWithArgs { get; set; }
         <# } #>
 
+        <# if (_childrenTypes.Length > 0) { #>
+        <# foreach (var childType in _childrenTypes) { #>
+        private readonly Dictionary<Microsoft.Maui.Controls.BindableObject, <#= childType.TypeSymbol.GetFullyQualifiedName() #>> _<#= childType.TypeSymbol.Name.ToLocalVariableName() #>ElementItemMap = new();
+        <# } #>
+
+        <# if (SupportItemTemplate) { #>
+        private CustomDataTemplate? _customDataTemplate;
+        <# } #>
+        
+        protected override void OnAddChild(VisualNode widget, Microsoft.Maui.Controls.BindableObject childControl)
+        {
+            Validate.EnsureNotNull(NativeControl);
+
+            var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
+            <# bool firstElementToAdd = true; #>
+            <# foreach (var childType in _childrenTypes) { #>
+            <#= firstElementToAdd ? string.Empty : "else " #>if (childControl is <#= childType.TypeSymbol.GetFullyQualifiedName() #> <#= childType.TypeSymbol.Name.ToLocalVariableName() #>Item)
+            {
+                NativeControl.<#= childType.ChildPropertyName #>.Insert(widget.ChildIndex, <#= childType.TypeSymbol.Name.ToLocalVariableName() #>Item);
+                _<#= childType.TypeSymbol.Name.ToLocalVariableName() #>ElementItemMap[childControl] = <#= childType.TypeSymbol.Name.ToLocalVariableName() #>Item;
+            }
+            <# firstElementToAdd = false; #>
+            <# } #>
+
+            base.OnAddChild(widget, childControl);
+        }
+
+        protected override void OnRemoveChild(VisualNode widget, Microsoft.Maui.Controls.BindableObject childControl)
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
+            <# bool firstElementRemove = true; #>
+            <# foreach (var childType in _childrenTypes) { #>
+            <#= firstElementRemove ? string.Empty : "else " #>if (_<#= childType.TypeSymbol.Name.ToLocalVariableName() #>ElementItemMap.TryGetValue(childControl, out var <#= childType.TypeSymbol.Name.ToLocalVariableName() #>Item))
+            {
+                NativeControl.<#= childType.ChildPropertyName #>.Remove(<#= childType.TypeSymbol.Name.ToLocalVariableName() #>Item);
+            }
+            <# firstElementRemove = false; #>
+            <# } #>
+
+            base.OnRemoveChild(widget, childControl);
+        }
+        <# }#>
+
         protected override void OnUpdate()
         {
             OnBeginUpdate();
-            <# if (Properties.Any()) { #>
 
+            <# if (Properties.Any() || SupportItemTemplate) { #>
             Validate.EnsureNotNull(NativeControl);
             var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
+            <#}#>
+            
+            <# if (SupportItemTemplate) { #>
+            if (NativeControl.ItemsSource is ObservableItemsSource existingCollection &&
+                existingCollection.ItemsSource == thisAs<#= InterfaceName #>.ItemsSource)
+            {
+                Validate.EnsureNotNull(_customDataTemplate);
+
+                _customDataTemplate.Owner = this;
+                existingCollection.NotifyCollectionChanged();
+            }
+            else if (thisAs<#= InterfaceName #>.ItemsSource != null)
+            {
+                _customDataTemplate = new CustomDataTemplate(this);
+                NativeControl.ItemsSource = ObservableItemsSource.Create(thisAs<#= InterfaceName #>.ItemsSource);
+                NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
+            }
+            else
+            {
+                <# if (IsGenericType) { #>
+                NativeControl.ClearValue(<#= FullTypeName #><TChild>.ItemsSourceProperty);
+                NativeControl.ClearValue(<#= FullTypeName #><TChild>.ItemTemplateProperty);
+                <# } else { #>
+                NativeControl.ClearValue(<#= FullTypeName #>.ItemsSourceProperty);
+                NativeControl.ClearValue(<#= FullTypeName #>.ItemTemplateProperty);
+                <# } #>
+            }
+            <# } #>
+
+
+            <# if (Properties.Any()) { #>
             <# foreach (var property in Properties) { #>
             <# if (IsGenericType) { #>
             SetPropertyValue(NativeControl, <#= FullTypeName #><TChild>.<#= property.Name #>Property, thisAs<#= InterfaceName #>.<#= property.Name #>);
@@ -206,7 +295,20 @@ namespace <#= Namespace #>
             base.OnDetachNativeEvents();
         }
         <# } #>
+        
+        <# if (SupportItemTemplate) { #>
+        protected override void OnMigrated(VisualNode newNode)
+        {
+            var new<#= TypeName #> = ((<#= TypeName #><T>)newNode);
+            new<#= TypeName #>._customDataTemplate = _customDataTemplate;
+            if (new<#= TypeName #>._customDataTemplate != null)
+            {
+                new<#= TypeName #>._customDataTemplate.Owner = new<#= TypeName #>;
+            }            
 
+            base.OnMigrated(newNode);
+        }
+        <# } #>
     }
 
     <# if (IsTypeNotAbstractWithEmptyConstructor && !IsTypeSealed) { #>
@@ -227,6 +329,22 @@ namespace <#= Namespace #>
 
     public static partial class <#= TypeName #>Extensions
     {
+        <# if (SupportItemTemplate) { #>
+        public static T ItemsSource<T, TItem>(this T <#= TypeName.ToLocalVariableName() #>, IEnumerable<TItem> itemsSource) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.ItemsSource = itemsSource;
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+
+        public static T ItemsSource<T, TItem>(this T <#= TypeName.ToLocalVariableName() #>, IEnumerable<TItem> itemsSource, Func<TItem, VisualNode> template) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.ItemsSource = itemsSource;
+            <#= TypeName.ToLocalVariableName() #>.ItemTemplate = new Func<object, VisualNode>(item => template((TItem)item));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        <# } #>
+
+
         <# foreach (var property in Properties) { #>
         <# if (property.Type.Equals(TypeofDouble, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxDoubleAnimation? customAnimation = null) where T : <#= InterfaceName #>

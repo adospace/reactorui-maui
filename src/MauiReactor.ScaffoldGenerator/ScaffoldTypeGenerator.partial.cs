@@ -9,11 +9,19 @@ namespace MauiReactor.ScaffoldGenerator;
 
 public partial class ScaffoldTypeGenerator
 {
-    public ScaffoldTypeGenerator(Compilation compilation, INamedTypeSymbol generatorType, INamedTypeSymbol typeToScaffold)
+    private readonly (INamedTypeSymbol TypeSymbol, string ChildPropertyName)[] _childrenTypes;
+
+    public ScaffoldTypeGenerator(
+        Compilation compilation, 
+        INamedTypeSymbol generatorType, 
+        INamedTypeSymbol typeToScaffold,
+        (INamedTypeSymbol TypeSymbol, string ChildPropertyName)[] childrenTypes,
+        bool implementItemTemplateFlag)
     {
         var declaringTypeFullName = typeToScaffold.GetFullyQualifiedName();
         var bindablePropertyType = compilation.FindNamedType("Microsoft.Maui.Controls.BindableProperty");
         var editorBrowsableAttribute = compilation.FindNamedType("System.ComponentModel.EditorBrowsableAttribute");
+        _childrenTypes = childrenTypes;
 
         var propertiesMap = typeToScaffold.GetMembers()
             .Where(_ => _.Kind == SymbolKind.Property)
@@ -84,10 +92,13 @@ public partial class ScaffoldTypeGenerator
                 _.Type.Equals(TypeofThickness, SymbolEqualityComparer.Default) ||
                 _.Type.Equals(TypeofPoint, SymbolEqualityComparer.Default))
             .ToArray();
+
+        SupportItemTemplate = implementItemTemplateFlag && typeToScaffold.GetMembers().Count(_ => _.Name == "ItemsSource" || _.Name == "ItemTemplate") == 2;
     }
 
     private IPropertySymbol[] Properties { get; }
     private IPropertySymbol[] AnimatableProperties { get; }
+    public bool SupportItemTemplate { get; }
     private IEventSymbol[] Events { get; }
     private string Namespace { get; }
     private string TypeName { get; }

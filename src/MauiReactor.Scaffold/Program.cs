@@ -8,7 +8,6 @@ Directory.CreateDirectory(outputPath);
 Console.WriteLine($"Generating MauiReactor wrappers...");
 Console.WriteLine($"Output Path: {outputPath}");
 
-//force XF assembly load
 var _ = new Microsoft.Maui.Controls.Shapes.Rectangle();
 
 var types = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
