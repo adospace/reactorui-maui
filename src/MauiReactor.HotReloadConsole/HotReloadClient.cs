@@ -93,9 +93,9 @@ namespace MauiReactor.HotReloadConsole
             | RegexOptions.Compiled
             );
 
-        public string TargetFramework => _frameworkRegex.Match(_project?.Name ?? throw new InvalidOperationException()).Groups["framework"].Value;
+        //public string TargetFramework => _frameworkRegex.Match(_project?.Name ?? throw new InvalidOperationException()).Groups["framework"].Value;
 
-        protected bool IsAndroidTargetFramework() => TargetFramework.Contains("android");
+        protected bool IsAndroidTargetFramework() => _options.Framework?.Contains("android") ?? throw new InvalidOperationException();
 
         public virtual Task Startup(CancellationToken cancellationToken)
         {

@@ -31,7 +31,7 @@ namespace MauiReactor.HotReloadConsole
         {
             var diagnosticEntries = new Dictionary<string, List<Diagnostic>>();
 
-            var exitCode = PlatformSupport.ExecuteShellCommand("dotnet", $"build -f {TargetFramework} --no-restore --no-dependencies", (s, e) =>
+            var exitCode = PlatformSupport.ExecuteShellCommand("dotnet", $"build -f {_options.Framework} --no-restore --no-dependencies", (s, e) =>
             {
                 Console.WriteLine(e.Data);
             }, (s, e) =>
@@ -87,7 +87,7 @@ namespace MauiReactor.HotReloadConsole
 
             Console.WriteLine("done.");
 
-            Console.WriteLine($"Target framework: {TargetFramework}");
+            
         }
 
         protected override Task<bool> HandleFileChangeNotifications(IEnumerable<FileChangeNotification> notifications, CancellationToken cancellationToken)

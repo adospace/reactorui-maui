@@ -79,7 +79,7 @@ namespace MauiReactor.HotReloadConsole
 
             Console.WriteLine("done.");
 
-            Console.WriteLine($"Target framework: {TargetFramework}");
+            
         }
 
         protected override async Task<bool> HandleFileChangeNotifications(IEnumerable<FileChangeNotification> notifications, CancellationToken cancellationToken)
