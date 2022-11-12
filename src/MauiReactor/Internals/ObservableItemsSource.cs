@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace MauiReactor.Internals
@@ -115,5 +117,71 @@ namespace MauiReactor.Internals
         }
     }
 
+    public class ObservableListItemsSource : ObservableItemsSource, IList
+    {
+        private readonly IList _itemsSource;
 
+        public ObservableListItemsSource(IList itemsSource, object? itemTemplate)
+            : base(itemsSource, itemTemplate)
+        {
+            _itemsSource = itemsSource;
+        }
+
+        public static ObservableListItemsSource Create(IList itemsSource, object? itemTemplate = null)
+        {
+            return new ObservableListItemsSource(itemsSource, itemTemplate);
+        }
+
+        public object? this[int index]{ get=>_itemsSource[index]; set => _itemsSource[index] = value; }
+
+        public int Count => _itemsSource.Count;
+
+        public bool IsFixedSize => _itemsSource.IsFixedSize;
+
+        public bool IsReadOnly => _itemsSource.IsReadOnly;
+
+        public bool IsSynchronized => _itemsSource.IsSynchronized;
+
+        public object SyncRoot => _itemsSource.SyncRoot;
+
+        public int Add(object? value)
+        {
+            return _itemsSource.Add(value);
+        }
+
+        public void Clear()
+        {
+            _itemsSource.Clear();
+        }
+
+        public bool Contains(object? value)
+        {
+            return _itemsSource.Contains(value);
+        }
+
+        public void CopyTo(Array array, int index)
+        {
+            _itemsSource.CopyTo(array, index);
+        }
+
+        public int IndexOf(object? value)
+        {
+            return _itemsSource.IndexOf(value);
+        }
+
+        public void Insert(int index, object? value)
+        {
+            _itemsSource.Insert(index, value);
+        }
+
+        public void Remove(object? value)
+        {
+            _itemsSource.Remove(value);
+        }
+
+        public void RemoveAt(int index)
+        {
+            _itemsSource.RemoveAt(index);
+        }
+    }
 }

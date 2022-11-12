@@ -117,6 +117,8 @@ namespace <#= Namespace #>
         Func<object, VisualNode>? <#= InterfaceName #>.ItemTemplate { get; set; }
 
         Func<object, VisualNode>? ICustomDataTemplateOwner.ItemTemplate => ((<#= InterfaceName #>)this).ItemTemplate;
+
+        private CustomDataTemplate? _customDataTemplate;
         <# } #>
 
         <# foreach (var property in Properties) { #>
@@ -135,10 +137,6 @@ namespace <#= Namespace #>
         private readonly Dictionary<Microsoft.Maui.Controls.BindableObject, <#= childType.TypeSymbol.GetFullyQualifiedName() #>> _<#= childType.TypeSymbol.Name.ToLocalVariableName() #>ElementItemMap = new();
         <# } #>
 
-        <# if (SupportItemTemplate) { #>
-        private CustomDataTemplate? _customDataTemplate;
-        <# } #>
-        
         protected override void OnAddChild(VisualNode widget, Microsoft.Maui.Controls.BindableObject childControl)
         {
             Validate.EnsureNotNull(NativeControl);
@@ -195,7 +193,11 @@ namespace <#= Namespace #>
             else if (thisAs<#= InterfaceName #>.ItemsSource != null)
             {
                 _customDataTemplate = new CustomDataTemplate(this);
+                <# if (ItemSourceIsIList) { #>
+                NativeControl.ItemsSource = ObservableListItemsSource.Create((System.Collections.IList)thisAs<#= InterfaceName #>.ItemsSource);
+                <# } else { #>
                 NativeControl.ItemsSource = ObservableItemsSource.Create(thisAs<#= InterfaceName #>.ItemsSource);
+                <# } #>
                 NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
             }
             else
