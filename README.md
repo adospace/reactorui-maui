@@ -17,7 +17,7 @@ MauiReactor Nuget Packages
 1. Install MauiReactor templates
 [![Nuget](https://img.shields.io/nuget/v/Reactor.Maui.TemplatePack)](https://www.nuget.org/packages/Reactor.Maui.TemplatePack)
 ```
-dotnet new --install Reactor.Maui.TemplatePack::1.0.XX-beta
+dotnet new --install Reactor.Maui.TemplatePack
 ```
 
 2. Install MauiReactor hot reload console command
