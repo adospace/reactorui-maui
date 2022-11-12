@@ -17,7 +17,7 @@ MauiReactor Nuget Packages
 1. Install MauiReactor templates
 [![Nuget](https://img.shields.io/nuget/v/Reactor.Maui.TemplatePack)](https://www.nuget.org/packages/Reactor.Maui.TemplatePack)
 ```
-dotnet new --install Reactor.Maui.TemplatePack::1.0.XX-beta
+dotnet new --install Reactor.Maui.TemplatePack
 ```
 
 2. Install MauiReactor hot reload console command
@@ -34,12 +34,12 @@ cd .\my-new-project\
 
 4. Build & run the project (emulator or device must be running and configured)
 ```
-dotnet build -t:Run -f net6.0-android
+dotnet build -t:Run -f net7.0-android
 ```
 
 5. Hot-reload console
 ```
-dotnet-maui-reactor -f net6.0-android
+dotnet-maui-reactor -f net7.0-android
 ```
 
 6. Edits to code should be hotreloaded by the application --> Enjoy!
