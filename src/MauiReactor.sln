@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.Maps", "MauiRea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.MapsDemo", "..\samples\MauiReactor.MapsDemo\MauiReactor.MapsDemo.csproj", "{9EC4D331-8E78-4BE5-9C2D-3B90F4E11CBC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiReactor.FigmaPlugin", "MauiReactor.FigmaPlugin\MauiReactor.FigmaPlugin.csproj", "{9E293497-7673-42D4-9614-42018A699279}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,12 @@ Global
 		{9EC4D331-8E78-4BE5-9C2D-3B90F4E11CBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EC4D331-8E78-4BE5-9C2D-3B90F4E11CBC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9EC4D331-8E78-4BE5-9C2D-3B90F4E11CBC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{9E293497-7673-42D4-9614-42018A699279}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E293497-7673-42D4-9614-42018A699279}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E293497-7673-42D4-9614-42018A699279}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9E293497-7673-42D4-9614-42018A699279}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E293497-7673-42D4-9614-42018A699279}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E293497-7673-42D4-9614-42018A699279}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

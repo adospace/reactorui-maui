@@ -2,7 +2,7 @@
   "profiles": {
     "MauiReactor.HotReloadConsole": {
       "commandName": "Project",
-      "commandLineArgs": "--dir \"C:\\Source\\github\\reactorui-maui\\samples\\MauiReactor.WeatherTwentyOne\""
+      "commandLineArgs": "--dir \"C:\\Source\\github\\reactorui-maui\\src\\MauiReactor.FigmaPlugin\" -f \"net7.0-windows10.0.19041.0\" --mode Full"
     }
   }
 }
