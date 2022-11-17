@@ -289,10 +289,10 @@ namespace MauiReactor
         protected override void OnInvalidated()
         {
             var newComponent = _newComponent;
-            while (newComponent != null && newComponent.NewComponent != null)
+            while (newComponent != null && newComponent.NewComponent != null && newComponent != newComponent.NewComponent)
                 newComponent = newComponent.NewComponent;
 
-            if (newComponent != null)
+            if (newComponent != null && newComponent != newComponent.NewComponent)
             {
                 newComponent.InvalidateComponent();
             }
@@ -335,7 +335,7 @@ namespace MauiReactor
         private bool TryForwardStateToNewComponent(bool invalidateComponent)
         {
             var newComponent = _newComponent;
-            while (newComponent != null && newComponent.NewComponent != null)
+            while (newComponent != null && newComponent.NewComponent != null && newComponent != newComponent.NewComponent)
                 newComponent = newComponent.NewComponent;
 
             if (newComponent != null)

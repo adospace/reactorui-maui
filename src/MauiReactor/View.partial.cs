@@ -161,5 +161,350 @@ namespace MauiReactor
 
             return view;
         }
+
+        public static T OnSwiped<T>(this T view, Action? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                view.GestureRecognizers.Add(new SwipeGestureRecognizer(action));
+            }
+
+            return view;
+        }
+
+        public static T OnSwiped<T>(this T view, Action<object?, EventArgs>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                view.GestureRecognizers.Add(new SwipeGestureRecognizer(action));
+            }
+
+            return view;
+        }
+
+        public static T OnPointerEntered<T>(this T view, Action? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PointerGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                }
+
+                gesture.OnPointerEntered(action);
+            }
+
+            return view;
+        }
+
+        public static T OnPointerEntered<T>(this T view, Action<object?, PointerEventArgs>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PointerGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                }
+
+                gesture.OnPointerEntered(action);
+            }
+
+            return view;
+        }
+        
+        public static T OnPointerEntered<T>(this T view, Action<Point?>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PointerGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                }
+
+                gesture.OnPointerEntered(action);
+            }
+
+            return view;
+        }
+
+        public static T OnPointerExited<T>(this T view, Action? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PointerGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                }
+
+                gesture.OnPointerExited(action);
+            }
+
+            return view;
+        }
+
+        public static T OnPointerExited<T>(this T view, Action<object?, PointerEventArgs>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PointerGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                }
+
+                gesture.OnPointerExited(action);
+            }
+
+            return view;
+        }
+
+        public static T OnPointerExited<T>(this T view, Action<Point?>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PointerGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                }
+
+                gesture.OnPointerExited(action);
+            }
+
+            return view;
+        }
+
+        public static T OnPointerMoved<T>(this T view, Action? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PointerGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                }
+
+                gesture.OnPointerMoved(action);
+            }
+
+            return view;
+        }
+
+        public static T OnPointerMoved<T>(this T view, Action<object?, PointerEventArgs>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PointerGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                }
+
+                gesture.OnPointerMoved(action);
+            }
+
+            return view;
+        }
+
+        public static T OnPointerMoved<T>(this T view, Action<Point?>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PointerGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                }
+
+                gesture.OnPointerMoved(action);
+            }
+
+            return view;
+        }
+
+        public static T OnPinchUpdated<T>(this T view, Action? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PinchGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PinchGestureRecognizer());
+                }
+
+                gesture.OnPinchUpdated(action);
+            }
+
+            return view;
+        }
+
+        public static T OnPinchUpdated<T>(this T view, Action<object?, PinchGestureUpdatedEventArgs>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PinchGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PinchGestureRecognizer());
+                }
+
+                gesture.OnPinchUpdated(action);
+            }
+
+            return view;
+        }
+
+        public static T OnDropCompleted<T>(this T view, Action? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<DragGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new DragGestureRecognizer());
+                }
+
+                gesture.OnDropCompleted(action);
+            }
+
+            return view;
+        }
+
+        public static T OnDropCompleted<T>(this T view, Action<object?, DropCompletedEventArgs>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<DragGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new DragGestureRecognizer());
+                }
+
+                gesture.OnDropCompleted(action);
+            }
+
+            return view;
+        }
+
+        public static T OnDragStarting<T>(this T view, Action? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<DragGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new DragGestureRecognizer());
+                }
+
+                gesture.OnDragStarting(action);
+            }
+
+            return view;
+        }
+
+        public static T OnDragStarting<T>(this T view, Action<object?, DragStartingEventArgs>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<DragGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new DragGestureRecognizer());
+                }
+
+                gesture.OnDragStarting(action);
+            }
+
+            return view;
+        }
+
+        public static T OnPanUpdated<T>(this T view, Action? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PanGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PanGestureRecognizer());
+                }
+
+                gesture.OnPanUpdated(action);
+            }
+
+            return view;
+        }
+
+        public static T OnPanUpdated<T>(this T view, Action<object?, PanUpdatedEventArgs>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PanGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PanGestureRecognizer());
+                }
+
+                gesture.OnPanUpdated(action);
+            }
+
+            return view;
+        }
     }
 }
