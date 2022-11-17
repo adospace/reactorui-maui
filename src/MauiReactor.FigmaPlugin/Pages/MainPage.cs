@@ -3,8 +3,14 @@ using FigmaSharp.Models;
 using MauiReactor;
 using MauiReactor.Compatibility;
 using MauiReactor.FigmaPlugin.Resources.Styles;
+using MauiReactor.Shapes;
+using Microsoft.Maui.ApplicationModel.Communication;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Devices;
+using Microsoft.Maui.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Text;
@@ -41,11 +47,16 @@ class MainPage : Component<MainPageState>
     {
         return new ContentPage
         {
-            new Grid("*", "200, *")
+            new ResizableContainer
             {
                 new TreeView()
-                    .Document(State.Document)
+                    .Document(State.Document),
+
+                new Editor()
+                    .FontFamily("CascadiaCodeRegular")
+                
             }
+            .Orientation(StackOrientation.Horizontal)
         };
     }
 }
@@ -92,14 +103,14 @@ class TreeViewNode
 
 class TreeViewState : IState
 {
-    public FigmaDocument Document { get; set; }
+    public FigmaDocument? Document { get; set; }
     public TreeViewNode[] Roots { get; set; } = Array.Empty<TreeViewNode>();
     public TreeViewNode[] Nodes { get; set; } = Array.Empty<TreeViewNode>();
 }
 
 class TreeView : Component<TreeViewState>
 {
-    private FigmaDocument _document;
+    private FigmaDocument? _document;
 
     public TreeView Document(FigmaDocument document)
     {
@@ -171,19 +182,12 @@ class TreeView : Component<TreeViewState>
 
 class TreeViewItem : Component
 {
-    private TreeViewNode _node;
-    private double _indent;
-    private Action _expandedAction;
+    private TreeViewNode? _node;
+    private Action? _expandedAction;
 
     public TreeViewItem Node(TreeViewNode node)
     {
         _node = node;
-        return this;
-    }
-
-    public TreeViewItem Indent(double indent)
-    {
-        _indent = indent;
         return this;
     }
 
@@ -195,6 +199,11 @@ class TreeViewItem : Component
 
     public override VisualNode Render()
     {
+        if (_node == null)
+        {
+            return null!;
+        }
+
         if (_node.Children.Length > 0)
         {
             return new Grid("24", "24, *")
@@ -210,7 +219,7 @@ class TreeViewItem : Component
             .OnTapped(() =>
             {
                 _node.IsExpanded = !_node.IsExpanded;
-                _expandedAction();
+                _expandedAction?.Invoke();
             })
             .Margin(_node.Indent, 0, 0, 0);
         }
@@ -218,5 +227,95 @@ class TreeViewItem : Component
         return new Label(_node.Node.name)
             .TextColor(Colors.White)
             .Margin(_node.Indent, 0, 0, 0);
+    }
+}
+
+class ResizableContainerState : IState
+{
+    public double StartSize { get; set; } = 200;
+    public double FixedSize { get; set; } = 200;
+}
+
+class ResizableContainer : Component<ResizableContainerState>
+{
+    private StackOrientation _orientation;
+
+    public ResizableContainer Orientation(StackOrientation orientation)
+    {
+        _orientation = orientation;
+        return this;
+    }
+
+    public override VisualNode Render()
+    {
+        var children = Children();
+        var leftElement = children.Count > 0 ? children[0] : null;
+        var rightElement = children.Count > 1 ? children[1] : null;
+        return new Grid(
+            _orientation == StackOrientation.Horizontal ? "*" : $"{State.FixedSize.ToString(CultureInfo.InvariantCulture)},18,*",
+            _orientation == StackOrientation.Horizontal ? $"{State.FixedSize.ToString(CultureInfo.InvariantCulture)},18,*" : "*")
+        {
+            leftElement,
+
+            new Shapes.Rectangle()
+                .GridRow(1)
+                .GridColumn(1)
+                .BackgroundColor(ThemeColors.Gray600)
+                .StrokeThickness(0)
+                .OnPanUpdated(OnResize),
+
+            new Border
+            {
+                rightElement
+            }
+            .GridRow(2)
+            .GridColumn(2)
+        };
+    }
+
+    private void OnResize(object? sender, PanUpdatedEventArgs e)
+    {
+        //System.Diagnostics.Debug.WriteLine($"{e.StatusType} {e.TotalX} {e.TotalY}");
+
+        switch (e.StatusType)
+        {
+            case GestureStatus.Started:
+            case GestureStatus.Completed:
+                {
+                    State.StartSize = State.FixedSize;
+                }
+                break;
+            case GestureStatus.Running:
+                if (_orientation == StackOrientation.Horizontal)
+                {
+                    SetState(s =>
+                    {
+                        s.FixedSize = Math.Clamp(State.StartSize + e.TotalX, 100, 400);
+                    });
+                }
+                else
+                {
+                    SetState(s =>
+                    {
+                        s.FixedSize = Math.Clamp(State.StartSize + e.TotalY, 100, 400);
+                    });
+                }
+                // Translate and ensure we don't pan beyond the wrapped user interface element bounds.
+                //Content.TranslationX = Math.Max(Math.Min(0, x + e.TotalX), -Math.Abs(Content.Width - DeviceDisplay.MainDisplayInfo.Width));
+                //Content.TranslationY = Math.Max(Math.Min(0, y + e.TotalY), -Math.Abs(Content.Height - DeviceDisplay.MainDisplayInfo.Height));
+                break;
+
+            //case GestureStatus.Completed:
+            //    // Store the translation applied during the pan
+            //    SetState(s =>
+            //    {
+            //        s.StartDragPositionX = e.TotalX;
+            //        s.StartDragPositionY = e.TotalY;
+            //    });
+
+            //    //x = Content.TranslationX;
+            //    //y = Content.TranslationY;
+            //    break;
+        }
     }
 }

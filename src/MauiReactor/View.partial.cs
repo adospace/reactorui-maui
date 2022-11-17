@@ -221,6 +221,25 @@ namespace MauiReactor
 
             return view;
         }
+        
+        public static T OnPointerEntered<T>(this T view, Action<Point?>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PointerGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                }
+
+                gesture.OnPointerEntered(action);
+            }
+
+            return view;
+        }
 
         public static T OnPointerExited<T>(this T view, Action? action) where T : IView
         {
@@ -260,6 +279,25 @@ namespace MauiReactor
             return view;
         }
 
+        public static T OnPointerExited<T>(this T view, Action<Point?>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PointerGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                }
+
+                gesture.OnPointerExited(action);
+            }
+
+            return view;
+        }
+
         public static T OnPointerMoved<T>(this T view, Action? action) where T : IView
         {
             if (action != null)
@@ -280,6 +318,25 @@ namespace MauiReactor
         }
 
         public static T OnPointerMoved<T>(this T view, Action<object?, PointerEventArgs>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<PointerGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                }
+
+                gesture.OnPointerMoved(action);
+            }
+
+            return view;
+        }
+
+        public static T OnPointerMoved<T>(this T view, Action<Point?>? action) where T : IView
         {
             if (action != null)
             {

@@ -9,6 +9,7 @@
     <RootNamespace>MauiReactor.FigmaPlugin</RootNamespace>
     <UseMaui>true</UseMaui>
     <SingleProject>true</SingleProject>
+    <Nullable>enable</Nullable>
     <!-- Display name -->
     <ApplicationTitle>MauiReactor.FigmaPlugin</ApplicationTitle>
     <!-- App Identifier -->
