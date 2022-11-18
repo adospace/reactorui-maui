@@ -2,12 +2,17 @@
 using FigmaSharp.Models;
 using MauiReactor;
 using MauiReactor.Compatibility;
+using MauiReactor.FigmaPlugin.FigmaSharp.UI;
+using MauiReactor.FigmaPlugin.Pages.Components;
 using MauiReactor.FigmaPlugin.Resources.Styles;
 using MauiReactor.Shapes;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.Maui.ApplicationModel.Communication;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Devices;
 using Microsoft.Maui.Graphics;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -20,7 +25,9 @@ namespace MauiReactor.FigmaPlugin.Pages;
 
 class MainPageState : IState
 {
-    public FigmaDocument Document { get; set; }
+    public FigmaDocument? Document { get; set; }
+
+    public FigmaNode? SelectedNode { get; set; }
 }
 
 class MainPage : Component<MainPageState>
@@ -47,57 +54,18 @@ class MainPage : Component<MainPageState>
     {
         return new ContentPage
         {
+            State.Document == null ? new ActivityIndicator().IsRunning(true) :
             new ResizableContainer
             {
                 new TreeView()
-                    .Document(State.Document),
+                    .Document(State.Document)
+                    .OnSelectedNode(node=>SetState(s => s.SelectedNode = node)),
 
-                new Editor()
-                    .FontFamily("CascadiaCodeRegular")
-                
+                new NodeTextEditor()
+                    .Node(State.SelectedNode)
             }
             .Orientation(StackOrientation.Horizontal)
         };
-    }
-}
-
-class TreeViewNode
-{
-    public TreeViewNode(FigmaNode node, double indent = 0)
-    {
-        Node = node;
-        if (node is IFigmaNodeContainer nodeAsContainer)
-        {
-            Children = nodeAsContainer.children.Select(_ => new TreeViewNode(_, indent + 24)).ToArray();
-        }
-
-        Indent = indent;
-    }
-
-    public FigmaNode Node { get; }
-
-    public bool IsExpanded
-    {
-        get;
-        set;
-    }
-
-    public TreeViewNode[] Children { get; } = Array.Empty<TreeViewNode>();
-    public double Indent { get; }
-
-    public IEnumerable<TreeViewNode> GetDescendants()
-    {
-        yield return this;
-        if (IsExpanded)
-        {
-            foreach (var childNode in Children)
-            {
-                foreach (var descendantNode in childNode.GetDescendants())
-                {
-                    yield return descendantNode;
-                }
-            }
-        }
     }
 }
 
@@ -106,15 +74,23 @@ class TreeViewState : IState
     public FigmaDocument? Document { get; set; }
     public TreeViewNode[] Roots { get; set; } = Array.Empty<TreeViewNode>();
     public TreeViewNode[] Nodes { get; set; } = Array.Empty<TreeViewNode>();
+    public TreeViewNode? SelectedNode { get; set; }
 }
 
 class TreeView : Component<TreeViewState>
 {
     private FigmaDocument? _document;
+    private Action<FigmaNode>? _selectedAction;
 
     public TreeView Document(FigmaDocument document)
     {
         _document = document;
+        return this;
+    }
+
+    public TreeView OnSelectedNode(Action<FigmaNode> selectedAction)
+    {
+        _selectedAction = selectedAction;
         return this;
     }
 
@@ -176,14 +152,29 @@ class TreeView : Component<TreeViewState>
     {
         return new TreeViewItem()
             .Node(node)
-            .OnExpand(()=> SetState(s => s.Nodes = State.Roots.SelectMany(_ => _.GetDescendants()).ToArray()));
+            .IsSelected(State.SelectedNode == node)
+            .OnExpand(()=> SetState(s => s.Nodes = State.Roots.SelectMany(_ => _.GetDescendants()).ToArray()))
+            .OnSelected(()=> SetState(s =>
+            {
+                s.Nodes = State.Roots.SelectMany(_ => _.GetDescendants()).ToArray();
+                s.SelectedNode = node;
+
+                _selectedAction?.Invoke(node.Node);
+            }));
     }
 }
 
-class TreeViewItem : Component
+class TreeViewItemState : IState
+{ 
+    public bool IsSelected {  get; set; }
+}
+
+class TreeViewItem : Component<TreeViewItemState>
 {
     private TreeViewNode? _node;
     private Action? _expandedAction;
+    private Action? _selectedAction;
+    private bool _isSelected;
 
     public TreeViewItem Node(TreeViewNode node)
     {
@@ -197,6 +188,30 @@ class TreeViewItem : Component
         return this;
     }
 
+    public TreeViewItem OnSelected(Action selectedAction)
+    {
+        _selectedAction = selectedAction;
+        return this;
+    }
+
+    public TreeViewItem IsSelected(bool selected)
+    {
+        _isSelected = selected;
+        return this;
+    }
+
+    protected override void OnMounted()
+    {
+        State.IsSelected = _isSelected;
+        base.OnMounted();
+    }
+
+    protected override void OnPropsChanged()
+    {
+        State.IsSelected = _isSelected;
+        base.OnPropsChanged();
+    }
+
     public override VisualNode Render()
     {
         if (_node == null)
@@ -206,116 +221,226 @@ class TreeViewItem : Component
 
         if (_node.Children.Length > 0)
         {
-            return new Grid("24", "24, *")
+            return new Grid("24", "16, *")
             {
-
                 new Image(_node.IsExpanded ? "down.png" : "right.png")
-                    .Aspect(Aspect.AspectFit),
+                    .Aspect(Aspect.AspectFit)
+                    .OnTapped(() =>
+                    {
+                        _node.IsExpanded = !_node.IsExpanded;
+                        _expandedAction?.Invoke();
+                    }),
 
                 new Label(_node.Node.name)
-                    .TextColor(Colors.White)
-                    .GridColumn(1),
+                    .TextColor(State.IsSelected ? Colors.Black : Colors.White)
+                    .When(State.IsSelected, _ => _.BackgroundColor(ThemeColors.Gray100))
+                    .Padding(4,0,0,0)
+                    .FontSize(14)
+                    .GridColumn(1)
+                    .OnTapped(() =>
+                    {
+                        _selectedAction?.Invoke();
+                        SetState(s => s.IsSelected = true);
+                    }),
             }
-            .OnTapped(() =>
-            {
-                _node.IsExpanded = !_node.IsExpanded;
-                _expandedAction?.Invoke();
-            })
             .Margin(_node.Indent, 0, 0, 0);
         }
 
         return new Label(_node.Node.name)
-            .TextColor(Colors.White)
+            .TextColor(State.IsSelected ? Colors.Black : Colors.White)
+            .When(State.IsSelected, _ => _.BackgroundColor(ThemeColors.Gray100))
+            .FontSize(14)
+            .OnTapped(() =>
+            {
+                _selectedAction?.Invoke();
+                SetState(s => s.IsSelected = true);
+            })
             .Margin(_node.Indent, 0, 0, 0);
     }
 }
 
-class ResizableContainerState : IState
+enum NodeTextEditorView
 {
-    public double StartSize { get; set; } = 200;
-    public double FixedSize { get; set; } = 200;
+    Code,
+
+    Source
 }
 
-class ResizableContainer : Component<ResizableContainerState>
+class NodeTextEditorState : IState
 {
-    private StackOrientation _orientation;
+    public NodeTextEditorView View {  get; set; }
+}
 
-    public ResizableContainer Orientation(StackOrientation orientation)
+class NodeTextEditor : Component<NodeTextEditorState>
+{
+    FigmaNode? _node;
+
+    public NodeTextEditor Node(FigmaNode? node)
     {
-        _orientation = orientation;
+        _node = node;
         return this;
     }
 
     public override VisualNode Render()
     {
-        var children = Children();
-        var leftElement = children.Count > 0 ? children[0] : null;
-        var rightElement = children.Count > 1 ? children[1] : null;
-        return new Grid(
-            _orientation == StackOrientation.Horizontal ? "*" : $"{State.FixedSize.ToString(CultureInfo.InvariantCulture)},18,*",
-            _orientation == StackOrientation.Horizontal ? $"{State.FixedSize.ToString(CultureInfo.InvariantCulture)},18,*" : "*")
+        return new Grid("48, *", "*")
         {
-            leftElement,
-
-            new Shapes.Rectangle()
-                .GridRow(1)
-                .GridColumn(1)
-                .BackgroundColor(ThemeColors.Gray600)
-                .StrokeThickness(0)
-                .OnPanUpdated(OnResize),
-
-            new Border
+            new HStack(spacing: 0)
             {
-                rightElement
-            }
-            .GridRow(2)
-            .GridColumn(2)
+                new Button("Code")
+                    .OnClicked(()=>SetState(s => s.View = NodeTextEditorView.Code)),
+
+                new Button("Source")
+                    .OnClicked(()=>SetState(s => s.View = NodeTextEditorView.Source))
+            },
+
+
+            new Editor()
+                .FontFamily("CascadiaCodeRegular")
+                .IsReadOnly(true)
+                .Text((State.View == NodeTextEditorView.Source ? _node?.GenerateSource() : _node?.GeneratePrettyCode()) ?? string.Empty)
+                .GridRow(1)
         };
     }
+}
 
-    private void OnResize(object? sender, PanUpdatedEventArgs e)
+public static class FigmaNodeGenerator
+{
+    public static string GenerateSource(this FigmaNode node)
     {
-        //System.Diagnostics.Debug.WriteLine($"{e.StatusType} {e.TotalX} {e.TotalY}");
-
-        switch (e.StatusType)
+        var jsonSerializerSettings = new JsonSerializerSettings()
         {
-            case GestureStatus.Started:
-            case GestureStatus.Completed:
-                {
-                    State.StartSize = State.FixedSize;
-                }
-                break;
-            case GestureStatus.Running:
-                if (_orientation == StackOrientation.Horizontal)
-                {
-                    SetState(s =>
-                    {
-                        s.FixedSize = Math.Clamp(State.StartSize + e.TotalX, 100, 400);
-                    });
-                }
-                else
-                {
-                    SetState(s =>
-                    {
-                        s.FixedSize = Math.Clamp(State.StartSize + e.TotalY, 100, 400);
-                    });
-                }
-                // Translate and ensure we don't pan beyond the wrapped user interface element bounds.
-                //Content.TranslationX = Math.Max(Math.Min(0, x + e.TotalX), -Math.Abs(Content.Width - DeviceDisplay.MainDisplayInfo.Width));
-                //Content.TranslationY = Math.Max(Math.Min(0, y + e.TotalY), -Math.Abs(Content.Height - DeviceDisplay.MainDisplayInfo.Height));
-                break;
+            TypeNameHandling = TypeNameHandling.All,
+            Formatting = Formatting.Indented,
+        };
 
-            //case GestureStatus.Completed:
-            //    // Store the translation applied during the pan
-            //    SetState(s =>
-            //    {
-            //        s.StartDragPositionX = e.TotalX;
-            //        s.StartDragPositionY = e.TotalY;
-            //    });
+        return JsonConvert.SerializeObject(node, jsonSerializerSettings);
+    }
 
-            //    //x = Content.TranslationX;
-            //    //y = Content.TranslationY;
-            //    break;
+    public static string GeneratePrettyCode(this FigmaNode node)
+    {
+        return PrettifyCode(GenerateCode(node));
+    }
+
+    public static string GenerateCode(this FigmaNode node, FigmaNode? parent = null)
+    {
+        if (node is FigmaText figmaText)
+        {
+            return GenerateCode(figmaText);
         }
+
+        if (node is IAbsoluteBoundingBox boundingBox)
+        {
+            var nodeWidth = Math.Round(boundingBox.absoluteBoundingBox.Width.GetValueOrDefault(), 1);
+            var nodeHeight = Math.Round(boundingBox.absoluteBoundingBox.Height.GetValueOrDefault(), 1);
+
+            if (parent is IAbsoluteBoundingBox parentBoundingBox)
+            {
+                var parentWidth = Math.Round(parentBoundingBox.absoluteBoundingBox.Width.GetValueOrDefault(), 1);
+                var parentHeight = Math.Round(parentBoundingBox.absoluteBoundingBox.Height.GetValueOrDefault(), 1);
+                var parentLeft = Math.Round(parentBoundingBox.absoluteBoundingBox.X.GetValueOrDefault(), 1);
+                var parentTop = Math.Round(parentBoundingBox.absoluteBoundingBox.Y.GetValueOrDefault(), 1);
+                var nodeLeft = Math.Round(boundingBox.absoluteBoundingBox.X.GetValueOrDefault(), 1);
+                var nodeTop = Math.Round(boundingBox.absoluteBoundingBox.Y.GetValueOrDefault(), 1);
+
+                var marginLeft = Math.Round(nodeLeft - parentLeft);
+                var marginTop = Math.Round(nodeTop - parentTop);
+
+                var alignLeft = marginLeft == 0;
+                var alignTop = marginTop == 0;
+
+                var alignHCentered = parentWidth / 2 == nodeWidth / 2 + marginLeft;
+                var alignVCentered = parentHeight / 2 == nodeHeight / 2 + marginTop;
+
+                var alignRight = marginLeft == parentWidth - nodeWidth;
+                var alighBottom = marginTop == parentHeight - nodeHeight;
+
+                return $$"""
+                //{{node.name}}
+                new Align()
+                    .Margin({{marginLeft}}, {{marginTop}}, 0, 0)
+                    .Width({{nodeWidth}})
+                    .Height({{nodeHeight}})
+                    {
+                        {{node.GenerateChildrenCode()}}
+                    }
+                """;
+            }
+            else
+            {
+                return $$"""
+                //{{node.name}}
+                new Align()
+                    .Width({{nodeWidth}})
+                    .Height({{nodeHeight}})
+                    {
+                        {{node.GenerateChildrenCode()}}
+                    }
+                """;
+            }
+        };
+
+        return string.Empty;
+    }
+
+    public static string GenerateCode(FigmaText text)
+    {
+        var nodeWidth = Math.Round(text.absoluteBoundingBox.Width.GetValueOrDefault(), 1);
+        var nodeHeight = Math.Round(text.absoluteBoundingBox.Height.GetValueOrDefault(), 1);
+
+        return $$"""
+                //{{text.name}}
+                new Align()
+                    .Width({{nodeWidth}})
+                    .Height({{nodeHeight}})
+                    {
+                        new Text()
+                            .Value("{{text.name}}")
+                            .HorizontalAlignment({{GetCanvasHAlignment(text.style.textAlignHorizontal)}})
+                            .VerticalAlignment({{GetCanvasVAlignment(text.style.textAlignHorizontal)}})
+                    }
+                """;
+    }
+
+    private static string GetCanvasHAlignment(string alignText)
+    {
+        switch (alignText)
+        {
+            case "CENTER":
+                return "HorizontalAlignment.Center";
+
+            default:
+                return string.Empty;
+        }
+    }
+
+    private static string GetCanvasVAlignment(string alignText)
+    {
+        switch (alignText)
+        {
+            case "CENTER":
+                return "VerticalAlignment.Center";
+
+            default:
+                return string.Empty;
+        }
+    }
+
+    public static string GenerateChildrenCode(this FigmaNode node)
+    {
+        if (node is IFigmaNodeContainer nodeContainer)
+        {
+            return string.Join(Environment.NewLine, nodeContainer.children.Select(_ => _.GenerateCode(node)));
+        }
+
+        return string.Empty;
+    }
+
+    private static string PrettifyCode(string code)
+    {
+        var tree = CSharpSyntaxTree.ParseText(code);
+        var root = tree.GetRoot().NormalizeWhitespace();
+        var ret = root.ToFullString();
+        return $"// <auto-generated />{Environment.NewLine}{ret}";
     }
 }
