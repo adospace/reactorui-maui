@@ -182,7 +182,13 @@ namespace MauiReactor.HotReloadConsole
 
             void changedHandler(object s, FileSystemEventArgs e)
             {
-                Console.WriteLine($"Detected changes to '{Path.GetRelativePath(_workingDirectory, e.FullPath)}'");
+                var relativePath = Path.GetRelativePath(_workingDirectory, e.FullPath);
+                if (relativePath.StartsWith("obj"))
+                {
+                    return;
+                }
+
+                Console.WriteLine($"Detected changes to '{relativePath}'");
 
                 if (string.Compare(Path.GetExtension(e.FullPath), ".cs", StringComparison.OrdinalIgnoreCase) == 0)
                 {
@@ -192,7 +198,13 @@ namespace MauiReactor.HotReloadConsole
 
             void createdHandler(object s, FileSystemEventArgs e)
             {
-                Console.WriteLine($"Detected creation of '{Path.GetRelativePath(_workingDirectory, e.FullPath)}'");
+                var relativePath = Path.GetRelativePath(_workingDirectory, e.FullPath);
+                if (relativePath.StartsWith("obj"))
+                {
+                    return;
+                }
+                
+                Console.WriteLine($"Detected creation of '{relativePath}'");
 
                 if (string.Compare(Path.GetExtension(e.FullPath), ".cs", StringComparison.OrdinalIgnoreCase) == 0)
                 {
@@ -202,7 +214,13 @@ namespace MauiReactor.HotReloadConsole
 
             void renamedHandler(object s, RenamedEventArgs e)
             {
-                Console.WriteLine($"Detected file rename from '{Path.GetRelativePath(_workingDirectory, e.OldFullPath)}' to '{Path.GetRelativePath(_workingDirectory, e.FullPath)}'");
+                var relativePath = Path.GetRelativePath(_workingDirectory, e.FullPath);
+                if (relativePath.StartsWith("obj"))
+                {
+                    return;
+                }
+
+                Console.WriteLine($"Detected file rename from '{Path.GetRelativePath(_workingDirectory, e.OldFullPath)}' to '{relativePath}'");
 
                 if (string.Compare(Path.GetExtension(e.FullPath), ".cs", StringComparison.OrdinalIgnoreCase) == 0)
                 {
@@ -212,7 +230,13 @@ namespace MauiReactor.HotReloadConsole
 
             void deletedHandler(object s, FileSystemEventArgs e)
             {
-                Console.WriteLine($"Detected delete of '{Path.GetRelativePath(_workingDirectory, e.FullPath)}'");
+                var relativePath = Path.GetRelativePath(_workingDirectory, e.FullPath);
+                if (relativePath.StartsWith("obj"))
+                {
+                    return;
+                }
+
+                Console.WriteLine($"Detected delete of '{relativePath}'");
 
                 if (string.Compare(Path.GetExtension(e.FullPath), ".cs", StringComparison.OrdinalIgnoreCase) == 0)
                 {
