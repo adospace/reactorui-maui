@@ -31,7 +31,7 @@ namespace MauiReactor.HotReloadConsole
         {
             var diagnosticEntries = new Dictionary<string, List<Diagnostic>>();
 
-            var exitCode = PlatformSupport.ExecuteShellCommand("dotnet", $"build -f {_options.Framework} --no-restore --no-dependencies", (s, e) =>
+            var exitCode = PlatformSupport.ExecuteShellCommand("dotnet", $"build \"{Path.Combine(_workingDirectory, $"{_projFileName}.csproj")}\" -f {_options.Framework} --no-restore --no-dependencies", (s, e) =>
             {
                 Console.WriteLine(e.Data);
             }, (s, e) =>

@@ -63,6 +63,12 @@ namespace MauiReactor.HotReloadConsole
             _workspace.CloseSolution();
 
             _project = await _workspace.OpenProjectAsync(Path.Combine(_workingDirectory, $"{_projFileName}.csproj"), cancellationToken: cancellationToken);
+            
+            foreach (var projectReference in _project.AllProjectReferences) 
+            {
+                
+            }
+
             _projectCompilation = await _project.GetCompilationAsync(cancellationToken);
 
             if (_projectCompilation == null)

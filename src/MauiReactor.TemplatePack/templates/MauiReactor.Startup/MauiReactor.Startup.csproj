@@ -48,8 +48,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-    <PackageReference Include="Reactor.Maui" Version="1.0.57-beta" />
-    <PackageReference Include="Reactor.Maui.Canvas" Version="1.0.57-beta" />
+    <PackageReference Include="Reactor.Maui" Version="1.0.73-beta" />
+    <PackageReference Include="Reactor.Maui.Canvas" Version="1.0.73-beta" />
   </ItemGroup>
 
 </Project>
