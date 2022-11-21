@@ -34,7 +34,7 @@ class MainPage : Component<MainPageState>
 
     private async void InitializeDocument()
     {
-        const string Token = "figd_J__-s-kUbXv6AH1MmkVg1r8epkOPvobZFpIFouKl";
+        const string Token = "your token";
         const string FileId = "W4yKdm26o6JwB2gzdws7HS";
 
         var api = new FigmaApi(Token);
