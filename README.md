@@ -8,9 +8,9 @@ MauiReactor Nuget Packages
 
 [![Nuget](https://img.shields.io/nuget/v/Reactor.Maui)](https://www.nuget.org/packages/Reactor.Maui) 
 
-[All Packages](https://www.nuget.org/packages?q=Reactor.Maui)
-
 [Documentation (WIP)](https://adospace.gitbook.io/mauireactor/)
+
+[Introductionary video from Solution1 conference](https://www.youtube.com/watch?v=TSh9PL-ziY0&t=961s&ab_channel=C%23CommunityDiscord)
 
 ### Setting up MauiReactor from CLI
 
@@ -44,3 +44,4 @@ dotnet-maui-reactor -f net7.0-android
 
 6. Edits to code should be hotreloaded by the application --> Enjoy!
 
+[All Packages](https://www.nuget.org/packages?q=Reactor.Maui)
