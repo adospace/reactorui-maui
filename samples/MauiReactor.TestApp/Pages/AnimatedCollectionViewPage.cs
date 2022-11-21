@@ -53,7 +53,7 @@ class AnimatedCollectionViewPage : Component
         };
 }
 
-class AnimatedItemState : IState
+class AnimatedItemState
 {
     public double ScaleX { get; set; } = 0.8;
 

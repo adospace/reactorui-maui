@@ -12,7 +12,7 @@ using Microsoft.Maui.Devices;
 
 namespace Contentics.Pages;
 
-class HomePageState : IState
+class HomePageState
 {
 
 }

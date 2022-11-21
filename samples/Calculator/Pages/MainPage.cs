@@ -9,7 +9,7 @@ using MauiReactor.Canvas;
 
 namespace Calculator.Pages;
 
-class MainPageState : IState
+class MainPageState
 {
     public string CurrentNumber { get; set; } = string.Empty;
 

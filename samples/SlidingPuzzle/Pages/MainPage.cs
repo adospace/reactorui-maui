@@ -9,7 +9,7 @@ using SlidingPuzzle.Resources.Styles;
 
 namespace SlidingPuzzle.Pages
 {
-    class GameState : IState
+    class GameState
     {
         public bool IsStarted { get; set; }
 
@@ -215,7 +215,7 @@ namespace SlidingPuzzle.Pages
 
     }
 
-    class CellState : IState 
+    class CellState 
     {
         public double X { get; set; }
 

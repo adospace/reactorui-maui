@@ -20,7 +20,7 @@ namespace MauiReactor.TestApp.Pages
         ViewCell
     }
 
-    public class ListViewPageState : IState
+    public class ListViewPageState
     {
         public ViewMode ViewMode { get; set; } = ViewMode.TextCell;
     }

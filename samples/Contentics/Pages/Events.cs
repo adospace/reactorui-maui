@@ -19,7 +19,7 @@ enum EventsCategory
     Popular
 }
 
-class EventsPageState : IState
+class EventsPageState
 {
     public EventsCategory Category { get; set; }
 }

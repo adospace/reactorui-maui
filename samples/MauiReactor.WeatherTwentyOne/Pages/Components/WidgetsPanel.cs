@@ -10,7 +10,7 @@ using MauiReactor.WeatherTwentyOne.Resources.Styles;
 
 namespace MauiReactor.WeatherTwentyOne.Pages.Components
 {
-    class WidgetsPanelState : IState
+    class WidgetsPanelState
     {
         public Metric[] Metrics { get; set; } = new[]
         {

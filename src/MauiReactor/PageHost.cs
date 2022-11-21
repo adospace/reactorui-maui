@@ -215,7 +215,7 @@ namespace MauiReactor
         }
     }
 
-    internal class PageHost<T, P> : PageHost<T> where T : Component, new() where P : class, IProps, new()
+    internal class PageHost<T, P> : PageHost<T> where T : Component, new() where P : class, new()
     {
         private readonly Action<P> _propsInitializer;
 

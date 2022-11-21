@@ -9,7 +9,7 @@ using Microsoft.Maui.Devices.Sensors;
 
 namespace MauiReactor.MapsDemo.Pages;
 
-class MainPageState : IState
+class MainPageState
 {
     public List<Location> Positions { get; set; } = new();
 }

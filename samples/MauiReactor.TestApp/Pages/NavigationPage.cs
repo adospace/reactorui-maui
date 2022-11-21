@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.TestApp.Pages;
 
-public class NavigationMainPageState : IState
+public class NavigationMainPageState
 {
     public int Value { get; set; }
 }
@@ -50,12 +50,12 @@ public class NavigationMainPage : Component<NavigationMainPageState>
     }
 }
 
-public class ChildPageState : IState
+public class ChildPageState
 {
     public int Value { get; set; }
 }
 
-public class ChildPageProps : IProps
+public class ChildPageProps
 {
     public int InitialValue { get; set; }
 

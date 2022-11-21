@@ -17,7 +17,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
         Hybrid
     }
 
-    class SettingsPageState : IState
+    class SettingsPageState
     {
         public Units Units { get; set; } = Units.Imperial;
 

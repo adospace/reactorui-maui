@@ -12,7 +12,7 @@ using MauiReactor.WeatherTwentyOne.Services;
 
 namespace MauiReactor.WeatherTwentyOne.Pages
 {
-    class FavoritesPageState : IState
+    class FavoritesPageState
     {
         public Location[] Favorites { get; set; } = Array.Empty<Location>();        
     }

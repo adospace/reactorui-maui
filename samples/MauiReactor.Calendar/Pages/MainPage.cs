@@ -8,7 +8,7 @@ using Microsoft.Maui.Graphics;
 
 namespace MauiReactor.Calendar.Pages;
 
-class MainPageState : IState
+class MainPageState
 {
     public DateTime? Date { get; set; }
 
@@ -44,7 +44,7 @@ class MainPage : Component<MainPageState>
     }
 }
 
-class CalendarState : IState 
+class CalendarState 
 {
     public DateTime ShowingDate { get; set; }
     public double Opacity { get; set; } = 0.0;

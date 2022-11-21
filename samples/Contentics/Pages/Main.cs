@@ -20,7 +20,7 @@ enum PageEnum
 }
 
 
-class MainPageState : IState
+class MainPageState
 {
     public PageEnum CurrentPage { get; set; } = PageEnum.Home;
 }

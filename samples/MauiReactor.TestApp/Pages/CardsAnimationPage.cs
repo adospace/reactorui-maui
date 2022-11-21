@@ -14,7 +14,7 @@ namespace MauiReactor.TestApp.Pages
 
     }
 
-    class AnimationPageState : IState
+    class AnimationPageState
     {
         public List<Card> Cards { get; set; } = Enumerable.Range(1, 10).Select(index => new Card { Index = index - 1, Position = index }).ToList();
     }
@@ -50,7 +50,7 @@ namespace MauiReactor.TestApp.Pages
         }
     }
 
-    class CardState : IState
+    class CardState
     {
         public double Rotation { get; set; } = Random.Shared.NextDouble() * 5 - 2.5;
 

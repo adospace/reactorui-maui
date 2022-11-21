@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.TestApp.Pages;
 
-class CanvasPageState : IState
+class CanvasPageState
 {
     public float Degrees { get; set; }
 

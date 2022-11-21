@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MauiReactor.TestApp.Pages;
 
 
-class CanvasAnimationPageState : IState
+class CanvasAnimationPageState
 {
     public List<Card> Cards { get; set; } = Enumerable.Range(1, 10).Select(index => new Card { Index = index - 1, Position = index }).ToList();
 }
@@ -42,7 +42,7 @@ class CanvasCardsAnimationPage : Component<CanvasAnimationPageState>
     }
 }
 
-class CanvasCardState : IState
+class CanvasCardState
 {
     public float Rotation { get; set; } = (float)(Random.Shared.NextDouble() * 5 - 2.5);
 

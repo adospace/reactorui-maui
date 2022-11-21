@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace MauiReactor.TestApp.Pages;
 
-class AnimationShowcasePageState: IState
+class AnimationShowcasePageState 
 {
     public bool IsEnabled { get; set; }
 

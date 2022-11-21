@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.TestApp.Pages;
 
-class AnimationLoopPageState: IState
+class AnimationLoopPageState 
 {
     public Point[] Positions { get; set; } = new Point[5];
 
@@ -82,7 +82,7 @@ class AnimationLoopPage : Component<AnimationLoopPageState>
     }
 }
 
-class PlayControlsState : IState
+class PlayControlsState
 {
     public double PauseIconRotationAngle { get; set; }
 }

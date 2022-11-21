@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.WeatherTwentyOne.Pages.Components
 {
-    class WindLiveWidgetState : IState
+    class WindLiveWidgetState
     {
         public double NeedleRotation { get; set; } = 98;
 

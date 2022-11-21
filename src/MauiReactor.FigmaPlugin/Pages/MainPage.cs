@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.FigmaPlugin.Pages;
 
-class MainPageState : IState
+class MainPageState
 {
     public FigmaDocument Document { get; set; }
 }
@@ -101,7 +101,7 @@ class TreeViewNode
     }
 }
 
-class TreeViewState : IState
+class TreeViewState
 {
     public FigmaDocument? Document { get; set; }
     public TreeViewNode[] Roots { get; set; } = Array.Empty<TreeViewNode>();
@@ -230,7 +230,7 @@ class TreeViewItem : Component
     }
 }
 
-class ResizableContainerState : IState
+class ResizableContainerState
 {
     public double StartSize { get; set; } = 200;
     public double FixedSize { get; set; } = 200;

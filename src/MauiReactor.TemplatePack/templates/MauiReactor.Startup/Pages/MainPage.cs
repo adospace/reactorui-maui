@@ -7,7 +7,7 @@ using MauiReactor;
 
 namespace MauiReactor.Startup.Pages;
 
-class MainPageState : IState
+class MainPageState
 {
     public int Counter { get; set; }
 }

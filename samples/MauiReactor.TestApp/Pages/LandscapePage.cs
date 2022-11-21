@@ -16,7 +16,7 @@ enum PageType
     Settings
 }
 
-class LandscapePageState : IState
+class LandscapePageState
 {
     public PageType Type { get; set; }
 }
@@ -92,7 +92,7 @@ class LandscapePage : Component<LandscapePageState>
     }
 }
 
-class FadeInState : IState
+class FadeInState
 {
     public double TransY { get; set; }
 
@@ -137,7 +137,7 @@ class FadeIn : Component<FadeInState>
     }
 }
 
-abstract class TabState : IState
+abstract class TabState
 {
     public PageType PageType { get; set; }
 }

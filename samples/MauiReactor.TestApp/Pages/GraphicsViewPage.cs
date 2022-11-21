@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.TestApp.Pages;
 
-class GraphicsViewState : IState
+class GraphicsViewState
 {
     public double Rotation { get; set; }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.TestApp.Pages
 {
-    internal class CounterPageState : IState
+    internal class CounterPageState
     {
         public int Counter { get; set; }
     }

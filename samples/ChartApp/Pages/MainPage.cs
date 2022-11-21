@@ -20,7 +20,7 @@ partial class PolarChart { }
 
 
 
-class ChartPageState : IState
+class ChartPageState
 {
     public double[] Values { get; set; } = new double[] { 2, 1, 2, 3, 2, 3, 3 };
 }

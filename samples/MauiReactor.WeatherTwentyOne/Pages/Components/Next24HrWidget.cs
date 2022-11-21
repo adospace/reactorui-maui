@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.WeatherTwentyOne.Pages.Components
 {
-    class Next24HrWidgetState : IState
+    class Next24HrWidgetState
     {
         public Forecast[] Hours { get; } = new []
         {

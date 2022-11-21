@@ -245,15 +245,17 @@ namespace MauiReactor
         object Props { get; }
     }
 
+    [Obsolete("This interface is deprecated and will be removed before the first production version")]
     public interface IState
     {
     }
 
+    [Obsolete("This interface is deprecated and will be removed before the first production version")]
     public interface IProps
     {
     }
 
-    public abstract class ComponentWithProps<P> : Component, IComponentWithProps where P : class, IProps, new()
+    public abstract class ComponentWithProps<P> : Component, IComponentWithProps where P : class, new()
     {
         public ComponentWithProps(P? props = null)
         {
@@ -265,7 +267,7 @@ namespace MauiReactor
         object IComponentWithProps.Props => Props;
     }
 
-    public abstract class Component<S, P> : ComponentWithProps<P>, IComponentWithState where S : class, IState, new() where P : class, IProps, new()
+    public abstract class Component<S, P> : ComponentWithProps<P>, IComponentWithState where S : class, new() where P : class, new()
     {
         private IComponentWithState? _newComponent;
 
@@ -397,10 +399,10 @@ namespace MauiReactor
         }
     }
 
-    public class EmptyProps : IProps
+    public class EmptyProps
     { }
 
-    public abstract class Component<S> : Component<S, EmptyProps> where S : class, IState, new()
+    public abstract class Component<S> : Component<S, EmptyProps> where S : class, new()
     {
         protected Component(S? state = null, EmptyProps? props = null)
             : base(state, props)

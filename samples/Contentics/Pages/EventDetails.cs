@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Contentics.Pages;
 
-class EventDetailsPageState : IState
+class EventDetailsPageState
 {
     public double ImageTransaleX { get; set; }
     public double ImageTransaleY { get; set; }
@@ -20,7 +20,7 @@ class EventDetailsPageState : IState
     public double MainPanelX { get; set; }
 }
 
-class EventDetailsPageProps : IProps
+class EventDetailsPageProps
 {
     public EventModel? Model { get; set; }
     public Rect SourceRect { get; set; }
