@@ -17,9 +17,11 @@ public static class MauiProgram
 
                 app.SetWindowsSpecificAssectDirectory("Assets");
             })
+//-:cnd:noEmit
 #if DEBUG
             .EnableMauiReactorHotReload()
 #endif
+//+:cnd:noEmit
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
