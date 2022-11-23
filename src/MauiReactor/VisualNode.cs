@@ -496,8 +496,6 @@ namespace MauiReactor
 
         private readonly Dictionary<BindableProperty, object?> _attachedProperties = new();
 
-        //private readonly Dictionary<BindableProperty, object?> _defaultPropertyValueBag = new();
-
         private readonly Action<T?>? _componentRefAction;
 
         protected VisualNode()
@@ -558,15 +556,6 @@ namespace MauiReactor
                     }
 
                     NativeControl.ClearValue(attachedProperty.Key);
-
-//                    if (TryGetDefaultPropertyValue(attachedProperty.Key, out var oldValue))
-//                    {
-//#if DEBUG
-//                        System.Diagnostics.Debug.WriteLine($"{NativeControl.GetType()} re-set property {attachedProperty.Key.PropertyName} to {oldValue}");
-//#endif
-
-                    //                        NativeControl.SetValue(attachedProperty.Key, oldValue);
-                    //                    }
                 }
             }
 
@@ -603,19 +592,7 @@ namespace MauiReactor
             {
                 OnDetachNativeEvents();
 
-                //_nativeControl.PropertyChanged -= NativeControl_PropertyChanged;
-                //_nativeControl.PropertyChanging -= NativeControl_PropertyChanging;
                 Parent?.RemoveChild(this, _nativeControl);
-
-                if (_nativeControl is Element element)
-                {
-                    if (element.Parent != null)
-                    {
-#if DEBUG
-                        //throw new InvalidOperationException();
-#endif
-                    }
-                }
 
                 _nativeControl = null;
                 _componentRefAction?.Invoke(null);
@@ -692,8 +669,6 @@ namespace MauiReactor
                 var oldValue = dependencyObject.GetValue(property);
                 var newValue = propertyValue.GetValue();
 
-                //SetDefaultPropertyValue(property, oldValue);
-
                 if (!CompareUtils.AreEquals(oldValue, newValue))
                 {
 #if DEBUG
@@ -711,22 +686,12 @@ namespace MauiReactor
             else
             {
                 dependencyObject.ClearValue(property);
-//                if (TryGetDefaultPropertyValue(property, out var defaultValue))
-//                {
-//#if DEBUG
-//                    System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} re-set property {property.PropertyName} to {defaultValue}");
-//#endif
-                    
-//                    dependencyObject.SetValue(property, defaultValue);
-//                }
             }
         }
 
         protected void SetPropertyValue(BindableObject dependencyObject, BindableProperty property, object? newValue)
         {
             var oldValue = dependencyObject.GetValue(property);
-
-            //SetDefaultPropertyValue(property, oldValue);
 
             if (!CompareUtils.AreEquals(oldValue, newValue))
             {
@@ -737,29 +702,6 @@ namespace MauiReactor
                 dependencyObject.SetValue(property, newValue);
             }
         }
-
-
-        //public bool SetDefaultPropertyValue(BindableProperty dependencyProperty, object? value)
-        //{
-        //    if (!_defaultPropertyValueBag.ContainsKey(dependencyProperty))
-        //    {
-        //        _defaultPropertyValueBag[dependencyProperty] = value;
-        //        return true;
-        //    }
-
-        //    return false;
-        //}
-
-        //public bool TryGetDefaultPropertyValue(BindableProperty dependencyProperty, out object? value)
-        //{
-        //    if (_defaultPropertyValueBag.TryGetValue(dependencyProperty, out value))
-        //    {
-        //        _defaultPropertyValueBag.Remove(dependencyProperty);
-        //        return true;
-        //    }
-
-        //    return false;
-        //}
 
         protected override void OnAnimate()
         {

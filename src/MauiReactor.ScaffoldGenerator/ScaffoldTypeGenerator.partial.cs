@@ -83,7 +83,9 @@ public partial class ScaffoldTypeGenerator
         TypeofDouble = compilation.FindNamedType("System.Double").EnsureNotNull();
         TypeofRect = compilation.FindNamedType("Microsoft.Maui.Graphics.Rect").EnsureNotNull();
         TypeofThickness = compilation.FindNamedType("Microsoft.Maui.Thickness").EnsureNotNull();
+        TypeofThicknessF = compilation.FindNamedType("MauiReactor.ThicknessF").EnsureNotNull();
         TypeofPoint = compilation.FindNamedType("Microsoft.Maui.Graphics.Point").EnsureNotNull();
+        TypeofCornerRadiusF = compilation.FindNamedType("MauiReactor.CornerRadiusF").EnsureNotNull();
 
         AnimatableProperties = Properties
             .Where(_ =>
@@ -117,7 +119,9 @@ public partial class ScaffoldTypeGenerator
     public INamedTypeSymbol TypeofDouble { get; }
     public INamedTypeSymbol TypeofRect { get; }
     public INamedTypeSymbol TypeofThickness { get; }
+    public INamedTypeSymbol TypeofThicknessF { get; }
     public INamedTypeSymbol TypeofPoint { get; }
+    public INamedTypeSymbol TypeofCornerRadiusF { get; }
 
     public bool IsBaseGenericType =>
         TypeToScaffold.BaseType.EnsureNotNull().IsGenericType;
@@ -157,8 +161,12 @@ public partial class ScaffoldTypeGenerator
                 .Replace("`1", string.Empty);
         }
 
-        return baseType.GetFullyQualifiedName()
-            .Replace("Microsoft.Maui.Controls.", "MauiReactor.");
+        var baseTypeFullName = baseType.GetFullyQualifiedName();
+
+        if (baseTypeFullName.StartsWith("Microsoft.Maui.Controls."))
+            return baseTypeFullName.Replace("Microsoft.Maui.Controls.", "MauiReactor.");
+
+        return baseType.Name;
     }
 
     private string BaseInterfaceName()

@@ -34,6 +34,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\MauiReactor\MauiReactor.csproj" />
-	</ItemGroup>
+    <ProjectReference Include="..\MauiReactor.ScaffoldGenerator\MauiReactor.ScaffoldGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
+  </ItemGroup>
 
 </Project>

@@ -10,113 +10,108 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MauiReactor.Canvas
-{
-    public partial interface IPointInterationHandler : ICanvasNode
-    {
-        PropertyValue<bool>? IsEnabled { get; set; }
-        Action? TapAction { get; set; }
-    }
+namespace MauiReactor.Canvas;
 
-    public partial class PointInterationHandler<T> : CanvasNode<T>, IPointInterationHandler, IEnumerable where T : Internals.PointInterationHandler, new()
-    {
-        public PointInterationHandler()
-        {
+[Scaffold(typeof(Internals.PointInterationHandler))]
+public partial class PointInterationHandler { }
 
-        }
+//public partial interface IPointInterationHandler : ICanvasNode
+//{
+//    PropertyValue<bool>? IsEnabled { get; set; }
+//    Action? TapAction { get; set; }
+//}
 
-        public PointInterationHandler(Action<T?> componentRefAction)
-            : base(componentRefAction)
-        {
+//public partial class PointInterationHandler<T> : CanvasNode<T>, IPointInterationHandler where T : Internals.PointInterationHandler, new()
+//{
+//    public PointInterationHandler()
+//    {
 
-        }
+//    }
 
-        Action? IPointInterationHandler.TapAction { get; set; }
+//    public PointInterationHandler(Action<T?> componentRefAction)
+//        : base(componentRefAction)
+//    {
 
+//    }
 
-        protected override IEnumerable<VisualNode> RenderChildren()
-        {
-            return _internalChildren;
-        }
+//    Action? IPointInterationHandler.TapAction { get; set; }
 
-        protected override void OnAttachNativeEvents()
-        {
-            var thisAsIPointIterationHandler = (IPointInterationHandler)this;
+//    protected override void OnAttachNativeEvents()
+//    {
+//        var thisAsIPointIterationHandler = (IPointInterationHandler)this;
 
-            if (thisAsIPointIterationHandler.TapAction != null)
-            {
-                Validate.EnsureNotNull(NativeControl);
+//        if (thisAsIPointIterationHandler.TapAction != null)
+//        {
+//            Validate.EnsureNotNull(NativeControl);
 
-                NativeControl.Tap += NativeControl_Tap;
-            }
+//            NativeControl.Tap += NativeControl_Tap;
+//        }
 
 
-            base.OnAttachNativeEvents();
-        }
+//        base.OnAttachNativeEvents();
+//    }
 
-        private void NativeControl_Tap(object? sender, EventArgs e)
-        {
-            var thisAsIPointIterationHandler = (IPointInterationHandler)this;
-            thisAsIPointIterationHandler.TapAction?.Invoke();
-        }
+//    private void NativeControl_Tap(object? sender, EventArgs e)
+//    {
+//        var thisAsIPointIterationHandler = (IPointInterationHandler)this;
+//        thisAsIPointIterationHandler.TapAction?.Invoke();
+//    }
 
-        protected override void OnDetachNativeEvents()
-        {
-            Validate.EnsureNotNull(NativeControl);
+//    protected override void OnDetachNativeEvents()
+//    {
+//        Validate.EnsureNotNull(NativeControl);
 
-            NativeControl.Tap -= NativeControl_Tap;
+//        NativeControl.Tap -= NativeControl_Tap;
 
-            base.OnDetachNativeEvents();
-        }
+//        base.OnDetachNativeEvents();
+//    }
 
-        PropertyValue<bool>? IPointInterationHandler.IsEnabled { get; set; }
+//    PropertyValue<bool>? IPointInterationHandler.IsEnabled { get; set; }
 
-        protected override void OnUpdate()
-        {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIPointIterationHandler = (IPointInterationHandler)this;
+//    protected override void OnUpdate()
+//    {
+//        Validate.EnsureNotNull(NativeControl);
+//        var thisAsIPointIterationHandler = (IPointInterationHandler)this;
 
-            SetPropertyValue(NativeControl, Internals.PointInterationHandler.IsEnabledProperty, thisAsIPointIterationHandler.IsEnabled);
+//        SetPropertyValue(NativeControl, Internals.PointInterationHandler.IsEnabledProperty, thisAsIPointIterationHandler.IsEnabled);
 
-            base.OnUpdate();
-        }
-    }
+//        base.OnUpdate();
+//    }
+//}
 
-    public partial class PointInterationHandler : PointInterationHandler<Internals.PointInterationHandler>
-    {
-        public PointInterationHandler()
-        {
+//public partial class PointInterationHandler : PointInterationHandler<Internals.PointInterationHandler>
+//{
+//    public PointInterationHandler()
+//    {
 
-        }
+//    }
 
-        public PointInterationHandler(Action<Internals.PointInterationHandler?> componentRefAction)
-            : base(componentRefAction)
-        {
+//    public PointInterationHandler(Action<Internals.PointInterationHandler?> componentRefAction)
+//        : base(componentRefAction)
+//    {
 
-        }
-    }
+//    }
+//}
 
-    public static partial class PointInterationHandlerExtensions
-    {
+//public static partial class PointInterationHandlerExtensions
+//{
 
-        public static T IsEnabled<T>(this T node, bool value) where T : IPointInterationHandler
-        {
-            node.IsEnabled = new PropertyValue<bool>(value);
-            return node;
-        }
+//    public static T IsEnabled<T>(this T node, bool value) where T : IPointInterationHandler
+//    {
+//        node.IsEnabled = new PropertyValue<bool>(value);
+//        return node;
+//    }
 
-        public static T IsEnabled<T>(this T node, Func<bool> valueFunc) where T : IPointInterationHandler
-        {
-            node.IsEnabled = new PropertyValue<bool>(valueFunc);
-            return node;
-        }       
-        
-        public static T OnTap<T>(this T node, Action? action) where T : IPointInterationHandler
-        {
-            node.TapAction = action;
-            return node;
-        }
+//    public static T IsEnabled<T>(this T node, Func<bool> valueFunc) where T : IPointInterationHandler
+//    {
+//        node.IsEnabled = new PropertyValue<bool>(valueFunc);
+//        return node;
+//    }       
+    
+//    public static T OnTap<T>(this T node, Action? action) where T : IPointInterationHandler
+//    {
+//        node.TapAction = action;
+//        return node;
+//    }
 
-    }
-
-}
+//}

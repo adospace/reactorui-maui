@@ -5,50 +5,53 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MauiReactor.Canvas
-{
-    public partial interface IGroup : ICanvasNode
-    {
-    }
+namespace MauiReactor.Canvas;
 
-    public partial class Group<T> : CanvasNode<T>, IGroup where T : Internals.Group, new()
-    {
-        public Group()
-        {
-
-        }
-
-        public Group(Action<T?> componentRefAction)
-            : base(componentRefAction)
-        {
-
-        }
+[Scaffold(typeof(Internals.Group))]
+public partial class Group { }
 
 
-        protected override void OnUpdate()
-        {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIGroup = (IGroup)this;
+//public partial interface IGroup : ICanvasNode
+//{
+//}
 
-            base.OnUpdate();
-        }
-    }
+//public partial class Group<T> : CanvasNode<T>, IGroup where T : Internals.Group, new()
+//{
+//    public Group()
+//    {
 
-    public partial class Group : Group<Internals.Group>
-    {
-        public Group()
-        {
+//    }
 
-        }
+//    public Group(Action<T?> componentRefAction)
+//        : base(componentRefAction)
+//    {
 
-        public Group(Action<Internals.Group?> componentRefAction)
-            : base(componentRefAction)
-        {
+//    }
 
-        }
-    }
 
-    public static partial class GroupExtensions
-    {
-    }
-}
+//    protected override void OnUpdate()
+//    {
+//        Validate.EnsureNotNull(NativeControl);
+//        var thisAsIGroup = (IGroup)this;
+
+//        base.OnUpdate();
+//    }
+//}
+
+//public partial class Group : Group<Internals.Group>
+//{
+//    public Group()
+//    {
+
+//    }
+
+//    public Group(Action<Internals.Group?> componentRefAction)
+//        : base(componentRefAction)
+//    {
+
+//    }
+//}
+
+//public static partial class GroupExtensions
+//{
+//}

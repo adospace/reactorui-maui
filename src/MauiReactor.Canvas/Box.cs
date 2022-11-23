@@ -12,201 +12,203 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MauiReactor.Canvas
-{
-    public partial interface IBox : ICanvasVisualElement
-    {
-        PropertyValue<Color?>? BackgroundColor { get; set; }
-        PropertyValue<Paint?>? Background { get; set; }
-        PropertyValue<Color?>? BorderColor { get; set; }
-        PropertyValue<CornerRadiusF>? CornerRadius { get; set; }
-        PropertyValue<float>? BorderSize { get; set; }
-        PropertyValue<ThicknessF>? Padding { get; set; }
-    }
+namespace MauiReactor.Canvas;
 
-    public partial class Box<T> : CanvasVisualElement<T>, IBox, IEnumerable where T : Internals.Box, new()
-    {
-        public Box()
-        {
+[Scaffold(typeof(Internals.Box))]
+public partial class Box { }
 
-        }
+//public partial interface IBox : ICanvasVisualElement
+//{
+//    PropertyValue<Color?>? BackgroundColor { get; set; }
+//    PropertyValue<Paint?>? Background { get; set; }
+//    PropertyValue<Color?>? BorderColor { get; set; }
+//    PropertyValue<CornerRadiusF>? CornerRadius { get; set; }
+//    PropertyValue<float>? BorderSize { get; set; }
+//    PropertyValue<ThicknessF>? Padding { get; set; }
+//}
 
-        public Box(Action<T?> componentRefAction)
-            : base(componentRefAction)
-        {
+//public partial class Box<T> : CanvasVisualElement<T>, IBox where T : Internals.Box, new()
+//{
+//    public Box()
+//    {
 
-        }
+//    }
 
-        PropertyValue<Color?>? IBox.BackgroundColor { get; set; }
-        PropertyValue<Paint?>? IBox.Background { get; set; }
-        PropertyValue<Color?>? IBox.BorderColor { get; set; }
-        PropertyValue<CornerRadiusF>? IBox.CornerRadius { get; set; }
-        PropertyValue<float>? IBox.BorderSize { get; set; }
-        PropertyValue<ThicknessF>? IBox.Padding { get; set; }
+//    public Box(Action<T?> componentRefAction)
+//        : base(componentRefAction)
+//    {
 
-        protected override void OnUpdate()
-        {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIBorder = (IBox)this;
+//    }
 
-            SetPropertyValue(NativeControl, Internals.Box.BackgroundColorProperty, thisAsIBorder.BackgroundColor);
-            SetPropertyValue(NativeControl, Internals.Box.BackgroundProperty, thisAsIBorder.Background);
-            SetPropertyValue(NativeControl, Internals.Box.BorderColorProperty, thisAsIBorder.BorderColor);
-            SetPropertyValue(NativeControl, Internals.Box.CornerRadiusProperty, thisAsIBorder.CornerRadius);
-            SetPropertyValue(NativeControl, Internals.Box.BorderSizeProperty, thisAsIBorder.BorderSize);
-            SetPropertyValue(NativeControl, Internals.Box.PaddingProperty, thisAsIBorder.Padding);
+//    PropertyValue<Color?>? IBox.BackgroundColor { get; set; }
+//    PropertyValue<Paint?>? IBox.Background { get; set; }
+//    PropertyValue<Color?>? IBox.BorderColor { get; set; }
+//    PropertyValue<CornerRadiusF>? IBox.CornerRadius { get; set; }
+//    PropertyValue<float>? IBox.BorderSize { get; set; }
+//    PropertyValue<ThicknessF>? IBox.Padding { get; set; }
 
-            base.OnUpdate();
-        }
+//    protected override void OnUpdate()
+//    {
+//        Validate.EnsureNotNull(NativeControl);
+//        var thisAsIBorder = (IBox)this;
 
-        protected override void OnAnimate()
-        {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIBorder = (IBox)this;
+//        SetPropertyValue(NativeControl, Internals.Box.BackgroundColorProperty, thisAsIBorder.BackgroundColor);
+//        SetPropertyValue(NativeControl, Internals.Box.BackgroundProperty, thisAsIBorder.Background);
+//        SetPropertyValue(NativeControl, Internals.Box.BorderColorProperty, thisAsIBorder.BorderColor);
+//        SetPropertyValue(NativeControl, Internals.Box.CornerRadiusProperty, thisAsIBorder.CornerRadius);
+//        SetPropertyValue(NativeControl, Internals.Box.BorderSizeProperty, thisAsIBorder.BorderSize);
+//        SetPropertyValue(NativeControl, Internals.Box.PaddingProperty, thisAsIBorder.Padding);
 
-            SetPropertyValue(NativeControl, Internals.Box.BackgroundColorProperty, thisAsIBorder.BackgroundColor);
-            SetPropertyValue(NativeControl, Internals.Box.BorderColorProperty, thisAsIBorder.BorderColor);
-            SetPropertyValue(NativeControl, Internals.Box.CornerRadiusProperty, thisAsIBorder.CornerRadius);
-            SetPropertyValue(NativeControl, Internals.Box.BorderSizeProperty, thisAsIBorder.BorderSize);
-            SetPropertyValue(NativeControl, Internals.Box.PaddingProperty, thisAsIBorder.Padding);
+//        base.OnUpdate();
+//    }
 
-            base.OnAnimate();
-        }
-    }
+//    protected override void OnAnimate()
+//    {
+//        Validate.EnsureNotNull(NativeControl);
+//        var thisAsIBorder = (IBox)this;
 
-    public partial class Box : Box<Internals.Box>
-    {
-        public Box()
-        {
+//        SetPropertyValue(NativeControl, Internals.Box.BackgroundColorProperty, thisAsIBorder.BackgroundColor);
+//        SetPropertyValue(NativeControl, Internals.Box.BorderColorProperty, thisAsIBorder.BorderColor);
+//        SetPropertyValue(NativeControl, Internals.Box.CornerRadiusProperty, thisAsIBorder.CornerRadius);
+//        SetPropertyValue(NativeControl, Internals.Box.BorderSizeProperty, thisAsIBorder.BorderSize);
+//        SetPropertyValue(NativeControl, Internals.Box.PaddingProperty, thisAsIBorder.Padding);
 
-        }
+//        base.OnAnimate();
+//    }
+//}
 
-        public Box(Action<Internals.Box?> componentRefAction)
-            : base(componentRefAction)
-        {
+//public partial class Box : Box<Internals.Box>
+//{
+//    public Box()
+//    {
 
-        }
-    }
+//    }
 
-    public static partial class BoxExtensions
-    {
-        public static T BackgroundColor<T>(this T node, Color? value, RxColorAnimation? customAnimation = null) where T : IBox
-        {
-            node.BackgroundColor = new PropertyValue<Color?>(value);
-            if (value != null)
-            {
-                node.AppendAnimatable(Internals.Box.BackgroundColorProperty, customAnimation ?? new RxSimpleColorAnimation(value), v => node.BackgroundColor = new PropertyValue<Color?>(v.CurrentValue()));
-            }
-            return node;
-        }
+//    public Box(Action<Internals.Box?> componentRefAction)
+//        : base(componentRefAction)
+//    {
 
-        public static T BackgroundColor<T>(this T node, Func<Color?> valueFunc) where T : IBox
-        {
-            node.BackgroundColor = new PropertyValue<Color?>(valueFunc);
-            return node;
-        }
+//    }
+//}
 
-        public static T Background<T>(this T node, Paint? value, RxColorAnimation? customAnimation = null) where T : IBox
-        {
-            node.Background = new PropertyValue<Paint?>(value);
-            return node;
-        }
+//public static partial class BoxExtensions
+//{
+//    public static T BackgroundColor<T>(this T node, Color? value, RxColorAnimation? customAnimation = null) where T : IBox
+//    {
+//        node.BackgroundColor = new PropertyValue<Color?>(value);
+//        if (value != null)
+//        {
+//            node.AppendAnimatable(Internals.Box.BackgroundColorProperty, customAnimation ?? new RxSimpleColorAnimation(value), v => node.BackgroundColor = new PropertyValue<Color?>(v.CurrentValue()));
+//        }
+//        return node;
+//    }
 
-        public static T Background<T>(this T node, Func<Paint?> valueFunc) where T : IBox
-        {
-            node.Background = new PropertyValue<Paint?>(valueFunc);
-            return node;
-        }
+//    public static T BackgroundColor<T>(this T node, Func<Color?> valueFunc) where T : IBox
+//    {
+//        node.BackgroundColor = new PropertyValue<Color?>(valueFunc);
+//        return node;
+//    }
 
-        public static T BorderColor<T>(this T node, Color? value, RxColorAnimation? customAnimation = null) where T : IBox
-        {
-            node.BorderColor = new PropertyValue<Color?>(value);
-            if (value != null)
-            {
-                node.AppendAnimatable(Internals.Box.BorderColorProperty, customAnimation ?? new RxSimpleColorAnimation(value), v => node.BorderColor = new PropertyValue<Color?>(v.CurrentValue()));
-            }
-            return node;
-        }
+//    public static T Background<T>(this T node, Paint? value, RxColorAnimation? customAnimation = null) where T : IBox
+//    {
+//        node.Background = new PropertyValue<Paint?>(value);
+//        return node;
+//    }
 
-        public static T BorderColor<T>(this T node, Func<Color?> valueFunc) where T : IBox
-        {
-            node.BorderColor = new PropertyValue<Color?>(valueFunc);
-            return node;
-        }
+//    public static T Background<T>(this T node, Func<Paint?> valueFunc) where T : IBox
+//    {
+//        node.Background = new PropertyValue<Paint?>(valueFunc);
+//        return node;
+//    }
 
-        public static T BorderSize<T>(this T node, float value, RxFloatAnimation? customAnimation = null) where T : IBox
-        {
-            node.BorderSize = new PropertyValue<float>(value);
-            node.AppendAnimatable(Internals.Box.CornerRadiusProperty, customAnimation ?? new RxFloatAnimation(value), v => node.BorderSize = new PropertyValue<float>(v.CurrentValue()));
-            return node;
-        }
+//    public static T BorderColor<T>(this T node, Color? value, RxColorAnimation? customAnimation = null) where T : IBox
+//    {
+//        node.BorderColor = new PropertyValue<Color?>(value);
+//        if (value != null)
+//        {
+//            node.AppendAnimatable(Internals.Box.BorderColorProperty, customAnimation ?? new RxSimpleColorAnimation(value), v => node.BorderColor = new PropertyValue<Color?>(v.CurrentValue()));
+//        }
+//        return node;
+//    }
 
-        public static T BorderSize<T>(this T node, Func<float> valueFunc) where T : IBox
-        {
-            node.BorderSize = new PropertyValue<float>(valueFunc);
-            return node;
-        }
+//    public static T BorderColor<T>(this T node, Func<Color?> valueFunc) where T : IBox
+//    {
+//        node.BorderColor = new PropertyValue<Color?>(valueFunc);
+//        return node;
+//    }
 
-        public static T CornerRadius<T>(this T node, float value, RxCornerRadiusFAnimation? customAnimation = null) where T : IBox
-        {
-            node.CornerRadius = new PropertyValue<CornerRadiusF>(new CornerRadiusF(value));
-            node.AppendAnimatable(Internals.Box.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusFAnimation(new CornerRadiusF(value)), v => node.CornerRadius = new PropertyValue<CornerRadiusF>(v.CurrentValue()));
-            return node;
-        }
+//    public static T BorderSize<T>(this T node, float value, RxFloatAnimation? customAnimation = null) where T : IBox
+//    {
+//        node.BorderSize = new PropertyValue<float>(value);
+//        node.AppendAnimatable(Internals.Box.CornerRadiusProperty, customAnimation ?? new RxFloatAnimation(value), v => node.BorderSize = new PropertyValue<float>(v.CurrentValue()));
+//        return node;
+//    }
 
-        public static T CornerRadius<T>(this T node, Func<float> valueFunc) where T : IBox
-        {
-            node.CornerRadius = new PropertyValue<CornerRadiusF>(()=> new CornerRadiusF(valueFunc()));
-            return node;
-        }
+//    public static T BorderSize<T>(this T node, Func<float> valueFunc) where T : IBox
+//    {
+//        node.BorderSize = new PropertyValue<float>(valueFunc);
+//        return node;
+//    }
 
-        public static T CornerRadius<T>(this T node, CornerRadiusF value, RxCornerRadiusFAnimation? customAnimation = null) where T : IBox
-        {
-            node.CornerRadius = new PropertyValue<CornerRadiusF>(value);
-            node.AppendAnimatable(Internals.Box.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusFAnimation(value), v => node.CornerRadius = new PropertyValue<CornerRadiusF>(v.CurrentValue()));
-            return node;
-        }
+//    public static T CornerRadius<T>(this T node, float value, RxCornerRadiusFAnimation? customAnimation = null) where T : IBox
+//    {
+//        node.CornerRadius = new PropertyValue<CornerRadiusF>(new CornerRadiusF(value));
+//        node.AppendAnimatable(Internals.Box.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusFAnimation(new CornerRadiusF(value)), v => node.CornerRadius = new PropertyValue<CornerRadiusF>(v.CurrentValue()));
+//        return node;
+//    }
 
-        public static T CornerRadius<T>(this T node, float topLeft, float topRight, float bottomRight, float bottomLeft, RxCornerRadiusFAnimation? customAnimation = null) where T : IBox
-        {
-            node.CornerRadius = new PropertyValue<CornerRadiusF>(new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft));
-            node.AppendAnimatable(Internals.Box.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusFAnimation(new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft)), v => node.CornerRadius = new PropertyValue<CornerRadiusF>(v.CurrentValue()));
-            return node;
-        }
+//    public static T CornerRadius<T>(this T node, Func<float> valueFunc) where T : IBox
+//    {
+//        node.CornerRadius = new PropertyValue<CornerRadiusF>(()=> new CornerRadiusF(valueFunc()));
+//        return node;
+//    }
 
-        public static T CornerRadius<T>(this T node, Func<CornerRadiusF> valueFunc) where T : IBox
-        {
-            node.CornerRadius = new PropertyValue<CornerRadiusF>(valueFunc);
-            return node;
-        }
+//    public static T CornerRadius<T>(this T node, CornerRadiusF value, RxCornerRadiusFAnimation? customAnimation = null) where T : IBox
+//    {
+//        node.CornerRadius = new PropertyValue<CornerRadiusF>(value);
+//        node.AppendAnimatable(Internals.Box.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusFAnimation(value), v => node.CornerRadius = new PropertyValue<CornerRadiusF>(v.CurrentValue()));
+//        return node;
+//    }
 
-        public static T Padding<T>(this T node, ThicknessF value, RxThicknessFAnimation? customAnimation = null) where T : IBox
-        {
-            node.Padding = new PropertyValue<ThicknessF>(value);
-            node.AppendAnimatable(Internals.Box.PaddingProperty, customAnimation ?? new RxSimpleThicknessFAnimation(value), v => node.Padding = new PropertyValue<ThicknessF>(v.CurrentValue()));
-            return node;
-        }
+//    public static T CornerRadius<T>(this T node, float topLeft, float topRight, float bottomRight, float bottomLeft, RxCornerRadiusFAnimation? customAnimation = null) where T : IBox
+//    {
+//        node.CornerRadius = new PropertyValue<CornerRadiusF>(new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft));
+//        node.AppendAnimatable(Internals.Box.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusFAnimation(new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft)), v => node.CornerRadius = new PropertyValue<CornerRadiusF>(v.CurrentValue()));
+//        return node;
+//    }
 
-        public static T Padding<T>(this T node, float topLeft, float topRight, float bottomRight, float bottomLeft, RxThicknessFAnimation? customAnimation = null) where T : IBox
-        {
-            node.Padding = new PropertyValue<ThicknessF>(new ThicknessF(topLeft, topRight, bottomRight, bottomLeft));
-            node.AppendAnimatable(Internals.Box.PaddingProperty, customAnimation ?? new RxSimpleThicknessFAnimation(new ThicknessF(topLeft, topRight, bottomRight, bottomLeft)), v => node.Padding = new PropertyValue<ThicknessF>(v.CurrentValue()));
-            return node;
-        }
+//    public static T CornerRadius<T>(this T node, Func<CornerRadiusF> valueFunc) where T : IBox
+//    {
+//        node.CornerRadius = new PropertyValue<CornerRadiusF>(valueFunc);
+//        return node;
+//    }
 
-        public static T Padding<T>(this T node, float value, RxThicknessFAnimation? customAnimation = null) where T : IBox
-        {
-            node.Padding = new PropertyValue<ThicknessF>(new ThicknessF(value));
-            node.AppendAnimatable(Internals.Box.PaddingProperty, customAnimation ?? new RxSimpleThicknessFAnimation(new ThicknessF(value)), v => node.Padding = new PropertyValue<ThicknessF>(v.CurrentValue()));
-            return node;
-        }
+//    public static T Padding<T>(this T node, ThicknessF value, RxThicknessFAnimation? customAnimation = null) where T : IBox
+//    {
+//        node.Padding = new PropertyValue<ThicknessF>(value);
+//        node.AppendAnimatable(Internals.Box.PaddingProperty, customAnimation ?? new RxSimpleThicknessFAnimation(value), v => node.Padding = new PropertyValue<ThicknessF>(v.CurrentValue()));
+//        return node;
+//    }
 
-        public static T Padding<T>(this T node, Func<ThicknessF> valueFunc) where T : IBox
-        {
-            node.Padding = new PropertyValue<ThicknessF>(valueFunc);
-            return node;
-        }
+//    public static T Padding<T>(this T node, float topLeft, float topRight, float bottomRight, float bottomLeft, RxThicknessFAnimation? customAnimation = null) where T : IBox
+//    {
+//        node.Padding = new PropertyValue<ThicknessF>(new ThicknessF(topLeft, topRight, bottomRight, bottomLeft));
+//        node.AppendAnimatable(Internals.Box.PaddingProperty, customAnimation ?? new RxSimpleThicknessFAnimation(new ThicknessF(topLeft, topRight, bottomRight, bottomLeft)), v => node.Padding = new PropertyValue<ThicknessF>(v.CurrentValue()));
+//        return node;
+//    }
+
+//    public static T Padding<T>(this T node, float value, RxThicknessFAnimation? customAnimation = null) where T : IBox
+//    {
+//        node.Padding = new PropertyValue<ThicknessF>(new ThicknessF(value));
+//        node.AppendAnimatable(Internals.Box.PaddingProperty, customAnimation ?? new RxSimpleThicknessFAnimation(new ThicknessF(value)), v => node.Padding = new PropertyValue<ThicknessF>(v.CurrentValue()));
+//        return node;
+//    }
+
+//    public static T Padding<T>(this T node, Func<ThicknessF> valueFunc) where T : IBox
+//    {
+//        node.Padding = new PropertyValue<ThicknessF>(valueFunc);
+//        return node;
+//    }
 
 
-    }
-}
+//}
