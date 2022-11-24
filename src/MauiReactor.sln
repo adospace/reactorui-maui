@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.Maps", "MauiRea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.MapsDemo", "..\samples\MauiReactor.MapsDemo\MauiReactor.MapsDemo.csproj", "{9EC4D331-8E78-4BE5-9C2D-3B90F4E11CBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiReactor.FigmaPlugin", "MauiReactor.FigmaPlugin\MauiReactor.FigmaPlugin.csproj", "{9E293497-7673-42D4-9614-42018A699279}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.FigmaPlugin", "MauiReactor.FigmaPlugin\MauiReactor.FigmaPlugin.csproj", "{9E293497-7673-42D4-9614-42018A699279}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -83,7 +83,7 @@ namespace MauiReactor.Canvas
     }
 
 
-    public static partial class GraphicsViewExtensions
+    public static partial class CanvasViewExtensions
     {
 
     }
