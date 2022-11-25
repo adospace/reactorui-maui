@@ -1,6 +1,7 @@
 ﻿using FigmaSharp;
 using FigmaSharp.Models;
 using MauiReactor;
+using MauiReactor.Canvas;
 using MauiReactor.Compatibility;
 using MauiReactor.FigmaPlugin.Resources.Styles;
 using MauiReactor.Shapes;
@@ -8,6 +9,7 @@ using Microsoft.Maui.ApplicationModel.Communication;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Devices;
 using Microsoft.Maui.Graphics;
+using Microsoft.Maui.Storage;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -20,33 +22,41 @@ namespace MauiReactor.FigmaPlugin.Pages;
 
 class MainPageState
 {
-    public FigmaDocument Document { get; set; }
+    public FigmaDocument? Document { get; set; }
+
+    public bool IsBusy { get; set; }
 }
 
 class MainPage : Component<MainPageState>
 {
     protected override void OnMounted()
     {
-        InitializeDocument();
-
         base.OnMounted();
-    }
-
-    private async void InitializeDocument()
-    {
-        const string Token = "your token";
-        const string FileId = "W4yKdm26o6JwB2gzdws7HS";
-
-        var api = new FigmaApi(Token);
-        var fileResponse = await api.GetFileAsync(new FigmaFileQuery(FileId));
-
-        SetState(s => s.Document = fileResponse.document);
     }
 
     public override VisualNode Render()
     {
-        return new ContentPage
+        return new Shell
         {
+            new ContentPage
+            {
+                new MenuBarItem("File")
+                {
+                    new MenuFlyoutItem("Open project...")
+                        .OnClicked(OnOpenProject)
+                },
+
+                RenderBody()
+            }
+        };
+    }
+
+    private VisualNode RenderBody()
+    {
+        return State.IsBusy ?
+            new ActivityIndicator()
+                .IsEnabled(true)
+            :
             new ResizableContainer
             {
                 new TreeView()
@@ -54,16 +64,40 @@ class MainPage : Component<MainPageState>
 
                 new Editor()
                     .FontFamily("CascadiaCodeRegular")
-                
             }
-            .Orientation(StackOrientation.Horizontal)
-        };
+            .Orientation(StackOrientation.Horizontal);
+    }
+
+    private async void OnOpenProject()
+    {
+        if (ContainerPage == null)
+        {
+            return;
+        }
+
+        string token = await SecureStorage.Default.GetAsync("figma_token");
+
+        token ??= await ContainerPage.DisplayPromptAsync("Figma PAT", "Please enter Figma personal access token");
+
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            return;
+        }
+
+        await SecureStorage.Default.SetAsync("figma_token", token);
+
+        string fileId = await ContainerPage.DisplayPromptAsync("Figma Prject Id", "Please enter the Figma project Id");
+
+        var api = new FigmaApi(token);
+        var fileResponse = await api.GetFileAsync(new FigmaFileQuery(fileId));
+
+        SetState(s => s.Document = fileResponse.document);
     }
 }
 
 class TreeViewNode
 {
-    public TreeViewNode(FigmaNode node, double indent = 0)
+    public TreeViewNode(FigmaNode node, float indent = 0)
     {
         Node = node;
         if (node is IFigmaNodeContainer nodeAsContainer)
@@ -83,7 +117,7 @@ class TreeViewNode
     }
 
     public TreeViewNode[] Children { get; } = Array.Empty<TreeViewNode>();
-    public double Indent { get; }
+    public float Indent { get; }
 
     public IEnumerable<TreeViewNode> GetDescendants()
     {
@@ -112,7 +146,7 @@ class TreeView : Component<TreeViewState>
 {
     private FigmaDocument? _document;
 
-    public TreeView Document(FigmaDocument document)
+    public TreeView Document(FigmaDocument? document)
     {
         _document = document;
         return this;
@@ -164,20 +198,42 @@ class TreeView : Component<TreeViewState>
     {
         return new ScrollView
         {
-            new CollectionView()
-                .ItemsSource(State.Nodes, RenderChildItem)
-        }
-        .BackgroundColor(ThemeColors.Gray600)
-        .Padding(0,0,10,0)
-        .Orientation(ScrollOrientation.Horizontal);
+            new CanvasView()
+            {
+                new ItemsRepeater<TreeViewNode>()
+                    .Items(State.Nodes)
+                    .ItemHeight(24)
+                    .Orientation(ItemsLayoutOrientation.Vertical)
+                    .ItemTemplate(RenderChildItem)
+            }
+        };
     }
 
     private VisualNode RenderChildItem(TreeViewNode node)
     {
         return new TreeViewItem()
             .Node(node)
-            .OnExpand(()=> SetState(s => s.Nodes = State.Roots.SelectMany(_ => _.GetDescendants()).ToArray()));
+            .OnExpand(() => SetState(s => s.Nodes = State.Roots.SelectMany(_ => _.GetDescendants()).ToArray()));
     }
+
+    //public override VisualNode Render()
+    //{
+    //    return new ScrollView
+    //    {
+    //        new CollectionView()
+    //            .ItemsSource(State.Nodes, RenderChildItem)
+    //    }
+    //    .BackgroundColor(ThemeColors.Gray600)
+    //    .Padding(0,0,10,0)
+    //    .Orientation(ScrollOrientation.Horizontal);
+    //}
+
+    //private VisualNode RenderChildItem(TreeViewNode node)
+    //{
+    //    return new TreeViewItem()
+    //        .Node(node)
+    //        .OnExpand(()=> SetState(s => s.Nodes = State.Roots.SelectMany(_ => _.GetDescendants()).ToArray()));
+    //}
 }
 
 class TreeViewItem : Component
@@ -204,29 +260,32 @@ class TreeViewItem : Component
             return null!;
         }
 
-        if (_node.Children.Length > 0)
-        {
-            return new Grid("24", "24, *")
-            {
-
-                new Image(_node.IsExpanded ? "down.png" : "right.png")
-                    .Aspect(Aspect.AspectFit),
-
-                new Label(_node.Node.name)
-                    .TextColor(Colors.White)
-                    .GridColumn(1),
-            }
-            .OnTapped(() =>
-            {
-                _node.IsExpanded = !_node.IsExpanded;
-                _expandedAction?.Invoke();
-            })
+        return new Text(_node.Node.name)
             .Margin(_node.Indent, 0, 0, 0);
-        }
 
-        return new Label(_node.Node.name)
-            .TextColor(Colors.White)
-            .Margin(_node.Indent, 0, 0, 0);
+        //if (_node.Children.Length > 0)
+        //{
+        //    return new Grid("24", "24, *")
+        //    {
+
+        //        new Image(_node.IsExpanded ? "down.png" : "right.png")
+        //            .Aspect(Aspect.AspectFit),
+
+        //        new Label(_node.Node.name)
+        //            .TextColor(Colors.White)
+        //            .GridColumn(1),
+        //    }
+        //    .OnTapped(() =>
+        //    {
+        //        _node.IsExpanded = !_node.IsExpanded;
+        //        _expandedAction?.Invoke();
+        //    })
+        //    .Margin(_node.Indent, 0, 0, 0);
+        //}
+
+        //return new Label(_node.Node.name)
+        //    .TextColor(Colors.White)
+        //    .Margin(_node.Indent, 0, 0, 0);
     }
 }
 

@@ -33,6 +33,10 @@ Microsoft.Maui.Controls.Tab
 Microsoft.Maui.Controls.ShellSection
 Microsoft.Maui.Controls.BaseMenuItem
 Microsoft.Maui.Controls.MenuItem
+Microsoft.Maui.Controls.MenuBarItem
+Microsoft.Maui.Controls.MenuFlyoutItem
+Microsoft.Maui.Controls.MenuFlyoutSubItem
+Microsoft.Maui.Controls.MenuFlyoutSeparator
 Microsoft.Maui.Controls.ToolbarItem
 Microsoft.Maui.Controls.BoxView
 Microsoft.Maui.Controls.ScrollView

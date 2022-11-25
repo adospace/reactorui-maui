@@ -58,6 +58,7 @@ public partial class ScaffoldTypeGenerator
             .Where(_ => !(declaringTypeFullName == "Microsoft.Maui.Controls.StructuredItemsView" && (_.Name == "Header" || _.Name == "Footer")))
             .Where(_ => !(declaringTypeFullName == "Microsoft.Maui.Controls.Shell" && (_.Name == "FlyoutHeader" || _.Name == "FlyoutFooter" || _.Name == "FlyoutContent")))
             .Where(_ => !(declaringTypeFullName == "Microsoft.Maui.Controls.Picker" && _.Name == "SelectedItem"))
+            .Where(_ => !(declaringTypeFullName == "Microsoft.Maui.Controls.MenuItem" && _.Name == "IsEnabled"))
             .OrderBy(_=>_.Name)
             .ToArray();
 
@@ -81,6 +82,7 @@ public partial class ScaffoldTypeGenerator
         GeneratorType = generatorType;
 
         TypeofDouble = compilation.FindNamedType("System.Double").EnsureNotNull();
+        TypeofFloat = compilation.FindNamedType("System.Single").EnsureNotNull();
         TypeofRect = compilation.FindNamedType("Microsoft.Maui.Graphics.Rect").EnsureNotNull();
         TypeofThickness = compilation.FindNamedType("Microsoft.Maui.Thickness").EnsureNotNull();
         TypeofThicknessF = compilation.FindNamedType("MauiReactor.ThicknessF").EnsureNotNull();
@@ -117,6 +119,7 @@ public partial class ScaffoldTypeGenerator
     private INamedTypeSymbol GeneratorType { get; }
 
     public INamedTypeSymbol TypeofDouble { get; }
+    public INamedTypeSymbol TypeofFloat { get; }
     public INamedTypeSymbol TypeofRect { get; }
     public INamedTypeSymbol TypeofThickness { get; }
     public INamedTypeSymbol TypeofThicknessF { get; }

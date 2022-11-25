@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.Internals
 {
-    public class ItemTemplateNode : VisualNode, IVisualNode
+    public class ItemTemplateHost<T> : VisualNode where T : BindableObject
     {
-        private readonly ItemTemplatePresenter _presenter;
-
-        public ItemTemplateNode(VisualNode root, ItemTemplatePresenter presenter)
+        public ItemTemplateHost(VisualNode root)
         {
             _root = root;
-            _presenter = presenter;
         }
 
         private VisualNode _root;
@@ -21,32 +18,14 @@ namespace MauiReactor.Internals
         public VisualNode Root
         {
             get => _root;
-            set
-            {
-                if (_root != value)
-                {
-                    _root = value;
-                    Invalidate();
-                }
-                else
-                {
-                    _root.Update();
-                }
-            }
         }
 
-        internal override VisualNode? Parent
-        {
-            get => _presenter.Template.Owner as VisualNode;
-            set => throw new InvalidOperationException();
-        }
+        public T? NativeElement { get; private set; }
 
         protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
         {
-            Validate.EnsureNotNull(_presenter);
-
-            if (nativeControl is View view)
-                _presenter.Content = view;
+            if (nativeControl is T nativeElement)
+                NativeElement = nativeElement;
             else
             {
                 throw new InvalidOperationException($"Type '{nativeControl.GetType()}' not supported under '{GetType()}'");
@@ -66,6 +45,12 @@ namespace MauiReactor.Internals
         {
             Layout();
             base.OnLayoutCycleRequested();
+        }
+
+        public T? GenerateNativeElement()
+        {
+            Layout();
+            return NativeElement;
         }
     }
 }

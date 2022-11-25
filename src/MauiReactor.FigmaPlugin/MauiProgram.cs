@@ -10,13 +10,7 @@ namespace MauiReactor.FigmaPlugin
         {
             var builder = MauiApp.CreateBuilder();
             builder
-                .UseMauiReactorApp<MainPage>(app =>
-                {
-                    app.AddResource("Resources/Styles/Colors.xaml");
-                    app.AddResource("Resources/Styles/Styles.xaml");
-
-                    app.SetWindowsSpecificAssectDirectory("Assets");
-                })
+                .UseMauiReactorApp<MainPage>()
 #if DEBUG
                 .EnableMauiReactorHotReload()
 #endif

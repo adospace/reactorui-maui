@@ -355,6 +355,13 @@ namespace <#= Namespace #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxDoubleAnimation(<#= property.Name.CamelCase() #>), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
             return <#= TypeName.ToLocalVariableName() #>;
         }        
+        <# } else if (property.Type.Equals(TypeofFloat, SymbolEqualityComparer.Default)) { #>
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxFloatAnimation? customAnimation = null) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxFloatAnimation(<#= property.Name.CamelCase() #>), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }        
         <# } else if (property.Type.Equals(TypeofRect, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxRectAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {

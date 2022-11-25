@@ -17,8 +17,6 @@ namespace MauiReactor
 
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IconImageSource { get; set; }
 
-        PropertyValue<bool>? IsEnabled { get; set; }
-
         PropertyValue<string>? Text { get; set; }
 
         Action? ClickedAction { get; set; }
@@ -40,8 +38,6 @@ namespace MauiReactor
 
         PropertyValue<Microsoft.Maui.Controls.ImageSource>? IMenuItem.IconImageSource { get; set; }
 
-        PropertyValue<bool>? IMenuItem.IsEnabled { get; set; }
-
         PropertyValue<string>? IMenuItem.Text { get; set; }
 
         Action? IMenuItem.ClickedAction { get; set; }
@@ -55,7 +51,6 @@ namespace MauiReactor
             var thisAsIMenuItem = (IMenuItem)this;
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuItem.IsDestructiveProperty, thisAsIMenuItem.IsDestructive);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, thisAsIMenuItem.IconImageSource);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuItem.IsEnabledProperty, thisAsIMenuItem.IsEnabled);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuItem.TextProperty, thisAsIMenuItem.Text);
             base.OnUpdate();
             OnEndUpdate();
@@ -170,20 +165,6 @@ namespace MauiReactor
             where T : IMenuItem
         {
             menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
-            return menuItem;
-        }
-
-        public static T IsEnabled<T>(this T menuItem, bool isEnabled)
-            where T : IMenuItem
-        {
-            menuItem.IsEnabled = new PropertyValue<bool>(isEnabled);
-            return menuItem;
-        }
-
-        public static T IsEnabled<T>(this T menuItem, Func<bool> isEnabledFunc)
-            where T : IMenuItem
-        {
-            menuItem.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
             return menuItem;
         }
 
