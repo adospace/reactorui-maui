@@ -2,3 +2,7 @@
 global using Microsoft.Maui.Graphics;
 global using Microsoft.Maui.Hosting;
 global using MauiControls = Microsoft.Maui.Controls;
+
+global using MauiReactor;
+global using MauiReactor.Shapes;
+global using MauiReactor.Canvas;

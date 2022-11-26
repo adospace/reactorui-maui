@@ -1,8 +1,19 @@
 ﻿using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
+using System;
 
 namespace MauiReactor.Canvas.Internals
 {
+    public class TextMeasureEventArgs
+    {
+        public TextMeasureEventArgs(SizeF size)
+        {
+            Size = size;
+        }
+
+        public SizeF Size { get; }
+    }
+
     public class Text : CanvasVisualElement
     {
         public static readonly BindableProperty ValueProperty = BindableProperty.Create(nameof(Value), typeof(string), typeof(Text), null);
@@ -70,6 +81,16 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(FontStyleProperty, value);
         }
 
+        public static readonly BindableProperty FlowProperty = BindableProperty.Create(nameof(Flow), typeof(TextFlow), typeof(Text), TextFlow.ClipBounds);
+
+        public TextFlow Flow
+        {
+            get => (TextFlow)GetValue(FlowProperty);
+            set => SetValue(FlowProperty, value);
+        }
+
+        public event EventHandler<TextMeasureEventArgs>? Measure;
+
         protected override void OnDraw(DrawingContext context)
         {
             if (Value != null)
@@ -85,16 +106,22 @@ namespace MauiReactor.Canvas.Internals
                 {
                     canvas.FontColor = FontColor;
                 }
+
+                var font = Font.Default;
                 if (FontName != null || FontWeight != FontWeights.Normal || FontStyle != FontStyleType.Normal)
                 {
-                    canvas.Font = new Font(FontName, FontWeight, FontStyle);
-                }
-                else
-                {
-                    canvas.Font = Font.Default;
+                    font = new Font(FontName, FontWeight, FontStyle);
                 }
 
-                canvas.DrawString(Value, dirtyRect, HorizontalAlignment, VerticalAlignment);
+                canvas.Font = font;
+
+                if (Measure != null)
+                {
+                    var measure = canvas.GetStringSize(Value, font, FontSize, HorizontalAlignment, VerticalAlignment);
+                    Measure(this, new TextMeasureEventArgs(measure));
+                }
+
+                canvas.DrawString(Value, dirtyRect, HorizontalAlignment, VerticalAlignment, Flow);
 
                 canvas.RestoreState();
             }

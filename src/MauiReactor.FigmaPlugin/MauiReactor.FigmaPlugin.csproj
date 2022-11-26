@@ -49,10 +49,8 @@
     <None Remove="Resources\Images\right.svg" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MauiReactor.Canvas\MauiReactor.Canvas.csproj" />
+    <ProjectReference Include="..\MauiReactor.FigmaPlugin.Services\MauiReactor.FigmaPlugin.Services.csproj" />
     <ProjectReference Include="..\MauiReactor\MauiReactor.csproj" />
   </ItemGroup>
 </Project>

@@ -90,6 +90,19 @@ namespace MauiReactor
             visualelement.Shadow = shadow;
             return visualelement;
         }
+
+        public static T OnSizeChanged<T>(this T visualElement, Action<Size>? sizeChangedAction) where T : IVisualElement
+        {
+            visualElement.SizeChangedActionWithArgs = (sender, args)=>
+            {
+                if (sender is Microsoft.Maui.Controls.VisualElement element)
+                {
+                    sizeChangedAction?.Invoke(new Size(element.Width, element.Height));
+                }
+            };
+            return visualElement;
+        }
+
     }
 
     public static class VisualElementNativeExtentsions

@@ -132,8 +132,7 @@ namespace FigmaSharp
 
 		async Task<string> GetContentUrlAsync <T> (T figmaQuery, Func<T, string> handler) where T : FigmaApiBaseQuery
 		{
-			var token = string.IsNullOrEmpty (figmaQuery.PersonalAccessToken) ?
-	Token : figmaQuery.PersonalAccessToken;
+			var token = string.IsNullOrEmpty (figmaQuery.PersonalAccessToken) ? Token : figmaQuery.PersonalAccessToken;
 
 			var query = handler (figmaQuery);
 

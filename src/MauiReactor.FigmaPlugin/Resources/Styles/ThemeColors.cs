@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.FigmaPlugin.Resources.Styles;
 
-internal static class ThemeColors
+static class ThemeColors
 {
     public static Color Primary = Color.Parse("#512BD4");
     public static Color Secondary = Color.Parse("#DFD8F7");
@@ -28,4 +28,9 @@ internal static class ThemeColors
     public static Color Blue100Accent = Color.Parse("#3E8EED");
     public static Color Blue200Accent = Color.Parse("#72ACF1");
     public static Color Blue300Accent = Color.Parse("#A7CBF6");
+}
+
+static class ThemeIcons
+{
+
 }
