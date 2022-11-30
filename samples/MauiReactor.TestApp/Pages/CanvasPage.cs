@@ -14,6 +14,8 @@ class CanvasPageState
     public float ScaleX { get; set; } = 1.0f;
 
     public float ScaleY { get; set; } = 1.0f;
+
+    public bool IsMouseHoverImage {  get; set; }
 }
 
 class CanvasPage : Component<CanvasPageState>
@@ -42,12 +44,20 @@ class CanvasPage : Component<CanvasPageState>
                     { 
                         new Column("*, 50")
                         {
-                            new Picture("MauiReactor.TestApp.Resources.Images.Embedded.norway_1.jpeg"),
-                            new Text("Awesome Norway!")
+                            new PointInterationHandler
+                            {
+                                new Picture("MauiReactor.TestApp.Resources.Images.Embedded.norway_1.jpeg"),
+                            }
+                            .OnHoverIn(()=> SetState(s=> s.IsMouseHoverImage = true))
+                            .OnHoverOut(()=> SetState(s=> s.IsMouseHoverImage = false)),
+
+                            new Text(State.IsMouseHoverImage ? "Mouse hovering" : "Awesome Norway!")
                                 .HorizontalAlignment(HorizontalAlignment.Center)
                                 .VerticalAlignment(VerticalAlignment.Center)
                                 .FontColor(Colors.White)
                                 .FontSize(24)
+
+
                         },
                     }
                     .Margin(10)

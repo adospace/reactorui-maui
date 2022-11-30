@@ -88,10 +88,17 @@ namespace MauiReactor.Canvas.Internals
         private void CanvasView_CancelInteraction(object? sender, EventArgs e)
         {
             _currentDragHandler?.CancelDrag();
+            _currentHoverHandler = null;
             _currentHoverHandler?.CancelHover();
+            _currentHoverHandler = null;
+            System.Diagnostics.Debug.WriteLine("CancelInteraction");
         }
 
         private void CanvasView_StartHoverInteraction(object? sender, TouchEventArgs e)
+        {
+        }
+
+        private void CanvasView_MoveHoverInteraction(object? sender, TouchEventArgs e)
         {
             if (_hoverInteractionHandlers != null)
             {
@@ -99,22 +106,45 @@ namespace MauiReactor.Canvas.Internals
                 {
                     if (handler.HitTest(e.Touches))
                     {
-                        _currentHoverHandler = handler;
-                        _currentHoverHandler.StartHover(e.Touches);
-                        break;
+                        if (_currentHoverHandler == handler)
+                        {
+                            _currentHoverHandler.MoveHover(e.Touches);
+                        }
+                        else
+                        {
+                            if (_currentHoverHandler != null)
+                            {
+                                _currentHoverHandler?.CancelHover();
+                                _currentHoverHandler = null;
+                                //System.Diagnostics.Debug.WriteLine("CancelHover");
+                            }
+
+                            _currentHoverHandler = handler;
+                            _currentHoverHandler.StartHover(e.Touches);
+                            _currentHoverHandler.MoveHover(e.Touches);
+                            //System.Diagnostics.Debug.WriteLine("StartHover");
+                        }
+                        return;
                     }
                 }
             }
-        }
 
-        private void CanvasView_MoveHoverInteraction(object? sender, TouchEventArgs e)
-        {
-            _currentHoverHandler?.MoveHover(e.Touches);
+            if (_currentHoverHandler != null)
+            {
+                _currentHoverHandler?.CancelHover();
+                _currentHoverHandler = null;
+                //System.Diagnostics.Debug.WriteLine("CancelHover");
+            }
+
+
+            //_currentHoverHandler?.MoveHover(e.Touches);
         }
 
         private void CanvasView_EndHoverInteraction(object? sender, EventArgs e)
         {
             _currentHoverHandler?.CancelHover();
+            _currentHoverHandler = null;
+            //System.Diagnostics.Debug.WriteLine("EndHoverInteraction");
         }
 
         private readonly List<CanvasNode> _children = new();

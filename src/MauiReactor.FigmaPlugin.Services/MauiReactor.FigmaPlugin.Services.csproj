@@ -5,10 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-  
-  
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FigmaNet" Version="1.0.10" />
+  </ItemGroup>
 </Project>

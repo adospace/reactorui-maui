@@ -1,5 +1,4 @@
-﻿using FigmaSharp;
-using FigmaSharp.Models;
+﻿using FigmaNet;
 using MauiReactor;
 using MauiReactor.Canvas;
 using MauiReactor.FigmaPlugin.Pages.Components;
@@ -16,7 +15,7 @@ namespace MauiReactor.FigmaPlugin.Pages;
 
 class MainPageState
 {
-    public FigmaDocument? Document { get; set; }
+    public FigmaNet.DOCUMENT? Document { get; set; }
 
     public bool IsBusy { get; set; }
 
@@ -119,20 +118,20 @@ class MainPage : Component<MainPageState>
             return;
         }
 
-        var api = new FigmaApi(token);
-        var fileResponse = await api.GetFileAsync(new FigmaFileQuery(fileId));
+        var api = new FigmaApi(personalAccessToken: token);
+        var fileResponse = await api.GetFile(fileId);
 
-        var recentProject = new RecentProject(fileResponse.name, fileId);
+        var recentProject = new RecentProject(fileResponse.Name, fileId);
 
-        State.RecentProjects.RemoveAll(_ => _.Name != fileResponse.name);
+        State.RecentProjects.RemoveAll(_ => _.Id == fileId);
 
-        State.RecentProjects.Insert(0, new RecentProject(fileResponse.name, fileId));        
+        State.RecentProjects.Insert(0, new RecentProject(fileResponse.Name, fileId));        
         
         await SecureStorage.Default.SetAsync("recent_projects", JsonConvert.SerializeObject(State.RecentProjects));
 
         SetState(s =>
         {
-            s.Document = fileResponse.document;
+            s.Document = fileResponse.Document;
             s.IsBusy = false;
         });
     }
@@ -157,12 +156,12 @@ class MainPage : Component<MainPageState>
 
         await SecureStorage.Default.SetAsync("figma_token", token);
 
-        var api = new FigmaApi(token);
-        var fileResponse = await api.GetFileAsync(new FigmaFileQuery(recentProject.Id));
+        var api = new FigmaApi(personalAccessToken: token);
+        var fileResponse = await api.GetFile(recentProject.Id);
 
         SetState(s =>
         {
-            s.Document = fileResponse.document;
+            s.Document = fileResponse.Document;
             s.IsBusy = false;
         });
     }

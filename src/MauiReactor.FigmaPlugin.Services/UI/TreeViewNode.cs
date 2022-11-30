@@ -1,4 +1,4 @@
-﻿using FigmaSharp.Models;
+﻿using FigmaNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,24 +11,53 @@ public class TreeViewNode
 {
     private readonly Action _widthUpdated;
 
-    public TreeViewNode(FigmaNode node, Action widthUpdated, float indent = 0)
+    public TreeViewNode(Node node, Action widthUpdated, float indent = 0)
     {
         Node = node;
         _widthUpdated = widthUpdated;
-        if (node is IFigmaNodeContainer nodeAsContainer)
+        if (node is INodeContainer nodeAsContainer)
         {
-            Children = nodeAsContainer.children.Select(_ => new TreeViewNode(_, widthUpdated, indent + 24)).ToArray();
+            Children = nodeAsContainer.Children
+                .Select(_ => new TreeViewNode(_, this, widthUpdated, indent + 24)).ToArray();
         }
 
         Indent = indent;
     }
 
-    public FigmaNode Node { get; }
+    private TreeViewNode(Node node, TreeViewNode parent, Action widthUpdated, float indent = 0)
+        : this(node, widthUpdated, indent)
+    {
+        Parent = parent;
+    }
+
+    public Node Node { get; }
 
     public bool IsExpanded
     {
         get;
         set;
+    }
+
+    public bool IsSelected
+    {
+        get;
+        set;
+    }
+
+    public bool IsParentSelected()
+    {
+        var parent = Parent;
+        while (parent != null)
+        {
+            if (parent.IsSelected)
+            {
+                return true;
+            }
+
+            parent = parent.Parent;
+        }
+
+        return false;
     }
 
     private float _width;
@@ -47,6 +76,7 @@ public class TreeViewNode
 
     public TreeViewNode[] Children { get; } = Array.Empty<TreeViewNode>();
     public float Indent { get; }
+    public TreeViewNode? Parent { get; }
 
     public IEnumerable<TreeViewNode> GetDescendants()
     {

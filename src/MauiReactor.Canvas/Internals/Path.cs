@@ -55,16 +55,17 @@ namespace MauiReactor.Canvas.Internals
         {
             context.Canvas.SaveState();
 
+            context.Canvas.Translate(context.DirtyRect.Location.X, context.DirtyRect.Location.Y);
+
             if (FillColor != null && Data != null)
             {
                 context.Canvas.FillColor = FillColor;
-                context.Canvas.FillPath(Data, Winding);
+                context.Canvas.FillPath(Data);
             }
             if (StrokeColor != null && Data != null)
             {
                 context.Canvas.StrokeColor = StrokeColor;
                 context.Canvas.StrokeSize = StrokeSize;
-                context.Canvas.DrawEllipse(context.DirtyRect);
                 context.Canvas.DrawPath(Data);
             }
 

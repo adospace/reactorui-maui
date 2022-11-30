@@ -11,8 +11,8 @@ namespace MauiReactor.FigmaPlugin.Pages.Components;
 
 class ResizableContainerState
 {
-    public double StartSize { get; set; } = 200;
-    public double FixedSize { get; set; } = 200;
+    public double StartSize { get; set; } = 400;
+    public double FixedSize { get; set; } = 400;
 }
 
 class ResizableContainer : Component<ResizableContainerState>
