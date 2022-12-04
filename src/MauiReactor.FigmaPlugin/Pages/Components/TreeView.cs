@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.FigmaPlugin.Pages.Components;
 
-
 class TreeViewState
 {
     public FigmaNet.DOCUMENT? Document { get; set; }
@@ -107,7 +106,6 @@ class TreeView : Component<TreeViewState>
     private VisualNode RenderChildItem(TreeViewNode node)
         => new TreeViewItem()
             .Node(node)
-            //.IsSelected(State.SelectedNode == node)
             .OnExpand(() => SetState(s => s.Nodes = State.Roots.SelectMany(_ => _.GetDescendants()).ToArray()))
             .OnSelected(node => SetState(s =>
             {

@@ -21,7 +21,7 @@ public class ScaffoldSourceGenerator : ISourceGenerator
 namespace MauiReactor
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class ScaffoldAttribute : Attribute
+    internal class ScaffoldAttribute : Attribute
     {
         public ScaffoldAttribute(Type nativeControlType, bool implementItemTemplate = false) 
         {
@@ -34,7 +34,7 @@ namespace MauiReactor
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class ScaffoldChildrenAttribute : Attribute
+    internal class ScaffoldChildrenAttribute : Attribute
     {
         public ScaffoldChildrenAttribute(Type childNativeControlType, string childrenPropertyName) 
         {
