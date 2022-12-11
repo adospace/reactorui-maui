@@ -205,11 +205,12 @@ namespace MauiReactor
 
         public IParameter<T> GetParameter<T>(string? name = null) where T : new()
         {
-            IParameter<T>? parameter = _parameterContext?.Get<T>(name);
+            IParameter<T>? parameter = null;
+            Component currentComponent = this;
 
             while (true)
             {
-                var parentComponent = GetParent<Component>();
+                var parentComponent = currentComponent.GetParent<Component>();
                 if (parentComponent == null)
                     break;
 
@@ -221,9 +222,11 @@ namespace MauiReactor
                     parameter = _parameterContext.Register((parameter as IParameterWithReferences<T>) ?? throw new InvalidOperationException($"Parameter '{name}' is not of type {typeof(T).FullName}"));
                     break;
                 }
+
+                currentComponent = parentComponent;
             }
 
-            return parameter ?? throw new InvalidOperationException($"Unable to find parameter with name '{typeof(T).FullName}'");
+            return parameter ?? throw new InvalidOperationException($"Unable to find parameter with name '{name ?? typeof(T).FullName}'");
         }
     }
 
