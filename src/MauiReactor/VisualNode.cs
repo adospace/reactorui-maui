@@ -320,7 +320,10 @@ namespace MauiReactor
 
         internal void RemoveChild(VisualNode widget, BindableObject childNativeControl)
         {
-            OnRemoveChild(widget, childNativeControl);
+            if (_isMounted)
+            {
+                OnRemoveChild(widget, childNativeControl);
+            }
         }
 
         internal void Unmount()
@@ -429,6 +432,14 @@ namespace MauiReactor
         {
             _isMounted = false;
             Parent = null;
+
+            foreach (var child in Children)
+            {
+                if (child._isMounted)
+                {
+                    child.Unmount();
+                }
+            }
         }
 
         protected virtual void OnUpdate()

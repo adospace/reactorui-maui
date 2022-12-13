@@ -13,7 +13,7 @@ namespace MauiReactor.Parameters
     {
         T Value { get; }
 
-        void Set(Action<T> setAction);
+        void Set(Action<T> setAction, bool invalidateComponent = true);
 
         ParameterContext Context { get; }
     }
@@ -42,10 +42,14 @@ namespace MauiReactor.Parameters
 
         object IParameter.GetValue() => Value!;
 
-        public void Set(Action<T> setAction)
+        public void Set(Action<T> setAction, bool invalidateComponent = true)
         {
             setAction(_value);
-            Context.Component.InvalidateComponent();
+
+            if (invalidateComponent)
+            {
+                Context.Component.InvalidateComponent();
+            }            
 
             foreach (var componetOfReferencedParameter in _parameterReferences.ToList())
             {
@@ -85,9 +89,9 @@ namespace MauiReactor.Parameters
 
         object IParameter.GetValue() => Value!;
 
-        public void Set(Action<T> setAction)
+        public void Set(Action<T> setAction, bool invalidateComponent = true)
         {
-            _actualParameter.Set(setAction);
+            _actualParameter.Set(setAction, invalidateComponent);
         }
     }
 

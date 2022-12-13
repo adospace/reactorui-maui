@@ -156,7 +156,7 @@ namespace MauiReactor.Animations
         {
             Validate.EnsureNotNull(NativeControl);
 
-            //NativeControl.IsEnabled = false;
+            NativeControl.IsEnabled = false;
 
             base.OnUnmount();
         }

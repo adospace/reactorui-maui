@@ -240,6 +240,14 @@ namespace MauiReactor
             return imageButton;
         }
 
+        public static T Source<T>(this T imageButton, Func<string> action)
+            where T : IImageButton
+        {
+            imageButton.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(
+                () => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+            return imageButton;
+        }
+
         public static T Source<T>(this T imageButton, string resourceName, Assembly sourceAssembly)
             where T : IImageButton
         {
