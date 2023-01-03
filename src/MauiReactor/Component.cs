@@ -184,17 +184,17 @@ namespace MauiReactor
         public static IServiceProvider Services
             => ReactorApplicationHost.Instance.Services;
 
-        internal void InvalidateComponent()
-        {
-            if (Application.Current == null)
-            {
-                return;
-            }
+        internal void InvalidateComponent() => Invalidate();
 
-            if (Application.Current.Dispatcher.IsDispatchRequired)
-                Application.Current.Dispatcher.Dispatch(Invalidate);
-            else
-                Invalidate();
+        protected new void Invalidate()
+        {
+            if (Application.Current != null)
+            {
+                if (Application.Current.Dispatcher.IsDispatchRequired)
+                    Application.Current.Dispatcher.Dispatch(base.Invalidate);
+                else
+                    base.Invalidate();
+            }
         }
 
         protected IParameter<T> CreateParameter<T>(string? name = null) where T : new()
@@ -320,10 +320,7 @@ namespace MauiReactor
 
             if (invalidateComponent)
             {
-                if (Application.Current.Dispatcher.IsDispatchRequired)
-                    Application.Current.Dispatcher.Dispatch(Invalidate);
-                else
-                    Invalidate();
+                Invalidate();
             }
         }
 
@@ -373,10 +370,7 @@ namespace MauiReactor
 
             if (invalidateComponent && _isMounted)
             {
-                if (Application.Current.Dispatcher.IsDispatchRequired)
-                    Application.Current.Dispatcher.Dispatch(Invalidate);
-                else
-                    Invalidate();
+                Invalidate();
             }
         }
 
