@@ -91,6 +91,13 @@ namespace MauiReactor
             return image;
         }
 
+        public static T Source<T>(this T image, Func<string> action)
+            where T : IImage
+        {
+            image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+            return image;
+        }
+
         public static T Source<T>(this T image, string resourceName, Assembly sourceAssembly)
             where T : IImage
         {

@@ -3583,7 +3583,7 @@ namespace ");
             
             #line 492 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
  if (property.Type.Name == "ImageSource") { 
-        var propertyName = property.Name.Length <= 6 ? property.Name : property.Name.Substring(0, property.Name.Length - 6); 
+        var propertyName = property.Name; 
             
             #line default
             #line hidden

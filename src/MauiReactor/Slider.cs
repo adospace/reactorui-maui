@@ -278,35 +278,42 @@ namespace MauiReactor
             return slider;
         }
 
-        public static T ThumbImage<T>(this T slider, string file)
+        public static T ThumbImageSource<T>(this T slider, string file)
             where T : ISlider
         {
             slider.ThumbImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return slider;
         }
 
-        public static T ThumbImage<T>(this T slider, string resourceName, Assembly sourceAssembly)
+        public static T ThumbImageSource<T>(this T slider, Func<string> action)
+            where T : ISlider
+        {
+            slider.ThumbImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+            return slider;
+        }
+
+        public static T ThumbImageSource<T>(this T slider, string resourceName, Assembly sourceAssembly)
             where T : ISlider
         {
             slider.ThumbImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
             return slider;
         }
 
-        public static T ThumbImage<T>(this T slider, Uri imageUri)
+        public static T ThumbImageSource<T>(this T slider, Uri imageUri)
             where T : ISlider
         {
             slider.ThumbImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
             return slider;
         }
 
-        public static T ThumbImage<T>(this T slider, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
+        public static T ThumbImageSource<T>(this T slider, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
             where T : ISlider
         {
             slider.ThumbImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource{Uri = imageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity});
             return slider;
         }
 
-        public static T ThumbImage<T>(this T slider, Func<Stream> imageStream)
+        public static T ThumbImageSource<T>(this T slider, Func<Stream> imageStream)
             where T : ISlider
         {
             slider.ThumbImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));

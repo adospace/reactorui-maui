@@ -403,35 +403,42 @@ namespace MauiReactor
             return button;
         }
 
-        public static T Image<T>(this T button, string file)
+        public static T ImageSource<T>(this T button, string file)
             where T : IButton
         {
             button.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return button;
         }
 
-        public static T Image<T>(this T button, string resourceName, Assembly sourceAssembly)
+        public static T ImageSource<T>(this T button, Func<string> action)
+            where T : IButton
+        {
+            button.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+            return button;
+        }
+
+        public static T ImageSource<T>(this T button, string resourceName, Assembly sourceAssembly)
             where T : IButton
         {
             button.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
             return button;
         }
 
-        public static T Image<T>(this T button, Uri imageUri)
+        public static T ImageSource<T>(this T button, Uri imageUri)
             where T : IButton
         {
             button.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
             return button;
         }
 
-        public static T Image<T>(this T button, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
+        public static T ImageSource<T>(this T button, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
             where T : IButton
         {
             button.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource{Uri = imageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity});
             return button;
         }
 
-        public static T Image<T>(this T button, Func<Stream> imageStream)
+        public static T ImageSource<T>(this T button, Func<Stream> imageStream)
             where T : IButton
         {
             button.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));

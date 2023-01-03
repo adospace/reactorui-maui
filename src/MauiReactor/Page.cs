@@ -242,35 +242,42 @@ namespace MauiReactor
             return page;
         }
 
-        public static T BackgroundImage<T>(this T page, string file)
+        public static T BackgroundImageSource<T>(this T page, string file)
             where T : IPage
         {
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return page;
         }
 
-        public static T BackgroundImage<T>(this T page, string resourceName, Assembly sourceAssembly)
+        public static T BackgroundImageSource<T>(this T page, Func<string> action)
+            where T : IPage
+        {
+            page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+            return page;
+        }
+
+        public static T BackgroundImageSource<T>(this T page, string resourceName, Assembly sourceAssembly)
             where T : IPage
         {
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
             return page;
         }
 
-        public static T BackgroundImage<T>(this T page, Uri imageUri)
+        public static T BackgroundImageSource<T>(this T page, Uri imageUri)
             where T : IPage
         {
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
             return page;
         }
 
-        public static T BackgroundImage<T>(this T page, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
+        public static T BackgroundImageSource<T>(this T page, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
             where T : IPage
         {
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource{Uri = imageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity});
             return page;
         }
 
-        public static T BackgroundImage<T>(this T page, Func<Stream> imageStream)
+        public static T BackgroundImageSource<T>(this T page, Func<Stream> imageStream)
             where T : IPage
         {
             page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
@@ -358,35 +365,42 @@ namespace MauiReactor
             return page;
         }
 
-        public static T IconImage<T>(this T page, string file)
+        public static T IconImageSource<T>(this T page, string file)
             where T : IPage
         {
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return page;
         }
 
-        public static T IconImage<T>(this T page, string resourceName, Assembly sourceAssembly)
+        public static T IconImageSource<T>(this T page, Func<string> action)
+            where T : IPage
+        {
+            page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+            return page;
+        }
+
+        public static T IconImageSource<T>(this T page, string resourceName, Assembly sourceAssembly)
             where T : IPage
         {
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
             return page;
         }
 
-        public static T IconImage<T>(this T page, Uri imageUri)
+        public static T IconImageSource<T>(this T page, Uri imageUri)
             where T : IPage
         {
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
             return page;
         }
 
-        public static T IconImage<T>(this T page, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
+        public static T IconImageSource<T>(this T page, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
             where T : IPage
         {
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource{Uri = imageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity});
             return page;
         }
 
-        public static T IconImage<T>(this T page, Func<Stream> imageStream)
+        public static T IconImageSource<T>(this T page, Func<Stream> imageStream)
             where T : IPage
         {
             page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));

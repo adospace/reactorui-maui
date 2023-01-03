@@ -185,8 +185,8 @@ namespace <#= Namespace() #>
         private void NativeControl_<#= ev.Name #>(object? sender, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #> e)
         {
             var thisAs<#= InterfaceName() #> = (<#= InterfaceName() #>)this;
-            thisAs<#= InterfaceName() #>.<#= ev.Name #>Action?.Invoke();
-            thisAs<#= InterfaceName() #>.<#= ev.Name #>ActionWithArgs?.Invoke(sender, e);
+                thisAs<#= InterfaceName() #>.<#= ev.Name #>Action?.Invoke();
+                thisAs<#= InterfaceName() #>.<#= ev.Name #>ActionWithArgs?.Invoke(sender, e);
         }
         <# } #>
 
@@ -309,10 +309,17 @@ namespace <#= Namespace() #>
         }
         <# } #>
         <# if (property.PropertyType.Name == "ImageSource") { 
-        var propertyName = property.Name.Length <= 6 ? property.Name : property.Name.Substring(0, property.Name.Length - 6); #>
+        var propertyName = property.Name; #>
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLocalVariableName() #>, string file) where T : <#= InterfaceName() #>
         {
             <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
+            return <#= TypeName().ToLocalVariableName() #>;
+        }
+        public static T <#= propertyName #><T>(this T <#= TypeName().ToLocalVariableName() #>, Func<string> action)
+            where T : <#= InterfaceName() #>
+        {
+            <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(
+                () => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
             return <#= TypeName().ToLocalVariableName() #>;
         }
         public static T <#= propertyName #><T>(this T <#= TypeName().ToLocalVariableName() #>, string resourceName, Assembly sourceAssembly) where T : <#= InterfaceName() #>

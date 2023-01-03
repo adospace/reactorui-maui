@@ -490,7 +490,7 @@ namespace <#= Namespace #>
         }
         <# } #>
         <# if (property.Type.Name == "ImageSource") { 
-        var propertyName = property.Name.Length <= 6 ? property.Name : property.Name.Substring(0, property.Name.Length - 6); #>
+        var propertyName = property.Name; #>
         public static T <#= propertyName #><T>(this T <#= TypeName.ToLocalVariableName() #>, string file) where T : <#= InterfaceName #>
         {
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(Microsoft.Maui.Controls.ImageSource.FromFile(file));

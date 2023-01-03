@@ -133,35 +133,42 @@ namespace MauiReactor
             return menuItem;
         }
 
-        public static T IconImage<T>(this T menuItem, string file)
+        public static T IconImageSource<T>(this T menuItem, string file)
             where T : IMenuItem
         {
             menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return menuItem;
         }
 
-        public static T IconImage<T>(this T menuItem, string resourceName, Assembly sourceAssembly)
+        public static T IconImageSource<T>(this T menuItem, Func<string> action)
+            where T : IMenuItem
+        {
+            menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+            return menuItem;
+        }
+
+        public static T IconImageSource<T>(this T menuItem, string resourceName, Assembly sourceAssembly)
             where T : IMenuItem
         {
             menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
             return menuItem;
         }
 
-        public static T IconImage<T>(this T menuItem, Uri imageUri)
+        public static T IconImageSource<T>(this T menuItem, Uri imageUri)
             where T : IMenuItem
         {
             menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
             return menuItem;
         }
 
-        public static T IconImage<T>(this T menuItem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
+        public static T IconImageSource<T>(this T menuItem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
             where T : IMenuItem
         {
             menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource{Uri = imageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity});
             return menuItem;
         }
 
-        public static T IconImage<T>(this T menuItem, Func<Stream> imageStream)
+        public static T IconImageSource<T>(this T menuItem, Func<Stream> imageStream)
             where T : IMenuItem
         {
             menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));

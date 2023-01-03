@@ -69,35 +69,42 @@ namespace MauiReactor
             return imageCell;
         }
 
-        public static T Image<T>(this T imageCell, string file)
+        public static T ImageSource<T>(this T imageCell, string file)
             where T : IImageCell
         {
             imageCell.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return imageCell;
         }
 
-        public static T Image<T>(this T imageCell, string resourceName, Assembly sourceAssembly)
+        public static T ImageSource<T>(this T imageCell, Func<string> action)
+            where T : IImageCell
+        {
+            imageCell.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+            return imageCell;
+        }
+
+        public static T ImageSource<T>(this T imageCell, string resourceName, Assembly sourceAssembly)
             where T : IImageCell
         {
             imageCell.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
             return imageCell;
         }
 
-        public static T Image<T>(this T imageCell, Uri imageUri)
+        public static T ImageSource<T>(this T imageCell, Uri imageUri)
             where T : IImageCell
         {
             imageCell.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
             return imageCell;
         }
 
-        public static T Image<T>(this T imageCell, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
+        public static T ImageSource<T>(this T imageCell, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
             where T : IImageCell
         {
             imageCell.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource{Uri = imageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity});
             return imageCell;
         }
 
-        public static T Image<T>(this T imageCell, Func<Stream> imageStream)
+        public static T ImageSource<T>(this T imageCell, Func<Stream> imageStream)
             where T : IImageCell
         {
             imageCell.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));

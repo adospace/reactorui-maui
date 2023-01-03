@@ -150,35 +150,42 @@ namespace MauiReactor
             return baseShellItem;
         }
 
-        public static T Flyo<T>(this T baseShellItem, string file)
+        public static T FlyoutIcon<T>(this T baseShellItem, string file)
             where T : IBaseShellItem
         {
             baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
             return baseShellItem;
         }
 
-        public static T Flyo<T>(this T baseShellItem, string resourceName, Assembly sourceAssembly)
+        public static T FlyoutIcon<T>(this T baseShellItem, Func<string> action)
+            where T : IBaseShellItem
+        {
+            baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+            return baseShellItem;
+        }
+
+        public static T FlyoutIcon<T>(this T baseShellItem, string resourceName, Assembly sourceAssembly)
             where T : IBaseShellItem
         {
             baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
             return baseShellItem;
         }
 
-        public static T Flyo<T>(this T baseShellItem, Uri imageUri)
+        public static T FlyoutIcon<T>(this T baseShellItem, Uri imageUri)
             where T : IBaseShellItem
         {
             baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
             return baseShellItem;
         }
 
-        public static T Flyo<T>(this T baseShellItem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
+        public static T FlyoutIcon<T>(this T baseShellItem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
             where T : IBaseShellItem
         {
             baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource{Uri = imageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity});
             return baseShellItem;
         }
 
-        public static T Flyo<T>(this T baseShellItem, Func<Stream> imageStream)
+        public static T FlyoutIcon<T>(this T baseShellItem, Func<Stream> imageStream)
             where T : IBaseShellItem
         {
             baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
@@ -203,6 +210,13 @@ namespace MauiReactor
             where T : IBaseShellItem
         {
             baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
+            return baseShellItem;
+        }
+
+        public static T Icon<T>(this T baseShellItem, Func<string> action)
+            where T : IBaseShellItem
+        {
+            baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
             return baseShellItem;
         }
 
