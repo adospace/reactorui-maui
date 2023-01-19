@@ -25,7 +25,15 @@ namespace MauiReactor.HotReload
                 //throw new InvalidOperationException($"Unable to hot relead component {typeof(T).FullName}: type not found in received assembly");
             }
 
-            return (Component?)(Activator.CreateInstance(type) ?? throw new InvalidOperationException());
+            try
+            {
+                return (Component?)(Activator.CreateInstance(type) ?? throw new InvalidOperationException());
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[MauiReactor] Unable to hot reload component {typeof(T).FullName}:{Environment.NewLine}{ex}");
+                throw;
+            }
         }
 
         public RemoteComponentLoader()

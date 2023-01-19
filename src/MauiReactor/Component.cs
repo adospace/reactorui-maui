@@ -260,14 +260,27 @@ namespace MauiReactor
 
     public abstract class ComponentWithProps<P> : Component, IComponentWithProps where P : class, new()
     {
+        private readonly bool _derivedProps;
+
         public ComponentWithProps(P? props = null)
         {
             Props = props ?? new P();
+            _derivedProps = props != null;
         }
 
         public P Props { get; private set; }
 
         object IComponentWithProps.Props => Props;
+
+        internal override void MergeWith(VisualNode newNode)
+        {
+            if (!_derivedProps && newNode is IComponentWithProps newComponentWithProps)
+            {
+                CopyObjectExtensions.CopyProperties(Props, newComponentWithProps.Props);
+            }
+
+            base.MergeWith(newNode);
+        }
     }
 
     public abstract class Component<S, P> : ComponentWithProps<P>, IComponentWithState where S : class, new() where P : class, new()
@@ -380,11 +393,6 @@ namespace MauiReactor
             {
                 _newComponent = newComponentWithState;
                 CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
-            }
-
-            if (newNode is IComponentWithProps newComponentWithProps)
-            {
-                CopyObjectExtensions.CopyProperties(Props, newComponentWithProps.Props);
             }
 
             base.MergeWith(newNode);
