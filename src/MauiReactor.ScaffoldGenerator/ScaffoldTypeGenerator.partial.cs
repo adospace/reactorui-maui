@@ -87,6 +87,7 @@ public partial class ScaffoldTypeGenerator
         TypeofThickness = compilation.FindNamedType("Microsoft.Maui.Thickness").EnsureNotNull();
         TypeofThicknessF = compilation.FindNamedType("MauiReactor.ThicknessF").EnsureNotNull();
         TypeofPoint = compilation.FindNamedType("Microsoft.Maui.Graphics.Point").EnsureNotNull();
+        TypeofCornerRadius = compilation.FindNamedType("MauiReactor.CornerRadius").EnsureNotNull();
         TypeofCornerRadiusF = compilation.FindNamedType("MauiReactor.CornerRadiusF").EnsureNotNull();
 
         AnimatableProperties = Properties
@@ -124,6 +125,7 @@ public partial class ScaffoldTypeGenerator
     public INamedTypeSymbol TypeofThickness { get; }
     public INamedTypeSymbol TypeofThicknessF { get; }
     public INamedTypeSymbol TypeofPoint { get; }
+    public INamedTypeSymbol TypeofCornerRadius { get; }
     public INamedTypeSymbol TypeofCornerRadiusF { get; }
 
     public bool IsBaseGenericType =>

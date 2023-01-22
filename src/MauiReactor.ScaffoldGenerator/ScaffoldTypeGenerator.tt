@@ -396,6 +396,13 @@ namespace <#= Namespace #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>);
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusFAnimation(<#= property.Name.CamelCase() #>), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
             return <#= TypeName.ToLocalVariableName() #>;
+        }              
+        <# } else if (property.Type.Equals(TypeofCornerRadius, SymbolEqualityComparer.Default)) { #>
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxCornerRadiusAnimation? customAnimation = null) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusAnimation(<#= property.Name.CamelCase() #>), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
+            return <#= TypeName.ToLocalVariableName() #>;
         }
         <# } else { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>) where T : <#= InterfaceName #>
@@ -448,6 +455,21 @@ namespace <#= Namespace #>
         {
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new ThicknessF(left, top, right, bottom));
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessFAnimation(new ThicknessF(left, top, right, bottom)), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        <# } #>
+        
+        <# if (property.Type.Name == "CornerRadius") { #>
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, float uniformSize, RxCornerRadiusAnimation? customAnimation = null) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new CornerRadius(uniformSize));
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(uniformSize)), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>,float topLeft, float topRight, float bottomRight, float bottomLeft, RxCornerRadiusAnimation? customAnimation = null) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new CornerRadius(topLeft, topRight, bottomRight, bottomLeft));
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(topLeft, topRight, bottomRight, bottomLeft)), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
             return <#= TypeName.ToLocalVariableName() #>;
         }
         <# } #>
