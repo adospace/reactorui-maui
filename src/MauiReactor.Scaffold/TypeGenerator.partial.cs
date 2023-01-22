@@ -126,6 +126,7 @@ namespace MauiReactor.Scaffold
             _.PropertyType == typeof(double) ||
             _.PropertyType == typeof(Rect) ||
             _.PropertyType == typeof(Thickness) ||
+            _.PropertyType == typeof(CornerRadius) ||
             _.PropertyType == typeof(Point)
             )
 
