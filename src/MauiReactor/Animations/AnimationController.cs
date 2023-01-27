@@ -321,6 +321,7 @@ namespace MauiReactor.Animations
             SetPropertyValue(NativeControl, MauiReactor.Animations.Internals.AnimationContainer.LoopProperty, thisAsIAnimationContainer.Loop);
             SetPropertyValue(NativeControl, MauiReactor.Animations.Internals.AnimationContainer.IterationCountProperty, thisAsIAnimationContainer.IterationCount);
 
+            NativeControl.Invalidate();
 
             base.OnUpdate();
         }
@@ -715,6 +716,11 @@ namespace MauiReactor.Animations
             animation.StartPoint = new PropertyValue<Point>(pt);
             return animation;
         }
+        public static T StartPoint<T>(this T animation, double x, double y) where T : IPathAnimation
+        {
+            animation.StartPoint = new PropertyValue<Point>(new Point(x, y));
+            return animation;
+        }
         public static T StartPoint<T>(this T animation, Func<Point> ptFunc) where T : IPathAnimation
         {
             animation.StartPoint = new PropertyValue<Point>(ptFunc);
@@ -723,6 +729,11 @@ namespace MauiReactor.Animations
         public static T EndPoint<T>(this T animation, Point pt) where T : IPathAnimation
         {
             animation.EndPoint = new PropertyValue<Point>(pt);
+            return animation;
+        }
+        public static T EndPoint<T>(this T animation, double x, double y) where T : IPathAnimation
+        {
+            animation.EndPoint = new PropertyValue<Point>(new Point(x, y));
             return animation;
         }
         public static T EndPoint<T>(this T animation, Func<Point> ptFunc) where T : IPathAnimation
@@ -794,6 +805,11 @@ namespace MauiReactor.Animations
             animation.ControlPoint = new PropertyValue<Point>(point);
             return animation;
         }
+        public static T ControlPoint<T>(this T animation, double x, double y) where T : IQuadraticBezierPathAnimation
+        {
+            animation.ControlPoint = new PropertyValue<Point>(new Point(x, y));
+            return animation;
+        }
         public static T ControlPoint<T>(this T timer, Func<Point> pointFunc) where T : IQuadraticBezierPathAnimation
         {
             timer.ControlPoint = new PropertyValue<Point>(pointFunc);
@@ -859,6 +875,11 @@ namespace MauiReactor.Animations
             animation.ControlPoint1 = new PropertyValue<Point>(point);
             return animation;
         }
+        public static T ControlPoint1<T>(this T animation, double x, double y) where T : ICubicBezierPathAnimation
+        {
+            animation.ControlPoint1 = new PropertyValue<Point>(new Point(x, y));
+            return animation;
+        }
         public static T ControlPoint1<T>(this T animation, Func<Point> pointFunc) where T : ICubicBezierPathAnimation
         {
             animation.ControlPoint1 = new PropertyValue<Point>(pointFunc);
@@ -867,6 +888,11 @@ namespace MauiReactor.Animations
         public static T ControlPoint2<T>(this T animation, Point point) where T : ICubicBezierPathAnimation
         {
             animation.ControlPoint2 = new PropertyValue<Point>(point);
+            return animation;
+        }
+        public static T ControlPoint2<T>(this T animation, double x, double y) where T : ICubicBezierPathAnimation
+        {
+            animation.ControlPoint2 = new PropertyValue<Point>(new Point(x, y));
             return animation;
         }
         public static T ControlPoint2<T>(this T animation, Func<Point> pointFunc) where T : ICubicBezierPathAnimation
@@ -1002,6 +1028,9 @@ namespace MauiReactor.Animations.Internals
         protected abstract void OnTick(double offset);
 
         public abstract double GetDuration();
+
+        internal virtual void Invalidate()
+        { }
     }
 
     public abstract class AnimationContainer : Animation
@@ -1118,6 +1147,12 @@ namespace MauiReactor.Animations.Internals
             return ((double?)(_duration ??= Children.Max(_ => _.GetDuration()))).Value;
         }
 
+        internal override void Invalidate()
+        {
+            _duration = null;
+            base.Invalidate();
+        }
+
         protected override void OnChildInsert(int index, Animation animation)
         {
             _duration = null;
@@ -1145,6 +1180,12 @@ namespace MauiReactor.Animations.Internals
         public override double GetDuration()
         {
             return ((double?)(_duration ??= Children.Sum(_ => _.GetDuration()))).Value;
+        }
+
+        internal override void Invalidate()
+        {
+            _duration = null;
+            base.Invalidate();
         }
 
         protected override void OnChildInsert(int index, Animation animation)
@@ -1175,6 +1216,11 @@ namespace MauiReactor.Animations.Internals
                     return;
                 }
             }
+
+            if (Children.Count > 0)
+            {
+                Children[Children.Count - 1].FireTick(1.0);
+            }            
         }
 
         //public override bool Progress(double elapsedTime, out double remainingTime)
@@ -1271,7 +1317,7 @@ namespace MauiReactor.Animations.Internals
 
         public override double GetDuration()
         {
-            return Duration;
+            return Math.Max(20, Duration);
         }
 
         protected override void OnTick(double offset)
