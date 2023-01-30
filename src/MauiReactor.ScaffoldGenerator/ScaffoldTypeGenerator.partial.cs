@@ -89,13 +89,23 @@ public partial class ScaffoldTypeGenerator
         TypeofPoint = compilation.FindNamedType("Microsoft.Maui.Graphics.Point").EnsureNotNull();
         TypeofCornerRadius = compilation.FindNamedType("Microsoft.Maui.CornerRadius").EnsureNotNull();
         TypeofCornerRadiusF = compilation.FindNamedType("MauiReactor.CornerRadiusF").EnsureNotNull();
+        TypeofVector2 = compilation.FindNamedType("System.Numerics.Vector2").EnsureNotNull();
+        TypeofSizeF = compilation.FindNamedType("Microsoft.Maui.Graphics.SizeF").EnsureNotNull();
+        TypeofColor = compilation.FindNamedType("Microsoft.Maui.Graphics.Color").EnsureNotNull();        
 
         AnimatableProperties = Properties
             .Where(_ =>
                 _.Type.Equals(TypeofDouble, SymbolEqualityComparer.Default) ||
+                _.Type.Equals(TypeofFloat, SymbolEqualityComparer.Default) ||
                 _.Type.Equals(TypeofRect, SymbolEqualityComparer.Default) ||
                 _.Type.Equals(TypeofThickness, SymbolEqualityComparer.Default) ||
-                _.Type.Equals(TypeofPoint, SymbolEqualityComparer.Default))
+                _.Type.Equals(TypeofThicknessF, SymbolEqualityComparer.Default) ||
+                _.Type.Equals(TypeofPoint, SymbolEqualityComparer.Default) ||
+                _.Type.Equals(TypeofCornerRadius, SymbolEqualityComparer.Default) ||
+                _.Type.Equals(TypeofCornerRadiusF, SymbolEqualityComparer.Default) ||
+                _.Type.Equals(TypeofVector2, SymbolEqualityComparer.Default) ||
+                _.Type.Equals(TypeofSizeF, SymbolEqualityComparer.Default) ||
+                _.Type.Equals(TypeofColor, SymbolEqualityComparer.Default))
             .ToArray();
 
         SupportItemTemplate = implementItemTemplateFlag && typeToScaffold.GetMembers().Count(_ => _.Name == "ItemsSource" || _.Name == "ItemTemplate") == 2;
@@ -127,6 +137,9 @@ public partial class ScaffoldTypeGenerator
     public INamedTypeSymbol TypeofPoint { get; }
     public INamedTypeSymbol TypeofCornerRadius { get; }
     public INamedTypeSymbol TypeofCornerRadiusF { get; }
+    public INamedTypeSymbol TypeofVector2 { get; }
+    public INamedTypeSymbol TypeofSizeF { get; }    
+    public INamedTypeSymbol TypeofColor { get; }
 
     public bool IsBaseGenericType =>
         TypeToScaffold.BaseType.EnsureNotNull().IsGenericType;
