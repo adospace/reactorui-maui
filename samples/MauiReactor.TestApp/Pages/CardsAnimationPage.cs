@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MauiReactor.Shapes;
 
 namespace MauiReactor.TestApp.Pages
 {
@@ -107,7 +108,7 @@ namespace MauiReactor.TestApp.Pages
 
         public override VisualNode Render()
         {
-            return new Frame()
+            return new Border()
             {
                 new Timer(300, ()=>
                 {
@@ -126,7 +127,7 @@ namespace MauiReactor.TestApp.Pages
             .Background(_cardBackgrounds[_cardIndex])
             .WidthRequest(300)
             .HeightRequest(200)
-            .CornerRadius(5)
+            .StrokeShape(new RoundRectangle().CornerRadius(5))
             .VEnd()
             .HCenter()
             .Margin(0, 40)

@@ -700,7 +700,7 @@ namespace MauiReactor
             }
         }
 
-        protected void SetPropertyValue(BindableObject dependencyObject, BindableProperty property, object? newValue)
+        protected bool SetPropertyValue(BindableObject dependencyObject, BindableProperty property, object? newValue)
         {
             var oldValue = dependencyObject.GetValue(property);
 
@@ -711,7 +711,10 @@ namespace MauiReactor
 #endif
 
                 dependencyObject.SetValue(property, newValue);
+                return true;
             }
+
+            return false;
         }
 
         protected override void OnAnimate()
@@ -739,9 +742,10 @@ namespace MauiReactor
 
                 Validate.EnsureNotNull(NativeControl);
 
-                NativeControl.SetValue(property, newValue);
-
-                //System.Diagnostics.Debug.WriteLine($"[{NativeControl.GetType().Name}] Animate property {property.PropertyName} to {newValue}");
+                if (SetPropertyValue(NativeControl, property, newValue))
+                {
+                    //System.Diagnostics.Debug.WriteLine($"[{NativeControl.GetType().Name}] Animate property {property.PropertyName} to {newValue}");
+                }
             }
         }
 
