@@ -95,8 +95,8 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIDatePicker = (IDatePicker)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.CharacterSpacingProperty, thisAsIDatePicker.CharacterSpacing);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.FontSizeProperty, thisAsIDatePicker.FontSize);
+            AnimateProperty(Microsoft.Maui.Controls.DatePicker.CharacterSpacingProperty, thisAsIDatePicker.CharacterSpacing);
+            AnimateProperty(Microsoft.Maui.Controls.DatePicker.FontSizeProperty, thisAsIDatePicker.FontSize);
             base.OnAnimate();
         }
 

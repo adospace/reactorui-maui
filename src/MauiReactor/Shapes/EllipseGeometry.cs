@@ -52,9 +52,9 @@ namespace MauiReactor.Shapes
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIEllipseGeometry = (IEllipseGeometry)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, thisAsIEllipseGeometry.Center);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, thisAsIEllipseGeometry.RadiusX);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, thisAsIEllipseGeometry.RadiusY);
+            AnimateProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, thisAsIEllipseGeometry.Center);
+            AnimateProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, thisAsIEllipseGeometry.RadiusX);
+            AnimateProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, thisAsIEllipseGeometry.RadiusY);
             base.OnAnimate();
         }
 

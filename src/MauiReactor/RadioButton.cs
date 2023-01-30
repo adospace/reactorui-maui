@@ -110,9 +110,9 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIRadioButton = (IRadioButton)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.RadioButton.CharacterSpacingProperty, thisAsIRadioButton.CharacterSpacing);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.RadioButton.FontSizeProperty, thisAsIRadioButton.FontSize);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.RadioButton.BorderWidthProperty, thisAsIRadioButton.BorderWidth);
+            AnimateProperty(Microsoft.Maui.Controls.RadioButton.CharacterSpacingProperty, thisAsIRadioButton.CharacterSpacing);
+            AnimateProperty(Microsoft.Maui.Controls.RadioButton.FontSizeProperty, thisAsIRadioButton.FontSize);
+            AnimateProperty(Microsoft.Maui.Controls.RadioButton.BorderWidthProperty, thisAsIRadioButton.BorderWidth);
             base.OnAnimate();
         }
 

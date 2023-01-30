@@ -1085,8 +1085,8 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("        protected override void OnAnimate()\r\n        {\r\n            Validate.Ensu" +
-                    "reNotNull(NativeControl);\r\n            var thisAs");
+            this.Write("        protected override void OnAnimate()\r\n        {\r\n            //Validate.En" +
+                    "sureNotNull(NativeControl);\r\n            var thisAs");
             
             #line 236 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName));
@@ -1114,7 +1114,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("            SetPropertyValue(NativeControl, ");
+            this.Write("            AnimateProperty(");
             
             #line 240 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -1149,7 +1149,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("            SetPropertyValue(NativeControl, ");
+            this.Write("            AnimateProperty(");
             
             #line 242 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));

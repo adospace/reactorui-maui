@@ -30,6 +30,10 @@ namespace MauiReactor.TestApp
                 {
                     new Pages.ListViewPage()
                 },
+                new FlyoutItem("AnimationBasics")
+                {
+                    new Pages.AnimationBasics()
+                },
                 new FlyoutItem("CardsAnimation")
                 {
                     new Pages.CardsAnimationPage()
@@ -73,6 +77,10 @@ namespace MauiReactor.TestApp
                 new FlyoutItem("GraphicsView")
                 {
                     new Pages.GraphicsViewPage()
+                },
+                new FlyoutItem("RemainingItemsThreshold Test")
+                {
+                    new Pages.RemainingItemsThresholdTestPage()
                 },
             }
             .ItemTemplate(RenderItemTemplate);

@@ -218,23 +218,23 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIVisualElement = (IVisualElement)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.AnchorXProperty, thisAsIVisualElement.AnchorX);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.AnchorYProperty, thisAsIVisualElement.AnchorY);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.TranslationXProperty, thisAsIVisualElement.TranslationX);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.TranslationYProperty, thisAsIVisualElement.TranslationY);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.RotationProperty, thisAsIVisualElement.Rotation);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.RotationXProperty, thisAsIVisualElement.RotationX);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.RotationYProperty, thisAsIVisualElement.RotationY);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.ScaleProperty, thisAsIVisualElement.Scale);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.ScaleXProperty, thisAsIVisualElement.ScaleX);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.ScaleYProperty, thisAsIVisualElement.ScaleY);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.OpacityProperty, thisAsIVisualElement.Opacity);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.WidthRequestProperty, thisAsIVisualElement.WidthRequest);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.HeightRequestProperty, thisAsIVisualElement.HeightRequest);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.MinimumWidthRequestProperty, thisAsIVisualElement.MinimumWidthRequest);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.MinimumHeightRequestProperty, thisAsIVisualElement.MinimumHeightRequest);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.MaximumWidthRequestProperty, thisAsIVisualElement.MaximumWidthRequest);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.MaximumHeightRequestProperty, thisAsIVisualElement.MaximumHeightRequest);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.AnchorXProperty, thisAsIVisualElement.AnchorX);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.AnchorYProperty, thisAsIVisualElement.AnchorY);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.TranslationXProperty, thisAsIVisualElement.TranslationX);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.TranslationYProperty, thisAsIVisualElement.TranslationY);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.RotationProperty, thisAsIVisualElement.Rotation);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.RotationXProperty, thisAsIVisualElement.RotationX);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.RotationYProperty, thisAsIVisualElement.RotationY);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.ScaleProperty, thisAsIVisualElement.Scale);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.ScaleXProperty, thisAsIVisualElement.ScaleX);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.ScaleYProperty, thisAsIVisualElement.ScaleY);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.OpacityProperty, thisAsIVisualElement.Opacity);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.WidthRequestProperty, thisAsIVisualElement.WidthRequest);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.HeightRequestProperty, thisAsIVisualElement.HeightRequest);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.MinimumWidthRequestProperty, thisAsIVisualElement.MinimumWidthRequest);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.MinimumHeightRequestProperty, thisAsIVisualElement.MinimumHeightRequest);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.MaximumWidthRequestProperty, thisAsIVisualElement.MaximumWidthRequest);
+            AnimateProperty(Microsoft.Maui.Controls.VisualElement.MaximumHeightRequestProperty, thisAsIVisualElement.MaximumHeightRequest);
             base.OnAnimate();
         }
 

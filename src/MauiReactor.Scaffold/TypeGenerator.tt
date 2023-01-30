@@ -144,9 +144,9 @@ namespace <#= Namespace() #>
 
             <# foreach (var property in AnimatableProperties) { #>
             <# if (IsGenericType()) { #>
-            SetPropertyValue(NativeControl, <#= FullTypeName() #><TChild>.<#= property.Name #>Property, thisAs<#= InterfaceName() #>.<#= property.Name #>);
+            AnimateProperty(<#= FullTypeName() #><TChild>.<#= property.Name #>Property, thisAs<#= InterfaceName() #>.<#= property.Name #>);
             <# } else { #>
-            SetPropertyValue(NativeControl, <#= FullTypeName() #>.<#= property.Name #>Property, thisAs<#= InterfaceName() #>.<#= property.Name #>);
+            AnimateProperty(<#= FullTypeName() #>.<#= property.Name #>Property, thisAs<#= InterfaceName() #>.<#= property.Name #>);
             <# } #>
             <# } #>
 

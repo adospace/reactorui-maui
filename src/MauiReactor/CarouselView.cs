@@ -93,7 +93,7 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsICarouselView = (ICarouselView)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, thisAsICarouselView.PeekAreaInsets);
+            AnimateProperty(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, thisAsICarouselView.PeekAreaInsets);
             base.OnAnimate();
         }
 
