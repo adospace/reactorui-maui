@@ -42,7 +42,7 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIStackBase = (IStackBase)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.StackBase.SpacingProperty, thisAsIStackBase.Spacing);
+            AnimateProperty(Microsoft.Maui.Controls.StackBase.SpacingProperty, thisAsIStackBase.Spacing);
             base.OnAnimate();
         }
 

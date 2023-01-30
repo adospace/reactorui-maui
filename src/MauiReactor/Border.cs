@@ -77,10 +77,10 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIBorder = (IBorder)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Border.PaddingProperty, thisAsIBorder.Padding);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Border.StrokeThicknessProperty, thisAsIBorder.StrokeThickness);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Border.StrokeDashOffsetProperty, thisAsIBorder.StrokeDashOffset);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Border.StrokeMiterLimitProperty, thisAsIBorder.StrokeMiterLimit);
+            AnimateProperty(Microsoft.Maui.Controls.Border.PaddingProperty, thisAsIBorder.Padding);
+            AnimateProperty(Microsoft.Maui.Controls.Border.StrokeThicknessProperty, thisAsIBorder.StrokeThickness);
+            AnimateProperty(Microsoft.Maui.Controls.Border.StrokeDashOffsetProperty, thisAsIBorder.StrokeDashOffset);
+            AnimateProperty(Microsoft.Maui.Controls.Border.StrokeMiterLimitProperty, thisAsIBorder.StrokeMiterLimit);
             base.OnAnimate();
         }
 

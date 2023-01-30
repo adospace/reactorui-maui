@@ -113,8 +113,8 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIShell = (IShell)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutWidthProperty, thisAsIShell.FlyoutWidth);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shell.FlyoutHeightProperty, thisAsIShell.FlyoutHeight);
+            AnimateProperty(Microsoft.Maui.Controls.Shell.FlyoutWidthProperty, thisAsIShell.FlyoutWidth);
+            AnimateProperty(Microsoft.Maui.Controls.Shell.FlyoutHeightProperty, thisAsIShell.FlyoutHeight);
             base.OnAnimate();
         }
 

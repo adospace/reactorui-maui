@@ -86,7 +86,7 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsISwipeView = (ISwipeView)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeView.ThresholdProperty, thisAsISwipeView.Threshold);
+            AnimateProperty(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, thisAsISwipeView.Threshold);
             base.OnAnimate();
         }
 

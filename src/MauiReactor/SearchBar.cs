@@ -95,7 +95,7 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsISearchBar = (ISearchBar)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchBar.FontSizeProperty, thisAsISearchBar.FontSize);
+            AnimateProperty(Microsoft.Maui.Controls.SearchBar.FontSizeProperty, thisAsISearchBar.FontSize);
             base.OnAnimate();
         }
 

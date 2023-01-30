@@ -57,7 +57,7 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIShadow = (IShadow)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shadow.OffsetProperty, thisAsIShadow.Offset);
+            AnimateProperty(Microsoft.Maui.Controls.Shadow.OffsetProperty, thisAsIShadow.Offset);
             base.OnAnimate();
         }
 

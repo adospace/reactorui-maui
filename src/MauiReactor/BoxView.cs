@@ -47,7 +47,7 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIBoxView = (IBoxView)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BoxView.CornerRadiusProperty, thisAsIBoxView.CornerRadius);
+            AnimateProperty(Microsoft.Maui.Controls.BoxView.CornerRadiusProperty, thisAsIBoxView.CornerRadius);
             base.OnAnimate();
         }
 

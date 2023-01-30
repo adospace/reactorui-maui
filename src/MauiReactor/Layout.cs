@@ -52,7 +52,7 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsILayout = (ILayout)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Layout.PaddingProperty, thisAsILayout.Padding);
+            AnimateProperty(Microsoft.Maui.Controls.Layout.PaddingProperty, thisAsILayout.Padding);
             base.OnAnimate();
         }
 

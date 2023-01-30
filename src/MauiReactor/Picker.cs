@@ -100,8 +100,8 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIPicker = (IPicker)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, thisAsIPicker.CharacterSpacing);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.FontSizeProperty, thisAsIPicker.FontSize);
+            AnimateProperty(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, thisAsIPicker.CharacterSpacing);
+            AnimateProperty(Microsoft.Maui.Controls.Picker.FontSizeProperty, thisAsIPicker.FontSize);
             base.OnAnimate();
         }
 

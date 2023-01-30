@@ -47,8 +47,8 @@ namespace MauiReactor.Shapes
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsILineGeometry = (ILineGeometry)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, thisAsILineGeometry.StartPoint);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, thisAsILineGeometry.EndPoint);
+            AnimateProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, thisAsILineGeometry.StartPoint);
+            AnimateProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, thisAsILineGeometry.EndPoint);
             base.OnAnimate();
         }
 

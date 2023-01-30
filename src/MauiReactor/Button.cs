@@ -136,10 +136,10 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIButton = (IButton)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Button.CharacterSpacingProperty, thisAsIButton.CharacterSpacing);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Button.FontSizeProperty, thisAsIButton.FontSize);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Button.BorderWidthProperty, thisAsIButton.BorderWidth);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Button.PaddingProperty, thisAsIButton.Padding);
+            AnimateProperty(Microsoft.Maui.Controls.Button.CharacterSpacingProperty, thisAsIButton.CharacterSpacing);
+            AnimateProperty(Microsoft.Maui.Controls.Button.FontSizeProperty, thisAsIButton.FontSize);
+            AnimateProperty(Microsoft.Maui.Controls.Button.BorderWidthProperty, thisAsIButton.BorderWidth);
+            AnimateProperty(Microsoft.Maui.Controls.Button.PaddingProperty, thisAsIButton.Padding);
             base.OnAnimate();
         }
 

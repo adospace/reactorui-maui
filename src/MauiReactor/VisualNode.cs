@@ -6,7 +6,7 @@ namespace MauiReactor
 {
     public interface IVisualNode
     {
-        void AppendAnimatable<T>(object key, T animation, Action<T> action) where T : RxAnimation;
+        void AppendAnimatable<T>(BindableProperty key, T animation, Action<T> action) where T : RxAnimation;
 
         Microsoft.Maui.Controls.Page? GetContainerPage();
 
@@ -78,7 +78,7 @@ namespace MauiReactor
 
         protected bool _stateChanged = true;
 
-        private readonly Dictionary<object, Animatable> _animatables = new();
+        protected internal readonly Dictionary<BindableProperty, Animatable> _animatables = new();
 
         private readonly Dictionary<string, object?> _metadata = new();
 
@@ -143,7 +143,7 @@ namespace MauiReactor
         internal bool IsLayoutCycleRequired { get; set; } = true;
         internal virtual VisualNode? Parent { get; set; }
 
-        public void AppendAnimatable<T>(object key, T animation, Action<T> action) where T : RxAnimation
+        public void AppendAnimatable<T>(BindableProperty key, T animation, Action<T> action) where T : RxAnimation
         {
             if (key is null)
             {
@@ -723,6 +723,26 @@ namespace MauiReactor
             }
 
             base.OnAnimate();
+        }
+
+        protected void AnimateProperty(BindableProperty property, IPropertyValue? propertyValue)
+        {
+            if (propertyValue == null)
+            {
+                return;
+            }
+
+            if (_animatables.TryGetValue(property, out var animatableProperty) && 
+                animatableProperty.IsEnabled == true)
+            {
+                var newValue = propertyValue.GetValue();
+
+                Validate.EnsureNotNull(NativeControl);
+
+                NativeControl.SetValue(property, newValue);
+
+                //System.Diagnostics.Debug.WriteLine($"[{NativeControl.GetType().Name}] Animate property {property.PropertyName} to {newValue}");
+            }
         }
 
         Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()

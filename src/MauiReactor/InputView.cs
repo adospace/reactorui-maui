@@ -95,7 +95,7 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIInputView = (IInputView)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.CharacterSpacingProperty, thisAsIInputView.CharacterSpacing);
+            AnimateProperty(Microsoft.Maui.Controls.InputView.CharacterSpacingProperty, thisAsIInputView.CharacterSpacing);
             base.OnAnimate();
         }
 
