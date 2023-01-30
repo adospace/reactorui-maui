@@ -40,9 +40,9 @@ namespace MauiReactor
 
         protected override void OnAnimate()
         {
-            Validate.EnsureNotNull(NativeControl);
+            //Validate.EnsureNotNull(NativeControl);
             var thisAsIView = (IView)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.View.MarginProperty, thisAsIView.Margin);
+            AnimateProperty(Microsoft.Maui.Controls.View.MarginProperty, thisAsIView.Margin);
             base.OnAnimate();
         }
 

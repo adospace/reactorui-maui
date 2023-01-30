@@ -42,6 +42,10 @@ namespace MauiReactor.TestApp
                 {
                     new Pages.ImagePage()
                 },
+                new FlyoutItem("AnimationBasics")
+                {
+                    new Pages.AnimationBasics()
+                },
                 new FlyoutItem("AnimatedCollectionView")
                 {
                     new Pages.AnimatedCollectionViewPage()

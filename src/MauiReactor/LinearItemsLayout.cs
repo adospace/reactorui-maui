@@ -40,9 +40,9 @@ namespace MauiReactor
 
         protected override void OnAnimate()
         {
-            Validate.EnsureNotNull(NativeControl);
+            //Validate.EnsureNotNull(NativeControl);
             var thisAsILinearItemsLayout = (ILinearItemsLayout)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, thisAsILinearItemsLayout.ItemSpacing);
+            AnimateProperty(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, thisAsILinearItemsLayout.ItemSpacing);
             base.OnAnimate();
         }
 

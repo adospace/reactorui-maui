@@ -94,10 +94,10 @@ namespace MauiReactor
 
         protected override void OnAnimate()
         {
-            Validate.EnsureNotNull(NativeControl);
+            //Validate.EnsureNotNull(NativeControl);
             var thisAsIImageButton = (IImageButton)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, thisAsIImageButton.BorderWidth);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ImageButton.PaddingProperty, thisAsIImageButton.Padding);
+            AnimateProperty(Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, thisAsIImageButton.BorderWidth);
+            AnimateProperty(Microsoft.Maui.Controls.ImageButton.PaddingProperty, thisAsIImageButton.Padding);
             base.OnAnimate();
         }
 

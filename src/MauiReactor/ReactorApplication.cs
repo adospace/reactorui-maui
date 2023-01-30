@@ -207,7 +207,7 @@ namespace MauiReactor
 
             if (Application.Current != null && AnimateVisuals())
             {
-                Application.Current.Dispatcher.Dispatch(AnimationCallback);
+                Application.Current.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(16), AnimationCallback);
             }
         }
 

@@ -139,14 +139,14 @@ namespace <#= Namespace() #>
         <# if (AnimatableProperties.Any()) { #>
         protected override void OnAnimate()
         {
-            Validate.EnsureNotNull(NativeControl);
+            //Validate.EnsureNotNull(NativeControl);
             var thisAs<#= InterfaceName() #> = (<#= InterfaceName() #>)this;
 
             <# foreach (var property in AnimatableProperties) { #>
             <# if (IsGenericType()) { #>
-            SetPropertyValue(NativeControl, <#= FullTypeName() #><TChild>.<#= property.Name #>Property, thisAs<#= InterfaceName() #>.<#= property.Name #>);
+            AnimateProperty(<#= FullTypeName() #><TChild>.<#= property.Name #>Property, thisAs<#= InterfaceName() #>.<#= property.Name #>);
             <# } else { #>
-            SetPropertyValue(NativeControl, <#= FullTypeName() #>.<#= property.Name #>Property, thisAs<#= InterfaceName() #>.<#= property.Name #>);
+            AnimateProperty(<#= FullTypeName() #>.<#= property.Name #>Property, thisAs<#= InterfaceName() #>.<#= property.Name #>);
             <# } #>
             <# } #>
 

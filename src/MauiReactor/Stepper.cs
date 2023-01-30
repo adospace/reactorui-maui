@@ -63,12 +63,12 @@ namespace MauiReactor
 
         protected override void OnAnimate()
         {
-            Validate.EnsureNotNull(NativeControl);
+            //Validate.EnsureNotNull(NativeControl);
             var thisAsIStepper = (IStepper)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Stepper.MaximumProperty, thisAsIStepper.Maximum);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Stepper.MinimumProperty, thisAsIStepper.Minimum);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Stepper.ValueProperty, thisAsIStepper.Value);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Stepper.IncrementProperty, thisAsIStepper.Increment);
+            AnimateProperty(Microsoft.Maui.Controls.Stepper.MaximumProperty, thisAsIStepper.Maximum);
+            AnimateProperty(Microsoft.Maui.Controls.Stepper.MinimumProperty, thisAsIStepper.Minimum);
+            AnimateProperty(Microsoft.Maui.Controls.Stepper.ValueProperty, thisAsIStepper.Value);
+            AnimateProperty(Microsoft.Maui.Controls.Stepper.IncrementProperty, thisAsIStepper.Increment);
             base.OnAnimate();
         }
 
