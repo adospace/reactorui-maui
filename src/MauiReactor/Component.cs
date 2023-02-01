@@ -49,20 +49,6 @@ namespace MauiReactor
         protected new IReadOnlyList<VisualNode> Children()
             => _children;
 
-        //protected new Microsoft.Maui.Controls.Page? ContainerPage
-        //{
-        //    get
-        //    {
-        //        //if (Parent == null)
-        //        //{
-        //        //    return null;
-        //        //}
-
-        //        //return Parent.ContainerPage;
-        //        return GetPageHost()?.ContainerPage;
-        //    }
-        //}
-
         protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
         {
             foreach (var attachedProperty in _attachedProperties)

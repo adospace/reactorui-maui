@@ -204,10 +204,20 @@ namespace MauiReactor
             {
                 return;
             }
-
+            DateTime now = DateTime.Now;
             if (Application.Current != null && AnimateVisuals())
             {
-                Application.Current.Dispatcher.Dispatch(AnimationCallback);
+                //System.Diagnostics.Debug.WriteLine($"{(DateTime.Now - now).TotalMilliseconds}");
+                var elapsedMilliseconds = (DateTime.Now - now).TotalMilliseconds;
+                if (elapsedMilliseconds > 16)
+                {
+                    System.Diagnostics.Debug.WriteLine("FPS WARNING");
+                    Application.Current.Dispatcher.Dispatch(AnimationCallback);
+                }
+                else
+                {
+                    Application.Current.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(16 - elapsedMilliseconds), AnimationCallback);
+                }
             }
         }
 
