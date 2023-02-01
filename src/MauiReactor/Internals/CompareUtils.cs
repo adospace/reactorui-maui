@@ -36,6 +36,13 @@
                 return leftUrlWebViewSource.Url.ToString() == rightUrlWebViewSource.Url.ToString();
             }
 
+            if (left is double x &&
+                right is double y)
+            {
+                double variance = x > y ? x - y : y - x;
+                return variance < 0.0000001;
+            }
+
             return left.Equals(right);        
         }
     }
