@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 
 namespace MauiReactor.ScaffoldGenerator;
 
@@ -87,12 +88,13 @@ public partial class ScaffoldTypeGenerator
         TypeofThickness = compilation.FindNamedType("Microsoft.Maui.Thickness").EnsureNotNull();
         TypeofThicknessF = compilation.FindNamedType("MauiReactor.ThicknessF").EnsureNotNull();
         TypeofPoint = compilation.FindNamedType("Microsoft.Maui.Graphics.Point").EnsureNotNull();
+        TypeofPointF = compilation.FindNamedType("Microsoft.Maui.Graphics.PointF").EnsureNotNull();
         TypeofCornerRadius = compilation.FindNamedType("Microsoft.Maui.CornerRadius").EnsureNotNull();
         TypeofCornerRadiusF = compilation.FindNamedType("MauiReactor.CornerRadiusF").EnsureNotNull();
         TypeofVector2 = compilation.FindNamedType("System.Numerics.Vector2").EnsureNotNull();
         TypeofSizeF = compilation.FindNamedType("Microsoft.Maui.Graphics.SizeF").EnsureNotNull();
-        TypeofColor = compilation.FindNamedType("Microsoft.Maui.Graphics.Color").EnsureNotNull();        
-
+        TypeofColor = compilation.FindNamedType("Microsoft.Maui.Graphics.Color").EnsureNotNull();
+        
         AnimatableProperties = Properties
             .Where(_ =>
                 _.Type.Equals(TypeofDouble, SymbolEqualityComparer.Default) ||
@@ -101,6 +103,7 @@ public partial class ScaffoldTypeGenerator
                 _.Type.Equals(TypeofThickness, SymbolEqualityComparer.Default) ||
                 _.Type.Equals(TypeofThicknessF, SymbolEqualityComparer.Default) ||
                 _.Type.Equals(TypeofPoint, SymbolEqualityComparer.Default) ||
+                _.Type.Equals(TypeofPointF, SymbolEqualityComparer.Default) ||
                 _.Type.Equals(TypeofCornerRadius, SymbolEqualityComparer.Default) ||
                 _.Type.Equals(TypeofCornerRadiusF, SymbolEqualityComparer.Default) ||
                 _.Type.Equals(TypeofVector2, SymbolEqualityComparer.Default) ||
@@ -135,6 +138,7 @@ public partial class ScaffoldTypeGenerator
     public INamedTypeSymbol TypeofThickness { get; }
     public INamedTypeSymbol TypeofThicknessF { get; }
     public INamedTypeSymbol TypeofPoint { get; }
+    public INamedTypeSymbol TypeofPointF { get; }
     public INamedTypeSymbol TypeofCornerRadius { get; }
     public INamedTypeSymbol TypeofCornerRadiusF { get; }
     public INamedTypeSymbol TypeofVector2 { get; }

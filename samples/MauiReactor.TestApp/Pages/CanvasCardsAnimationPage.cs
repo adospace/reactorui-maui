@@ -115,10 +115,11 @@ class CanvasCardPage : Component<CanvasCardState>
                     })
                     .IsEnabled(State.MovingBack)
                 }
-                .TranslateY(State.MovingBack ? -230 : 0)
-                .Rotate(State.Rotation)
+                .TranslationY(State.MovingBack ? -230 : 0)
+                .Rotation(State.Rotation)
                 .WithAnimation()
-                .Anchor(0.5f, 0.5f)
+                .AnchorX(0.5f)
+                .AnchorY(0.5f)
                 .Background(_cardBackgrounds[_cardIndex])
                 .CornerRadius(5)            
             }

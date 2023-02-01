@@ -1,20 +1,20 @@
 ﻿namespace MauiReactor.Animations
 {
-    public class RxSimplePointAnimation : RxPointAnimation
+    public class RxSimplePointFAnimation : RxPointFAnimation
     {
-        public RxSimplePointAnimation(Point targetPoint, Easing? easing = null, double? duration = null)
+        public RxSimplePointFAnimation(PointF targetPoint, Easing? easing = null, double? duration = null)
             : base(easing, duration)
         {
             TargetPoint = targetPoint;
         }
 
-        public Point TargetPoint { get; }
-        public Point? StartPoint { get; private set; }
+        public PointF TargetPoint { get; }
+        public PointF? StartPoint { get; private set; }
 
         private bool _isCompleted;
         public override bool IsCompleted() => _isCompleted || StartPoint == null || StartPoint.Value == TargetPoint;
 
-        public override Point CurrentValue()
+        public override PointF CurrentValue()
         {
             if (StartPoint == null)
                 return TargetPoint;
@@ -39,9 +39,9 @@
 
             var easingValue = easing.Ease(elapsedTime / duration);
 
-            return new Point(
-                StartPoint.Value.X + (TargetPoint.X - StartPoint.Value.X) * easingValue,
-                StartPoint.Value.Y + (TargetPoint.Y - StartPoint.Value.Y) * easingValue
+            return new PointF(
+                (float)(StartPoint.Value.X + (TargetPoint.X - StartPoint.Value.X) * easingValue),
+                (float)(StartPoint.Value.Y + (TargetPoint.Y - StartPoint.Value.Y) * easingValue)
                 );
         }
 
@@ -61,7 +61,7 @@
 
         protected override void OnMigrateFrom(RxAnimation previousAnimation)
         {
-            var previousDoubleAnimation = ((RxSimplePointAnimation)previousAnimation);
+            var previousDoubleAnimation = ((RxSimplePointFAnimation)previousAnimation);
             StartPoint = previousDoubleAnimation.CurrentValue();
 
             if (!previousDoubleAnimation.IsCompleted())

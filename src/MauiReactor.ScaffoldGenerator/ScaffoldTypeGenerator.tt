@@ -376,6 +376,13 @@ namespace <#= Namespace #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimplePointAnimation(<#= property.Name.CamelCase() #>), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
             return <#= TypeName.ToLocalVariableName() #>;
         }        
+        <# } else if (property.Type.Equals(TypeofPointF, SymbolEqualityComparer.Default)) { #>
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxPointFAnimation? customAnimation = null) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimplePointFAnimation(<#= property.Name.CamelCase() #>), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
+            return <#= TypeName.ToLocalVariableName() #>;
+        }        
         <# } else if (property.Type.Equals(TypeofThickness, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
@@ -420,20 +427,20 @@ namespace <#= Namespace #>
         <# if (property.Type.Name == "Thickness") { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
-            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new Thickness(leftRight, topBottom));
-            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new Microsoft.Maui.Thickness(leftRight, topBottom));
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Microsoft.Maui.Thickness(leftRight, topBottom)), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
             return <#= TypeName.ToLocalVariableName() #>;
         }
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double uniformSize, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
-            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new Thickness(uniformSize));
-            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new Microsoft.Maui.Thickness(uniformSize));
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Microsoft.Maui.Thickness(uniformSize)), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
             return <#= TypeName.ToLocalVariableName() #>;
         }
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
-            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new Thickness(left, top, right, bottom));
-            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(new Microsoft.Maui.Thickness(left, top, right, bottom));
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Microsoft.Maui.Thickness(left, top, right, bottom)), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToResevedWordFullTypeName() #>>(v.CurrentValue()));
             return <#= TypeName.ToLocalVariableName() #>;
         }
         <# } #>

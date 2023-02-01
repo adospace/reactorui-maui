@@ -88,11 +88,11 @@ namespace MauiReactor.Canvas.Internals
             {
                 if (fillColor != null || fillPaint != null)
                 {
-                    if (fillPaint!= null)
+                    if (fillPaint != null)
                     {
                         canvas.SetFillPaint(fillPaint, dirtyRect);
                     }
-                    else
+                    if (fillColor != null) 
                     {
                         canvas.FillColor = fillColor;
                     }
@@ -130,7 +130,7 @@ namespace MauiReactor.Canvas.Internals
                     canvas.SetFillPaint(fillPaint, dirtyRect);
                     canvas.FillRectangle(dirtyRect);
                 }
-                else if (fillColor != null)
+                if (fillColor != null)
                 {
                     canvas.FillColor = fillColor;
                     canvas.FillRectangle(dirtyRect);

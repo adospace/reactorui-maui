@@ -64,6 +64,8 @@ class CanvasPage : Component<CanvasPageState>
                     .BackgroundColor(Colors.Red)
                     .CornerRadius(10)
                 }
+                    .TranslationX(20)
+                    .TranslationY(30)
             }
         };
     }
