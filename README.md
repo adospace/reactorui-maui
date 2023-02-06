@@ -36,10 +36,18 @@ cd .\my-new-project\
 ```
 dotnet build -t:Run -f net7.0-android
 ```
+Under Mac, to target an iOS device/emulator, issue a command like this:
+```
+dotnet build -t:Run /p:_DeviceName=:v2:udid=<device_id> -f net7.0-ios
+```
+where the device id comes from this list:
+```
+xcrun simctl list
+```
 
 5. Hot-reload console
 ```
-dotnet-maui-reactor -f net7.0-android
+dotnet-maui-reactor -f [net7.0-android|net7.0-ios|...]
 ```
 
 6. Edits to code should be hotreloaded by the application --> Enjoy!
