@@ -234,15 +234,15 @@ namespace MauiReactor
         object Props { get; }
     }
 
-    [Obsolete("This interface is deprecated and will be removed before the first production version")]
-    public interface IState
-    {
-    }
+    //[Obsolete("This interface is deprecated and will be removed before the first production version")]
+    //public interface IState
+    //{
+    //}
 
-    [Obsolete("This interface is deprecated and will be removed before the first production version")]
-    public interface IProps
-    {
-    }
+    //[Obsolete("This interface is deprecated and will be removed before the first production version")]
+    //public interface IProps
+    //{
+    //}
 
     public abstract class ComponentWithProps<P> : Component, IComponentWithProps where P : class, new()
     {

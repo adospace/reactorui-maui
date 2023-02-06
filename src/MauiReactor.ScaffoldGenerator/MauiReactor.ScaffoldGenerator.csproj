@@ -11,7 +11,7 @@
 
 
     <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' == '' ">0.0.1-local</Version>
-    <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' != '' ">$(APPVEYOR_BUILD_VERSION)-beta</Version>
+    <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' != '' ">$(APPVEYOR_BUILD_VERSION)</Version>
     <Authors>adospace</Authors>
     <Description>MauiReactor.ScaffoldGenerator is a source generator library that helps building MauiReactor wrappers for controls.</Description>
     <Copyright>Adolfo Marinucci</Copyright>

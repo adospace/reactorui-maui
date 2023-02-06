@@ -20,7 +20,7 @@
 
 
     <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' == '' ">0.0.1-local</Version>
-    <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' != '' ">$(APPVEYOR_BUILD_VERSION)-beta</Version>
+    <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' != '' ">$(APPVEYOR_BUILD_VERSION)</Version>
     <Authors>adospace</Authors>
     <Description>MauiReactor.Maps is a MauiReactor plugin for the MAUI Maps Control.</Description>
     <Copyright>Adolfo Marinucci</Copyright>

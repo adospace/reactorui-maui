@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
 
     <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' == '' ">0.0.1-local</Version>
-    <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' != '' ">$(APPVEYOR_BUILD_VERSION)-beta</Version>
+    <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' != '' ">$(APPVEYOR_BUILD_VERSION)</Version>
     <Authors>adospace</Authors>
     <Description>This command allows hot-reload of an application written with MauiReactor.</Description>
     <Copyright>Adolfo Marinucci</Copyright>

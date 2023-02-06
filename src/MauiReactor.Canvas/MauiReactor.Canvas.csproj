@@ -19,7 +19,7 @@
 	
   
     <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' == '' ">0.0.1-local</Version>
-    <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' != '' ">$(APPVEYOR_BUILD_VERSION)-beta</Version>
+    <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' != '' ">$(APPVEYOR_BUILD_VERSION)</Version>
     <Authors>adospace</Authors>
     <Description>MauiReactor.CanvasKit is MauiReactor plugin that let you author custom controls using drawing commands in a declarative approach (similar to react-native-skia).</Description>
     <Copyright>Adolfo Marinucci</Copyright>
