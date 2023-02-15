@@ -119,7 +119,7 @@ namespace MauiReactor
             }
             catch (Exception ex)
             {
-                ReactorApplicationHost.Instance.FireUnhandledExpectionEvent(ex);
+                ReactorApplicationHost.Instance.FireUnhandledExceptionEvent(ex);
             }
         }
 
@@ -153,7 +153,7 @@ namespace MauiReactor
             }
             catch (Exception ex)
             {
-                ReactorApplicationHost.Instance?.FireUnhandledExpectionEvent(ex);
+                ReactorApplicationHost.Instance?.FireUnhandledExceptionEvent(ex);
                 System.Diagnostics.Debug.WriteLine(ex);
             }
         }

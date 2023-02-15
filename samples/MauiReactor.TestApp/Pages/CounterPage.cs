@@ -19,7 +19,7 @@ namespace MauiReactor.TestApp.Pages
             {
                 new VerticalStackLayout(spacing: 10)
                 {
-                    new Label(() => $"Counter: {State.Counter}")
+                    new Label($"Counter: {State.Counter}")
                         .VCenter()
                         .HCenter(),
 

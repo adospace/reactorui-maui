@@ -13,7 +13,7 @@ class AnimationLoopPageState
 {
     public Point[] Positions { get; set; } = new Point[5];
 
-    public bool IsPaused { get; set; }
+    public bool IsPaused { get; set; } = true;
 }
 
 

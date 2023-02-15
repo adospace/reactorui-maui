@@ -34,7 +34,7 @@ namespace MauiReactor
 
         public Action<UnhandledExceptionEventArgs>? UnhandledException { get; set; }
 
-        internal void FireUnhandledExpectionEvent(Exception ex)
+        internal void FireUnhandledExceptionEvent(Exception ex)
         {
             UnhandledException?.Invoke(new UnhandledExceptionEventArgs(ex, false));
             System.Diagnostics.Debug.WriteLine(ex);
@@ -144,7 +144,7 @@ namespace MauiReactor
             }
             catch (Exception ex)
             {
-                FireUnhandledExpectionEvent(ex);
+                FireUnhandledExceptionEvent(ex);
             }
 
         }
@@ -176,7 +176,7 @@ namespace MauiReactor
             }
             catch (Exception ex)
             {
-                FireUnhandledExpectionEvent(ex);
+                FireUnhandledExceptionEvent(ex);
             }
         }
 
@@ -289,15 +289,20 @@ namespace MauiReactor
 
         protected override void OnResume()
         {
-            _host?.Resume();
+            //https://github.com/adospace/reactorui-maui/issues/26
+            //seems like some devices (Android 9.0?) do not send (or Maui app doesn't receive) the resume event
+            //so for now do not suspend the event loop (actually it's even not required at all to suspend it as the app itself is suspended by the os)
+            //_host?.Resume();
             base.OnResume();
         }
 
         protected override void OnSleep()
         {
-            _host?.Pause();
+            //do not pause the event loop: see OnResume() above
+            //_host?.Pause();
             base.OnSleep();
         }
+
         protected override void CleanUp()
         {
             _host?.Stop();
