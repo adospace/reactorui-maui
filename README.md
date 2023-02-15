@@ -23,7 +23,7 @@ dotnet new --install Reactor.Maui.TemplatePack
 2. Install MauiReactor hot reload console command
 [![Nuget](https://img.shields.io/nuget/v/Reactor.Maui.HotReload)](https://www.nuget.org/packages/Reactor.Maui.HotReload)
 ```
-dotnet tool install -g Reactor.Maui.HotReload --prerelease
+dotnet tool install -g Reactor.Maui.HotReload
 ```
 
 3. Create a sample project
