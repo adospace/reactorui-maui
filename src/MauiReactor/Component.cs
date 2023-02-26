@@ -4,15 +4,13 @@ using MauiReactor.Parameters;
 
 namespace MauiReactor
 {
-    public interface IComponent
-    {
-    }
-
     public abstract class Component : VisualNode, IEnumerable<VisualNode>, IVisualNodeWithAttachedProperties
     {
         private readonly Dictionary<BindableProperty, object> _attachedProperties = new();
 
         private ParameterContext? _parameterContext;
+
+        private Component? _newComponent;
 
         public abstract VisualNode Render();
 
@@ -102,6 +100,11 @@ namespace MauiReactor
 
         internal override void MergeWith(VisualNode newNode)
         {
+            if (newNode is Component newComponentMigrated)
+            {
+                _newComponent = newComponentMigrated;
+            }
+
             if (_parameterContext != null && newNode is Component newComponent)
             {
                 newComponent._parameterContext ??= new ParameterContext(newComponent);
@@ -196,6 +199,11 @@ namespace MauiReactor
 
             while (true)
             {
+                while (currentComponent._newComponent != null)
+                {
+                    currentComponent = currentComponent._newComponent;
+                }
+
                 var parentComponent = currentComponent.GetParent<Component>();
                 if (parentComponent == null)
                     break;
@@ -234,16 +242,6 @@ namespace MauiReactor
         object Props { get; }
     }
 
-    //[Obsolete("This interface is deprecated and will be removed before the first production version")]
-    //public interface IState
-    //{
-    //}
-
-    //[Obsolete("This interface is deprecated and will be removed before the first production version")]
-    //public interface IProps
-    //{
-    //}
-
     public abstract class ComponentWithProps<P> : Component, IComponentWithProps where P : class, new()
     {
         private readonly bool _derivedProps;
@@ -273,7 +271,7 @@ namespace MauiReactor
     {
         private IComponentWithState? _newComponent;
 
-        private readonly List<Action> _actionsRegisterdOnStateChange = new();
+        private readonly List<Action> _actionsRegisteredOnStateChange = new();
 
         private readonly bool _derivedState;
 
@@ -310,7 +308,7 @@ namespace MauiReactor
         {
             CopyObjectExtensions.CopyProperties(stateFromOldComponent, State);
 
-            foreach (var registeredAction in _actionsRegisterdOnStateChange)
+            foreach (var registeredAction in _actionsRegisteredOnStateChange)
             {
                 registeredAction.Invoke();
             }
@@ -330,7 +328,7 @@ namespace MauiReactor
                 throw new ArgumentNullException(nameof(action));
             }
 
-            _actionsRegisterdOnStateChange.Add(action);
+            _actionsRegisteredOnStateChange.Add(action);
         }
 
         private bool TryForwardStateToNewComponent(bool invalidateComponent)
@@ -360,7 +358,7 @@ namespace MauiReactor
             if (TryForwardStateToNewComponent(invalidateComponent))
                 return;
 
-            foreach (var registeredAction in _actionsRegisterdOnStateChange)
+            foreach (var registeredAction in _actionsRegisteredOnStateChange)
             {
                 registeredAction.Invoke();
             }
