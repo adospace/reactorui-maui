@@ -30,11 +30,14 @@ class CanvasPage : Component<CanvasPageState>
                 {
                     new Box()
                     { 
-                        new Text("This a Text element!")
-                            .HorizontalAlignment(HorizontalAlignment.Center)
-                            .VerticalAlignment(VerticalAlignment.Center)
-                            .FontColor(Colors.White)
-                            .FontSize(24)                    
+                        new ClipRectangle
+                        {
+                            new Text("This a Text element!")
+                                .HorizontalAlignment(HorizontalAlignment.Center)
+                                .VerticalAlignment(VerticalAlignment.Center)
+                                .FontColor(Colors.Black)
+                                .FontSize(14)
+                        }
                     }
                     .Margin(10)
                     .BackgroundColor(Colors.Green)
@@ -64,8 +67,8 @@ class CanvasPage : Component<CanvasPageState>
                     .BackgroundColor(Colors.Red)
                     .CornerRadius(10)
                 }
-                    .TranslationX(20)
-                    .TranslationY(30)
+                .TranslationX(20)
+                .TranslationY(30)
             }
         };
     }

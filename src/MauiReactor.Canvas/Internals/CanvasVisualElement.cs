@@ -74,7 +74,25 @@ namespace MauiReactor.Canvas.Internals
         {
             get => (float)GetValue(RotationProperty);
             set => SetValue(RotationProperty, value);
-        } 
+        }
+
+        public static readonly BindableProperty OpacityProperty = BindableProperty.Create(nameof(Opacity), typeof(float), typeof(CanvasVisualElement), 1.0f,
+            coerceValue: (BindableObject bindable, object value) => Math.Max(Math.Min((float)value, 1.0f), 0.0f));
+
+        public float Opacity
+        {
+            get => (float)GetValue(OpacityProperty);
+            set => SetValue(OpacityProperty, value);
+        }
+
+        //seems not having any effect
+        //public static readonly BindableProperty AntialiasProperty = BindableProperty.Create(nameof(Antialias), typeof(bool), typeof(CanvasVisualElement), true);
+
+        //public bool Antialias
+        //{
+        //    get => (bool)GetValue(AntialiasProperty);
+        //    set => SetValue(AntialiasProperty, value);
+        //}
 
         protected override sealed void DrawOverride(DrawingContext context)
         {
@@ -125,6 +143,29 @@ namespace MauiReactor.Canvas.Internals
 
                     context.Canvas.Rotate(Rotation, (context.DirtyRect.Left + AnchorX * context.DirtyRect.Width), (context.DirtyRect.Top + AnchorY * context.DirtyRect.Height));
                 }
+
+                if (Opacity >= 0 && Opacity < 1.0f)
+                {
+                    if (!restoreState)
+                    {
+                        restoreState = true;
+                        context.Canvas.SaveState();
+                    }
+
+                    context.Canvas.Alpha = Opacity;
+                }
+
+                //Antialias doesn't seem to have any effect
+                //if (Antialias)
+                //{
+                //    if (!restoreState)
+                //    {
+                //        restoreState = true;
+                //        context.Canvas.SaveState();
+                //    }
+
+                //    context.Canvas.Antialias = Antialias;
+                //}
 
                 OnDraw(context);
             }

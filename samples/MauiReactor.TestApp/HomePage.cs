@@ -26,6 +26,10 @@ namespace MauiReactor.TestApp
                 {
                     new Pages.CollectionViewPage()
                 },
+                new FlyoutItem("EditableCollectionView")
+                {
+                    new Pages.EditableCollectionView()
+                },
                 new FlyoutItem("ListView")
                 {
                     new Pages.ListViewPage()

@@ -93,7 +93,7 @@ namespace MauiReactor.Canvas.Internals
 
         protected override void OnDraw(DrawingContext context)
         {
-            if (Value != null)
+            if (!string.IsNullOrWhiteSpace(Value))
             {
                 var canvas = context.Canvas;
                 var dirtyRect = context.DirtyRect;
