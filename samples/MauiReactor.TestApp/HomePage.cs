@@ -86,6 +86,10 @@ namespace MauiReactor.TestApp
                 {
                     new Pages.RemainingItemsThresholdTestPage()
                 },
+                new FlyoutItem("AnimatedButtonPage")
+                {
+                    new Pages.AnimatedButtonPage()
+                },
             }
             .ItemTemplate(RenderItemTemplate);
         }

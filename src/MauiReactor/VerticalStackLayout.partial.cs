@@ -8,5 +8,8 @@
     public class VStack : VerticalStackLayout
     {
         public VStack(double spacing) => this.Spacing(spacing);
+
+        public VStack()
+        { }
     }
 }

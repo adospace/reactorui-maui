@@ -8,5 +8,7 @@
     public class HStack : HorizontalStackLayout
     {
         public HStack(double spacing) => this.Spacing(spacing);
+
+        public HStack() { }
     }
 }
