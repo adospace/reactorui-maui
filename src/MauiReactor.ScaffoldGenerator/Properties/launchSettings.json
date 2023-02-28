@@ -2,7 +2,7 @@
   "profiles": {
     "Profile 1": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "..\\MauiReactor.Canvas\\MauiReactor.Canvas.csproj"
+      "targetProject": "..\\MauiReactor.Maps\\MauiReactor.Maps.csproj"
     }
   }
 }

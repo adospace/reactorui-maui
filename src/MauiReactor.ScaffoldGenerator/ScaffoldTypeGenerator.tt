@@ -329,6 +329,22 @@ namespace <#= Namespace #>
     }
     <# } #>
 
+    <# if (GeneratorType.Name != TypeName) { #>
+    public partial class <#= GeneratorType.Name #> : <#= TypeName #>
+    {
+        public <#= GeneratorType.Name #>()
+        { 
+        
+        }
+
+        public <#= GeneratorType.Name #>(Action<<#= FullTypeName #>?> componentRefAction)
+            : base(componentRefAction)
+        {
+
+        }
+    }
+    <# } #>
+
     public static partial class <#= TypeName #>Extensions
     {
         <# if (SupportItemTemplate) { #>

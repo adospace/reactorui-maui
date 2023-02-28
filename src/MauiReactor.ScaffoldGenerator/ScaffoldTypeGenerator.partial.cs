@@ -148,7 +148,6 @@ public partial class ScaffoldTypeGenerator
     public bool IsBaseGenericType =>
         TypeToScaffold.BaseType.EnsureNotNull().IsGenericType;
 
-
     private string InterfaceName
         => IsGenericType ? $"IGeneric{TypeName}" : $"I{TypeName}";
 
