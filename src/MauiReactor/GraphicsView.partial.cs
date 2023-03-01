@@ -52,11 +52,11 @@ namespace MauiReactor
 
             if (thisAsIGraphicsView.DrawAction != null)
             {
-                SetPropertyValue(NativeControl, Microsoft.Maui.Controls.GraphicsView.DrawableProperty, new DrawActionWrapper(thisAsIGraphicsView.DrawAction));
+                NativeControl.SetPropertyValue(Microsoft.Maui.Controls.GraphicsView.DrawableProperty, new DrawActionWrapper(thisAsIGraphicsView.DrawAction));
             }
             else if (NativeControl.Drawable is DrawActionWrapper)
             {
-                SetPropertyValue(NativeControl, Microsoft.Maui.Controls.GraphicsView.DrawableProperty, null);
+                NativeControl.SetPropertyValue(Microsoft.Maui.Controls.GraphicsView.DrawableProperty, null);
             }
 
             NativeControl.Invalidate();

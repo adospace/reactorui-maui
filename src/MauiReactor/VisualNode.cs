@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using MauiReactor.Animations;
 using MauiReactor.Internals;
 
@@ -127,6 +128,10 @@ namespace MauiReactor
         {
             //System.Diagnostics.Debug.WriteLine($"{this}->Created()");
         }
+
+        internal static BindablePropertyKey MauiReactorPropertiesBagKey = BindableProperty.CreateAttachedReadOnly(nameof(MauiReactorPropertiesBagKey),
+            typeof(HashSet<BindableProperty>), typeof(VisualNode), null);
+
         private int _childIndex;
         public int ChildIndex
         {
@@ -603,7 +608,7 @@ namespace MauiReactor
                         continue;
                     }
 
-                    NativeControl.ClearValue(attachedProperty.Key);
+                    NativeControl.ResetValue(attachedProperty.Key);
                 }
             }
 
@@ -658,7 +663,7 @@ namespace MauiReactor
 
             foreach (var attachedProperty in _attachedProperties)
             {
-                SetPropertyValue(NativeControl, attachedProperty.Key, attachedProperty.Value);
+                NativeControl.SetPropertyValue(attachedProperty.Key, attachedProperty.Value);
             }
 
             OnAttachNativeEvents();
@@ -714,52 +719,68 @@ namespace MauiReactor
         {
             if (propertyValue != null)
             {
-                var oldValue = dependencyObject.GetValue(property);
-                var newValue = propertyValue.GetValue();
+                //                var oldValue = dependencyObject.GetValue(property);
+                                var newValue = propertyValue.GetValue();
 
-                if (!CompareUtils.AreEquals(oldValue, newValue))
-                {
-#if DEBUG
-                    //System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {property.PropertyName} to {newValue}");
-#endif
+                //                if (!CompareUtils.AreEquals(oldValue, newValue))
+                //                {
+                //#if DEBUG
+                //                    //System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {property.PropertyName} to {newValue}");
+                //#endif
+                //                    var propertiesBag = (HashSet<BindableProperty>?)dependencyObject.GetValue(MauiReactorPropertiesBagKey.BindableProperty);
+                //                    if (propertiesBag == null)
+                //                    {
+                //                        dependencyObject.SetValue(MauiReactorPropertiesBagKey, propertiesBag = new HashSet<BindableProperty>());
+                //                    }
 
-                    dependencyObject.SetValue(property, newValue);
-                }
+                //                    propertiesBag.Add(property);
+
+                //                    dependencyObject.SetValue(property, newValue);
+                //                }
+
+                dependencyObject.SetPropertyValue(property, newValue);
 
                 if (_containerComponent != null && propertyValue.HasValueFunction)
                 {
                     _containerComponent.RegisterOnStateChanged(propertyValue.GetValueAction(dependencyObject, property));
                 }
             }
-            else
+            else 
             {
-                dependencyObject.ClearValue(property);
+                //var propertiesBag = (HashSet<BindableProperty>?)dependencyObject.GetValue(MauiReactorPropertiesBagKey.BindableProperty);
+                //if (propertiesBag != null &&
+                //    propertiesBag.Contains(property))
+                //{
+                //    dependencyObject.ClearValue(property);
+                //}
+                dependencyObject.ResetValue(property);
             }
         }
 
-        protected bool SetPropertyValue(BindableObject dependencyObject, BindableProperty property, object? newValue)
-        {
-            var oldValue = dependencyObject.GetValue(property);
+//        protected bool SetPropertyValue(BindableObject dependencyObject, BindableProperty property, object? newValue)
+//        {
+////            var oldValue = dependencyObject.GetValue(property);
 
-            if (!CompareUtils.AreEquals(oldValue, newValue))
-            {
-#if DEBUG
-                //System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {property.PropertyName} to {newValue}");
-#endif
+////            if (!CompareUtils.AreEquals(oldValue, newValue))
+////            {
+////#if DEBUG
+////                //System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {property.PropertyName} to {newValue}");
+////#endif
 
-                dependencyObject.SetValue(property, newValue);
-                return true;
-            }
+////                dependencyObject.SetValue(property, newValue);
+////                return true;
+////            }
 
-            return false;
-        }
+////            return false;
+//            return dependencyObject.SetPropertyValue(property, newValue);
+//        }
 
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
             foreach (var attachedProperty in _attachedProperties)
             {
-                SetPropertyValue(NativeControl, attachedProperty.Key, attachedProperty.Value);
+                NativeControl.SetPropertyValue(attachedProperty.Key, attachedProperty.Value);
             }
 
             base.OnAnimate();
@@ -795,6 +816,44 @@ namespace MauiReactor
             }
 
             return ((IVisualNode?)Parent)?.GetContainerPage();
+        }
+    }
+
+    internal static class NativeControlExtensions
+    {
+        public static bool SetPropertyValue(this BindableObject dependencyObject, BindableProperty property, object? newValue)
+        {
+            var oldValue = dependencyObject.GetValue(property);
+
+            if (!CompareUtils.AreEquals(oldValue, newValue))
+            {
+#if DEBUG
+                //System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {property.PropertyName} to {newValue}");
+#endif
+                var propertiesBag = (HashSet<BindableProperty>?)dependencyObject.GetValue(VisualNode.MauiReactorPropertiesBagKey.BindableProperty);
+                if (propertiesBag == null)
+                {
+                    dependencyObject.SetValue(VisualNode.MauiReactorPropertiesBagKey, propertiesBag = new HashSet<BindableProperty>());
+                }
+
+                propertiesBag.Add(property);
+
+                dependencyObject.SetValue(property, newValue);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public static void ResetValue(this BindableObject dependencyObject, BindableProperty property)
+        {
+            var propertiesBag = (HashSet<BindableProperty>?)dependencyObject.GetValue(VisualNode.MauiReactorPropertiesBagKey.BindableProperty);
+            if (propertiesBag != null &&
+                propertiesBag.Contains(property))
+            {
+                dependencyObject.ClearValue(property);
+            }
         }
     }
 }

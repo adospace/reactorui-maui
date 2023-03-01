@@ -58,7 +58,7 @@ namespace MauiReactor
 //#if DEBUG
 //                System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {dependencyProperty.PropertyName} to {newValue}");
 //#endif
-                dependencyObject.SetValue(dependencyProperty, newValue);
+                dependencyObject.SetPropertyValue(dependencyProperty, newValue);
             };
         }
     }

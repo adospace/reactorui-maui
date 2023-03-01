@@ -33,7 +33,7 @@ namespace MauiReactor.Scaffold
                 .Where(_ => !_.PropertyType.IsGenericType)
                 .Where(_ => (_.GetSetMethod()?.IsPublic).GetValueOrDefault())
                 //Microsoft.Maui.Controls.LayoutOptions doesn't support ==
-                .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.LayoutOptions")
+                //.Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.LayoutOptions")
                 //Custom handling
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.ColumnDefinitionCollection")
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.RowDefinitionCollection")

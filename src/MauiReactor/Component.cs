@@ -51,7 +51,7 @@ namespace MauiReactor
         {
             foreach (var attachedProperty in _attachedProperties)
             {
-                nativeControl.SetValue(attachedProperty.Key, attachedProperty.Value);
+                nativeControl.SetPropertyValue(attachedProperty.Key, attachedProperty.Value);
             }
 
             Validate.EnsureNotNull(Parent);
@@ -69,7 +69,7 @@ namespace MauiReactor
             
             foreach (var attachedProperty in _attachedProperties)
             {
-                nativeControl.ClearValue(attachedProperty.Key);
+                nativeControl.ResetValue(attachedProperty.Key);
             }
 
             _nativeControl = null;
@@ -86,7 +86,7 @@ namespace MauiReactor
             {
                 foreach (var attachedProperty in _attachedProperties)
                 {
-                    _nativeControl.SetValue(attachedProperty.Key, attachedProperty.Value);
+                    _nativeControl.SetPropertyValue(attachedProperty.Key, attachedProperty.Value);
                 }
             }
 

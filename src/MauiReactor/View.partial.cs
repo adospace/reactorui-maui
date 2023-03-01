@@ -5,28 +5,28 @@ namespace MauiReactor
     public partial interface IView
     {
         List<IGestureRecognizer>? GestureRecognizers { get; set; }
-        Microsoft.Maui.Controls.LayoutOptions VerticalOptions { get; set; }
-        Microsoft.Maui.Controls.LayoutOptions HorizontalOptions { get; set; }
+        //Microsoft.Maui.Controls.LayoutOptions VerticalOptions { get; set; }
+        //Microsoft.Maui.Controls.LayoutOptions HorizontalOptions { get; set; }
     }
 
     public abstract partial class View<T>
     {
         List<IGestureRecognizer>? IView.GestureRecognizers { get; set; }
-        Microsoft.Maui.Controls.LayoutOptions IView.VerticalOptions { get; set; } = (Microsoft.Maui.Controls.LayoutOptions)Microsoft.Maui.Controls.View.VerticalOptionsProperty.DefaultValue;
-        Microsoft.Maui.Controls.LayoutOptions IView.HorizontalOptions { get; set; } = (Microsoft.Maui.Controls.LayoutOptions)Microsoft.Maui.Controls.View.HorizontalOptionsProperty.DefaultValue;
+        //Microsoft.Maui.Controls.LayoutOptions IView.VerticalOptions { get; set; } = (Microsoft.Maui.Controls.LayoutOptions)Microsoft.Maui.Controls.View.VerticalOptionsProperty.DefaultValue;
+        //Microsoft.Maui.Controls.LayoutOptions IView.HorizontalOptions { get; set; } = (Microsoft.Maui.Controls.LayoutOptions)Microsoft.Maui.Controls.View.HorizontalOptionsProperty.DefaultValue;
 
 
-        partial void OnBeginUpdate()
-        {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIView = (IView)this;
-            if (NativeControl.VerticalOptions.Alignment != thisAsIView.VerticalOptions.Alignment ||
-                NativeControl.VerticalOptions.Expands != thisAsIView.VerticalOptions.Expands) 
-                NativeControl.VerticalOptions = thisAsIView.VerticalOptions;
-            if (NativeControl.HorizontalOptions.Alignment != thisAsIView.HorizontalOptions.Alignment ||
-                NativeControl.HorizontalOptions.Expands != thisAsIView.HorizontalOptions.Expands) 
-                NativeControl.HorizontalOptions = thisAsIView.HorizontalOptions;
-        }
+        //partial void OnBeginUpdate()
+        //{
+        //    Validate.EnsureNotNull(NativeControl);
+        //    var thisAsIView = (IView)this;
+        //    if (NativeControl.VerticalOptions.Alignment != thisAsIView.VerticalOptions.Alignment ||
+        //        NativeControl.VerticalOptions.Expands != thisAsIView.VerticalOptions.Expands) 
+        //        NativeControl.VerticalOptions = thisAsIView.VerticalOptions;
+        //    if (NativeControl.HorizontalOptions.Alignment != thisAsIView.HorizontalOptions.Alignment ||
+        //        NativeControl.HorizontalOptions.Expands != thisAsIView.HorizontalOptions.Expands) 
+        //        NativeControl.HorizontalOptions = thisAsIView.HorizontalOptions;
+        //}
 
         protected override void OnChildAdd(VisualNode node)
         {
@@ -80,63 +80,64 @@ namespace MauiReactor
 
     public static partial class ViewExtensions
     {
-        public static T HorizontalOptions<T>(this T view, LayoutOptions layoutOptions) where T : IView
-        {
-            view.HorizontalOptions = layoutOptions;
-            return view;
-        }
+        //public static T HorizontalOptions<T>(this T view, LayoutOptions layoutOptions) where T : IView
+        //{
+        //    view.HorizontalOptions = layoutOptions;
+        //    return view;
+        //}
 
         public static T HStart<T>(this T view) where T : IView
         {
-            view.HorizontalOptions = LayoutOptions.Start;
+            view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Start);
+
             return view;
         }
 
         public static T HCenter<T>(this T view) where T : IView
         {
-            view.HorizontalOptions = LayoutOptions.Center;
+            view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Center);
             return view;
         }
 
         public static T HEnd<T>(this T view) where T : IView
         {
-            view.HorizontalOptions = LayoutOptions.End;
+            view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.End);
             return view;
         }
 
         public static T HFill<T>(this T view) where T : IView
         {
-            view.HorizontalOptions = LayoutOptions.Fill;
+            view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Fill);
             return view;
         }
 
-        public static T VerticalOptions<T>(this T view, LayoutOptions layoutOptions) where T : IView
-        {
-            view.VerticalOptions = layoutOptions;
-            return view;
-        }
+        //public static T VerticalOptions<T>(this T view, LayoutOptions layoutOptions) where T : IView
+        //{
+        //    view.VerticalOptions = layoutOptions;
+        //    return view;
+        //}
 
         public static T VStart<T>(this T view) where T : IView
         {
-            view.VerticalOptions = LayoutOptions.Start;
+            view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Start);
             return view;
         }
 
         public static T VCenter<T>(this T view) where T : IView
         {
-            view.VerticalOptions = LayoutOptions.Center;
+            view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Center);
             return view;
         }
 
         public static T VEnd<T>(this T view) where T : IView
         {
-            view.VerticalOptions = LayoutOptions.End;
+            view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.End);
             return view;
         }
 
         public static T VFill<T>(this T view) where T : IView
         {
-            view.VerticalOptions = LayoutOptions.Fill;
+            view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Fill);
             return view;
         }
 
@@ -221,7 +222,7 @@ namespace MauiReactor
 
             return view;
         }
-        
+
         public static T OnPointerEntered<T>(this T view, Action<Point?>? action) where T : IView
         {
             if (action != null)

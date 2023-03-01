@@ -13,6 +13,10 @@ namespace MauiReactor
 {
     public partial interface IView : IVisualElement
     {
+        PropertyValue<Microsoft.Maui.Controls.LayoutOptions>? VerticalOptions { get; set; }
+
+        PropertyValue<Microsoft.Maui.Controls.LayoutOptions>? HorizontalOptions { get; set; }
+
         PropertyValue<Microsoft.Maui.Thickness>? Margin { get; set; }
     }
 
@@ -26,6 +30,10 @@ namespace MauiReactor
         {
         }
 
+        PropertyValue<Microsoft.Maui.Controls.LayoutOptions>? IView.VerticalOptions { get; set; }
+
+        PropertyValue<Microsoft.Maui.Controls.LayoutOptions>? IView.HorizontalOptions { get; set; }
+
         PropertyValue<Microsoft.Maui.Thickness>? IView.Margin { get; set; }
 
         protected override void OnUpdate()
@@ -33,6 +41,8 @@ namespace MauiReactor
             OnBeginUpdate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsIView = (IView)this;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.View.VerticalOptionsProperty, thisAsIView.VerticalOptions);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.View.HorizontalOptionsProperty, thisAsIView.HorizontalOptions);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.View.MarginProperty, thisAsIView.Margin);
             base.OnUpdate();
             OnEndUpdate();
@@ -52,6 +62,34 @@ namespace MauiReactor
 
     public static partial class ViewExtensions
     {
+        public static T VerticalOptions<T>(this T view, Microsoft.Maui.Controls.LayoutOptions verticalOptions)
+            where T : IView
+        {
+            view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(verticalOptions);
+            return view;
+        }
+
+        public static T VerticalOptions<T>(this T view, Func<Microsoft.Maui.Controls.LayoutOptions> verticalOptionsFunc)
+            where T : IView
+        {
+            view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(verticalOptionsFunc);
+            return view;
+        }
+
+        public static T HorizontalOptions<T>(this T view, Microsoft.Maui.Controls.LayoutOptions horizontalOptions)
+            where T : IView
+        {
+            view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(horizontalOptions);
+            return view;
+        }
+
+        public static T HorizontalOptions<T>(this T view, Func<Microsoft.Maui.Controls.LayoutOptions> horizontalOptionsFunc)
+            where T : IView
+        {
+            view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(horizontalOptionsFunc);
+            return view;
+        }
+
         public static T Margin<T>(this T view, Microsoft.Maui.Thickness margin, RxThicknessAnimation? customAnimation = null)
             where T : IView
         {

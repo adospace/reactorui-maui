@@ -338,7 +338,7 @@ namespace MauiReactor
                 containerAssembly ?? Assembly.GetCallingAssembly(),
                 null);
 
-            application.Resources.Add(resourceDictionary);
+            application.Resources.MergedDictionaries.Add(resourceDictionary);
 
             return application;
         }
