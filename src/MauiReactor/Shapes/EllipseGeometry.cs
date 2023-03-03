@@ -50,16 +50,20 @@ namespace MauiReactor.Shapes
 
         protected override void OnAnimate()
         {
+            OnBeginAnimate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsIEllipseGeometry = (IEllipseGeometry)this;
             AnimateProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, thisAsIEllipseGeometry.Center);
             AnimateProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, thisAsIEllipseGeometry.RadiusX);
             AnimateProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, thisAsIEllipseGeometry.RadiusY);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public partial class EllipseGeometry : EllipseGeometry<Microsoft.Maui.Controls.Shapes.EllipseGeometry>

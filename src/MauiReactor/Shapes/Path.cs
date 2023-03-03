@@ -40,6 +40,8 @@ namespace MauiReactor.Shapes
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public static partial class PathExtensions

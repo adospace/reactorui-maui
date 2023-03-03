@@ -45,15 +45,19 @@ namespace MauiReactor
 
         protected override void OnAnimate()
         {
+            OnBeginAnimate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsIGrid = (IGrid)this;
             AnimateProperty(Microsoft.Maui.Controls.Grid.RowSpacingProperty, thisAsIGrid.RowSpacing);
             AnimateProperty(Microsoft.Maui.Controls.Grid.ColumnSpacingProperty, thisAsIGrid.ColumnSpacing);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public partial class Grid : Grid<Microsoft.Maui.Controls.Grid>

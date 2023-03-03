@@ -50,14 +50,18 @@ namespace MauiReactor
 
         protected override void OnAnimate()
         {
+            OnBeginAnimate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsILayout = (ILayout)this;
             AnimateProperty(Microsoft.Maui.Controls.Layout.PaddingProperty, thisAsILayout.Padding);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public static partial class LayoutExtensions

@@ -45,6 +45,8 @@ namespace MauiReactor
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public partial class TableView : TableView<Microsoft.Maui.Controls.TableView>

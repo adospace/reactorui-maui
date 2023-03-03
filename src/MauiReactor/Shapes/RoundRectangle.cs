@@ -40,14 +40,18 @@ namespace MauiReactor.Shapes
 
         protected override void OnAnimate()
         {
+            OnBeginAnimate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsIRoundRectangle = (IRoundRectangle)this;
             AnimateProperty(Microsoft.Maui.Controls.Shapes.RoundRectangle.CornerRadiusProperty, thisAsIRoundRectangle.CornerRadius);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public static partial class RoundRectangleExtensions

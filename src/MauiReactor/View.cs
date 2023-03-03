@@ -50,14 +50,18 @@ namespace MauiReactor
 
         protected override void OnAnimate()
         {
+            OnBeginAnimate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsIView = (IView)this;
             AnimateProperty(Microsoft.Maui.Controls.View.MarginProperty, thisAsIView.Margin);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public static partial class ViewExtensions

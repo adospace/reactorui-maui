@@ -91,14 +91,18 @@ namespace MauiReactor
 
         protected override void OnAnimate()
         {
+            OnBeginAnimate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsICarouselView = (ICarouselView)this;
             AnimateProperty(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, thisAsICarouselView.PeekAreaInsets);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
         partial void OnAttachingNativeEvents();
         partial void OnDetachingNativeEvents();
         protected override void OnAttachNativeEvents()

@@ -55,6 +55,7 @@ namespace MauiReactor.Shapes
 
         protected override void OnAnimate()
         {
+            OnBeginAnimate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsILine = (ILine)this;
             AnimateProperty(Microsoft.Maui.Controls.Shapes.Line.X1Property, thisAsILine.X1);
@@ -62,10 +63,13 @@ namespace MauiReactor.Shapes
             AnimateProperty(Microsoft.Maui.Controls.Shapes.Line.X2Property, thisAsILine.X2);
             AnimateProperty(Microsoft.Maui.Controls.Shapes.Line.Y2Property, thisAsILine.Y2);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public static partial class LineExtensions

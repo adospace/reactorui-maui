@@ -254,7 +254,8 @@ namespace MauiReactor
 
         internal void DisableCurrentAnimatableProperties()
         {
-            foreach (var animatable in _animatables.Where(_ => _.Value.IsEnabled == null))
+            foreach (var animatable in _animatables
+                .Where(_ => _.Value.IsEnabled.GetValueOrDefault(true)))
             {
                 animatable.Value.IsEnabled = false;
             };
@@ -262,7 +263,9 @@ namespace MauiReactor
 
         internal void EnableCurrentAnimatableProperties(Easing? easing = null, double duration = 600, double initialDelay = 0)
         {
-            foreach (var animatable in _animatables.Where(_ => _.Value.IsEnabled == null).Select(_ => _.Value))
+            foreach (var animatable in _animatables
+                .Where(_ => _.Value.IsEnabled.GetValueOrDefault(true))
+                .Select(_ => _.Value))
             {
                 if (animatable.Animation is RxTweenAnimation tweenAnimation)
                 {
@@ -449,16 +452,18 @@ namespace MauiReactor
             {
                 if (_animatables.TryGetValue(newAnimatableProperty.Key, out var oldAnimatableProperty))
                 {
-                    if (oldAnimatableProperty.Animation.GetType() == newAnimatableProperty.Value.Animation.GetType())
+                    if (oldAnimatableProperty.Animation.GetType() == 
+                        newAnimatableProperty.Value.Animation.GetType())
                     {
-                        newAnimatableProperty.Value.Animation.MigrateFrom(oldAnimatableProperty.Animation);
+                        if (oldAnimatableProperty.IsEnabled.GetValueOrDefault())
+                        {
+                            newAnimatableProperty.Value.Animation.MigrateFrom(oldAnimatableProperty.Animation);
+                        }
                     }
                 }
             }
 
-            _animatables.Clear();
-
-            
+            _animatables.Clear();            
         }
 
         protected virtual void OnMount()

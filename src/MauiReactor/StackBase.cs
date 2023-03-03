@@ -40,14 +40,18 @@ namespace MauiReactor
 
         protected override void OnAnimate()
         {
+            OnBeginAnimate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsIStackBase = (IStackBase)this;
             AnimateProperty(Microsoft.Maui.Controls.StackBase.SpacingProperty, thisAsIStackBase.Spacing);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public static partial class StackBaseExtensions

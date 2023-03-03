@@ -75,6 +75,7 @@ namespace MauiReactor
 
         protected override void OnAnimate()
         {
+            OnBeginAnimate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsIBorder = (IBorder)this;
             AnimateProperty(Microsoft.Maui.Controls.Border.PaddingProperty, thisAsIBorder.Padding);
@@ -82,10 +83,13 @@ namespace MauiReactor
             AnimateProperty(Microsoft.Maui.Controls.Border.StrokeDashOffsetProperty, thisAsIBorder.StrokeDashOffset);
             AnimateProperty(Microsoft.Maui.Controls.Border.StrokeMiterLimitProperty, thisAsIBorder.StrokeMiterLimit);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public partial class Border : Border<Microsoft.Maui.Controls.Border>

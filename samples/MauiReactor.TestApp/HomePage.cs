@@ -90,6 +90,10 @@ namespace MauiReactor.TestApp
                 {
                     new Pages.AnimatedButtonPage()
                 },
+                new FlyoutItem("Border Corner Radius Test")
+                {
+                    new Pages.BorderCornerRadiusPage()
+                },
             }
             .ItemTemplate(RenderItemTemplate);
         }

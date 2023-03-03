@@ -55,6 +55,8 @@ namespace MauiReactor
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public partial class TextCell : TextCell<Microsoft.Maui.Controls.TextCell>

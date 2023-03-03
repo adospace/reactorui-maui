@@ -45,15 +45,19 @@ namespace MauiReactor.Shapes
 
         protected override void OnAnimate()
         {
+            OnBeginAnimate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsILineGeometry = (ILineGeometry)this;
             AnimateProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, thisAsILineGeometry.StartPoint);
             AnimateProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, thisAsILineGeometry.EndPoint);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public partial class LineGeometry : LineGeometry<Microsoft.Maui.Controls.Shapes.LineGeometry>
