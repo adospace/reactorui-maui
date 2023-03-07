@@ -52,10 +52,15 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\MauiReactor.Canvas\MauiReactor.Canvas.csproj" />
     <ProjectReference Include="..\..\src\MauiReactor\MauiReactor.csproj" />
+    <ProjectReference Include="..\..\src\MauiReactor.ScaffoldGenerator\MauiReactor.ScaffoldGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\Embedded\norway_1.jpeg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Maui" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

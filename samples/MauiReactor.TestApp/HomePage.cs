@@ -94,6 +94,10 @@ namespace MauiReactor.TestApp
                 {
                     new Pages.BorderCornerRadiusPage()
                 },
+                new FlyoutItem("Show Popup Test")
+                {
+                    new Pages.ShowPopupTestPage()
+                },
             }
             .ItemTemplate(RenderItemTemplate);
         }
