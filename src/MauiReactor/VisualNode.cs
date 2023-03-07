@@ -124,6 +124,9 @@ namespace MauiReactor
 
         private bool _invalidated = false;
 
+        [ThreadStatic] 
+        internal static bool _skipAnimationMigration;
+
         protected VisualNode()
         {
             //System.Diagnostics.Debug.WriteLine($"{this}->Created()");
@@ -448,16 +451,19 @@ namespace MauiReactor
 
         protected virtual void OnMigrated(VisualNode newNode)
         {
-            foreach (var newAnimatableProperty in newNode._animatables)
+            if (!_skipAnimationMigration)
             {
-                if (_animatables.TryGetValue(newAnimatableProperty.Key, out var oldAnimatableProperty))
+                foreach (var newAnimatableProperty in newNode._animatables)
                 {
-                    if (oldAnimatableProperty.Animation.GetType() == 
-                        newAnimatableProperty.Value.Animation.GetType())
+                    if (_animatables.TryGetValue(newAnimatableProperty.Key, out var oldAnimatableProperty))
                     {
-                        if (oldAnimatableProperty.IsEnabled.GetValueOrDefault())
+                        if (oldAnimatableProperty.Animation.GetType() == 
+                            newAnimatableProperty.Value.Animation.GetType())
                         {
-                            newAnimatableProperty.Value.Animation.MigrateFrom(oldAnimatableProperty.Animation);
+                            if (oldAnimatableProperty.IsEnabled.GetValueOrDefault())
+                            {
+                                newAnimatableProperty.Value.Animation.MigrateFrom(oldAnimatableProperty.Animation);
+                            }
                         }
                     }
                 }

@@ -64,13 +64,25 @@ class AnimatedItem : Component<AnimatedItemState>
 {
     protected override void OnMounted()
     {
+        InitializeState();
+        base.OnMounted();
+    }
+
+    protected override void OnPropsChanged()
+    {
+        InitializeState();
+        base.OnPropsChanged();
+    }
+
+    void InitializeState()
+    {
+        State.ScaleX = 0.8;
+        State.ScaleY = 0.5;
         Application.Current?.Dispatcher.Dispatch(() =>
         SetState(s =>
         {
             s.ScaleX = s.ScaleY = 1.0;
         }));
-
-        base.OnMounted();
     }
 
     public override VisualNode Render() =>
