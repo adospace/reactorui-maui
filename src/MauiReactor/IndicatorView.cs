@@ -76,7 +76,6 @@ namespace MauiReactor
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsIIndicatorView = (IIndicatorView)this;
             AnimateProperty(Microsoft.Maui.Controls.IndicatorView.IndicatorSizeProperty, thisAsIIndicatorView.IndicatorSize);
             base.OnAnimate();

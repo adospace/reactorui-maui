@@ -51,7 +51,6 @@ namespace MauiReactor
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsIGridItemsLayout = (IGridItemsLayout)this;
             AnimateProperty(Microsoft.Maui.Controls.GridItemsLayout.VerticalItemSpacingProperty, thisAsIGridItemsLayout.VerticalItemSpacing);
             AnimateProperty(Microsoft.Maui.Controls.GridItemsLayout.HorizontalItemSpacingProperty, thisAsIGridItemsLayout.HorizontalItemSpacing);

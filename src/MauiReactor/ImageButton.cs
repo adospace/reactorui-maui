@@ -95,7 +95,6 @@ namespace MauiReactor
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsIImageButton = (IImageButton)this;
             AnimateProperty(Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, thisAsIImageButton.BorderWidth);
             AnimateProperty(Microsoft.Maui.Controls.ImageButton.PaddingProperty, thisAsIImageButton.Padding);

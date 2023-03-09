@@ -46,7 +46,6 @@ namespace MauiReactor.Shapes
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsIRectangle = (IRectangle)this;
             AnimateProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusXProperty, thisAsIRectangle.RadiusX);
             AnimateProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusYProperty, thisAsIRectangle.RadiusY);

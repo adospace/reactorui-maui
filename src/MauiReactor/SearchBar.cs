@@ -94,7 +94,6 @@ namespace MauiReactor
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsISearchBar = (ISearchBar)this;
             AnimateProperty(Microsoft.Maui.Controls.SearchBar.FontSizeProperty, thisAsISearchBar.FontSize);
             base.OnAnimate();

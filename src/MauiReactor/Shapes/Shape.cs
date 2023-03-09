@@ -81,7 +81,6 @@ namespace MauiReactor.Shapes
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsIShape = (IShape)this;
             AnimateProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeThicknessProperty, thisAsIShape.StrokeThickness);
             AnimateProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashOffsetProperty, thisAsIShape.StrokeDashOffset);

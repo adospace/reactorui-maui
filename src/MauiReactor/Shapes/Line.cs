@@ -56,7 +56,6 @@ namespace MauiReactor.Shapes
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsILine = (ILine)this;
             AnimateProperty(Microsoft.Maui.Controls.Shapes.Line.X1Property, thisAsILine.X1);
             AnimateProperty(Microsoft.Maui.Controls.Shapes.Line.Y1Property, thisAsILine.Y1);

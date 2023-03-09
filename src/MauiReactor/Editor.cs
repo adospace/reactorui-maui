@@ -94,7 +94,6 @@ namespace MauiReactor
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsIEditor = (IEditor)this;
             AnimateProperty(Microsoft.Maui.Controls.Editor.FontSizeProperty, thisAsIEditor.FontSize);
             base.OnAnimate();
