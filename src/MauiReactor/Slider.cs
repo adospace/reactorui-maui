@@ -95,7 +95,6 @@ namespace MauiReactor
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsISlider = (ISlider)this;
             AnimateProperty(Microsoft.Maui.Controls.Slider.MinimumProperty, thisAsISlider.Minimum);
             AnimateProperty(Microsoft.Maui.Controls.Slider.MaximumProperty, thisAsISlider.Maximum);

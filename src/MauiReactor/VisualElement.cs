@@ -217,7 +217,6 @@ namespace MauiReactor
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsIVisualElement = (IVisualElement)this;
             AnimateProperty(Microsoft.Maui.Controls.VisualElement.AnchorXProperty, thisAsIVisualElement.AnchorX);
             AnimateProperty(Microsoft.Maui.Controls.VisualElement.AnchorYProperty, thisAsIVisualElement.AnchorY);

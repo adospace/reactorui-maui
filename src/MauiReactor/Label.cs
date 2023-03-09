@@ -121,7 +121,6 @@ namespace MauiReactor
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsILabel = (ILabel)this;
             AnimateProperty(Microsoft.Maui.Controls.Label.CharacterSpacingProperty, thisAsILabel.CharacterSpacing);
             AnimateProperty(Microsoft.Maui.Controls.Label.FontSizeProperty, thisAsILabel.FontSize);

@@ -135,7 +135,6 @@ namespace MauiReactor
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsIButton = (IButton)this;
             AnimateProperty(Microsoft.Maui.Controls.Button.CharacterSpacingProperty, thisAsIButton.CharacterSpacing);
             AnimateProperty(Microsoft.Maui.Controls.Button.FontSizeProperty, thisAsIButton.FontSize);

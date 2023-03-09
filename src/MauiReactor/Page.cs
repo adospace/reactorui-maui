@@ -109,7 +109,6 @@ namespace MauiReactor
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsIPage = (IPage)this;
             AnimateProperty(Microsoft.Maui.Controls.Page.PaddingProperty, thisAsIPage.Padding);
             base.OnAnimate();

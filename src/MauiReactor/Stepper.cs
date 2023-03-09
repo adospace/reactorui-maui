@@ -64,7 +64,6 @@ namespace MauiReactor
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsIStepper = (IStepper)this;
             AnimateProperty(Microsoft.Maui.Controls.Stepper.MaximumProperty, thisAsIStepper.Maximum);
             AnimateProperty(Microsoft.Maui.Controls.Stepper.MinimumProperty, thisAsIStepper.Minimum);

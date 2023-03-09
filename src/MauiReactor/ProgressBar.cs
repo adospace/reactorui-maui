@@ -46,7 +46,6 @@ namespace MauiReactor
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsIProgressBar = (IProgressBar)this;
             AnimateProperty(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, thisAsIProgressBar.Progress);
             base.OnAnimate();

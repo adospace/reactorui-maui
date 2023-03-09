@@ -59,7 +59,6 @@ namespace MauiReactor.Compatibility
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsILayout = (ILayout)this;
             AnimateProperty(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, thisAsILayout.Padding);
             base.OnAnimate();

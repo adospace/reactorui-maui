@@ -46,7 +46,6 @@ namespace MauiReactor.Shapes
         protected override void OnAnimate()
         {
             OnBeginAnimate();
-            Validate.EnsureNotNull(NativeControl);
             var thisAsILineGeometry = (ILineGeometry)this;
             AnimateProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, thisAsILineGeometry.StartPoint);
             AnimateProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, thisAsILineGeometry.EndPoint);
