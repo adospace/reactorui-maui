@@ -37,6 +37,7 @@ namespace MauiReactor.Scaffold
                 //Custom handling
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.ColumnDefinitionCollection")
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.RowDefinitionCollection")
+                .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.ControlTemplate")
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.Shell" && _.Name == "CurrentItem"))
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.ShellItem" && _.Name == "CurrentItem"))
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.ShellSection" && _.Name == "CurrentItem"))
