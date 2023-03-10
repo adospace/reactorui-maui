@@ -55,10 +55,9 @@ public static partial class IndicatorViewExtensions
             return new DataTemplate(()=>
             {
                 var root = template.Invoke();
-                var itemTemplateHost = new ItemTemplateHost<VisualElement>(root);
-                var nativeControl = itemTemplateHost.GenerateNativeElement();
-                VisualStateManager.SetVisualStateGroups(nativeControl, indicatorView.VisualStateGroups.Clone());
-                return nativeControl;
+                var itemTemplateHost = new TemplateHost<VisualElement>(root);
+                VisualStateManager.SetVisualStateGroups(itemTemplateHost.NativeElement, indicatorView.VisualStateGroups.Clone());
+                return itemTemplateHost.NativeElement;
             });
         });
         return indicatorView;

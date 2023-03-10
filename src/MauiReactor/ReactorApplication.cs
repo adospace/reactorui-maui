@@ -57,8 +57,6 @@ namespace MauiReactor
 
         public INavigation? Navigation =>  _application.MainPage?.Navigation;
 
-        public IServiceProvider Services => _application.Services;
-
         public Microsoft.Maui.Controls.Page? ContainerPage => _application?.MainPage;
 
         IHostElement? IVisualNode.GetPageHost()
@@ -250,14 +248,11 @@ namespace MauiReactor
 
     public abstract class ReactorApplication : Application
     {
-        protected ReactorApplication(IServiceProvider sp)
+        protected ReactorApplication()
         {
-            Services = sp;
         }
 
         internal static bool HotReloadEnabled { get; set; }
-
-        public IServiceProvider Services { get; }
     }
 
     public class ReactorApplication<T> : ReactorApplication where T : Component, new()
@@ -265,8 +260,7 @@ namespace MauiReactor
 
         private ReactorApplicationHost<T>? _host;
 
-        public ReactorApplication(IServiceProvider sp)
-            : base(sp)
+        public ReactorApplication()
         { }
 
         protected override Window CreateWindow(IActivationState? activationState)
@@ -315,7 +309,8 @@ namespace MauiReactor
         public static MauiAppBuilder UseMauiReactorApp<TComponent>(this MauiAppBuilder appBuilder, Action<Application>? configureApplication = null) where TComponent : Component, new()
             => appBuilder.UseMauiApp(sp => 
             {
-                var app = new ReactorApplication<TComponent>(sp);
+                ServiceCollectionProvider.ServiceProvider = sp;
+                var app = new ReactorApplication<TComponent>();
                 configureApplication?.Invoke(app);
                 return app;
             });

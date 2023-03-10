@@ -30,7 +30,8 @@ namespace MauiReactor.WeatherTwentyOne.Pages
 
         private async void Fetch()
         {
-            IWeatherService weatherService = new WeatherService(null);
+            //IWeatherService weatherService = new WeatherService(null);
+            var weatherService = Services.GetService<IWeatherService>();
             var locations = await weatherService.GetLocations(string.Empty);
 
             SetState(s => s.Favorites = locations.ToArray());
