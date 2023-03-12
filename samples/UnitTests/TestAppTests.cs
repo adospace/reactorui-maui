@@ -21,15 +21,18 @@ public class TestAppTests
 
         mainPageNode.NativeElement.ShouldNotBeNull();
 
+        // Check that the counter is 0
         mainPageNode.NativeElement.FindByAutomationId<MauiControls.Button>("Counter_Button")
             .ShouldNotBeNull()
             .Text
             .ShouldBe($"Click To Increment");
 
+        // Click on the button
         mainPageNode.NativeElement.FindByAutomationId<MauiControls.Button>("Counter_Button")
             .ShouldNotBeNull()
             .SendClicked();
 
+        // Check that the counter is 1
         mainPageNode.NativeElement.FindByAutomationId<MauiControls.Label>("Counter_Label")
             .ShouldNotBeNull()
             .Text
@@ -45,15 +48,18 @@ public class TestAppTests
 
         mainPageNode.NativeElement.ShouldNotBeNull();
 
+        // Check that the label is "Awesome Norway!"
         mainPageNode.NativeElement.FindByAutomationId<Text>("NorwayLabel")
             .ShouldNotBeNull()
             .Value
             .ShouldBe("Awesome Norway!");
 
+        // Move hover on the image
         mainPageNode.NativeElement.FindByAutomationId<PointInteractionHandler>("NorwayImage")
             .ShouldNotBeNull()
             .MoveHover(new[] { new Microsoft.Maui.Graphics.PointF(10, 10) });
 
+        // Check that the label is "Mouse hovering"
         mainPageNode.NativeElement.FindByAutomationId<Text>("NorwayLabel")
             .ShouldNotBeNull()
             .Value

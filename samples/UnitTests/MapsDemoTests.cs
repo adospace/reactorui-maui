@@ -20,11 +20,18 @@ public class MapsDemoTests
 
         mainPageNode.NativeElement.ShouldNotBeNull();
 
+        // Check that the map has no pins
+        mainPageNode.NativeElement.FindByAutomationId<MauiControls.Maps.Map>("Map")
+            .ShouldNotBeNull()
+            .Pins.Count.ShouldBe(0);
+
+        // Click on the map
         mainPageNode.NativeElement.FindByAutomationId<MauiControls.Maps.Map>("Map")
             .ShouldNotBeNull()
             .SendClicked()
             ;
 
+        // Check that the map has one pin
         mainPageNode.NativeElement.FindByAutomationId<MauiControls.Maps.Map>("Map")
             .ShouldNotBeNull()
             .Pins[0]
