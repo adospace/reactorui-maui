@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.Canvas.Internals
 {
-    public class PointInterationHandlerEventArgs : EventArgs
+    public class PointInteractionHandlerEventArgs : EventArgs
     {
-        public PointInterationHandlerEventArgs(PointF[] points)
+        public PointInteractionHandlerEventArgs(PointF[] points)
         {
             Points = points;
         }
@@ -18,20 +18,20 @@ namespace MauiReactor.Canvas.Internals
         public PointF[] Points { get; }
     }
 
-    public class PointInterationHandler : CanvasNode, IDragInteractionHandler, IHoverInteractionHandler
+    public class PointInteractionHandler : CanvasNode, IDragInteractionHandler, IHoverInteractionHandler
     {
         private RectF _hitRect;
 
-        public event EventHandler<PointInterationHandlerEventArgs>? TapDown;
-        public event EventHandler<PointInterationHandlerEventArgs>? TapUp;
+        public event EventHandler<PointInteractionHandlerEventArgs>? TapDown;
+        public event EventHandler<PointInteractionHandlerEventArgs>? TapUp;
         public event EventHandler? Tap;
 
-        public event EventHandler<PointInterationHandlerEventArgs>? HoverIn;
+        public event EventHandler<PointInteractionHandlerEventArgs>? HoverIn;
         public event EventHandler? HoverOut;
 
         public CanvasNode? Child => Children.Count > 0 ? Children[0] : null;
 
-        public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create(nameof(IsEnabled), typeof(bool), typeof(PointInterationHandler), true);
+        public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create(nameof(IsEnabled), typeof(bool), typeof(PointInteractionHandler), true);
         public bool IsEnabled
         {
             get => (bool)GetValue(IsEnabledProperty);
@@ -58,10 +58,15 @@ namespace MauiReactor.Canvas.Internals
 
         private PointF[]? _touchPoints;
 
+        public void SendTap()
+        {
+            Tap?.Invoke(this, EventArgs.Empty);
+        }
+
         public void StartDrag(PointF[] touchPoints)
         {
             _touchPoints = touchPoints;
-            TapDown?.Invoke(this, new PointInterationHandlerEventArgs(touchPoints));
+            TapDown?.Invoke(this, new PointInteractionHandlerEventArgs(touchPoints));
         }
 
         public void StopDrag(PointF[] touchPoints)
@@ -78,17 +83,17 @@ namespace MauiReactor.Canvas.Internals
                 _touchPoints = null;
             }
 
-            TapUp?.Invoke(this, new PointInterationHandlerEventArgs(touchPoints));
+            TapUp?.Invoke(this, new PointInteractionHandlerEventArgs(touchPoints));
         }
 
         public void StartHover(PointF[] touchPoints)
         {
-            HoverIn?.Invoke(this, new PointInterationHandlerEventArgs(touchPoints));
+            HoverIn?.Invoke(this, new PointInteractionHandlerEventArgs(touchPoints));
         }
 
         public void MoveHover(PointF[] touchPoints)
         {
-            HoverIn?.Invoke(this, new PointInterationHandlerEventArgs(touchPoints));
+            HoverIn?.Invoke(this, new PointInteractionHandlerEventArgs(touchPoints));
         }
 
         public void CancelHover()

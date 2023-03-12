@@ -47,20 +47,20 @@ class CanvasPage : Component<CanvasPageState>
                     { 
                         new Column("*, 50")
                         {
-                            new PointInterationHandler
+                            new PointInteractionHandler
                             {
                                 new Picture("MauiReactor.TestApp.Resources.Images.Embedded.norway_1.jpeg"),
                             }
+                            .AutomationId("NorwayImage")
                             .OnHoverIn(()=> SetState(s=> s.IsMouseHoverImage = true))
                             .OnHoverOut(()=> SetState(s=> s.IsMouseHoverImage = false)),
 
                             new Text(State.IsMouseHoverImage ? "Mouse hovering" : "Awesome Norway!")
+                                .AutomationId("NorwayLabel")
                                 .HorizontalAlignment(HorizontalAlignment.Center)
                                 .VerticalAlignment(VerticalAlignment.Center)
                                 .FontColor(Colors.White)
                                 .FontSize(24)
-
-
                         },
                     }
                     .Margin(10)

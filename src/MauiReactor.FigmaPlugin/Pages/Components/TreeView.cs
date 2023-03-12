@@ -213,7 +213,7 @@ class TreeViewItem : Component
 
         return new Box
         {
-            new PointInterationHandler
+            new PointInteractionHandler
             {
                 _node.Children.Length > 0 ?
                 RenderWithChildren()
@@ -245,7 +245,7 @@ class TreeViewItem : Component
 
         return new Row("24, *")
         {
-            new PointInterationHandler
+            new PointInteractionHandler
             {
                 new Align
                 {

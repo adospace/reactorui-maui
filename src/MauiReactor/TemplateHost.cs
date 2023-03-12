@@ -10,34 +10,10 @@ namespace MauiReactor
     public class TemplateHost<T> : VisualNode where T : BindableObject
     {
         public TemplateHost(VisualNode root)
-            : this(root, SetupServiceProvider())
         {
-        }
-
-        public TemplateHost(VisualNode root, Action<ServiceCollection> serviceCollectionSetupAction)
-            : this(root, SetupServiceProvider(serviceCollectionSetupAction))
-        {
-        }
-
-        public TemplateHost(VisualNode root, IServiceProvider serviceProvider)
-        {
-            ServiceCollectionProvider.ServiceProvider ??= serviceProvider;
-
             _root = root;
 
             Layout();
-        }
-
-        private static IServiceProvider SetupServiceProvider(Action<ServiceCollection>? serviceCollectionSetupAction = null)
-        {
-            if (ServiceCollectionProvider.ServiceProvider != null)
-            {
-                return ServiceCollectionProvider.ServiceProvider;
-            }
-
-            var services = new ServiceCollection();
-            serviceCollectionSetupAction?.Invoke(services);
-            return services.BuildServiceProvider();
         }
 
         private readonly VisualNode _root;
