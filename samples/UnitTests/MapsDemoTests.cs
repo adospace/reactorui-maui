@@ -16,24 +16,16 @@ public class MapsDemoTests
         var mainPageNode = new TemplateHost<MauiControls.ContentPage>(
             new MauiReactor.MapsDemo.Pages.MainPage());
 
-        mainPageNode.ShouldNotBeNull();
-
-        mainPageNode.NativeElement.ShouldNotBeNull();
-
         // Check that the map has no pins
-        mainPageNode.NativeElement.FindByAutomationId<MauiControls.Maps.Map>("Map")
-            .ShouldNotBeNull()
+        mainPageNode.Find<MauiControls.Maps.Map>("Map")
             .Pins.Count.ShouldBe(0);
 
         // Click on the map
-        mainPageNode.NativeElement.FindByAutomationId<MauiControls.Maps.Map>("Map")
-            .ShouldNotBeNull()
-            .SendClicked()
-            ;
+        mainPageNode.Find<MauiControls.Maps.Map>("Map")
+            .SendClicked();
 
         // Check that the map has one pin
-        mainPageNode.NativeElement.FindByAutomationId<MauiControls.Maps.Map>("Map")
-            .ShouldNotBeNull()
+        mainPageNode.Find<MauiControls.Maps.Map>("Map")
             .Pins[0]
             .Location.ShouldBe(new Microsoft.Maui.Devices.Sensors.Location(100.0, 100.0));
     }    

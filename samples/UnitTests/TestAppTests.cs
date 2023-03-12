@@ -17,24 +17,17 @@ public class TestAppTests
         
         var mainPageNode = new TemplateHost<MauiControls.ContentPage>(new CounterWithServicePage());
 
-        mainPageNode.ShouldNotBeNull();
-
-        mainPageNode.NativeElement.ShouldNotBeNull();
-
         // Check that the counter is 0
-        mainPageNode.NativeElement.FindByAutomationId<MauiControls.Button>("Counter_Button")
-            .ShouldNotBeNull()
+        mainPageNode.Find<MauiControls.Label>("Counter_Label")
             .Text
-            .ShouldBe($"Click To Increment");
+            .ShouldBe($"Counter: 0");
 
         // Click on the button
-        mainPageNode.NativeElement.FindByAutomationId<MauiControls.Button>("Counter_Button")
-            .ShouldNotBeNull()
+        mainPageNode.Find<MauiControls.Button>("Counter_Button")
             .SendClicked();
 
         // Check that the counter is 1
-        mainPageNode.NativeElement.FindByAutomationId<MauiControls.Label>("Counter_Label")
-            .ShouldNotBeNull()
+        mainPageNode.Find<MauiControls.Label>("Counter_Label")
             .Text
             .ShouldBe($"Counter: 1");
     }
@@ -44,24 +37,17 @@ public class TestAppTests
     {
         var mainPageNode = new TemplateHost<MauiControls.ContentPage>(new CanvasPage());
 
-        mainPageNode.ShouldNotBeNull();
-
-        mainPageNode.NativeElement.ShouldNotBeNull();
-
         // Check that the label is "Awesome Norway!"
-        mainPageNode.NativeElement.FindByAutomationId<Text>("NorwayLabel")
-            .ShouldNotBeNull()
+        mainPageNode.Find<Text>("NorwayLabel")
             .Value
             .ShouldBe("Awesome Norway!");
 
         // Move hover on the image
-        mainPageNode.NativeElement.FindByAutomationId<PointInteractionHandler>("NorwayImage")
-            .ShouldNotBeNull()
+        mainPageNode.Find<PointInteractionHandler>("NorwayImage")
             .MoveHover(new[] { new Microsoft.Maui.Graphics.PointF(10, 10) });
 
         // Check that the label is "Mouse hovering"
-        mainPageNode.NativeElement.FindByAutomationId<Text>("NorwayLabel")
-            .ShouldNotBeNull()
+        mainPageNode.Find<Text>("NorwayLabel")
             .Value
             .ShouldBe("Mouse hovering");
     }
