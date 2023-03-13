@@ -56,6 +56,7 @@ public partial class ScaffoldTypeGenerator
             .Where(_ => _.Type.GetFullyQualifiedName() != "Microsoft.Maui.Controls.DataTemplate")
             .Where(_ => _.Name != "ItemsSource")
             .Where(_ => _.Type.GetFullyQualifiedName() != "Microsoft.Maui.Controls.IItemsLayout")
+            .Where(_ => _.Type.GetFullyQualifiedName() != "Microsoft.Maui.Controls.LinearItemsLayout")
             .Where(_ => !(declaringTypeFullName == "Microsoft.Maui.Controls.StructuredItemsView" && (_.Name == "Header" || _.Name == "Footer")))
             .Where(_ => !(declaringTypeFullName == "Microsoft.Maui.Controls.Shell" && (_.Name == "FlyoutHeader" || _.Name == "FlyoutFooter" || _.Name == "FlyoutContent")))
             .Where(_ => !(declaringTypeFullName == "Microsoft.Maui.Controls.Picker" && _.Name == "SelectedItem"))

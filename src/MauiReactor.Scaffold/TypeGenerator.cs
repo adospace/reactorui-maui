@@ -331,7 +331,7 @@ namespace MauiReactor.Scaffold
                     "}\n    ");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- } else if (IsTypeNotAbstractWithEmptyConstructur()) { 
+ } else if (IsTypeNotAbstractWithEmptyConstructor()) { 
             
             #line default
             #line hidden
@@ -954,7 +954,7 @@ namespace MauiReactor.Scaffold
             this.Write("\n\n    }\n\n    ");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- if (IsTypeNotAbstractWithEmptyConstructur() && !IsTypeSealed()) { 
+ if (IsTypeNotAbstractWithEmptyConstructor() && !IsTypeSealed()) { 
             
             #line default
             #line hidden
