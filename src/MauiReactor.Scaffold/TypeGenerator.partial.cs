@@ -49,6 +49,7 @@ namespace MauiReactor.Scaffold
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.DataTemplate")
                 .Where(_ => _.Name != "ItemsSource")
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.IItemsLayout")
+                .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.LinearItemsLayout")                
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.StructuredItemsView" && (_.Name == "Header" || _.Name == "Footer")))
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.Shell" && (_.Name == "FlyoutHeader" || _.Name == "FlyoutFooter" || _.Name == "FlyoutContent")))
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.Picker" && _.Name == "SelectedItem"))
@@ -115,7 +116,7 @@ namespace MauiReactor.Scaffold
             return baseTypeName.Insert(baseTypeName.LastIndexOf('.') + 1, "I");
         }
 
-        public bool IsTypeNotAbstractWithEmptyConstructur() 
+        public bool IsTypeNotAbstractWithEmptyConstructor() 
             => !_typeToScaffold.IsAbstract && _typeToScaffold.GetConstructor(Array.Empty<Type>()) != null;
 
         public bool IsTypeSealed()

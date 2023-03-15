@@ -76,7 +76,7 @@ namespace <#= Namespace() #>
         {
 
         }
-    <# } else if (IsTypeNotAbstractWithEmptyConstructur()) { #>
+    <# } else if (IsTypeNotAbstractWithEmptyConstructor()) { #>
     public partial class <#= TypeName() #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName() #> where T : <#= FullTypeName() #>, new()
     {
         public <#= TypeName() #>()
@@ -213,7 +213,7 @@ namespace <#= Namespace() #>
 
     }
 
-    <# if (IsTypeNotAbstractWithEmptyConstructur() && !IsTypeSealed()) { #>
+    <# if (IsTypeNotAbstractWithEmptyConstructor() && !IsTypeSealed()) { #>
     public partial class <#= TypeName() #> : <#= TypeName() #><<#= FullTypeName() #>>
     {
         public <#= TypeName() #>()
