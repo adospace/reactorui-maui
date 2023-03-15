@@ -15,7 +15,7 @@ public class TestAppTests
     {
         using var serviceContext = new ServiceContext(services => services.AddSingleton<IncrementService>());
         
-        var mainPageNode = new TemplateHost<MauiControls.ContentPage>(new CounterWithServicePage());
+        var mainPageNode = TemplateHost.Create(new CounterWithServicePage());
 
         // Check that the counter is 0
         mainPageNode.Find<MauiControls.Label>("Counter_Label")
@@ -35,7 +35,7 @@ public class TestAppTests
     [Test]
     public void CanvasPage_Moving_Hover_Norway_Image_The_Label_Text_Should_Change_Accordingly()
     {
-        var mainPageNode = new TemplateHost<MauiControls.ContentPage>(new CanvasPage());
+        var mainPageNode = TemplateHost.Create(new CanvasPage());
 
         // Check that the label is "Awesome Norway!"
         mainPageNode.Find<Text>("NorwayLabel")
@@ -51,4 +51,37 @@ public class TestAppTests
             .Value
             .ShouldBe("Mouse hovering");
     }
+
+    [Test]
+    public void NavigationTestPageShouldNavigateToChildPageAndBack()
+    {
+        using var navigationContainer = new NavigationContainer();
+
+        var mainPageNode = TemplateHost.Create(new NavigationMainPage());
+
+        // Verify that initially the value is 0
+        mainPageNode.Find<MauiControls.Label>("MainPage_Label")
+            .Text
+            .ShouldBe("Value: 0");
+
+        // Click the button to open the second page
+        mainPageNode.Find<MauiControls.Button>("MoveToChildPage_Button")
+            .SendClicked();
+
+        var childPageNode = navigationContainer.AttachHost();
+
+        // se entry text to 12
+        childPageNode.Find<MauiControls.Entry>("ChildPage_Entry")
+            .Text = "12";
+
+        // click the button to go back to main page
+        childPageNode.Find<MauiControls.Button>("MoveToMainPage_Button")
+            .SendClicked();
+
+        // Verify that now the label reports the updated text
+        mainPageNode.Find<MauiControls.Label>("MainPage_Label")
+            .Text
+            .ShouldBe("Value: 12");
+    }
+
 }

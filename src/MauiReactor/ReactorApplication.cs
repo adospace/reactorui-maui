@@ -11,7 +11,7 @@ namespace MauiReactor
 
         protected ReactorApplicationHost(ReactorApplication application, bool enableHotReload)
         {
-            _instance = this;
+            Instance = this;
 
             _application = application ?? throw new ArgumentNullException(nameof(application));
 
@@ -27,8 +27,7 @@ namespace MauiReactor
 
         }
 
-        private static ReactorApplicationHost? _instance;
-        public static ReactorApplicationHost Instance => _instance ?? throw new InvalidOperationException();
+        public static ReactorApplicationHost? Instance { get; private set; }
         
         internal IComponentLoader ComponentLoader { get; }
 
@@ -55,7 +54,7 @@ namespace MauiReactor
 
         public abstract void RequestAnimationFrame(VisualNode visualNode);
 
-        public INavigation? Navigation =>  _application.MainPage?.Navigation;
+        //public INavigation? Navigation =>  _application.MainPage?.Navigation;
 
         public Microsoft.Maui.Controls.Page? ContainerPage => _application?.MainPage;
 

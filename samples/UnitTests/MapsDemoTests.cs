@@ -13,7 +13,7 @@ public class MapsDemoTests
     [Test]
     public void Adding_A_Pin_To_Map_Works_Correctly()
     {
-        var mainPageNode = new TemplateHost<MauiControls.ContentPage>(
+        var mainPageNode = TemplateHost.Create(
             new MauiReactor.MapsDemo.Pages.MainPage());
 
         // Check that the map has no pins

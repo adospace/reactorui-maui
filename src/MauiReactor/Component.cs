@@ -157,7 +157,7 @@ namespace MauiReactor
         { }
 
         public INavigation? Navigation
-            => ContainerPage?.Navigation;
+            => ContainerPage?.Navigation ?? NavigationProvider.Navigation;
 
         private Microsoft.Maui.Controls.Page? _containerPage;
 

@@ -10,10 +10,15 @@ namespace MauiReactor;
 public interface ITemplateHost
 {
     BindableObject? NativeElement { get; }
+
+    event EventHandler? LayoutCycleExecuted;
 }
 
-public class TemplateHost<T> : VisualNode, ITemplateHost where T : BindableObject
+public class TemplateHost : VisualNode, ITemplateHost
 {
+    private readonly VisualNode _root;
+    private EventHandler? _layoutCycleExecuted;
+    
     public TemplateHost(VisualNode root)
     {
         _root = root;
@@ -21,25 +26,33 @@ public class TemplateHost<T> : VisualNode, ITemplateHost where T : BindableObjec
         Layout();
     }
 
-    private readonly VisualNode _root;
+    public static ITemplateHost Create(VisualNode root)
+        => new TemplateHost(root);
 
     public VisualNode Root
     {
         get => _root;
     }
 
-    public T? NativeElement { get; private set; }
+    public BindableObject? NativeElement { get; private set; }
 
     BindableObject? ITemplateHost.NativeElement => NativeElement;
 
+    event EventHandler? ITemplateHost.LayoutCycleExecuted
+    {
+        add
+        {
+            _layoutCycleExecuted += value;
+        }
+        remove
+        {
+            _layoutCycleExecuted -= value;
+        }
+    }
+
     protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
     {
-        if (nativeControl is T nativeElement)
-            NativeElement = nativeElement;
-        else
-        {
-            throw new InvalidOperationException($"Type '{nativeControl.GetType()}' not supported under '{GetType()}'");
-        }
+        NativeElement = nativeControl;
     }
 
     protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
@@ -54,6 +67,7 @@ public class TemplateHost<T> : VisualNode, ITemplateHost where T : BindableObjec
     protected internal override void OnLayoutCycleRequested()
     {
         Layout();
+        _layoutCycleExecuted?.Invoke(this, EventArgs.Empty);
         base.OnLayoutCycleRequested();
     }
 }
@@ -82,11 +96,97 @@ public static class TemplateHostExtensions
     public static T Find<T>(this ITemplateHost templateHost, Func<T, bool> predicate) where T : class
         => templateHost.FindOptional<T>(predicate) ?? throw new InvalidOperationException($"Unable to find the element");
 
-    public static IEnumerable<T> FindAll<T>(this ITemplateHost templateHost, Func<T, bool> predicate) where T : class
+    public static IEnumerable<T> FindAll<T>(this ITemplateHost templateHost, Func<T, bool>? predicate = null) where T : class
     {
         if (templateHost.NativeElement is IElementController elementController)
             return elementController.FindAll<T>(predicate);
 
         return Array.Empty<T>();
     }
+
+    public static async Task<T?> FindOptional<T>(this ITemplateHost templateHost, string automationId, TimeSpan timeout, CancellationToken cancellationToken = default) where T : class
+    {
+        var itemFound = templateHost.FindOptional<T>(automationId);
+        if (itemFound != null)
+        {
+            return itemFound;
+        }
+
+        using var waitSem = new SemaphoreSlim(1);
+
+        void handler(object? s, EventArgs e) => waitSem.Release();
+
+        try
+        {
+            templateHost.LayoutCycleExecuted += handler;
+            
+            var waitingTimeout = timeout.TotalMilliseconds;
+            
+            while (itemFound == null && waitingTimeout > 0)
+            {
+                DateTime now = DateTime.Now;
+                await waitSem.WaitAsync(TimeSpan.FromMilliseconds(waitingTimeout), cancellationToken);
+
+                itemFound = templateHost.FindOptional<T>(automationId);
+                if (itemFound != null)
+                {
+                    return itemFound;
+                }
+
+                waitingTimeout -= (DateTime.Now - now).TotalMilliseconds;
+            }
+
+            return null;
+        }
+        finally
+        {
+            templateHost.LayoutCycleExecuted -= handler;
+        }
+    }
+
+    public static Task<T?> Find<T>(this ITemplateHost templateHost, string automationId, TimeSpan timeout, CancellationToken cancellationToken = default) where T : class
+        => templateHost.FindOptional<T>(automationId, timeout, cancellationToken) ?? throw new InvalidOperationException($"Element with automation id {automationId} not found");
+
+    public static async Task<T?> FindOptional<T>(this ITemplateHost templateHost, Func<T, bool> predicate, TimeSpan timeout, CancellationToken cancellationToken = default) where T : class
+    {
+        var itemFound = templateHost.FindOptional(predicate);
+        if (itemFound != null)
+        {
+            return itemFound;
+        }
+
+        using var waitSem = new SemaphoreSlim(1);
+
+        void handler(object? s, EventArgs e) => waitSem.Release();
+
+        try
+        {
+            templateHost.LayoutCycleExecuted += handler;
+
+            var waitingTimeout = timeout.TotalMilliseconds;
+
+            while (itemFound == null && waitingTimeout > 0)
+            {
+                DateTime now = DateTime.Now;
+                await waitSem.WaitAsync(TimeSpan.FromMilliseconds(waitingTimeout), cancellationToken);
+
+                itemFound = templateHost.FindOptional<T>(predicate);
+                if (itemFound != null)
+                {
+                    return itemFound;
+                }
+
+                waitingTimeout -= (DateTime.Now - now).TotalMilliseconds;
+            }
+
+            return null;
+        }
+        finally
+        {
+            templateHost.LayoutCycleExecuted -= handler;
+        }
+    }
+
+    public static Task<T?> Find<T>(this ITemplateHost templateHost, Func<T, bool> predicate, TimeSpan timeout, CancellationToken cancellationToken = default) where T : class
+        => templateHost.FindOptional<T>(predicate, timeout, cancellationToken) ?? throw new InvalidOperationException($"Unable to find the element");
 }

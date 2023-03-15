@@ -76,13 +76,13 @@ public static class NativeElementExtensions
     public static T Find<T>(this IElementController elementController, Func<T, bool> predicate) where T : class
         => elementController.FindOptional<T>(predicate) ?? throw new InvalidOperationException($"Unable to find the element");
 
-    public static IEnumerable<T> FindAll<T>(this IElementController elementController, Func<T, bool> predicate) where T : class
+    public static IEnumerable<T> FindAll<T>(this IElementController elementController, Func<T, bool>? predicate = null) where T : class
     {
         foreach (var element in elementController.Descendants())
         {
             if (element is T elementT)
             {
-                if (predicate(elementT))
+                if (predicate == null || predicate(elementT))
                 {
                     yield return elementT;
                 }
@@ -94,7 +94,7 @@ public static class NativeElementExtensions
                 {
                     if (item is T itemT)
                     {
-                        if (predicate(itemT))
+                        if (predicate == null || predicate(itemT))
                         {
                             yield return itemT;
                         }
