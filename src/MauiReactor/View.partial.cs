@@ -174,12 +174,56 @@ namespace MauiReactor
             return view;
         }
 
+        public static T OnSwiped<T>(this T view, Action? action, SwipeDirection direction) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                view.GestureRecognizers.Add(new SwipeGestureRecognizer(action, direction));
+            }
+
+            return view;
+        }
+
+        public static T OnSwiped<T>(this T view, Action? action, SwipeDirection direction, uint threshold) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                view.GestureRecognizers.Add(new SwipeGestureRecognizer(action, direction, threshold));
+            }
+
+            return view;
+        }
+
         public static T OnSwiped<T>(this T view, Action<object?, EventArgs>? action) where T : IView
         {
             if (action != null)
             {
                 view.GestureRecognizers ??= new List<IGestureRecognizer>();
                 view.GestureRecognizers.Add(new SwipeGestureRecognizer(action));
+            }
+
+            return view;
+        }
+
+        public static T OnSwiped<T>(this T view, Action<object?, EventArgs>? action, SwipeDirection direction) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                view.GestureRecognizers.Add(new SwipeGestureRecognizer(action, direction));
+            }
+
+            return view;
+        }
+
+        public static T OnSwiped<T>(this T view, Action<object?, EventArgs>? action, SwipeDirection direction, uint threshold) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                view.GestureRecognizers.Add(new SwipeGestureRecognizer(action, direction, threshold));
             }
 
             return view;

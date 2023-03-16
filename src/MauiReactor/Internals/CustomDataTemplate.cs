@@ -16,6 +16,8 @@ namespace MauiReactor.Internals
         public DataTemplate DataTemplate { get; }
         public ICustomDataTemplateOwner Owner { get; set; }
 
+        private readonly List<ItemTemplateNode> _itemTemplateNodes = new();
+
         public CustomDataTemplate(ICustomDataTemplateOwner owner, Action<Microsoft.Maui.Controls.ContentView?>? constructorInjector = null)
         {
             Owner = owner;
@@ -24,6 +26,9 @@ namespace MauiReactor.Internals
                 var itemTemplateNode = new ItemTemplateNode(this);
                 itemTemplateNode.Layout();
                 constructorInjector?.Invoke(itemTemplateNode.ItemContainer);
+
+                _itemTemplateNodes.Add(itemTemplateNode);
+
                 return itemTemplateNode.ItemContainer;
             });
         }
@@ -31,6 +36,14 @@ namespace MauiReactor.Internals
         public VisualNode? GetVisualNodeForItem(object item)
         {
             return Owner.ItemTemplate?.Invoke(item);
+        }
+
+        public void Update()
+        {
+            foreach(var templateNodeItem in _itemTemplateNodes)
+            {
+                templateNodeItem.Update();
+            }
         }
     }
 }
