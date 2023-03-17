@@ -196,7 +196,7 @@ namespace MauiReactor
             return view;
         }
 
-        public static T OnSwiped<T>(this T view, Action<object?, EventArgs>? action) where T : IView
+        public static T OnSwiped<T>(this T view, Action<object?, SwipedEventArgs>? action) where T : IView
         {
             if (action != null)
             {
@@ -207,7 +207,7 @@ namespace MauiReactor
             return view;
         }
 
-        public static T OnSwiped<T>(this T view, Action<object?, EventArgs>? action, SwipeDirection direction) where T : IView
+        public static T OnSwiped<T>(this T view, Action<object?, SwipedEventArgs>? action, SwipeDirection direction) where T : IView
         {
             if (action != null)
             {
@@ -218,7 +218,7 @@ namespace MauiReactor
             return view;
         }
 
-        public static T OnSwiped<T>(this T view, Action<object?, EventArgs>? action, SwipeDirection direction, uint threshold) where T : IView
+        public static T OnSwiped<T>(this T view, Action<object?, SwipedEventArgs>? action, SwipeDirection direction, uint threshold) where T : IView
         {
             if (action != null)
             {
