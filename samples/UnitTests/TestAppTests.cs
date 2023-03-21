@@ -68,7 +68,7 @@ public class TestAppTests
         mainPageNode.Find<MauiControls.Button>("MoveToChildPage_Button")
             .SendClicked();
 
-        var childPageNode = navigationContainer.AttachHost();
+        var childPageNode = navigationContainer.AttachTopPage();
 
         // se entry text to 12
         childPageNode.Find<MauiControls.Entry>("ChildPage_Entry")

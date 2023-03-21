@@ -79,6 +79,9 @@ public static class TemplateHostExtensions
         if (templateHost.NativeElement is IElementController elementController)
             return elementController.Find<T>(automationId);
 
+        if (templateHost is IAutomationItemContainer automationItemContainer)
+            return automationItemContainer.Find<T>(automationId);
+
         return default;
     }
 
@@ -90,6 +93,9 @@ public static class TemplateHostExtensions
         if (templateHost.NativeElement is IElementController elementController)
             return elementController.Find<T>(predicate);
 
+        if (templateHost.NativeElement is IAutomationItemContainer automationItemContainer)
+            return automationItemContainer.Find<T>(predicate);
+
         return default;
     }
 
@@ -100,6 +106,9 @@ public static class TemplateHostExtensions
     {
         if (templateHost.NativeElement is IElementController elementController)
             return elementController.FindAll<T>(predicate);
+
+        if (templateHost.NativeElement is IAutomationItemContainer automationItemContainer)
+            return automationItemContainer.FindAll<T>(predicate);
 
         return Array.Empty<T>();
     }

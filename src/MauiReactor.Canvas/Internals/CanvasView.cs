@@ -197,7 +197,7 @@ namespace MauiReactor.Canvas.Internals
             Invalidate();            
         }
 
-        IEnumerable<IAutomationItem> IAutomationItemContainer.Descendants()
+        IEnumerable<T> IAutomationItemContainer.Descendants<T>()
         {
             var queue = new Queue<INodeContainer>(16);
             queue.Enqueue(this);
@@ -208,7 +208,7 @@ namespace MauiReactor.Canvas.Internals
                 for (var i = 0; i < children.Count; i++)
                 {
                     CanvasNode child = children[i];
-                    if (child is not IAutomationItem childT)
+                    if (child is not T childT)
                         continue;
 
                     yield return childT;

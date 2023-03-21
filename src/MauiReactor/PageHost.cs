@@ -92,6 +92,8 @@ namespace MauiReactor
         {
             if (ContainerPage != null)
             {
+                ContainerPage.SetValue(MauiReactorPageHostBagKey, null);
+
                 ContainerPage.Appearing -= OnComponentPage_Appearing;
                 ContainerPage.Disappearing -= OnComponentPage_Disappearing;
             }

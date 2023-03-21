@@ -19,15 +19,11 @@ public static class NativeElementExtensions
                 {
                     return elementT;
                 }
-                else
-                {
-                    throw new InvalidOperationException($"Unable to cast {element.GetType()} to type {typeof(T)}");
-                }
             }
 
             if (element is IAutomationItemContainer automationItemContainer)
             {
-                foreach (var item in automationItemContainer.Descendants())
+                foreach (var item in automationItemContainer.Descendants<IAutomationItem>())
                 {
                     if (item.AutomationId == automationId)
                     {
@@ -41,7 +37,7 @@ public static class NativeElementExtensions
     }
 
     public static T Find<T>(this IElementController elementController, string automationId) where T : class
-        => elementController.FindOptional<T>(automationId) ?? throw new InvalidOperationException($"Element with automation id {automationId} not found");
+        => elementController.FindOptional<T>(automationId) ?? throw new InvalidOperationException($"Element with automation id {automationId} not found or requested type is not correct");
 
     public static T? FindOptional<T>(this IElementController elementController, Func<T, bool> predicate) where T : class
     {
@@ -57,14 +53,11 @@ public static class NativeElementExtensions
 
             if (element is IAutomationItemContainer automationItemContainer)
             {
-                foreach (var item in automationItemContainer.Descendants())
+                foreach (var item in automationItemContainer.Descendants<T>())
                 {
-                    if (item is T itemT)
+                    if (predicate(item))
                     {
-                        if (predicate(itemT))
-                        {
-                            return itemT;
-                        }
+                        return item;
                     }
                 }
             }
@@ -90,14 +83,11 @@ public static class NativeElementExtensions
 
             if (element is IAutomationItemContainer automationItemContainer)
             {
-                foreach (var item in automationItemContainer.Descendants())
+                foreach (var item in automationItemContainer.Descendants<T>())
                 {
-                    if (item is T itemT)
+                    if (predicate == null || predicate(item))
                     {
-                        if (predicate == null || predicate(itemT))
-                        {
-                            yield return itemT;
-                        }
+                        yield return item;
                     }
                 }
             }

@@ -20,7 +20,7 @@ public sealed class NavigationContainer : IDisposable
         NavigationProvider.Navigation = _navigationProxy;
     }
 
-    public ITemplateHost AttachHost()
+    public ITemplateHost AttachTopPage()
     {
         if (_navigationProxy.NavigationStack.Count == 0)
         {
@@ -29,7 +29,30 @@ public sealed class NavigationContainer : IDisposable
 
         var page = _navigationProxy.NavigationStack[_navigationProxy.NavigationStack.Count - 1];
 
-        return (ITemplateHost)page.GetValue(PageHost.MauiReactorPageHostBagKey.BindableProperty);
+        if (page.GetValue(PageHost.MauiReactorPageHostBagKey.BindableProperty) is not ITemplateHost templateHost)
+        {
+            throw new InvalidOperationException("Unable to attach the host");
+        }
+
+        return templateHost;
+    }
+
+
+    public ITemplateHost AttachTopModal()
+    {
+        if (_navigationProxy.ModalStack.Count == 0)
+        {
+            throw new InvalidOperationException("Modal stack is empty");
+        }
+
+        var page = _navigationProxy.ModalStack[_navigationProxy.ModalStack.Count - 1];
+
+        if (page.GetValue(PageHost.MauiReactorPageHostBagKey.BindableProperty) is not ITemplateHost templateHost)
+        {
+            throw new InvalidOperationException("Unable to attach the host");
+        }
+
+        return templateHost;
     }
 
 

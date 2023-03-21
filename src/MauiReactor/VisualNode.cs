@@ -110,7 +110,7 @@ namespace MauiReactor
         }
     }
 
-    public abstract class VisualNode : IVisualNode
+    public abstract class VisualNode : IVisualNode, IAutomationItemContainer
     {
         protected bool _isMounted = false;
 
@@ -526,6 +526,26 @@ namespace MauiReactor
             IsLayoutCycleRequired = true;
             Parent?.RequireLayoutCycle();
             OnLayoutCycleRequested();
+        }
+
+        IEnumerable<T> IAutomationItemContainer.Descendants<T>()
+        {
+            var queue = new Queue<VisualNode>(16);
+            queue.Enqueue(this);
+
+            while (queue.Count > 0)
+            {
+                IReadOnlyList<VisualNode> children = queue.Dequeue().Children;
+                for (var i = 0; i < children.Count; i++)
+                {
+                    VisualNode child = children[i];
+                    if (child is not T childT)
+                        continue;
+
+                    yield return childT;
+                    queue.Enqueue(child);
+                }
+            }
         }
     }
 
