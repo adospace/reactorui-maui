@@ -6,7 +6,14 @@ using System.Text;
 
 namespace MauiReactor
 {
-    internal class PageHost<T> : VisualNode, IVisualNode, IHostElement where T : Component, new()
+    internal abstract class PageHost: VisualNode
+    { 
+        internal static BindablePropertyKey MauiReactorPageHostBagKey = BindableProperty.CreateAttachedReadOnly(nameof(MauiReactorPageHostBagKey),
+            typeof(ITemplateHost), typeof(PageHost), null);
+    }
+
+
+    internal class PageHost<T> : PageHost, IVisualNode, IHostElement, ITemplateHost where T : Component, new()
     {
         private Component? _component;
 
@@ -14,12 +21,27 @@ namespace MauiReactor
 
         public Microsoft.Maui.Controls.Page? ContainerPage { get; private set; }
 
-        //private IDispatcherTimer? _animationTimer;
+        BindableObject? ITemplateHost.NativeElement => ContainerPage;
+
+        private EventHandler? _layoutCycleExecuted;
 
         private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
 
+
         protected PageHost()
         {
+        }
+
+        event EventHandler? ITemplateHost.LayoutCycleExecuted
+        {
+            add
+            {
+                _layoutCycleExecuted += value;
+            }
+            remove
+            {
+                _layoutCycleExecuted -= value;
+            }
         }
 
         Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
@@ -45,6 +67,7 @@ namespace MauiReactor
             if (nativeControl is Microsoft.Maui.Controls.Page page)
             {
                 ContainerPage = page;
+                ContainerPage.SetValue(MauiReactorPageHostBagKey, this);
                 ContainerPage.Appearing += OnComponentPage_Appearing;
                 ContainerPage.Disappearing += OnComponentPage_Disappearing;
             }
@@ -69,6 +92,8 @@ namespace MauiReactor
         {
             if (ContainerPage != null)
             {
+                ContainerPage.SetValue(MauiReactorPageHostBagKey, null);
+
                 ContainerPage.Appearing -= OnComponentPage_Appearing;
                 ContainerPage.Disappearing -= OnComponentPage_Disappearing;
             }
@@ -85,9 +110,10 @@ namespace MauiReactor
         {
             _component ??= InitializeComponent(new T());
 
-            Validate.EnsureNotNull(ReactorApplicationHost.Instance);
-
-            ReactorApplicationHost.Instance.ComponentLoader.AssemblyChanged += OnComponentAssemblyChanged;
+            if (ReactorApplicationHost.Instance != null)
+            {
+                ReactorApplicationHost.Instance.ComponentLoader.AssemblyChanged += OnComponentAssemblyChanged;
+            }
 
             OnLayout();
 
@@ -125,9 +151,11 @@ namespace MauiReactor
 
         public void Stop()
         {
-            Validate.EnsureNotNull(ReactorApplicationHost.Instance);
+            if (ReactorApplicationHost.Instance != null)
+            {
+                ReactorApplicationHost.Instance.ComponentLoader.AssemblyChanged -= OnComponentAssemblyChanged;
+            }
 
-            ReactorApplicationHost.Instance.ComponentLoader.AssemblyChanged -= OnComponentAssemblyChanged;
             _sleeping = true;
         }
 
@@ -135,8 +163,16 @@ namespace MauiReactor
         {
             if (!_sleeping)
             {
-                //Device.BeginInvokeOnMainThread(OnLayout);
-                ContainerPage?.Dispatcher.Dispatch(OnLayout);
+                if (Application.Current == null)
+                {
+                    OnLayout();
+                }
+                else
+                {
+                    ContainerPage?.Dispatcher.Dispatch(OnLayout);
+                }
+
+                _layoutCycleExecuted?.Invoke(this, EventArgs.Empty);
             }
 
             base.OnLayoutCycleRequested();
@@ -144,8 +180,6 @@ namespace MauiReactor
 
         private void OnLayout()
         {
-            Validate.EnsureNotNull(ReactorApplicationHost.Instance);
-
             try
             {
                 Layout();

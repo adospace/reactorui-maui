@@ -24,6 +24,7 @@ class MainPage : Component<MainPageState>
             {
                 State.Positions.Select((location, index)=> new Pin().Location(location).Label($"Pin{index+1}"))
             }
+            .AutomationId("Map")
             .GridRow(1)
             .OnMapClicked((map, args) => SetState(s => s.Positions.Add(args.Location)))
         };

@@ -40,6 +40,7 @@ namespace MauiReactor.WeatherTwentyOne
 //            });
 
             var services = builder.Services;
+            services.AddSingleton<IWeatherService, WeatherService>();
 #if WINDOWS
             services.AddSingleton<ITrayService, WinUI.TrayService>();
             services.AddSingleton<INotificationService, WinUI.NotificationService>();

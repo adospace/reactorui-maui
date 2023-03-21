@@ -106,8 +106,9 @@ public static partial class ItemsRepeaterExtensions
             }
 
             var root = itemTemplate.Invoke(item);
-            var itemTemplateHost = new MauiReactor.Internals.ItemTemplateHost<MauiReactor.Canvas.Internals.CanvasNode>(root);
-            return itemTemplateHost.GenerateNativeElement();
+            var itemTemplateHost = new TemplateHost(root);
+            var nativeElement = (Internals.CanvasNode?)itemTemplateHost.NativeElement ?? throw new InvalidOperationException();
+            return nativeElement;
         });
         return itemsRepeater;
     }

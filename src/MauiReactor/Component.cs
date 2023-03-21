@@ -157,7 +157,7 @@ namespace MauiReactor
         { }
 
         public INavigation? Navigation
-            => ContainerPage?.Navigation;
+            => ContainerPage?.Navigation ?? NavigationProvider.Navigation;
 
         private Microsoft.Maui.Controls.Page? _containerPage;
 
@@ -171,7 +171,7 @@ namespace MauiReactor
         }
 
         public static IServiceProvider Services
-            => ReactorApplicationHost.Instance.Services;
+            => ServiceCollectionProvider.ServiceProvider; //ReactorApplicationHost.Instance.Services;
 
         internal void InvalidateComponent() => Invalidate();
 
@@ -183,6 +183,10 @@ namespace MauiReactor
                     Application.Current.Dispatcher.Dispatch(base.Invalidate);
                 else
                     base.Invalidate();
+            }
+            else
+            {
+                base.Invalidate();
             }
         }
 
@@ -363,7 +367,7 @@ namespace MauiReactor
                 registeredAction.Invoke();
             }
 
-            Validate.EnsureNotNull(Application.Current);
+            //Validate.EnsureNotNull(Application.Current);
 
             if (invalidateComponent && _isMounted)
             {

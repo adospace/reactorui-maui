@@ -11,7 +11,7 @@ namespace MauiReactor
 
         protected ReactorApplicationHost(ReactorApplication application, bool enableHotReload)
         {
-            _instance = this;
+            Instance = this;
 
             _application = application ?? throw new ArgumentNullException(nameof(application));
 
@@ -27,9 +27,7 @@ namespace MauiReactor
 
         }
 
-        private static ReactorApplicationHost? _instance;
-
-        public static ReactorApplicationHost Instance => _instance ?? throw new InvalidOperationException();
+        public static ReactorApplicationHost? Instance { get; private set; }
         
         internal IComponentLoader ComponentLoader { get; }
 
@@ -58,9 +56,7 @@ namespace MauiReactor
 
         public abstract void RequestAnimationFrame(VisualNode visualNode);
 
-        public INavigation? Navigation =>  _application.MainPage?.Navigation;
-
-        public IServiceProvider Services => _application.Services;
+        //public INavigation? Navigation =>  _application.MainPage?.Navigation;
 
         public Microsoft.Maui.Controls.Page? ContainerPage => _application?.MainPage;
 
@@ -264,14 +260,11 @@ namespace MauiReactor
 
     public abstract class ReactorApplication : Application
     {
-        protected ReactorApplication(IServiceProvider sp)
+        protected ReactorApplication()
         {
-            Services = sp;
         }
 
         internal static bool HotReloadEnabled { get; set; }
-
-        public IServiceProvider Services { get; }
     }
 
     public class ReactorApplication<T> : ReactorApplication where T : Component, new()
@@ -279,8 +272,7 @@ namespace MauiReactor
 
         private ReactorApplicationHost<T>? _host;
 
-        public ReactorApplication(IServiceProvider sp)
-            : base(sp)
+        public ReactorApplication()
         { }
 
         protected override Microsoft.Maui.Controls.Window CreateWindow(IActivationState? activationState)
@@ -335,7 +327,8 @@ namespace MauiReactor
         public static MauiAppBuilder UseMauiReactorApp<TComponent>(this MauiAppBuilder appBuilder, Action<Application>? configureApplication = null) where TComponent : Component, new()
             => appBuilder.UseMauiApp(sp => 
             {
-                var app = new ReactorApplication<TComponent>(sp);
+                ServiceCollectionProvider.ServiceProvider = sp;
+                var app = new ReactorApplication<TComponent>();
                 configureApplication?.Invoke(app);
                 return app;
             });
