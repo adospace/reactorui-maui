@@ -40,7 +40,10 @@ namespace MauiReactor
                 Validate.EnsureNotNull(_customDataTemplate);
 
                 _customDataTemplate.Owner = this;
-                existingCollection.NotifyCollectionChanged();
+
+                _customDataTemplate.Update();
+
+                //existingCollection.NotifyCollectionChanged();
             }
             else if (thisAsIItemsView.ItemsSource != null)
             {

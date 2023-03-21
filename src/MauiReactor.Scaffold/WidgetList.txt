@@ -116,3 +116,5 @@ Microsoft.Maui.Controls.CarouselView
 
 Microsoft.Maui.Controls.GraphicsView
 Microsoft.Maui.Controls.Shadow
+
+Microsoft.Maui.Controls.Window

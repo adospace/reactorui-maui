@@ -106,5 +106,14 @@ namespace MauiReactor.Internals
             Layout();
             base.OnLayoutCycleRequested();
         }
+
+        public new void Update()
+        { 
+            if (NativeControl != null &&
+                NativeControl.BindingContext != null)
+            {
+                Root = _dataTemplate.GetVisualNodeForItem(NativeControl.BindingContext);
+            }            
+        }
     }
 }
