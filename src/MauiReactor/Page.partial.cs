@@ -56,12 +56,13 @@ namespace MauiReactor
         {
             var thisAsIPage = (IPage)this;
 
-            if (thisAsIPage.WindowTitle != null && Application.Current != null)
+            if (thisAsIPage.WindowTitle != null &&                 
+                Application.Current != null)
             {
                 Application.Current.Dispatcher.Dispatch(() =>
                 {
                     Validate.EnsureNotNull(NativeControl);
-                    if (NativeControl.Parent is Window parentWindow)
+                    if (NativeControl.Parent is Microsoft.Maui.Controls.Window parentWindow)
                     {
                         parentWindow.Title = thisAsIPage.WindowTitle;
                     }

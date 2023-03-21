@@ -28,6 +28,7 @@ namespace MauiReactor
         }
 
         private static ReactorApplicationHost? _instance;
+
         public static ReactorApplicationHost Instance => _instance ?? throw new InvalidOperationException();
         
         internal IComponentLoader ComponentLoader { get; }
@@ -39,6 +40,8 @@ namespace MauiReactor
             UnhandledException?.Invoke(new UnhandledExceptionEventArgs(ex, false));
             System.Diagnostics.Debug.WriteLine(ex);
         }
+
+        public Microsoft.Maui.Controls.Window? MainWindow { get; protected set; }
 
         public abstract IHostElement Run();
 
@@ -89,10 +92,21 @@ namespace MauiReactor
         protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
         {
             if (nativeControl is Microsoft.Maui.Controls.Page page)
+            {
                 _application.MainPage = page;
+
+                if (page.Parent is Microsoft.Maui.Controls.Window mainWindow)
+                {
+                    MainWindow = mainWindow;
+                }
+            }
+            else if (nativeControl is Microsoft.Maui.Controls.Window mainWindow)
+            {
+                MainWindow = mainWindow;
+            }
             else
             {
-                throw new NotSupportedException($"Invalid root component ({nativeControl.GetType()}): must be a page (i.e. RxContentPage, RxShell etc)");    
+                throw new NotSupportedException($"Invalid root component ({nativeControl.GetType()}): must be a page (i.e. RxContentPage, RxShell etc)");
             }
         }
 
@@ -269,14 +283,20 @@ namespace MauiReactor
             : base(sp)
         { }
 
-        protected override Window CreateWindow(IActivationState? activationState)
+        protected override Microsoft.Maui.Controls.Window CreateWindow(IActivationState? activationState)
         {
             _host ??= new ReactorApplicationHost<T>(this, HotReloadEnabled);
             _host.Run();
+
+            if (_host.MainWindow != null)
+            {
+                return _host.MainWindow;
+            }
+
             return base.CreateWindow(activationState);
         }
 
-        public override void CloseWindow(Window window)
+        public override void CloseWindow(Microsoft.Maui.Controls.Window window)
         {
             base.CloseWindow(window);
         }
