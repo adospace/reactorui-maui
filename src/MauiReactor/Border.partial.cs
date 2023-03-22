@@ -1,4 +1,7 @@
 ﻿using MauiReactor.Internals;
+using MauiReactor.Shapes;
+using Microsoft.Maui.Controls.Shapes;
+using Microsoft.Maui.Platform;
 
 namespace MauiReactor
 {
@@ -11,6 +14,8 @@ namespace MauiReactor
     public partial class Border<T>
     {
         Shapes.IShape? IBorder.StrokeShape { get; set; }
+
+        
 
         protected override IEnumerable<VisualNode> RenderChildren()
         {
@@ -28,18 +33,19 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
 
-            var thisAsIVisualElement = (IBorder)this;
+            var thisAsIBorder = (IBorder)this;
 
-            if (widget == thisAsIVisualElement.StrokeShape &&
+            if (widget == thisAsIBorder.StrokeShape &&
                 childNativeControl is Microsoft.Maui.Graphics.IShape shape)
             {
                 NativeControl.StrokeShape = shape;
+                var shapeDepObject = (BindableObject)shape;
+                shapeDepObject.SetValue(ShapeBindableProperties.ShapeOfBorderProperty, NativeControl);
             }
             else if (childNativeControl is View view)
             {
                 NativeControl.Content = view;
             }
-
 
             base.OnAddChild(widget, childNativeControl);
         }
@@ -51,9 +57,11 @@ namespace MauiReactor
             var thisAsIVisualElement = (IBorder)this;
 
             if (widget == thisAsIVisualElement.StrokeShape &&
-                childNativeControl is Microsoft.Maui.Graphics.IShape)
+                childNativeControl is Microsoft.Maui.Graphics.IShape shape)
             {
                 NativeControl.StrokeShape = null;
+                var shapeDepObject = (BindableObject)shape;
+                shapeDepObject.SetValue(ShapeBindableProperties.ShapeOfBorderProperty, null);
             }
             else if (childNativeControl is View)
             {

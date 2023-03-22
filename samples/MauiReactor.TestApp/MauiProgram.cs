@@ -1,4 +1,7 @@
-﻿namespace MauiReactor.TestApp
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace MauiReactor.TestApp
 {
     public static class MauiProgram
     {
@@ -18,7 +21,10 @@
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                });
+                })
+                .UseMauiCommunityToolkit();
+
+            builder.Services.AddSingleton<Services.IncrementService>();
 
             return builder.Build();
         }

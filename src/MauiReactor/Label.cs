@@ -120,17 +120,20 @@ namespace MauiReactor
 
         protected override void OnAnimate()
         {
-            Validate.EnsureNotNull(NativeControl);
+            OnBeginAnimate();
             var thisAsILabel = (ILabel)this;
             AnimateProperty(Microsoft.Maui.Controls.Label.CharacterSpacingProperty, thisAsILabel.CharacterSpacing);
             AnimateProperty(Microsoft.Maui.Controls.Label.FontSizeProperty, thisAsILabel.FontSize);
             AnimateProperty(Microsoft.Maui.Controls.Label.LineHeightProperty, thisAsILabel.LineHeight);
             AnimateProperty(Microsoft.Maui.Controls.Label.PaddingProperty, thisAsILabel.Padding);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public partial class Label : Label<Microsoft.Maui.Controls.Label>

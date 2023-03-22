@@ -111,7 +111,7 @@ class EventDetails : Component<EventDetailsPageState, EventDetailsPageProps>
         {
             new Align
             { 
-                new PointInterationHandler
+                new PointInteractionHandler
                 {
                 }
                 .OnTap(()=>SetState(s => s.MainPanelX = s.MainPanelX == 72 ? 313 : 72))

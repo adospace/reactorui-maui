@@ -94,16 +94,19 @@ namespace MauiReactor
 
         protected override void OnAnimate()
         {
-            Validate.EnsureNotNull(NativeControl);
+            OnBeginAnimate();
             var thisAsISlider = (ISlider)this;
             AnimateProperty(Microsoft.Maui.Controls.Slider.MinimumProperty, thisAsISlider.Minimum);
             AnimateProperty(Microsoft.Maui.Controls.Slider.MaximumProperty, thisAsISlider.Maximum);
             AnimateProperty(Microsoft.Maui.Controls.Slider.ValueProperty, thisAsISlider.Value);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
         partial void OnAttachingNativeEvents();
         partial void OnDetachingNativeEvents();
         protected override void OnAttachNativeEvents()

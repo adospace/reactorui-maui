@@ -232,7 +232,8 @@ namespace <#= Namespace #>
         <# if (AnimatableProperties.Any()) { #>
         protected override void OnAnimate()
         {
-            //Validate.EnsureNotNull(NativeControl);
+            OnBeginAnimate();
+
             var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
 
             <# foreach (var property in AnimatableProperties) { #>
@@ -244,11 +245,16 @@ namespace <#= Namespace #>
             <# } #>
 
             base.OnAnimate();
+
+            OnEndAnimate();
         }
         <# } #>
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
 
         <# if (Events.Any()) { #>
 

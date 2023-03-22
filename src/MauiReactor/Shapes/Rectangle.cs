@@ -45,15 +45,18 @@ namespace MauiReactor.Shapes
 
         protected override void OnAnimate()
         {
-            Validate.EnsureNotNull(NativeControl);
+            OnBeginAnimate();
             var thisAsIRectangle = (IRectangle)this;
             AnimateProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusXProperty, thisAsIRectangle.RadiusX);
             AnimateProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusYProperty, thisAsIRectangle.RadiusY);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public static partial class RectangleExtensions

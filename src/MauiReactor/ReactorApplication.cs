@@ -11,7 +11,7 @@ namespace MauiReactor
 
         protected ReactorApplicationHost(ReactorApplication application, bool enableHotReload)
         {
-            _instance = this;
+            Instance = this;
 
             _application = application ?? throw new ArgumentNullException(nameof(application));
 
@@ -27,8 +27,7 @@ namespace MauiReactor
 
         }
 
-        private static ReactorApplicationHost? _instance;
-        public static ReactorApplicationHost Instance => _instance ?? throw new InvalidOperationException();
+        public static ReactorApplicationHost? Instance { get; private set; }
         
         internal IComponentLoader ComponentLoader { get; }
 
@@ -39,6 +38,8 @@ namespace MauiReactor
             UnhandledException?.Invoke(new UnhandledExceptionEventArgs(ex, false));
             System.Diagnostics.Debug.WriteLine(ex);
         }
+
+        public Microsoft.Maui.Controls.Window? MainWindow { get; protected set; }
 
         public abstract IHostElement Run();
 
@@ -55,9 +56,7 @@ namespace MauiReactor
 
         public abstract void RequestAnimationFrame(VisualNode visualNode);
 
-        public INavigation? Navigation =>  _application.MainPage?.Navigation;
-
-        public IServiceProvider Services => _application.Services;
+        //public INavigation? Navigation =>  _application.MainPage?.Navigation;
 
         public Microsoft.Maui.Controls.Page? ContainerPage => _application?.MainPage;
 
@@ -89,10 +88,21 @@ namespace MauiReactor
         protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
         {
             if (nativeControl is Microsoft.Maui.Controls.Page page)
+            {
                 _application.MainPage = page;
+
+                if (page.Parent is Microsoft.Maui.Controls.Window mainWindow)
+                {
+                    MainWindow = mainWindow;
+                }
+            }
+            else if (nativeControl is Microsoft.Maui.Controls.Window mainWindow)
+            {
+                MainWindow = mainWindow;
+            }
             else
             {
-                throw new NotSupportedException($"Invalid root component ({nativeControl.GetType()}): must be a page (i.e. RxContentPage, RxShell etc)");    
+                throw new NotSupportedException($"Invalid root component ({nativeControl.GetType()}): must be a page (i.e. RxContentPage, RxShell etc)");
             }
         }
 
@@ -250,14 +260,11 @@ namespace MauiReactor
 
     public abstract class ReactorApplication : Application
     {
-        protected ReactorApplication(IServiceProvider sp)
+        protected ReactorApplication()
         {
-            Services = sp;
         }
 
         internal static bool HotReloadEnabled { get; set; }
-
-        public IServiceProvider Services { get; }
     }
 
     public class ReactorApplication<T> : ReactorApplication where T : Component, new()
@@ -265,18 +272,23 @@ namespace MauiReactor
 
         private ReactorApplicationHost<T>? _host;
 
-        public ReactorApplication(IServiceProvider sp)
-            : base(sp)
+        public ReactorApplication()
         { }
 
-        protected override Window CreateWindow(IActivationState? activationState)
+        protected override Microsoft.Maui.Controls.Window CreateWindow(IActivationState? activationState)
         {
             _host ??= new ReactorApplicationHost<T>(this, HotReloadEnabled);
             _host.Run();
+
+            if (_host.MainWindow != null)
+            {
+                return _host.MainWindow;
+            }
+
             return base.CreateWindow(activationState);
         }
 
-        public override void CloseWindow(Window window)
+        public override void CloseWindow(Microsoft.Maui.Controls.Window window)
         {
             base.CloseWindow(window);
         }
@@ -315,7 +327,8 @@ namespace MauiReactor
         public static MauiAppBuilder UseMauiReactorApp<TComponent>(this MauiAppBuilder appBuilder, Action<Application>? configureApplication = null) where TComponent : Component, new()
             => appBuilder.UseMauiApp(sp => 
             {
-                var app = new ReactorApplication<TComponent>(sp);
+                ServiceCollectionProvider.ServiceProvider = sp;
+                var app = new ReactorApplication<TComponent>();
                 configureApplication?.Invoke(app);
                 return app;
             });

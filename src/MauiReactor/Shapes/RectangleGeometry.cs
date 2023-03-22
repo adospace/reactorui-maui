@@ -40,14 +40,17 @@ namespace MauiReactor.Shapes
 
         protected override void OnAnimate()
         {
-            Validate.EnsureNotNull(NativeControl);
+            OnBeginAnimate();
             var thisAsIRectangleGeometry = (IRectangleGeometry)this;
             AnimateProperty(Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, thisAsIRectangleGeometry.Rect);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public partial class RectangleGeometry : RectangleGeometry<Microsoft.Maui.Controls.Shapes.RectangleGeometry>

@@ -16,20 +16,34 @@ namespace MauiReactor.Internals
         public DataTemplate DataTemplate { get; }
         public ICustomDataTemplateOwner Owner { get; set; }
 
-        public CustomDataTemplate(ICustomDataTemplateOwner owner, Action<ItemTemplatePresenter>? constructorInjector = null)
+        private readonly List<ItemTemplateNode> _itemTemplateNodes = new();
+
+        public CustomDataTemplate(ICustomDataTemplateOwner owner, Action<Microsoft.Maui.Controls.ContentView?>? constructorInjector = null)
         {
             Owner = owner;
             DataTemplate = new DataTemplate(() =>
             {
-                var itemTemplatePresenter = new ItemTemplatePresenter(this);
-                constructorInjector?.Invoke(itemTemplatePresenter);
-                return itemTemplatePresenter;
+                var itemTemplateNode = new ItemTemplateNode(this);
+                itemTemplateNode.Layout();
+                constructorInjector?.Invoke(itemTemplateNode.ItemContainer);
+
+                _itemTemplateNodes.Add(itemTemplateNode);
+
+                return itemTemplateNode.ItemContainer;
             });
         }
 
         public VisualNode? GetVisualNodeForItem(object item)
         {
             return Owner.ItemTemplate?.Invoke(item);
+        }
+
+        public void Update()
+        {
+            foreach(var templateNodeItem in _itemTemplateNodes)
+            {
+                templateNodeItem.Update();
+            }
         }
     }
 }

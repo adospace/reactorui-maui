@@ -48,7 +48,7 @@
                 (double)(StartPoint.Value.BottomLeft + (TargetPoint.BottomLeft - StartPoint.Value.BottomLeft) * easingValue)
                 );
 
-            //System.Diagnostics.Debug.WriteLine($"RxSimpleThicknessAnimation(EasingValue={easingValue} CurrentValue={v} StartValue={StartPoint} TargetValue={TargetPoint} StartTime={StartTime} CurrentTime={currentTime} ElapsedTime={elapsedTime})");
+            //System.Diagnostics.Debug.WriteLine($"RxSimpleCornerRadiusAnimation(EasingValue={easingValue} CurrentValue={($"{v.TopLeft},{v.TopRight},{v.BottomRight},{v.BottomLeft}")} StartValue={StartPoint} TargetValue={TargetPoint} StartTime={StartTime} CurrentTime={currentTime} ElapsedTime={elapsedTime})");
 
             return v;
         }

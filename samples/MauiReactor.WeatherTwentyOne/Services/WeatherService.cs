@@ -23,16 +23,16 @@ public class WeatherService : IWeatherService
         new Location { Name = "Lagos", Coordinate = new Coordinate(6.5244, 3.3792), Icon = "fluent_weather_partly_cloudy.png", WeatherStation = "USA", Value = "83°" }
     };
 
-    private readonly HttpClient httpClient;
+    //private readonly HttpClient httpClient;
 
-    public WeatherService(HttpClient httpClient)
-    {
-        this.httpClient = httpClient;
-    }
+    //public WeatherService(HttpClient httpClient)
+    //{
+    //    this.httpClient = httpClient;
+    //}
 
     public Task<IEnumerable<Location>> GetLocations(string query)
         => Task.FromResult(locations.Where(l => l.Name.Contains(query)));
 
     public Task<WeatherResponse> GetWeather(Coordinate location)
-        => httpClient.GetFromJsonAsync<WeatherResponse>($"/weather/{location}");
+        => throw new NotImplementedException();// httpClient.GetFromJsonAsync<WeatherResponse>($"/weather/{location}");
 }

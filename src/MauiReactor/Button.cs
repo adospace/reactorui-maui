@@ -134,17 +134,20 @@ namespace MauiReactor
 
         protected override void OnAnimate()
         {
-            Validate.EnsureNotNull(NativeControl);
+            OnBeginAnimate();
             var thisAsIButton = (IButton)this;
             AnimateProperty(Microsoft.Maui.Controls.Button.CharacterSpacingProperty, thisAsIButton.CharacterSpacing);
             AnimateProperty(Microsoft.Maui.Controls.Button.FontSizeProperty, thisAsIButton.FontSize);
             AnimateProperty(Microsoft.Maui.Controls.Button.BorderWidthProperty, thisAsIButton.BorderWidth);
             AnimateProperty(Microsoft.Maui.Controls.Button.PaddingProperty, thisAsIButton.Padding);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
         partial void OnAttachingNativeEvents();
         partial void OnDetachingNativeEvents();
         protected override void OnAttachNativeEvents()

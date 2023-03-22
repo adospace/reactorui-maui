@@ -20,8 +20,11 @@ public class NavigationMainPage : Component<NavigationMainPageState>
         {
             new StackLayout()
             {
-                new Label($"Value: {State.Value}"),
+                new Label($"Value: {State.Value}")
+                    .AutomationId("MainPage_Label") //<-- required for sample test
+                    ,
                 new Button("Move To Page")
+                    .AutomationId("MoveToChildPage_Button") //<-- required for sample test
                     .OnClicked(OpenChildPage)
             }
             .VCenter()
@@ -40,11 +43,11 @@ public class NavigationMainPage : Component<NavigationMainPageState>
         await Navigation.PushAsync<ChildPage, ChildPageProps>(_ =>
         {
             _.InitialValue = State.Value;
-            _.OnValueSet = this.OnValueSetFromChilPage;
+            _.OnValueSet = this.OnValueSetFromChildPage;
         });
     }
 
-    private void OnValueSetFromChilPage(int newValue)
+    private void OnValueSetFromChildPage(int newValue)
     {
         SetState(s => s.Value = newValue);
     }
@@ -78,10 +81,18 @@ public class ChildPage : Component<ChildPageState, ChildPageProps>
             new StackLayout()
             {
                 new Entry()
+                    .AutomationId("ChildPage_Entry") //<-- required for sample test
                     .Text(State.Value.ToString())
-                    .OnTextChanged(newText => State.Value = int.Parse(newText))
+                    .OnTextChanged(newText =>
+                    {
+                        if (int.TryParse(newText, out int value))
+                        {
+                            State.Value = value;
+                        }                        
+                    })
                     .Keyboard(Keyboard.Numeric),
                 new Button("Back")
+                    .AutomationId("MoveToMainPage_Button") //<-- required for sample test
                     .OnClicked(GoBack)
             }
             .VCenter()

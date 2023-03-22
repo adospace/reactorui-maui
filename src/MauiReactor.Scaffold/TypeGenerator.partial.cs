@@ -37,6 +37,7 @@ namespace MauiReactor.Scaffold
                 //Custom handling
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.ColumnDefinitionCollection")
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.RowDefinitionCollection")
+                .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.ControlTemplate")
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.Shell" && _.Name == "CurrentItem"))
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.ShellItem" && _.Name == "CurrentItem"))
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.ShellSection" && _.Name == "CurrentItem"))
@@ -48,10 +49,13 @@ namespace MauiReactor.Scaffold
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.DataTemplate")
                 .Where(_ => _.Name != "ItemsSource")
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.IItemsLayout")
+                .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.LinearItemsLayout")                
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.StructuredItemsView" && (_.Name == "Header" || _.Name == "Footer")))
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.Shell" && (_.Name == "FlyoutHeader" || _.Name == "FlyoutFooter" || _.Name == "FlyoutContent")))
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.Picker" && _.Name == "SelectedItem"))
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.MenuItem" && _.Name == "IsEnabled"))
+
+                .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.Page")
 
                 .ToArray();
 
@@ -114,7 +118,7 @@ namespace MauiReactor.Scaffold
             return baseTypeName.Insert(baseTypeName.LastIndexOf('.') + 1, "I");
         }
 
-        public bool IsTypeNotAbstractWithEmptyConstructur() 
+        public bool IsTypeNotAbstractWithEmptyConstructor() 
             => !_typeToScaffold.IsAbstract && _typeToScaffold.GetConstructor(Array.Empty<Type>()) != null;
 
         public bool IsTypeSealed()

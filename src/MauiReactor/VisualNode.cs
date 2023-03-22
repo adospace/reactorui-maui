@@ -110,7 +110,7 @@ namespace MauiReactor
         }
     }
 
-    public abstract class VisualNode : IVisualNode
+    public abstract class VisualNode : IVisualNode, IAutomationItemContainer
     {
         protected bool _isMounted = false;
 
@@ -123,6 +123,9 @@ namespace MauiReactor
         private IReadOnlyList<VisualNode>? _children = null;
 
         private bool _invalidated = false;
+
+        [ThreadStatic] 
+        internal static bool _skipAnimationMigration;
 
         protected VisualNode()
         {
@@ -254,7 +257,8 @@ namespace MauiReactor
 
         internal void DisableCurrentAnimatableProperties()
         {
-            foreach (var animatable in _animatables.Where(_ => _.Value.IsEnabled == null))
+            foreach (var animatable in _animatables
+                .Where(_ => _.Value.IsEnabled.GetValueOrDefault(true)))
             {
                 animatable.Value.IsEnabled = false;
             };
@@ -262,7 +266,9 @@ namespace MauiReactor
 
         internal void EnableCurrentAnimatableProperties(Easing? easing = null, double duration = 600, double initialDelay = 0)
         {
-            foreach (var animatable in _animatables.Where(_ => _.Value.IsEnabled == null).Select(_ => _.Value))
+            foreach (var animatable in _animatables
+                .Where(_ => _.Value.IsEnabled.GetValueOrDefault(true))
+                .Select(_ => _.Value))
             {
                 if (animatable.Animation is RxTweenAnimation tweenAnimation)
                 {
@@ -445,20 +451,25 @@ namespace MauiReactor
 
         protected virtual void OnMigrated(VisualNode newNode)
         {
-            foreach (var newAnimatableProperty in newNode._animatables)
+            if (!_skipAnimationMigration)
             {
-                if (_animatables.TryGetValue(newAnimatableProperty.Key, out var oldAnimatableProperty))
+                foreach (var newAnimatableProperty in newNode._animatables)
                 {
-                    if (oldAnimatableProperty.Animation.GetType() == newAnimatableProperty.Value.Animation.GetType())
+                    if (_animatables.TryGetValue(newAnimatableProperty.Key, out var oldAnimatableProperty))
                     {
-                        newAnimatableProperty.Value.Animation.MigrateFrom(oldAnimatableProperty.Animation);
+                        if (oldAnimatableProperty.Animation.GetType() == 
+                            newAnimatableProperty.Value.Animation.GetType())
+                        {
+                            if (oldAnimatableProperty.IsEnabled.GetValueOrDefault())
+                            {
+                                newAnimatableProperty.Value.Animation.MigrateFrom(oldAnimatableProperty.Animation);
+                            }
+                        }
                     }
                 }
             }
 
-            _animatables.Clear();
-
-            
+            _animatables.Clear();            
         }
 
         protected virtual void OnMount()
@@ -515,6 +526,26 @@ namespace MauiReactor
             IsLayoutCycleRequired = true;
             Parent?.RequireLayoutCycle();
             OnLayoutCycleRequested();
+        }
+
+        IEnumerable<T> IAutomationItemContainer.Descendants<T>()
+        {
+            var queue = new Queue<VisualNode>(16);
+            queue.Enqueue(this);
+
+            while (queue.Count > 0)
+            {
+                IReadOnlyList<VisualNode> children = queue.Dequeue().Children;
+                for (var i = 0; i < children.Count; i++)
+                {
+                    VisualNode child = children[i];
+                    if (child is not T childT)
+                        continue;
+
+                    yield return childT;
+                    queue.Enqueue(child);
+                }
+            }
         }
     }
 

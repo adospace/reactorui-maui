@@ -80,16 +80,19 @@ namespace MauiReactor.Shapes
 
         protected override void OnAnimate()
         {
-            Validate.EnsureNotNull(NativeControl);
+            OnBeginAnimate();
             var thisAsIShape = (IShape)this;
             AnimateProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeThicknessProperty, thisAsIShape.StrokeThickness);
             AnimateProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashOffsetProperty, thisAsIShape.StrokeDashOffset);
             AnimateProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeMiterLimitProperty, thisAsIShape.StrokeMiterLimit);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public static partial class ShapeExtensions

@@ -55,14 +55,17 @@ namespace MauiReactor
 
         protected override void OnAnimate()
         {
-            Validate.EnsureNotNull(NativeControl);
+            OnBeginAnimate();
             var thisAsIShadow = (IShadow)this;
             AnimateProperty(Microsoft.Maui.Controls.Shadow.OffsetProperty, thisAsIShadow.Offset);
             base.OnAnimate();
+            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
     }
 
     public partial class Shadow : Shadow<Microsoft.Maui.Controls.Shadow>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui.Controls;
+﻿using MauiReactor.Internals;
+using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 using System.Collections.Generic;
 using System.Numerics;
@@ -6,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace MauiReactor.Canvas.Internals
 {
-    public class CanvasNode : BindableObject, INodeContainer, ICanvasNodeParent
+    public class CanvasNode : BindableObject, INodeContainer, ICanvasNodeParent, IAutomationItem
     {
         private bool _invalidateRequested = false;
 
@@ -24,6 +25,13 @@ namespace MauiReactor.Canvas.Internals
         {
             get => (int)GetValue(ZIndexProperty);
             set => SetValue(ZIndexProperty, value);
+        }
+
+        public static readonly BindableProperty AutomationIdProperty = BindableProperty.Create(nameof(AutomationId), typeof(string), typeof(CanvasNode), null);
+        public string AutomationId
+        {
+            get => (string)GetValue(AutomationIdProperty);
+            set => SetValue(AutomationIdProperty, value);
         }
 
         public IReadOnlyList<CanvasNode> Children => _children;

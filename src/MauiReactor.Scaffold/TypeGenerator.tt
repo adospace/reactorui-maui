@@ -76,7 +76,7 @@ namespace <#= Namespace() #>
         {
 
         }
-    <# } else if (IsTypeNotAbstractWithEmptyConstructur()) { #>
+    <# } else if (IsTypeNotAbstractWithEmptyConstructor()) { #>
     public partial class <#= TypeName() #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName() #> where T : <#= FullTypeName() #>, new()
     {
         public <#= TypeName() #>()
@@ -139,7 +139,8 @@ namespace <#= Namespace() #>
         <# if (AnimatableProperties.Any()) { #>
         protected override void OnAnimate()
         {
-            Validate.EnsureNotNull(NativeControl);
+            OnBeginAnimate();
+
             var thisAs<#= InterfaceName() #> = (<#= InterfaceName() #>)this;
 
             <# foreach (var property in AnimatableProperties) { #>
@@ -151,11 +152,16 @@ namespace <#= Namespace() #>
             <# } #>
 
             base.OnAnimate();
+
+            OnEndAnimate();
         }
         <# } #>
 
         partial void OnBeginUpdate();
         partial void OnEndUpdate();
+
+        partial void OnBeginAnimate();
+        partial void OnEndAnimate();
 
         <# if (Events.Any()) { #>
 
@@ -207,7 +213,7 @@ namespace <#= Namespace() #>
 
     }
 
-    <# if (IsTypeNotAbstractWithEmptyConstructur() && !IsTypeSealed()) { #>
+    <# if (IsTypeNotAbstractWithEmptyConstructor() && !IsTypeSealed()) { #>
     public partial class <#= TypeName() #> : <#= TypeName() #><<#= FullTypeName() #>>
     {
         public <#= TypeName() #>()

@@ -6,19 +6,18 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.Internals
 {
-    public class ItemTemplateNode : VisualNode, IVisualNode
+    internal class ItemTemplateNode : ContentView<Microsoft.Maui.Controls.ContentView>, IVisualNode
     {
-        private readonly ItemTemplatePresenter _presenter;
 
-        public ItemTemplateNode(VisualNode root, ItemTemplatePresenter presenter)
+        public ItemTemplateNode(CustomDataTemplate dataTemplate)
         {
-            _root = root;
-            _presenter = presenter;
+            _dataTemplate = dataTemplate;
         }
 
-        private VisualNode _root;
+        private VisualNode? _root;
+        private readonly CustomDataTemplate _dataTemplate;
 
-        public VisualNode Root
+        public VisualNode? Root
         {
             get => _root;
             set
@@ -26,27 +25,72 @@ namespace MauiReactor.Internals
                 if (_root != value)
                 {
                     _root = value;
-                    Invalidate();
+
+                    try
+                    {
+                        //we want the animations to restart instead of migrating from an old visual node
+                        _skipAnimationMigration = true;
+                        Invalidate();
+                    }
+                    finally
+                    {
+                        _skipAnimationMigration = false;
+                    }
                 }
-                else
-                {
-                    _root.Update();
-                }
+            }
+        }
+
+        internal Microsoft.Maui.Controls.ContentView? ItemContainer => NativeControl;
+
+        protected override void OnMount()
+        {
+            base.OnMount();
+
+            Validate.EnsureNotNull(NativeControl);
+            NativeControl.BindingContextChanged += NativeControl_BindingContextChanged;
+        }
+
+        private void NativeControl_BindingContextChanged(object? sender, EventArgs e)
+        {
+            Validate.EnsureNotNull(NativeControl);
+
+            if (NativeControl.BindingContext == null)
+            {
+                Root = null;
+                return;
+            }
+
+            Root = _dataTemplate.GetVisualNodeForItem(NativeControl.BindingContext);
+        }
+
+        protected override void OnUnmount()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            NativeControl.BindingContextChanged -= NativeControl_BindingContextChanged;
+
+            base.OnUnmount();
+        }
+
+        protected override IEnumerable<VisualNode> RenderChildren()
+        {
+            if (_root != null)
+            {
+                yield return _root;
             }
         }
 
         internal override VisualNode? Parent
         {
-            get => _presenter.Template.Owner as VisualNode;
+            get => _dataTemplate.Owner as VisualNode;
             set => throw new InvalidOperationException();
         }
 
         protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
         {
-            Validate.EnsureNotNull(_presenter);
+            Validate.EnsureNotNull(NativeControl);
 
             if (nativeControl is View view)
-                _presenter.Content = view;
+                NativeControl.Content = view;
             else
             {
                 throw new InvalidOperationException($"Type '{nativeControl.GetType()}' not supported under '{GetType()}'");
@@ -57,15 +101,19 @@ namespace MauiReactor.Internals
         {
         }
 
-        protected override IEnumerable<VisualNode> RenderChildren()
-        {
-            yield return Root;
-        }
-
         protected internal override void OnLayoutCycleRequested()
         {
             Layout();
             base.OnLayoutCycleRequested();
+        }
+
+        public new void Update()
+        { 
+            if (NativeControl != null &&
+                NativeControl.BindingContext != null)
+            {
+                Root = _dataTemplate.GetVisualNodeForItem(NativeControl.BindingContext);
+            }            
         }
     }
 }

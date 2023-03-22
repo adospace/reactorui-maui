@@ -23,7 +23,7 @@ using System.Diagnostics;
 
 namespace MauiReactor.Canvas.Internals
 {
-    public class CanvasView : Microsoft.Maui.Controls.GraphicsView, INodeContainer, ICanvasNodeParent
+    public class CanvasView : Microsoft.Maui.Controls.GraphicsView, INodeContainer, ICanvasNodeParent, IAutomationItemContainer
     {
         private IReadOnlyList<IDragInteractionHandler>? _dragInteractionHandlers;
         private IReadOnlyList<IHoverInteractionHandler>? _hoverInteractionHandlers;
@@ -195,6 +195,26 @@ namespace MauiReactor.Canvas.Internals
         public void RequestInvalidate()
         {
             Invalidate();            
+        }
+
+        IEnumerable<T> IAutomationItemContainer.Descendants<T>()
+        {
+            var queue = new Queue<INodeContainer>(16);
+            queue.Enqueue(this);
+
+            while (queue.Count > 0)
+            {
+                IReadOnlyList<CanvasNode> children = queue.Dequeue().Children;
+                for (var i = 0; i < children.Count; i++)
+                {
+                    CanvasNode child = children[i];
+                    if (child is not T childT)
+                        continue;
+
+                    yield return childT;
+                    queue.Enqueue(child);
+                }
+            }
         }
     }
 }
