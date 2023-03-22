@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Metadata;
 
 [assembly: MetadataUpdateHandler(typeof(MauiReactor.HotReload.RemoteComponentLoader))]
 
 namespace MauiReactor.HotReload;
-
 
 internal class RemoteComponentLoader : IComponentLoader
 {
@@ -64,16 +64,17 @@ internal class RemoteComponentLoader : IComponentLoader
         _server.Stop();
     }
 
-    static void UpdateApplication(Type[]? updatedTypes)
+    static void UpdateApplication(Type[]? _)
     {
         if (_instance == null)
         {
+            System.Diagnostics.Debug.WriteLine($"[MauiReactor] Hot-Reload is not enabled, please call EnableMauiReactorHotReload() on your AppBuilder");
             return;
         }
 
-        _instance.ReceivedAssemblyFromHost(null);
+        System.Diagnostics.Debug.WriteLine($"[MauiReactor] Hot-Reload triggered");
 
-        //System.Diagnostics.Debug.WriteLine($"[MauiReactor] Hot-Reload completed");
+        _instance.ReceivedAssemblyFromHost(null);
 
         //if (updatedTypes != null)
         //{

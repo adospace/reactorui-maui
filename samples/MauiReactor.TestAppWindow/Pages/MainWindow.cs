@@ -27,7 +27,7 @@ class MainWindow : Component<MainPageState>
                         new Image("dotnet_bot.png")
                             .HeightRequest(200)
                             .HCenter()
-                            .Set(Microsoft.Maui.Controls.SemanticProperties.DescriptionProperty, "Cute dot net bot waving hi to you!"),
+                            .Set(MauiControls.SemanticProperties.DescriptionProperty, "Cute dot net bot waving hi to you!"),
 
                         new Label("Hello, World!")
                             .FontSize(32)
@@ -46,7 +46,6 @@ class MainWindow : Component<MainPageState>
                     .Padding(30, 0)
                 }
             }
-            .WindowTitle("My Window Title")
         }
         .Title("My Window Title")
         .OnSizeChanged(OnSizeChanged)
@@ -56,7 +55,7 @@ class MainWindow : Component<MainPageState>
     private void OnSizeChanged(object sender, EventArgs args)
     {
         var window = ((MauiControls.Window)sender);
-        System.Diagnostics.Debug.WriteLine($"Window size changed to {window.Width}x{window.Height}");
-        System.Diagnostics.Debug.WriteLine($"Window position changed to {window.X},{window.Y}");
+        //System.Diagnostics.Debug.WriteLine($"Window size changed to {window.Width}x{window.Height}");
+        //System.Diagnostics.Debug.WriteLine($"Window position changed to {window.X},{window.Y}");
     }
 }
