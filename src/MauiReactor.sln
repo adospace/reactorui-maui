@@ -39,9 +39,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.FigmaPlugin", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.FigmaPlugin.Services", "MauiReactor.FigmaPlugin.Services\MauiReactor.FigmaPlugin.Services.csproj", "{EB3BBFF0-1C41-4CE8-B815-319B905FF510}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "..\samples\UnitTests\UnitTests.csproj", "{FD0AB582-675C-4309-A512-DDCBC1D85909}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "..\samples\UnitTests\UnitTests.csproj", "{FD0AB582-675C-4309-A512-DDCBC1D85909}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.TestAppWindow", "..\samples\MauiReactor.TestAppWindow\MauiReactor.TestAppWindow.csproj", "{7F5FF62C-6D0C-4B6B-AACB-2B8E773448C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiReactor.SkiaCanvas", "MauiReactor.SkiaCanvas\MauiReactor.SkiaCanvas.csproj", "{1A6E34D7-452E-40A6-BBA5-1F093334B683}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiReactor.SkiaCanvasTestApp", "..\samples\MauiReactor.SkiaCanvasTestApp\MauiReactor.SkiaCanvasTestApp.csproj", "{A61413D5-457E-4583-A9C7-D0FB399E9D47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,6 +147,16 @@ Global
 		{7F5FF62C-6D0C-4B6B-AACB-2B8E773448C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F5FF62C-6D0C-4B6B-AACB-2B8E773448C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7F5FF62C-6D0C-4B6B-AACB-2B8E773448C0}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{1A6E34D7-452E-40A6-BBA5-1F093334B683}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A6E34D7-452E-40A6-BBA5-1F093334B683}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A6E34D7-452E-40A6-BBA5-1F093334B683}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A6E34D7-452E-40A6-BBA5-1F093334B683}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A61413D5-457E-4583-A9C7-D0FB399E9D47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A61413D5-457E-4583-A9C7-D0FB399E9D47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A61413D5-457E-4583-A9C7-D0FB399E9D47}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A61413D5-457E-4583-A9C7-D0FB399E9D47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A61413D5-457E-4583-A9C7-D0FB399E9D47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A61413D5-457E-4583-A9C7-D0FB399E9D47}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -158,6 +172,7 @@ Global
 		{9EC4D331-8E78-4BE5-9C2D-3B90F4E11CBC} = {FF33D69E-8D8E-4604-9800-EEF2EE776B35}
 		{FD0AB582-675C-4309-A512-DDCBC1D85909} = {FF33D69E-8D8E-4604-9800-EEF2EE776B35}
 		{7F5FF62C-6D0C-4B6B-AACB-2B8E773448C0} = {FF33D69E-8D8E-4604-9800-EEF2EE776B35}
+		{A61413D5-457E-4583-A9C7-D0FB399E9D47} = {FF33D69E-8D8E-4604-9800-EEF2EE776B35}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {52AD377B-6F53-46B0-A934-D9607EF7A143}
