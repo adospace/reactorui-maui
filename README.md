@@ -12,12 +12,16 @@ MauiReactor Nuget Packages
 
 [Introductionary video from Solution1 conference](https://www.youtube.com/watch?v=TSh9PL-ziY0&t=961s&ab_channel=C%23CommunityDiscord)
 
+[Interview with James Montemagno](https://www.youtube.com/watch?v=w_Km5AyreT0&ab_channel=dotnet)
+
+[Getting started video from Gerald Versluis](https://www.youtube.com/watch?v=egklcAC9arY&ab_channel=GeraldVersluis)
+
 ### Setting up MauiReactor from CLI
 
 1. Install MauiReactor templates
 [![Nuget](https://img.shields.io/nuget/v/Reactor.Maui.TemplatePack)](https://www.nuget.org/packages/Reactor.Maui.TemplatePack)
 ```
-dotnet new --install Reactor.Maui.TemplatePack
+dotnet new install Reactor.Maui.TemplatePack
 ```
 
 2. Install MauiReactor hot reload console command
