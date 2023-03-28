@@ -57,3 +57,10 @@ dotnet-maui-reactor -f [net7.0-android|net7.0-ios|...]
 6. Edits to code should be hotreloaded by the application --> Enjoy!
 
 [All Packages](https://www.nuget.org/packages?q=Reactor.Maui)
+
+### How to contribute
+
+- Star the repository!
+- File an issue ([Issues](https://github.com/adospace/reactorui-maui/issues))
+- Fix bugs, add features, or improve the code with PRs
+- Help with the documentation ([Documentation Repo](https://github.com/adospace/reactorui-maui-docs))
