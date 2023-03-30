@@ -68,20 +68,12 @@ internal class RemoteComponentLoader : IComponentLoader
     {
         if (_instance == null)
         {
-            System.Diagnostics.Debug.WriteLine($"[MauiReactor] Hot-Reload is not enabled, please call EnableMauiReactorHotReload() on your AppBuilder");
+            Debug.WriteLine($"[MauiReactor] Hot-Reload is not enabled, please call EnableMauiReactorHotReload() on your AppBuilder");
             return;
         }
 
-        System.Diagnostics.Debug.WriteLine($"[MauiReactor] Hot-Reload triggered");
+        //Debug.WriteLine($"[MauiReactor] Hot-Reload triggered");
 
         _instance.ReceivedAssemblyFromHost(null);
-
-        //if (updatedTypes != null)
-        //{
-        //    foreach (Type type in updatedTypes)
-        //    {
-        //        System.Diagnostics.Debug.WriteLine($"[MauiReactor] {type.FullName}");
-        //    }
-        //}
     }
 }
