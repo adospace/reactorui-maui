@@ -16,6 +16,11 @@ namespace MauiReactor.Canvas.Internals
 
     public class Text : CanvasVisualElement
     {
+        public Text()
+        {
+
+        }
+
         public static readonly BindableProperty ValueProperty = BindableProperty.Create(nameof(Value), typeof(string), typeof(Text), null);
 
         public string? Value
@@ -89,6 +94,13 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(FlowProperty, value);
         }
 
+        record TextMeasureParameters(string Value, string FontName, int FontWeight, FontStyleType FontStyleType, float FontSize, HorizontalAlignment HorizontalAlignment, VerticalAlignment VerticalAlignment)
+        {
+            public SizeF GetStringSize(ICanvas canvas, IFont font) => canvas.GetStringSize(Value, font, FontSize, HorizontalAlignment, VerticalAlignment);
+        }
+
+        private SizeF? _lastMeasure; 
+        TextMeasureParameters? _lastMeasureParameters { get; set; }
         public event EventHandler<TextMeasureEventArgs>? Measure;
 
         protected override void OnDraw(DrawingContext context)
@@ -117,8 +129,16 @@ namespace MauiReactor.Canvas.Internals
 
                 if (Measure != null)
                 {
-                    var measure = canvas.GetStringSize(Value, font, FontSize, HorizontalAlignment, VerticalAlignment);
-                    Measure(this, new TextMeasureEventArgs(measure));
+                    var currentMeasureParameters = new TextMeasureParameters(Value, font.Name, font.Weight, font.StyleType, FontSize, HorizontalAlignment, VerticalAlignment);
+                    if (_lastMeasure == null ||
+                        _lastMeasureParameters == null ||
+                        _lastMeasureParameters != currentMeasureParameters)
+                    {
+                        _lastMeasureParameters = currentMeasureParameters;
+                        _lastMeasure = currentMeasureParameters.GetStringSize(canvas, font);
+                        
+                        Measure.Invoke(this, new TextMeasureEventArgs(_lastMeasure.Value));
+                    }
                 }
 
                 canvas.DrawString(Value, dirtyRect, HorizontalAlignment, VerticalAlignment, Flow);

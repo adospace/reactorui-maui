@@ -1,13 +1,8 @@
-﻿using MauiReactor.Canvas;
-using MauiReactor.Compatibility;
+﻿using MauiReactor.Compatibility;
 using MauiReactor.FigmaPlugin.Resources.Styles;
 using MauiReactor.FigmaPlugin.Services.UI;
-using Microsoft.Maui.Controls;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MauiReactor.FigmaPlugin.Pages.Components;
 
@@ -20,6 +15,8 @@ class TreeViewState
     public TreeViewNode? SelectedNode { get; set; }
     public TreeViewNode? HoverNode { get; set; }
 }
+
+
 
 class TreeView : Component<TreeViewState>
 {
@@ -95,13 +92,16 @@ class TreeView : Component<TreeViewState>
         .BackgroundColor(ThemeColors.Gray600);
     }
 
+
     private VisualNode RenderBody()
         => (VisualNode)
             new ItemsRepeater<TreeViewNode>()
                 .Items(State.Nodes)
                 .ItemHeight(24)
-                .Orientation(ItemsLayoutOrientation.Vertical)
+                .Orientation(MauiControls.ItemsLayoutOrientation.Vertical)
                 .ItemTemplate(RenderChildItem);
+
+
 
     private VisualNode RenderChildItem(TreeViewNode node)
         => new TreeViewItem()
