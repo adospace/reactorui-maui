@@ -101,6 +101,11 @@ class HomePage : Component
             {
                 new Pages.CarouselTestPage()
             },
+            new FlyoutItem("Canvas AutoV/HStack Test")
+            {
+                new Pages.CanvasAutoStackPage()
+            },
+            
         }
         .ItemTemplate(RenderItemTemplate);
     }

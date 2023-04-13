@@ -1,5 +1,4 @@
-﻿using MauiReactor;
-using MauiReactor.FigmaPlugin.Pages;
+﻿using MauiReactor.FigmaPlugin.Pages;
 
 
 namespace MauiReactor.FigmaPlugin

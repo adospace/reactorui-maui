@@ -1,10 +1,7 @@
 ﻿using FigmaNet;
-using MauiReactor;
-using MauiReactor.Canvas;
 using MauiReactor.FigmaPlugin.Pages.Components;
 using MauiReactor.FigmaPlugin.Resources.Styles;
 using MauiReactor.FigmaPlugin.Services.UI;
-using Microsoft.Maui.Controls;
 using Microsoft.Maui.Storage;
 using Newtonsoft.Json;
 using System;
@@ -88,7 +85,7 @@ class MainPage : Component<MainPageState>
                 new Editor()
                     .FontFamily("CascadiaCodeRegular")
             }
-            .Orientation(StackOrientation.Horizontal);
+            .Orientation(MauiControls.StackOrientation.Horizontal);
     }
 
     private async void OnOpenProject()
@@ -168,7 +165,7 @@ class MainPage : Component<MainPageState>
 
     private void OnExitApplication()
     {
-        Application.Current?.Quit();        
+        MauiControls.Application.Current?.Quit();
     }
 }
 
