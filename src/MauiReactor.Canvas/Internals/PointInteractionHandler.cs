@@ -38,6 +38,15 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(IsEnabledProperty, value);
         }
 
+
+        public static readonly BindableProperty TapEventThresholdProperty = BindableProperty.Create(nameof(TapEventThreshold), typeof(float), typeof(PointInteractionHandler), 5f);
+        public float TapEventThreshold
+        {
+            get => (float)GetValue(TapEventThresholdProperty);
+            set => SetValue(TapEventThresholdProperty, value);
+        }
+
+
         public void CancelDrag()
         {
         }
@@ -75,7 +84,7 @@ namespace MauiReactor.Canvas.Internals
                 _touchPoints.Length > 0)
             {
                 if (touchPoints.Length > 0 &&
-                    touchPoints[0].Distance(_touchPoints[0]) < 1)
+                    touchPoints[0].Distance(_touchPoints[0]) < TapEventThreshold)
                 {
                     Tap?.Invoke(this, EventArgs.Empty);
                 }

@@ -63,7 +63,7 @@ namespace MauiReactor.Canvas.Internals
         {
             if (_dragInteractionHandlers != null)
             {
-                foreach (var handler in _dragInteractionHandlers)
+                foreach (var handler in _dragInteractionHandlers.Reverse())
                 {
                     if (handler.HitTest(e.Touches))
                     {
@@ -102,7 +102,7 @@ namespace MauiReactor.Canvas.Internals
         {
             if (_hoverInteractionHandlers != null)
             {
-                foreach (var handler in _hoverInteractionHandlers)
+                foreach (var handler in _hoverInteractionHandlers.Reverse())
                 {
                     if (handler.HitTest(e.Touches))
                     {
