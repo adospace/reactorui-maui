@@ -2,7 +2,7 @@
 
 namespace MauiReactor.Canvas.Internals
 {
-    public class Group : CanvasNode
+    public class Group : CanvasVisualElement
     {
         protected override void OnDraw(DrawingContext context)
         {

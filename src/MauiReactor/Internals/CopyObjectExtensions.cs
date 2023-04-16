@@ -37,13 +37,19 @@
                             else
                                 sourceValue = Convert.ChangeType(sourceValue, Enum.GetUnderlyingType(sourceProp.PropertyType));
                         }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine($"[MauiReactor] Using Json serialization for property '{destProp.Name}' of state ({source?.GetType()}) to copy state to new component after hot-reload");
+                            var serializedSourceValue = System.Text.Json.JsonSerializer.Serialize(sourceValue);
+                            sourceValue = System.Text.Json.JsonSerializer.Deserialize(serializedSourceValue, destProp.PropertyType);
+                        }
                     }
 
                     destProp.SetValue(dest, sourceValue, null);
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Unable to copy property '{destProp.Name}' of state ({source?.GetType()}) to new state after hot reload:{Environment.NewLine}{ex})");
+                    System.Diagnostics.Debug.WriteLine($"[MauiReactor] Unable to copy property '{destProp.Name}' of state ({source?.GetType()}) to new state after hot-reload:{Environment.NewLine}{ex})");
                 }
             }
         }

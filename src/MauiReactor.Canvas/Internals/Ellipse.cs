@@ -35,11 +35,68 @@ namespace MauiReactor.Canvas.Internals
             set => SetValue(StrokeSizeProperty, value);
         }
 
+        public static readonly BindableProperty StrokeLineCapProperty = BindableProperty.Create(nameof(StrokeLineCap), typeof(LineCap), typeof(Ellipse), default(LineCap));
+
+        public LineCap StrokeLineCap
+        {
+            get => (LineCap)GetValue(StrokeLineCapProperty);
+            set => SetValue(StrokeLineCapProperty, value);
+        }
+
+        public static readonly BindableProperty StrokeDashPatternProperty = BindableProperty.Create(nameof(StrokeDashPattern), typeof(float[]), typeof(Ellipse), null);
+
+        public float[]? StrokeDashPattern
+        {
+            get => (float[]?)GetValue(StrokeDashPatternProperty);
+            set => SetValue(StrokeDashPatternProperty, value);
+        }
+
+        public static readonly BindableProperty StrokeDashOffsetProperty = BindableProperty.Create(nameof(StrokeDashOffset), typeof(float), typeof(Ellipse), default(float));
+
+        public float StrokeDashOffset
+        {
+            get => (float)GetValue(StrokeDashOffsetProperty);
+            set => SetValue(StrokeDashOffsetProperty, value);
+        }
+
+        public static readonly BindableProperty StrokeLineJoinProperty = BindableProperty.Create(nameof(StrokeLineJoin), typeof(LineJoin), typeof(Ellipse), default(LineJoin));
+
+        public LineJoin StrokeLineJoin
+        {
+            get => (LineJoin)GetValue(StrokeLineJoinProperty);
+            set => SetValue(StrokeLineJoinProperty, value);
+        }
+
+        public static readonly BindableProperty WindingProperty = BindableProperty.Create(nameof(Winding), typeof(WindingMode), typeof(Ellipse), null);
+
+        public WindingMode Winding
+        {
+            get => (WindingMode)GetValue(WindingProperty);
+            set => SetValue(WindingProperty, value);
+        }
+
         public CanvasNode? Child => Children.Count > 0 ? Children[0] : null;
 
         protected override void OnDraw(DrawingContext context)
         {
             context.Canvas.SaveState();
+
+            if (StrokeLineCap != default)
+            {
+                context.Canvas.StrokeLineCap = StrokeLineCap;
+            }
+            if (StrokeLineJoin != default)
+            {
+                context.Canvas.StrokeLineJoin = StrokeLineJoin;
+            }
+            if (StrokeDashPattern != null)
+            {
+                context.Canvas.StrokeDashPattern = StrokeDashPattern;
+            }
+            if (StrokeDashOffset > 0)
+            {
+                context.Canvas.StrokeDashOffset = StrokeDashOffset;
+            }
 
             if (FillColor != null)
             {
