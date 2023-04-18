@@ -72,6 +72,16 @@ namespace MauiReactor.Canvas.Internals
             Tap?.Invoke(this, EventArgs.Empty);
         }
 
+        public void SendTapDown(PointF[]? touchPoints = null)
+        {
+            TapDown?.Invoke(this, new PointInteractionHandlerEventArgs(touchPoints ?? Array.Empty<PointF>()));
+        }
+
+        public void SendTapUp(PointF[]? touchPoints = null)
+        {
+            TapUp?.Invoke(this, new PointInteractionHandlerEventArgs(touchPoints ?? Array.Empty<PointF>()));
+        }
+
         public void StartDrag(PointF[] touchPoints)
         {
             _touchPoints = touchPoints;

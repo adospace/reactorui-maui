@@ -409,7 +409,9 @@ namespace MauiReactor
                 }
                 else
                 {
-                    throw new InvalidOperationException();
+                    //under TemplateHost we don't have a page host so for now we disable animations
+                    //under test environments
+                    //throw new InvalidOperationException();
                 }
             }
         }
