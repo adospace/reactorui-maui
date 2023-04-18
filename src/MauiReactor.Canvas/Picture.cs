@@ -1,5 +1,6 @@
 ﻿using MauiReactor.Internals;
 using Microsoft.Maui;
+using Microsoft.Maui.Hosting;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -129,7 +130,10 @@ public static partial class PictureExtensions
 
                 using (Stream stream = imageResourceStream)
                 {
-#if !WINDOWS
+#if WINDOWS
+                    var service = new Microsoft.Maui.Graphics.Win2D.W2DImageLoadingService();
+                    image = service.FromStream(stream);
+#else
                     image = Microsoft.Maui.Graphics.Platform.PlatformImage.FromStream(stream);
 #endif
                 }
@@ -144,6 +148,34 @@ public static partial class PictureExtensions
         }
     }
 
+    /// <summary>
+    /// Pre-loads and caches an image used in Canvas Picture control
+    /// </summary>
+    /// <param name="appBuilder"></param>
+    /// <param name="imageNameWithNamespace"></param>
+    /// <returns></returns>
+    public static MauiAppBuilder UseCanvasImage(this MauiAppBuilder appBuilder, string imageNameWithNamespace)
+    {
+        LoadImage(imageNameWithNamespace, true, Assembly.GetCallingAssembly());
+        return appBuilder;
+    }
+
+    /// <summary>
+    /// Pre-loads and caches images used in Canvas Picture control
+    /// </summary>
+    /// <param name="appBuilder"></param>
+    /// <param name="imagesNamespace"></param>
+    /// <param name="imageNamesWithOutNamespace"></param>
+    /// <returns></returns>
+    public static MauiAppBuilder UseCanvasImages(this MauiAppBuilder appBuilder, string imagesNamespace, params string[] imageNamesWithOutNamespace)
+    {
+        foreach (var imageName in imageNamesWithOutNamespace)
+        {
+            LoadImage($"{imagesNamespace}.{imageName}", true, Assembly.GetCallingAssembly());
+        }
+        
+        return appBuilder;
+    }
 
     //public static T Aspect<T>(this T node, Aspect value) where T : IPicture
     //{
