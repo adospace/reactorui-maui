@@ -79,6 +79,9 @@ public static class TemplateHostExtensions
         if (templateHost.NativeElement is IElementController elementController)
             return elementController.Find<T>(automationId);
 
+        if (templateHost.NativeElement is IAutomationItemContainer childAsAutomationItemContainer)
+            return childAsAutomationItemContainer.Find<T>(automationId);
+
         if (templateHost is IAutomationItemContainer automationItemContainer)
             return automationItemContainer.Find<T>(automationId);
 

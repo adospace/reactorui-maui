@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace MauiReactor.Canvas.Internals
 {
-    public class CanvasNode : BindableObject, INodeContainer, ICanvasNodeParent, IAutomationItem
+    public class CanvasNode : BindableObject, INodeContainer, ICanvasNodeParent, IAutomationItem, IAutomationItemContainer
     {
         private bool _invalidateRequested = false;
 
@@ -102,6 +102,26 @@ namespace MauiReactor.Canvas.Internals
             {
                 _invalidateRequested = true;
                 Parent?.RequestInvalidate();
+            }
+        }
+
+        IEnumerable<T> IAutomationItemContainer.Descendants<T>()
+        {
+            var queue = new Queue<INodeContainer>(16);
+            queue.Enqueue(this);
+
+            while (queue.Count > 0)
+            {
+                IReadOnlyList<CanvasNode> children = queue.Dequeue().Children;
+                for (var i = 0; i < children.Count; i++)
+                {
+                    CanvasNode child = children[i];
+                    if (child is not T childT)
+                        continue;
+
+                    yield return childT;
+                    queue.Enqueue(child);
+                }
             }
         }
     }
