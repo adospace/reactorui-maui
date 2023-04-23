@@ -230,7 +230,7 @@ namespace MauiReactor
 
     internal interface IComponentWithState
     {
-        object State { get; }
+        object State { get; internal set; }
 
         void ForwardState(object stateFromOldComponent, bool invalidateComponent);
 
@@ -243,28 +243,51 @@ namespace MauiReactor
 
     internal interface IComponentWithProps
     {
-        object Props { get; }
+        object Props { get; internal set; }
     }
 
     public abstract class ComponentWithProps<P> : Component, IComponentWithProps where P : class, new()
     {
         private readonly bool _derivedProps;
+        private P? _props;
 
         public ComponentWithProps(P? props = null)
         {
-            Props = props ?? new P();
+            _props = props;
             _derivedProps = props != null;
         }
 
-        public P Props { get; private set; }
+        public P Props
+        {
+            get => _props ??= new P();
+        }
 
-        object IComponentWithProps.Props => Props;
+        object IComponentWithProps.Props
+        {
+            get => Props;
+            set
+            {
+                if (_props != null)
+                {
+                    throw new InvalidOperationException();
+                }
+
+                _props = (P)value;
+            }
+        }
 
         internal override void MergeWith(VisualNode newNode)
         {
             if (!_derivedProps && newNode is IComponentWithProps newComponentWithProps)
             {
-                CopyObjectExtensions.CopyProperties(Props, newComponentWithProps.Props);
+                if (newNode.GetType() == GetType())
+                {
+                    newComponentWithProps.Props = Props;
+                }
+                else
+                {
+                    CopyObjectExtensions.CopyProperties(Props, newComponentWithProps.Props);
+                }
             }
 
             base.MergeWith(newNode);
@@ -279,16 +302,32 @@ namespace MauiReactor
 
         private readonly bool _derivedState;
 
+        private S? _state;
+
         protected Component(S? state = null, P? props = null)
             : base(props)
         {
-            State = state ?? new S();
+            _state = state;
             _derivedState = state != null;
         }
 
-        public S State { get; private set; }
+        public S State 
+        {
+            get => _state ??= new S();
+        }
 
-        object IComponentWithState.State => State;
+        object IComponentWithState.State
+        {
+            get => State;
+            set
+            {
+                if (_state != null)
+                {
+                    throw new InvalidOperationException();
+                }
+                _state = (S)value;
+            }
+        }
 
         IComponentWithState? IComponentWithState.NewComponent => _newComponent;
 
@@ -380,7 +419,15 @@ namespace MauiReactor
             if (!_derivedState && newNode is IComponentWithState newComponentWithState)
             {
                 _newComponent = newComponentWithState;
-                CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
+                if (newNode.GetType() == this.GetType())
+                {
+                    newComponentWithState.State = State;
+                    System.Diagnostics.Debug.WriteLine("State transferred");
+                }
+                else
+                {
+                    CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
+                }
             }
 
             base.MergeWith(newNode);
