@@ -44,9 +44,9 @@ namespace MauiReactor
 
         Func<Microsoft.Maui.Controls.BaseShellItem, VisualNode>? IShell.ItemTemplate { get; set; }
 
-        private readonly Dictionary<BindableObject, Microsoft.Maui.Controls.ShellItem> _elementItemMap = new();
+        //private readonly Dictionary<BindableObject, Microsoft.Maui.Controls.ShellItem> _elementItemMap = new();
         
-        private readonly Dictionary<BindableObject, Microsoft.Maui.Controls.ToolbarItem> _elementToolbarItemMap = new();
+        //private readonly Dictionary<BindableObject, Microsoft.Maui.Controls.ToolbarItem> _elementToolbarItemMap = new();
 
         private class ItemTemplateNode : VisualNode, IVisualNode//, IHostElement
         {
@@ -210,23 +210,28 @@ namespace MauiReactor
             if (childControl is Microsoft.Maui.Controls.ShellItem shellItem)
             {
                 NativeControl.Items.Insert(widget.ChildIndex, shellItem);
-                _elementItemMap[childControl] = shellItem;
+                //_elementItemMap[childControl] = shellItem;
             }
             else if (childControl is Microsoft.Maui.Controls.ShellContent shellContent)
             {
                 NativeControl.Items.Insert(widget.ChildIndex, shellContent);
-                _elementItemMap[childControl] = shellContent;
+                //_elementItemMap[childControl] = shellContent;
             }
             else if (childControl is Microsoft.Maui.Controls.Page page)
             {
                 var shellContentItem = new Microsoft.Maui.Controls.ShellContent() { Content = page };
                 NativeControl.Items.Insert(widget.ChildIndex, shellContentItem);
-                _elementItemMap[childControl] = shellContentItem;
+                //_elementItemMap[childControl] = shellContentItem;
+            }
+            else if (childControl is Microsoft.Maui.Controls.MenuItem menuItem)
+            {
+                NativeControl.Items.Insert(widget.ChildIndex, menuItem);
+                //_elementItemMap[childControl] = shellContent;
             }
             else if (childControl is Microsoft.Maui.Controls.ToolbarItem toolbarItem)
             {
                 NativeControl.ToolbarItems.Add(toolbarItem);
-                _elementToolbarItemMap[childControl] = toolbarItem;
+                //_elementToolbarItemMap[childControl] = toolbarItem;
             }
             else if (widget == thisAsIShell.FlyoutHeader)
             {
@@ -249,11 +254,26 @@ namespace MauiReactor
             Validate.EnsureNotNull(NativeControl);
             var thisAsIShell = (IShell)this;
 
-            if (_elementItemMap.TryGetValue(childControl, out var item))
+            //if (_elementItemMap.TryGetValue(childControl, out var item))
+            if (childControl is Microsoft.Maui.Controls.ShellItem shellItem)
             {
-                NativeControl.Items.Remove(item);
+                NativeControl.Items.Remove(shellItem);
             }
-            else if (_elementToolbarItemMap.TryGetValue(childControl, out var toolbarItem))
+            else if (childControl is Microsoft.Maui.Controls.ShellContent shellContent)
+            {
+                NativeControl.Items.Remove(shellContent);
+            }
+            else if (childControl is Microsoft.Maui.Controls.MenuItem menuItem)
+            {
+                NativeControl.Items.Remove(menuItem);
+            }
+            else if (childControl is Microsoft.Maui.Controls.Page page &&
+                page.Parent is Microsoft.Maui.Controls.ShellContent parentShellContent)
+            {
+                NativeControl.Items.Remove(parentShellContent);
+            }
+            //else if (_elementToolbarItemMap.TryGetValue(childControl, out var toolbarItem))
+            else if (childControl is Microsoft.Maui.Controls.ToolbarItem toolbarItem)
             {
                 NativeControl.ToolbarItems.Remove(toolbarItem);
             }
@@ -307,6 +327,30 @@ namespace MauiReactor
             shell.FlyoutContent = flyoutContent;
             return shell;
         }
+    }
 
+    class ComponentShellRouteFactory<T> : RouteFactory where T : Component, new()
+    {
+        Microsoft.Maui.Controls.Page? _cachedPage;
+
+        public override Element GetOrCreate()
+        {
+            _cachedPage ??= PageHost<T>.CreatePage();
+            return _cachedPage;
+        }
+
+        public override Element GetOrCreate(IServiceProvider services)
+        {
+            _cachedPage ??= PageHost<T>.CreatePage();
+            return _cachedPage;
+        }
+    }
+
+    public static class Routing
+    {
+        public static void RegisterRoute<T>(string route) where T : Component, new()
+        {
+            Microsoft.Maui.Controls.Routing.RegisterRoute(route, new ComponentShellRouteFactory<T>());
+        }
     }
 }

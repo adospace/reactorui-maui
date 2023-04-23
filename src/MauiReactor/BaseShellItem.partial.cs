@@ -22,7 +22,7 @@ namespace MauiReactor
 
             if (thisAsIBaseShellItem.Route != null)
             {
-                Routing.SetRoute(NativeControl, thisAsIBaseShellItem.Route);
+                Microsoft.Maui.Controls.Routing.SetRoute(NativeControl, thisAsIBaseShellItem.Route);
             }
         }
     }
