@@ -2,7 +2,7 @@
 {
     internal static class CopyObjectExtensions
     {
-        public static void CopyProperties(this object source, object dest)
+        public static void CopyProperties(object source, object dest)
         {
             var sourceProps = source
                 .GetType()

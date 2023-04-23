@@ -41,7 +41,7 @@ class MainPage : Component<MainPageState>
     {
         return new ContentPage
         {
-            new Grid("Auto * Auto", "*")
+            new Grid("48 * 420", "*")
             {
                 new ThemeToggle(),
                 
@@ -259,7 +259,6 @@ public class ThemeToggle : Component
 public class KeyPad : Component
 {
     private Action<string>? _keyPressedAction;
-    private MauiControls.Grid? _grid;
 
     public KeyPad OnKeyPressed(Action<string> keyPressed)
     {
@@ -269,7 +268,7 @@ public class KeyPad : Component
 
     public override VisualNode Render()
     {
-        return new Grid(refToGrid => _grid = refToGrid)
+        return new Grid()
         {
             RenderButtonMediumEmphasis("C", 0, 0),
             RenderImageButtonMediumEmphasis(Theme.IsDarkTheme ? "plus_minus_white.png" : "plus_minus.png", "+-", 0, 1),
@@ -301,9 +300,9 @@ public class KeyPad : Component
         .Columns("* * * *")
         .ColumnSpacing(16)
         .RowSpacing(16)
-        .Margin(20, 0, 20, 66)
+        .Margin(20, 0, 20, 20)
         .OnSizeChanged(Invalidate)
-        .HeightRequest(Math.Max(72, (_grid?.Width * 1.265671).GetValueOrDefault()));
+        .HeightRequest(400);
     }
 
     Button RenderButtonLowEmphasis(string text, int row, int column)
