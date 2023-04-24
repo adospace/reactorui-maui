@@ -335,15 +335,20 @@ namespace MauiReactor
 
         public override Element GetOrCreate()
         {
-            _cachedPage ??= PageHost<T>.CreatePage();
+            if (MauiControlsShellExtensions._propsStack.Count > 0)
+            {
+                (Type PropsType, Action<object> PropsInitializer) = MauiControlsShellExtensions._propsStack.Peek();
+                _cachedPage ??= PageHost<T>.CreatePage(PropsInitializer);
+            }
+            else
+            {
+                _cachedPage ??= PageHost<T>.CreatePage();
+            }
+
             return _cachedPage;
         }
 
-        public override Element GetOrCreate(IServiceProvider services)
-        {
-            _cachedPage ??= PageHost<T>.CreatePage();
-            return _cachedPage;
-        }
+        public override Element GetOrCreate(IServiceProvider services) => GetOrCreate();
     }
 
     public static class Routing
@@ -351,6 +356,24 @@ namespace MauiReactor
         public static void RegisterRoute<T>(string route) where T : Component, new()
         {
             Microsoft.Maui.Controls.Routing.RegisterRoute(route, new ComponentShellRouteFactory<T>());
+        }
+    }
+
+    public static class MauiControlsShellExtensions
+    {
+        internal static Stack<(Type PropsType, Action<object> PropsInitialiazer)> _propsStack = new();
+
+        public static async Task GoToAsync<P>(this Microsoft.Maui.Controls.Shell shell, string route, Action<P> propsInitializer)
+        {
+            try
+            {
+                _propsStack.Push((typeof(P), props => propsInitializer((P)props)));
+                await shell.GoToAsync(route);
+            }
+            finally
+            {
+                _propsStack.Pop();
+            }
         }
     }
 }
