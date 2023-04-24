@@ -21,12 +21,12 @@ namespace MauiReactor
             return page;
         }
 
-        public static async Task<Microsoft.Maui.Controls.Page> PushAsync<T, P>(this INavigation navigation, P props) where T : Component, new() where P : class, new()
-        {
-            var page = PageHost<T, P>.CreatePage();
-            await navigation.PushAsync(page);
-            return page;
-        }
+        //public static async Task<Microsoft.Maui.Controls.Page> PushAsync<T, P>(this INavigation navigation, P props) where T : Component, new() where P : class, new()
+        //{
+        //    var page = PageHost<T, P>.CreatePage();
+        //    await navigation.PushAsync(page);
+        //    return page;
+        //}
 
         public static async Task<Microsoft.Maui.Controls.Page> PushAsync<T>(this INavigation navigation, bool animated) where T : Component, new()
         {

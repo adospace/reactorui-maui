@@ -27,9 +27,11 @@ namespace MauiReactor
 
         private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
 
+        private readonly Action<object>? _propsInitializer;
 
-        protected PageHost()
+        protected PageHost(Action<object>? propsInitializer = null)
         {
+            _propsInitializer = propsInitializer;
         }
 
         event EventHandler? ITemplateHost.LayoutCycleExecuted
@@ -55,9 +57,9 @@ namespace MauiReactor
         }
 
 
-        public static Microsoft.Maui.Controls.Page CreatePage()
+        public static Microsoft.Maui.Controls.Page CreatePage(Action<object>? propsInitializer = null)
         {
-            var host = new PageHost<T>();
+            var host = new PageHost<T>(propsInitializer);
             host.Run();
             return host.ContainerPage ?? throw new InvalidOperationException();
         }
@@ -103,6 +105,15 @@ namespace MauiReactor
 
         protected virtual Component InitializeComponent(Component component)
         {
+            if (_propsInitializer != null)
+            {
+                if (component is not IComponentWithProps componentWithProps)
+                    throw new InvalidOperationException($"Component type ({component.GetType()}) should derive from ComponentWithProps<...>");
+
+                _propsInitializer.Invoke(componentWithProps.Props);
+                return component;
+            }
+
             return component;
         }
 
@@ -253,14 +264,14 @@ namespace MauiReactor
     {
         private readonly Action<P> _propsInitializer;
 
-        protected PageHost(Action<P> stateInitializer)
+        protected PageHost(Action<P> propsInitializer)
         {
-            _propsInitializer = stateInitializer;
+            _propsInitializer = propsInitializer;
         }
 
-        public static Microsoft.Maui.Controls.Page CreatePage(Action<P> stateInitializer) 
+        public static Microsoft.Maui.Controls.Page CreatePage(Action<P> propsInitializer) 
         {
-            var host = new PageHost<T, P>(stateInitializer);
+            var host = new PageHost<T, P>(propsInitializer);
             host.Run();
             return Validate.EnsureNotNull(host.ContainerPage);
         }
