@@ -10,11 +10,11 @@ MauiReactor Nuget Packages
 
 [Documentation (WIP)](https://adospace.gitbook.io/mauireactor/)
 
-[Introductionary video from Solution1 conference](https://www.youtube.com/watch?v=TSh9PL-ziY0&t=961s&ab_channel=C%23CommunityDiscord)
+[Introductionary video from Solution1 conference](https://www.youtube.com/watch?v=TSh9PL-ziY0&t=961s&ab_channel=C%23CommunityDiscord)  ![YouTube Video Views](https://img.shields.io/youtube/views/TSh9PL-ziY0?style=social)
 
-[Interview with James Montemagno](https://www.youtube.com/watch?v=w_Km5AyreT0&ab_channel=dotnet)
+[Interview with James Montemagno](https://www.youtube.com/watch?v=w_Km5AyreT0&ab_channel=dotnet)  ![YouTube Video Views](https://img.shields.io/youtube/views/w_Km5AyreT0?style=social)
 
-[Getting started video from Gerald Versluis](https://www.youtube.com/watch?v=egklcAC9arY&ab_channel=GeraldVersluis)
+[Getting started video from Gerald Versluis](https://www.youtube.com/watch?v=egklcAC9arY&ab_channel=GeraldVersluis)  ![YouTube Video Views](https://img.shields.io/youtube/views/egklcAC9arY?style=social)
 
 ### Setting up MauiReactor from CLI
 
