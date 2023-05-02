@@ -752,24 +752,7 @@ namespace MauiReactor
         {
             if (propertyValue != null)
             {
-                //                var oldValue = dependencyObject.GetValue(property);
-                                var newValue = propertyValue.GetValue();
-
-                //                if (!CompareUtils.AreEquals(oldValue, newValue))
-                //                {
-                //#if DEBUG
-                //                    //System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {property.PropertyName} to {newValue}");
-                //#endif
-                //                    var propertiesBag = (HashSet<BindableProperty>?)dependencyObject.GetValue(MauiReactorPropertiesBagKey.BindableProperty);
-                //                    if (propertiesBag == null)
-                //                    {
-                //                        dependencyObject.SetValue(MauiReactorPropertiesBagKey, propertiesBag = new HashSet<BindableProperty>());
-                //                    }
-
-                //                    propertiesBag.Add(property);
-
-                //                    dependencyObject.SetValue(property, newValue);
-                //                }
+                var newValue = propertyValue.GetValue();
 
                 dependencyObject.SetPropertyValue(property, newValue);
 
@@ -780,33 +763,9 @@ namespace MauiReactor
             }
             else 
             {
-                //var propertiesBag = (HashSet<BindableProperty>?)dependencyObject.GetValue(MauiReactorPropertiesBagKey.BindableProperty);
-                //if (propertiesBag != null &&
-                //    propertiesBag.Contains(property))
-                //{
-                //    dependencyObject.ClearValue(property);
-                //}
                 dependencyObject.ResetValue(property);
             }
         }
-
-//        protected bool SetPropertyValue(BindableObject dependencyObject, BindableProperty property, object? newValue)
-//        {
-////            var oldValue = dependencyObject.GetValue(property);
-
-////            if (!CompareUtils.AreEquals(oldValue, newValue))
-////            {
-////#if DEBUG
-////                //System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {property.PropertyName} to {newValue}");
-////#endif
-
-////                dependencyObject.SetValue(property, newValue);
-////                return true;
-////            }
-
-////            return false;
-//            return dependencyObject.SetPropertyValue(property, newValue);
-//        }
 
         protected override void OnAnimate()
         {
