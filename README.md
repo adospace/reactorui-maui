@@ -33,6 +33,9 @@ dotnet tool install -g Reactor.Maui.HotReload
 3. Create a sample project
 ```
 dotnet new maui-reactor-startup -o my-new-project
+```
+and move inside the new project folder
+```
 cd .\my-new-project\
 ```
 
