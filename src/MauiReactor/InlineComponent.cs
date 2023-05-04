@@ -1,4 +1,6 @@
-﻿namespace MauiReactor
+﻿using MauiReactor.Internals;
+
+namespace MauiReactor
 {
     public class InlineComponent : Component<InlineComponentState>
     {
@@ -67,6 +69,9 @@
 
         public ComponentContextState<S> UseState<S>()
             => new(_component);
+
+        public IServiceProvider Services
+            => ServiceCollectionProvider.ServiceProvider;
     }
 
     public class InlineComponentState
