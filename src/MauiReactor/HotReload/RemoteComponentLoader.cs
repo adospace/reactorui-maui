@@ -28,7 +28,7 @@ internal class RemoteComponentLoader : IComponentLoader
         {
             System.Diagnostics.Debug.WriteLine($"[MauiReactor] Unable to hot reload component {typeof(T).FullName}: type not found in received assembly");
             return null;
-            //throw new InvalidOperationException($"Unable to hot relead component {typeof(T).FullName}: type not found in received assembly");
+            //throw new InvalidOperationException($"Unable to hot-reload component {typeof(T).FullName}: type not found in received assembly");
         }
 
         try
@@ -56,15 +56,30 @@ internal class RemoteComponentLoader : IComponentLoader
 
     public void Run()
     {
+        DeviceDisplay.Current.MainDisplayInfoChanged += OnMainDisplayInfoChanged;
         _server.Run();
+    }
+
+    static float? _lastRefreshRate;
+    private void OnMainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
+    {
+        if (_lastRefreshRate == null ||
+            _lastRefreshRate != e.DisplayInfo.RefreshRate)
+        {
+            _lastRefreshRate = e.DisplayInfo.RefreshRate;
+            Debug.WriteLine($"[MauiReactor] FPS: {_lastRefreshRate}");
+        }
     }
 
     public void Stop()
     {
+        DeviceDisplay.Current.MainDisplayInfoChanged -= OnMainDisplayInfoChanged;
         _server.Stop();
     }
 
+#pragma warning disable IDE0051 // Remove unused private members
     static void UpdateApplication(Type[]? _)
+#pragma warning restore IDE0051 // Remove unused private members
     {
         if (_instance == null)
         {

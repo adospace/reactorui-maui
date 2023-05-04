@@ -78,6 +78,8 @@ namespace MauiReactor
         private Component? _rootComponent;
         private bool _sleeping = false;
         private bool _started = false;
+        private bool _layoutCallEnqueued;
+
         private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
 
         internal ReactorApplicationHost(ReactorApplication<T> application, bool enableHotReload)
@@ -149,7 +151,7 @@ namespace MauiReactor
                 }
                 else
                 {
-                    System.Diagnostics.Debug.WriteLine($"Unable to hot relead component {typeof(T).FullName}: type not found in received assembly");
+                    System.Diagnostics.Debug.WriteLine($"Unable to hot-reload component {typeof(T).FullName}: type not found in received assembly");
                 }
             }
             catch (Exception ex)
@@ -170,19 +172,33 @@ namespace MauiReactor
 
         protected internal override void OnLayoutCycleRequested()
         {
-            if (_started && !_sleeping)
+            if (_started && !_sleeping && Application.Current != null)
             {
-                ContainerPage?.Dispatcher.Dispatch(OnLayout);
+                if (_layoutCallEnqueued)
+                {
+                    System.Diagnostics.Debug.WriteLine("_layoutCallEnqueued");
+                }
+                else
+                {
+                    _layoutCallEnqueued = true;
+                    Application.Current.Dispatcher.Dispatch(OnLayout);
+                }
             }
             base.OnLayoutCycleRequested();
         }
 
         private void OnLayout()
         {
+            _layoutCallEnqueued = false;
+
             try
             {
                 Layout();
-                SetupAnimationTimer();
+                //SetupAnimationTimer();
+                if (_listOfVisualsToAnimate.Count > 0)
+                {
+                    AnimationCallback();
+                }
             }
             catch (Exception ex)
             {
@@ -200,13 +216,13 @@ namespace MauiReactor
             _listOfVisualsToAnimate.AddFirst(visualNode);
         }
 
-        private void SetupAnimationTimer()
-        {
-            if (_listOfVisualsToAnimate.Count > 0 && Application.Current != null)
-            {
-                Application.Current.Dispatcher.Dispatch(AnimationCallback);
-            }
-        }
+        //private void SetupAnimationTimer()
+        //{
+        //    if (_listOfVisualsToAnimate.Count > 0 && Application.Current != null)
+        //    {
+        //        Application.Current.Dispatcher.Dispatch(AnimationCallback);
+        //    }
+        //}
 
         private void AnimationCallback()
         {
@@ -221,7 +237,7 @@ namespace MauiReactor
                 var elapsedMilliseconds = (DateTime.Now - now).TotalMilliseconds;
                 if (elapsedMilliseconds > 16)
                 {
-                    System.Diagnostics.Debug.WriteLine("FPS WARNING");
+                    System.Diagnostics.Debug.WriteLine("[MauiReactor] FPS WARNING");
                     Application.Current.Dispatcher.Dispatch(AnimationCallback);
                 }
                 else
