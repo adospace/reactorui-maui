@@ -105,7 +105,10 @@ class HomePage : Component
             {
                 new Pages.CanvasAutoStackPage()
             },
-            
+            new FlyoutItem("Inline components")
+            {
+                new Pages.InlineComponentsPage()
+            },
         }
         .ItemTemplate(RenderItemTemplate);
     }
