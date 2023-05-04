@@ -226,6 +226,11 @@ namespace MauiReactor
 
             return parameter ?? throw new InvalidOperationException($"Unable to find parameter with name '{name ?? typeof(T).FullName}'");
         }
+    
+        public static VisualNode Render(Func<ComponentContext, VisualNode> renderFunc)
+        {
+            return new InlineComponent(renderFunc);
+        }
     }
 
     internal interface IComponentWithState
@@ -389,6 +394,12 @@ namespace MauiReactor
             return false;
         }
 
+        protected void SetState(Action<S> action, TimeSpan delay, bool invalidateComponent = true)
+            => Application.Current?.Dispatcher.DispatchDelayed(delay, () => SetState(action, invalidateComponent));
+
+        protected void SetState(Action<S> action, int delayMilliseconds, bool invalidateComponent = true)
+            => Application.Current?.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(delayMilliseconds), () => SetState(action, invalidateComponent));
+
         protected virtual void SetState(Action<S> action, bool invalidateComponent = true)
         {
             if (action is null)
@@ -422,10 +433,10 @@ namespace MauiReactor
                 if (newNode.GetType() == this.GetType())
                 {
                     newComponentWithState.State = State;
-                    System.Diagnostics.Debug.WriteLine("State transferred");
                 }
                 else
                 {
+                    System.Diagnostics.Debug.WriteLine("WARNING: State copied!");
                     CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
                 }
             }
@@ -449,4 +460,5 @@ namespace MauiReactor
         {
         }
     }
+
 }
