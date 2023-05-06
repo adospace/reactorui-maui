@@ -34,8 +34,8 @@ namespace MauiReactor
             Validate.EnsureNotNull(NativeControl);
             var thisAsIItemsView = (IItemsView)this;
 
-            if (NativeControl.ItemsSource is ObservableItemsSource existingCollection &&
-                existingCollection.ItemsSource == thisAsIItemsView.ItemsSource)
+            if (//NativeControl.ItemsSource is ObservableItemsSource existingCollection &&
+                NativeControl.ItemsSource == thisAsIItemsView.ItemsSource)
             {
                 Validate.EnsureNotNull(_customDataTemplate);
 
@@ -48,7 +48,7 @@ namespace MauiReactor
             else if (thisAsIItemsView.ItemsSource != null)
             {
                 _customDataTemplate = new CustomDataTemplate(this, itemTemplatePresenter => VisualStateManager.SetVisualStateGroups(itemTemplatePresenter, this.ItemVisualStateGroups));
-                NativeControl.ItemsSource = ObservableItemsSource.Create(thisAsIItemsView.ItemsSource);
+                NativeControl.ItemsSource = thisAsIItemsView.ItemsSource;// ObservableItemsSource.Create(thisAsIItemsView.ItemsSource);
                 NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
             }
             else

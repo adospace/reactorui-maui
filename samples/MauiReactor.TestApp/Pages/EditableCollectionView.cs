@@ -127,7 +127,7 @@ class Item : Component<ItemState>
                     .VCenter(),
             }
             .TranslationX(State.ShowActions ? 100 : 0)
-            .WithAnimation(duration: 300)
+            .WithAnimation(duration: 100)
             .OnSwiped(OnSwipedRight, direction: SwipeDirection.Right, threshold: 10)
             .Padding(5)
             .BackgroundColor(Colors.WhiteSmoke)
