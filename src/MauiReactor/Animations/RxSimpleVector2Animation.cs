@@ -66,13 +66,13 @@ namespace MauiReactor.Animations
 
         protected override void OnMigrateFrom(RxAnimation previousAnimation)
         {
-            var previousDoubleAnimation = ((RxSimpleVector2Animation)previousAnimation);
-            StartPoint = previousDoubleAnimation.CurrentValue();
+            var previousSimpleVector2Animation = (RxSimpleVector2Animation)previousAnimation;
+            StartPoint = previousSimpleVector2Animation.CurrentValue();
 
-            if (!previousDoubleAnimation.IsCompleted())
+            if (!previousSimpleVector2Animation.IsCompleted())
             {
                 var duration = Duration ?? DefaultDuration;
-                StartTime -= (long)(duration - duration * previousDoubleAnimation.Completion());
+                StartTime -= (long)(duration * previousSimpleVector2Animation.Completion());
             }
 
             base.OnMigrateFrom(previousAnimation);

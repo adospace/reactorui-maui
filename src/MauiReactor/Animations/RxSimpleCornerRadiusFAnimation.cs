@@ -70,14 +70,14 @@
 
         protected override void OnMigrateFrom(RxAnimation previousAnimation)
         {
-            var previousDoubleAnimation = ((RxSimpleCornerRadiusFAnimation)previousAnimation);
+            var previousSimpleCornerRadiusFAnimation = ((RxSimpleCornerRadiusFAnimation)previousAnimation);
 
-            StartPoint = previousDoubleAnimation.CurrentValue();
+            StartPoint = previousSimpleCornerRadiusFAnimation.CurrentValue();
 
-            if (!previousDoubleAnimation.IsCompleted())
+            if (!previousSimpleCornerRadiusFAnimation.IsCompleted())
             {
                 var duration = Duration ?? DefaultDuration;
-                StartTime -= (long)(duration - duration * previousDoubleAnimation.Completion());
+                StartTime -= (long)(duration * previousSimpleCornerRadiusFAnimation.Completion());
             }
 
             base.OnMigrateFrom(previousAnimation);

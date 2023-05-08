@@ -59,19 +59,18 @@
 
         protected override void OnMigrateFrom(RxAnimation previousAnimation)
         {
-            System.Diagnostics.Debug.Assert(previousAnimation != this);
-            //System.Diagnostics.Debug.WriteLine($"Migrate StartValue from {StartValue} to {((RxFloatAnimation)previousAnimation).TargetValue} (TargetValue={TargetValue})");
+            //System.Diagnostics.Debug.Assert(previousAnimation != this);
             var previousFloatAnimation = ((RxFloatAnimation)previousAnimation);
 
             StartValue = previousFloatAnimation.CurrentValue();
-            //StartValue = previousFloatAnimation.TargetValue;
+            //System.Diagnostics.Debug.WriteLine($"Migrate StartValue from {StartValue} to {((RxFloatAnimation)previousAnimation).TargetValue} (TargetValue={TargetValue})");
 
             if (!previousFloatAnimation.IsCompleted())
             {
                 var duration = Duration ?? DefaultDuration;
-                StartTime -= (long)(duration - duration * previousFloatAnimation.Completion());
+                StartTime -= (long)(duration * previousFloatAnimation.Completion());
                 //System.Diagnostics.Debug.WriteLine($"previousCompletion={previousFloatAnimation.Completion()} -> completion={Completion()}");
-                //if (StartTime < 0)
+                
                 System.Diagnostics.Debug.Assert(StartTime > 0);
             }
 

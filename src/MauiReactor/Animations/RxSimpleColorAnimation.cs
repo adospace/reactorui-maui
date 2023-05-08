@@ -105,13 +105,13 @@
         {
             //System.Diagnostics.Debug.Assert(previousAnimation != this);
             //System.Diagnostics.Debug.WriteLine($"Migrate StartValue from {StartValue} to {((RxDoubleAnimation)previousAnimation).TargetValue} (TargetValue={TargetValue})");
-            var previousDoubleAnimation = ((RxSimpleColorAnimation)previousAnimation);
-            StartColor = previousDoubleAnimation.CurrentValue();
+            var previousSimpleColorAnimation = ((RxSimpleColorAnimation)previousAnimation);
+            StartColor = previousSimpleColorAnimation.CurrentValue();
 
-            if (!previousDoubleAnimation.IsCompleted())
+            if (!previousSimpleColorAnimation.IsCompleted())
             {
                 var duration = Duration ?? DefaultDuration;
-                StartTime -= (long)(duration - duration * previousDoubleAnimation.Completion());
+                StartTime -= (long)(duration * previousSimpleColorAnimation.Completion());
             }
 
             base.OnMigrateFrom(previousAnimation);

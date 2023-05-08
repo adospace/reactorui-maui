@@ -72,14 +72,14 @@
         {
             //System.Diagnostics.Debug.Assert(previousAnimation != this);
             //System.Diagnostics.Debug.WriteLine($"Migrate StartValue from {StartValue} to {((RxDoubleAnimation)previousAnimation).TargetValue} (TargetValue={TargetValue})");
-            var previousDoubleAnimation = ((RxSimpleThicknessAnimation)previousAnimation);
+            var previousSimpleThicknessAnimation = ((RxSimpleThicknessAnimation)previousAnimation);
             
-            StartPoint = previousDoubleAnimation.CurrentValue();
+            StartPoint = previousSimpleThicknessAnimation.CurrentValue();
 
-            if (!previousDoubleAnimation.IsCompleted())
+            if (!previousSimpleThicknessAnimation.IsCompleted())
             {
                 var duration = Duration ?? DefaultDuration;
-                StartTime -= (long)(duration - duration * previousDoubleAnimation.Completion());
+                StartTime -= (long)(duration * previousSimpleThicknessAnimation.Completion());
             }
 
             base.OnMigrateFrom(previousAnimation);

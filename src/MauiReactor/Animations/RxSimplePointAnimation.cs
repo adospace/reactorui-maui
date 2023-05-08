@@ -61,13 +61,13 @@
 
         protected override void OnMigrateFrom(RxAnimation previousAnimation)
         {
-            var previousDoubleAnimation = ((RxSimplePointAnimation)previousAnimation);
-            StartPoint = previousDoubleAnimation.CurrentValue();
+            var previousSimplePointAnimation = ((RxSimplePointAnimation)previousAnimation);
+            StartPoint = previousSimplePointAnimation.CurrentValue();
 
-            if (!previousDoubleAnimation.IsCompleted())
+            if (!previousSimplePointAnimation.IsCompleted())
             {
                 var duration = Duration ?? DefaultDuration;
-                StartTime -= (long)(duration - duration * previousDoubleAnimation.Completion());
+                StartTime -= (long)(duration * previousSimplePointAnimation.Completion());
             }
 
             base.OnMigrateFrom(previousAnimation);

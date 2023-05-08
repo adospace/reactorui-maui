@@ -70,14 +70,14 @@
 
         protected override void OnMigrateFrom(RxAnimation previousAnimation)
         {
-            var previousDoubleAnimation = ((RxSimpleThicknessFAnimation)previousAnimation);
+            var previousSimpleThicknessFAnimation = ((RxSimpleThicknessFAnimation)previousAnimation);
 
-            StartPoint = previousDoubleAnimation.CurrentValue();
+            StartPoint = previousSimpleThicknessFAnimation.CurrentValue();
 
-            if (!previousDoubleAnimation.IsCompleted())
+            if (!previousSimpleThicknessFAnimation.IsCompleted())
             {
                 var duration = Duration ?? DefaultDuration;
-                StartTime -= (long)(duration - duration * previousDoubleAnimation.Completion());
+                StartTime -= (long)(duration * previousSimpleThicknessFAnimation.Completion());
             }
 
             base.OnMigrateFrom(previousAnimation);
