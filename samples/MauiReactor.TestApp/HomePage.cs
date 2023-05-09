@@ -33,6 +33,10 @@ class HomePage : Component
             {
                 new Pages.ListViewPage()
             },
+            new FlyoutItem("ListView Extended Test")
+            {
+                new Pages.ListViewExtendedTestPage()
+            },
             new FlyoutItem("AnimationBasics")
             {
                 new Pages.AnimationBasics()

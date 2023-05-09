@@ -8,10 +8,10 @@ namespace MauiReactor.TestApp.Models
 {
     public class Monkey
     {
-        public string Name { get; set; } = null!;
-        public string Location { get; set; } = null!;
-        public string Details { get; set; } = null!;
-        public string ImageUrl { get; set; } = null!;
+        public required string Name { get; set; }
+        public required string Location { get; set; }
+        public required string Details { get; set; }
+        public required string ImageUrl { get; set; }
 
         public static IReadOnlyList<Monkey> GetList()
             => new List<Monkey>

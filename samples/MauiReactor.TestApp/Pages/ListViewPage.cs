@@ -22,7 +22,7 @@ namespace MauiReactor.TestApp.Pages
 
     public class ListViewPageState
     {
-        public ViewMode ViewMode { get; set; } = ViewMode.TextCell;
+        public ViewMode ViewMode { get; set; } = ViewMode.ViewCell;
     }
 
     public class ListViewPage : Component<ListViewPageState>
@@ -79,7 +79,7 @@ namespace MauiReactor.TestApp.Pages
                         .ItemsSource(_allMonkeys, RenderMonkeyWithEntryCell)
                         .RowHeight(48);
                 case ViewMode.ViewCell:
-                    return new ListView()
+                    return new ListView(MauiControls.ListViewCachingStrategy.RecycleElementAndDataTemplate)
                         .ItemsSource(_allMonkeys, RenderMonkey)
                         .RowHeight(120);
             }

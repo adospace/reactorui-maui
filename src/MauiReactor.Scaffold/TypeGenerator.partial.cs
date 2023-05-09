@@ -54,6 +54,7 @@ namespace MauiReactor.Scaffold
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.Shell" && (_.Name == "FlyoutHeader" || _.Name == "FlyoutFooter" || _.Name == "FlyoutContent")))
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.Picker" && _.Name == "SelectedItem"))
                 .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.MenuItem" && _.Name == "IsEnabled"))
+                .Where(_ => !(_typeToScaffold.FullName == "Microsoft.Maui.Controls.ListView" && (_.Name == "Header" || _.Name == "Footer")))
 
                 .Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.Page")
 
