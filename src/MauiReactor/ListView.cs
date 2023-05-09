@@ -17,10 +17,6 @@ namespace MauiReactor
 
         PropertyValue<bool>? IsRefreshing { get; set; }
 
-        PropertyValue<object>? Header { get; set; }
-
-        PropertyValue<object>? Footer { get; set; }
-
         PropertyValue<object>? SelectedItem { get; set; }
 
         PropertyValue<Microsoft.Maui.Controls.ListViewSelectionMode>? SelectionMode { get; set; }
@@ -80,10 +76,6 @@ namespace MauiReactor
 
         PropertyValue<bool>? IListView.IsRefreshing { get; set; }
 
-        PropertyValue<object>? IListView.Header { get; set; }
-
-        PropertyValue<object>? IListView.Footer { get; set; }
-
         PropertyValue<object>? IListView.SelectedItem { get; set; }
 
         PropertyValue<Microsoft.Maui.Controls.ListViewSelectionMode>? IListView.SelectionMode { get; set; }
@@ -135,8 +127,6 @@ namespace MauiReactor
             var thisAsIListView = (IListView)this;
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.IsPullToRefreshEnabledProperty, thisAsIListView.IsPullToRefreshEnabled);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.IsRefreshingProperty, thisAsIListView.IsRefreshing);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.HeaderProperty, thisAsIListView.Header);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.FooterProperty, thisAsIListView.Footer);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.SelectedItemProperty, thisAsIListView.SelectedItem);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.SelectionModeProperty, thisAsIListView.SelectionMode);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.HasUnevenRowsProperty, thisAsIListView.HasUnevenRows);
@@ -292,34 +282,6 @@ namespace MauiReactor
             where T : IListView
         {
             listView.IsRefreshing = new PropertyValue<bool>(isRefreshingFunc);
-            return listView;
-        }
-
-        public static T Header<T>(this T listView, object header)
-            where T : IListView
-        {
-            listView.Header = new PropertyValue<object>(header);
-            return listView;
-        }
-
-        public static T Header<T>(this T listView, Func<object> headerFunc)
-            where T : IListView
-        {
-            listView.Header = new PropertyValue<object>(headerFunc);
-            return listView;
-        }
-
-        public static T Footer<T>(this T listView, object footer)
-            where T : IListView
-        {
-            listView.Footer = new PropertyValue<object>(footer);
-            return listView;
-        }
-
-        public static T Footer<T>(this T listView, Func<object> footerFunc)
-            where T : IListView
-        {
-            listView.Footer = new PropertyValue<object>(footerFunc);
             return listView;
         }
 

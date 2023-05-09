@@ -61,6 +61,8 @@ public partial class ScaffoldTypeGenerator
             .Where(_ => !(declaringTypeFullName == "Microsoft.Maui.Controls.Shell" && (_.Name == "FlyoutHeader" || _.Name == "FlyoutFooter" || _.Name == "FlyoutContent")))
             .Where(_ => !(declaringTypeFullName == "Microsoft.Maui.Controls.Picker" && _.Name == "SelectedItem"))
             .Where(_ => !(declaringTypeFullName == "Microsoft.Maui.Controls.MenuItem" && _.Name == "IsEnabled"))
+            .Where(_ => !(declaringTypeFullName == "Microsoft.Maui.Controls.ListView" && (_.Name == "Header" || _.Name == "Footer")))
+
             .OrderBy(_=>_.Name)
             .ToArray();
 

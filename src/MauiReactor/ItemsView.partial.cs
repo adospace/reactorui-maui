@@ -94,6 +94,13 @@ namespace MauiReactor
             return itemsview;
         }
 
+        public static T ItemsSource<T, TItem>(this T itemsview, IEnumerable itemsSource, Func<TItem, Microsoft.Maui.Controls.ItemsView, VisualNode> template) where T : IItemsView
+        {
+            itemsview.ItemsSource = itemsSource;
+            itemsview.ItemTemplateWithNativeView = new Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>((item, nativeView) => template((TItem)item, nativeView));
+            return itemsview;
+        }
+
         public static T ItemVisualState<T>(this T itemsview, string groupName, string stateName, BindableProperty property, object value) where T : IItemsView
         {
             var group = itemsview.ItemVisualStateGroups.FirstOrDefault(_ => _.Name == groupName);
