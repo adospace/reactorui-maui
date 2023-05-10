@@ -204,8 +204,13 @@ namespace MauiReactor
             return _cachedNativeGroupList ??= CreateNativeGroupList();
         }
 
-        internal void SetToVisualElement(VisualElement visualElement)
+        internal void SetToVisualElement(VisualElement? visualElement)
         {
+            if (visualElement == null)
+            {
+                return;
+            }
+
             var existingVisualStateGroups = VisualStateManager.GetVisualStateGroups(visualElement);
             if (existingVisualStateGroups == null ||
                 _cachedNativeGroupList == null ||

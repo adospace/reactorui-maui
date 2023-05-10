@@ -14,7 +14,7 @@ partial interface IIndicatorView
 
     PropertyValue<DataTemplate?>? IndicatorTemplate { get; set; }
 
-    VisualStateGroupList VisualStateGroups { get; set; }
+    VisualStateGroupList IndicatorVisualStateGroups { get; set; }
 }
 
 partial class IndicatorView<T>
@@ -23,7 +23,7 @@ partial class IndicatorView<T>
 
     PropertyValue<DataTemplate?>? IIndicatorView.IndicatorTemplate { get; set; }
 
-    VisualStateGroupList IIndicatorView.VisualStateGroups { get; set; } = new VisualStateGroupList();
+    VisualStateGroupList IIndicatorView.IndicatorVisualStateGroups { get; set; } = new VisualStateGroupList();
 
     partial void OnBeginUpdate()
     {
@@ -57,34 +57,64 @@ public static partial class IndicatorViewExtensions
                 var root = template.Invoke();
                 var itemTemplateHost = new TemplateHost(root);
                 var nativeElement = (VisualElement?)itemTemplateHost.NativeElement ?? throw new InvalidOperationException();
-                VisualStateManager.SetVisualStateGroups(nativeElement, indicatorView.VisualStateGroups.Clone());
+                //VisualStateManager.SetVisualStateGroups(nativeElement, indicatorView.VisualStateGroups.Clone());
+                indicatorView.IndicatorVisualStateGroups.SetToVisualElement(nativeElement);
                 return itemTemplateHost.NativeElement;
             });
         });
         return indicatorView;
     }
 
-    public static T VisualState<T>(this T indicatorView, string groupName, string stateName, BindableProperty property, object value) where T : IIndicatorView
+    public static T IndicatorVisualState<T>(this T indicatorView, string groupName, string stateName, BindableProperty property, object? value, string? targetName = null) where T : IIndicatorView
     {
-        var group = indicatorView.VisualStateGroups.FirstOrDefault(_ => _.Name == groupName);
+        indicatorView.IndicatorVisualStateGroups ??= new();
+
+        indicatorView.IndicatorVisualStateGroups.TryGetValue(groupName, out var group);
 
         if (group == null)
         {
-            indicatorView.VisualStateGroups.Add(group = new VisualStateGroup()
-            {
-                Name = groupName
-            });
+            indicatorView.IndicatorVisualStateGroups.Add(groupName, group = new VisualStateGroup());
         }
 
-        var state = group.States.FirstOrDefault(_ => _.Name == stateName);
+        group.TryGetValue(stateName, out var state);
         if (state == null)
         {
-            group.States.Add(state = new VisualState { Name = stateName });
+            group.Add(stateName, state = new VisualState());
         }
 
-        state.Setters.Add(new Setter() { Property = property, Value = value });
+        state.Add(new VisualStatePropertySetter(property, value, targetName));
 
         return indicatorView;
     }
+
+    public static T IndicatorVisualState<T>(this T indicatorView, VisualStateGroupList visualState) where T : IIndicatorView
+    {
+        indicatorView.IndicatorVisualStateGroups = visualState;
+
+        return indicatorView;
+    }
+
+    //public static T VisualState<T>(this T indicatorView, string groupName, string stateName, BindableProperty property, object value) where T : IIndicatorView
+    //{
+    //    var group = indicatorView.VisualStateGroups.FirstOrDefault(_ => _.Name == groupName);
+
+    //    if (group == null)
+    //    {
+    //        indicatorView.VisualStateGroups.Add(group = new VisualStateGroup()
+    //        {
+    //            Name = groupName
+    //        });
+    //    }
+
+    //    var state = group.States.FirstOrDefault(_ => _.Name == stateName);
+    //    if (state == null)
+    //    {
+    //        group.States.Add(state = new VisualState { Name = stateName });
+    //    }
+
+    //    state.Setters.Add(new Setter() { Property = property, Value = value });
+
+    //    return indicatorView;
+    //}
 }
 

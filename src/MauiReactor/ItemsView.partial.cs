@@ -11,7 +11,7 @@ namespace MauiReactor
 
         Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>? ItemTemplateWithNativeView { get; set; }
 
-        VisualStateGroupList ItemVisualStateGroups { get; set; }  
+        VisualStateGroupList? ItemVisualStateGroups { get; set; }  
     }
 
 
@@ -23,7 +23,7 @@ namespace MauiReactor
 
         Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>? IItemsView.ItemTemplateWithNativeView { get; set; }
 
-        public VisualStateGroupList ItemVisualStateGroups { get; set; } = new VisualStateGroupList();
+        VisualStateGroupList? IItemsView.ItemVisualStateGroups { get; set; }
 
         Func<object, VisualNode>? ICustomDataTemplateOwner.ItemTemplate => ((IItemsView)this).ItemTemplate;
 
@@ -47,7 +47,8 @@ namespace MauiReactor
             }
             else if (thisAsIItemsView.ItemsSource != null)
             {
-                _customDataTemplate = new CustomDataTemplate(this, itemTemplatePresenter => VisualStateManager.SetVisualStateGroups(itemTemplatePresenter, this.ItemVisualStateGroups));
+                _customDataTemplate = new CustomDataTemplate(this, itemTemplatePresenter => 
+                    thisAsIItemsView.ItemVisualStateGroups?.SetToVisualElement(itemTemplatePresenter));
                 NativeControl.ItemsSource = thisAsIItemsView.ItemsSource;// ObservableItemsSource.Create(thisAsIItemsView.ItemsSource);
                 NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
             }
@@ -74,54 +75,84 @@ namespace MauiReactor
 
     public static partial class ItemsViewExtensions
     {
-        public static T ItemsSource<T, TItem>(this T itemsview, IEnumerable<TItem> itemsSource) where T : IItemsView
+        public static T ItemsSource<T, TItem>(this T itemsView, IEnumerable<TItem> itemsSource) where T : IItemsView
         {
-            itemsview.ItemsSource = itemsSource;
-            return itemsview;
+            itemsView.ItemsSource = itemsSource;
+            return itemsView;
         }
 
-        public static T ItemsSource<T, TItem>(this T itemsview, IEnumerable<TItem> itemsSource, Func<TItem, VisualNode> template) where T : IItemsView
+        public static T ItemsSource<T, TItem>(this T itemsView, IEnumerable<TItem> itemsSource, Func<TItem, VisualNode> template) where T : IItemsView
         {
-            itemsview.ItemsSource = itemsSource;
-            itemsview.ItemTemplate = new Func<object, VisualNode>(item => template((TItem)item));
-            return itemsview;
+            itemsView.ItemsSource = itemsSource;
+            itemsView.ItemTemplate = new Func<object, VisualNode>(item => template((TItem)item));
+            return itemsView;
         }
 
-        public static T ItemsSource<T, TItem>(this T itemsview, IEnumerable<TItem> itemsSource, Func<TItem, Microsoft.Maui.Controls.ItemsView, VisualNode> template) where T : IItemsView
+        public static T ItemsSource<T, TItem>(this T itemsView, IEnumerable<TItem> itemsSource, Func<TItem, Microsoft.Maui.Controls.ItemsView, VisualNode> template) where T : IItemsView
         {
-            itemsview.ItemsSource = itemsSource;
-            itemsview.ItemTemplateWithNativeView = new Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>((item, nativeView) => template((TItem)item, nativeView));
-            return itemsview;
+            itemsView.ItemsSource = itemsSource;
+            itemsView.ItemTemplateWithNativeView = new Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>((item, nativeView) => template((TItem)item, nativeView));
+            return itemsView;
         }
 
-        public static T ItemsSource<T, TItem>(this T itemsview, IEnumerable itemsSource, Func<TItem, Microsoft.Maui.Controls.ItemsView, VisualNode> template) where T : IItemsView
+        public static T ItemsSource<T, TItem>(this T itemsView, IEnumerable itemsSource, Func<TItem, Microsoft.Maui.Controls.ItemsView, VisualNode> template) where T : IItemsView
         {
-            itemsview.ItemsSource = itemsSource;
-            itemsview.ItemTemplateWithNativeView = new Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>((item, nativeView) => template((TItem)item, nativeView));
-            return itemsview;
+            itemsView.ItemsSource = itemsSource;
+            itemsView.ItemTemplateWithNativeView = new Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>((item, nativeView) => template((TItem)item, nativeView));
+            return itemsView;
         }
 
-        public static T ItemVisualState<T>(this T itemsview, string groupName, string stateName, BindableProperty property, object value) where T : IItemsView
+        //public static T ItemVisualState<T>(this T itemsview, string groupName, string stateName, BindableProperty property, object value) where T : IItemsView
+        //{
+        //    var group = itemsview.ItemVisualStateGroups.FirstOrDefault(_ => _.Name == groupName);
+
+        //    if (group == null)
+        //    {
+        //        itemsview.ItemVisualStateGroups.Add(group = new VisualStateGroup()
+        //        {
+        //            Name = groupName
+        //        });
+        //    }
+
+        //    var state = group.States.FirstOrDefault(_ => _.Name == stateName);
+        //    if (state == null)
+        //    {
+        //        group.States.Add(state = new VisualState { Name = stateName });
+        //    }
+
+        //    state.Setters.Add(new Setter() { Property = property, Value = value });
+
+        //    return itemsview;
+        //}
+
+
+        public static T ItemVisualState<T>(this T itemsView, string groupName, string stateName, BindableProperty property, object? value, string? targetName = null) where T : IItemsView
         {
-            var group = itemsview.ItemVisualStateGroups.FirstOrDefault(_ => _.Name == groupName);
+            itemsView.ItemVisualStateGroups ??= new();
+
+            itemsView.ItemVisualStateGroups.TryGetValue(groupName, out var group);
 
             if (group == null)
             {
-                itemsview.ItemVisualStateGroups.Add(group = new VisualStateGroup()
-                {
-                    Name = groupName
-                });
+                itemsView.ItemVisualStateGroups.Add(groupName, group = new VisualStateGroup());
             }
 
-            var state = group.States.FirstOrDefault(_ => _.Name == stateName);
+            group.TryGetValue(stateName, out var state);
             if (state == null)
             {
-                group.States.Add(state = new VisualState { Name = stateName });
+                group.Add(stateName, state = new VisualState());
             }
 
-            state.Setters.Add(new Setter() { Property = property, Value = value });
+            state.Add(new VisualStatePropertySetter(property, value, targetName));
 
-            return itemsview;
+            return itemsView;
+        }
+
+        public static T ItemVisualState<T>(this T itemsView, VisualStateGroupList visualState) where T : IItemsView
+        {
+            itemsView.ItemVisualStateGroups = visualState;
+
+            return itemsView;
         }
 
     }

@@ -790,6 +790,11 @@ public partial class ListView
         _listViewCachingStrategy = listViewCachingStrategy;
     }
 
+    public ListView(ListViewCachingStrategy listViewCachingStrategy, Action<Microsoft.Maui.Controls.ListView?> componentRefAction) : base(componentRefAction)
+    {
+        _listViewCachingStrategy = listViewCachingStrategy;
+    }
+
     protected override void OnMount()
     {
         if (_listViewCachingStrategy != null)
