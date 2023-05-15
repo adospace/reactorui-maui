@@ -33,9 +33,9 @@ public partial interface IListView
 
     Func<object, ImageCell>? ImageCellGroupItemTemplate { get; set; }
 
-    VisualNode Header { get; set; }
+    VisualNode? Header { get; set; }
 
-    VisualNode Footer { get; set; }
+    VisualNode? Footer { get; set; }
 }
 
 public abstract partial class ListView<T>
@@ -53,8 +53,8 @@ public abstract partial class ListView<T>
     Func<object, ImageCell>? IListView.ImageCellItemTemplate { get; set; }
     Func<object, ImageCell>? IListView.ImageCellGroupItemTemplate { get; set; }
     
-    VisualNode IListView.Header { get; set; }
-    VisualNode IListView.Footer { get; set; }
+    VisualNode? IListView.Header { get; set; }
+    VisualNode? IListView.Footer { get; set; }
 
     private class ItemTemplateNode : VisualNode, IVisualNode//, IHostElement
     {

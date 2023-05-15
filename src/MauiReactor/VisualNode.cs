@@ -451,6 +451,11 @@ namespace MauiReactor
         {
         }
 
+        protected virtual void OnMigrating(VisualNode newNode)
+        {
+
+        }
+
         protected virtual void OnMigrated(VisualNode newNode)
         {
             if (!_skipAnimationMigration)
@@ -612,6 +617,7 @@ namespace MauiReactor
 
             if (newNode.GetType() == GetType())
             {
+                OnMigrating(newNode);
                 ((VisualNode<T>)newNode)._nativeControl = this._nativeControl;
                 ((VisualNode<T>)newNode)._isMounted = this._nativeControl != null;
                 ((VisualNode<T>)newNode)._componentRefAction?.Invoke(NativeControl);
