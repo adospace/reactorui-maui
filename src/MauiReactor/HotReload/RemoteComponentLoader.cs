@@ -22,11 +22,21 @@ internal class RemoteComponentLoader : IComponentLoader
         if (_assembly == null)
             return new T();
 
-        var type = _assembly.GetType(typeof(T).FullName ?? throw new InvalidOperationException());
+        return LoadComponent(typeof(T));
+    }
+
+    public Component? LoadComponent(Type componentType)
+    {
+        if (_assembly == null)
+        {
+            return (Component?)(Activator.CreateInstance(componentType) ?? throw new InvalidOperationException());
+        }
+
+        var type = _assembly.GetType(componentType.FullName ?? throw new InvalidOperationException());
 
         if (type == null)
         {
-            System.Diagnostics.Debug.WriteLine($"[MauiReactor] Unable to hot reload component {typeof(T).FullName}: type not found in received assembly");
+            System.Diagnostics.Debug.WriteLine($"[MauiReactor] Unable to hot reload component {componentType.FullName}: type not found in received assembly");
             return null;
             //throw new InvalidOperationException($"Unable to hot-reload component {typeof(T).FullName}: type not found in received assembly");
         }
@@ -37,7 +47,7 @@ internal class RemoteComponentLoader : IComponentLoader
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"[MauiReactor] Unable to hot reload component {typeof(T).FullName}:{Environment.NewLine}{ex}");
+            System.Diagnostics.Debug.WriteLine($"[MauiReactor] Unable to hot reload component {componentType.FullName}:{Environment.NewLine}{ex}");
             throw;
         }
     }

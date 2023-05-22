@@ -9,27 +9,29 @@ namespace MauiReactor
     { 
         protected readonly ReactorApplication _application;
 
-        protected ReactorApplicationHost(ReactorApplication application, bool enableHotReload)
+        protected ReactorApplicationHost(ReactorApplication application/*, bool enableHotReload*/)
         {
             Instance = this;
 
             _application = application ?? throw new ArgumentNullException(nameof(application));
 
-            if (enableHotReload)
-            {
-                ComponentLoader = new RemoteComponentLoader();
-                ComponentLoader.AssemblyChanged += (s, e) => OnComponentAssemblyChanged();
-            }
-            else
-            {
-                ComponentLoader = new LocalComponentLoader();
-            }
+            ComponentLoader.Instance.AssemblyChanged += (s, e) => OnComponentAssemblyChanged();
+
+            //if (enableHotReload)
+            //{
+            //    ComponentLoader = new RemoteComponentLoader();
+            //    ComponentLoader.AssemblyChanged += (s, e) => OnComponentAssemblyChanged();
+            //}
+            //else
+            //{
+            //    ComponentLoader = new LocalComponentLoader();
+            //}
 
         }
 
         public static ReactorApplicationHost? Instance { get; private set; }
         
-        internal IComponentLoader ComponentLoader { get; }
+        //internal IComponentLoader ComponentLoader { get; }
 
         public Action<UnhandledExceptionEventArgs>? UnhandledException { get; set; }
 
@@ -82,8 +84,8 @@ namespace MauiReactor
 
         private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
 
-        internal ReactorApplicationHost(ReactorApplication<T> application, bool enableHotReload)
-            :base(application, enableHotReload)
+        internal ReactorApplicationHost(ReactorApplication<T> application/*, bool enableHotReload*/)
+            :base(application/*, enableHotReload*/)
         {
         }
 
@@ -131,7 +133,7 @@ namespace MauiReactor
                 _started = true;
                 _rootComponent ??= new T();
                 OnLayout();
-                ComponentLoader.Run();
+                ComponentLoader.Instance.Run();
             }
 
             return this;
@@ -141,7 +143,7 @@ namespace MauiReactor
         {
             try
             {
-                var newComponent = ComponentLoader.LoadComponent<T>();
+                var newComponent = ComponentLoader.Instance.LoadComponent(typeof(T));
                 if (newComponent != null &&
                     _rootComponent != newComponent)
                 {
@@ -166,7 +168,7 @@ namespace MauiReactor
             if (_started)
             {
                 _started = false;
-                ComponentLoader.Stop();
+                ComponentLoader.Instance.Stop();
             }
         }
 
@@ -280,7 +282,7 @@ namespace MauiReactor
         {
         }
 
-        internal static bool HotReloadEnabled { get; set; }
+        //internal static bool HotReloadEnabled { get; set; }
     }
 
     public class ReactorApplication<T> : ReactorApplication where T : Component, new()
@@ -293,7 +295,7 @@ namespace MauiReactor
 
         protected override Microsoft.Maui.Controls.Window CreateWindow(IActivationState? activationState)
         {
-            _host ??= new ReactorApplicationHost<T>(this, HotReloadEnabled);
+            _host ??= new ReactorApplicationHost<T>(this/*, HotReloadEnabled*/);
             _host.Run();
 
             if (_host.MainWindow != null)
@@ -351,7 +353,8 @@ namespace MauiReactor
 
         public static MauiAppBuilder EnableMauiReactorHotReload(this MauiAppBuilder appBuilder)
         {
-            ReactorApplication.HotReloadEnabled = true;
+            //ReactorApplication.HotReloadEnabled = true;
+            ComponentLoader.UseRemoteLoader = true;
             return appBuilder;
         }
     }
@@ -372,7 +375,7 @@ namespace MauiReactor
             return application;
         }
 
-        public static Application SetWindowsSpecificAssectDirectory(this Application application, string directoryName)
+        public static Application SetWindowsSpecificAssetsDirectory(this Application application, string directoryName)
         {
             Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific.Application.SetImageDirectory(application, directoryName);
 

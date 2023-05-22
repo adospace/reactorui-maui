@@ -1,4 +1,5 @@
-﻿using MauiReactor.Internals;
+﻿using MauiReactor.HotReload;
+using MauiReactor.Internals;
 using Microsoft.Maui.Dispatching;
 using System;
 using System.Collections.Generic;
@@ -121,10 +122,7 @@ namespace MauiReactor
         {
             _component ??= InitializeComponent(new T());
 
-            if (ReactorApplicationHost.Instance != null)
-            {
-                ReactorApplicationHost.Instance.ComponentLoader.AssemblyChanged += OnComponentAssemblyChanged;
-            }
+            ComponentLoader.Instance.AssemblyChanged += OnComponentAssemblyChanged;
 
             OnLayout();
 
@@ -142,7 +140,7 @@ namespace MauiReactor
 
             try
             {
-                var newComponent = ReactorApplicationHost.Instance.ComponentLoader.LoadComponent<T>();
+                var newComponent = ComponentLoader.Instance.LoadComponent(typeof(T));
                 if (newComponent != null)
                 {
                     _component = newComponent;
@@ -162,10 +160,7 @@ namespace MauiReactor
 
         public void Stop()
         {
-            if (ReactorApplicationHost.Instance != null)
-            {
-                ReactorApplicationHost.Instance.ComponentLoader.AssemblyChanged -= OnComponentAssemblyChanged;
-            }
+            ComponentLoader.Instance.AssemblyChanged -= OnComponentAssemblyChanged;
 
             _sleeping = true;
         }
@@ -215,6 +210,7 @@ namespace MauiReactor
                 Application.Current.Dispatcher.Dispatch(AnimationCallback);
             }
         }
+        
         private void AnimationCallback()
         {
             if (_sleeping)
