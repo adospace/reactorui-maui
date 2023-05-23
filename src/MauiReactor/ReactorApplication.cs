@@ -38,7 +38,6 @@ namespace MauiReactor
         internal void FireUnhandledExceptionEvent(Exception ex)
         {
             UnhandledException?.Invoke(new UnhandledExceptionEventArgs(ex, false));
-            System.Diagnostics.Debug.WriteLine(ex);
         }
 
         public Microsoft.Maui.Controls.Window? MainWindow { get; protected set; }
@@ -159,6 +158,7 @@ namespace MauiReactor
             catch (Exception ex)
             {
                 FireUnhandledExceptionEvent(ex);
+                System.Diagnostics.Debug.WriteLine(ex);
             }
 
         }
@@ -205,6 +205,7 @@ namespace MauiReactor
             catch (Exception ex)
             {
                 FireUnhandledExceptionEvent(ex);
+                System.Diagnostics.Debug.WriteLine(ex);
             }
         }
 

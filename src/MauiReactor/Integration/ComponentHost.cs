@@ -46,7 +46,6 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
 
         private void OnComponentAssemblyChanged(object? sender, EventArgs e)
         {
-            Validate.EnsureNotNull(ReactorApplicationHost.Instance);
             Validate.EnsureNotNull(_component);
 
             try
@@ -65,7 +64,8 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
             }
             catch (Exception ex)
             {
-                ReactorApplicationHost.Instance.FireUnhandledExceptionEvent(ex);
+                System.Diagnostics.Debug.WriteLine(ex);
+                //ReactorApplicationHost.Instance?.FireUnhandledExceptionEvent(ex);
             }
         }
 
@@ -175,6 +175,7 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
         {
             _sleeping = false;
 
+            ComponentLoader.Instance.Run();
             ComponentLoader.Instance.AssemblyChanged += OnComponentAssemblyChanged;
 
             OnLayout();

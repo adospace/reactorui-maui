@@ -122,6 +122,7 @@ namespace MauiReactor
         {
             _component ??= InitializeComponent(new T());
 
+            ComponentLoader.Instance.Run();
             ComponentLoader.Instance.AssemblyChanged += OnComponentAssemblyChanged;
 
             OnLayout();
@@ -136,7 +137,7 @@ namespace MauiReactor
 
         private void OnComponentAssemblyChanged(object? sender, EventArgs e)
         {
-            Validate.EnsureNotNull(ReactorApplicationHost.Instance);
+            //Validate.EnsureNotNull(ReactorApplicationHost.Instance);
 
             try
             {
@@ -154,14 +155,14 @@ namespace MauiReactor
             }
             catch (Exception ex)
             {
-                ReactorApplicationHost.Instance.FireUnhandledExceptionEvent(ex);
+                ReactorApplicationHost.Instance?.FireUnhandledExceptionEvent(ex);
+                System.Diagnostics.Debug.WriteLine(ex);
             }
         }
 
         public void Stop()
         {
             ComponentLoader.Instance.AssemblyChanged -= OnComponentAssemblyChanged;
-
             _sleeping = true;
         }
 

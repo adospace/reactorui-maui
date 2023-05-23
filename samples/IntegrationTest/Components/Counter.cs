@@ -15,7 +15,7 @@ class Counter : Component<CounterState>
 {
     public override VisualNode Render()
     {
-        return new MauiReactor.Button(State.Counter == 0 ? "Click To Increment" : $"Clicked {State.Counter} times")
-            .OnClicked(() => SetState(s => s.Counter++));
+        return new MauiReactor.Button(State.Counter == 0 ? "Click To Increment With MauiReactor" : $"Clicked {State.Counter} times with MauiReactor")
+            .OnClicked(() => SetState(s => s.Counter+=10));
     }
 }

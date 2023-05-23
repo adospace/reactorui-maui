@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MauiReactor;
+using Microsoft.Extensions.Logging;
 
 namespace IntegrationTest
 {
@@ -15,8 +16,10 @@ namespace IntegrationTest
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+
 #if DEBUG
-		builder.Logging.AddDebug();
+            builder.EnableMauiReactorHotReload();
+		    builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

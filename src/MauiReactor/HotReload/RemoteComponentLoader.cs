@@ -17,6 +17,8 @@ internal class RemoteComponentLoader : IComponentLoader
 
     private Assembly? _assembly;
 
+    private bool _running;
+
     public Component? LoadComponent<T>() where T : Component, new()
     {
         if (_assembly == null)
@@ -66,6 +68,12 @@ internal class RemoteComponentLoader : IComponentLoader
 
     public void Run()
     {
+        if (_running)
+        {
+            return;
+        }
+
+        _running = true;
         DeviceDisplay.Current.MainDisplayInfoChanged += OnMainDisplayInfoChanged;
         _server.Run();
     }
@@ -85,6 +93,7 @@ internal class RemoteComponentLoader : IComponentLoader
     {
         DeviceDisplay.Current.MainDisplayInfoChanged -= OnMainDisplayInfoChanged;
         _server.Stop();
+        _running = false;
     }
 
 #pragma warning disable IDE0051 // Remove unused private members
