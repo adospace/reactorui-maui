@@ -15,7 +15,7 @@ namespace MauiReactor.TestAppWindow
                     app.AddResource("Resources/Styles/Colors.xaml");
                     app.AddResource("Resources/Styles/Styles.xaml");
 
-                    app.SetWindowsSpecificAssectDirectory("Assets");
+                    app.SetWindowsSpecificAssetsDirectory("Assets");
                 })
 #if DEBUG
             .EnableMauiReactorHotReload()

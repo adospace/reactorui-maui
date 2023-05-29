@@ -15,7 +15,7 @@ public static class MauiProgram
                 app.AddResource("Resources/Styles/Colors.xaml");
                 app.AddResource("Resources/Styles/Styles.xaml");
 
-                app.SetWindowsSpecificAssectDirectory("Assets");
+                app.SetWindowsSpecificAssetsDirectory("Assets");
             })
 //-:cnd:noEmit
 #if DEBUG

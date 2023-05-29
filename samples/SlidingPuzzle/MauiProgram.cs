@@ -12,7 +12,7 @@ public static class MauiProgram
         builder
             .UseMauiReactorApp<MainPage>(app =>
             {
-                app.SetWindowsSpecificAssectDirectory("Assets");
+                app.SetWindowsSpecificAssetsDirectory("Assets");
             })
 #if DEBUG
             .EnableMauiReactorHotReload()

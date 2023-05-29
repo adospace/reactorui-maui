@@ -923,14 +923,15 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("                NativeControl.ClearValue(");
+            this.Write("                NativeControl.ClearValue(global::");
             
             #line 206 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
             
             #line default
             #line hidden
-            this.Write("<TChild>.ItemsSourceProperty);\r\n                NativeControl.ClearValue(");
+            this.Write("<TChild>.ItemsSourceProperty);\r\n                NativeControl.ClearValue(global::" +
+                    "");
             
             #line 207 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -944,14 +945,14 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("                NativeControl.ClearValue(");
+            this.Write("                NativeControl.ClearValue(global::");
             
             #line 209 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
             
             #line default
             #line hidden
-            this.Write(".ItemsSourceProperty);\r\n                NativeControl.ClearValue(");
+            this.Write(".ItemsSourceProperty);\r\n                NativeControl.ClearValue(global::");
             
             #line 210 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -993,7 +994,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("            SetPropertyValue(NativeControl, ");
+            this.Write("            SetPropertyValue(NativeControl, global::");
             
             #line 219 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -1028,7 +1029,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("            SetPropertyValue(NativeControl, ");
+            this.Write("            SetPropertyValue(NativeControl, global::");
             
             #line 221 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -1149,7 +1150,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("            AnimateProperty(");
+            this.Write("            AnimateProperty(global::");
             
             #line 243 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -1711,7 +1712,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 377 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -1837,7 +1838,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 384 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -1963,7 +1964,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 391 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -2089,7 +2090,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 398 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -2215,7 +2216,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 405 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -2341,7 +2342,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 412 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -2467,7 +2468,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 419 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -2593,7 +2594,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 426 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -2719,7 +2720,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 433 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -2979,7 +2980,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 453 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -3071,7 +3072,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 459 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -3164,7 +3165,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 465 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -3271,7 +3272,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 474 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -3363,7 +3364,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 480 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -3456,7 +3457,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 486 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -3562,7 +3563,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 495 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -3655,7 +3656,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 501 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -3762,7 +3763,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 510 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -3855,7 +3856,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(".AppendAnimatable(global::");
             
             #line 516 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -4514,7 +4515,7 @@ namespace ");
         /// <summary>
         /// The string builder that generation-time code is using to assemble generated output
         /// </summary>
-        protected System.Text.StringBuilder GenerationEnvironment
+        public System.Text.StringBuilder GenerationEnvironment
         {
             get
             {

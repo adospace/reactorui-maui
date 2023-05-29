@@ -14,7 +14,7 @@ namespace MauiReactor.WeatherTwentyOne
                 {
                     app.AddResource("Resources/Styles/DefaultTheme.xaml");
 
-                    app.SetWindowsSpecificAssectDirectory("Assets");
+                    app.SetWindowsSpecificAssetsDirectory("Assets");
                 })
 #if DEBUG
             .EnableMauiReactorHotReload()

@@ -372,7 +372,7 @@ namespace MauiReactor
             return application;
         }
 
-        public static Application SetWindowsSpecificAssectDirectory(this Application application, string directoryName)
+        public static Application SetWindowsSpecificAssetsDirectory(this Application application, string directoryName)
         {
             Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific.Application.SetImageDirectory(application, directoryName);
 
