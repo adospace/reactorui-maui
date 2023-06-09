@@ -113,6 +113,10 @@ class HomePage : Component
             {
                 new Pages.InlineComponentsPage()
             },
+            new FlyoutItem("Gradient Test")
+            {
+                new Pages.GradientPage()
+            },
         }
         .ItemTemplate(RenderItemTemplate);
     }
