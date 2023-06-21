@@ -28,7 +28,7 @@
 			<LastGenOutput>TypeGenerator.cs</LastGenOutput>
 		</None>
 		<None Update="WidgetList.txt">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 

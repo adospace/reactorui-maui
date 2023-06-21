@@ -45,6 +45,7 @@ Microsoft.Maui.Controls.Compatibility.Layout
 Microsoft.Maui.Controls.GestureRecognizer
 Microsoft.Maui.Controls.TapGestureRecognizer
 Microsoft.Maui.Controls.DragGestureRecognizer
+Microsoft.Maui.Controls.DropGestureRecognizer
 Microsoft.Maui.Controls.PanGestureRecognizer
 Microsoft.Maui.Controls.PinchGestureRecognizer
 Microsoft.Maui.Controls.PointerGestureRecognizer
