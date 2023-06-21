@@ -117,6 +117,11 @@ class HomePage : Component
             {
                 new Pages.CollectionViewExtendedTestPage()
             },
+            new FlyoutItem("Drag & Drop")
+            {
+                new Pages.DragDropTestPage()
+            },
+            
         }
         .ItemTemplate(RenderItemTemplate);
     }

@@ -5,28 +5,11 @@ namespace MauiReactor
     public partial interface IView
     {
         List<IGestureRecognizer>? GestureRecognizers { get; set; }
-        //Microsoft.Maui.Controls.LayoutOptions VerticalOptions { get; set; }
-        //Microsoft.Maui.Controls.LayoutOptions HorizontalOptions { get; set; }
     }
 
     public abstract partial class View<T>
     {
         List<IGestureRecognizer>? IView.GestureRecognizers { get; set; }
-        //Microsoft.Maui.Controls.LayoutOptions IView.VerticalOptions { get; set; } = (Microsoft.Maui.Controls.LayoutOptions)Microsoft.Maui.Controls.View.VerticalOptionsProperty.DefaultValue;
-        //Microsoft.Maui.Controls.LayoutOptions IView.HorizontalOptions { get; set; } = (Microsoft.Maui.Controls.LayoutOptions)Microsoft.Maui.Controls.View.HorizontalOptionsProperty.DefaultValue;
-
-
-        //partial void OnBeginUpdate()
-        //{
-        //    Validate.EnsureNotNull(NativeControl);
-        //    var thisAsIView = (IView)this;
-        //    if (NativeControl.VerticalOptions.Alignment != thisAsIView.VerticalOptions.Alignment ||
-        //        NativeControl.VerticalOptions.Expands != thisAsIView.VerticalOptions.Expands) 
-        //        NativeControl.VerticalOptions = thisAsIView.VerticalOptions;
-        //    if (NativeControl.HorizontalOptions.Alignment != thisAsIView.HorizontalOptions.Alignment ||
-        //        NativeControl.HorizontalOptions.Expands != thisAsIView.HorizontalOptions.Expands) 
-        //        NativeControl.HorizontalOptions = thisAsIView.HorizontalOptions;
-        //}
 
         protected override void OnChildAdd(VisualNode node)
         {
@@ -80,12 +63,6 @@ namespace MauiReactor
 
     public static partial class ViewExtensions
     {
-        //public static T HorizontalOptions<T>(this T view, LayoutOptions layoutOptions) where T : IView
-        //{
-        //    view.HorizontalOptions = layoutOptions;
-        //    return view;
-        //}
-
         public static T HStart<T>(this T view) where T : IView
         {
             view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Start);
@@ -514,6 +491,38 @@ namespace MauiReactor
             return view;
         }
 
+        public static T CanDrag<T>(this T view, bool canDrag) where T : IView
+        {
+            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            var gesture = view.GestureRecognizers
+                .OfType<DragGestureRecognizer>()
+                .FirstOrDefault();
+            if (gesture == null)
+            {
+                view.GestureRecognizers.Add(gesture = new DragGestureRecognizer());
+            }
+
+            gesture.CanDrag(canDrag);
+
+            return view;
+        }
+
+        public static T CanDrag<T>(this T view, Func<bool> canDragFunc) where T : IView
+        {
+            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            var gesture = view.GestureRecognizers
+                .OfType<DragGestureRecognizer>()
+                .FirstOrDefault();
+            if (gesture == null)
+            {
+                view.GestureRecognizers.Add(gesture = new DragGestureRecognizer());
+            }
+
+            gesture.CanDrag(canDragFunc);
+
+            return view;
+        }
+
         public static T OnPanUpdated<T>(this T view, Action? action) where T : IView
         {
             if (action != null)
@@ -551,5 +560,152 @@ namespace MauiReactor
 
             return view;
         }
+
+        public static T OnDrop<T>(this T view, Action? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<DropGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+                }
+
+                gesture.OnDrop(action);
+            }
+
+            return view;
+        }
+
+        public static T OnDrop<T>(this T view, Action<object?, DropEventArgs>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<DropGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+                }
+
+                gesture.OnDrop(action);
+            }
+
+            return view;
+        }
+
+        public static T OnDragLeave<T>(this T view, Action? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<DropGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+                }
+
+                gesture.OnDragLeave(action);
+            }
+
+            return view;
+        }
+
+        public static T OnDragLeave<T>(this T view, Action<object?, DragEventArgs>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<DropGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+                }
+
+                gesture.OnDragLeave(action);
+            }
+
+            return view;
+        }
+
+        public static T OnDragOver<T>(this T view, Action? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<DropGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+                }
+
+                gesture.OnDragOver(action);
+            }
+
+            return view;
+        }
+
+        public static T OnDragOver<T>(this T view, Action<object?, DragEventArgs>? action) where T : IView
+        {
+            if (action != null)
+            {
+                view.GestureRecognizers ??= new List<IGestureRecognizer>();
+                var gesture = view.GestureRecognizers
+                    .OfType<DropGestureRecognizer>()
+                    .FirstOrDefault();
+                if (gesture == null)
+                {
+                    view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+                }
+
+                gesture.OnDragOver(action);
+            }
+
+            return view;
+        }
+
+        public static T AllowDrop<T>(this T view, bool allowDrop) where T : IView
+        {
+            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            var gesture = view.GestureRecognizers
+                .OfType<DropGestureRecognizer>()
+                .FirstOrDefault();
+            if (gesture == null)
+            {
+                view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+            }
+
+            gesture.AllowDrop(allowDrop);
+        
+            return view;
+        }
+
+        public static T AllowDrop<T>(this T view, Func<bool> allowDropFunc) where T : IView
+        {
+            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            var gesture = view.GestureRecognizers
+                .OfType<DropGestureRecognizer>()
+                .FirstOrDefault();
+            if (gesture == null)
+            {
+                view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+            }
+
+            gesture.AllowDrop(allowDropFunc);
+
+            return view;
+        }
+
     }
 }
