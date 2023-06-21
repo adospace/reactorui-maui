@@ -548,6 +548,7 @@ public abstract partial class ListView<T>
             NativeControl.ItemsSource = null;
             NativeControl.ItemTemplate = null;
             _customDataTemplate = null;
+            _customGroupDataTemplate = null;
         }
     }
 
