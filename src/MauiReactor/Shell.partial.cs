@@ -331,21 +331,21 @@ namespace MauiReactor
 
     class ComponentShellRouteFactory<T> : RouteFactory where T : Component, new()
     {
-        Microsoft.Maui.Controls.Page? _cachedPage;
+        //Microsoft.Maui.Controls.Page? _cachedPage;
 
         public override Element GetOrCreate()
         {
             if (MauiControlsShellExtensions._propsStack.Count > 0)
             {
                 (Type PropsType, Action<object> PropsInitializer) = MauiControlsShellExtensions._propsStack.Peek();
-                _cachedPage ??= PageHost<T>.CreatePage(PropsInitializer);
+                return PageHost<T>.CreatePage(PropsInitializer);
             }
             else
             {
-                _cachedPage ??= PageHost<T>.CreatePage();
+                return PageHost<T>.CreatePage();
             }
 
-            return _cachedPage;
+            //return _cachedPage;
         }
 
         public override Element GetOrCreate(IServiceProvider services) => GetOrCreate();
