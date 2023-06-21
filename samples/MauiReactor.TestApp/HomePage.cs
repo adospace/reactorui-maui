@@ -113,6 +113,10 @@ class HomePage : Component
             {
                 new Pages.InlineComponentsPage()
             },
+            new FlyoutItem("Collection View Grouped")
+            {
+                new Pages.CollectionViewExtendedTestPage()
+            },
         }
         .ItemTemplate(RenderItemTemplate);
     }
