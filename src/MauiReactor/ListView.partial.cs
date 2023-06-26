@@ -94,8 +94,6 @@ public abstract partial class ListView<T>
             }
         }
 
-        //public Microsoft.Maui.Controls.Page? ContainerPage => GetPageHost()?.ContainerPage;
-
         protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
         {
         }
