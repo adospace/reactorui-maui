@@ -94,8 +94,6 @@ public abstract partial class ListView<T>
             }
         }
 
-        //public Microsoft.Maui.Controls.Page? ContainerPage => GetPageHost()?.ContainerPage;
-
         protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
         {
         }
@@ -516,7 +514,7 @@ public abstract partial class ListView<T>
         if (NativeControl.ItemsSource == thisAsIItemsView.ItemsSource &&
             _customDataTemplate?.ItemTemplateFunc?.Item1 == itemTemplateFunc?.Item1 &&
             _customDataTemplate?.ItemTemplateFunc?.Item2.GetType() == itemTemplateFunc?.Item2.GetType() &&
-            _customGroupDataTemplate?.ItemTemplateFunc?.Item1.GetType() == groupItemTemplateFunc?.Item1.GetType() &&
+            _customGroupDataTemplate?.ItemTemplateFunc?.Item1 == groupItemTemplateFunc?.Item1 &&
             _customGroupDataTemplate?.ItemTemplateFunc?.Item2.GetType() == groupItemTemplateFunc?.Item2.GetType()
             )
         {
@@ -554,7 +552,8 @@ public abstract partial class ListView<T>
             if (groupItemTemplateFunc != null)
             {
                 if (_customGroupDataTemplate == null ||
-                    _customGroupDataTemplate.ItemTemplateFunc?.GetType() != groupItemTemplateFunc.GetType())
+                    _customGroupDataTemplate.ItemTemplateFunc?.Item1 != groupItemTemplateFunc?.Item1 ||
+                    _customGroupDataTemplate.ItemTemplateFunc?.Item2.GetType() != groupItemTemplateFunc?.Item2.GetType())
                 {
                     _customGroupDataTemplate = new CustomDataTemplate(this, isGroupTemplate: true);
                     NativeControl.GroupHeaderTemplate = _customGroupDataTemplate.DataTemplate;

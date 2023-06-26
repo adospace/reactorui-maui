@@ -1,4 +1,5 @@
 ﻿using MauiReactor.Internals;
+using Microsoft.Maui.Controls;
 using System.Collections;
 
 namespace MauiReactor
@@ -6,6 +7,8 @@ namespace MauiReactor
     public partial interface IShell
     {
         Func<Microsoft.Maui.Controls.BaseShellItem, VisualNode>? ItemTemplate { get; set; }
+
+        Func<Microsoft.Maui.Controls.MenuItem, VisualNode>? MenuItemTemplate { get; set; }
 
         VisualNode? FlyoutHeader { get; set; }
 
@@ -43,12 +46,9 @@ namespace MauiReactor
         }
 
         Func<Microsoft.Maui.Controls.BaseShellItem, VisualNode>? IShell.ItemTemplate { get; set; }
+        Func<Microsoft.Maui.Controls.MenuItem, VisualNode>? IShell.MenuItemTemplate { get; set; }
 
-        //private readonly Dictionary<BindableObject, Microsoft.Maui.Controls.ShellItem> _elementItemMap = new();
-        
-        //private readonly Dictionary<BindableObject, Microsoft.Maui.Controls.ToolbarItem> _elementToolbarItemMap = new();
-
-        private class ItemTemplateNode : VisualNode, IVisualNode//, IHostElement
+        private class ItemTemplateNode : VisualNode, IVisualNode
         {
             private readonly ItemTemplatePresenter? _presenter = null;
             private readonly VisualNode _owner;
@@ -84,8 +84,6 @@ namespace MauiReactor
             {
                 return ((IVisualNode)_owner).GetPageHost();
             }
-
-
             protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
             {
                 Validate.EnsureNotNull(_presenter);
@@ -112,33 +110,6 @@ namespace MauiReactor
                 Layout();
                 base.OnLayoutCycleRequested();
             }
-
-            //public IHostElement Run()
-            //{
-            //    var ownerPageHost = GetPageHost();
-            //    if (ownerPageHost == null)
-            //    {
-            //        throw new NotSupportedException();
-            //    }
-
-            //    return ownerPageHost.Run();
-            //}
-
-            //public void Stop()
-            //{
-            //    var ownerPageHost = GetPageHost();
-            //    if (ownerPageHost == null)
-            //    {
-            //        throw new NotSupportedException();
-            //    }
-
-            //    ownerPageHost.Stop();
-            //}
-
-            //public void RequestAnimationFrame(VisualNode visualNode)
-            //{
-            //    throw new NotImplementedException();
-            //}
         }
 
         private class ItemTemplatePresenter : Microsoft.Maui.Controls.ContentView
@@ -155,20 +126,37 @@ namespace MauiReactor
             {
                 if (BindingContext != null)
                 {
-                    var item = (Microsoft.Maui.Controls.BaseShellItem)BindingContext;
+                    var item = BindingContext;
 
-                    var layout = (IShell)_template.Owner;
-                    if (layout.ItemTemplate != null)
+                    var owner = _template.Owner;
+                    var newRoot = owner.GetVisualFromItem(item);
+
+                    //if (layout.ItemTemplate != null)
+                    if (newRoot != null)
                     {
-                        var newRoot = layout.ItemTemplate(item);
+                        //var newRoot = layout.ItemTemplate(item);
                         _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template.Owner);
                         _itemTemplateNode.Layout();
-                    }
-                
+                    }                
                 }
 
                 base.OnBindingContextChanged();
             }
+        }
+
+        private VisualNode? GetVisualFromItem(object item)
+        {
+            IShell shell = this;
+            if (item is Microsoft.Maui.Controls.BaseShellItem baseShellItem)
+            {
+                return shell.ItemTemplate?.Invoke(baseShellItem);
+            }
+            else if (item is Microsoft.Maui.Controls.MenuItem menuItem)
+            {
+                return shell.MenuItemTemplate?.Invoke(menuItem);
+            }
+
+            return null;
         }
 
         private class CustomDataTemplate
@@ -181,9 +169,10 @@ namespace MauiReactor
                 Owner = owner;
                 DataTemplate = new DataTemplate(() => new ItemTemplatePresenter(this));
             }
-        }
+        }        
 
         private CustomDataTemplate? _customDataTemplate;
+        private CustomDataTemplate? _customMenuItemDataTemplate;
 
         partial void OnBeginUpdate()
         {
@@ -195,9 +184,11 @@ namespace MauiReactor
                 _customDataTemplate = new CustomDataTemplate(this);
                 NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
             }
-            else
+
+            if (thisAsIShell.MenuItemTemplate != null)
             {
-                NativeControl.ItemTemplate = null;
+                _customMenuItemDataTemplate = new CustomDataTemplate(this);
+                NativeControl.MenuItemTemplate = _customMenuItemDataTemplate.DataTemplate;
             }
         }
 
@@ -210,28 +201,23 @@ namespace MauiReactor
             if (childControl is Microsoft.Maui.Controls.ShellItem shellItem)
             {
                 NativeControl.Items.Insert(widget.ChildIndex, shellItem);
-                //_elementItemMap[childControl] = shellItem;
             }
             else if (childControl is Microsoft.Maui.Controls.ShellContent shellContent)
             {
                 NativeControl.Items.Insert(widget.ChildIndex, shellContent);
-                //_elementItemMap[childControl] = shellContent;
             }
             else if (childControl is Microsoft.Maui.Controls.Page page)
             {
                 var shellContentItem = new Microsoft.Maui.Controls.ShellContent() { Content = page };
                 NativeControl.Items.Insert(widget.ChildIndex, shellContentItem);
-                //_elementItemMap[childControl] = shellContentItem;
             }
             else if (childControl is Microsoft.Maui.Controls.MenuItem menuItem)
             {
                 NativeControl.Items.Insert(widget.ChildIndex, menuItem);
-                //_elementItemMap[childControl] = shellContent;
             }
             else if (childControl is Microsoft.Maui.Controls.ToolbarItem toolbarItem)
             {
                 NativeControl.ToolbarItems.Add(toolbarItem);
-                //_elementToolbarItemMap[childControl] = toolbarItem;
             }
             else if (widget == thisAsIShell.FlyoutHeader)
             {
@@ -254,7 +240,6 @@ namespace MauiReactor
             Validate.EnsureNotNull(NativeControl);
             var thisAsIShell = (IShell)this;
 
-            //if (_elementItemMap.TryGetValue(childControl, out var item))
             if (childControl is Microsoft.Maui.Controls.ShellItem shellItem)
             {
                 NativeControl.Items.Remove(shellItem);
@@ -272,7 +257,6 @@ namespace MauiReactor
             {
                 NativeControl.Items.Remove(parentShellContent);
             }
-            //else if (_elementToolbarItemMap.TryGetValue(childControl, out var toolbarItem))
             else if (childControl is Microsoft.Maui.Controls.ToolbarItem toolbarItem)
             {
                 NativeControl.ToolbarItems.Remove(toolbarItem);
@@ -295,7 +279,19 @@ namespace MauiReactor
 
         protected override void OnMigrated(VisualNode newNode)
         {
-            ((Shell<T>)newNode)._customDataTemplate = _customDataTemplate;
+            var newNodeAsShell = ((Shell<T>)newNode);
+
+            newNodeAsShell._customDataTemplate = _customDataTemplate;
+            if (newNodeAsShell._customDataTemplate != null)
+            {
+                newNodeAsShell._customDataTemplate.Owner = this;
+            }
+
+            newNodeAsShell._customMenuItemDataTemplate = _customMenuItemDataTemplate;
+            if (newNodeAsShell._customMenuItemDataTemplate != null)
+            {
+                newNodeAsShell._customMenuItemDataTemplate.Owner = this;
+            }
 
             base.OnMigrated(newNode);
         }
@@ -307,6 +303,12 @@ namespace MauiReactor
         public static T ItemTemplate<T>(this T shell, Func<Microsoft.Maui.Controls.BaseShellItem, VisualNode> itemTemplate) where T : IShell
         {
             shell.ItemTemplate = itemTemplate;
+            return shell;
+        }
+
+        public static T MenuItemTemplate<T>(this T shell, Func<Microsoft.Maui.Controls.MenuItem, VisualNode> menuItemTemplate) where T : IShell
+        {
+            shell.MenuItemTemplate = menuItemTemplate;
             return shell;
         }
 
@@ -331,8 +333,6 @@ namespace MauiReactor
 
     class ComponentShellRouteFactory<T> : RouteFactory where T : Component, new()
     {
-        //Microsoft.Maui.Controls.Page? _cachedPage;
-
         public override Element GetOrCreate()
         {
             if (MauiControlsShellExtensions._propsStack.Count > 0)
@@ -344,8 +344,6 @@ namespace MauiReactor
             {
                 return PageHost<T>.CreatePage();
             }
-
-            //return _cachedPage;
         }
 
         public override Element GetOrCreate(IServiceProvider services) => GetOrCreate();
