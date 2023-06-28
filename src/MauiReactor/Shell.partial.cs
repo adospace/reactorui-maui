@@ -1,5 +1,4 @@
 ﻿using MauiReactor.Internals;
-using Microsoft.Maui.Controls;
 using System.Collections;
 
 namespace MauiReactor
@@ -116,10 +115,12 @@ namespace MauiReactor
         {
             private ItemTemplateNode? _itemTemplateNode;
             private readonly CustomDataTemplate _template;
+            private readonly bool _useMenuItemTemplate;
 
-            public ItemTemplatePresenter(CustomDataTemplate template)
+            public ItemTemplatePresenter(CustomDataTemplate template, bool useMenuItemTemplate)
             {
                 _template = template;
+                _useMenuItemTemplate = useMenuItemTemplate;
             }
 
             protected override void OnBindingContextChanged()
@@ -129,12 +130,15 @@ namespace MauiReactor
                     var item = BindingContext;
 
                     var owner = _template.Owner;
-                    var newRoot = owner.GetVisualFromItem(item);
+                    var ownerAsIShell = (IShell)owner;
+                    var newRoot = _useMenuItemTemplate ? 
+                        //unfortunately seems there is not other way to get the underlying MenuItem, anyway shouldn't be a problem for performance as menu items are generally not so many
+                        ownerAsIShell.MenuItemTemplate?.Invoke((Microsoft.Maui.Controls.MenuItem)(item.GetType().GetProperty("MenuItem").EnsureNotNull().GetValue(item).EnsureNotNull()))
+                        :
+                        ownerAsIShell.ItemTemplate?.Invoke((Microsoft.Maui.Controls.BaseShellItem)item);
 
-                    //if (layout.ItemTemplate != null)
                     if (newRoot != null)
                     {
-                        //var newRoot = layout.ItemTemplate(item);
                         _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template.Owner);
                         _itemTemplateNode.Layout();
                     }                
@@ -144,30 +148,15 @@ namespace MauiReactor
             }
         }
 
-        private VisualNode? GetVisualFromItem(object item)
-        {
-            IShell shell = this;
-            if (item is Microsoft.Maui.Controls.BaseShellItem baseShellItem)
-            {
-                return shell.ItemTemplate?.Invoke(baseShellItem);
-            }
-            else if (item is Microsoft.Maui.Controls.MenuItem menuItem)
-            {
-                return shell.MenuItemTemplate?.Invoke(menuItem);
-            }
-
-            return null;
-        }
-
         private class CustomDataTemplate
         {
             public DataTemplate DataTemplate { get; }
             public Shell<T> Owner { get; set; }
 
-            public CustomDataTemplate(Shell<T> owner)
+            public CustomDataTemplate(Shell<T> owner, bool useMenuItemTemplate)
             {
                 Owner = owner;
-                DataTemplate = new DataTemplate(() => new ItemTemplatePresenter(this));
+                DataTemplate = new DataTemplate(() => new ItemTemplatePresenter(this, useMenuItemTemplate));
             }
         }        
 
@@ -181,13 +170,13 @@ namespace MauiReactor
 
             if (thisAsIShell.ItemTemplate != null)
             {
-                _customDataTemplate = new CustomDataTemplate(this);
+                _customDataTemplate = new CustomDataTemplate(this, false);
                 NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
             }
 
             if (thisAsIShell.MenuItemTemplate != null)
             {
-                _customMenuItemDataTemplate = new CustomDataTemplate(this);
+                _customMenuItemDataTemplate = new CustomDataTemplate(this, true);
                 NativeControl.MenuItemTemplate = _customMenuItemDataTemplate.DataTemplate;
             }
         }
