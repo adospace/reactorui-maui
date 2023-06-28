@@ -4,7 +4,8 @@ namespace MauiReactor.Internals
 {
     public static class Validate
     {
-        public static T EnsureNotNull<T>([NotNull] T? value)
+        [return: NotNull]
+        public static T EnsureNotNull<T>([NotNull] this T? value)
             => value ?? throw new InvalidOperationException();
 
     }
