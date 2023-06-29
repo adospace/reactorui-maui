@@ -34,7 +34,8 @@ namespace MauiReactor
             Validate.EnsureNotNull(NativeControl);
             var thisAsIItemsView = (IItemsView)this;
 
-            if (NativeControl.ItemsSource == thisAsIItemsView.ItemsSource)
+            if (thisAsIItemsView.ItemsSource != null &&
+                NativeControl.ItemsSource == thisAsIItemsView.ItemsSource)
             {
                 Validate.EnsureNotNull(_customDataTemplate);
 
