@@ -350,11 +350,23 @@ namespace MauiReactor
     {
         internal static Stack<(Type PropsType, Action<object> PropsInitialiazer)> _propsStack = new();
 
-        public static async Task GoToAsync<P>(this Microsoft.Maui.Controls.Shell shell, string route, Action<P> propsInitializer)
+        public static async Task GoToAsync<P>(this Microsoft.Maui.Controls.Shell shell, string route, Action<P> propsInitializer) where P : new()
         {
             try
             {
-                _propsStack.Push((typeof(P), props => propsInitializer((P)props)));
+                _propsStack.Push((typeof(P), new Action<object>(props =>
+                {
+                    if (props is P castedProps)
+                    {
+                        propsInitializer(castedProps);
+                    }
+                    else
+                    {
+                        var convertedProps = new P();
+                        CopyObjectExtensions.CopyProperties(props, convertedProps);
+                        propsInitializer(convertedProps);
+                    }
+                })));
                 await shell.GoToAsync(route);
             }
             finally
