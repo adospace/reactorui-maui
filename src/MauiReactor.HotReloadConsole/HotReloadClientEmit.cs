@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp;
 using System.IO;
+using System.Xml;
 
 namespace MauiReactor.HotReloadConsole
 {
@@ -67,10 +68,25 @@ namespace MauiReactor.HotReloadConsole
             _workspace.CloseSolution();
 
             _project = await _workspace.OpenProjectAsync(Path.Combine(_workingDirectory, $"{_projFileName}.csproj"), cancellationToken: cancellationToken);
-            
-            foreach (var projectReference in _project.AllProjectReferences) 
+
+            foreach (var projectReference in _project.AllProjectReferences)
             {
-                
+                var referencedProject = _workspace.CurrentSolution.GetProject(projectReference.ProjectId);
+
+                if (referencedProject == null)
+                {
+                    continue;
+                }
+
+                var compilation = await referencedProject.GetCompilationAsync(cancellationToken);
+
+                // Ensure the compilation is successful
+                if (compilation != null)
+                {
+                    // Create a MetadataReference from the referenced project's compilation and add it to the original project
+                    var metadataReference = compilation.ToMetadataReference();
+                    _project = _project.AddMetadataReference(metadataReference);
+                }
             }
 
             _projectCompilation = await _project.GetCompilationAsync(cancellationToken);
@@ -87,9 +103,7 @@ namespace MauiReactor.HotReloadConsole
                 _parsedFiles[syntaxTree.FilePath] = new ParsedFileInfo(syntaxTree.FilePath, syntaxTree, File.GetLastWriteTime(syntaxTree.FilePath));
             }
 
-            Console.WriteLine("done.");
-
-            
+            Console.WriteLine("done.");            
         }
 
         protected override async Task<bool> HandleFileChangeNotifications(IEnumerable<FileChangeNotification> notifications, CancellationToken cancellationToken)
