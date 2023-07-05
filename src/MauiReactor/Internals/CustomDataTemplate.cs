@@ -33,7 +33,7 @@ namespace MauiReactor.Internals
             });
         }
 
-        public VisualNode? GetVisualNodeForItem(object item)
+        public virtual VisualNode? GetVisualNodeForItem(object item)
         {
             return Owner.ItemTemplate?.Invoke(item);
         }

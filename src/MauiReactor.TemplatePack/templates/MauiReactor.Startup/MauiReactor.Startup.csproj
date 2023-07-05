@@ -48,9 +48,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-    <PackageReference Include="Reactor.Maui" Version="1.0.117" />
-    <PackageReference Include="Reactor.Maui.Canvas" Version="1.0.117" />
-    <PackageReference Include="Reactor.Maui.ScaffoldGenerator" Version="1.0.117" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    <PackageReference Include="Reactor.Maui" Version="1.0.131" />
+    <PackageReference Include="Reactor.Maui.Canvas" Version="1.0.131" />
+    <PackageReference Include="Reactor.Maui.ScaffoldGenerator" Version="1.0.131" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
   </ItemGroup>
 
 </Project>

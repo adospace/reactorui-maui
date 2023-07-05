@@ -117,6 +117,8 @@ namespace MauiReactor
                 ((Component)newNode)._nativeControl = _nativeControl;
                 _nativeControl = null;
                 ((Component)newNode).OnPropsChanged();
+                ((Component)newNode).OnMountedOrPropsChanged();
+
                 base.MergeWith(newNode);
             }
             else
@@ -129,6 +131,7 @@ namespace MauiReactor
         {
             //System.Diagnostics.Debug.WriteLine($"Mounting {Key ?? GetType()} under {Parent.Key ?? Parent.GetType()} at index {ChildIndex}");
             OnMounted();
+            OnMountedOrPropsChanged();
 
             base.OnMount();
         }
@@ -154,7 +157,13 @@ namespace MauiReactor
         }
 
         protected virtual void OnPropsChanged()
-        { }
+        {
+        }
+
+        protected virtual void OnMountedOrPropsChanged()
+        {
+
+        }
 
         public INavigation? Navigation
             => ContainerPage?.Navigation ?? NavigationProvider.Navigation;

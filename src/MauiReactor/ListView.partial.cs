@@ -13,25 +13,25 @@ public partial interface IListView
 {
     IEnumerable? ItemsSource { get; set; }
 
-    Func<object, ViewCell>? ViewCellItemTemplate { get; set; }
+    (Type, Func<object, ViewCell>)? ViewCellItemTemplate { get; set; }
 
-    Func<object, ViewCell>? ViewCellGroupItemTemplate { get; set; }
+    (Type, Func<object, ViewCell>)? ViewCellGroupItemTemplate { get; set; }
 
-    Func<object, EntryCell>? EntryCellItemTemplate { get; set; }
+    (Type, Func<object, EntryCell>)? EntryCellItemTemplate { get; set; }
 
-    Func<object, EntryCell>? EntryCellGroupItemTemplate { get; set; }
+    (Type, Func< object, EntryCell>)? EntryCellGroupItemTemplate { get; set; }
 
-    Func<object, TextCell>? TextCellItemTemplate { get; set; }
+    (Type, Func<object, TextCell>)? TextCellItemTemplate { get; set; }
 
-    Func<object, TextCell>? TextCellGroupItemTemplate { get; set; }
+    (Type, Func<object, TextCell>)? TextCellGroupItemTemplate { get; set; }
 
-    Func<object, SwitchCell>? SwitchCellItemTemplate { get; set; }
+    (Type, Func<object, SwitchCell>)? SwitchCellItemTemplate { get; set; }
 
-    Func<object, SwitchCell>? SwitchCellGroupItemTemplate { get; set; }
+    (Type, Func<object, SwitchCell>)? SwitchCellGroupItemTemplate { get; set; }
 
-    Func<object, ImageCell>? ImageCellItemTemplate { get; set; }
+    (Type, Func<object, ImageCell>)? ImageCellItemTemplate { get; set; }
 
-    Func<object, ImageCell>? ImageCellGroupItemTemplate { get; set; }
+    (Type, Func<object, ImageCell>)? ImageCellGroupItemTemplate { get; set; }
 
     VisualNode? Header { get; set; }
 
@@ -42,16 +42,16 @@ public abstract partial class ListView<T>
 {
     IEnumerable? IListView.ItemsSource { get; set; }
 
-    Func<object, ViewCell>? IListView.ViewCellItemTemplate { get; set; }
-    Func<object, ViewCell>? IListView.ViewCellGroupItemTemplate { get; set; }
-    Func<object, EntryCell>? IListView.EntryCellItemTemplate { get; set; }
-    Func<object, EntryCell>? IListView.EntryCellGroupItemTemplate { get; set; }
-    Func<object, TextCell>? IListView.TextCellItemTemplate { get; set; }
-    Func<object, TextCell>? IListView.TextCellGroupItemTemplate { get; set; }
-    Func<object, SwitchCell>? IListView.SwitchCellItemTemplate { get; set; }
-    Func<object, SwitchCell>? IListView.SwitchCellGroupItemTemplate { get; set; }
-    Func<object, ImageCell>? IListView.ImageCellItemTemplate { get; set; }
-    Func<object, ImageCell>? IListView.ImageCellGroupItemTemplate { get; set; }
+    (Type, Func<object, ViewCell>)? IListView.ViewCellItemTemplate { get; set; }
+    (Type, Func<object, ViewCell>)? IListView.ViewCellGroupItemTemplate { get; set; }
+    (Type, Func<object, EntryCell>)? IListView.EntryCellItemTemplate { get; set; }
+    (Type, Func<object, EntryCell>)? IListView.EntryCellGroupItemTemplate { get; set; }
+    (Type, Func<object, TextCell>)? IListView.TextCellItemTemplate { get; set; }
+    (Type, Func<object, TextCell>)? IListView.TextCellGroupItemTemplate { get; set; }
+    (Type, Func<object, SwitchCell>)? IListView.SwitchCellItemTemplate { get; set; }
+    (Type, Func<object, SwitchCell>)? IListView.SwitchCellGroupItemTemplate { get; set; }
+    (Type, Func<object, ImageCell>)? IListView.ImageCellItemTemplate { get; set; }
+    (Type, Func<object, ImageCell>)? IListView.ImageCellGroupItemTemplate { get; set; }
     
     VisualNode? IListView.Header { get; set; }
     VisualNode? IListView.Footer { get; set; }
@@ -93,8 +93,6 @@ public abstract partial class ListView<T>
                 }
             }
         }
-
-        //public Microsoft.Maui.Controls.Page? ContainerPage => GetPageHost()?.ContainerPage;
 
         protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
         {
@@ -422,16 +420,16 @@ public abstract partial class ListView<T>
         public DataTemplate DataTemplate { get; }
         public ListView<T> Owner { get; set; }
 
-        public Func<object, VisualNode>? ItemTemplateFunc { get; }
+        public (Type, Func<object, VisualNode>)? ItemTemplateFunc { get; }
 
         public VisualNode? GetVisualNodeForItem(object item)
         {
             if (_isGroupTemplate)
             {
-                return Owner.GetGroupItemTemplateFunc()?.Invoke(item);
+                return Owner.GetGroupItemTemplateFunc()?.Item2.Invoke(item);
             }
 
-            return Owner.GetItemTemplateFunc()?.Invoke(item);
+            return Owner.GetItemTemplateFunc()?.Item2.Invoke(item);
         }
 
         internal void Update()
@@ -450,7 +448,7 @@ public abstract partial class ListView<T>
 
     private CustomDataTemplate? _customGroupDataTemplate;
 
-    private Func<object, VisualNode>? GetItemTemplateFunc()
+    private (Type, Func<object, VisualNode>)? GetItemTemplateFunc()
     {
         IListView itemsView = this;
 
@@ -477,7 +475,7 @@ public abstract partial class ListView<T>
 
         return null;
     }
-    private Func<object, VisualNode>? GetGroupItemTemplateFunc()
+    private (Type, Func<object, VisualNode>)? GetGroupItemTemplateFunc()
     {
         IListView itemsView = this;
 
@@ -514,10 +512,11 @@ public abstract partial class ListView<T>
         var groupItemTemplateFunc = GetGroupItemTemplateFunc();
 
         if (NativeControl.ItemsSource == thisAsIItemsView.ItemsSource &&
-            itemTemplateFunc != null &&
-            _customDataTemplate?.ItemTemplateFunc?.GetType() == itemTemplateFunc.GetType() &&
-            groupItemTemplateFunc != null &&
-            _customGroupDataTemplate?.ItemTemplateFunc?.GetType() == groupItemTemplateFunc.GetType())
+            _customDataTemplate?.ItemTemplateFunc?.Item1 == itemTemplateFunc?.Item1 &&
+            _customDataTemplate?.ItemTemplateFunc?.Item2.GetType() == itemTemplateFunc?.Item2.GetType() &&
+            _customGroupDataTemplate?.ItemTemplateFunc?.Item1 == groupItemTemplateFunc?.Item1 &&
+            _customGroupDataTemplate?.ItemTemplateFunc?.Item2.GetType() == groupItemTemplateFunc?.Item2.GetType()
+            )
         {
             if (_customDataTemplate != null)
             {
@@ -525,22 +524,44 @@ public abstract partial class ListView<T>
                 _customDataTemplate.Update();
             }
 
-            if (_customGroupDataTemplate != null)
+            if (groupItemTemplateFunc != null)
             {
-                _customGroupDataTemplate.Owner = this;
-                _customGroupDataTemplate.Update();
+                if (_customGroupDataTemplate != null)
+                {
+                    _customGroupDataTemplate.Owner = this;
+                    _customGroupDataTemplate.Update();
+                }
             }
         }
         else if (thisAsIItemsView.ItemsSource != null && itemTemplateFunc != null)
         {
-            _customDataTemplate = new CustomDataTemplate(this);
-            NativeControl.ItemsSource = thisAsIItemsView.ItemsSource; // ObservableItemsSource.Create(thisAsIItemsView.ItemsSource, itemTemplateFunc);
-            NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
+            NativeControl.ItemsSource = thisAsIItemsView.ItemsSource;
+
+            if (_customDataTemplate == null ||
+                _customDataTemplate.ItemTemplateFunc?.Item1 != itemTemplateFunc?.Item1 ||
+                _customDataTemplate.ItemTemplateFunc?.Item2.GetType() != itemTemplateFunc?.Item2.GetType())
+            {
+                _customDataTemplate = new CustomDataTemplate(this);
+                NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
+            }
+            else
+            {
+                _customDataTemplate.Update();
+            }
 
             if (groupItemTemplateFunc != null)
             {
-                _customGroupDataTemplate = new CustomDataTemplate(this, isGroupTemplate: true);
-                NativeControl.GroupHeaderTemplate = _customGroupDataTemplate.DataTemplate;
+                if (_customGroupDataTemplate == null ||
+                    _customGroupDataTemplate.ItemTemplateFunc?.Item1 != groupItemTemplateFunc?.Item1 ||
+                    _customGroupDataTemplate.ItemTemplateFunc?.Item2.GetType() != groupItemTemplateFunc?.Item2.GetType())
+                {
+                    _customGroupDataTemplate = new CustomDataTemplate(this, isGroupTemplate: true);
+                    NativeControl.GroupHeaderTemplate = _customGroupDataTemplate.DataTemplate;
+                }
+                else
+                {
+                    _customGroupDataTemplate.Update();
+                }
             }
         }
         else
@@ -548,6 +569,7 @@ public abstract partial class ListView<T>
             NativeControl.ItemsSource = null;
             NativeControl.ItemTemplate = null;
             _customDataTemplate = null;
+            _customGroupDataTemplate = null;
         }
     }
 
@@ -636,7 +658,7 @@ public static partial class ListViewExtensions
     {
         itemsview.ItemsSource = itemsSource;
 
-        itemsview.ViewCellItemTemplate = new Func<object, ViewCell>(item => template((TItem)item));
+        itemsview.ViewCellItemTemplate = new(typeof(TItem), item => template((TItem)item));
         itemsview.SwitchCellItemTemplate = null;
         itemsview.TextCellItemTemplate = null;
         itemsview.EntryCellItemTemplate = null;
@@ -649,8 +671,8 @@ public static partial class ListViewExtensions
     {
         itemsview.ItemsSource = itemsSource;
 
-        itemsview.ViewCellItemTemplate = new Func<object, ViewCell>(item => template((TItem)item));
-        itemsview.ViewCellGroupItemTemplate = new Func<object, ViewCell>(item => groupTemplate((TGroupItem)item));
+        itemsview.ViewCellItemTemplate = new(typeof(TItem), item => template((TItem)item));
+        itemsview.ViewCellGroupItemTemplate = new(typeof(TItem), item => groupTemplate((TGroupItem)item));
         itemsview.SwitchCellItemTemplate = null;
         itemsview.TextCellItemTemplate = null;
         itemsview.EntryCellItemTemplate = null;
@@ -666,7 +688,7 @@ public static partial class ListViewExtensions
         itemsview.ViewCellItemTemplate = null;
         itemsview.SwitchCellItemTemplate = null;
         itemsview.TextCellItemTemplate = null;
-        itemsview.EntryCellItemTemplate = new Func<object, EntryCell>(item => template((TItem)item));
+        itemsview.EntryCellItemTemplate = new(typeof(TItem), item => template((TItem)item));
         itemsview.ImageCellItemTemplate = null;
 
         return itemsview;
@@ -679,8 +701,8 @@ public static partial class ListViewExtensions
         itemsview.ViewCellItemTemplate = null;
         itemsview.SwitchCellItemTemplate = null;
         itemsview.TextCellItemTemplate = null;
-        itemsview.EntryCellItemTemplate = new Func<object, EntryCell>(item => template((TItem)item));
-        itemsview.EntryCellGroupItemTemplate = new Func<object, EntryCell>(item => groupTemplate((TGroupItem)item));
+        itemsview.EntryCellItemTemplate = new(typeof(TItem), item => template((TItem)item));
+        itemsview.EntryCellGroupItemTemplate = new(typeof(TItem), item => groupTemplate((TGroupItem)item));
         itemsview.ImageCellItemTemplate = null;
 
         return itemsview;
@@ -692,7 +714,7 @@ public static partial class ListViewExtensions
 
         itemsview.ViewCellItemTemplate = null;
         itemsview.SwitchCellItemTemplate = null;
-        itemsview.TextCellItemTemplate = new Func<object, TextCell>(item => template((TItem)item));
+        itemsview.TextCellItemTemplate = new(typeof(TItem), item => template((TItem)item));
         itemsview.EntryCellItemTemplate = null;
         itemsview.ImageCellItemTemplate = null;
 
@@ -705,8 +727,8 @@ public static partial class ListViewExtensions
 
         itemsview.ViewCellItemTemplate = null;
         itemsview.SwitchCellItemTemplate = null;
-        itemsview.TextCellItemTemplate = new Func<object, TextCell>(item => template((TItem)item));
-        itemsview.TextCellGroupItemTemplate = new Func<object, TextCell>(item => groupTemplate((TGroupItem)item));
+        itemsview.TextCellItemTemplate = new(typeof(TItem), item => template((TItem)item));
+        itemsview.TextCellGroupItemTemplate = new(typeof(TItem), item => groupTemplate((TGroupItem)item));
         itemsview.EntryCellItemTemplate = null;
         itemsview.ImageCellItemTemplate = null;
 
@@ -718,7 +740,7 @@ public static partial class ListViewExtensions
         itemsview.ItemsSource = itemsSource;
 
         itemsview.ViewCellItemTemplate = null;
-        itemsview.SwitchCellItemTemplate = new Func<object, SwitchCell>(item => template((TItem)item));
+        itemsview.SwitchCellItemTemplate = new(typeof(TItem), item => template((TItem)item));
         itemsview.TextCellItemTemplate = null;
         itemsview.EntryCellItemTemplate = null;
         itemsview.ImageCellItemTemplate = null;
@@ -731,8 +753,8 @@ public static partial class ListViewExtensions
         itemsview.ItemsSource = itemsSource;
 
         itemsview.ViewCellItemTemplate = null;
-        itemsview.SwitchCellItemTemplate = new Func<object, SwitchCell>(item => template((TItem)item));
-        itemsview.SwitchCellGroupItemTemplate = new Func<object, SwitchCell>(item => groupTemplate((TGroupItem)item));
+        itemsview.SwitchCellItemTemplate = new(typeof(TItem), item => template((TItem)item));
+        itemsview.SwitchCellGroupItemTemplate = new(typeof(TItem), item => groupTemplate((TGroupItem)item));
         itemsview.TextCellItemTemplate = null;
         itemsview.EntryCellItemTemplate = null;
         itemsview.ImageCellItemTemplate = null;
@@ -748,7 +770,7 @@ public static partial class ListViewExtensions
         itemsview.SwitchCellItemTemplate = null;
         itemsview.TextCellItemTemplate = null;
         itemsview.EntryCellItemTemplate = null;
-        itemsview.ImageCellItemTemplate = new Func<object, ImageCell>(item => template((TItem)item));
+        itemsview.ImageCellItemTemplate = new(typeof(TItem), item => template((TItem)item));
 
         return itemsview;
     }
@@ -761,8 +783,8 @@ public static partial class ListViewExtensions
         itemsview.SwitchCellItemTemplate = null;
         itemsview.TextCellItemTemplate = null;
         itemsview.EntryCellItemTemplate = null;
-        itemsview.ImageCellItemTemplate = new Func<object, ImageCell>(item => template((TItem)item));
-        itemsview.ImageCellGroupItemTemplate = new Func<object, ImageCell>(item => groupTemplate((TGroupItem)item));
+        itemsview.ImageCellItemTemplate = new(typeof(TItem), item => template((TItem)item));
+        itemsview.ImageCellGroupItemTemplate = new(typeof(TItem), item => groupTemplate((TGroupItem)item));
 
         return itemsview;
     }
