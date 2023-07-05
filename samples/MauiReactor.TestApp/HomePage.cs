@@ -122,6 +122,10 @@ class HomePage : Component
                 new Pages.DragDropTestPage()
             },
             
+            new FlyoutItem("Gradient Test")
+            {
+                new Pages.GradientPage()
+            },
         }
         .ItemTemplate(RenderItemTemplate);
     }
