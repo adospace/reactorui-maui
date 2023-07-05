@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace MauiReactor;
 
@@ -12,223 +15,147 @@ public class LinearGradient
 {
     private readonly LinearGradientBrush _brush;
 
-    public LinearGradient(double degrees, params uint[] colors)
+    public LinearGradient(double angleDegrees, params uint[] colors)
     {
-        var stops = new GradientStopCollection();
-        
-        for (int i = 0; i < colors.Length; i++)
-        {
-            stops.Add(new GradientStop(Color.FromUint(colors[i]), i * 1.0f / colors.Length));
-        }
+        var stopCollection = GradientStopCollectionExtensions.CreateStopCollection(colors);
 
-        // Calculate the center point of the rectangle
-        Point centerPoint = new(0.5, 0.5);
+        _brush = CreateBrush(angleDegrees, stopCollection);
+    }
 
-        // Calculate the distance from the center to the corners of the rectangle
-        double distanceToCorners = Math.Sqrt(2);
+    public LinearGradient(double angleDegrees, params string[] colors)
+    {
+        var stopCollection = GradientStopCollectionExtensions.CreateStopCollection(colors);
 
-        // Calculate the start and end points of the gradient based on the angle and the rectangle's dimensions
-        double angleRad = degrees * Math.PI / 180;
-        double dx = Math.Cos(angleRad) * distanceToCorners;
-        double dy = Math.Sin(angleRad) * distanceToCorners;
-
-        Point startPoint = new(centerPoint.X - dx, centerPoint.Y - dy);
-        Point endPoint = new(centerPoint.X + dx, centerPoint.Y + dy);
-
-        _brush = new LinearGradientBrush(stops, startPoint, endPoint);
+        _brush = CreateBrush(angleDegrees, stopCollection);
     }
 
     public LinearGradient(double angleDegrees, params Color[] colors)
     {
-        var stops = new GradientStopCollection();
+        var stopCollection = GradientStopCollectionExtensions.CreateStopCollection(colors);
 
-        for (int i = 0; i < colors.Length; i++)
-        {
-            stops.Add(new GradientStop(colors[i], i * 1.0f / colors.Length));
-        }
+        _brush = CreateBrush(angleDegrees, stopCollection);
+    }
 
-        float width = 1.0f;
-        float height = 1.0f;
-        var rectangle = new RectF(0, 0, width, height);
-        PointF startPoint;
-        PointF endPoint;
+    public LinearGradient(double angleDegrees, params GradientStop[] stops)
+    {
+        var stopCollection = GradientStopCollectionExtensions.CreateStopCollection(stops);
 
-        // Calculate start and end points based on angle
-        if (angleDegrees == 0)
+        _brush = CreateBrush(angleDegrees, stopCollection);
+    }
+
+    public LinearGradient(double angleDegrees, params (Color, float)[] stops)
+    {
+        var stopCollection = GradientStopCollectionExtensions.CreateStopCollection(stops);
+
+        _brush = CreateBrush(angleDegrees, stopCollection);
+    }
+
+    public LinearGradient(double angleDegrees, params (uint, float)[] stops)
+    {
+        var stopCollection = GradientStopCollectionExtensions.CreateStopCollection(stops);
+
+        _brush = CreateBrush(angleDegrees, stopCollection);
+    }
+
+    public LinearGradient(double angleDegrees, params (string, float)[] stops)
+    {
+        var stopCollection = GradientStopCollectionExtensions.CreateStopCollection(stops);
+
+        _brush = CreateBrush(angleDegrees, stopCollection);
+    }
+
+    public LinearGradient(double angleDegrees, GradientStopCollection stopCollection)
+    {
+        _brush = CreateBrush(angleDegrees, stopCollection);
+    }
+
+    private static LinearGradientBrush CreateBrush(double angleDegrees, GradientStopCollection stops)
+    {
+        //css-like angle degrees
+        angleDegrees += 270;
+
+        //normalize the angle
+        angleDegrees %= 360;
+        if (angleDegrees < 0)
+            angleDegrees += 360;
+
+        var angle = Math.Round(angleDegrees, 4);
+
+        if (angle == 0)
         {
-            startPoint = new PointF(rectangle.Left, rectangle.Top);
-            endPoint = new PointF(rectangle.Left, rectangle.Bottom);
+            return new LinearGradientBrush(stops, new Point(0, 0), new Point(1, 0));
         }
-        else if (angleDegrees == 90)
+        else if (angle == 90)
         {
-            startPoint = new PointF(rectangle.Left, rectangle.Top);
-            endPoint = new PointF(rectangle.Right, rectangle.Top);
+            return new LinearGradientBrush(stops, new Point(0, 0), new Point(0, 1));
         }
-        else if (angleDegrees == 180)
+        else if (angle == 180)
         {
-            startPoint = new PointF(rectangle.Right, rectangle.Top);
-            endPoint = new PointF(rectangle.Left, rectangle.Top);
+            return new LinearGradientBrush(stops, new Point(1, 0), new Point(0, 0));
         }
-        else if (angleDegrees == 270)
+        else if (angle == 270)
         {
-            startPoint = new PointF(rectangle.Left, rectangle.Bottom);
-            endPoint = new PointF(rectangle.Left, rectangle.Top);
+            return new LinearGradientBrush(stops, new Point(0, 1), new Point(0, 0));
         }
         else
         {
-            double angleRadians = angleDegrees * Math.PI / 180;
-            double dx = Math.Cos(angleRadians);
-            double dy = Math.Sin(angleRadians);
+            static Point Intersect(double angleInDegrees, double x2, double y2)
+            {
+                // Convert angle to radians and calculate m1
+                double angleInRadians = angleInDegrees * Math.PI / 180;
+                double m1 = Math.Tan(angleInRadians);
 
-            PointF centerPoint = new PointF(rectangle.Left + rectangle.Width / 2f, rectangle.Top + rectangle.Height / 2f);
-            double distance = Math.Max(rectangle.Width, rectangle.Height) * Math.Sqrt(2);
+                // Calculate c1 for line 1
+                double c1 = 0.5 - m1 * 0.5;
 
-            startPoint = new PointF((float)(centerPoint.X - dx * distance / 2), (float)(centerPoint.Y - dy * distance / 2));
-            endPoint = new PointF((float)(centerPoint.X + dx * distance / 2), (float)(centerPoint.Y + dy * distance / 2));
+                // Calculate m2 for line 2
+                double m2 = -1 / m1;
+
+                // Calculate c2 for line 2 using the given point
+                double c2 = y2 - m2 * x2;
+
+                // Find intersection point
+                double x = (c2 - c1) / (m1 - m2);
+                double y = m1 * x + c1;
+
+                return new Point(x, y);
+            }
+
+
+            if (angle > 0 && angle < 90)
+            {
+                var pt2 = Intersect(angleDegrees, 1.0, 1.0);
+                var pt1 = Intersect(angleDegrees, 0.0, 0.0);
+
+                return new LinearGradientBrush(stops, pt1, pt2);
+            }
+            else if (angle > 90 && angle < 180)
+            {
+                var pt2 = Intersect(angleDegrees, 0.0, 1.0);
+                var pt1 = Intersect(angleDegrees, 1.0, 0.0);
+
+                return new LinearGradientBrush(stops, pt1, pt2);
+            }
+            else if (angle > 180 && angle < 270)
+            {
+                var pt2 = Intersect(angleDegrees, 0.0, 0.0);
+                var pt1 = Intersect(angleDegrees, 1.0, 1.0);
+
+                return new LinearGradientBrush(stops, pt1, pt2);
+            }
+            else if (angle > 270 && angle < 360)
+            {
+                var pt2 = Intersect(angleDegrees, 1.0, 0.0);
+                var pt1 = Intersect(angleDegrees, 0.0, 1.0);
+
+                return new LinearGradientBrush(stops, pt1, pt2);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
-
-
-
-        //// Calculate the center point of the rectangle
-        //Point centerPoint = new(0.5, 0.5);
-
-        //// Calculate the distance from the center to the corners of the rectangle
-        //double distanceToCorners = Math.Sqrt(2) / 2;
-
-        //// Calculate the start and end points of the gradient based on the angle and the rectangle's dimensions
-        //double angleRad = degrees * Math.PI / 180;
-        //double dx = Math.Cos(angleRad) * distanceToCorners;
-        //double dy = Math.Sin(angleRad) * distanceToCorners;
-
-        //Point startPoint = new(centerPoint.X - dx, centerPoint.Y - dy);
-        //Point endPoint = new(centerPoint.X + dx, centerPoint.Y + dy);
-
-        _brush = new LinearGradientBrush(stops, startPoint, endPoint);
     }
-
-    //public static LinearGradientBrush CreateLinearGradientBrushFromCSS(string cssGradient, Rect rectangle)
-    //{
-    //    LinearGradientBrush brush;
-
-    //    try
-    //    {
-    //        var parser = new System.Text.RegularExpressions.Regex(@"linear-gradient\((.+?)\)");
-    //        var match = parser.Match(cssGradient);
-
-    //        if (!match.Success)
-    //            throw new ArgumentException("Invalid CSS linear gradient string.");
-
-    //        var gradientParams = match.Groups[1].Value.Trim();
-
-    //        var parts = gradientParams.Split(',');
-    //        if (parts.Length < 2)
-    //            throw new ArgumentException("Invalid CSS linear gradient string.");
-
-    //        var anglePart = parts[0].Trim();
-    //        var colorStopsPart = parts[1].Trim();
-
-    //        double angleDegrees;
-    //        if (!double.TryParse(anglePart, out angleDegrees))
-    //            throw new ArgumentException("Invalid CSS linear gradient string. Invalid angle value.");
-
-    //        angleDegrees %= 360;
-    //        angleDegrees = 360 - angleDegrees; // Invert angle to match GDI+ orientation
-
-    //        var colorStops = colorStopsPart.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-    //        var colors = new Color[colorStops.Length];
-    //        var positions = new float[colorStops.Length];
-
-    //        for (int i = 0; i < colorStops.Length; i++)
-    //        {
-    //            var colorStop = colorStops[i].Trim().Split(' ');
-    //            if (colorStop.Length < 2)
-    //                throw new ArgumentException("Invalid CSS linear gradient string.");
-
-    //            float position;
-    //            if (!float.TryParse(colorStop[1], out position))
-    //                throw new ArgumentException("Invalid CSS linear gradient string. Invalid color stop position.");
-
-    //            positions[i] = position / 100f;
-
-    //            var colorCode = colorStop[0];
-    //            if (colorCode.StartsWith("#") && colorCode.Length == 7)
-    //            {
-    //                //var red = Convert.ToInt32(colorCode.Substring(1, 2), 16);
-    //                //var green = Convert.ToInt32(colorCode.Substring(3, 2), 16);
-    //                //var blue = Convert.ToInt32(colorCode.Substring(5, 2), 16);
-
-    //                colors[i] = Color.FromArgb(colorCode);
-    //            }
-    //            else
-    //            {
-    //                var color = Colors.FromName(colorCode);
-    //                if (!color.IsKnownColor)
-    //                    throw new ArgumentException("Invalid CSS linear gradient string. Invalid color code.");
-
-    //                colors[i] = color;
-    //            }
-    //        }
-
-    //        brush = CreateLinearGradientBrushFromAngle(rectangle, angleDegrees, colors, positions);
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        throw new ArgumentException("Error parsing CSS linear gradient string.", ex);
-    //    }
-
-    //    return brush;
-    //}
-
-    //private static LinearGradientBrush CreateLinearGradientBrushFromAngle(RectF rectangle, double angleDegrees, Color[] colors, float[] positions)
-    //{
-    //    PointF startPoint;
-    //    PointF endPoint;
-
-    //    // Calculate start and end points based on angle
-    //    if (angleDegrees == 0)
-    //    {
-    //        startPoint = new PointF(rectangle.Left, rectangle.Top);
-    //        endPoint = new PointF(rectangle.Left, rectangle.Bottom);
-    //    }
-    //    else if (angleDegrees == 90)
-    //    {
-    //        startPoint = new PointF(rectangle.Left, rectangle.Top);
-    //        endPoint = new PointF(rectangle.Right, rectangle.Top);
-    //    }
-    //    else if (angleDegrees == 180)
-    //    {
-    //        startPoint = new PointF(rectangle.Right, rectangle.Top);
-    //        endPoint = new PointF(rectangle.Left, rectangle.Top);
-    //    }
-    //    else if (angleDegrees == 270)
-    //    {
-    //        startPoint = new PointF(rectangle.Left, rectangle.Bottom);
-    //        endPoint = new PointF(rectangle.Left, rectangle.Top);
-    //    }
-    //    else
-    //    {
-    //        double angleRadians = angleDegrees * Math.PI / 180;
-    //        double dx = Math.Cos(angleRadians);
-    //        double dy = Math.Sin(angleRadians);
-
-    //        PointF centerPoint = new PointF(rectangle.Left + rectangle.Width / 2f, rectangle.Top + rectangle.Height / 2f);
-    //        double distance = Math.Max(rectangle.Width, rectangle.Height) * Math.Sqrt(2);
-
-    //        startPoint = new PointF((float)(centerPoint.X - dx * distance / 2), (float)(centerPoint.Y - dy * distance / 2));
-    //        endPoint = new PointF((float)(centerPoint.X + dx * distance / 2), (float)(centerPoint.Y + dy * distance / 2));
-    //    }
-
-    //    // Create LinearGradientBrush with calculated start and end points
-    //    LinearGradientBrush brush = new LinearGradientBrush(startPoint, endPoint, gradientStops);
-
-    //    // Set interpolation colors using the provided array of colors and positions
-    //    ColorBlend colorBlend = new ColorBlend();
-    //    colorBlend.Colors = colors;
-    //    colorBlend.Positions = positions;
-    //    brush.InterpolationColors = colorBlend;
-
-    //    return brush;
-    //}
 
     public static implicit operator LinearGradientBrush(LinearGradient d) => d._brush;
 }
