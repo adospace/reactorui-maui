@@ -34,6 +34,8 @@ Microsoft.Maui.Controls.ShellSection
 Microsoft.Maui.Controls.BaseMenuItem
 Microsoft.Maui.Controls.MenuItem
 Microsoft.Maui.Controls.MenuBarItem
+Microsoft.Maui.Controls.FlyoutBase
+Microsoft.Maui.Controls.MenuFlyout
 Microsoft.Maui.Controls.MenuFlyoutItem
 Microsoft.Maui.Controls.MenuFlyoutSubItem
 Microsoft.Maui.Controls.MenuFlyoutSeparator

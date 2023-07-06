@@ -42,10 +42,22 @@ class ListViewExtendedTestPage : Component<ListViewExtendedTestPageState>
         return new ViewCell
         {
             new Label(person.Initial)
-                .FontSize(14.0)
-                .FontAttributes(MauiControls.FontAttributes.Bold)
-                .Margin(5)
-                .BackgroundColor(Colors.LightGray),
+            {
+                new MenuFlyout
+                {
+                    new MenuFlyoutItem("MenuItem1")
+                        .OnClicked(()=>OnClickMenuItem("MenuItem1")),
+                    new MenuFlyoutItem("MenuItem2")
+                        .OnClicked(()=>OnClickMenuItem("MenuItem2")),
+                    new MenuFlyoutItem("MenuItem3")
+                        .OnClicked(()=>OnClickMenuItem("MenuItem3")),
+                }
+            }
+            .FontSize(14.0)
+            .FontAttributes(MauiControls.FontAttributes.Bold)
+            .Margin(5)
+            .BackgroundColor(Colors.LightGray)
+            ,
         };
     }
 
@@ -59,6 +71,11 @@ class ListViewExtendedTestPage : Component<ListViewExtendedTestPageState>
                 .Padding(5)
                 .VerticalTextAlignment(TextAlignment.Center)
         };
+    }
+
+    private void OnClickMenuItem(string title)
+    {
+        ContainerPage?.DisplayAlert("MauiReactor", $"Clicked menu {title}", "OK");
     }
 
 }

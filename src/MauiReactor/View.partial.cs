@@ -20,7 +20,6 @@ namespace MauiReactor
                 thisAsIView.GestureRecognizers.Add(gestureRecognizer);
                 return;            
             }
-
             base.OnChildAdd(node);
         }
 
@@ -43,6 +42,11 @@ namespace MauiReactor
             {
                 NativeControl.GestureRecognizers.Add(gestureRecognizer);
             }
+            else if (childControl is Microsoft.Maui.Controls.MenuFlyout menuFlyout)
+            {
+                NativeControl.SetPropertyValue(FlyoutBase.ContextFlyoutProperty, menuFlyout);
+            }
+
 
             base.OnAddChild(widget, childControl);
         }
@@ -54,6 +58,10 @@ namespace MauiReactor
             if (childControl is Microsoft.Maui.Controls.GestureRecognizer gestureRecognizer)
             {
                 NativeControl.GestureRecognizers.Remove(gestureRecognizer);
+            }
+            else if (childControl is Microsoft.Maui.Controls.MenuFlyout _)
+            {
+                NativeControl.SetPropertyValue(FlyoutBase.ContextFlyoutProperty, null);
             }
 
             base.OnRemoveChild(widget, childControl);
@@ -87,12 +95,6 @@ namespace MauiReactor
             view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Fill);
             return view;
         }
-
-        //public static T VerticalOptions<T>(this T view, LayoutOptions layoutOptions) where T : IView
-        //{
-        //    view.VerticalOptions = layoutOptions;
-        //    return view;
-        //}
 
         public static T VStart<T>(this T view) where T : IView
         {

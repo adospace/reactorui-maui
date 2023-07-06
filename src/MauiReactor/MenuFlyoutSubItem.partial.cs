@@ -18,7 +18,7 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
 
-            if (childNativeControl is Microsoft.Maui.Controls.MenuFlyoutItem menuFlyoutItem)
+            if (childNativeControl is Microsoft.Maui.Controls.MenuItem menuFlyoutItem)
             {
                 NativeControl.Insert(widget.ChildIndex, menuFlyoutItem);
             }
@@ -31,13 +31,9 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
 
-            if (childNativeControl is Microsoft.Maui.Controls.MenuFlyoutItem menuFlyoutItem)
+            if (childNativeControl is Microsoft.Maui.Controls.MenuItem menuFlyoutItem)
             {
                 NativeControl.Remove(menuFlyoutItem);
-            }
-            else if (childNativeControl is Microsoft.Maui.Controls.MenuFlyoutSeparator menuFlyoutSeparator)
-            {
-                NativeControl.Remove(menuFlyoutSeparator);
             }
 
             base.OnRemoveChild(widget, childNativeControl);
