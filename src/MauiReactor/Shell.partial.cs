@@ -342,6 +342,7 @@ namespace MauiReactor
     {
         public static void RegisterRoute<T>(string route) where T : Component, new()
         {
+            Microsoft.Maui.Controls.Routing.UnRegisterRoute(route);
             Microsoft.Maui.Controls.Routing.RegisterRoute(route, new ComponentShellRouteFactory<T>());
         }
     }
