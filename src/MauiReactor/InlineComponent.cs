@@ -31,13 +31,15 @@ namespace MauiReactor
     public class ComponentContextState<S>
     {
         private readonly InlineComponent _component;
+        private readonly S? _initialState;
 
-        internal ComponentContextState(InlineComponent component)
+        internal ComponentContextState(InlineComponent component, S? initialState = default)
         {
             _component = component;
+            _initialState = initialState;
         }
 
-        public S? Value => (S?)(_component.State.StateValue ?? default(S));
+        public S? Value => (S?)(_component.State.StateValue ?? _initialState ?? default);
 
         public void Set(Func<S?, S?> setStateFunction, bool invalidateComponent = true)
         {
@@ -69,6 +71,8 @@ namespace MauiReactor
 
         public ComponentContextState<S> UseState<S>()
             => new(_component);
+        public ComponentContextState<S> UseState<S>(S defaultValue)
+            => new(_component, defaultValue);
 
         public IServiceProvider Services
             => ServiceCollectionProvider.ServiceProvider;
