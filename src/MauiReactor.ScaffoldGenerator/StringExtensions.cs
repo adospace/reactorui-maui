@@ -13,9 +13,9 @@ internal static class StringExtensions
         return char.ToLowerInvariant(s[0]) + s.Substring(1, s.Length - 1);
     }
 
-    public static string ToResevedWordTypeName(this string typename)
+    public static string ToReservedWordTypeName(this string typeName)
     {
-        return typename switch
+        return typeName switch
         {
             "SByte" => "sbyte",
             "Byte" => "byte",
@@ -32,13 +32,13 @@ internal static class StringExtensions
             "Decimal" => "decimal",
             "String" => "string",
             "Object" => "object",
-            _ => typename,
+            _ => typeName,
         };
     }
 
-    public static string ToResevedWordFullTypeName(this string fulltypename)
+    public static string ToReservedWordFullTypeName(this string fullTypeName)
     {
-        return fulltypename switch
+        return fullTypeName switch
         {
             "System.SByte" => "sbyte",
             "System.Byte" => "byte",
@@ -55,7 +55,7 @@ internal static class StringExtensions
             "System.Decimal" => "decimal",
             "System.String" => "string",
             "System.Object" => "object",
-            _ => fulltypename.Replace('+', '.'),
+            _ => fullTypeName.Replace('+', '.'),
         };
     }
 

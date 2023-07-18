@@ -1,4 +1,5 @@
 ﻿using MauiReactor.Internals;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MauiReactor.Parameters
 {
@@ -14,31 +15,22 @@ namespace MauiReactor.Parameters
         T Value { get; }
 
         void Set(Action<T> setAction, bool invalidateComponent = true);
-
-        ParameterContext Context { get; }
     }
 
-    internal interface IParameterWithReferences<T> : IParameter<T> where T : new()
+    internal class Parameter<T> : IParameter<T> where T : new()
     {
-        void RegisterReference(ParameterReference<T> reference);
-    }
+        private readonly HashSet<WeakReference<Component>> _parameterReferences = new();
 
-    internal class Parameter<T> : IParameterWithReferences<T> where T : new()
-    {
-        private readonly HashSet<WeakReference<ParameterReference<T>>> _parameterReferences = new();
-
-        public Parameter(ParameterContext context, string name)
+        public Parameter(string name)
         {
-            Context = context;
             Name = name;
         }
 
-        public ParameterContext Context { get; }
         public string Name { get; }
 
         private readonly T _value = new();
 
-        public T Value => _value;
+        public T Value => _value ?? throw new InvalidOperationException();
 
         object IParameter.GetValue() => Value!;
 
@@ -48,75 +40,51 @@ namespace MauiReactor.Parameters
 
             if (invalidateComponent)
             {
-                Context.Component.InvalidateComponent();
-            }            
-
-            foreach (var componetOfReferencedParameter in _parameterReferences.ToList())
-            {
-                if (componetOfReferencedParameter.TryGetTarget(out var componetOfReferencedParameterValue))
+                foreach (var componentOfReferencedParameter in _parameterReferences.ToList())
                 {
-                    componetOfReferencedParameterValue.Context.Component.InvalidateComponent();
-                }
-                else
-                {
-                    _parameterReferences.Remove(componetOfReferencedParameter);
+                    if (componentOfReferencedParameter.TryGetTarget(out var componentOfReferencedParameterValue))
+                    {
+                        componentOfReferencedParameterValue.InvalidateComponent();
+                    }
+                    else
+                    {
+                        _parameterReferences.Remove(componentOfReferencedParameter);
+                    }
                 }
             }
         }
 
-        public void RegisterReference(ParameterReference<T> reference)
+        public void RegisterReference(Component reference)
         {
-            _parameterReferences.Add(new WeakReference<ParameterReference<T>>(reference));
+            foreach (var componentOfReferencedParameter in _parameterReferences.ToList())
+            {
+                if (componentOfReferencedParameter.TryGetTarget(out var componentOfReferencedParameterValue))
+                {
+                    if (reference == componentOfReferencedParameterValue)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    _parameterReferences.Remove(componentOfReferencedParameter);
+                }
+            }
+
+            _parameterReferences.Add(new WeakReference<Component>(reference));
         }
     }
 
-    internal class ParameterReference<T> : IParameter<T> where T : new()
-    {
-        private readonly IParameter<T> _actualParameter;
-
-        public ParameterReference(ParameterContext context, IParameterWithReferences<T> actualParameter)
-        {
-            Context = context;
-            _actualParameter = actualParameter;
-            actualParameter.RegisterReference(this);
-        }
-
-        public string Name => _actualParameter.Name;
-
-        public ParameterContext Context { get; }
-
-        public T Value => _actualParameter.Value;
-
-        object IParameter.GetValue() => Value!;
-
-        public void Set(Action<T> setAction, bool invalidateComponent = true)
-        {
-            _actualParameter.Set(setAction, invalidateComponent);
-        }
-    }
 
     public sealed class ParameterContext
     {
-        private readonly Dictionary<string, IParameter> _parameters = new();
+        private static readonly Dictionary<string, IParameter> _parameters = new();
 
         public Component Component { get; }
 
         internal ParameterContext(Component component)
         {
             Component = component;
-        }
-
-        internal void MigrateTo(ParameterContext destinationContext)
-        {
-            foreach (var parameterEntry in _parameters)
-            {
-                if (destinationContext._parameters.TryGetValue(parameterEntry.Key, out var destinationParameter))
-                {
-                    CopyObjectExtensions.CopyProperties(
-                        parameterEntry.Value.GetValue(),
-                        destinationParameter.GetValue());
-                }
-            }
         }
 
         public IParameter<T> Create<T>(string? name = null) where T : new()
@@ -126,27 +94,63 @@ namespace MauiReactor.Parameters
 
             if (parameter == null)
             {
-                _parameters[name] = parameter = new Parameter<T>(this, name);
+                var newParameterT = new Parameter<T>(name);
+                _parameters[name] = newParameterT;
+                newParameterT.RegisterReference(Component);
+                return newParameterT;
             }
+            else
+            {
+                if (parameter is IParameter<T> parameterT)
+                {
+                    ((Parameter<T>)parameterT).RegisterReference(Component);
+                    return parameterT;
+                }
 
-            return (IParameter<T>)parameter;
+                var newParameterT = new Parameter<T>(name);
+
+                _parameters[newParameterT.Name] = newParameterT;
+
+                CopyObjectExtensions.CopyProperties(parameter.GetValue(), newParameterT.Value!);
+
+                newParameterT.RegisterReference(Component);
+
+                return newParameterT;
+            }
         }
 
         public IParameter<T>? Get<T>(string? name = null) where T : new()
         {
             name ??= typeof(T).FullName ?? throw new InvalidOperationException();
 
-            _parameters.TryGetValue(name, out var parameter);
+            if (!_parameters.TryGetValue(name, out var parameter))
+            {
+                return null;
+            }
 
-            return parameter as IParameter<T>;
+            if (parameter is IParameter<T> parameterT)
+            {
+                ((Parameter<T>)parameterT).RegisterReference(Component);
+                return parameterT;
+            }
+
+            var newParameterT = new Parameter<T>(name);
+
+            _parameters[newParameterT.Name] = newParameterT;
+
+            CopyObjectExtensions.CopyProperties(parameter.GetValue(), newParameterT.Value!);
+
+            newParameterT.RegisterReference(Component);
+
+            return newParameterT;
         }
 
-        internal IParameter<T> Register<T>(IParameterWithReferences<T> parameterWithReferences, string? name = null) where T : new()
-        {
-            name ??= typeof(T).FullName ?? throw new InvalidOperationException();
-            var parameter = new ParameterReference<T>(this, parameterWithReferences);
-            _parameters[name] = parameter;
-            return parameter;
-        }
+        //internal IParameter<T> Register<T>(IParameterWithReferences<T> parameterWithReferences, string? name = null) where T : new()
+        //{
+        //    name ??= typeof(T).FullName ?? throw new InvalidOperationException();
+        //    var parameter = new ParameterReference<T>(this, parameterWithReferences);
+        //    _parameters[name] = parameter;
+        //    return parameter;
+        //}
     }
 }

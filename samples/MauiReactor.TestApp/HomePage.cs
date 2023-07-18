@@ -113,6 +113,19 @@ class HomePage : Component
             {
                 new Pages.InlineComponentsPage()
             },
+            new FlyoutItem("Collection View Grouped")
+            {
+                new Pages.CollectionViewExtendedTestPage()
+            },
+            new FlyoutItem("Drag & Drop")
+            {
+                new Pages.DragDropTestPage()
+            },
+            
+            new FlyoutItem("Gradient Test")
+            {
+                new Pages.GradientPage()
+            },
         }
         .ItemTemplate(RenderItemTemplate);
     }

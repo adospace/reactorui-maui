@@ -34,7 +34,7 @@ namespace MauiReactor
             Validate.EnsureNotNull(NativeControl);
             var thisAsIItemsView = (IItemsView)this;
 
-            if (//NativeControl.ItemsSource is ObservableItemsSource existingCollection &&
+            if (thisAsIItemsView.ItemsSource != null &&
                 NativeControl.ItemsSource == thisAsIItemsView.ItemsSource)
             {
                 Validate.EnsureNotNull(_customDataTemplate);
@@ -42,14 +42,12 @@ namespace MauiReactor
                 _customDataTemplate.Owner = this;
 
                 _customDataTemplate.Update();
-
-                //existingCollection.NotifyCollectionChanged();
             }
             else if (thisAsIItemsView.ItemsSource != null)
             {
                 _customDataTemplate = new CustomDataTemplate(this, itemTemplatePresenter => 
                     thisAsIItemsView.ItemVisualStateGroups?.SetToVisualElement(itemTemplatePresenter));
-                NativeControl.ItemsSource = thisAsIItemsView.ItemsSource;// ObservableItemsSource.Create(thisAsIItemsView.ItemsSource);
+                NativeControl.ItemsSource = thisAsIItemsView.ItemsSource;
                 NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
             }
             else
@@ -101,30 +99,6 @@ namespace MauiReactor
             itemsView.ItemTemplateWithNativeView = new Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>((item, nativeView) => template((TItem)item, nativeView));
             return itemsView;
         }
-
-        //public static T ItemVisualState<T>(this T itemsview, string groupName, string stateName, BindableProperty property, object value) where T : IItemsView
-        //{
-        //    var group = itemsview.ItemVisualStateGroups.FirstOrDefault(_ => _.Name == groupName);
-
-        //    if (group == null)
-        //    {
-        //        itemsview.ItemVisualStateGroups.Add(group = new VisualStateGroup()
-        //        {
-        //            Name = groupName
-        //        });
-        //    }
-
-        //    var state = group.States.FirstOrDefault(_ => _.Name == stateName);
-        //    if (state == null)
-        //    {
-        //        group.States.Add(state = new VisualState { Name = stateName });
-        //    }
-
-        //    state.Setters.Add(new Setter() { Property = property, Value = value });
-
-        //    return itemsview;
-        //}
-
 
         public static T ItemVisualState<T>(this T itemsView, string groupName, string stateName, BindableProperty property, object? value, string? targetName = null) where T : IItemsView
         {

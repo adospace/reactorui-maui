@@ -79,5 +79,23 @@ namespace MauiReactor
             border.StrokeShape = shape;
             return border;
         }
+
+        public static T StrokeCornerRadius<T>(this T border, CornerRadius cornerRadius) where T : IBorder
+        {
+            border.StrokeShape = new Shapes.RoundRectangle().CornerRadius(cornerRadius);
+            return border;
+        }
+
+        public static T StrokeCornerRadius<T>(this T border, double uniformRadius) where T : IBorder
+        {
+            border.StrokeShape = new Shapes.RoundRectangle().CornerRadius(uniformRadius);
+            return border;
+        }
+
+        public static T StrokeCornerRadius<T>(this T border, double topLeft, double topRight, double bottomLeft, double bottomRight) where T : IBorder
+        {
+            border.StrokeShape = new Shapes.RoundRectangle().CornerRadius(topLeft, topRight, bottomLeft, bottomRight);
+            return border;
+        }
     }
 }

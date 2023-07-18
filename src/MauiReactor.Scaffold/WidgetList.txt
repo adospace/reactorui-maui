@@ -34,6 +34,8 @@ Microsoft.Maui.Controls.ShellSection
 Microsoft.Maui.Controls.BaseMenuItem
 Microsoft.Maui.Controls.MenuItem
 Microsoft.Maui.Controls.MenuBarItem
+Microsoft.Maui.Controls.FlyoutBase
+Microsoft.Maui.Controls.MenuFlyout
 Microsoft.Maui.Controls.MenuFlyoutItem
 Microsoft.Maui.Controls.MenuFlyoutSubItem
 Microsoft.Maui.Controls.MenuFlyoutSeparator
@@ -45,6 +47,7 @@ Microsoft.Maui.Controls.Compatibility.Layout
 Microsoft.Maui.Controls.GestureRecognizer
 Microsoft.Maui.Controls.TapGestureRecognizer
 Microsoft.Maui.Controls.DragGestureRecognizer
+Microsoft.Maui.Controls.DropGestureRecognizer
 Microsoft.Maui.Controls.PanGestureRecognizer
 Microsoft.Maui.Controls.PinchGestureRecognizer
 Microsoft.Maui.Controls.PointerGestureRecognizer

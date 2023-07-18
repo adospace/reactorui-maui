@@ -8,7 +8,7 @@ namespace MauiReactor
     {
         private readonly Dictionary<BindableProperty, object> _attachedProperties = new();
 
-        private ParameterContext? _parameterContext;
+        //private ParameterContext? _parameterContext;
 
         private Component? _newComponent;
 
@@ -105,11 +105,11 @@ namespace MauiReactor
                 _newComponent = newComponentMigrated;
             }
 
-            if (_parameterContext != null && newNode is Component newComponent)
-            {
-                newComponent._parameterContext ??= new ParameterContext(newComponent);
-                _parameterContext.MigrateTo(newComponent._parameterContext);
-            }
+            //if (_parameterContext != null && newNode is Component newComponent)
+            //{
+            //    newComponent._parameterContext ??= new ParameterContext(newComponent);
+            //    _parameterContext.MigrateTo(newComponent._parameterContext);
+            //}
 
             if (newNode.GetType().FullName == GetType().FullName && _isMounted)
             {
@@ -117,6 +117,8 @@ namespace MauiReactor
                 ((Component)newNode)._nativeControl = _nativeControl;
                 _nativeControl = null;
                 ((Component)newNode).OnPropsChanged();
+                ((Component)newNode).OnMountedOrPropsChanged();
+
                 base.MergeWith(newNode);
             }
             else
@@ -129,6 +131,7 @@ namespace MauiReactor
         {
             //System.Diagnostics.Debug.WriteLine($"Mounting {Key ?? GetType()} under {Parent.Key ?? Parent.GetType()} at index {ChildIndex}");
             OnMounted();
+            OnMountedOrPropsChanged();
 
             base.OnMount();
         }
@@ -154,7 +157,13 @@ namespace MauiReactor
         }
 
         protected virtual void OnPropsChanged()
-        { }
+        {
+        }
+
+        protected virtual void OnMountedOrPropsChanged()
+        {
+
+        }
 
         public INavigation? Navigation
             => ContainerPage?.Navigation ?? NavigationProvider.Navigation;
@@ -192,39 +201,41 @@ namespace MauiReactor
 
         protected IParameter<T> CreateParameter<T>(string? name = null) where T : new()
         {
-            _parameterContext ??= new ParameterContext(this);
-            return _parameterContext.Create<T>(name);
+            var parameterContext = new ParameterContext(this);
+            return parameterContext.Create<T>(name);
         }
 
         public IParameter<T> GetParameter<T>(string? name = null) where T : new()
         {
-            IParameter<T>? parameter = null;
-            Component currentComponent = this;
+            var parameterContext = new ParameterContext(this);
+            return parameterContext.Get<T>(name) ?? throw new InvalidOperationException($"Unable to find parameter with name '{name ?? typeof(T).FullName}'");
+            //IParameter<T>? parameter = null;
+            //Component currentComponent = this;
 
-            while (true)
-            {
-                while (currentComponent._newComponent != null)
-                {
-                    currentComponent = currentComponent._newComponent;
-                }
+            //while (true)
+            //{
+            //    while (currentComponent._newComponent != null)
+            //    {
+            //        currentComponent = currentComponent._newComponent;
+            //    }
 
-                var parentComponent = currentComponent.GetParent<Component>();
-                if (parentComponent == null)
-                    break;
+            //    var parentComponent = currentComponent.GetParent<Component>();
+            //    if (parentComponent == null)
+            //        break;
 
-                parameter = parentComponent._parameterContext?.Get<T>(name);
+            //    parameter = parentComponent._parameterContext?.Get<T>(name);
 
-                if (parameter != null)
-                {
-                    _parameterContext ??= new ParameterContext(this);
-                    parameter = _parameterContext.Register((parameter as IParameterWithReferences<T>) ?? throw new InvalidOperationException($"Parameter '{name}' is not of type {typeof(T).FullName}"));
-                    break;
-                }
+            //    if (parameter != null)
+            //    {
+            //        _parameterContext ??= new ParameterContext(this);
+            //        parameter = _parameterContext.Register((parameter as IParameterWithReferences<T>) ?? throw new InvalidOperationException($"Parameter '{name}' is not of type {typeof(T).FullName}"));
+            //        break;
+            //    }
 
-                currentComponent = parentComponent;
-            }
+            //    currentComponent = parentComponent;
+            //}
 
-            return parameter ?? throw new InvalidOperationException($"Unable to find parameter with name '{name ?? typeof(T).FullName}'");
+            //return parameter ?? throw new InvalidOperationException($"Unable to find parameter with name '{name ?? typeof(T).FullName}'");
         }
     
         public static VisualNode Render(Func<ComponentContext, VisualNode> renderFunc)

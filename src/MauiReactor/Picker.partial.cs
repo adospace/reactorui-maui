@@ -9,25 +9,31 @@ namespace MauiReactor
 {
     public partial interface IPicker
     {
-        IEnumerable<string>? ItemsSource { get; set; }
+        IReadOnlyList<string>? ItemsSource { get; set; }
     }
 
     public partial class Picker<T>
     {
-        IEnumerable<string>? IPicker.ItemsSource { get; set; }
+        IReadOnlyList<string>? IPicker.ItemsSource { get; set; }
 
         partial void OnEndUpdate()
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIPicker = (IPicker)this;
-            NativeControl.ItemsSource = thisAsIPicker.ItemsSource?.ToList();
+            if (NativeControl.ItemsSource == null ||
+                thisAsIPicker.ItemsSource == null ||
+                NativeControl.ItemsSource.Count != thisAsIPicker.ItemsSource.Count ||
+                !NativeControl.ItemsSource.Cast<object>().SequenceEqual(thisAsIPicker.ItemsSource))
+            {
+                NativeControl.ItemsSource = (System.Collections.IList?)thisAsIPicker.ItemsSource;
+            }
         }
     }
 
 
     public static partial class PickerExtensions
     {
-        public static T ItemsSource<T>(this T picker, IEnumerable<string>? itemsSource) where T : IPicker
+        public static T ItemsSource<T>(this T picker, IReadOnlyList<string>? itemsSource) where T : IPicker
         {
             picker.ItemsSource = itemsSource;
             return picker;

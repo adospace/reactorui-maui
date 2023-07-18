@@ -94,7 +94,7 @@ class AnimationShowcasePage : Component<AnimationShowcasePageState>
                             new Label("Easing").VCenter(),
                             new Picker()
                                 .Title("Easing Function")
-                                .ItemsSource(State.Easings.Select(_=>_.Name))
+                                .ItemsSource(State.Easings.Select(_=>_.Name).ToList())
                                 .SelectedIndex(()=> State.SelectedEasingIndex)
                                 .OnSelectedIndexChanged((index)=> SetState(s => s.SelectedEasingIndex = index, false))
                             ,
