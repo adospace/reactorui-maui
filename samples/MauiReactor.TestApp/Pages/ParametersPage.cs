@@ -27,10 +27,10 @@ namespace MauiReactor.TestApp.Pages
             {
                 new VStack(spacing: 10)
                 {
-                    new Button("Increment from parent", () => _customParameter.Set(_=>_.Numeric += 1   )),
+                    new Button("Increment from parent", () => _customParameter.Set(_=>_.Numeric += 1)),
                     new Label(_customParameter.Value.Numeric),
 
-                    new ParameterChildComponent()
+                    new Button("Open child page", ()=> Navigation?.PushAsync<ParameterChildComponent>())
                 }
                 .VCenter()
                 .HCenter()
@@ -38,18 +38,20 @@ namespace MauiReactor.TestApp.Pages
         }
     }
 
-
     partial class ParameterChildComponent : Component
     {
         public override VisualNode Render()
         {
             var customParameter = GetParameter<CustomParameter>();
 
-            return new VStack(spacing: 10)
+            return new ContentPage
             {
-                new Button("Increment from child", ()=> customParameter.Set(_=>_.Numeric++)),
+                new VStack(spacing: 10)
+                {
+                    new Button("Increment from child", ()=> customParameter.Set(_ => _.Numeric+=1)),
 
-                new Label(customParameter.Value.Numeric),
+                    new Label(customParameter.Value.Numeric),
+                }
             };
         }
     }
