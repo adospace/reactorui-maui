@@ -365,7 +365,14 @@ namespace MauiReactor
 
         void IComponentWithState.ForwardState(object stateFromOldComponent, bool invalidateComponent)
         {
-            CopyObjectExtensions.CopyProperties(stateFromOldComponent, State);
+            if (stateFromOldComponent.GetType() == typeof(S))
+            { 
+                _state = (S)stateFromOldComponent;
+            }
+            else if (stateFromOldComponent.GetType().FullName == typeof(S).FullName)
+            { 
+                CopyObjectExtensions.CopyProperties(stateFromOldComponent, State);
+            }
 
             foreach (var registeredAction in _actionsRegisteredOnStateChange)
             {
@@ -445,7 +452,7 @@ namespace MauiReactor
                 {
                     newComponentWithState.State = State;
                 }
-                else
+                else if (newNode.GetType().FullName == this.GetType().FullName)
                 {
                     System.Diagnostics.Debug.WriteLine("WARNING: State copied!");
                     CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
