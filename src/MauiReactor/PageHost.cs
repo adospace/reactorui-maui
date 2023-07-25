@@ -1,4 +1,5 @@
-﻿using MauiReactor.Internals;
+﻿using MauiReactor.HotReload;
+using MauiReactor.Internals;
 using Microsoft.Maui.Dispatching;
 using System;
 using System.Collections.Generic;
@@ -121,10 +122,8 @@ namespace MauiReactor
         {
             _component ??= InitializeComponent(new T());
 
-            if (ReactorApplicationHost.Instance != null)
-            {
-                ReactorApplicationHost.Instance.ComponentLoader.AssemblyChanged += OnComponentAssemblyChanged;
-            }
+            ComponentLoader.Instance.Run();
+            ComponentLoader.Instance.AssemblyChanged += OnComponentAssemblyChanged;
 
             OnLayout();
 
@@ -138,11 +137,11 @@ namespace MauiReactor
 
         private void OnComponentAssemblyChanged(object? sender, EventArgs e)
         {
-            Validate.EnsureNotNull(ReactorApplicationHost.Instance);
+            //Validate.EnsureNotNull(ReactorApplicationHost.Instance);
 
             try
             {
-                var newComponent = ReactorApplicationHost.Instance.ComponentLoader.LoadComponent<T>();
+                var newComponent = ComponentLoader.Instance.LoadComponent(typeof(T));
                 if (newComponent != null)
                 {
                     _component = newComponent;
@@ -156,17 +155,14 @@ namespace MauiReactor
             }
             catch (Exception ex)
             {
-                ReactorApplicationHost.Instance.FireUnhandledExceptionEvent(ex);
+                ReactorApplicationHost.Instance?.FireUnhandledExceptionEvent(ex);
+                System.Diagnostics.Debug.WriteLine(ex);
             }
         }
 
         public void Stop()
         {
-            if (ReactorApplicationHost.Instance != null)
-            {
-                ReactorApplicationHost.Instance.ComponentLoader.AssemblyChanged -= OnComponentAssemblyChanged;
-            }
-
+            ComponentLoader.Instance.AssemblyChanged -= OnComponentAssemblyChanged;
             _sleeping = true;
         }
 
@@ -215,6 +211,7 @@ namespace MauiReactor
                 Application.Current.Dispatcher.Dispatch(AnimationCallback);
             }
         }
+        
         private void AnimationCallback()
         {
             if (_sleeping)
