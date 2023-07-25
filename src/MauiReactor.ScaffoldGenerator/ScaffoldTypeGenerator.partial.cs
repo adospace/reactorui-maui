@@ -17,7 +17,8 @@ public partial class ScaffoldTypeGenerator
         INamedTypeSymbol generatorType, 
         INamedTypeSymbol typeToScaffold,
         (INamedTypeSymbol TypeSymbol, string ChildPropertyName)[] childrenTypes,
-        bool implementItemTemplateFlag)
+        bool implementItemTemplateFlag,
+        string? baseTypeNamespace)
     {
         var declaringTypeFullName = typeToScaffold.GetFullyQualifiedName();
         var bindablePropertyType = compilation.FindNamedType("Microsoft.Maui.Controls.BindableProperty");
@@ -85,6 +86,7 @@ public partial class ScaffoldTypeGenerator
         IsGenericType = typeToScaffold.IsGenericType;
         TypeToScaffold = typeToScaffold;
         GeneratorType = generatorType;
+        BaseTypeNamespace = baseTypeNamespace;
 
         TypeofDouble = compilation.FindNamedType("System.Double").EnsureNotNull();
         TypeofFloat = compilation.FindNamedType("System.Single").EnsureNotNull();
@@ -149,6 +151,7 @@ public partial class ScaffoldTypeGenerator
     public INamedTypeSymbol TypeofSizeF { get; }    
     public INamedTypeSymbol TypeofColor { get; }
 
+    private string? BaseTypeNamespace { get; }
     public bool IsBaseGenericType =>
         TypeToScaffold.BaseType.EnsureNotNull().IsGenericType;
 
@@ -172,6 +175,11 @@ public partial class ScaffoldTypeGenerator
         .Replace('+', '.');
 
     private string BaseTypeName()
+    {
+        return BaseTypeNamespace != null ? $"{BaseTypeNamespace}.{InternalBaseTypeName()}" : InternalBaseTypeName();
+    }
+
+    private string InternalBaseTypeName()
     {
         var baseType = TypeToScaffold.BaseType
             .EnsureNotNull();

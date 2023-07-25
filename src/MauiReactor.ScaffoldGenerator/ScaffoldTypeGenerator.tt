@@ -556,7 +556,7 @@ namespace <#= Namespace #>
         }
         public static T <#= propertyName #><T>(this T <#= TypeName.ToLocalVariableName() #>, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : <#= InterfaceName #>
         {
-            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #>>(new UriImageSource
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #>>(new Microsoft.Maui.Controls.UriImageSource
             {
                 Uri = imageUri,
                 CachingEnabled = cachingEnabled,
@@ -564,7 +564,7 @@ namespace <#= Namespace #>
             });
             return <#= TypeName.ToLocalVariableName() #>;
         }
-        public static T <#= propertyName #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<Stream> imageStream) where T : <#= InterfaceName #>
+        public static T <#= propertyName #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<System.IO.Stream> imageStream) where T : <#= InterfaceName #>
         {
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #>>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
             return <#= TypeName.ToLocalVariableName() #>;

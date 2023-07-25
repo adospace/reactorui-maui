@@ -23,7 +23,7 @@ namespace MauiReactor
     [AttributeUsage(AttributeTargets.Class)]
     internal class ScaffoldAttribute : Attribute
     {
-        public ScaffoldAttribute(Type nativeControlType, bool implementItemTemplate = false) 
+        public ScaffoldAttribute(Type nativeControlType, bool implementItemTemplate = false, string baseTypeNamespace = null) 
         {
             NativeControlType = nativeControlType;
             ImplementItemTemplate = implementItemTemplate;
@@ -72,6 +72,8 @@ namespace MauiReactor
 
             var implementItemTemplateFlag = (bool)scaffoldAttribute.ConstructorArguments[1].Value.EnsureNotNull();
 
+            var baseTypeNamespace = (string?)scaffoldAttribute.ConstructorArguments[2].Value;
+
             var typeToScaffold = context.Compilation.FindNamedType(typeMetadataName).EnsureNotNull();
 
             var listOfChildTypes = new List<(INamedTypeSymbol TypeSymbol, string ChildPropertyName)>();
@@ -89,14 +91,14 @@ namespace MauiReactor
                 var childTypeMetadataName = ((ISymbol)scaffoldChildAttribute.ConstructorArguments[0].Value.EnsureNotNull())
                     .GetFullyQualifiedName();
 
-                var childrenProprtyName = scaffoldChildAttribute.ConstructorArguments[1].Value.EnsureNotNull().ToString();
+                var childrenPropertyName = scaffoldChildAttribute.ConstructorArguments[1].Value.EnsureNotNull().ToString();
 
                 var childTypeToScaffold = context.Compilation.FindNamedType(childTypeMetadataName).EnsureNotNull();
 
-                listOfChildTypes.Add((childTypeToScaffold, childrenProprtyName));
+                listOfChildTypes.Add((childTypeToScaffold, childrenPropertyName));
             }
 
-            var scaffoldedType = new ScaffoldTypeGenerator(context.Compilation, generatorTypeSymbol, typeToScaffold, listOfChildTypes.ToArray(), implementItemTemplateFlag);
+            var scaffoldedType = new ScaffoldTypeGenerator(context.Compilation, generatorTypeSymbol, typeToScaffold, listOfChildTypes.ToArray(), implementItemTemplateFlag, baseTypeNamespace);
 
             var source = scaffoldedType.TransformAndPrettify();
 

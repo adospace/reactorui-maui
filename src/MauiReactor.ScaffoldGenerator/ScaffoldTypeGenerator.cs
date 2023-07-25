@@ -4257,9 +4257,9 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(">(new UriImageSource\r\n            {\r\n                Uri = imageUri,\r\n           " +
-                    "     CachingEnabled = cachingEnabled,\r\n                CacheValidity = cacheVali" +
-                    "dity\r\n            });\r\n            return ");
+            this.Write(">(new Microsoft.Maui.Controls.UriImageSource\r\n            {\r\n                Uri " +
+                    "= imageUri,\r\n                CachingEnabled = cachingEnabled,\r\n                C" +
+                    "acheValidity = cacheValidity\r\n            });\r\n            return ");
             
             #line 565 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -4280,7 +4280,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(", Func<Stream> imageStream) where T : ");
+            this.Write(", Func<System.IO.Stream> imageStream) where T : ");
             
             #line 567 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName));
