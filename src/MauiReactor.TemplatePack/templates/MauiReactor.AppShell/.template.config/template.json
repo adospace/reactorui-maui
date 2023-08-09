@@ -1,6 +1,6 @@
 {
   "$schema": "http://json.schemastore.org/template",
-  "author": "Adolfo Marinucci",
+  "author": "James Alickolli",
   "classifications": [ "Maui" ],
   "identity": "MauiReactor.AppShell",
   "name": "MauiReactor based app with App Shell",
