@@ -1,8 +1,8 @@
 ﻿using MauiReactor;
-using MauiReactor.Startup.Pages;
+using MauiReactor.AppShell.Pages;
 
 
-namespace MauiReactor.Startup;
+namespace MauiReactor.AppShell;
 
 public static class MauiProgram
 {
@@ -10,7 +10,7 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UseMauiReactorApp<MainPage>(app =>
+            .UseMauiReactorApp<AppShell>(app =>
             {
                 app.AddResource("Resources/Styles/Colors.xaml");
                 app.AddResource("Resources/Styles/Styles.xaml");
