@@ -5,18 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MauiReactor.Pages
-{
-    internal class MainPageState
-    {
-        public int Counter { get; set; }
-    }
+namespace MauiReactor.AppShell.Pages;
 
-    internal class MainPage : Component<MainPageState>
+class MainPageState
+{
+    public int Counter { get; set; }
+}
+
+class MainPage : Component<MainPageState>
+{
+    public override VisualNode Render()
     {
-        public override VisualNode Render()
-        {
-            return new ContentPage
+        return new ContentPage
         {
             new ScrollView
             {
@@ -44,6 +44,5 @@ namespace MauiReactor.Pages
                 .Padding(30, 0)
             }
         };
-        }
     }
 }

@@ -4,27 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MauiReactor.Pages
+namespace MauiReactor.AppShell.Pages;
+
+class OtherPage : Component
 {
-    internal class OtherPage:Component
+    public override VisualNode Render()
     {
-        public override VisualNode Render()
+        return new ContentPage
         {
-            return new ContentPage
+            new ScrollView
             {
-                new ScrollView
+                new VerticalStackLayout
                 {
-                    new VerticalStackLayout
-                    {
-                        new Label("Other Page")
-                            .FontSize(32)
-                            .HCenter(),
-                    }
-                    .VCenter()
-                    .Spacing(25)
-                    .Padding(30, 0)
+                    new Label("Other Page")
+                        .FontSize(32)
+                        .HCenter(),
                 }
-            };
-        }
+                .VCenter()
+                .Spacing(25)
+                .Padding(30, 0)
+            }
+        };
     }
 }
