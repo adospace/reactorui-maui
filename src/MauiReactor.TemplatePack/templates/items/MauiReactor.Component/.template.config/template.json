@@ -1,9 +1,9 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "Adolfo Marinucci - James Alickolli",
-  "classifications": [ "Common", "Code" ],
+  "classifications": [ "Maui", "Code" ],
   "identity": "MauiReactor.Component",
-  "name": "MauiReactor based Component Class",
+  "name": ".NET MAUI Reactor Component",
   "description": "A Maui reactor based component",
   "shortName": "maui-reactor-component",
   "sourceName": "MauiReactor.Component",
