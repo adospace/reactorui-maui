@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MauiReactor;
 
-namespace MauiReactor.Component;
+namespace MauiReactorComponent;
 
 class MauiReactorComponentState
 {

@@ -6,7 +6,7 @@
   "name": ".NET MAUI Reactor Component",
   "description": "A Maui reactor based component",
   "shortName": "maui-reactor-component",
-  "sourceName": "MauiReactor.Component",
+  "sourceName": "MauiReactorComponent",
   "preferNameDirectory": true,
   "tags": {
     "language": "C#",
