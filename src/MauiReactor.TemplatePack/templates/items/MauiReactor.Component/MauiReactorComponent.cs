@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using MauiReactor;
 
-namespace MauiReactorComponent;
+namespace MY_NAMESPACE;
 
-class MauiReactorComponentState
+class ComponentClassState
 {
     public int Counter { get; set; }
 }
 
-class MauiReactorComponent : Component<MauiReactorComponentState>
+class ComponentClassComponent : Component<ComponentClassState>
 {
     public override VisualNode Render()
     {
