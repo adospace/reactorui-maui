@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Adolfo Marinucci - James Alickolli",
+  "classifications": [ "Maui", "Code" ],
+  "identity": "MauiReactor.Component",
+  "name": ".NET MAUI Reactor Component",
+  "description": "A Maui reactor based component",
+  "shortName": "maui-reactor-component",
+  "sourceName": "ComponentClass",
+  "preferNameDirectory": true,
+  "tags": {
+    "language": "C#",
+    "type": "item"
+  },
+  "symbols": {
+    "namespace": {
+      "type": "parameter",
+      "defaultValue": "MyNamespace",
+      "replaces": "MY_NAMESPACE"
+    }
+  }
+}
