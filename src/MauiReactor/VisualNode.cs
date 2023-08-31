@@ -546,10 +546,27 @@ namespace MauiReactor
                 for (var i = 0; i < children.Count; i++)
                 {
                     VisualNode child = children[i];
-                    if (child is not T childT)
-                        continue;
+                    if (child is T childT)
+                        yield return childT;
 
-                    yield return childT;
+                    if (child is IVisualNodeWithNativeControl childVisualNodeWithNativeControl)
+                    {
+                        var childNativeControl = childVisualNodeWithNativeControl.GetNativeControl<BindableObject>();
+
+                        if (childNativeControl is T childNativeControlAsT)
+                        {
+                            yield return childNativeControlAsT;
+                        }
+                    }
+
+                    if (child is IAutomationItemContainer childAsAutomationItemContainer)
+                    {
+                        foreach (var foundElementOfTypeT in childAsAutomationItemContainer.Descendants<T>())
+                        {
+                            yield return foundElementOfTypeT;
+                        }
+                    }
+
                     queue.Enqueue(child);
                 }
             }

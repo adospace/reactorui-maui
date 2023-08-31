@@ -77,13 +77,25 @@ public static class TemplateHostExtensions
     public static T? FindOptional<T>(this ITemplateHost templateHost, string automationId) where T : class
     {
         if (templateHost.NativeElement is IElementController elementController)
-            return elementController.Find<T>(automationId);
+        {
+            var foundElement = elementController.FindOptional<T>(automationId);
+            if (foundElement != null)
+            {
+                return foundElement;
+            }
+        }
 
         if (templateHost.NativeElement is IAutomationItemContainer childAsAutomationItemContainer)
-            return childAsAutomationItemContainer.Find<T>(automationId);
+        {
+            var foundElement = childAsAutomationItemContainer.FindOptional<T>(automationId);
+            if (foundElement != null)
+            {
+                return foundElement;
+            }
+        }
 
         if (templateHost is IAutomationItemContainer automationItemContainer)
-            return automationItemContainer.Find<T>(automationId);
+            return automationItemContainer.FindOptional<T>(automationId);
 
         return default;
     }

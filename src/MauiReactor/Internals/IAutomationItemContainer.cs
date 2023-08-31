@@ -8,19 +8,29 @@ namespace MauiReactor.Internals;
 
 public interface IAutomationItemContainer
 {
-    IEnumerable<T> Descendants<T>();
+    IEnumerable<T> Descendants<T>() where T : class;
 }
 
 public static class AutomationItemContainerExtensions
 {
     public static T? FindOptional<T>(this IAutomationItemContainer automationItemContainer, string automationId) where T : class
     {
-        foreach (var item in automationItemContainer.Descendants<IAutomationItem>())
+        foreach (var item in automationItemContainer.Descendants<T>())
         {
-            if (item.AutomationId == automationId)
+            if (item is IAutomationItem automationItem)
             {
-                return (T)item;
+                if (automationItem.AutomationId == automationId)
+                {
+                    return item;
+                }
             }
+            else if (item is Element itemElement)
+            {
+                if (itemElement.AutomationId == automationId)
+                {
+                    return item;
+                }
+            }    
         }
 
         return default;

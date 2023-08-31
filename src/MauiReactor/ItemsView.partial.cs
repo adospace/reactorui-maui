@@ -15,8 +15,10 @@ namespace MauiReactor
     }
 
 
-    public partial class ItemsView<T> : ICustomDataTemplateOwner
+    public partial class ItemsView<T> : ICustomDataTemplateOwner, IAutomationItemContainer
     {
+        private List<WeakReference<VisualNode>>? _loadedForciblyChildren;
+
         IEnumerable? IItemsView.ItemsSource { get; set; }
 
         Func<object, VisualNode>? IItemsView.ItemTemplate { get; set; }
@@ -25,7 +27,20 @@ namespace MauiReactor
 
         VisualStateGroupList? IItemsView.ItemVisualStateGroups { get; set; }
 
-        Func<object, VisualNode>? ICustomDataTemplateOwner.ItemTemplate => ((IItemsView)this).ItemTemplate;
+        VisualNode? ICustomDataTemplateOwner.GetVisualNodeForItem(object item)
+        {
+            var thisAsIItemsView = (IItemsView)this;
+            if (thisAsIItemsView.ItemTemplate == null)
+            {
+                return null;
+            }
+
+            var visualNodeForItem = thisAsIItemsView.ItemTemplate.Invoke(item);
+
+            _loadedForciblyChildren?.Add(new WeakReference<VisualNode>(visualNodeForItem));
+
+            return visualNodeForItem;
+        }
 
         private CustomDataTemplate? _customDataTemplate;
 
@@ -33,6 +48,8 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIItemsView = (IItemsView)this;
+
+            _loadedForciblyChildren = null;
 
             if (thisAsIItemsView.ItemsSource != null &&
                 NativeControl.ItemsSource == thisAsIItemsView.ItemsSource)
@@ -68,6 +85,48 @@ namespace MauiReactor
             
 
             base.OnMigrated(newNode);
+        }
+
+        IEnumerable<TChild> IAutomationItemContainer.Descendants<TChild>()
+        {
+            if (_loadedForciblyChildren == null)
+            {
+                ForceItemsLoad();
+            }
+
+            Validate.EnsureNotNull(_loadedForciblyChildren);
+
+            foreach (var loadedForciblyChild in _loadedForciblyChildren)
+            {
+                if (loadedForciblyChild.TryGetTarget(out var child))
+                {
+                    if (child is TChild childT)
+                    {
+                        yield return childT;
+                    }
+                    
+                    foreach (var childChildT in ((IAutomationItemContainer)child).Descendants<TChild>())
+                    {
+                        yield return childChildT;
+                    }
+                }
+            }
+        }
+
+        private void ForceItemsLoad()
+        {
+            Validate.EnsureNotNull(NativeControl);
+
+            var itemsSource = NativeControl.ItemsSource.Cast<object>().ToArray();
+
+            _loadedForciblyChildren = new();
+
+            foreach (var item in itemsSource)
+            {
+                var itemContent = (BindableObject)NativeControl.ItemTemplate.CreateContent();
+
+                itemContent.BindingContext = item;
+            }
         }
     }
 
@@ -128,6 +187,5 @@ namespace MauiReactor
 
             return itemsView;
         }
-
     }
 }
