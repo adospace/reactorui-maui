@@ -208,10 +208,17 @@ namespace MauiReactor.Canvas.Internals
                 for (var i = 0; i < children.Count; i++)
                 {
                     CanvasNode child = children[i];
-                    if (child is not T childT)
-                        continue;
+                    if (child is T childT)
+                        yield return childT;
 
-                    yield return childT;
+                    if (child is IAutomationItemContainer childAsAutomationItemContainer)
+                    {
+                        foreach (var foundElementOfTypeT in childAsAutomationItemContainer.Descendants<T>())
+                        {
+                            yield return foundElementOfTypeT;
+                        }
+                    }
+
                     queue.Enqueue(child);
                 }
             }

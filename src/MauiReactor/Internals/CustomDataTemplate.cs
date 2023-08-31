@@ -8,7 +8,7 @@ namespace MauiReactor.Internals
 {
     public interface ICustomDataTemplateOwner
     {
-        Func<object, VisualNode>? ItemTemplate { get; }
+        VisualNode? GetVisualNodeForItem(object item);
     }
 
     public class CustomDataTemplate
@@ -35,7 +35,7 @@ namespace MauiReactor.Internals
 
         public virtual VisualNode? GetVisualNodeForItem(object item)
         {
-            return Owner.ItemTemplate?.Invoke(item);
+            return Owner.GetVisualNodeForItem(item);
         }
 
         public void Update()

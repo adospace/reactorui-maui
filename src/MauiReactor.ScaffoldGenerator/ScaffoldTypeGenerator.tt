@@ -46,7 +46,7 @@ namespace <#= Namespace #>
     }
 
     <# if (IsBaseGenericType) { #>
-    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T, <#= GenericArgumentBaseFullBaseTypeName #>><#= SupportItemTemplate ? ", ICustomDataTemplateOwner" : string.Empty #>, ICustomDataTemplateOwner where T : <#= FullTypeName #>, new()
+    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T, <#= GenericArgumentBaseFullBaseTypeName #>><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #>, ICustomDataTemplateOwner where T : <#= FullTypeName #>, new()
     {
         public <#= TypeName #>()
         { 
@@ -72,7 +72,7 @@ namespace <#= Namespace #>
 
         }
     <# } else if (IsTypeSealed) { #>
-    public sealed partial class <#= TypeName #> : <#= BaseTypeName() #><<#= FullTypeName #>>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner" : string.Empty #>
+    public sealed partial class <#= TypeName #> : <#= BaseTypeName() #><<#= FullTypeName #>>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #>
     {
         public <#= TypeName #>()
         { 
@@ -85,7 +85,7 @@ namespace <#= Namespace #>
 
         }
     <# } else if (IsTypeNotAbstractWithEmptyConstructor) { #>
-    public partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner" : string.Empty #> where T : <#= FullTypeName #>, new()
+    public partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #> where T : <#= FullTypeName #>, new()
     {
         public <#= TypeName #>()
         { 
@@ -98,7 +98,7 @@ namespace <#= Namespace #>
 
         }
     <# } else { #>
-    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #> <#= SupportItemTemplate ? ", ICustomDataTemplateOwner" : string.Empty #> where T : <#= FullTypeName #>, new()
+    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #> <#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #> where T : <#= FullTypeName #>, new()
     {
         protected <#= TypeName #>()
         { 
@@ -116,7 +116,64 @@ namespace <#= Namespace #>
 
         Func<object, VisualNode>? <#= InterfaceName #>.ItemTemplate { get; set; }
 
-        Func<object, VisualNode>? ICustomDataTemplateOwner.ItemTemplate => ((<#= InterfaceName #>)this).ItemTemplate;
+        private List<WeakReference<VisualNode>>? _loadedForciblyChildren;
+
+        VisualNode? ICustomDataTemplateOwner.GetVisualNodeForItem(object item)
+        {
+            var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
+            if (thisAs<#= InterfaceName #>.ItemTemplate == null)
+            {
+                return null;
+            }
+
+            var visualNodeForItem = thisAs<#= InterfaceName #>.ItemTemplate.Invoke(item);
+
+            _loadedForciblyChildren?.Add(new WeakReference<VisualNode>(visualNodeForItem));
+
+            return visualNodeForItem;
+        }
+
+        IEnumerable<TChild> IAutomationItemContainer.Descendants<TChild>()
+        {
+            if (_loadedForciblyChildren == null)
+            {
+                ForceItemsLoad();
+            }
+
+            Validate.EnsureNotNull(_loadedForciblyChildren);
+
+            foreach (var loadedForciblyChild in _loadedForciblyChildren)
+            {
+                if (loadedForciblyChild.TryGetTarget(out var child))
+                {
+                    if (child is TChild childT)
+                    {
+                        yield return childT;
+                    }
+                    
+                    foreach (var childChildT in ((IAutomationItemContainer)child).Descendants<TChild>())
+                    {
+                        yield return childChildT;
+                    }
+                }
+            }
+        }
+
+        private void ForceItemsLoad()
+        {
+            Validate.EnsureNotNull(NativeControl);
+
+            var itemsSource = NativeControl.ItemsSource.Cast<object>().ToArray();
+
+            _loadedForciblyChildren = new();
+
+            foreach (var item in itemsSource)
+            {
+                var itemContent = (Microsoft.Maui.Controls.BindableObject)NativeControl.ItemTemplate.CreateContent();
+
+                itemContent.BindingContext = item;
+            }
+        }
 
         private CustomDataTemplate? _customDataTemplate;
         <# } #>
@@ -182,6 +239,9 @@ namespace <#= Namespace #>
             <#}#>
             
             <# if (SupportItemTemplate) { #>
+            
+            _loadedForciblyChildren = null;
+
             if (thisAs<#= InterfaceName #>.ItemsSource != null &&
                 NativeControl.ItemsSource == thisAs<#= InterfaceName #>.ItemsSource)
             {

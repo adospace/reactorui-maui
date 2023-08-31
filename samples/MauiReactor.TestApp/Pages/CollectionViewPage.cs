@@ -22,6 +22,7 @@ namespace MauiReactor.TestApp.Pages
             return new ContentPage("CollectionView")
             {
                 new CollectionView()
+                    .AutomationId("list")
                     .ItemsSource(ItemsSource, RenderItem)
             };
         }
@@ -29,7 +30,7 @@ namespace MauiReactor.TestApp.Pages
         private VisualNode RenderItem(Tuple<string, string> item) 
             => new VStack(spacing: 5)
             {
-                new Label(item.Item1),
+                new Label(item.Item1).AutomationId(item.Item1),
                 new Label(item.Item2)
             };
     }

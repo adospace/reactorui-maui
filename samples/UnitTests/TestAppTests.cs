@@ -5,6 +5,7 @@ using MauiReactor.TestApp.Pages;
 using MauiReactor.TestApp.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
+using System.Linq;
 
 namespace UnitTests;
 
@@ -82,6 +83,16 @@ public class TestAppTests
         mainPageNode.Find<MauiControls.Label>("MainPage_Label")
             .Text
             .ShouldBe("Value: 12");
+    }
+
+    [Test]
+    public void CollectionViewPage_Should_Render_Correctly()
+    {
+        var page = TemplateHost.Create(new CollectionViewPage());
+
+        page.Find<MauiControls.CollectionView>("list").ItemsSource.Cast<object>().Count().ShouldBe(200);
+        page.Find<MauiControls.Label>("Item1").Text.ShouldBe("Item1");
+
     }
 
 }
