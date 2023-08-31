@@ -239,6 +239,9 @@ namespace <#= Namespace #>
             <#}#>
             
             <# if (SupportItemTemplate) { #>
+            
+            _loadedForciblyChildren = null;
+
             if (thisAs<#= InterfaceName #>.ItemsSource != null &&
                 NativeControl.ItemsSource == thisAs<#= InterfaceName #>.ItemsSource)
             {

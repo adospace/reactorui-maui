@@ -4,12 +4,8 @@ using MauiReactor.Internals;
 using MauiReactor.TestApp.Pages;
 using MauiReactor.TestApp.Services;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Dispatching;
-using Microsoft.Maui.Platform;
 using Shouldly;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace UnitTests;
 
