@@ -104,7 +104,17 @@ namespace MauiReactor
                     {
                         yield return childT;
                     }
-                    
+
+                    if (child is IVisualNodeWithNativeControl childVisualNodeWithNativeControl)
+                    {
+                        var childNativeControl = childVisualNodeWithNativeControl.GetNativeControl<BindableObject>();
+
+                        if (childNativeControl is TChild childNativeControlAsT)
+                        {
+                            yield return childNativeControlAsT;
+                        }
+                    }
+
                     foreach (var childChildT in ((IAutomationItemContainer)child).Descendants<TChild>())
                     {
                         yield return childChildT;

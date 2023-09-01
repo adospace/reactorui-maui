@@ -22,16 +22,16 @@ namespace MauiReactor.TestApp.Pages
             return new ContentPage("CollectionView")
             {
                 new CollectionView()
-                    .AutomationId("list")
+                    .AutomationId("list") //AutomationId used for test
                     .ItemsSource(ItemsSource, RenderItem)
             };
         }
 
-        private VisualNode RenderItem(Tuple<string, string> item) 
+        private VisualNode RenderItem(Tuple<string, string> item)
             => new VStack(spacing: 5)
             {
-                new Label(item.Item1).AutomationId(item.Item1),
+                new Label(item.Item1).AutomationId(item.Item1), //AutomationId used for test
                 new Label(item.Item2)
-            };
+            }.AutomationId($"Container_{item.Item1}");
     }
 }

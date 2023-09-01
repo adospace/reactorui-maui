@@ -573,7 +573,7 @@ namespace MauiReactor
         }
     }
 
-    internal interface IVisualNodeWithNativeControl : IVisualNode
+    public interface IVisualNodeWithNativeControl : IVisualNode
     {
         TResult GetNativeControl<TResult>() where TResult : BindableObject;
 

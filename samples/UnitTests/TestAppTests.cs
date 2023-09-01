@@ -91,6 +91,7 @@ public class TestAppTests
         var page = TemplateHost.Create(new CollectionViewPage());
 
         page.Find<MauiControls.CollectionView>("list").ItemsSource.Cast<object>().Count().ShouldBe(200);
+        page.Find<MauiControls.VerticalStackLayout>("Container_Item1").Children.Count.ShouldBe(2);
         page.Find<MauiControls.Label>("Item1").Text.ShouldBe("Item1");
 
     }
