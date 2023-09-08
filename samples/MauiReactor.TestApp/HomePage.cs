@@ -105,6 +105,10 @@ class HomePage : Component
             {
                 new Pages.CarouselTestPage()
             },
+            new FlyoutItem("Carousel with Images Test")
+            {
+                new Pages.CarouselTestWithImagesPage()
+            },
             new FlyoutItem("Canvas AutoV/HStack Test")
             {
                 new Pages.CanvasAutoStackPage()
