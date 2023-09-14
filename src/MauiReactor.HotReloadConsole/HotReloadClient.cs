@@ -24,7 +24,7 @@ namespace MauiReactor.HotReloadConsole
         Task Run(CancellationToken cancellationToken);
     }
 
-    internal abstract class HotReloadClient : IHotReloadClient
+    internal abstract partial class HotReloadClient : IHotReloadClient
     {
         protected readonly Options _options;
         protected readonly string _workingDirectory;
@@ -87,11 +87,11 @@ namespace MauiReactor.HotReloadConsole
             }
         }
 
-        protected static Regex _frameworkRegex = new(
-              "(?<project>[^\\(]+)\\((?<framework>[\\w|\\.|\\-]+)\\)",
-            RegexOptions.CultureInvariant
-            | RegexOptions.Compiled
-            );
+        protected static Regex _frameworkRegex = GenerateFrameworkRegex();
+
+
+        [GeneratedRegex("(?<project>[^\\(]+)\\((?<framework>[\\w|\\.|\\-]+)\\)", RegexOptions.Compiled | RegexOptions.CultureInvariant)]
+        private static partial Regex GenerateFrameworkRegex();
 
         //public string TargetFramework => _frameworkRegex.Match(_project?.Name ?? throw new InvalidOperationException()).Groups["framework"].Value;
 
@@ -106,15 +106,13 @@ namespace MauiReactor.HotReloadConsole
         {
             if (IsAndroidTargetFramework())
             {
-                if (!ExecutePortForwardCommmand())
+                if (!ExecutePortForwardCommand())
                 {
                     return Task.CompletedTask;
                 }
             }
 
-            Task.WaitAll(
-                ConnectionLoop(cancellationToken),
-                FolderMonitorLoop(cancellationToken));
+            Task.WaitAll(new Task[] { ConnectionLoop(cancellationToken), FolderMonitorLoop(cancellationToken) }, cancellationToken: cancellationToken);
 
             return Task.CompletedTask;
         }
@@ -334,19 +332,19 @@ namespace MauiReactor.HotReloadConsole
                 throw new SocketException();
         }
 
-        private static bool ExecutePortForwardCommmand()
+        private static bool ExecutePortForwardCommand()
         {
             if (Environment.OSVersion.Platform == PlatformID.Unix)
             {
-                return ExecuteMacPortForwardCommmand();
+                return ExecuteMacPortForwardCommand();
             }
             else
             {
-                return ExecuteWindowsPortForwardCommmand();
+                return ExecuteWindowsPortForwardCommand();
             }
         }
 
-        private static bool ExecuteWindowsPortForwardCommmand()
+        private static bool ExecuteWindowsPortForwardCommand()
         {
             var adbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
                 "Android", "android-sdk", "platform-tools", "adb.exe");
@@ -381,7 +379,7 @@ namespace MauiReactor.HotReloadConsole
             return true;
         }
         
-        private static bool ExecuteMacPortForwardCommmand()
+        private static bool ExecuteMacPortForwardCommand()
         {
             var adbCommandLine = "adb forward tcp:45820 tcp:45820";
 
@@ -412,6 +410,5 @@ namespace MauiReactor.HotReloadConsole
 
             return true;
         }
-        
     }
 }
