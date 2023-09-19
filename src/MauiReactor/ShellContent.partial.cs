@@ -27,15 +27,13 @@ namespace MauiReactor
         {
             private VisualNode? _root;
             private BindableObject? _nativeContent;
-            private readonly Func<VisualNode> _template;
 
-            public ContentTemplate(ShellContent<T> owner, Func<VisualNode> template)
+            public ContentTemplate(ShellContent<T> owner)
             {
                 Owner = owner;
-                _template = template;
                 DataTemplate = new DataTemplate(() =>
                 {
-                    Root = _template();
+                    Root = ((IShellContent)Owner).ContentTemplate?.Invoke();
                     Layout();
                     return _nativeContent ?? throw new InvalidOperationException();
                 });
@@ -67,12 +65,6 @@ namespace MauiReactor
                 }
             }
 
-            //internal override VisualNode? Parent
-            //{
-            //    get => Owner;
-            //    set => throw new InvalidOperationException();
-            //}
-
             protected override IEnumerable<VisualNode?> RenderChildren()
             {
                 if (_root != null)
@@ -83,16 +75,21 @@ namespace MauiReactor
 
             protected sealed override void OnAddChild(VisualNode widget, BindableObject childControl)
             {
-                _nativeContent = childControl;
+                if (childControl is Microsoft.Maui.Controls.Page page)
+                    _nativeContent = page;
+                else
+                {
+                    throw new InvalidOperationException($"Type '{childControl.GetType()}' not supported under 'ShellContent'");
+                }
             }
 
-            protected sealed override void OnRemoveChild(VisualNode widget, BindableObject childControl)
+            protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
             {
             }
 
             public new void Update()
             {
-                Root = _template();
+                Root = ((IShellContent)Owner).ContentTemplate?.Invoke();
             }
         }
 
@@ -118,7 +115,7 @@ namespace MauiReactor
             {
                 if (_contentTemplate == null)
                 {
-                    _contentTemplate = new ContentTemplate(this, thisAsShellContent.ContentTemplate);
+                    _contentTemplate = new ContentTemplate(this);
                     NativeControl.ContentTemplate = _contentTemplate.DataTemplate;
                 }
                 else
