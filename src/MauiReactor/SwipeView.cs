@@ -15,14 +15,6 @@ namespace MauiReactor
     {
         PropertyValue<double>? Threshold { get; set; }
 
-        PropertyValue<Microsoft.Maui.Controls.SwipeItems>? LeftItems { get; set; }
-
-        PropertyValue<Microsoft.Maui.Controls.SwipeItems>? RightItems { get; set; }
-
-        PropertyValue<Microsoft.Maui.Controls.SwipeItems>? TopItems { get; set; }
-
-        PropertyValue<Microsoft.Maui.Controls.SwipeItems>? BottomItems { get; set; }
-
         Action? SwipeStartedAction { get; set; }
 
         Action<object?, SwipeStartedEventArgs>? SwipeStartedActionWithArgs { get; set; }
@@ -48,14 +40,6 @@ namespace MauiReactor
 
         PropertyValue<double>? ISwipeView.Threshold { get; set; }
 
-        PropertyValue<Microsoft.Maui.Controls.SwipeItems>? ISwipeView.LeftItems { get; set; }
-
-        PropertyValue<Microsoft.Maui.Controls.SwipeItems>? ISwipeView.RightItems { get; set; }
-
-        PropertyValue<Microsoft.Maui.Controls.SwipeItems>? ISwipeView.TopItems { get; set; }
-
-        PropertyValue<Microsoft.Maui.Controls.SwipeItems>? ISwipeView.BottomItems { get; set; }
-
         Action? ISwipeView.SwipeStartedAction { get; set; }
 
         Action<object?, SwipeStartedEventArgs>? ISwipeView.SwipeStartedActionWithArgs { get; set; }
@@ -74,10 +58,6 @@ namespace MauiReactor
             Validate.EnsureNotNull(NativeControl);
             var thisAsISwipeView = (ISwipeView)this;
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeView.ThresholdProperty, thisAsISwipeView.Threshold);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeView.LeftItemsProperty, thisAsISwipeView.LeftItems);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeView.RightItemsProperty, thisAsISwipeView.RightItems);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeView.TopItemsProperty, thisAsISwipeView.TopItems);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeView.BottomItemsProperty, thisAsISwipeView.BottomItems);
             base.OnUpdate();
             OnEndUpdate();
         }
@@ -180,62 +160,6 @@ namespace MauiReactor
             where T : ISwipeView
         {
             swipeView.Threshold = new PropertyValue<double>(thresholdFunc);
-            return swipeView;
-        }
-
-        public static T LeftItems<T>(this T swipeView, Microsoft.Maui.Controls.SwipeItems leftItems)
-            where T : ISwipeView
-        {
-            swipeView.LeftItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(leftItems);
-            return swipeView;
-        }
-
-        public static T LeftItems<T>(this T swipeView, Func<Microsoft.Maui.Controls.SwipeItems> leftItemsFunc)
-            where T : ISwipeView
-        {
-            swipeView.LeftItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(leftItemsFunc);
-            return swipeView;
-        }
-
-        public static T RightItems<T>(this T swipeView, Microsoft.Maui.Controls.SwipeItems rightItems)
-            where T : ISwipeView
-        {
-            swipeView.RightItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(rightItems);
-            return swipeView;
-        }
-
-        public static T RightItems<T>(this T swipeView, Func<Microsoft.Maui.Controls.SwipeItems> rightItemsFunc)
-            where T : ISwipeView
-        {
-            swipeView.RightItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(rightItemsFunc);
-            return swipeView;
-        }
-
-        public static T TopItems<T>(this T swipeView, Microsoft.Maui.Controls.SwipeItems topItems)
-            where T : ISwipeView
-        {
-            swipeView.TopItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(topItems);
-            return swipeView;
-        }
-
-        public static T TopItems<T>(this T swipeView, Func<Microsoft.Maui.Controls.SwipeItems> topItemsFunc)
-            where T : ISwipeView
-        {
-            swipeView.TopItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(topItemsFunc);
-            return swipeView;
-        }
-
-        public static T BottomItems<T>(this T swipeView, Microsoft.Maui.Controls.SwipeItems bottomItems)
-            where T : ISwipeView
-        {
-            swipeView.BottomItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(bottomItems);
-            return swipeView;
-        }
-
-        public static T BottomItems<T>(this T swipeView, Func<Microsoft.Maui.Controls.SwipeItems> bottomItemsFunc)
-            where T : ISwipeView
-        {
-            swipeView.BottomItems = new PropertyValue<Microsoft.Maui.Controls.SwipeItems>(bottomItemsFunc);
             return swipeView;
         }
 

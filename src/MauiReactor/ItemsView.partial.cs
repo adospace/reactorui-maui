@@ -11,7 +11,9 @@ namespace MauiReactor
 
         Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>? ItemTemplateWithNativeView { get; set; }
 
-        VisualStateGroupList? ItemVisualStateGroups { get; set; }  
+        VisualStateGroupList? ItemVisualStateGroups { get; set; }
+
+        object? EmptyView { get; set; }
     }
 
 
@@ -26,6 +28,8 @@ namespace MauiReactor
         Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>? IItemsView.ItemTemplateWithNativeView { get; set; }
 
         VisualStateGroupList? IItemsView.ItemVisualStateGroups { get; set; }
+
+        object? IItemsView.EmptyView { get; set; }
 
         VisualNode? ICustomDataTemplateOwner.GetVisualNodeForItem(object item)
         {
@@ -62,7 +66,7 @@ namespace MauiReactor
             }
             else if (thisAsIItemsView.ItemsSource != null)
             {
-                _customDataTemplate = new CustomDataTemplate(this, itemTemplatePresenter => 
+                _customDataTemplate = new CustomDataTemplate(this, itemTemplatePresenter =>
                     thisAsIItemsView.ItemVisualStateGroups?.SetToVisualElement(itemTemplatePresenter));
                 NativeControl.ItemsSource = thisAsIItemsView.ItemsSource;
                 NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
@@ -82,7 +86,7 @@ namespace MauiReactor
             {
                 newItemsView._customDataTemplate.Owner = newItemsView;
             }
-            
+
 
             base.OnMigrated(newNode);
         }
@@ -138,6 +142,62 @@ namespace MauiReactor
                 itemContent.BindingContext = item;
             }
         }
+
+        partial void OnEndUpdate()
+        {
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIItemsView = (IItemsView)this;
+
+            if (thisAsIItemsView.EmptyView is string)
+            {
+                NativeControl.EmptyView = thisAsIItemsView.EmptyView;
+            }
+        }
+
+        protected override IEnumerable<VisualNode> RenderChildren()
+        {
+            var thisAsIItemsView = (IItemsView)this;
+
+            var children = base.RenderChildren();
+
+            if (thisAsIItemsView.EmptyView is VisualNode emptyViewNode)
+            {
+                children = children.Concat(new[] { emptyViewNode });
+            }
+
+            return children;
+        }
+
+        protected override void OnAddChild(VisualNode widget, BindableObject childNativeControl)
+        {
+            Validate.EnsureNotNull(NativeControl);
+
+            var thisAsIItemsView = (IItemsView)this;
+
+            if (widget == thisAsIItemsView.EmptyView &&
+                childNativeControl is Microsoft.Maui.Controls.View emptyView)
+            {
+                NativeControl.EmptyView = emptyView;
+            }
+
+            base.OnAddChild(widget, childNativeControl);
+        }
+
+        protected override void OnRemoveChild(VisualNode widget, BindableObject childNativeControl)
+        {
+            Validate.EnsureNotNull(NativeControl);
+
+            var thisAsIItemsView = (IItemsView)this;
+
+            if (widget == thisAsIItemsView.EmptyView &&
+                childNativeControl is Microsoft.Maui.Controls.View)
+            {
+                NativeControl.EmptyView = null;
+            }
+
+            base.OnRemoveChild(widget, childNativeControl);
+        }
+
     }
 
     public static partial class ItemsViewExtensions
@@ -194,6 +254,21 @@ namespace MauiReactor
         public static T ItemVisualState<T>(this T itemsView, VisualStateGroupList visualState) where T : IItemsView
         {
             itemsView.ItemVisualStateGroups = visualState;
+
+            return itemsView;
+        }
+
+
+        public static T EmptyView<T>(this T itemsView, VisualNode emptyView) where T : IItemsView
+        {
+            itemsView.EmptyView = emptyView;
+
+            return itemsView;
+        }
+
+        public static T EmptyView<T>(this T itemsView, string emptyView) where T : IItemsView
+        {
+            itemsView.EmptyView = emptyView;
 
             return itemsView;
         }

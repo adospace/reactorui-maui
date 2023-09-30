@@ -13,8 +13,6 @@ namespace MauiReactor
 {
     public partial interface IItemsView : IView
     {
-        PropertyValue<object>? EmptyView { get; set; }
-
         PropertyValue<Microsoft.Maui.ScrollBarVisibility>? HorizontalScrollBarVisibility { get; set; }
 
         PropertyValue<Microsoft.Maui.ScrollBarVisibility>? VerticalScrollBarVisibility { get; set; }
@@ -46,8 +44,6 @@ namespace MauiReactor
         {
         }
 
-        PropertyValue<object>? IItemsView.EmptyView { get; set; }
-
         PropertyValue<Microsoft.Maui.ScrollBarVisibility>? IItemsView.HorizontalScrollBarVisibility { get; set; }
 
         PropertyValue<Microsoft.Maui.ScrollBarVisibility>? IItemsView.VerticalScrollBarVisibility { get; set; }
@@ -73,7 +69,6 @@ namespace MauiReactor
             OnBeginUpdate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsIItemsView = (IItemsView)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ItemsView.EmptyViewProperty, thisAsIItemsView.EmptyView);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ItemsView.HorizontalScrollBarVisibilityProperty, thisAsIItemsView.HorizontalScrollBarVisibility);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ItemsView.VerticalScrollBarVisibilityProperty, thisAsIItemsView.VerticalScrollBarVisibility);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ItemsView.RemainingItemsThresholdProperty, thisAsIItemsView.RemainingItemsThreshold);
@@ -148,20 +143,6 @@ namespace MauiReactor
 
     public static partial class ItemsViewExtensions
     {
-        public static T EmptyView<T>(this T itemsView, object emptyView)
-            where T : IItemsView
-        {
-            itemsView.EmptyView = new PropertyValue<object>(emptyView);
-            return itemsView;
-        }
-
-        public static T EmptyView<T>(this T itemsView, Func<object> emptyViewFunc)
-            where T : IItemsView
-        {
-            itemsView.EmptyView = new PropertyValue<object>(emptyViewFunc);
-            return itemsView;
-        }
-
         public static T HorizontalScrollBarVisibility<T>(this T itemsView, Microsoft.Maui.ScrollBarVisibility horizontalScrollBarVisibility)
             where T : IItemsView
         {

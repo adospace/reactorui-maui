@@ -89,6 +89,8 @@ Microsoft.Maui.Controls.WebView
 Microsoft.Maui.Controls.RefreshView
 Microsoft.Maui.Controls.SearchBar
 Microsoft.Maui.Controls.SwipeView
+Microsoft.Maui.Controls.SwipeItem
+Microsoft.Maui.Controls.SwipeItems
 
 Microsoft.Maui.Controls.CheckBox
 Microsoft.Maui.Controls.Slider
