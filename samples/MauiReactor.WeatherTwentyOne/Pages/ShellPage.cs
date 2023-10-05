@@ -41,7 +41,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
                     }
                 }
             }
-            .ItemTemplate(RenderItemTemplate)
+            //.ItemTemplate(RenderItemTemplate)
             .FlyoutWidth(68.0)
             .FlyoutBackgroundColor(Colors.Red)
             .FlyoutBehavior(FlyoutBehavior.Disabled);
@@ -68,7 +68,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
                 .FlyoutItemIsVisible(false)
                 .Route("settings")
             }
-            .ItemTemplate(RenderItemTemplate)
+            //.ItemTemplate(RenderItemTemplate)
             .FlyoutFooter(new Grid("68", "*")
                 {
                     new Image("tab_settings.png")
@@ -82,6 +82,10 @@ namespace MauiReactor.WeatherTwentyOne.Pages
             .FlyoutBackgroundColor(Colors.Red)
             .FlyoutBehavior(FlyoutBehavior.Locked);
 
+        /// Custom item template doesn't seem to work fine:
+        /// Windows not rendered well
+        /// Android not honored at all
+        /// waiting .NET 8 to fix it
         static VisualNode RenderItemTemplate(Microsoft.Maui.Controls.BaseShellItem item)
             => new Grid("68", "68")
             {
