@@ -14,6 +14,20 @@ public class NavigationMainPageState
 
 public class NavigationMainPage : Component<NavigationMainPageState>
 {
+    protected override void OnMounted()
+    {
+        System.Diagnostics.Debug.WriteLine("NavigationMainPage.OnMounted()");
+
+        base.OnMounted();
+    }
+
+    protected override void OnWillUnmount()
+    {
+        System.Diagnostics.Debug.WriteLine("NavigationMainPage.OnWillUnmount()");
+
+        base.OnWillUnmount();
+    }
+
     public override VisualNode Render()
     {
         return new ContentPage()
@@ -70,8 +84,16 @@ public class ChildPage : Component<ChildPageState, ChildPageProps>
     protected override void OnMounted()
     {
         State.Value = Props.InitialValue;
+        System.Diagnostics.Debug.WriteLine("ChildPage.OnMounted()");
 
         base.OnMounted();
+    }
+
+    protected override void OnWillUnmount()
+    {
+        System.Diagnostics.Debug.WriteLine("ChildPage.OnWillUnmount()");
+
+        base.OnWillUnmount();
     }
 
     public override VisualNode Render()

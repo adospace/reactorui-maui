@@ -9,29 +9,16 @@ namespace MauiReactor
     { 
         protected readonly ReactorApplication _application;
 
-        protected ReactorApplicationHost(ReactorApplication application/*, bool enableHotReload*/)
+        protected ReactorApplicationHost(ReactorApplication application)
         {
             Instance = this;
 
             _application = application ?? throw new ArgumentNullException(nameof(application));
 
             ComponentLoader.Instance.AssemblyChanged += (s, e) => OnComponentAssemblyChanged();
-
-            //if (enableHotReload)
-            //{
-            //    ComponentLoader = new RemoteComponentLoader();
-            //    ComponentLoader.AssemblyChanged += (s, e) => OnComponentAssemblyChanged();
-            //}
-            //else
-            //{
-            //    ComponentLoader = new LocalComponentLoader();
-            //}
-
         }
 
         public static ReactorApplicationHost? Instance { get; private set; }
-        
-        //internal IComponentLoader ComponentLoader { get; }
 
         public Action<UnhandledExceptionEventArgs>? UnhandledException { get; set; }
 
@@ -57,8 +44,6 @@ namespace MauiReactor
 
         public abstract void RequestAnimationFrame(VisualNode visualNode);
 
-        //public INavigation? Navigation =>  _application.MainPage?.Navigation;
-
         public Microsoft.Maui.Controls.Page? ContainerPage => _application?.MainPage;
 
         IHostElement? IVisualNode.GetPageHost()
@@ -83,8 +68,8 @@ namespace MauiReactor
 
         private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
 
-        internal ReactorApplicationHost(ReactorApplication<T> application/*, bool enableHotReload*/)
-            :base(application/*, enableHotReload*/)
+        internal ReactorApplicationHost(ReactorApplication<T> application)
+            :base(application)
         {
         }
 
@@ -186,6 +171,7 @@ namespace MauiReactor
                     Application.Current.Dispatcher.Dispatch(OnLayout);
                 }
             }
+
             base.OnLayoutCycleRequested();
         }
 
@@ -196,7 +182,7 @@ namespace MauiReactor
             try
             {
                 Layout();
-                //SetupAnimationTimer();
+
                 if (_listOfVisualsToAnimate.Count > 0)
                 {
                     AnimationCallback();
@@ -219,20 +205,13 @@ namespace MauiReactor
             _listOfVisualsToAnimate.AddFirst(visualNode);
         }
 
-        //private void SetupAnimationTimer()
-        //{
-        //    if (_listOfVisualsToAnimate.Count > 0 && Application.Current != null)
-        //    {
-        //        Application.Current.Dispatcher.Dispatch(AnimationCallback);
-        //    }
-        //}
-
         private void AnimationCallback()
         {
             if (!_started || _sleeping)
             {
                 return;
             }
+
             DateTime now = DateTime.Now;
             if (Application.Current != null && AnimateVisuals())
             {
@@ -282,8 +261,6 @@ namespace MauiReactor
         protected ReactorApplication()
         {
         }
-
-        //internal static bool HotReloadEnabled { get; set; }
     }
 
     public class ReactorApplication<T> : ReactorApplication where T : Component, new()
@@ -296,7 +273,7 @@ namespace MauiReactor
 
         protected override Microsoft.Maui.Controls.Window CreateWindow(IActivationState? activationState)
         {
-            _host ??= new ReactorApplicationHost<T>(this/*, HotReloadEnabled*/);
+            _host ??= new ReactorApplicationHost<T>(this);
             _host.Run();
 
             if (_host.MainWindow != null)
@@ -354,7 +331,6 @@ namespace MauiReactor
 
         public static MauiAppBuilder EnableMauiReactorHotReload(this MauiAppBuilder appBuilder)
         {
-            //ReactorApplication.HotReloadEnabled = true;
             ComponentLoader.UseRemoteLoader = true;
             return appBuilder;
         }

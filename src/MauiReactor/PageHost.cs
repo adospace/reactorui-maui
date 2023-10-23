@@ -7,8 +7,8 @@ using System.Text;
 
 namespace MauiReactor
 {
-    internal abstract class PageHost: VisualNode
-    { 
+    internal abstract class PageHost : VisualNode
+    {
         internal static BindablePropertyKey MauiReactorPageHostBagKey = BindableProperty.CreateAttachedReadOnly(nameof(MauiReactorPageHostBagKey),
             typeof(ITemplateHost), typeof(PageHost), null);
     }
@@ -19,6 +19,7 @@ namespace MauiReactor
         private Component? _component;
 
         private bool _sleeping;
+        private bool _disappearing;
 
         public Microsoft.Maui.Controls.Page? ContainerPage { get; private set; }
 
@@ -83,12 +84,13 @@ namespace MauiReactor
         private void OnComponentPage_Appearing(object? sender, EventArgs e)
         {
             _sleeping = false;
-            OnLayoutCycleRequested();
+            Invalidate();
         }
 
         private void OnComponentPage_Disappearing(object? sender, EventArgs e)
         {
-            _sleeping = true;
+            _disappearing = true;
+            Invalidate();
         }
 
         protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
@@ -131,6 +133,8 @@ namespace MauiReactor
             {
                 throw new InvalidOperationException($"Component {_component.GetType()} doesn't render a page as root");
             }
+            
+            _isMounted = true;
 
             return this;
         }
@@ -191,6 +195,11 @@ namespace MauiReactor
             {
                 Layout();
                 SetupAnimationTimer();
+
+                if (_disappearing)
+                {
+                    _sleeping = true;
+                }
             }
             catch (Exception ex)
             {
@@ -201,7 +210,12 @@ namespace MauiReactor
 
         protected override IEnumerable<VisualNode> RenderChildren()
         {
-            yield return Validate.EnsureNotNull(_component);
+            if (_component == null || _disappearing)
+            {
+                yield break;
+            }
+
+            yield return _component;
         }
 
         private void SetupAnimationTimer()

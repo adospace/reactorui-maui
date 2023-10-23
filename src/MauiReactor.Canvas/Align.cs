@@ -116,4 +116,10 @@ public static partial class AlignExtensions
         view.VerticalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.End);
         return view;
     }
+    public static T Center<T>(this T view) where T : IAlign
+    {
+        view.HorizontalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.Center);
+        view.VerticalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.Center);
+        return view;
+    }
 }
