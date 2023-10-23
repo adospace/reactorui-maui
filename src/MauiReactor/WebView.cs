@@ -15,6 +15,8 @@ namespace MauiReactor
     {
         PropertyValue<Microsoft.Maui.Controls.WebViewSource>? Source { get; set; }
 
+        PropertyValue<string>? UserAgent { get; set; }
+
         PropertyValue<System.Net.CookieContainer>? Cookies { get; set; }
 
         Action? NavigatedAction { get; set; }
@@ -38,6 +40,8 @@ namespace MauiReactor
 
         PropertyValue<Microsoft.Maui.Controls.WebViewSource>? IWebView.Source { get; set; }
 
+        PropertyValue<string>? IWebView.UserAgent { get; set; }
+
         PropertyValue<System.Net.CookieContainer>? IWebView.Cookies { get; set; }
 
         Action? IWebView.NavigatedAction { get; set; }
@@ -54,6 +58,7 @@ namespace MauiReactor
             Validate.EnsureNotNull(NativeControl);
             var thisAsIWebView = (IWebView)this;
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.WebView.SourceProperty, thisAsIWebView.Source);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.WebView.UserAgentProperty, thisAsIWebView.UserAgent);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.WebView.CookiesProperty, thisAsIWebView.Cookies);
             base.OnUpdate();
             OnEndUpdate();
@@ -134,6 +139,20 @@ namespace MauiReactor
             where T : IWebView
         {
             webView.Source = new PropertyValue<Microsoft.Maui.Controls.WebViewSource>(sourceFunc);
+            return webView;
+        }
+
+        public static T UserAgent<T>(this T webView, string userAgent)
+            where T : IWebView
+        {
+            webView.UserAgent = new PropertyValue<string>(userAgent);
+            return webView;
+        }
+
+        public static T UserAgent<T>(this T webView, Func<string> userAgentFunc)
+            where T : IWebView
+        {
+            webView.UserAgent = new PropertyValue<string>(userAgentFunc);
             return webView;
         }
 

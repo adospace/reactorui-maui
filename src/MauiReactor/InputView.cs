@@ -19,6 +19,8 @@ namespace MauiReactor
 
         PropertyValue<bool>? IsSpellCheckEnabled { get; set; }
 
+        PropertyValue<bool>? IsTextPredictionEnabled { get; set; }
+
         PropertyValue<int>? MaxLength { get; set; }
 
         PropertyValue<bool>? IsReadOnly { get; set; }
@@ -32,6 +34,18 @@ namespace MauiReactor
         PropertyValue<double>? CharacterSpacing { get; set; }
 
         PropertyValue<Microsoft.Maui.TextTransform>? TextTransform { get; set; }
+
+        PropertyValue<int>? CursorPosition { get; set; }
+
+        PropertyValue<int>? SelectionLength { get; set; }
+
+        PropertyValue<string>? FontFamily { get; set; }
+
+        PropertyValue<double>? FontSize { get; set; }
+
+        PropertyValue<Microsoft.Maui.Controls.FontAttributes>? FontAttributes { get; set; }
+
+        PropertyValue<bool>? FontAutoScalingEnabled { get; set; }
 
         Action? TextChangedAction { get; set; }
 
@@ -54,6 +68,8 @@ namespace MauiReactor
 
         PropertyValue<bool>? IInputView.IsSpellCheckEnabled { get; set; }
 
+        PropertyValue<bool>? IInputView.IsTextPredictionEnabled { get; set; }
+
         PropertyValue<int>? IInputView.MaxLength { get; set; }
 
         PropertyValue<bool>? IInputView.IsReadOnly { get; set; }
@@ -68,6 +84,18 @@ namespace MauiReactor
 
         PropertyValue<Microsoft.Maui.TextTransform>? IInputView.TextTransform { get; set; }
 
+        PropertyValue<int>? IInputView.CursorPosition { get; set; }
+
+        PropertyValue<int>? IInputView.SelectionLength { get; set; }
+
+        PropertyValue<string>? IInputView.FontFamily { get; set; }
+
+        PropertyValue<double>? IInputView.FontSize { get; set; }
+
+        PropertyValue<Microsoft.Maui.Controls.FontAttributes>? IInputView.FontAttributes { get; set; }
+
+        PropertyValue<bool>? IInputView.FontAutoScalingEnabled { get; set; }
+
         Action? IInputView.TextChangedAction { get; set; }
 
         Action<object?, TextChangedEventArgs>? IInputView.TextChangedActionWithArgs { get; set; }
@@ -80,6 +108,7 @@ namespace MauiReactor
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.TextProperty, thisAsIInputView.Text);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.KeyboardProperty, thisAsIInputView.Keyboard);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.IsSpellCheckEnabledProperty, thisAsIInputView.IsSpellCheckEnabled);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.IsTextPredictionEnabledProperty, thisAsIInputView.IsTextPredictionEnabled);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.MaxLengthProperty, thisAsIInputView.MaxLength);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.IsReadOnlyProperty, thisAsIInputView.IsReadOnly);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.PlaceholderProperty, thisAsIInputView.Placeholder);
@@ -87,6 +116,12 @@ namespace MauiReactor
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.TextColorProperty, thisAsIInputView.TextColor);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.CharacterSpacingProperty, thisAsIInputView.CharacterSpacing);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.TextTransformProperty, thisAsIInputView.TextTransform);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.CursorPositionProperty, thisAsIInputView.CursorPosition);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.SelectionLengthProperty, thisAsIInputView.SelectionLength);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.FontFamilyProperty, thisAsIInputView.FontFamily);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.FontSizeProperty, thisAsIInputView.FontSize);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.FontAttributesProperty, thisAsIInputView.FontAttributes);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.InputView.FontAutoScalingEnabledProperty, thisAsIInputView.FontAutoScalingEnabled);
             base.OnUpdate();
             OnEndUpdate();
         }
@@ -96,6 +131,7 @@ namespace MauiReactor
             OnBeginAnimate();
             var thisAsIInputView = (IInputView)this;
             AnimateProperty(Microsoft.Maui.Controls.InputView.CharacterSpacingProperty, thisAsIInputView.CharacterSpacing);
+            AnimateProperty(Microsoft.Maui.Controls.InputView.FontSizeProperty, thisAsIInputView.FontSize);
             base.OnAnimate();
             OnEndAnimate();
         }
@@ -179,6 +215,20 @@ namespace MauiReactor
             where T : IInputView
         {
             inputView.IsSpellCheckEnabled = new PropertyValue<bool>(isSpellCheckEnabledFunc);
+            return inputView;
+        }
+
+        public static T IsTextPredictionEnabled<T>(this T inputView, bool isTextPredictionEnabled)
+            where T : IInputView
+        {
+            inputView.IsTextPredictionEnabled = new PropertyValue<bool>(isTextPredictionEnabled);
+            return inputView;
+        }
+
+        public static T IsTextPredictionEnabled<T>(this T inputView, Func<bool> isTextPredictionEnabledFunc)
+            where T : IInputView
+        {
+            inputView.IsTextPredictionEnabled = new PropertyValue<bool>(isTextPredictionEnabledFunc);
             return inputView;
         }
 
@@ -278,6 +328,91 @@ namespace MauiReactor
             where T : IInputView
         {
             inputView.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc);
+            return inputView;
+        }
+
+        public static T CursorPosition<T>(this T inputView, int cursorPosition)
+            where T : IInputView
+        {
+            inputView.CursorPosition = new PropertyValue<int>(cursorPosition);
+            return inputView;
+        }
+
+        public static T CursorPosition<T>(this T inputView, Func<int> cursorPositionFunc)
+            where T : IInputView
+        {
+            inputView.CursorPosition = new PropertyValue<int>(cursorPositionFunc);
+            return inputView;
+        }
+
+        public static T SelectionLength<T>(this T inputView, int selectionLength)
+            where T : IInputView
+        {
+            inputView.SelectionLength = new PropertyValue<int>(selectionLength);
+            return inputView;
+        }
+
+        public static T SelectionLength<T>(this T inputView, Func<int> selectionLengthFunc)
+            where T : IInputView
+        {
+            inputView.SelectionLength = new PropertyValue<int>(selectionLengthFunc);
+            return inputView;
+        }
+
+        public static T FontFamily<T>(this T inputView, string fontFamily)
+            where T : IInputView
+        {
+            inputView.FontFamily = new PropertyValue<string>(fontFamily);
+            return inputView;
+        }
+
+        public static T FontFamily<T>(this T inputView, Func<string> fontFamilyFunc)
+            where T : IInputView
+        {
+            inputView.FontFamily = new PropertyValue<string>(fontFamilyFunc);
+            return inputView;
+        }
+
+        public static T FontSize<T>(this T inputView, double fontSize, RxDoubleAnimation? customAnimation = null)
+            where T : IInputView
+        {
+            inputView.FontSize = new PropertyValue<double>(fontSize);
+            inputView.AppendAnimatable(Microsoft.Maui.Controls.InputView.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => inputView.FontSize = new PropertyValue<double>(v.CurrentValue()));
+            return inputView;
+        }
+
+        public static T FontSize<T>(this T inputView, Func<double> fontSizeFunc)
+            where T : IInputView
+        {
+            inputView.FontSize = new PropertyValue<double>(fontSizeFunc);
+            return inputView;
+        }
+
+        public static T FontAttributes<T>(this T inputView, Microsoft.Maui.Controls.FontAttributes fontAttributes)
+            where T : IInputView
+        {
+            inputView.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributes);
+            return inputView;
+        }
+
+        public static T FontAttributes<T>(this T inputView, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc)
+            where T : IInputView
+        {
+            inputView.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
+            return inputView;
+        }
+
+        public static T FontAutoScalingEnabled<T>(this T inputView, bool fontAutoScalingEnabled)
+            where T : IInputView
+        {
+            inputView.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabled);
+            return inputView;
+        }
+
+        public static T FontAutoScalingEnabled<T>(this T inputView, Func<bool> fontAutoScalingEnabledFunc)
+            where T : IInputView
+        {
+            inputView.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
             return inputView;
         }
 

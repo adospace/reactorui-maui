@@ -13,8 +13,6 @@ namespace MauiReactor
 {
     public partial interface IVisualElement : INavigableElement
     {
-        PropertyValue<int>? ZIndex { get; set; }
-
         PropertyValue<bool>? InputTransparent { get; set; }
 
         PropertyValue<bool>? IsEnabled { get; set; }
@@ -63,13 +61,7 @@ namespace MauiReactor
 
         PropertyValue<Microsoft.Maui.FlowDirection>? FlowDirection { get; set; }
 
-        Action? LoadedAction { get; set; }
-
-        Action<object?, EventArgs>? LoadedActionWithArgs { get; set; }
-
-        Action? UnloadedAction { get; set; }
-
-        Action<object?, EventArgs>? UnloadedActionWithArgs { get; set; }
+        PropertyValue<int>? ZIndex { get; set; }
 
         Action? ChildrenReorderedAction { get; set; }
 
@@ -90,6 +82,14 @@ namespace MauiReactor
         Action? UnfocusedAction { get; set; }
 
         Action<object?, FocusEventArgs>? UnfocusedActionWithArgs { get; set; }
+
+        Action? LoadedAction { get; set; }
+
+        Action<object?, EventArgs>? LoadedActionWithArgs { get; set; }
+
+        Action? UnloadedAction { get; set; }
+
+        Action<object?, EventArgs>? UnloadedActionWithArgs { get; set; }
     }
 
     public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualElement where T : Microsoft.Maui.Controls.VisualElement, new()
@@ -101,8 +101,6 @@ namespace MauiReactor
         protected VisualElement(Action<T?> componentRefAction) : base(componentRefAction)
         {
         }
-
-        PropertyValue<int>? IVisualElement.ZIndex { get; set; }
 
         PropertyValue<bool>? IVisualElement.InputTransparent { get; set; }
 
@@ -152,13 +150,7 @@ namespace MauiReactor
 
         PropertyValue<Microsoft.Maui.FlowDirection>? IVisualElement.FlowDirection { get; set; }
 
-        Action? IVisualElement.LoadedAction { get; set; }
-
-        Action<object?, EventArgs>? IVisualElement.LoadedActionWithArgs { get; set; }
-
-        Action? IVisualElement.UnloadedAction { get; set; }
-
-        Action<object?, EventArgs>? IVisualElement.UnloadedActionWithArgs { get; set; }
+        PropertyValue<int>? IVisualElement.ZIndex { get; set; }
 
         Action? IVisualElement.ChildrenReorderedAction { get; set; }
 
@@ -180,12 +172,19 @@ namespace MauiReactor
 
         Action<object?, FocusEventArgs>? IVisualElement.UnfocusedActionWithArgs { get; set; }
 
+        Action? IVisualElement.LoadedAction { get; set; }
+
+        Action<object?, EventArgs>? IVisualElement.LoadedActionWithArgs { get; set; }
+
+        Action? IVisualElement.UnloadedAction { get; set; }
+
+        Action<object?, EventArgs>? IVisualElement.UnloadedActionWithArgs { get; set; }
+
         protected override void OnUpdate()
         {
             OnBeginUpdate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsIVisualElement = (IVisualElement)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.ZIndexProperty, thisAsIVisualElement.ZIndex);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.InputTransparentProperty, thisAsIVisualElement.InputTransparent);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.IsEnabledProperty, thisAsIVisualElement.IsEnabled);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.AnchorXProperty, thisAsIVisualElement.AnchorX);
@@ -210,6 +209,7 @@ namespace MauiReactor
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.MaximumWidthRequestProperty, thisAsIVisualElement.MaximumWidthRequest);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.MaximumHeightRequestProperty, thisAsIVisualElement.MaximumHeightRequest);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.FlowDirectionProperty, thisAsIVisualElement.FlowDirection);
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.VisualElement.ZIndexProperty, thisAsIVisualElement.ZIndex);
             base.OnUpdate();
             OnEndUpdate();
         }
@@ -249,16 +249,6 @@ namespace MauiReactor
         {
             Validate.EnsureNotNull(NativeControl);
             var thisAsIVisualElement = (IVisualElement)this;
-            if (thisAsIVisualElement.LoadedAction != null || thisAsIVisualElement.LoadedActionWithArgs != null)
-            {
-                NativeControl.Loaded += NativeControl_Loaded;
-            }
-
-            if (thisAsIVisualElement.UnloadedAction != null || thisAsIVisualElement.UnloadedActionWithArgs != null)
-            {
-                NativeControl.Unloaded += NativeControl_Unloaded;
-            }
-
             if (thisAsIVisualElement.ChildrenReorderedAction != null || thisAsIVisualElement.ChildrenReorderedActionWithArgs != null)
             {
                 NativeControl.ChildrenReordered += NativeControl_ChildrenReordered;
@@ -284,22 +274,18 @@ namespace MauiReactor
                 NativeControl.Unfocused += NativeControl_Unfocused;
             }
 
+            if (thisAsIVisualElement.LoadedAction != null || thisAsIVisualElement.LoadedActionWithArgs != null)
+            {
+                NativeControl.Loaded += NativeControl_Loaded;
+            }
+
+            if (thisAsIVisualElement.UnloadedAction != null || thisAsIVisualElement.UnloadedActionWithArgs != null)
+            {
+                NativeControl.Unloaded += NativeControl_Unloaded;
+            }
+
             OnAttachingNativeEvents();
             base.OnAttachNativeEvents();
-        }
-
-        private void NativeControl_Loaded(object? sender, EventArgs e)
-        {
-            var thisAsIVisualElement = (IVisualElement)this;
-            thisAsIVisualElement.LoadedAction?.Invoke();
-            thisAsIVisualElement.LoadedActionWithArgs?.Invoke(sender, e);
-        }
-
-        private void NativeControl_Unloaded(object? sender, EventArgs e)
-        {
-            var thisAsIVisualElement = (IVisualElement)this;
-            thisAsIVisualElement.UnloadedAction?.Invoke();
-            thisAsIVisualElement.UnloadedActionWithArgs?.Invoke(sender, e);
         }
 
         private void NativeControl_ChildrenReordered(object? sender, EventArgs e)
@@ -337,17 +323,31 @@ namespace MauiReactor
             thisAsIVisualElement.UnfocusedActionWithArgs?.Invoke(sender, e);
         }
 
+        private void NativeControl_Loaded(object? sender, EventArgs e)
+        {
+            var thisAsIVisualElement = (IVisualElement)this;
+            thisAsIVisualElement.LoadedAction?.Invoke();
+            thisAsIVisualElement.LoadedActionWithArgs?.Invoke(sender, e);
+        }
+
+        private void NativeControl_Unloaded(object? sender, EventArgs e)
+        {
+            var thisAsIVisualElement = (IVisualElement)this;
+            thisAsIVisualElement.UnloadedAction?.Invoke();
+            thisAsIVisualElement.UnloadedActionWithArgs?.Invoke(sender, e);
+        }
+
         protected override void OnDetachNativeEvents()
         {
             if (NativeControl != null)
             {
-                NativeControl.Loaded -= NativeControl_Loaded;
-                NativeControl.Unloaded -= NativeControl_Unloaded;
                 NativeControl.ChildrenReordered -= NativeControl_ChildrenReordered;
                 NativeControl.Focused -= NativeControl_Focused;
                 NativeControl.MeasureInvalidated -= NativeControl_MeasureInvalidated;
                 NativeControl.SizeChanged -= NativeControl_SizeChanged;
                 NativeControl.Unfocused -= NativeControl_Unfocused;
+                NativeControl.Loaded -= NativeControl_Loaded;
+                NativeControl.Unloaded -= NativeControl_Unloaded;
             }
 
             OnDetachingNativeEvents();
@@ -357,20 +357,6 @@ namespace MauiReactor
 
     public static partial class VisualElementExtensions
     {
-        public static T ZIndex<T>(this T visualElement, int zIndex)
-            where T : IVisualElement
-        {
-            visualElement.ZIndex = new PropertyValue<int>(zIndex);
-            return visualElement;
-        }
-
-        public static T ZIndex<T>(this T visualElement, Func<int> zIndexFunc)
-            where T : IVisualElement
-        {
-            visualElement.ZIndex = new PropertyValue<int>(zIndexFunc);
-            return visualElement;
-        }
-
         public static T InputTransparent<T>(this T visualElement, bool inputTransparent)
             where T : IVisualElement
         {
@@ -724,31 +710,17 @@ namespace MauiReactor
             return visualElement;
         }
 
-        public static T OnLoaded<T>(this T visualElement, Action? loadedAction)
+        public static T ZIndex<T>(this T visualElement, int zIndex)
             where T : IVisualElement
         {
-            visualElement.LoadedAction = loadedAction;
+            visualElement.ZIndex = new PropertyValue<int>(zIndex);
             return visualElement;
         }
 
-        public static T OnLoaded<T>(this T visualElement, Action<object?, EventArgs>? loadedActionWithArgs)
+        public static T ZIndex<T>(this T visualElement, Func<int> zIndexFunc)
             where T : IVisualElement
         {
-            visualElement.LoadedActionWithArgs = loadedActionWithArgs;
-            return visualElement;
-        }
-
-        public static T OnUnloaded<T>(this T visualElement, Action? unloadedAction)
-            where T : IVisualElement
-        {
-            visualElement.UnloadedAction = unloadedAction;
-            return visualElement;
-        }
-
-        public static T OnUnloaded<T>(this T visualElement, Action<object?, EventArgs>? unloadedActionWithArgs)
-            where T : IVisualElement
-        {
-            visualElement.UnloadedActionWithArgs = unloadedActionWithArgs;
+            visualElement.ZIndex = new PropertyValue<int>(zIndexFunc);
             return visualElement;
         }
 
@@ -819,6 +791,34 @@ namespace MauiReactor
             where T : IVisualElement
         {
             visualElement.UnfocusedActionWithArgs = unfocusedActionWithArgs;
+            return visualElement;
+        }
+
+        public static T OnLoaded<T>(this T visualElement, Action? loadedAction)
+            where T : IVisualElement
+        {
+            visualElement.LoadedAction = loadedAction;
+            return visualElement;
+        }
+
+        public static T OnLoaded<T>(this T visualElement, Action<object?, EventArgs>? loadedActionWithArgs)
+            where T : IVisualElement
+        {
+            visualElement.LoadedActionWithArgs = loadedActionWithArgs;
+            return visualElement;
+        }
+
+        public static T OnUnloaded<T>(this T visualElement, Action? unloadedAction)
+            where T : IVisualElement
+        {
+            visualElement.UnloadedAction = unloadedAction;
+            return visualElement;
+        }
+
+        public static T OnUnloaded<T>(this T visualElement, Action<object?, EventArgs>? unloadedActionWithArgs)
+            where T : IVisualElement
+        {
+            visualElement.UnloadedActionWithArgs = unloadedActionWithArgs;
             return visualElement;
         }
     }

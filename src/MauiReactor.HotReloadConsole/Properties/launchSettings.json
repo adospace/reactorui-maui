@@ -2,7 +2,7 @@
   "profiles": {
     "MauiReactor.HotReloadConsole": {
       "commandName": "Project",
-      "commandLineArgs": "--dir \"C:\\Source\\github\\mauireactor-samples\\ChateoApp\\Chateo\" -f \"net7.0-android\" -m Full"
+      "commandLineArgs": "--dir \"C:\\Source\\github\\mauireactor-samples\\ChateoApp\\Chateo\" -f \"net8.0-android\" -m Full"
     }
   }
 }

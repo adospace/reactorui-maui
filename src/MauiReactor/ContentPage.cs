@@ -13,6 +13,7 @@ namespace MauiReactor
 {
     public partial interface IContentPage : ITemplatedPage
     {
+        PropertyValue<bool>? HideSoftInputOnTapped { get; set; }
     }
 
     public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : Microsoft.Maui.Controls.ContentPage, new()
@@ -25,9 +26,14 @@ namespace MauiReactor
         {
         }
 
+        PropertyValue<bool>? IContentPage.HideSoftInputOnTapped { get; set; }
+
         protected override void OnUpdate()
         {
             OnBeginUpdate();
+            Validate.EnsureNotNull(NativeControl);
+            var thisAsIContentPage = (IContentPage)this;
+            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ContentPage.HideSoftInputOnTappedProperty, thisAsIContentPage.HideSoftInputOnTapped);
             base.OnUpdate();
             OnEndUpdate();
         }
@@ -51,5 +57,18 @@ namespace MauiReactor
 
     public static partial class ContentPageExtensions
     {
+        public static T HideSoftInputOnTapped<T>(this T contentPage, bool hideSoftInputOnTapped)
+            where T : IContentPage
+        {
+            contentPage.HideSoftInputOnTapped = new PropertyValue<bool>(hideSoftInputOnTapped);
+            return contentPage;
+        }
+
+        public static T HideSoftInputOnTapped<T>(this T contentPage, Func<bool> hideSoftInputOnTappedFunc)
+            where T : IContentPage
+        {
+            contentPage.HideSoftInputOnTapped = new PropertyValue<bool>(hideSoftInputOnTappedFunc);
+            return contentPage;
+        }
     }
 }

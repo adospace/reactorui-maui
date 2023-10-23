@@ -43,7 +43,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
             }
             //.ItemTemplate(RenderItemTemplate)
             .FlyoutWidth(68.0)
-            .FlyoutBackgroundColor(Colors.Red)
+            //.FlyoutBackgroundColor(Colors.Red)
             .FlyoutBehavior(FlyoutBehavior.Disabled);
 
         static VisualNode RenderDesktopLayout()
@@ -79,7 +79,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
                 }
                 .OnTapped(OnSettingsItemTapped))
             .FlyoutWidth(68.0)
-            .FlyoutBackgroundColor(Colors.Red)
+            //.FlyoutBackgroundColor(Colors.Red)
             .FlyoutBehavior(FlyoutBehavior.Locked);
 
         /// Custom item template doesn't seem to work fine:

@@ -13,20 +13,6 @@ namespace MauiReactor
 {
     public partial interface IEditor : IInputView
     {
-        PropertyValue<string>? FontFamily { get; set; }
-
-        PropertyValue<double>? FontSize { get; set; }
-
-        PropertyValue<Microsoft.Maui.Controls.FontAttributes>? FontAttributes { get; set; }
-
-        PropertyValue<bool>? FontAutoScalingEnabled { get; set; }
-
-        PropertyValue<bool>? IsTextPredictionEnabled { get; set; }
-
-        PropertyValue<int>? CursorPosition { get; set; }
-
-        PropertyValue<int>? SelectionLength { get; set; }
-
         PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>? AutoSize { get; set; }
 
         PropertyValue<Microsoft.Maui.TextAlignment>? HorizontalTextAlignment { get; set; }
@@ -48,20 +34,6 @@ namespace MauiReactor
         {
         }
 
-        PropertyValue<string>? IEditor.FontFamily { get; set; }
-
-        PropertyValue<double>? IEditor.FontSize { get; set; }
-
-        PropertyValue<Microsoft.Maui.Controls.FontAttributes>? IEditor.FontAttributes { get; set; }
-
-        PropertyValue<bool>? IEditor.FontAutoScalingEnabled { get; set; }
-
-        PropertyValue<bool>? IEditor.IsTextPredictionEnabled { get; set; }
-
-        PropertyValue<int>? IEditor.CursorPosition { get; set; }
-
-        PropertyValue<int>? IEditor.SelectionLength { get; set; }
-
         PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>? IEditor.AutoSize { get; set; }
 
         PropertyValue<Microsoft.Maui.TextAlignment>? IEditor.HorizontalTextAlignment { get; set; }
@@ -77,27 +49,11 @@ namespace MauiReactor
             OnBeginUpdate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsIEditor = (IEditor)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.FontFamilyProperty, thisAsIEditor.FontFamily);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.FontSizeProperty, thisAsIEditor.FontSize);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.FontAttributesProperty, thisAsIEditor.FontAttributes);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.FontAutoScalingEnabledProperty, thisAsIEditor.FontAutoScalingEnabled);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.IsTextPredictionEnabledProperty, thisAsIEditor.IsTextPredictionEnabled);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.CursorPositionProperty, thisAsIEditor.CursorPosition);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.SelectionLengthProperty, thisAsIEditor.SelectionLength);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.AutoSizeProperty, thisAsIEditor.AutoSize);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.HorizontalTextAlignmentProperty, thisAsIEditor.HorizontalTextAlignment);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.VerticalTextAlignmentProperty, thisAsIEditor.VerticalTextAlignment);
             base.OnUpdate();
             OnEndUpdate();
-        }
-
-        protected override void OnAnimate()
-        {
-            OnBeginAnimate();
-            var thisAsIEditor = (IEditor)this;
-            AnimateProperty(Microsoft.Maui.Controls.Editor.FontSizeProperty, thisAsIEditor.FontSize);
-            base.OnAnimate();
-            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
@@ -151,105 +107,6 @@ namespace MauiReactor
 
     public static partial class EditorExtensions
     {
-        public static T FontFamily<T>(this T editor, string fontFamily)
-            where T : IEditor
-        {
-            editor.FontFamily = new PropertyValue<string>(fontFamily);
-            return editor;
-        }
-
-        public static T FontFamily<T>(this T editor, Func<string> fontFamilyFunc)
-            where T : IEditor
-        {
-            editor.FontFamily = new PropertyValue<string>(fontFamilyFunc);
-            return editor;
-        }
-
-        public static T FontSize<T>(this T editor, double fontSize, RxDoubleAnimation? customAnimation = null)
-            where T : IEditor
-        {
-            editor.FontSize = new PropertyValue<double>(fontSize);
-            editor.AppendAnimatable(Microsoft.Maui.Controls.Editor.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => editor.FontSize = new PropertyValue<double>(v.CurrentValue()));
-            return editor;
-        }
-
-        public static T FontSize<T>(this T editor, Func<double> fontSizeFunc)
-            where T : IEditor
-        {
-            editor.FontSize = new PropertyValue<double>(fontSizeFunc);
-            return editor;
-        }
-
-        public static T FontAttributes<T>(this T editor, Microsoft.Maui.Controls.FontAttributes fontAttributes)
-            where T : IEditor
-        {
-            editor.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributes);
-            return editor;
-        }
-
-        public static T FontAttributes<T>(this T editor, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc)
-            where T : IEditor
-        {
-            editor.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
-            return editor;
-        }
-
-        public static T FontAutoScalingEnabled<T>(this T editor, bool fontAutoScalingEnabled)
-            where T : IEditor
-        {
-            editor.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabled);
-            return editor;
-        }
-
-        public static T FontAutoScalingEnabled<T>(this T editor, Func<bool> fontAutoScalingEnabledFunc)
-            where T : IEditor
-        {
-            editor.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
-            return editor;
-        }
-
-        public static T IsTextPredictionEnabled<T>(this T editor, bool isTextPredictionEnabled)
-            where T : IEditor
-        {
-            editor.IsTextPredictionEnabled = new PropertyValue<bool>(isTextPredictionEnabled);
-            return editor;
-        }
-
-        public static T IsTextPredictionEnabled<T>(this T editor, Func<bool> isTextPredictionEnabledFunc)
-            where T : IEditor
-        {
-            editor.IsTextPredictionEnabled = new PropertyValue<bool>(isTextPredictionEnabledFunc);
-            return editor;
-        }
-
-        public static T CursorPosition<T>(this T editor, int cursorPosition)
-            where T : IEditor
-        {
-            editor.CursorPosition = new PropertyValue<int>(cursorPosition);
-            return editor;
-        }
-
-        public static T CursorPosition<T>(this T editor, Func<int> cursorPositionFunc)
-            where T : IEditor
-        {
-            editor.CursorPosition = new PropertyValue<int>(cursorPositionFunc);
-            return editor;
-        }
-
-        public static T SelectionLength<T>(this T editor, int selectionLength)
-            where T : IEditor
-        {
-            editor.SelectionLength = new PropertyValue<int>(selectionLength);
-            return editor;
-        }
-
-        public static T SelectionLength<T>(this T editor, Func<int> selectionLengthFunc)
-            where T : IEditor
-        {
-            editor.SelectionLength = new PropertyValue<int>(selectionLengthFunc);
-            return editor;
-        }
-
         public static T AutoSize<T>(this T editor, Microsoft.Maui.Controls.EditorAutoSizeOption autoSize)
             where T : IEditor
         {

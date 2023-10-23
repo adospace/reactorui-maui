@@ -21,20 +21,6 @@ namespace MauiReactor
 
         PropertyValue<Microsoft.Maui.TextAlignment>? VerticalTextAlignment { get; set; }
 
-        PropertyValue<string>? FontFamily { get; set; }
-
-        PropertyValue<double>? FontSize { get; set; }
-
-        PropertyValue<Microsoft.Maui.Controls.FontAttributes>? FontAttributes { get; set; }
-
-        PropertyValue<bool>? FontAutoScalingEnabled { get; set; }
-
-        PropertyValue<bool>? IsTextPredictionEnabled { get; set; }
-
-        PropertyValue<int>? CursorPosition { get; set; }
-
-        PropertyValue<int>? SelectionLength { get; set; }
-
         PropertyValue<Microsoft.Maui.ClearButtonVisibility>? ClearButtonVisibility { get; set; }
 
         Action? CompletedAction { get; set; }
@@ -60,20 +46,6 @@ namespace MauiReactor
 
         PropertyValue<Microsoft.Maui.TextAlignment>? IEntry.VerticalTextAlignment { get; set; }
 
-        PropertyValue<string>? IEntry.FontFamily { get; set; }
-
-        PropertyValue<double>? IEntry.FontSize { get; set; }
-
-        PropertyValue<Microsoft.Maui.Controls.FontAttributes>? IEntry.FontAttributes { get; set; }
-
-        PropertyValue<bool>? IEntry.FontAutoScalingEnabled { get; set; }
-
-        PropertyValue<bool>? IEntry.IsTextPredictionEnabled { get; set; }
-
-        PropertyValue<int>? IEntry.CursorPosition { get; set; }
-
-        PropertyValue<int>? IEntry.SelectionLength { get; set; }
-
         PropertyValue<Microsoft.Maui.ClearButtonVisibility>? IEntry.ClearButtonVisibility { get; set; }
 
         Action? IEntry.CompletedAction { get; set; }
@@ -89,25 +61,9 @@ namespace MauiReactor
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.IsPasswordProperty, thisAsIEntry.IsPassword);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.HorizontalTextAlignmentProperty, thisAsIEntry.HorizontalTextAlignment);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.VerticalTextAlignmentProperty, thisAsIEntry.VerticalTextAlignment);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.FontFamilyProperty, thisAsIEntry.FontFamily);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.FontSizeProperty, thisAsIEntry.FontSize);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.FontAttributesProperty, thisAsIEntry.FontAttributes);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.FontAutoScalingEnabledProperty, thisAsIEntry.FontAutoScalingEnabled);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.IsTextPredictionEnabledProperty, thisAsIEntry.IsTextPredictionEnabled);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.CursorPositionProperty, thisAsIEntry.CursorPosition);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.SelectionLengthProperty, thisAsIEntry.SelectionLength);
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.ClearButtonVisibilityProperty, thisAsIEntry.ClearButtonVisibility);
             base.OnUpdate();
             OnEndUpdate();
-        }
-
-        protected override void OnAnimate()
-        {
-            OnBeginAnimate();
-            var thisAsIEntry = (IEntry)this;
-            AnimateProperty(Microsoft.Maui.Controls.Entry.FontSizeProperty, thisAsIEntry.FontSize);
-            base.OnAnimate();
-            OnEndAnimate();
         }
 
         partial void OnBeginUpdate();
@@ -214,105 +170,6 @@ namespace MauiReactor
             where T : IEntry
         {
             entry.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
-            return entry;
-        }
-
-        public static T FontFamily<T>(this T entry, string fontFamily)
-            where T : IEntry
-        {
-            entry.FontFamily = new PropertyValue<string>(fontFamily);
-            return entry;
-        }
-
-        public static T FontFamily<T>(this T entry, Func<string> fontFamilyFunc)
-            where T : IEntry
-        {
-            entry.FontFamily = new PropertyValue<string>(fontFamilyFunc);
-            return entry;
-        }
-
-        public static T FontSize<T>(this T entry, double fontSize, RxDoubleAnimation? customAnimation = null)
-            where T : IEntry
-        {
-            entry.FontSize = new PropertyValue<double>(fontSize);
-            entry.AppendAnimatable(Microsoft.Maui.Controls.Entry.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => entry.FontSize = new PropertyValue<double>(v.CurrentValue()));
-            return entry;
-        }
-
-        public static T FontSize<T>(this T entry, Func<double> fontSizeFunc)
-            where T : IEntry
-        {
-            entry.FontSize = new PropertyValue<double>(fontSizeFunc);
-            return entry;
-        }
-
-        public static T FontAttributes<T>(this T entry, Microsoft.Maui.Controls.FontAttributes fontAttributes)
-            where T : IEntry
-        {
-            entry.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributes);
-            return entry;
-        }
-
-        public static T FontAttributes<T>(this T entry, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc)
-            where T : IEntry
-        {
-            entry.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
-            return entry;
-        }
-
-        public static T FontAutoScalingEnabled<T>(this T entry, bool fontAutoScalingEnabled)
-            where T : IEntry
-        {
-            entry.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabled);
-            return entry;
-        }
-
-        public static T FontAutoScalingEnabled<T>(this T entry, Func<bool> fontAutoScalingEnabledFunc)
-            where T : IEntry
-        {
-            entry.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
-            return entry;
-        }
-
-        public static T IsTextPredictionEnabled<T>(this T entry, bool isTextPredictionEnabled)
-            where T : IEntry
-        {
-            entry.IsTextPredictionEnabled = new PropertyValue<bool>(isTextPredictionEnabled);
-            return entry;
-        }
-
-        public static T IsTextPredictionEnabled<T>(this T entry, Func<bool> isTextPredictionEnabledFunc)
-            where T : IEntry
-        {
-            entry.IsTextPredictionEnabled = new PropertyValue<bool>(isTextPredictionEnabledFunc);
-            return entry;
-        }
-
-        public static T CursorPosition<T>(this T entry, int cursorPosition)
-            where T : IEntry
-        {
-            entry.CursorPosition = new PropertyValue<int>(cursorPosition);
-            return entry;
-        }
-
-        public static T CursorPosition<T>(this T entry, Func<int> cursorPositionFunc)
-            where T : IEntry
-        {
-            entry.CursorPosition = new PropertyValue<int>(cursorPositionFunc);
-            return entry;
-        }
-
-        public static T SelectionLength<T>(this T entry, int selectionLength)
-            where T : IEntry
-        {
-            entry.SelectionLength = new PropertyValue<int>(selectionLength);
-            return entry;
-        }
-
-        public static T SelectionLength<T>(this T entry, Func<int> selectionLengthFunc)
-            where T : IEntry
-        {
-            entry.SelectionLength = new PropertyValue<int>(selectionLengthFunc);
             return entry;
         }
 

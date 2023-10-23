@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
+    <TargetFrameworks>net8.0-android;net8.0-ios</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <RootNamespace>Contentics</RootNamespace>
     <UseMaui>true</UseMaui>
@@ -67,4 +67,9 @@
     <ProjectReference Include="..\..\src\MauiReactor\MauiReactor.csproj" />
     <ProjectReference Include="..\..\src\MauiReactor.Canvas\MauiReactor.Canvas.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+  </ItemGroup>
+
 </Project>
