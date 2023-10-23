@@ -8,9 +8,7 @@ namespace MauiReactor
     {
         private readonly Dictionary<BindableProperty, object> _attachedProperties = new();
 
-        //private ParameterContext? _parameterContext;
-
-        private Component? _newComponent;
+        //private Component? _newComponent;
 
         public abstract VisualNode Render();
 
@@ -100,15 +98,9 @@ namespace MauiReactor
 
         internal override void MergeWith(VisualNode newNode)
         {
-            if (newNode is Component newComponentMigrated)
-            {
-                _newComponent = newComponentMigrated;
-            }
-
-            //if (_parameterContext != null && newNode is Component newComponent)
+            //if (newNode is Component newComponentMigrated)
             //{
-            //    newComponent._parameterContext ??= new ParameterContext(newComponent);
-            //    _parameterContext.MigrateTo(newComponent._parameterContext);
+            //    _newComponent = newComponentMigrated;
             //}
 
             if (newNode.GetType().FullName == GetType().FullName && _isMounted)
