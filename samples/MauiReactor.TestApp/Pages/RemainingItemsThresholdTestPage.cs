@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace MauiReactor.TestApp.Pages;
 class RemainingItemsThresholdTestPageState
 {
     public bool IsBusy { get; set; }
-    public List<int> Ints { get; set; } = Enumerable.Range(0, 50).ToList();
+    public ObservableCollection<int> Ints { get; set; } = new ObservableCollection<int>(Enumerable.Range(0, 50));
 }
 class RemainingItemsThresholdTestPage : Component<RemainingItemsThresholdTestPageState>
 {
@@ -22,7 +23,7 @@ class RemainingItemsThresholdTestPage : Component<RemainingItemsThresholdTestPag
                 new CollectionView()
                     .ItemsSource(State.Ints, i => new Label(i))
                     .RemainingItemsThreshold(5)
-                    .OnRemainingItemsThresholdReached(moreInts),
+                    .OnRemainingItemsThresholdReached(MoreInts),
 
                 new ActivityIndicator()
                     .IsRunning(State.IsBusy)
@@ -32,17 +33,24 @@ class RemainingItemsThresholdTestPage : Component<RemainingItemsThresholdTestPag
         };
     }
 
-    async void moreInts()
+    async void MoreInts()
     {
         if (State.IsBusy)
         {
             return;
         }
+
         SetState(s => s.IsBusy = true);
+
         await Task.Delay(1000);
+
         SetState(s =>
         {
-            s.Ints.AddRange(Enumerable.Range(s.Ints.Count, s.Ints.Count + 50));
+            foreach (var v in Enumerable.Range(s.Ints.Count, s.Ints.Count + 50))
+            {
+                s.Ints.Add(v);
+            }
+
             s.IsBusy = false;
         });
     }
