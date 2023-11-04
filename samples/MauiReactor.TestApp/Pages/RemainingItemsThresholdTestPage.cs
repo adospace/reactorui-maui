@@ -46,7 +46,7 @@ class RemainingItemsThresholdTestPage : Component<RemainingItemsThresholdTestPag
 
         SetState(s =>
         {
-            foreach (var v in Enumerable.Range(s.Ints.Count, s.Ints.Count + 50))
+            foreach (var v in Enumerable.Range(s.Ints.Count, 50))
             {
                 s.Ints.Add(v);
             }
