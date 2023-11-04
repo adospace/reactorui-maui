@@ -427,7 +427,10 @@ namespace MauiReactor
                 registeredAction.Invoke();
             }
 
-            //Validate.EnsureNotNull(Application.Current);
+            if (invalidateComponent && !_isMounted)
+            {
+                System.Diagnostics.Debug.WriteLine($"WARNING: Your are calling SetState on an unmounted component '{this.GetType().Name}'");
+            }
 
             if (invalidateComponent && _isMounted)
             {

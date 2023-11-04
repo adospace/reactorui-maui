@@ -84,7 +84,7 @@ namespace MauiReactor
         private void OnComponentPage_Appearing(object? sender, EventArgs e)
         {
             _sleeping = false;
-            Invalidate();
+            OnLayoutCycleRequested();
         }
 
         private void OnComponentPage_Disappearing(object? sender, EventArgs e)
