@@ -5,11 +5,14 @@ namespace MauiReactor
     public partial interface IView
     {
         List<IGestureRecognizer>? GestureRecognizers { get; set; }
+
+        List<IBehavior>? Behaviors { get; set; }
     }
 
     public abstract partial class View<T>
     {
         List<IGestureRecognizer>? IView.GestureRecognizers { get; set; }
+        List<IBehavior>? IView.Behaviors { get; set; }
 
         protected override void OnChildAdd(VisualNode node)
         {
@@ -18,20 +21,36 @@ namespace MauiReactor
                 var thisAsIView = (IView)this;
                 thisAsIView.GestureRecognizers ??= new List<IGestureRecognizer>();
                 thisAsIView.GestureRecognizers.Add(gestureRecognizer);
-                return;            
+                return;
             }
+            else if (node is IBehavior behavior)
+            {
+                var thisAsIView = (IView)this;
+                thisAsIView.Behaviors ??= new List<IBehavior>();
+                thisAsIView.Behaviors.Add(behavior);
+                return;
+            }
+
             base.OnChildAdd(node);
         }
 
         protected override IEnumerable<VisualNode> RenderChildren()
         {
             var thisAsIView = (IView)this;
-            if (thisAsIView.GestureRecognizers == null)
+
+            var children = base.RenderChildren();
+            
+            if (thisAsIView.GestureRecognizers != null)
             {
-                return base.RenderChildren();
+                children = children.Concat(thisAsIView.GestureRecognizers.Cast<VisualNode>());
             }
 
-            return base.RenderChildren().Concat(thisAsIView.GestureRecognizers.Cast<VisualNode>());
+            if (thisAsIView.Behaviors != null)
+            {
+                children = children.Concat(thisAsIView.Behaviors.Cast<VisualNode>());
+            }
+
+            return children;
         }
 
         protected override void OnAddChild(VisualNode widget, BindableObject childControl)
@@ -46,7 +65,10 @@ namespace MauiReactor
             {
                 NativeControl.SetPropertyValue(FlyoutBase.ContextFlyoutProperty, menuFlyout);
             }
-
+            else if (childControl is Microsoft.Maui.Controls.Behavior behavior)
+            {
+                NativeControl.Behaviors.Add(behavior);
+            }
 
             base.OnAddChild(widget, childControl);
         }
@@ -63,6 +85,11 @@ namespace MauiReactor
             {
                 NativeControl.SetPropertyValue(FlyoutBase.ContextFlyoutProperty, null);
             }
+            else if (childControl is Microsoft.Maui.Controls.Behavior behavior)
+            {
+                NativeControl.Behaviors.Remove(behavior);
+            }
+
 
             base.OnRemoveChild(widget, childControl);
         }
@@ -117,6 +144,13 @@ namespace MauiReactor
         public static T VFill<T>(this T view) where T : IView
         {
             view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Fill);
+            return view;
+        }
+
+        public static T Center<T>(this T view) where T : IView
+        {
+            view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Center);
+            view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Center);
             return view;
         }
 

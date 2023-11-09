@@ -130,6 +130,11 @@ class HomePage : Component
             {
                 new Pages.GradientPage()
             },
+
+            new FlyoutItem("Behavior Test")
+            {
+                new Pages.BehaviorTestPage()
+            },
         }
         .ItemTemplate(RenderItemTemplate);
     }
