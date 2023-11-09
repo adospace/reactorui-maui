@@ -191,6 +191,7 @@ public partial class ScaffoldTypeGenerator
         if (baseType.IsGenericType)
         {
             return baseType.Name
+                .Replace("PlatformBehavior", "Behavior")
                 .Replace("`1", string.Empty);
         }
 

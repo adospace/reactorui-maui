@@ -108,10 +108,12 @@ namespace MauiReactor.Scaffold
             if (baseType.IsGenericType)
             {
                 return Validate.EnsureNotNull(baseType.Name)
+                    .Replace("PlatformBehavior", "Behavior")
                     .Replace("`1", string.Empty);
             }
 
             return Validate.EnsureNotNull(baseType.FullName)
+                .Replace("PlatformBehavior", "Behavior")
                 .Replace("Microsoft.Maui.Controls.", string.Empty);
         }
 

@@ -123,3 +123,6 @@ Microsoft.Maui.Controls.GraphicsView
 Microsoft.Maui.Controls.Shadow
 
 Microsoft.Maui.Controls.Window
+
+Microsoft.Maui.Controls.Behavior
+Microsoft.Maui.Controls.Behavior`1
