@@ -207,14 +207,20 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(">");
+            this.Write(">, ");
+            
+            #line 49 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName));
+            
+            #line default
+            #line hidden
             
             #line 49 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty));
             
             #line default
             #line hidden
-            this.Write(", ICustomDataTemplateOwner where T : ");
+            this.Write(" where T : ");
             
             #line 49 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));

@@ -46,7 +46,7 @@ namespace <#= Namespace #>
     }
 
     <# if (IsBaseGenericType) { #>
-    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T, <#= GenericArgumentBaseFullBaseTypeName #>><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #>, ICustomDataTemplateOwner where T : <#= FullTypeName #>, new()
+    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T, <#= GenericArgumentBaseFullBaseTypeName #>>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #> where T : <#= FullTypeName #>, new()
     {
         public <#= TypeName #>()
         { 
