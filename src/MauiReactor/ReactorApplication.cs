@@ -261,6 +261,14 @@ namespace MauiReactor
         protected ReactorApplication()
         {
         }
+        public Action<Uri>? AppLinkRequestReceived { get; set; }
+
+        protected override void OnAppLinkRequestReceived(Uri uri)
+        {
+            AppLinkRequestReceived?.Invoke(uri);
+
+            base.OnAppLinkRequestReceived(uri);
+        }
     }
 
     public class ReactorApplication<T> : ReactorApplication where T : Component, new()
@@ -284,10 +292,6 @@ namespace MauiReactor
             return base.CreateWindow(activationState);
         }
 
-        public override void CloseWindow(Microsoft.Maui.Controls.Window window)
-        {
-            base.CloseWindow(window);
-        }
 
         protected override void OnStart()
         {
@@ -320,7 +324,7 @@ namespace MauiReactor
 
     public static class MauiAppBuilderExtensions
     {
-        public static MauiAppBuilder UseMauiReactorApp<TComponent>(this MauiAppBuilder appBuilder, Action<Application>? configureApplication = null) where TComponent : Component, new()
+        public static MauiAppBuilder UseMauiReactorApp<TComponent>(this MauiAppBuilder appBuilder, Action<ReactorApplication>? configureApplication = null) where TComponent : Component, new()
             => appBuilder.UseMauiApp(sp => 
             {
                 ServiceCollectionProvider.ServiceProvider = sp;
