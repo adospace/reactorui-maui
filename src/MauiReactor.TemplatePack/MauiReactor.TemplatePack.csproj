@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>0.0.1-local</PackageVersion>  
+    <PackageVersion>0.0.1</PackageVersion>  
 
     <PackageId>Reactor.Maui.TemplatePack</PackageId>
     <Title>MauiReactor Templates</Title>
