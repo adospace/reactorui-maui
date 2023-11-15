@@ -28,7 +28,7 @@ jobs:
       id: update
       uses: vers-one/dotnet-project-version-updater@v1.3
       with:
-        file: "./src/MauiReactor/MauiReactor.csproj","./src/MauiReactor.Blazor/MauiReactor.Blazor.csproj","./src/MauiReactor.Canvas/MauiReactor.Canvas.csproj","./src/MauiReactor.Maps/MauiReactor.Maps.csproj","./src/MauiReactor.ScaffoldGenerator/MauiReactor.ScaffoldGenerator.csproj","./src/MauiReactor.TemplatePack/MauiReactor.TemplatePack.csproj","./src/MauiReactor.HotReloadConsole/MauiReactor.HotReloadConsole.csproj"   
+        files: "./src/MauiReactor/MauiReactor.csproj,./src/MauiReactor.Blazor/MauiReactor.Blazor.csproj,./src/MauiReactor.Canvas/MauiReactor.Canvas.csproj,./src/MauiReactor.Maps/MauiReactor.Maps.csproj,./src/MauiReactor.ScaffoldGenerator/MauiReactor.ScaffoldGenerator.csproj,./src/MauiReactor.TemplatePack/MauiReactor.TemplatePack.csproj,./src/MauiReactor.HotReloadConsole/MauiReactor.HotReloadConsole.csproj"   
         version: $env:Version
         
     # Install the .NET Core workload
