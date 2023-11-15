@@ -32,21 +32,9 @@ jobs:
     - name: Install MAUI workload
       run: dotnet workload install maui
       
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.0.2
-      
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Build the packages
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: Release
-      
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Build the packages
-      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration
-      env:
-        Configuration: Release
+      run: dotnet build $env:Solution_Name -c Release
 
 
   
