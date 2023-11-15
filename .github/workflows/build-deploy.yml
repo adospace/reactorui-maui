@@ -25,49 +25,49 @@ jobs:
         fetch-depth: 0
 
     - name: Update version (MauiReactor)
-      id: update
+      id: update_1
       uses: vers-one/dotnet-project-version-updater@v1.3
       with:
         file: "./src/MauiReactor/MauiReactor.csproj"   
         version: $env:Version
         
     - name: Update version (MauiReactor.Blazor)
-      id: update
+      id: update_2
       uses: vers-one/dotnet-project-version-updater@v1.3
       with:
         file: "./src/MauiReactor.Blazor/MauiReactor.Blazor.csproj"   
         version: $env:Version
         
     - name: Update version (MauiReactor.Canvas)
-      id: update
+      id: update_3
       uses: vers-one/dotnet-project-version-updater@v1.3
       with:
         file: "./src/MauiReactor.Canvas/MauiReactor.Canvas.csproj"   
         version: $env:Version
         
     - name: Update version (MauiReactor.Maps)
-      id: update
+      id: update_4
       uses: vers-one/dotnet-project-version-updater@v1.3
       with:
         file: "./src/MauiReactor.Maps/MauiReactor.Maps.csproj"   
         version: $env:Version
         
     - name: Update version (MauiReactor.ScaffoldGenerator)
-      id: update
+      id: update_5
       uses: vers-one/dotnet-project-version-updater@v1.3
       with:
         file: "./src/MauiReactor.ScaffoldGenerator/MauiReactor.ScaffoldGenerator.csproj"   
         version: $env:Version
         
     - name: Update version (MauiReactor.TemplatePack)
-      id: update
+      id: update_6
       uses: vers-one/dotnet-project-version-updater@v1.3
       with:
         file: "./src/MauiReactor.TemplatePack/MauiReactor.TemplatePack.csproj"   
         version: $env:Version
         
     - name: Update version (MauiReactor.HotReloadConsole)
-      id: update
+      id: update_7
       uses: vers-one/dotnet-project-version-updater@v1.3
       with:
         file: "./src/MauiReactor.HotReloadConsole/MauiReactor.HotReloadConsole.csproj"   
