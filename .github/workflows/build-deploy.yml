@@ -16,6 +16,7 @@ jobs:
 
     env:
       Solution_Name: ./src/MauiReactor.Build.sln
+      Version: 2.0.0-beta
 
     steps:
     - name: Checkout
@@ -28,7 +29,7 @@ jobs:
       uses: vers-one/dotnet-project-version-updater@v1.3
       with:
         file: "src/**/*.csproj"
-        version: ${{ github.event.inputs.version }}
+        version: $env:Version
         
     # Install the .NET Core workload
     - name: Install .NET Core
