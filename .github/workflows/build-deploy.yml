@@ -23,55 +23,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-
-    - name: Update version (MauiReactor)
-      id: update_1
-      uses: vers-one/dotnet-project-version-updater@v1.3
-      with:
-        file: "./src/MauiReactor/MauiReactor.csproj"   
-        version: $env:Version
-        
-    - name: Update version (MauiReactor.Blazor)
-      id: update_2
-      uses: vers-one/dotnet-project-version-updater@v1.3
-      with:
-        file: "./src/MauiReactor.Blazor/MauiReactor.Blazor.csproj"   
-        version: $env:Version
-        
-    - name: Update version (MauiReactor.Canvas)
-      id: update_3
-      uses: vers-one/dotnet-project-version-updater@v1.3
-      with:
-        file: "./src/MauiReactor.Canvas/MauiReactor.Canvas.csproj"   
-        version: $env:Version
-        
-    - name: Update version (MauiReactor.Maps)
-      id: update_4
-      uses: vers-one/dotnet-project-version-updater@v1.3
-      with:
-        file: "./src/MauiReactor.Maps/MauiReactor.Maps.csproj"   
-        version: $env:Version
-        
-    - name: Update version (MauiReactor.ScaffoldGenerator)
-      id: update_5
-      uses: vers-one/dotnet-project-version-updater@v1.3
-      with:
-        file: "./src/MauiReactor.ScaffoldGenerator/MauiReactor.ScaffoldGenerator.csproj"   
-        version: $env:Version
-        
-    - name: Update version (MauiReactor.TemplatePack)
-      id: update_6
-      uses: vers-one/dotnet-project-version-updater@v1.3
-      with:
-        file: "./src/MauiReactor.TemplatePack/MauiReactor.TemplatePack.csproj"   
-        version: $env:Version
-        
-    - name: Update version (MauiReactor.HotReloadConsole)
-      id: update_7
-      uses: vers-one/dotnet-project-version-updater@v1.3
-      with:
-        file: "./src/MauiReactor.HotReloadConsole/MauiReactor.HotReloadConsole.csproj"   
-        version: $env:Version 
         
     # Install the .NET Core workload
     - name: Install .NET Core
@@ -84,7 +35,7 @@ jobs:
       
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Build the packages
-      run: dotnet build $env:Solution_Name -c Release
+      run: dotnet build $env:Solution_Name -c Release /p:Version=$env:Version
 
 
   
