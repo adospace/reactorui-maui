@@ -77,11 +77,11 @@ class CanvasAutoStackPage : Component<CanvasAutoStackPageState>
 
                             new Box()
                             {
-                                new Text($"Width = {State.AutoSizedBoxWidth}")
+                                new Text($"Auto Sized Width")
                                     .HorizontalAlignment(HorizontalAlignment.Center)
                                     .VerticalAlignment(VerticalAlignment.Center)
                                     .FontColor(Colors.White)
-                                    .OnMeasure((s,args)=>SetState(s => s.AutoSizedBoxWidth = args.Size.Width))
+                                    .OnMeasure((s,args)=>SetState(s => s.AutoSizedBoxWidth = (int)args.Size.Width))
                             }
                             .AutoStackWidth(State.AutoSizedBoxWidth)
                             .BackgroundColor(Colors.Green),
