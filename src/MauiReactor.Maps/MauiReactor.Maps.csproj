@@ -19,8 +19,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 
 
-    <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' == '' ">0.0.1-local</Version>
-    <Version Condition=" '$(APPVEYOR_BUILD_VERSION)' != '' ">$(APPVEYOR_BUILD_VERSION)</Version>
+    <Version>0.0.1</Version>
     <Authors>adospace</Authors>
     <Description>MauiReactor.Maps is a MauiReactor plugin for the MAUI Maps Control.</Description>
     <Copyright>Adolfo Marinucci</Copyright>
