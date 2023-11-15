@@ -16,6 +16,7 @@ jobs:
 
     env:
       Solution_Name: ./src/MauiReactor.Build.sln
+      TemokatePack_Name: ./src/MauiReactor.TemplatePack/MauiReactor.TemplatePack.csproj
       Version: 2.0.0-beta
 
     steps:
@@ -33,9 +34,8 @@ jobs:
     - name: Install MAUI workload
       run: dotnet workload install maui
       
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Build the packages
       run: dotnet build $env:Solution_Name -c Release /p:Version=$env:Version
-
-
   
+    - name: Build the MauiReactor.TemplatePack package
+      run: dotnet pack --no-build $env:TemokatePack_Name -c Release /p:PackageVersion=$env:Version
