@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.ScaffoldGenerat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.Maps", "MauiReactor.Maps\MauiReactor.Maps.csproj", "{E3B3F8A0-947A-4945-B7E8-67B31B5D9EC2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.Blazor", "MauiReactor.Blazor\MauiReactor.Blazor.csproj", "{040E8AED-28E2-48F0-AD93-D32E53412895}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{E3B3F8A0-947A-4945-B7E8-67B31B5D9EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3B3F8A0-947A-4945-B7E8-67B31B5D9EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3B3F8A0-947A-4945-B7E8-67B31B5D9EC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{040E8AED-28E2-48F0-AD93-D32E53412895}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{040E8AED-28E2-48F0-AD93-D32E53412895}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{040E8AED-28E2-48F0-AD93-D32E53412895}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{040E8AED-28E2-48F0-AD93-D32E53412895}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
