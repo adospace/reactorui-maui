@@ -23,6 +23,13 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Update version
+      id: update
+      uses: vers-one/dotnet-project-version-updater@v1.3
+      with:
+        file: "src/**/*.csproj"
+        version: ${{ github.event.inputs.version }}
+        
     # Install the .NET Core workload
     - name: Install .NET Core
       uses: actions/setup-dotnet@v3
