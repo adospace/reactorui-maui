@@ -47,7 +47,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTest", "..\sampl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.Blazor", "MauiReactor.Blazor\MauiReactor.Blazor.csproj", "{87787AD6-4677-41B4-B606-BB831AB2462B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiReactor.Blazor.TestApp", "MauiReactor.Blazor.TestApp\MauiReactor.Blazor.TestApp.csproj", "{9E8B860C-9F63-467C-990C-DE9FE701BAC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiReactor.Blazor.TestApp", "MauiReactor.Blazor.TestApp\MauiReactor.Blazor.TestApp.csproj", "{9E8B860C-9F63-467C-990C-DE9FE701BAC1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D977CDC1-8AE2-4690-B9D6-49ED8511D470}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\build-deploy.yml = ..\.github\workflows\build-deploy.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
