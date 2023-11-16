@@ -17,7 +17,7 @@ jobs:
     env:
       Solution_Name: ./src/MauiReactor.Build.sln
       TemokatePack_Name: ./src/MauiReactor.TemplatePack/MauiReactor.TemplatePack.csproj
-      Version: 2.0.2-beta
+      Version: 2.0.3-beta
 
     steps:
     - name: Checkout
@@ -39,13 +39,8 @@ jobs:
   
     - name: Build the MauiReactor.TemplatePack package
       run: dotnet pack --no-build $env:TemokatePack_Name -c Release /p:PackageVersion=$env:Version
-    
-    - name: Remove the MauiReactor.TemplatePack local temp package
-      uses: JesseTG/rm@v1.0.3
-      with:
-        path: ./src/MauiReactor.TemplatePack/bin/Release/Reactor.Maui.TemplatePack.0.0.1-local.nupkg
 
     - name: Push Package to NuGet.org
-      run: dotnet nuget push **/*.nupkg -k ${{ secrets.NUGETAPIKEY }} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push **/*.nupkg -k ${{ secrets.NUGETAPIKEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
       
