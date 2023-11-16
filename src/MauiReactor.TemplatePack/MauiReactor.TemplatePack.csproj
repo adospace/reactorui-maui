@@ -39,7 +39,6 @@
     <None Remove="templates\MauiReactor.AppShell\Resources\AppIcon\appiconfg.svg" />
     <None Remove="templates\MauiReactor.AppShell\Resources\Fonts\OpenSans-Regular.ttf" />
     <None Remove="templates\MauiReactor.AppShell\Resources\Fonts\OpenSans-Semibold.ttf" />
-    <None Remove="templates\MauiReactor.AppShell\Resources\Images\dotnet_bot.svg" />
     <None Remove="templates\MauiReactor.AppShell\Resources\Raw\AboutAssets.txt" />
     <None Remove="templates\MauiReactor.AppShell\Resources\Splash\splash.svg" />
     <None Remove="templates\MauiReactor.AppShell\Resources\Styles\Colors.xaml" />

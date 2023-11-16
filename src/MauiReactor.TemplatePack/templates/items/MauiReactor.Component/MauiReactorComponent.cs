@@ -20,7 +20,7 @@ class ComponentClassComponent : Component<ComponentClassState>
                     new Image("dotnet_bot.png")
                         .HeightRequest(200)
                         .HCenter()
-                        .Set(Microsoft.Maui.Controls.SemanticProperties.DescriptionProperty, "Cute dot net bot waving hi to you!"),
+                        .Set(MauiControls.SemanticProperties.DescriptionProperty, "Cute dot net bot waving hi to you!"),
 
                     new Label("Hello, World!")
                         .FontSize(32)

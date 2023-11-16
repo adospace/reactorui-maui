@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace MauiReactor.Startup;
+namespace MauiReactor.Startup
 {
     [Application]
     public class MainApplication : MauiApplication
