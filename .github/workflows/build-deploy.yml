@@ -39,3 +39,8 @@ jobs:
   
     - name: Build the MauiReactor.TemplatePack package
       run: dotnet pack --no-build $env:TemokatePack_Name -c Release /p:PackageVersion=$env:Version
+
+    - name: Push Package to NuGet.org
+      run: dotnet nuget push *.nupkg -k ${{ secrets.NUGETAPIKEY }} -s https://api.nuget.org/v3/index.json
+
+      
