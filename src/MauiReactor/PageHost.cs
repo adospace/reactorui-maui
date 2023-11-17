@@ -72,8 +72,8 @@ namespace MauiReactor
             {
                 ContainerPage = page;
                 ContainerPage.SetValue(MauiReactorPageHostBagKey, this);
-                ContainerPage.Appearing += OnComponentPage_Appearing;
-                ContainerPage.Disappearing += OnComponentPage_Disappearing;
+                ContainerPage.Appearing += ComponentPage_Appearing;
+                ContainerPage.Unloaded += ContainerPage_Unloaded;
             }
             else
             {
@@ -81,26 +81,30 @@ namespace MauiReactor
             }
         }
 
-        private void OnComponentPage_Appearing(object? sender, EventArgs e)
+        private void ContainerPage_Unloaded(object? sender, EventArgs e)
         {
-            _sleeping = false;
-            OnLayoutCycleRequested();
-        }
-
-        private void OnComponentPage_Disappearing(object? sender, EventArgs e)
-        {
+            System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Unloaded");
             _disappearing = true;
             Invalidate();
+        }
+
+        private void ComponentPage_Appearing(object? sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Appearing");
+            _sleeping = false;
+            OnLayoutCycleRequested();
         }
 
         protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
         {
             if (ContainerPage != null)
             {
+                System.Diagnostics.Debug.WriteLine($"{ContainerPage.Title} OnRemoveChild");
+
                 ContainerPage.SetValue(MauiReactorPageHostBagKey, null);
 
-                ContainerPage.Appearing -= OnComponentPage_Appearing;
-                ContainerPage.Disappearing -= OnComponentPage_Disappearing;
+                ContainerPage.Appearing -= ComponentPage_Appearing;
+                ContainerPage.Unloaded -= ContainerPage_Unloaded;
             }
 
             ContainerPage = null;
