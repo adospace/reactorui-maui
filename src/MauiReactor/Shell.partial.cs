@@ -327,11 +327,11 @@ namespace MauiReactor
             if (MauiControlsShellExtensions._propsStack.Count > 0)
             {
                 (Type PropsType, Action<object> PropsInitializer) = MauiControlsShellExtensions._propsStack.Peek();
-                return PageHost<T>.CreatePage(PropsInitializer);
+                return PageHost<T>.CreatePage(Microsoft.Maui.Controls.Shell.Current.Navigation, PropsInitializer);
             }
             else
             {
-                return PageHost<T>.CreatePage();
+                return PageHost<T>.CreatePage(Microsoft.Maui.Controls.Shell.Current.Navigation);
             }
         }
 
