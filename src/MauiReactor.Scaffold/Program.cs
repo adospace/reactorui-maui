@@ -22,7 +22,16 @@ foreach (var classNameToGenerate in File
 {
     var typeToScaffold = types[classNameToGenerate];
 
-    Scaffold(typeToScaffold, outputPath);
+    Scaffold(typeToScaffold, Path.Combine(outputPath, "MauiReactor"));
+}
+
+foreach (var classNameToGenerate in File
+    .ReadAllLines("WidgetListXamlConverter.txt")
+    .Where(_ => !string.IsNullOrWhiteSpace(_) && !_.StartsWith("//")))
+{
+    var typeToScaffold = types[classNameToGenerate];
+
+    GenerateXamlConverterForType(typeToScaffold, Path.Combine(outputPath, "MauiReactor.XamlConverterTool"));
 }
 
 Console.WriteLine("Done");
@@ -37,6 +46,21 @@ void Scaffold(Type typeToScaffold, string outputPath)
     Console.WriteLine($"Generating {outputFileName}...");
 
     File.WriteAllText(Path.Combine(outputPath, 
+        Path.Combine(outputFileNameTokens) + ".cs"),
+        typeGenerator.TransformAndPrettify());
+}
+
+
+void GenerateXamlConverterForType(Type typeToScaffold, string outputPath)
+{
+    var typeGenerator = new TypeXamlConverter(typeToScaffold);
+    var outputFileName = (typeToScaffold.FullName ?? throw new InvalidOperationException())
+                .Replace("Microsoft.Maui.Controls.", string.Empty);
+    var outputFileNameTokens = outputFileName.Split('.');
+
+    Console.WriteLine($"Generating converter {outputFileName}...");
+
+    File.WriteAllText(Path.Combine(outputPath,
         Path.Combine(outputFileNameTokens) + ".cs"),
         typeGenerator.TransformAndPrettify());
 }

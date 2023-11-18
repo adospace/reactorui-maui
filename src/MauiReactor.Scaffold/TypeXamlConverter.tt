@@ -1,0 +1,27 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
+
+namespace <#= Namespace() #>;
+
+public partial class MauiCode<#= TypeName() #> : MauiCode<#= BaseTypeName() #>
+{
+	public MauiCode<#= TypeName() #>(XElement xamlElement)
+		: base(xamlElement)
+	{
+		<# foreach (var property in Properties) { #>
+		RegisterProperty("<#= property.Name #>", "<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>", <#= property.PropertyType.IsEnum ? "true" : "false" #>);
+        <# } #>
+	}
+}

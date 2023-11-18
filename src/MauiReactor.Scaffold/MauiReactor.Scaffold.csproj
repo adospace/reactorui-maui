@@ -20,12 +20,24 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>TypeGenerator.tt</DependentUpon>
 		</Compile>
+		<Compile Update="TypeXamlConverter.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>TypeXamlConverter.tt</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Update="TypeGenerator.tt">
 			<Generator>TextTemplatingFilePreprocessor</Generator>
 			<LastGenOutput>TypeGenerator.cs</LastGenOutput>
+		</None>
+		<None Update="TypeXamlConverter.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>TypeXamlConverter.cs</LastGenOutput>
+		</None>
+		<None Update="WidgetListXamlConverter.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="WidgetList.txt">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
