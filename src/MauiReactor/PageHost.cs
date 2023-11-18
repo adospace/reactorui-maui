@@ -9,6 +9,77 @@ namespace MauiReactor
 {
     internal abstract class PageHost : VisualNode
     {
+        private static readonly HashSet<PageHost> _pageHostCache = new();
+        private readonly INavigation _navigation;
+        protected bool _sleeping;
+        protected bool _unloading;
+
+        public PageHost(INavigation navigation)
+        {
+            _navigation = navigation;
+            foreach(var pageHost in _pageHostCache.ToArray())
+            {
+                pageHost.CheckUnloading();
+            }
+        }
+
+        public Microsoft.Maui.Controls.Page? ContainerPage { get; private set; }
+
+        private void CheckUnloading()
+        {
+            if (ContainerPage != null &&
+                !_navigation.NavigationStack.Contains(ContainerPage))
+            {
+                _unloading = true;
+                Invalidate();
+                _pageHostCache.Remove(this);
+            }
+        }
+
+        protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
+        {
+            if (nativeControl is Microsoft.Maui.Controls.Page page)
+            {
+                ContainerPage = page;
+                ContainerPage.SetValue(MauiReactorPageHostBagKey, this);
+                ContainerPage.Appearing += ComponentPage_Appearing;
+                ContainerPage.Disappearing += ContainerPage_Disappearing;
+            }
+            else
+            {
+                throw new NotSupportedException($"Invalid root component ({nativeControl.GetType()}): must be a page (i.e. ContentPage, Shell etc)");
+            }
+        }
+
+        private void ContainerPage_Disappearing(object? sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Disappearing");
+            CheckUnloading();
+        }
+
+        private void ComponentPage_Appearing(object? sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Appearing");
+            _sleeping = false;
+            OnLayoutCycleRequested();
+        }
+
+        protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
+        {
+            if (ContainerPage != null)
+            {
+                System.Diagnostics.Debug.WriteLine($"{ContainerPage.Title} OnRemoveChild");
+
+                ContainerPage.SetValue(MauiReactorPageHostBagKey, null);
+
+                ContainerPage.Appearing -= ComponentPage_Appearing;
+                ContainerPage.Disappearing -= ContainerPage_Disappearing;
+            }
+
+            ContainerPage = null;
+        }
+
+
         internal static BindablePropertyKey MauiReactorPageHostBagKey = BindableProperty.CreateAttachedReadOnly(nameof(MauiReactorPageHostBagKey),
             typeof(ITemplateHost), typeof(PageHost), null);
     }
@@ -18,11 +89,6 @@ namespace MauiReactor
     {
         private Component? _component;
 
-        private bool _sleeping;
-        private bool _disappearing;
-
-        public Microsoft.Maui.Controls.Page? ContainerPage { get; private set; }
-
         BindableObject? ITemplateHost.NativeElement => ContainerPage;
 
         private EventHandler? _layoutCycleExecuted;
@@ -31,7 +97,8 @@ namespace MauiReactor
 
         private readonly Action<object>? _propsInitializer;
 
-        protected PageHost(Action<object>? propsInitializer = null)
+        protected PageHost(INavigation navigation, Action<object>? propsInitializer = null)
+            :base(navigation)
         {
             _propsInitializer = propsInitializer;
         }
@@ -59,56 +126,13 @@ namespace MauiReactor
         }
 
 
-        public static Microsoft.Maui.Controls.Page CreatePage(Action<object>? propsInitializer = null)
+        public static Microsoft.Maui.Controls.Page CreatePage(INavigation nagivation, Action<object>? propsInitializer = null)
         {
-            var host = new PageHost<T>(propsInitializer);
+            var host = new PageHost<T>(nagivation, propsInitializer);
             host.Run();
             return host.ContainerPage ?? throw new InvalidOperationException();
         }
 
-        protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
-        {
-            if (nativeControl is Microsoft.Maui.Controls.Page page)
-            {
-                ContainerPage = page;
-                ContainerPage.SetValue(MauiReactorPageHostBagKey, this);
-                ContainerPage.Appearing += ComponentPage_Appearing;
-                ContainerPage.Unloaded += ContainerPage_Unloaded;
-            }
-            else
-            {
-                throw new NotSupportedException($"Invalid root component ({nativeControl.GetType()}): must be a page (i.e. ContentPage, Shell etc)");
-            }
-        }
-
-        private void ContainerPage_Unloaded(object? sender, EventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Unloaded");
-            _disappearing = true;
-            Invalidate();
-        }
-
-        private void ComponentPage_Appearing(object? sender, EventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Appearing");
-            _sleeping = false;
-            OnLayoutCycleRequested();
-        }
-
-        protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
-        {
-            if (ContainerPage != null)
-            {
-                System.Diagnostics.Debug.WriteLine($"{ContainerPage.Title} OnRemoveChild");
-
-                ContainerPage.SetValue(MauiReactorPageHostBagKey, null);
-
-                ContainerPage.Appearing -= ComponentPage_Appearing;
-                ContainerPage.Unloaded -= ContainerPage_Unloaded;
-            }
-
-            ContainerPage = null;
-        }
 
         protected virtual Component InitializeComponent(Component component)
         {
@@ -200,7 +224,7 @@ namespace MauiReactor
                 Layout();
                 SetupAnimationTimer();
 
-                if (_disappearing)
+                if (_unloading)
                 {
                     _sleeping = true;
                 }
@@ -214,7 +238,7 @@ namespace MauiReactor
 
         protected override IEnumerable<VisualNode> RenderChildren()
         {
-            if (_component == null || _disappearing)
+            if (_component == null || _unloading)
             {
                 yield break;
             }
@@ -279,14 +303,15 @@ namespace MauiReactor
     {
         private readonly Action<P> _propsInitializer;
 
-        protected PageHost(Action<P> propsInitializer)
+        protected PageHost(INavigation navigation, Action<P> propsInitializer)
+            :base(navigation)
         {
             _propsInitializer = propsInitializer;
         }
 
-        public static Microsoft.Maui.Controls.Page CreatePage(Action<P> propsInitializer) 
+        public static Microsoft.Maui.Controls.Page CreatePage(INavigation navigation, Action<P> propsInitializer) 
         {
-            var host = new PageHost<T, P>(propsInitializer);
+            var host = new PageHost<T, P>(navigation, propsInitializer);
             host.Run();
             return Validate.EnsureNotNull(host.ContainerPage);
         }
