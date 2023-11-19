@@ -98,10 +98,11 @@ namespace MauiReactor
     public static partial class GridExtensions
     {
         private static readonly GridLengthTypeConverter _gridLengthTypeConverter = new GridLengthTypeConverter();
+        private static readonly char[] _gridDefinitionSeparator = new[] { ' ', ',' };
 
         public static T Rows<T>(this T grid, string rows) where T : IGrid
         {
-            foreach (var rowDefinition in rows.Split(new[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries)
+            foreach (var rowDefinition in rows.Split(_gridDefinitionSeparator, StringSplitOptions.RemoveEmptyEntries)
                 .Select(_ => (GridLength)Validate.EnsureNotNull(_gridLengthTypeConverter.ConvertFromInvariantString(_)))
                 .Select(_ => new RowDefinition() { Height = _ }))
             {
@@ -113,7 +114,7 @@ namespace MauiReactor
 
         public static T Columns<T>(this T grid, string columns) where T : IGrid
         {
-            foreach (var columnDefinition in columns.Split(new[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries)
+            foreach (var columnDefinition in columns.Split(_gridDefinitionSeparator, StringSplitOptions.RemoveEmptyEntries)
                 .Select(_ => (GridLength)Validate.EnsureNotNull(_gridLengthTypeConverter.ConvertFromInvariantString(_)))
                 .Select(_ => new ColumnDefinition() { Width = _ }))
             {
@@ -179,33 +180,4 @@ namespace MauiReactor
         }
 
     }
-
-    //public class Column : Grid
-    //{
-    //    protected override void OnChildAdded(VisualNode child)
-    //    {
-    //        if (child is MauiReactor.IView)
-    //        {
-    //            var thisAsIGrid = (IGrid)this;
-    //            thisAsIGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1.0, GridUnitType.Star) });
-    //            ((IVisualNodeWithAttachedProperties)child).GridRow(thisAsIGrid.RowDefinitions.Count - 1);
-    //        }
-    //        base.OnChildAdded(child);
-    //    }
-    //}
-
-    //public class Row : Grid
-    //{
-    //    protected override void OnChildAdded(VisualNode child)
-    //    {
-    //        if (child is MauiReactor.IView)
-    //        {
-    //            var thisAsIGrid = (IGrid)this;
-    //            thisAsIGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1.0, GridUnitType.Star) });
-    //            ((IVisualNodeWithAttachedProperties)child).GridColumn(thisAsIGrid.ColumnDefinitions.Count - 1);
-    //        }
-    //        base.OnChildAdded(child);
-    //    }
-    //}
-
 }
