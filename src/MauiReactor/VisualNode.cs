@@ -421,13 +421,12 @@ namespace MauiReactor
             {
                 var newValue = propertyValue.GetValue();
 
-                dependencyObject.SetPropertyValue(property, newValue);
+                dependencyObject.SetPropertyValue(property, newValue);                
 
-                var containerComponent = ((IVisualNode)this).GetContainerComponent();
-
-                if (containerComponent != null && propertyValue.HasValueFunction)
+                if (propertyValue.HasValueFunction)
                 {
-                    containerComponent.RegisterOnStateChanged(propertyValue.GetValueAction(dependencyObject, property));
+                    var containerComponent = ((IVisualNode)this).GetContainerComponent();
+                    containerComponent?.RegisterOnStateChanged(this, propertyValue.GetValueAction(dependencyObject, property));
                 }
             }
             else
