@@ -98,11 +98,6 @@ namespace MauiReactor
 
         internal override void MergeWith(VisualNode newNode)
         {
-            //if (newNode is Component newComponentMigrated)
-            //{
-            //    _newComponent = newComponentMigrated;
-            //}
-
             if (newNode.GetType().FullName == GetType().FullName && _isMounted)
             {
                 ((Component)newNode)._isMounted = true;
@@ -201,33 +196,6 @@ namespace MauiReactor
         {
             var parameterContext = new ParameterContext(this);
             return parameterContext.Get<T>(name) ?? throw new InvalidOperationException($"Unable to find parameter with name '{name ?? typeof(T).FullName}'");
-            //IParameter<T>? parameter = null;
-            //Component currentComponent = this;
-
-            //while (true)
-            //{
-            //    while (currentComponent._newComponent != null)
-            //    {
-            //        currentComponent = currentComponent._newComponent;
-            //    }
-
-            //    var parentComponent = currentComponent.GetParent<Component>();
-            //    if (parentComponent == null)
-            //        break;
-
-            //    parameter = parentComponent._parameterContext?.Get<T>(name);
-
-            //    if (parameter != null)
-            //    {
-            //        _parameterContext ??= new ParameterContext(this);
-            //        parameter = _parameterContext.Register((parameter as IParameterWithReferences<T>) ?? throw new InvalidOperationException($"Parameter '{name}' is not of type {typeof(T).FullName}"));
-            //        break;
-            //    }
-
-            //    currentComponent = parentComponent;
-            //}
-
-            //return parameter ?? throw new InvalidOperationException($"Unable to find parameter with name '{name ?? typeof(T).FullName}'");
         }
     
         public static VisualNode Render(Func<ComponentContext, VisualNode> renderFunc)
@@ -236,7 +204,7 @@ namespace MauiReactor
         }
     }
 
-    internal interface IComponentWithState
+    public interface IComponentWithState
     {
         object State { get; internal set; }
 
@@ -246,7 +214,7 @@ namespace MauiReactor
 
         IComponentWithState? NewComponent { get; }
 
-        void RegisterOnStateChanged(Action action);
+        void RegisterOnStateChanged(IVisualNode owner, Action action);
     }
 
     internal interface IComponentWithProps
@@ -254,16 +222,10 @@ namespace MauiReactor
         object Props { get; internal set; }
     }
 
-    public abstract class ComponentWithProps<P> : Component, IComponentWithProps where P : class, new()
+    public abstract class ComponentWithProps<P>(P? props = null) : Component, IComponentWithProps where P : class, new()
     {
-        private readonly bool _derivedProps;
-        private P? _props;
-
-        public ComponentWithProps(P? props = null)
-        {
-            _props = props;
-            _derivedProps = props != null;
-        }
+        private readonly bool _derivedProps = props != null;
+        private P? _props = props;
 
         public P Props
         {
@@ -306,7 +268,12 @@ namespace MauiReactor
     {
         private IComponentWithState? _newComponent;
 
-        private readonly List<Action> _actionsRegisteredOnStateChange = new();
+        private record RegisteredAction(WeakReference<IVisualNode> Owner, Action Action)
+        {
+            internal bool IsOwnerAlive() =>Owner.TryGetTarget(out var _);
+        }
+
+        private List<RegisteredAction> _actionsRegisteredOnStateChange = [];
 
         private readonly bool _derivedState;
 
@@ -366,12 +333,17 @@ namespace MauiReactor
                 CopyObjectExtensions.CopyProperties(stateFromOldComponent, State);
             }
 
+            List<RegisteredAction> liveActions = new(_actionsRegisteredOnStateChange.Count);
             foreach (var registeredAction in _actionsRegisteredOnStateChange)
             {
-                registeredAction.Invoke();
+                if (registeredAction.IsOwnerAlive())
+                {
+                    registeredAction.Action.Invoke();
+                    liveActions.Add(registeredAction);
+                }
             }
 
-            Validate.EnsureNotNull(Application.Current);
+            _actionsRegisteredOnStateChange = liveActions;
 
             if (invalidateComponent)
             {
@@ -379,14 +351,11 @@ namespace MauiReactor
             }
         }
 
-        void IComponentWithState.RegisterOnStateChanged(Action action)
+        void IComponentWithState.RegisterOnStateChanged(IVisualNode owner, Action action)
         {
-            if (action is null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            ArgumentNullException.ThrowIfNull(action);
 
-            _actionsRegisteredOnStateChange.Add(action);
+            _actionsRegisteredOnStateChange.Add(new RegisteredAction(new WeakReference<IVisualNode>(owner), action));
         }
 
         private bool TryForwardStateToNewComponent(bool invalidateComponent)
@@ -412,20 +381,24 @@ namespace MauiReactor
 
         protected virtual void SetState(Action<S> action, bool invalidateComponent = true)
         {
-            if (action is null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
+            ArgumentNullException.ThrowIfNull(action);
 
             action(State);
 
             if (TryForwardStateToNewComponent(invalidateComponent))
                 return;
 
+            List<RegisteredAction> liveActions = new(_actionsRegisteredOnStateChange.Count);
             foreach (var registeredAction in _actionsRegisteredOnStateChange)
             {
-                registeredAction.Invoke();
+                if (registeredAction.IsOwnerAlive())
+                {
+                    registeredAction.Action.Invoke();
+                    liveActions.Add(registeredAction);
+                }
             }
+
+            _actionsRegisteredOnStateChange = liveActions;
 
             if (invalidateComponent && !_isMounted)
             {
