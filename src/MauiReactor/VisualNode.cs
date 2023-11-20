@@ -12,6 +12,8 @@ namespace MauiReactor
         Microsoft.Maui.Controls.Page? GetContainerPage();
 
         IHostElement? GetPageHost();
+
+        IComponentWithState? GetContainerComponent();
     }
 
     public static class VisualNodeExtensions
@@ -116,13 +118,15 @@ namespace MauiReactor
 
         protected bool _stateChanged = true;
 
-        protected internal readonly Dictionary<BindableProperty, Animatable> _animatables = new();
+        protected internal readonly Dictionary<BindableProperty, Animatable> _animatables = [];
 
         private readonly Dictionary<string, object?> _metadata = new();
 
         private IReadOnlyList<VisualNode>? _children = null;
 
         private bool _invalidated = false;
+
+        private IComponentWithState? _containerComponent;
 
         [ThreadStatic] 
         internal static bool _skipAnimationMigration;
@@ -132,7 +136,7 @@ namespace MauiReactor
             //System.Diagnostics.Debug.WriteLine($"{this}->Created()");
         }
 
-        internal static BindablePropertyKey MauiReactorPropertiesBagKey = BindableProperty.CreateAttachedReadOnly(nameof(MauiReactorPropertiesBagKey),
+        internal static BindablePropertyKey _mauiReactorPropertiesBagKey = BindableProperty.CreateAttachedReadOnly(nameof(_mauiReactorPropertiesBagKey),
             typeof(HashSet<BindableProperty>), typeof(VisualNode), null);
 
         private int _childIndex;
@@ -310,6 +314,8 @@ namespace MauiReactor
 
         internal virtual void OnLayout(IComponentWithState? containerComponent = null)
         {
+            _containerComponent = containerComponent;
+
             if (!_isMounted && Parent != null)
                 OnMount();
 
@@ -397,6 +403,39 @@ namespace MauiReactor
         {
             return ((IVisualNode?)Parent)?.GetContainerPage();
         }
+
+        IComponentWithState? IVisualNode.GetContainerComponent()
+        {
+            if (_containerComponent != null)
+            {
+                return _containerComponent;
+            }
+
+            return ((IVisualNode?)Parent)?.GetContainerComponent();
+        }
+
+
+        protected void SetPropertyValue(BindableObject dependencyObject, BindableProperty property, IPropertyValue? propertyValue)
+        {
+            if (propertyValue != null)
+            {
+                var newValue = propertyValue.GetValue();
+
+                dependencyObject.SetPropertyValue(property, newValue);
+
+                var containerComponent = ((IVisualNode)this).GetContainerComponent();
+
+                if (containerComponent != null && propertyValue.HasValueFunction)
+                {
+                    containerComponent.RegisterOnStateChanged(propertyValue.GetValueAction(dependencyObject, property));
+                }
+            }
+            else
+            {
+                dependencyObject.ResetValue(property);
+            }
+        }
+
 
         protected virtual void CommitAnimations()
         {
@@ -600,7 +639,6 @@ namespace MauiReactor
     {
         protected BindableObject? _nativeControl;
 
-        private IComponentWithState? _containerComponent;
 
         private readonly Dictionary<BindableProperty, object?> _attachedProperties = new();
 
@@ -620,12 +658,6 @@ namespace MauiReactor
 
         public bool HasAttachedProperty(BindableProperty property)
             => _attachedProperties.ContainsKey(property);
-
-        internal override void Layout(IComponentWithState? containerComponent = null)
-        {
-            _containerComponent = containerComponent;
-            base.Layout(containerComponent);
-        }
 
         internal override void MergeWith(VisualNode newNode)
         {
@@ -771,25 +803,6 @@ namespace MauiReactor
             _nativeControl = nativeControl;
         }
 
-        protected void SetPropertyValue(BindableObject dependencyObject, BindableProperty property, IPropertyValue? propertyValue)
-        {
-            if (propertyValue != null)
-            {
-                var newValue = propertyValue.GetValue();
-
-                dependencyObject.SetPropertyValue(property, newValue);
-
-                if (_containerComponent != null && propertyValue.HasValueFunction)
-                {
-                    _containerComponent.RegisterOnStateChanged(propertyValue.GetValueAction(dependencyObject, property));
-                }
-            }
-            else 
-            {
-                dependencyObject.ResetValue(property);
-            }
-        }
-
         protected override void OnAnimate()
         {
             Validate.EnsureNotNull(NativeControl);
@@ -845,10 +858,10 @@ namespace MauiReactor
 #if DEBUG
                 //System.Diagnostics.Debug.WriteLine($"{dependencyObject.GetType()} set property {property.PropertyName} to {newValue}");
 #endif
-                var propertiesBag = (HashSet<BindableProperty>?)dependencyObject.GetValue(VisualNode.MauiReactorPropertiesBagKey.BindableProperty);
+                var propertiesBag = (HashSet<BindableProperty>?)dependencyObject.GetValue(VisualNode._mauiReactorPropertiesBagKey.BindableProperty);
                 if (propertiesBag == null)
                 {
-                    dependencyObject.SetValue(VisualNode.MauiReactorPropertiesBagKey, propertiesBag = new HashSet<BindableProperty>());
+                    dependencyObject.SetValue(VisualNode._mauiReactorPropertiesBagKey, propertiesBag = new HashSet<BindableProperty>());
                 }
 
                 propertiesBag.Add(property);
@@ -863,7 +876,7 @@ namespace MauiReactor
 
         public static void ResetValue(this BindableObject dependencyObject, BindableProperty property)
         {
-            var propertiesBag = (HashSet<BindableProperty>?)dependencyObject.GetValue(VisualNode.MauiReactorPropertiesBagKey.BindableProperty);
+            var propertiesBag = (HashSet<BindableProperty>?)dependencyObject.GetValue(VisualNode._mauiReactorPropertiesBagKey.BindableProperty);
             if (propertiesBag != null &&
                 propertiesBag.Contains(property))
             {
