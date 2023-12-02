@@ -1,5 +1,4 @@
 ﻿using MauiReactor.TestApp.Models;
-using Microsoft.Maui.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +18,7 @@ class ListViewExtendedTestPage : Component<ListViewExtendedTestPageState>
     {
         return new ContentPage("ListView Extended Test (BETA)")
         {
-            new ListView(MauiControls.ListViewCachingStrategy.RecycleElementAndDataTemplate)
+            new ListView(MauiControls.ListViewCachingStrategy.RecycleElement)
                 .IsGroupingEnabled(true)
                 .ItemsSource<ListView, GroupOfPerson, Person>(GroupOfPerson.All, RenderGroup, RenderItem)
                 .SeparatorVisibility(MauiControls.SeparatorVisibility.None)
@@ -27,12 +26,12 @@ class ListViewExtendedTestPage : Component<ListViewExtendedTestPageState>
                 //NOTE: Header/Footer not working under .net 7
                 //https://github.com/dotnet/maui/issues/13560
                 //https://github.com/dotnet/maui/issues/12312
-                //.Header(new Label("Header"))
-                //.Footer(new Label("Footer"))
+                .Header(new Label("Header"))
+                .Footer(new Label("Footer"))
         };
     }
 
-    private void OnSelectedItem(object? sender, SelectedItemChangedEventArgs args)
+    private void OnSelectedItem(object? sender, MauiControls.SelectedItemChangedEventArgs args)
     {
         SetState(s => s.SelectedPerson = args.SelectedItem as Person);
     }

@@ -1,5 +1,4 @@
-﻿using Microsoft.Maui.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -78,7 +77,7 @@ class AnimatedItem : Component<AnimatedItemState>
     {
         State.ScaleX = 0.8;
         State.ScaleY = 0.5;
-        Application.Current?.Dispatcher.Dispatch(() =>
+        MauiControls.Application.Current?.Dispatcher.Dispatch(() =>
         SetState(s =>
         {
             s.ScaleX = s.ScaleY = 1.0;
