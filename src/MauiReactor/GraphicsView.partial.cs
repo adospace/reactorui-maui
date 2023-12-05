@@ -7,16 +7,10 @@ using System.Threading.Tasks;
 
 namespace MauiReactor
 {
-    public class DrawableContext
+    public class DrawableContext(ICanvas canvas, RectF dirtyRect)
     {
-        public DrawableContext(ICanvas canvas, RectF dirtyRect)
-        {
-            Canvas = canvas;
-            DirtyRect = dirtyRect;
-        }
-
-        public ICanvas Canvas { get; }
-        public RectF DirtyRect { get; }
+        public ICanvas Canvas { get; } = canvas;
+        public RectF DirtyRect { get; } = dirtyRect;
     }
 
     public partial interface IGraphicsView
@@ -24,14 +18,9 @@ namespace MauiReactor
         Action<ICanvas, RectF>? DrawAction { get; set; }
     }
 
-    internal class DrawActionWrapper : IDrawable
+    internal class DrawActionWrapper(Action<ICanvas, RectF> drawAction) : IDrawable
     {
-        private readonly Action<ICanvas, RectF> _drawAction;
-
-        public DrawActionWrapper(Action<ICanvas, RectF> drawAction)
-        {
-            _drawAction = drawAction;
-        }
+        private readonly Action<ICanvas, RectF> _drawAction = drawAction;
 
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
@@ -43,7 +32,11 @@ namespace MauiReactor
     {
         Action<ICanvas, RectF>? IGraphicsView.DrawAction { get; set; }
 
-
+        partial void OnReset()
+        {
+            var thisAsIGraphicsView = (IGraphicsView)this;
+            thisAsIGraphicsView.DrawAction = null;
+        }
 
         partial void OnEndUpdate()
         {

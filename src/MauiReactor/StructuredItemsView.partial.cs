@@ -14,9 +14,16 @@ namespace MauiReactor
     public partial class StructuredItemsView<T>
     {
         IItemsLayout? IStructuredItemsView.ItemsLayout { get; set; }
-
         VisualNode? IStructuredItemsView.Header { get; set; }
         VisualNode? IStructuredItemsView.Footer { get; set; }
+
+        partial void OnReset()
+        {
+            var thisAsIVisualElement = (IStructuredItemsView)this;
+            thisAsIVisualElement.ItemsLayout = null;
+            thisAsIVisualElement.Header = null;
+            thisAsIVisualElement.Footer = null;
+        }
 
         protected override IEnumerable<VisualNode> RenderChildren()
         {
@@ -39,7 +46,6 @@ namespace MauiReactor
 
             return children;
         }
-
 
         protected override void OnAddChild(VisualNode widget, BindableObject childNativeControl)
         {

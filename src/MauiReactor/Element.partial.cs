@@ -12,7 +12,12 @@ namespace MauiReactor
     public partial class Element<T> : IEnumerable
     {
 
-        protected readonly List<VisualNode> _internalChildren = new();
+        protected readonly List<VisualNode> _internalChildren = [];
+
+        partial void OnReset()
+        {
+            _internalChildren.Clear();
+        }
 
         protected override IEnumerable<VisualNode> RenderChildren()
         {
@@ -60,14 +65,19 @@ namespace MauiReactor
             }
             else if (genericNode is IEnumerable nodes)
             {
-                foreach (var node in nodes.Cast<VisualNode>())
-                {
-                    Add(node);
-                }
+                AddChildren(nodes.Cast<VisualNode>());
             }
             else
             {
                 throw new NotSupportedException($"Unable to add value of type '{genericNode.GetType()}' under {typeof(T)}");
+            }
+        }
+
+        public void AddChildren(IEnumerable<VisualNode> children)
+        {
+            foreach (var child in children.Cast<VisualNode>())
+            {
+                Add(child);
             }
         }
 
@@ -81,8 +91,5 @@ namespace MauiReactor
         { }
     }
 
-    public static partial class ElementExtensions
-    {
 
-    }
 }

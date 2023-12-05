@@ -22,6 +22,12 @@ namespace MauiReactor.Shapes
 
         PropertyValue<Geometry>? IPath.Data { get; set; }
 
+        partial void OnReset()
+        {
+            var thisAsIPath = (IPath)this;
+            thisAsIPath.Data = null;
+        }
+
         partial void OnEndUpdate()
         {
             Validate.EnsureNotNull(NativeControl);

@@ -15,6 +15,9 @@ namespace MauiReactor
 
     public partial class ShellContent<T>
     {
+        Func<VisualNode>? IShellContent.ContentTemplate { get; set; }
+        private ContentTemplate? _contentTemplate;
+
         public ShellContent(string title)
             => this.Title(title);
 
@@ -93,9 +96,6 @@ namespace MauiReactor
             }
         }
 
-        Func<VisualNode>? IShellContent.ContentTemplate { get; set; }
-        private ContentTemplate? _contentTemplate;
-
         protected override IEnumerable<VisualNode> RenderChildren()
         {
             if (_contentTemplate != null)
@@ -104,6 +104,14 @@ namespace MauiReactor
             }
 
             return base.RenderChildren();
+        }
+
+        partial void OnReset()
+        {
+            _contentTemplate = null;
+
+            var thisAsShellContent = (IShellContent)this;
+            thisAsShellContent.ContentTemplate = null;
         }
 
         partial void OnBeginUpdate()

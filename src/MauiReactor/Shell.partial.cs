@@ -18,9 +18,27 @@ namespace MauiReactor
 
     public partial class Shell<T> : IEnumerable
     {
+
+        private CustomDataTemplate? _customDataTemplate;
+        private CustomDataTemplate? _customMenuItemDataTemplate;
+
         VisualNode? IShell.FlyoutHeader { get; set; }
         VisualNode? IShell.FlyoutFooter { get; set; }
         VisualNode? IShell.FlyoutContent { get; set; }
+        Func<Microsoft.Maui.Controls.BaseShellItem, VisualNode>? IShell.ItemTemplate { get; set; }
+        Func<Microsoft.Maui.Controls.MenuItem, VisualNode>? IShell.MenuItemTemplate { get; set; }
+
+        partial void OnReset()
+        {
+            _customDataTemplate = null;
+            _customMenuItemDataTemplate = null;
+            var thisAsIShell = (IShell)this;
+            thisAsIShell.FlyoutHeader = null;
+            thisAsIShell.FlyoutFooter = null;
+            thisAsIShell.FlyoutContent = null;
+            thisAsIShell.ItemTemplate = null;
+            thisAsIShell.MenuItemTemplate = null;
+        }
 
         protected override IEnumerable<VisualNode> RenderChildren()
         {
@@ -43,9 +61,6 @@ namespace MauiReactor
 
             return children;
         }
-
-        Func<Microsoft.Maui.Controls.BaseShellItem, VisualNode>? IShell.ItemTemplate { get; set; }
-        Func<Microsoft.Maui.Controls.MenuItem, VisualNode>? IShell.MenuItemTemplate { get; set; }
 
         private class ItemTemplateNode : VisualNode, IVisualNode
         {
@@ -159,9 +174,6 @@ namespace MauiReactor
                 DataTemplate = new DataTemplate(() => new ItemTemplatePresenter(this, useMenuItemTemplate));
             }
         }        
-
-        private CustomDataTemplate? _customDataTemplate;
-        private CustomDataTemplate? _customMenuItemDataTemplate;
 
         partial void OnBeginUpdate()
         {

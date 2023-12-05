@@ -19,6 +19,14 @@ namespace MauiReactor
 
         VisualStateGroupList? IVisualElement.VisualStateGroups { get; set; }
 
+        partial void OnReset()
+        {
+            var thisAsIVisualElement = (IVisualElement)this;
+            thisAsIVisualElement.Clip = null;
+            thisAsIVisualElement.Shadow = null;
+            thisAsIVisualElement.VisualStateGroups = null;
+        }
+
         protected override void OnMount()
         {
             base.OnMount();
@@ -149,7 +157,7 @@ namespace MauiReactor
         }
     }
 
-    public static class VisualElementNativeExtentsions
+    public static class VisualElementNativeExtensions
     { 
         public static Rect BoundsToScreenSize(this VisualElement visualElement)
         {

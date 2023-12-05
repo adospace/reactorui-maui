@@ -9,85 +9,93 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IMenuBarItem : IBaseMenuItem
 {
-    public partial interface IMenuBarItem : IBaseMenuItem
-    {
-        PropertyValue<string>? Text { get; set; }
+    PropertyValue<string>? Text { get; set; }
 
-        PropertyValue<bool>? IsEnabled { get; set; }
+    PropertyValue<bool>? IsEnabled { get; set; }
+}
+
+public partial class MenuBarItem<T> : BaseMenuItem<T>, IMenuBarItem where T : Microsoft.Maui.Controls.MenuBarItem, new()
+{
+    public MenuBarItem()
+    {
     }
 
-    public partial class MenuBarItem<T> : BaseMenuItem<T>, IMenuBarItem where T : Microsoft.Maui.Controls.MenuBarItem, new()
+    public MenuBarItem(Action<T?> componentRefAction) : base(componentRefAction)
     {
-        public MenuBarItem()
-        {
-        }
-
-        public MenuBarItem(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        PropertyValue<string>? IMenuBarItem.Text { get; set; }
-
-        PropertyValue<bool>? IMenuBarItem.IsEnabled { get; set; }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIMenuBarItem = (IMenuBarItem)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuBarItem.TextProperty, thisAsIMenuBarItem.Text);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuBarItem.IsEnabledProperty, thisAsIMenuBarItem.IsEnabled);
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
     }
 
-    public partial class MenuBarItem : MenuBarItem<Microsoft.Maui.Controls.MenuBarItem>
-    {
-        public MenuBarItem()
-        {
-        }
+    PropertyValue<string>? IMenuBarItem.Text { get; set; }
 
-        public MenuBarItem(Action<Microsoft.Maui.Controls.MenuBarItem?> componentRefAction) : base(componentRefAction)
-        {
-        }
+    PropertyValue<bool>? IMenuBarItem.IsEnabled { get; set; }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsIMenuBarItem = (IMenuBarItem)this;
+        thisAsIMenuBarItem.Text = null;
+        thisAsIMenuBarItem.IsEnabled = null;
+        OnReset();
     }
 
-    public static partial class MenuBarItemExtensions
+    partial void OnReset();
+    protected override void OnUpdate()
     {
-        public static T Text<T>(this T menuBarItem, string text)
-            where T : IMenuBarItem
-        {
-            menuBarItem.Text = new PropertyValue<string>(text);
-            return menuBarItem;
-        }
+        OnBeginUpdate();
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsIMenuBarItem = (IMenuBarItem)this;
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuBarItem.TextProperty, thisAsIMenuBarItem.Text);
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuBarItem.IsEnabledProperty, thisAsIMenuBarItem.IsEnabled);
+        base.OnUpdate();
+        OnEndUpdate();
+    }
 
-        public static T Text<T>(this T menuBarItem, Func<string> textFunc)
-            where T : IMenuBarItem
-        {
-            menuBarItem.Text = new PropertyValue<string>(textFunc);
-            return menuBarItem;
-        }
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
 
-        public static T IsEnabled<T>(this T menuBarItem, bool isEnabled)
-            where T : IMenuBarItem
-        {
-            menuBarItem.IsEnabled = new PropertyValue<bool>(isEnabled);
-            return menuBarItem;
-        }
+public partial class MenuBarItem : MenuBarItem<Microsoft.Maui.Controls.MenuBarItem>
+{
+    public MenuBarItem()
+    {
+    }
 
-        public static T IsEnabled<T>(this T menuBarItem, Func<bool> isEnabledFunc)
-            where T : IMenuBarItem
-        {
-            menuBarItem.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
-            return menuBarItem;
-        }
+    public MenuBarItem(Action<Microsoft.Maui.Controls.MenuBarItem?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
+
+public static partial class MenuBarItemExtensions
+{
+    public static T Text<T>(this T menuBarItem, string text)
+        where T : IMenuBarItem
+    {
+        menuBarItem.Text = new PropertyValue<string>(text);
+        return menuBarItem;
+    }
+
+    public static T Text<T>(this T menuBarItem, Func<string> textFunc)
+        where T : IMenuBarItem
+    {
+        menuBarItem.Text = new PropertyValue<string>(textFunc);
+        return menuBarItem;
+    }
+
+    public static T IsEnabled<T>(this T menuBarItem, bool isEnabled)
+        where T : IMenuBarItem
+    {
+        menuBarItem.IsEnabled = new PropertyValue<bool>(isEnabled);
+        return menuBarItem;
+    }
+
+    public static T IsEnabled<T>(this T menuBarItem, Func<bool> isEnabledFunc)
+        where T : IMenuBarItem
+    {
+        menuBarItem.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
+        return menuBarItem;
     }
 }

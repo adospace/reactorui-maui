@@ -16,6 +16,8 @@ var types = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
              select assemblyType)
     .ToDictionary(_ => _.FullName ?? throw new InvalidOperationException(), _ => _);
 
+List<Type> scaffoldedTypes = [];
+
 foreach (var classNameToGenerate in File
     .ReadAllLines("WidgetList.txt")
     .Where(_ => !string.IsNullOrWhiteSpace(_) && !_.StartsWith("//")))
@@ -23,7 +25,11 @@ foreach (var classNameToGenerate in File
     var typeToScaffold = types[classNameToGenerate];
 
     Scaffold(typeToScaffold, outputPath);
+
+    scaffoldedTypes.Add(typeToScaffold);
 }
+
+GenerateComponentPartial(scaffoldedTypes, outputPath);
 
 Console.WriteLine("Done");
 
@@ -39,5 +45,14 @@ void Scaffold(Type typeToScaffold, string outputPath)
     File.WriteAllText(Path.Combine(outputPath, 
         Path.Combine(outputFileNameTokens) + ".cs"),
         typeGenerator.TransformAndPrettify());
+}
+
+void GenerateComponentPartial(IEnumerable<Type> scaffoldedTypes, string output)
+{
+    var componentTypeGenerator = new ComponentTypeGenerator(scaffoldedTypes);
+
+    File.WriteAllText(Path.Combine(outputPath,
+        "Component.partial.cs"),
+        componentTypeGenerator.TransformAndPrettify());
 }
 

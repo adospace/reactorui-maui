@@ -16,6 +16,12 @@ namespace MauiReactor
     {
         Action<string>? IInputView.AfterTextChangedAction { get; set; }
 
+        partial void OnReset()
+        {
+            var thisAsIInputView = (IInputView)this;
+            thisAsIInputView.AfterTextChangedAction = null;
+        }
+
         partial void OnAttachingNativeEvents()
         {
             Validate.EnsureNotNull(NativeControl);

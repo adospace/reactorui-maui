@@ -118,7 +118,7 @@ namespace MauiReactor
 
         protected bool _stateChanged = true;
 
-        protected internal readonly Dictionary<BindableProperty, Animatable> _animatables = [];
+        protected internal Dictionary<BindableProperty, Animatable> _animatables = [];
 
         private readonly Dictionary<string, object?> _metadata = new();
 
@@ -127,6 +127,8 @@ namespace MauiReactor
         private bool _invalidated = false;
 
         private IComponentWithState? _containerComponent;
+
+        private int _childIndex;
 
         [ThreadStatic] 
         internal static bool _skipAnimationMigration;
@@ -139,7 +141,6 @@ namespace MauiReactor
         internal static BindablePropertyKey _mauiReactorPropertiesBagKey = BindableProperty.CreateAttachedReadOnly(nameof(_mauiReactorPropertiesBagKey),
             typeof(HashSet<BindableProperty>), typeof(VisualNode), null);
 
-        private int _childIndex;
         public int ChildIndex
         {
             get
@@ -161,10 +162,15 @@ namespace MauiReactor
                 _childIndex = value;
             }
         }
+
         protected virtual bool SupportChildIndexing { get; } = true;
+
         public object? Key { get; set; }
         public Action<object?, PropertyChangedEventArgs>? PropertyChangedAction { get; set; }
         public Action<object?, System.ComponentModel.PropertyChangingEventArgs>? PropertyChangingAction { get; set; }
+
+        internal bool IsLayoutCycleRequired { get; set; } = true;
+        internal virtual VisualNode? Parent { get; set; }
 
         internal IReadOnlyList<VisualNode> Children
         {
@@ -188,9 +194,23 @@ namespace MauiReactor
             }
         }
 
-        //internal bool IsAnimationFrameRequested { get; private set; } = false;
-        internal bool IsLayoutCycleRequired { get; set; } = true;
-        internal virtual VisualNode? Parent { get; set; }
+        internal virtual void Reset()
+        {
+            _isMounted = false;
+            _stateChanged = true;
+            _animatables.Clear();
+            _metadata.Clear();
+            _children = null;
+            _invalidated = false;
+            _containerComponent = null;
+            _childIndex = 0;
+
+            Key = null;
+            PropertyChangedAction = null;
+            PropertyChangingAction = null;
+            IsLayoutCycleRequired = true;
+            Parent = null;
+        }
 
         public void AppendAnimatable<T>(BindableProperty key, T animation, Action<T> action) where T : RxAnimation
         {
@@ -252,11 +272,16 @@ namespace MauiReactor
 
         internal virtual bool Animate()
         {
-            var animated = AnimateThis();
+            if (_isMounted)
+            {
+                var animated = AnimateThis();
 
-            OnAnimate();
+                OnAnimate();
 
-            return animated;
+                return animated;
+            }
+
+            return false;
         }
 
         internal void DisableCurrentAnimatableProperties()
@@ -514,7 +539,11 @@ namespace MauiReactor
                 }
             }
 
-            _animatables.Clear();            
+            _animatables.Clear();
+
+            _isMounted = false;
+
+            ReleaseNodeToPool(this);
         }
 
         protected virtual void OnMount()
@@ -538,6 +567,8 @@ namespace MauiReactor
                     child.Unmount();
                 }
             }
+
+            ReleaseNodeToPool(this);
         }
 
         protected virtual void OnUpdate()
@@ -609,6 +640,29 @@ namespace MauiReactor
                 }
             }
         }
+
+        static readonly Dictionary<Type, VisualNodePool> _nodePools = [];
+
+        protected T GetNodeFromPool<T>() where T : VisualNode, new()
+        {
+            if (!_nodePools.TryGetValue(typeof(T), out var nodePool))
+            {
+                _nodePools[typeof(T)] = nodePool = new VisualNodePool();
+            }
+
+            return nodePool.GetObject<T>();
+        }
+
+
+        private void ReleaseNodeToPool(VisualNode node)
+        {
+            if (!_nodePools.TryGetValue(node.GetType(), out var nodePool))
+            {
+                return;
+            }
+
+            nodePool.ReleaseObject(node);
+        }
     }
 
     public interface IVisualNodeWithNativeControl : IVisualNode
@@ -638,10 +692,9 @@ namespace MauiReactor
     {
         protected BindableObject? _nativeControl;
 
-
         private readonly Dictionary<BindableProperty, object?> _attachedProperties = new();
 
-        private readonly Action<T?>? _componentRefAction;
+        private Action<T?>? _componentRefAction;
 
         protected VisualNode()
         { }
@@ -650,6 +703,17 @@ namespace MauiReactor
         {
             _componentRefAction = componentRefAction;
         }
+
+        internal override void Reset()
+        {
+            base.Reset();
+
+            Validate.EnsureNull(_nativeControl);
+
+            _attachedProperties.Clear();
+            _componentRefAction = null;
+        }
+
         protected T? NativeControl { get => (T?)_nativeControl; }
 
         public void SetAttachedProperty(BindableProperty property, object? value)
@@ -657,6 +721,11 @@ namespace MauiReactor
 
         public bool HasAttachedProperty(BindableProperty property)
             => _attachedProperties.ContainsKey(property);
+
+        internal Action<T?> ComponentRefAction
+        {
+            set => _componentRefAction = value;
+        }
 
         internal override void MergeWith(VisualNode newNode)
         {
@@ -685,23 +754,25 @@ namespace MauiReactor
             {
                 OnDetachNativeEvents();
 
-                var newNodeAsNodeWithAttachedProperties = newNode as IVisualNodeWithAttachedProperties;
-
-                foreach (var attachedProperty in _attachedProperties)
+                if (newNode is IVisualNodeWithAttachedProperties newNodeAsNodeWithAttachedProperties)
                 {
-                    if (newNodeAsNodeWithAttachedProperties != null &&
-                        newNodeAsNodeWithAttachedProperties.HasAttachedProperty(attachedProperty.Key))
+                    foreach (var attachedProperty in _attachedProperties)
                     {
-                        continue;
-                    }
+                        if (newNodeAsNodeWithAttachedProperties.HasAttachedProperty(attachedProperty.Key))
+                        {
+                            continue;
+                        }
 
-                    NativeControl.ResetValue(attachedProperty.Key);
+                        NativeControl.ResetValue(attachedProperty.Key);
+                    }
                 }
             }
 
             _attachedProperties.Clear();
+            _nativeControl = null;
 
             base.OnMigrated(newNode);
+
         }
 
         internal override void OnLayout(IComponentWithState? containerComponent = null)
@@ -827,7 +898,13 @@ namespace MauiReactor
 
                 Validate.EnsureNotNull(NativeControl);
 
-                NativeControl.SetValue(property, newValue);
+                var oldValue = NativeControl.GetValue(property);
+
+                if (!CompareUtils.AreEquals(oldValue, newValue))
+                {
+                    NativeControl.SetValue(property, newValue);
+                }
+                    
                 //if (SetPropertyValue(NativeControl, property, newValue))
                 //{
                 //    System.Diagnostics.Debug.WriteLine($"[{NativeControl.GetType().Name}] Animate property {property.PropertyName} to {newValue}");

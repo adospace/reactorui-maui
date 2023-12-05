@@ -9,36 +9,42 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor.Shapes
+namespace MauiReactor.Shapes;
+public partial interface IGeometry : IVisualNode
 {
-    public partial interface IGeometry : IVisualNode
+}
+
+public abstract partial class Geometry<T> : VisualNode<T>, IGeometry where T : Microsoft.Maui.Controls.Shapes.Geometry, new()
+{
+    protected Geometry()
     {
     }
 
-    public abstract partial class Geometry<T> : VisualNode<T>, IGeometry where T : Microsoft.Maui.Controls.Shapes.Geometry, new()
-    {
-        protected Geometry()
-        {
-        }
-
-        protected Geometry(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public static partial class GeometryExtensions
+    protected Geometry(Action<T?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsIGeometry = (IGeometry)this;
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public static partial class GeometryExtensions
+{
 }

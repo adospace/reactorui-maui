@@ -9,36 +9,42 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IBehavior : IVisualNode
 {
-    public partial interface IBehavior : IVisualNode
+}
+
+public abstract partial class Behavior<T> : VisualNode<T>, IBehavior where T : Microsoft.Maui.Controls.Behavior, new()
+{
+    protected Behavior()
     {
     }
 
-    public abstract partial class Behavior<T> : VisualNode<T>, IBehavior where T : Microsoft.Maui.Controls.Behavior, new()
-    {
-        protected Behavior()
-        {
-        }
-
-        protected Behavior(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public static partial class BehaviorExtensions
+    protected Behavior(Action<T?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsIBehavior = (IBehavior)this;
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public static partial class BehaviorExtensions
+{
 }

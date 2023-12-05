@@ -9,37 +9,43 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IGenericBehavior : IBehavior
 {
-    public partial interface IGenericBehavior : IBehavior
+}
+
+public abstract partial class Behavior<T, TChild> : Behavior<T>, IGenericBehavior where T : Microsoft.Maui.Controls.Behavior<TChild>, new()
+    where TChild : Microsoft.Maui.Controls.BindableObject
+{
+    public Behavior()
     {
     }
 
-    public abstract partial class Behavior<T, TChild> : Behavior<T>, IGenericBehavior where T : Microsoft.Maui.Controls.Behavior<TChild>, new()
-        where TChild : Microsoft.Maui.Controls.BindableObject
-    {
-        public Behavior()
-        {
-        }
-
-        public Behavior(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public static partial class BehaviorExtensions
+    public Behavior(Action<T?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsIGenericBehavior = (IGenericBehavior)this;
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public static partial class BehaviorExtensions
+{
 }

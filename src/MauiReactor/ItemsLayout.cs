@@ -9,74 +9,82 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IItemsLayout : IVisualNode
 {
-    public partial interface IItemsLayout : IVisualNode
-    {
-        PropertyValue<Microsoft.Maui.Controls.SnapPointsAlignment>? SnapPointsAlignment { get; set; }
+    PropertyValue<Microsoft.Maui.Controls.SnapPointsAlignment>? SnapPointsAlignment { get; set; }
 
-        PropertyValue<Microsoft.Maui.Controls.SnapPointsType>? SnapPointsType { get; set; }
+    PropertyValue<Microsoft.Maui.Controls.SnapPointsType>? SnapPointsType { get; set; }
+}
+
+public abstract partial class ItemsLayout<T> : VisualNode<T>, IItemsLayout where T : Microsoft.Maui.Controls.ItemsLayout, new()
+{
+    protected ItemsLayout()
+    {
     }
 
-    public abstract partial class ItemsLayout<T> : VisualNode<T>, IItemsLayout where T : Microsoft.Maui.Controls.ItemsLayout, new()
+    protected ItemsLayout(Action<T?> componentRefAction) : base(componentRefAction)
     {
-        protected ItemsLayout()
-        {
-        }
-
-        protected ItemsLayout(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        PropertyValue<Microsoft.Maui.Controls.SnapPointsAlignment>? IItemsLayout.SnapPointsAlignment { get; set; }
-
-        PropertyValue<Microsoft.Maui.Controls.SnapPointsType>? IItemsLayout.SnapPointsType { get; set; }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIItemsLayout = (IItemsLayout)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ItemsLayout.SnapPointsAlignmentProperty, thisAsIItemsLayout.SnapPointsAlignment);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ItemsLayout.SnapPointsTypeProperty, thisAsIItemsLayout.SnapPointsType);
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
     }
 
-    public static partial class ItemsLayoutExtensions
+    PropertyValue<Microsoft.Maui.Controls.SnapPointsAlignment>? IItemsLayout.SnapPointsAlignment { get; set; }
+
+    PropertyValue<Microsoft.Maui.Controls.SnapPointsType>? IItemsLayout.SnapPointsType { get; set; }
+
+    internal override void Reset()
     {
-        public static T SnapPointsAlignment<T>(this T itemsLayout, Microsoft.Maui.Controls.SnapPointsAlignment snapPointsAlignment)
-            where T : IItemsLayout
-        {
-            itemsLayout.SnapPointsAlignment = new PropertyValue<Microsoft.Maui.Controls.SnapPointsAlignment>(snapPointsAlignment);
-            return itemsLayout;
-        }
+        base.Reset();
+        var thisAsIItemsLayout = (IItemsLayout)this;
+        thisAsIItemsLayout.SnapPointsAlignment = null;
+        thisAsIItemsLayout.SnapPointsType = null;
+        OnReset();
+    }
 
-        public static T SnapPointsAlignment<T>(this T itemsLayout, Func<Microsoft.Maui.Controls.SnapPointsAlignment> snapPointsAlignmentFunc)
-            where T : IItemsLayout
-        {
-            itemsLayout.SnapPointsAlignment = new PropertyValue<Microsoft.Maui.Controls.SnapPointsAlignment>(snapPointsAlignmentFunc);
-            return itemsLayout;
-        }
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsIItemsLayout = (IItemsLayout)this;
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ItemsLayout.SnapPointsAlignmentProperty, thisAsIItemsLayout.SnapPointsAlignment);
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ItemsLayout.SnapPointsTypeProperty, thisAsIItemsLayout.SnapPointsType);
+        base.OnUpdate();
+        OnEndUpdate();
+    }
 
-        public static T SnapPointsType<T>(this T itemsLayout, Microsoft.Maui.Controls.SnapPointsType snapPointsType)
-            where T : IItemsLayout
-        {
-            itemsLayout.SnapPointsType = new PropertyValue<Microsoft.Maui.Controls.SnapPointsType>(snapPointsType);
-            return itemsLayout;
-        }
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
 
-        public static T SnapPointsType<T>(this T itemsLayout, Func<Microsoft.Maui.Controls.SnapPointsType> snapPointsTypeFunc)
-            where T : IItemsLayout
-        {
-            itemsLayout.SnapPointsType = new PropertyValue<Microsoft.Maui.Controls.SnapPointsType>(snapPointsTypeFunc);
-            return itemsLayout;
-        }
+public static partial class ItemsLayoutExtensions
+{
+    public static T SnapPointsAlignment<T>(this T itemsLayout, Microsoft.Maui.Controls.SnapPointsAlignment snapPointsAlignment)
+        where T : IItemsLayout
+    {
+        itemsLayout.SnapPointsAlignment = new PropertyValue<Microsoft.Maui.Controls.SnapPointsAlignment>(snapPointsAlignment);
+        return itemsLayout;
+    }
+
+    public static T SnapPointsAlignment<T>(this T itemsLayout, Func<Microsoft.Maui.Controls.SnapPointsAlignment> snapPointsAlignmentFunc)
+        where T : IItemsLayout
+    {
+        itemsLayout.SnapPointsAlignment = new PropertyValue<Microsoft.Maui.Controls.SnapPointsAlignment>(snapPointsAlignmentFunc);
+        return itemsLayout;
+    }
+
+    public static T SnapPointsType<T>(this T itemsLayout, Microsoft.Maui.Controls.SnapPointsType snapPointsType)
+        where T : IItemsLayout
+    {
+        itemsLayout.SnapPointsType = new PropertyValue<Microsoft.Maui.Controls.SnapPointsType>(snapPointsType);
+        return itemsLayout;
+    }
+
+    public static T SnapPointsType<T>(this T itemsLayout, Func<Microsoft.Maui.Controls.SnapPointsType> snapPointsTypeFunc)
+        where T : IItemsLayout
+    {
+        itemsLayout.SnapPointsType = new PropertyValue<Microsoft.Maui.Controls.SnapPointsType>(snapPointsTypeFunc);
+        return itemsLayout;
     }
 }

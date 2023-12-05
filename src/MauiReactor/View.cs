@@ -9,127 +9,136 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IView : IVisualElement
 {
-    public partial interface IView : IVisualElement
+    PropertyValue<Microsoft.Maui.Controls.LayoutOptions>? VerticalOptions { get; set; }
+
+    PropertyValue<Microsoft.Maui.Controls.LayoutOptions>? HorizontalOptions { get; set; }
+
+    PropertyValue<Microsoft.Maui.Thickness>? Margin { get; set; }
+}
+
+public abstract partial class View<T> : VisualElement<T>, IView where T : Microsoft.Maui.Controls.View, new()
+{
+    protected View()
     {
-        PropertyValue<Microsoft.Maui.Controls.LayoutOptions>? VerticalOptions { get; set; }
-
-        PropertyValue<Microsoft.Maui.Controls.LayoutOptions>? HorizontalOptions { get; set; }
-
-        PropertyValue<Microsoft.Maui.Thickness>? Margin { get; set; }
     }
 
-    public abstract partial class View<T> : VisualElement<T>, IView where T : Microsoft.Maui.Controls.View, new()
+    protected View(Action<T?> componentRefAction) : base(componentRefAction)
     {
-        protected View()
-        {
-        }
-
-        protected View(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        PropertyValue<Microsoft.Maui.Controls.LayoutOptions>? IView.VerticalOptions { get; set; }
-
-        PropertyValue<Microsoft.Maui.Controls.LayoutOptions>? IView.HorizontalOptions { get; set; }
-
-        PropertyValue<Microsoft.Maui.Thickness>? IView.Margin { get; set; }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIView = (IView)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.View.VerticalOptionsProperty, thisAsIView.VerticalOptions);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.View.HorizontalOptionsProperty, thisAsIView.HorizontalOptions);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.View.MarginProperty, thisAsIView.Margin);
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        protected override void OnAnimate()
-        {
-            OnBeginAnimate();
-            var thisAsIView = (IView)this;
-            AnimateProperty(Microsoft.Maui.Controls.View.MarginProperty, thisAsIView.Margin);
-            base.OnAnimate();
-            OnEndAnimate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
     }
 
-    public static partial class ViewExtensions
+    PropertyValue<Microsoft.Maui.Controls.LayoutOptions>? IView.VerticalOptions { get; set; }
+
+    PropertyValue<Microsoft.Maui.Controls.LayoutOptions>? IView.HorizontalOptions { get; set; }
+
+    PropertyValue<Microsoft.Maui.Thickness>? IView.Margin { get; set; }
+
+    internal override void Reset()
     {
-        public static T VerticalOptions<T>(this T view, Microsoft.Maui.Controls.LayoutOptions verticalOptions)
-            where T : IView
-        {
-            view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(verticalOptions);
-            return view;
-        }
+        base.Reset();
+        var thisAsIView = (IView)this;
+        thisAsIView.VerticalOptions = null;
+        thisAsIView.HorizontalOptions = null;
+        thisAsIView.Margin = null;
+        OnReset();
+    }
 
-        public static T VerticalOptions<T>(this T view, Func<Microsoft.Maui.Controls.LayoutOptions> verticalOptionsFunc)
-            where T : IView
-        {
-            view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(verticalOptionsFunc);
-            return view;
-        }
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsIView = (IView)this;
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.View.VerticalOptionsProperty, thisAsIView.VerticalOptions);
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.View.HorizontalOptionsProperty, thisAsIView.HorizontalOptions);
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.View.MarginProperty, thisAsIView.Margin);
+        base.OnUpdate();
+        OnEndUpdate();
+    }
 
-        public static T HorizontalOptions<T>(this T view, Microsoft.Maui.Controls.LayoutOptions horizontalOptions)
-            where T : IView
-        {
-            view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(horizontalOptions);
-            return view;
-        }
+    protected override void OnAnimate()
+    {
+        OnBeginAnimate();
+        var thisAsIView = (IView)this;
+        AnimateProperty(Microsoft.Maui.Controls.View.MarginProperty, thisAsIView.Margin);
+        base.OnAnimate();
+        OnEndAnimate();
+    }
 
-        public static T HorizontalOptions<T>(this T view, Func<Microsoft.Maui.Controls.LayoutOptions> horizontalOptionsFunc)
-            where T : IView
-        {
-            view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(horizontalOptionsFunc);
-            return view;
-        }
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
 
-        public static T Margin<T>(this T view, Microsoft.Maui.Thickness margin, RxThicknessAnimation? customAnimation = null)
-            where T : IView
-        {
-            view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(margin);
-            view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(margin), v => view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
-            return view;
-        }
+public static partial class ViewExtensions
+{
+    public static T VerticalOptions<T>(this T view, Microsoft.Maui.Controls.LayoutOptions verticalOptions)
+        where T : IView
+    {
+        view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(verticalOptions);
+        return view;
+    }
 
-        public static T Margin<T>(this T view, Func<Microsoft.Maui.Thickness> marginFunc)
-            where T : IView
-        {
-            view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(marginFunc);
-            return view;
-        }
+    public static T VerticalOptions<T>(this T view, Func<Microsoft.Maui.Controls.LayoutOptions> verticalOptionsFunc)
+        where T : IView
+    {
+        view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(verticalOptionsFunc);
+        return view;
+    }
 
-        public static T Margin<T>(this T view, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
-            where T : IView
-        {
-            view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
-            view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
-            return view;
-        }
+    public static T HorizontalOptions<T>(this T view, Microsoft.Maui.Controls.LayoutOptions horizontalOptions)
+        where T : IView
+    {
+        view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(horizontalOptions);
+        return view;
+    }
 
-        public static T Margin<T>(this T view, double uniformSize, RxThicknessAnimation? customAnimation = null)
-            where T : IView
-        {
-            view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
-            view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
-            return view;
-        }
+    public static T HorizontalOptions<T>(this T view, Func<Microsoft.Maui.Controls.LayoutOptions> horizontalOptionsFunc)
+        where T : IView
+    {
+        view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(horizontalOptionsFunc);
+        return view;
+    }
 
-        public static T Margin<T>(this T view, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
-            where T : IView
-        {
-            view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(left, top, right, bottom));
-            view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
-            return view;
-        }
+    public static T Margin<T>(this T view, Microsoft.Maui.Thickness margin, RxThicknessAnimation? customAnimation = null)
+        where T : IView
+    {
+        view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(margin);
+        view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(margin), v => view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
+        return view;
+    }
+
+    public static T Margin<T>(this T view, Func<Microsoft.Maui.Thickness> marginFunc)
+        where T : IView
+    {
+        view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(marginFunc);
+        return view;
+    }
+
+    public static T Margin<T>(this T view, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
+        where T : IView
+    {
+        view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
+        view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
+        return view;
+    }
+
+    public static T Margin<T>(this T view, double uniformSize, RxThicknessAnimation? customAnimation = null)
+        where T : IView
+    {
+        view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
+        view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
+        return view;
+    }
+
+    public static T Margin<T>(this T view, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
+        where T : IView
+    {
+        view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(left, top, right, bottom));
+        view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
+        return view;
     }
 }

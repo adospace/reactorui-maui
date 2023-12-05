@@ -16,6 +16,12 @@ namespace MauiReactor
     {
         IReadOnlyList<string>? IPicker.ItemsSource { get; set; }
 
+        partial void OnReset()
+        {
+            var thisAsIPicker = (IPicker)this;
+            thisAsIPicker.ItemsSource = null;
+        }
+
         partial void OnEndUpdate()
         {
             Validate.EnsureNotNull(NativeControl);

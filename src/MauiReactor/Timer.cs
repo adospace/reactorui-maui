@@ -17,6 +17,8 @@ namespace MauiReactor
 
     public class Timer : VisualNode<MauiReactor.Internals.Timer>, ITimer
     {
+        public Timer() { }
+
         public Timer(int interval, Action onTick) => this.Interval(interval).OnTick(onTick);
 
         public Timer(TimeSpan interval, Action onTick) => this.Interval(interval).OnTick(onTick);
@@ -30,6 +32,17 @@ namespace MauiReactor
         PropertyValue<TimeSpan>? ITimer.DueTime { get; set; }
         Action? ITimer.TickAction { get; set; }
         Action<EventArgs>? ITimer.TickActionWithArgs { get; set; }
+
+        internal override void Reset()
+        {
+            base.Reset();
+            var thisAsITimer = (ITimer)this;
+            thisAsITimer.IsEnabled = null;
+            thisAsITimer.Interval = null;
+            thisAsITimer.DueTime = null;
+            thisAsITimer.TickAction = null;
+            thisAsITimer.TickActionWithArgs = null;
+        }
 
         protected override bool SupportChildIndexing => false;
         protected override void OnUpdate()
@@ -155,6 +168,18 @@ namespace MauiReactor
         {
             button.TickActionWithArgs = tickActionWithArgs;
             return button;
+        }
+    }
+
+    public partial class Component
+    {
+        public Timer Timer() => GetNodeFromPool<Timer>();
+
+        public Timer ListView(Action<MauiReactor.Internals.Timer?> componentRefAction)
+        {
+            var @listview = GetNodeFromPool<Timer>();
+            @listview.ComponentRefAction = componentRefAction;
+            return @listview;
         }
     }
 

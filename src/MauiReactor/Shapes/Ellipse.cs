@@ -9,36 +9,42 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor.Shapes
+namespace MauiReactor.Shapes;
+public partial interface IEllipse : Shapes.IShape
 {
-    public partial interface IEllipse : Shapes.IShape
+}
+
+public sealed partial class Ellipse : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Ellipse>, IEllipse
+{
+    public Ellipse()
     {
     }
 
-    public sealed partial class Ellipse : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Ellipse>, IEllipse
-    {
-        public Ellipse()
-        {
-        }
-
-        public Ellipse(Action<Microsoft.Maui.Controls.Shapes.Ellipse?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public static partial class EllipseExtensions
+    public Ellipse(Action<Microsoft.Maui.Controls.Shapes.Ellipse?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsIEllipse = (IEllipse)this;
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public static partial class EllipseExtensions
+{
 }

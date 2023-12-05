@@ -9,139 +9,147 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface ISwipeItems : IElement
 {
-    public partial interface ISwipeItems : IElement
+    PropertyValue<Microsoft.Maui.SwipeMode>? Mode { get; set; }
+
+    PropertyValue<Microsoft.Maui.SwipeBehaviorOnInvoked>? SwipeBehaviorOnInvoked { get; set; }
+
+    Action? CollectionChangedAction { get; set; }
+
+    Action<object?, EventArgs>? CollectionChangedActionWithArgs { get; set; }
+}
+
+public partial class SwipeItems<T> : Element<T>, ISwipeItems where T : Microsoft.Maui.Controls.SwipeItems, new()
+{
+    public SwipeItems()
     {
-        PropertyValue<Microsoft.Maui.SwipeMode>? Mode { get; set; }
-
-        PropertyValue<Microsoft.Maui.SwipeBehaviorOnInvoked>? SwipeBehaviorOnInvoked { get; set; }
-
-        Action? CollectionChangedAction { get; set; }
-
-        Action<object?, EventArgs>? CollectionChangedActionWithArgs { get; set; }
     }
 
-    public partial class SwipeItems<T> : Element<T>, ISwipeItems where T : Microsoft.Maui.Controls.SwipeItems, new()
+    public SwipeItems(Action<T?> componentRefAction) : base(componentRefAction)
     {
-        public SwipeItems()
-        {
-        }
-
-        public SwipeItems(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        PropertyValue<Microsoft.Maui.SwipeMode>? ISwipeItems.Mode { get; set; }
-
-        PropertyValue<Microsoft.Maui.SwipeBehaviorOnInvoked>? ISwipeItems.SwipeBehaviorOnInvoked { get; set; }
-
-        Action? ISwipeItems.CollectionChangedAction { get; set; }
-
-        Action<object?, EventArgs>? ISwipeItems.CollectionChangedActionWithArgs { get; set; }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsISwipeItems = (ISwipeItems)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeItems.ModeProperty, thisAsISwipeItems.Mode);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeItems.SwipeBehaviorOnInvokedProperty, thisAsISwipeItems.SwipeBehaviorOnInvoked);
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-        partial void OnAttachingNativeEvents();
-        partial void OnDetachingNativeEvents();
-        protected override void OnAttachNativeEvents()
-        {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsISwipeItems = (ISwipeItems)this;
-            if (thisAsISwipeItems.CollectionChangedAction != null || thisAsISwipeItems.CollectionChangedActionWithArgs != null)
-            {
-                NativeControl.CollectionChanged += NativeControl_CollectionChanged;
-            }
-
-            OnAttachingNativeEvents();
-            base.OnAttachNativeEvents();
-        }
-
-        private void NativeControl_CollectionChanged(object? sender, EventArgs e)
-        {
-            var thisAsISwipeItems = (ISwipeItems)this;
-            thisAsISwipeItems.CollectionChangedAction?.Invoke();
-            thisAsISwipeItems.CollectionChangedActionWithArgs?.Invoke(sender, e);
-        }
-
-        protected override void OnDetachNativeEvents()
-        {
-            if (NativeControl != null)
-            {
-                NativeControl.CollectionChanged -= NativeControl_CollectionChanged;
-            }
-
-            OnDetachingNativeEvents();
-            base.OnDetachNativeEvents();
-        }
     }
 
-    public partial class SwipeItems : SwipeItems<Microsoft.Maui.Controls.SwipeItems>
-    {
-        public SwipeItems()
-        {
-        }
+    PropertyValue<Microsoft.Maui.SwipeMode>? ISwipeItems.Mode { get; set; }
 
-        public SwipeItems(Action<Microsoft.Maui.Controls.SwipeItems?> componentRefAction) : base(componentRefAction)
-        {
-        }
+    PropertyValue<Microsoft.Maui.SwipeBehaviorOnInvoked>? ISwipeItems.SwipeBehaviorOnInvoked { get; set; }
+
+    Action? ISwipeItems.CollectionChangedAction { get; set; }
+
+    Action<object?, EventArgs>? ISwipeItems.CollectionChangedActionWithArgs { get; set; }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsISwipeItems = (ISwipeItems)this;
+        thisAsISwipeItems.Mode = null;
+        thisAsISwipeItems.SwipeBehaviorOnInvoked = null;
+        OnReset();
     }
 
-    public static partial class SwipeItemsExtensions
+    partial void OnReset();
+    protected override void OnUpdate()
     {
-        public static T Mode<T>(this T swipeItems, Microsoft.Maui.SwipeMode mode)
-            where T : ISwipeItems
+        OnBeginUpdate();
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsISwipeItems = (ISwipeItems)this;
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeItems.ModeProperty, thisAsISwipeItems.Mode);
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeItems.SwipeBehaviorOnInvokedProperty, thisAsISwipeItems.SwipeBehaviorOnInvoked);
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+    partial void OnAttachingNativeEvents();
+    partial void OnDetachingNativeEvents();
+    protected override void OnAttachNativeEvents()
+    {
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsISwipeItems = (ISwipeItems)this;
+        if (thisAsISwipeItems.CollectionChangedAction != null || thisAsISwipeItems.CollectionChangedActionWithArgs != null)
         {
-            swipeItems.Mode = new PropertyValue<Microsoft.Maui.SwipeMode>(mode);
-            return swipeItems;
+            NativeControl.CollectionChanged += NativeControl_CollectionChanged;
         }
 
-        public static T Mode<T>(this T swipeItems, Func<Microsoft.Maui.SwipeMode> modeFunc)
-            where T : ISwipeItems
+        OnAttachingNativeEvents();
+        base.OnAttachNativeEvents();
+    }
+
+    private void NativeControl_CollectionChanged(object? sender, EventArgs e)
+    {
+        var thisAsISwipeItems = (ISwipeItems)this;
+        thisAsISwipeItems.CollectionChangedAction?.Invoke();
+        thisAsISwipeItems.CollectionChangedActionWithArgs?.Invoke(sender, e);
+    }
+
+    protected override void OnDetachNativeEvents()
+    {
+        if (NativeControl != null)
         {
-            swipeItems.Mode = new PropertyValue<Microsoft.Maui.SwipeMode>(modeFunc);
-            return swipeItems;
+            NativeControl.CollectionChanged -= NativeControl_CollectionChanged;
         }
 
-        public static T SwipeBehaviorOnInvoked<T>(this T swipeItems, Microsoft.Maui.SwipeBehaviorOnInvoked swipeBehaviorOnInvoked)
-            where T : ISwipeItems
-        {
-            swipeItems.SwipeBehaviorOnInvoked = new PropertyValue<Microsoft.Maui.SwipeBehaviorOnInvoked>(swipeBehaviorOnInvoked);
-            return swipeItems;
-        }
+        OnDetachingNativeEvents();
+        base.OnDetachNativeEvents();
+    }
+}
 
-        public static T SwipeBehaviorOnInvoked<T>(this T swipeItems, Func<Microsoft.Maui.SwipeBehaviorOnInvoked> swipeBehaviorOnInvokedFunc)
-            where T : ISwipeItems
-        {
-            swipeItems.SwipeBehaviorOnInvoked = new PropertyValue<Microsoft.Maui.SwipeBehaviorOnInvoked>(swipeBehaviorOnInvokedFunc);
-            return swipeItems;
-        }
+public partial class SwipeItems : SwipeItems<Microsoft.Maui.Controls.SwipeItems>
+{
+    public SwipeItems()
+    {
+    }
 
-        public static T OnCollectionChanged<T>(this T swipeItems, Action? collectionChangedAction)
-            where T : ISwipeItems
-        {
-            swipeItems.CollectionChangedAction = collectionChangedAction;
-            return swipeItems;
-        }
+    public SwipeItems(Action<Microsoft.Maui.Controls.SwipeItems?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
 
-        public static T OnCollectionChanged<T>(this T swipeItems, Action<object?, EventArgs>? collectionChangedActionWithArgs)
-            where T : ISwipeItems
-        {
-            swipeItems.CollectionChangedActionWithArgs = collectionChangedActionWithArgs;
-            return swipeItems;
-        }
+public static partial class SwipeItemsExtensions
+{
+    public static T Mode<T>(this T swipeItems, Microsoft.Maui.SwipeMode mode)
+        where T : ISwipeItems
+    {
+        swipeItems.Mode = new PropertyValue<Microsoft.Maui.SwipeMode>(mode);
+        return swipeItems;
+    }
+
+    public static T Mode<T>(this T swipeItems, Func<Microsoft.Maui.SwipeMode> modeFunc)
+        where T : ISwipeItems
+    {
+        swipeItems.Mode = new PropertyValue<Microsoft.Maui.SwipeMode>(modeFunc);
+        return swipeItems;
+    }
+
+    public static T SwipeBehaviorOnInvoked<T>(this T swipeItems, Microsoft.Maui.SwipeBehaviorOnInvoked swipeBehaviorOnInvoked)
+        where T : ISwipeItems
+    {
+        swipeItems.SwipeBehaviorOnInvoked = new PropertyValue<Microsoft.Maui.SwipeBehaviorOnInvoked>(swipeBehaviorOnInvoked);
+        return swipeItems;
+    }
+
+    public static T SwipeBehaviorOnInvoked<T>(this T swipeItems, Func<Microsoft.Maui.SwipeBehaviorOnInvoked> swipeBehaviorOnInvokedFunc)
+        where T : ISwipeItems
+    {
+        swipeItems.SwipeBehaviorOnInvoked = new PropertyValue<Microsoft.Maui.SwipeBehaviorOnInvoked>(swipeBehaviorOnInvokedFunc);
+        return swipeItems;
+    }
+
+    public static T OnCollectionChanged<T>(this T swipeItems, Action? collectionChangedAction)
+        where T : ISwipeItems
+    {
+        swipeItems.CollectionChangedAction = collectionChangedAction;
+        return swipeItems;
+    }
+
+    public static T OnCollectionChanged<T>(this T swipeItems, Action<object?, EventArgs>? collectionChangedActionWithArgs)
+        where T : ISwipeItems
+    {
+        swipeItems.CollectionChangedActionWithArgs = collectionChangedActionWithArgs;
+        return swipeItems;
     }
 }

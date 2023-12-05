@@ -21,6 +21,8 @@ namespace MauiReactor
     {
         private List<WeakReference<VisualNode>>? _loadedForciblyChildren;
 
+        private CustomDataTemplate? _customDataTemplate;
+
         IEnumerable? IItemsView.ItemsSource { get; set; }
 
         Func<object, VisualNode>? IItemsView.ItemTemplate { get; set; }
@@ -30,6 +32,19 @@ namespace MauiReactor
         VisualStateGroupList? IItemsView.ItemVisualStateGroups { get; set; }
 
         object? IItemsView.EmptyView { get; set; }
+
+        partial void OnReset()
+        {
+            _loadedForciblyChildren = null;
+            _customDataTemplate = null;
+
+            var thisAsIItemsView = (IItemsView)this;
+            thisAsIItemsView.ItemsSource = null;
+            thisAsIItemsView.ItemTemplate = null;
+            thisAsIItemsView.ItemTemplateWithNativeView = null;
+            thisAsIItemsView.ItemVisualStateGroups = null;
+            thisAsIItemsView.EmptyView = null;
+        }
 
         VisualNode? ICustomDataTemplateOwner.GetVisualNodeForItem(object item)
         {
@@ -45,9 +60,6 @@ namespace MauiReactor
 
             return visualNodeForItem;
         }
-
-        private CustomDataTemplate? _customDataTemplate;
-
         partial void OnBeginUpdate()
         {
             Validate.EnsureNotNull(NativeControl);

@@ -22,7 +22,7 @@ class AnimatedCollectionViewPage : Component
 
     public override VisualNode Render()
     {
-        return new ContentPage("Animated CollectionView Sample")
+        return new ContentPage("Animated 2")
         {
             new Grid("* * *", "*")
             {
@@ -45,10 +45,10 @@ class AnimatedCollectionViewPage : Component
     private VisualNode RenderItem(ItemModel item)
         => new AnimatedItem
         {
-            new Frame()
-            .BackgroundColor(Color.Parse("#512BD4"))
-            .Margin(4)
-            .CornerRadius(8)
+            Frame()
+                .BackgroundColor(Color.Parse("#512BD4"))
+                .Margin(4)
+                .CornerRadius(8)
         };
 }
 
@@ -85,12 +85,9 @@ class AnimatedItem : Component<AnimatedItemState>
     }
 
     public override VisualNode Render() =>
-        new Grid("*", "*")
-        {
-            Children()
-        }
-        .ScaleX(State.ScaleX)
-        .ScaleY(State.ScaleY)
-        .WithAnimation(easing: Easing.CubicOut);
+        Grid(Children())
+            .ScaleX(State.ScaleX)
+            .ScaleY(State.ScaleY)
+            .WithAnimation(easing: Easing.CubicOut);
 
 }

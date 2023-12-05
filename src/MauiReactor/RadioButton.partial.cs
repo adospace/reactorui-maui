@@ -11,6 +11,12 @@ public partial class RadioButton<T> : IRadioButton
 {
     PropertyValue<string?>? IRadioButton.ContentString { get; set; }
 
+    partial void OnReset()
+    {
+        var thisAsIRadioButton = (IRadioButton)this;
+        thisAsIRadioButton.ContentString = null;
+    }
+
     protected override void OnAddChild(VisualNode widget, BindableObject childControl)
     {
         Validate.EnsureNotNull(NativeControl);

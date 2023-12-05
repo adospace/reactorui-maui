@@ -15,125 +15,125 @@ class HomePage : Component
         {
             new FlyoutItem("Counter")
             {
-                new Pages.CounterPage()
+                new CounterPage()
             },
             new FlyoutItem("Parameters")
             {
-                new Pages.ParametersPage()
+                new ParametersPage()
             },
             new FlyoutItem("CollectionView")
             {
-                new Pages.CollectionViewPage()
+                new CollectionViewPage()
             },
             new FlyoutItem("EditableCollectionView")
             {
-                new Pages.EditableCollectionView()
+                new EditableCollectionView()
             },
             new FlyoutItem("ListView")
             {
-                new Pages.ListViewPage()
+                new ListViewPage()
             },
             new FlyoutItem("ListView Extended Test")
             {
-                new Pages.ListViewExtendedTestPage()
+                new ListViewExtendedTestPage()
             },
             new FlyoutItem("AnimationBasics")
             {
-                new Pages.AnimationBasics()
+                new AnimationBasics()
             },
             new FlyoutItem("CardsAnimation")
             {
-                new Pages.CardsAnimationPage()
+                new CardsAnimationPage()
             },
             new FlyoutItem("CanvasCardsAnimationPage")
             {
-                new Pages.CanvasCardsAnimationPage()
+                new CanvasCardsAnimationPage()
             },
             new FlyoutItem("Image")
             {
-                new Pages.ImagePage()
+                new ImagePage()
             },
             new FlyoutItem("AnimatedCollectionView")
             {
-                new Pages.AnimatedCollectionViewPage()
+                new AnimatedCollectionViewPage()
             },
             new FlyoutItem("AnimationShowcase")
             {
-                new Pages.AnimationShowcasePage()
+                new AnimationShowcasePage()
             },
             new FlyoutItem("AnimationLoop")
             {
-                new Pages.AnimationLoopPage()
+                new AnimationLoopPage()
             },
             new FlyoutItem("Navigation")
             {
-                new Pages.NavigationMainPage()
+                new NavigationMainPage()
             },
             new FlyoutItem("ElementRef")
             {
-                new Pages.ElementRefPage()
+                new ElementRefPage()
             },
             new FlyoutItem("Canvas")
             {
-                new Pages.CanvasPage()
+                new CanvasPage()
             },
             new FlyoutItem("Landscape")
             {
-                new Pages.LandscapePage()
+                new LandscapePage()
             },
             new FlyoutItem("GraphicsView")
             {
-                new Pages.GraphicsViewPage()
+                new GraphicsViewPage()
             },
             new FlyoutItem("RemainingItemsThreshold Test")
             {
-                new Pages.RemainingItemsThresholdTestPage()
+                new RemainingItemsThresholdTestPage()
             },
             new FlyoutItem("AnimatedButtonPage")
             {
-                new Pages.AnimatedButtonPage()
+                new AnimatedButtonPage()
             },
             new FlyoutItem("Border Corner Radius Test")
             {
-                new Pages.BorderCornerRadiusPage()
+                new BorderCornerRadiusPage()
             },
             new FlyoutItem("Show Popup Test")
             {
-                new Pages.ShowPopupTestPage()
+                new ShowPopupTestPage()
             },
             new FlyoutItem("Carousel Test")
             {
-                new Pages.CarouselTestPage()
+                new CarouselTestPage()
             },
             new FlyoutItem("Carousel with Images Test")
             {
-                new Pages.CarouselTestWithImagesPage()
+                new CarouselTestWithImagesPage()
             },
             new FlyoutItem("Canvas AutoV/HStack Test")
             {
-                new Pages.CanvasAutoStackPage()
+                new CanvasAutoStackPage()
             },
             new FlyoutItem("Inline components")
             {
-                new Pages.InlineComponentsPage()
+                new InlineComponentsPage()
             },
             new FlyoutItem("Collection View Grouped")
             {
-                new Pages.CollectionViewExtendedTestPage()
+                new CollectionViewExtendedTestPage()
             },
             new FlyoutItem("Drag & Drop")
             {
-                new Pages.DragDropTestPage()
+                new DragDropTestPage()
             },
             
             new FlyoutItem("Gradient Test")
             {
-                new Pages.GradientPage()
+                new GradientPage()
             },
 
             new FlyoutItem("Behavior Test")
             {
-                new Pages.BehaviorTestPage()
+                new BehaviorTestPage()
             },
         }
         .ItemTemplate(RenderItemTemplate);

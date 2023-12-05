@@ -9,36 +9,42 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IFlyoutBase : IElement
 {
-    public partial interface IFlyoutBase : IElement
+}
+
+public abstract partial class FlyoutBase<T> : Element<T>, IFlyoutBase where T : Microsoft.Maui.Controls.FlyoutBase, new()
+{
+    protected FlyoutBase()
     {
     }
 
-    public abstract partial class FlyoutBase<T> : Element<T>, IFlyoutBase where T : Microsoft.Maui.Controls.FlyoutBase, new()
-    {
-        protected FlyoutBase()
-        {
-        }
-
-        protected FlyoutBase(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public static partial class FlyoutBaseExtensions
+    protected FlyoutBase(Action<T?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsIFlyoutBase = (IFlyoutBase)this;
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public static partial class FlyoutBaseExtensions
+{
 }

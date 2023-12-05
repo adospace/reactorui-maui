@@ -19,6 +19,13 @@ namespace MauiReactor
 
         BackButtonBehavior? IPage.BackButtonBehavior { get; set; }
 
+        partial void OnReset()
+        {
+            var thisAsIPage = (IPage)this;
+            thisAsIPage.WindowTitle = null;
+            thisAsIPage.BackButtonBehavior = null;
+        }
+
         protected override void OnAddChild(VisualNode widget, BindableObject childControl)
         {
             Validate.EnsureNotNull(NativeControl);

@@ -9,47 +9,53 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IContentView : ITemplatedView
 {
-    public partial interface IContentView : ITemplatedView
+}
+
+public partial class ContentView<T> : TemplatedView<T>, IContentView where T : Microsoft.Maui.Controls.ContentView, new()
+{
+    public ContentView()
     {
     }
 
-    public partial class ContentView<T> : TemplatedView<T>, IContentView where T : Microsoft.Maui.Controls.ContentView, new()
-    {
-        public ContentView()
-        {
-        }
-
-        public ContentView(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public partial class ContentView : ContentView<Microsoft.Maui.Controls.ContentView>
-    {
-        public ContentView()
-        {
-        }
-
-        public ContentView(Action<Microsoft.Maui.Controls.ContentView?> componentRefAction) : base(componentRefAction)
-        {
-        }
-    }
-
-    public static partial class ContentViewExtensions
+    public ContentView(Action<T?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsIContentView = (IContentView)this;
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public partial class ContentView : ContentView<Microsoft.Maui.Controls.ContentView>
+{
+    public ContentView()
+    {
+    }
+
+    public ContentView(Action<Microsoft.Maui.Controls.ContentView?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
+
+public static partial class ContentViewExtensions
+{
 }

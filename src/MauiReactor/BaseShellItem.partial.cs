@@ -14,6 +14,13 @@ namespace MauiReactor
         PropertyValue<bool>? IBaseShellItem.FlyoutItemIsVisible { get; set; }
         string? IBaseShellItem.Route { get; set; }
 
+        partial void OnReset()
+        {
+            var thisAsIBaseShellItem = (IBaseShellItem)this;
+            thisAsIBaseShellItem.FlyoutItemIsVisible = null;
+            thisAsIBaseShellItem.Route = null;
+        }
+
         partial void OnBeginUpdate()
         {
             Validate.EnsureNotNull(NativeControl);

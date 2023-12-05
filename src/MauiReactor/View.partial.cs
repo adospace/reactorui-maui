@@ -14,6 +14,13 @@ namespace MauiReactor
         List<IGestureRecognizer>? IView.GestureRecognizers { get; set; }
         List<IBehavior>? IView.Behaviors { get; set; }
 
+        partial void OnReset()
+        {
+            var thisAsIView = (IView)this;
+            thisAsIView.GestureRecognizers = null;
+            thisAsIView.Behaviors = null;
+        }
+
         protected override void OnChildAdd(VisualNode node)
         {
             if (node is IGestureRecognizer gestureRecognizer)

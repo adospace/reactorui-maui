@@ -16,6 +16,12 @@ public partial class CarouselView<T>
 {
     IItemsLayout? ICarouselView.ItemsLayout { get; set; }
 
+    partial void OnReset()
+    {
+        var thisAsICarouselView = (ICarouselView)this;
+        thisAsICarouselView.ItemsLayout = null;
+    }
+
     protected override IEnumerable<VisualNode> RenderChildren()
     {
         var thisAsICarouselView = (ICarouselView)this;

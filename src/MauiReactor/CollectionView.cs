@@ -9,47 +9,53 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface ICollectionView : IReorderableItemsView
 {
-    public partial interface ICollectionView : IReorderableItemsView
+}
+
+public partial class CollectionView<T> : ReorderableItemsView<T>, ICollectionView where T : Microsoft.Maui.Controls.CollectionView, new()
+{
+    public CollectionView()
     {
     }
 
-    public partial class CollectionView<T> : ReorderableItemsView<T>, ICollectionView where T : Microsoft.Maui.Controls.CollectionView, new()
-    {
-        public CollectionView()
-        {
-        }
-
-        public CollectionView(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public partial class CollectionView : CollectionView<Microsoft.Maui.Controls.CollectionView>
-    {
-        public CollectionView()
-        {
-        }
-
-        public CollectionView(Action<Microsoft.Maui.Controls.CollectionView?> componentRefAction) : base(componentRefAction)
-        {
-        }
-    }
-
-    public static partial class CollectionViewExtensions
+    public CollectionView(Action<T?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsICollectionView = (ICollectionView)this;
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public partial class CollectionView : CollectionView<Microsoft.Maui.Controls.CollectionView>
+{
+    public CollectionView()
+    {
+    }
+
+    public CollectionView(Action<Microsoft.Maui.Controls.CollectionView?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
+
+public static partial class CollectionViewExtensions
+{
 }

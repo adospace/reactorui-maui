@@ -28,8 +28,15 @@ namespace MauiReactor
             thisAsIGrid.Rows(rows).Columns(columns);
         }
 
-        ColumnDefinitionCollection IGrid.ColumnDefinitions { get; set; } = new ColumnDefinitionCollection();
-        RowDefinitionCollection IGrid.RowDefinitions { get; set; } = new RowDefinitionCollection();
+        ColumnDefinitionCollection IGrid.ColumnDefinitions { get; set; } = [];
+        RowDefinitionCollection IGrid.RowDefinitions { get; set; } = [];
+
+        partial void OnReset()
+        {
+            var thisAsIGrid = (IGrid)this;
+            thisAsIGrid.RowDefinitions.Clear();
+            thisAsIGrid.ColumnDefinitions.Clear();
+        }
 
         partial void OnBeginUpdate()
         {
