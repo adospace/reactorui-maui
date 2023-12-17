@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MauiReactor;
 
 using MauiReactor.AppShell.Pages;
 
@@ -25,15 +26,6 @@ class AppShell : Component
                     .Title("OtherPage")
                     .RenderContent(()=>new OtherPage())
             }
-        }
-        .ItemTemplate(RenderItemTemplate);
-
-    static VisualNode RenderItemTemplate(MauiControls.BaseShellItem item)
-        => new Grid("68", "*")
-        {
-            new Label(item.Title)
-                .VCenter()
-                .Margin(10,0)
         };
 }
 
