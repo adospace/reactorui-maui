@@ -27,7 +27,6 @@ public partial class MenuFlyoutItem<T> : MenuItem<T>, IMenuFlyoutItem where T : 
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIMenuFlyoutItem = (IMenuFlyoutItem)this;
         OnReset();
     }
 

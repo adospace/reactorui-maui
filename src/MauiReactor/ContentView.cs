@@ -27,7 +27,6 @@ public partial class ContentView<T> : TemplatedView<T>, IContentView where T : M
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIContentView = (IContentView)this;
         OnReset();
     }
 

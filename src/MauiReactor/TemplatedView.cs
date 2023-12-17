@@ -27,7 +27,6 @@ public partial class TemplatedView<T> : Compatibility.Layout<T>, ITemplatedView 
     internal override void Reset()
     {
         base.Reset();
-        var thisAsITemplatedView = (ITemplatedView)this;
         OnReset();
     }
 

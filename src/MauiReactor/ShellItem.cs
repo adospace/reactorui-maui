@@ -27,7 +27,6 @@ public partial class ShellItem<T> : ShellGroupItem<T>, IShellItem where T : Micr
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIShellItem = (IShellItem)this;
         OnReset();
     }
 

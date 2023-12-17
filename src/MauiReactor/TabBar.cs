@@ -27,7 +27,6 @@ public partial class TabBar<T> : ShellItem<T>, ITabBar where T : Microsoft.Maui.
     internal override void Reset()
     {
         base.Reset();
-        var thisAsITabBar = (ITabBar)this;
         OnReset();
     }
 

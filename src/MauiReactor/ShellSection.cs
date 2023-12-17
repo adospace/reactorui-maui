@@ -27,7 +27,6 @@ public partial class ShellSection<T> : ShellGroupItem<T>, IShellSection where T 
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIShellSection = (IShellSection)this;
         OnReset();
     }
 

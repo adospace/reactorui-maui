@@ -9,7 +9,7 @@ namespace MauiReactor
 {
     internal abstract class PageHost : VisualNode
     {
-        private static readonly HashSet<PageHost> _pageHostCache = new();
+        private static readonly HashSet<PageHost> _pageHostCache = [];
         private readonly INavigation _navigation;
         protected bool _sleeping;
         protected bool _unloading;
@@ -28,7 +28,8 @@ namespace MauiReactor
         private void CheckUnloading()
         {
             if (ContainerPage != null &&
-                !_navigation.NavigationStack.Contains(ContainerPage))
+                !_navigation.NavigationStack.Contains(ContainerPage) && 
+                !_navigation.ModalStack.Contains(ContainerPage))
             {
                 _unloading = true;
                 Invalidate();

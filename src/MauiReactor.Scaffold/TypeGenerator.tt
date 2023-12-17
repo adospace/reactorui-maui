@@ -117,10 +117,12 @@ public abstract partial class <#= TypeName() #><T> : <#= BaseTypeName() #><T>, <
     internal override void Reset()
     {
         base.Reset();
-
+        
+        <# if (Properties.Length > 0) { #>
         var thisAs<#= InterfaceName() #> = (<#= InterfaceName() #>)this;
         <# foreach (var property in Properties) { #>
         thisAs<#= InterfaceName() #>.<#= property.Name #> = null;
+        <# } #>
         <# } #>
 
         OnReset();

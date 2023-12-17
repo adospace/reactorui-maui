@@ -27,7 +27,6 @@ public partial class HorizontalStackLayout<T> : StackBase<T>, IHorizontalStackLa
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIHorizontalStackLayout = (IHorizontalStackLayout)this;
         OnReset();
     }
 

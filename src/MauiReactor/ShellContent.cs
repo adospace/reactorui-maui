@@ -27,7 +27,6 @@ public partial class ShellContent<T> : BaseShellItem<T>, IShellContent where T :
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIShellContent = (IShellContent)this;
         OnReset();
     }
 

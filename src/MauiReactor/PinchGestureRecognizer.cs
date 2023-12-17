@@ -34,7 +34,6 @@ public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIPinchGestureRecognizer = (IPinchGestureRecognizer)this;
         OnReset();
     }
 

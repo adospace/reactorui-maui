@@ -27,7 +27,6 @@ public partial class ToolbarItem<T> : MenuItem<T>, IToolbarItem where T : Micros
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIToolbarItem = (IToolbarItem)this;
         OnReset();
     }
 

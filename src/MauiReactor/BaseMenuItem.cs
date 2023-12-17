@@ -27,7 +27,6 @@ public abstract partial class BaseMenuItem<T> : Element<T>, IBaseMenuItem where 
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIBaseMenuItem = (IBaseMenuItem)this;
         OnReset();
     }
 

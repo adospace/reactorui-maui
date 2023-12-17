@@ -27,7 +27,6 @@ public partial class GestureRecognizer<T> : Element<T>, IGestureRecognizer where
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIGestureRecognizer = (IGestureRecognizer)this;
         OnReset();
     }
 

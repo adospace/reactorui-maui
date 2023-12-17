@@ -27,7 +27,6 @@ public partial class MenuFlyoutSeparator<T> : MenuFlyoutItem<T>, IMenuFlyoutSepa
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIMenuFlyoutSeparator = (IMenuFlyoutSeparator)this;
         OnReset();
     }
 

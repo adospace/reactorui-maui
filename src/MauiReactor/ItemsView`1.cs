@@ -28,7 +28,6 @@ public abstract partial class ItemsView<T, TChild> : View<T>, IGenericItemsView 
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIGenericItemsView = (IGenericItemsView)this;
         OnReset();
     }
 

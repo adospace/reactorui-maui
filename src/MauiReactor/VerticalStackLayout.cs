@@ -27,7 +27,6 @@ public partial class VerticalStackLayout<T> : StackBase<T>, IVerticalStackLayout
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIVerticalStackLayout = (IVerticalStackLayout)this;
         OnReset();
     }
 

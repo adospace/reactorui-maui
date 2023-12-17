@@ -6,185 +6,184 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MauiReactor
+namespace MauiReactor;
+
+public partial interface IShellContent
 {
-    public partial interface IShellContent
+    Func<VisualNode>? ContentTemplate { get; set; }
+}
+
+public partial class ShellContent<T>
+{
+    Func<VisualNode>? IShellContent.ContentTemplate { get; set; }
+    private ContentTemplate? _contentTemplate;
+
+    public ShellContent(string title)
+        => this.Title(title);
+
+    public ShellContent(VisualNode content)
     {
-        Func<VisualNode>? ContentTemplate { get; set; }
+        _internalChildren.Add(content);
     }
 
-    public partial class ShellContent<T>
+    class ContentTemplate : VisualNode
     {
-        Func<VisualNode>? IShellContent.ContentTemplate { get; set; }
-        private ContentTemplate? _contentTemplate;
+        private VisualNode? _root;
+        private BindableObject? _nativeContent;
 
-        public ShellContent(string title)
-            => this.Title(title);
-
-        public ShellContent(VisualNode content)
+        public ContentTemplate(ShellContent<T> owner)
         {
-            _internalChildren.Add(content);
+            Owner = owner;
+            DataTemplate = new DataTemplate(() =>
+            {
+                Root = ((IShellContent)Owner).ContentTemplate?.Invoke();
+                Layout();
+                return _nativeContent ?? throw new InvalidOperationException();
+            });
         }
 
-        class ContentTemplate : VisualNode
+        public ShellContent<T> Owner { get; set; }
+        public DataTemplate DataTemplate { get; }
+
+        public VisualNode? Root
         {
-            private VisualNode? _root;
-            private BindableObject? _nativeContent;
-
-            public ContentTemplate(ShellContent<T> owner)
+            get => _root;
+            set
             {
-                Owner = owner;
-                DataTemplate = new DataTemplate(() =>
+                if (_root != value)
                 {
-                    Root = ((IShellContent)Owner).ContentTemplate?.Invoke();
-                    Layout();
-                    return _nativeContent ?? throw new InvalidOperationException();
-                });
-            }
+                    _root = value;
 
-            public ShellContent<T> Owner { get; set; }
-            public DataTemplate DataTemplate { get; }
-
-            public VisualNode? Root
-            {
-                get => _root;
-                set
-                {
-                    if (_root != value)
+                    try
                     {
-                        _root = value;
-
-                        try
-                        {
-                            //we want the animations to restart instead of migrating from an old visual node
-                            _skipAnimationMigration = true;
-                            Invalidate();
-                        }
-                        finally
-                        {
-                            _skipAnimationMigration = false;
-                        }
+                        //we want the animations to restart instead of migrating from an old visual node
+                        _skipAnimationMigration = true;
+                        Invalidate();
+                    }
+                    finally
+                    {
+                        _skipAnimationMigration = false;
                     }
                 }
             }
+        }
 
-            protected override IEnumerable<VisualNode?> RenderChildren()
+        protected override IEnumerable<VisualNode?> RenderChildren()
+        {
+            if (_root != null)
             {
-                if (_root != null)
-                {
-                    yield return _root;
-                }
-            }
-
-            protected sealed override void OnAddChild(VisualNode widget, BindableObject childControl)
-            {
-                if (childControl is Microsoft.Maui.Controls.Page page)
-                    _nativeContent = page;
-                else
-                {
-                    throw new InvalidOperationException($"Type '{childControl.GetType()}' not supported under 'ShellContent'");
-                }
-            }
-
-            protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
-            {
-            }
-
-            public new void Update()
-            {
-                Root = ((IShellContent)Owner).ContentTemplate?.Invoke();
+                yield return _root;
             }
         }
 
-        protected override IEnumerable<VisualNode> RenderChildren()
+        protected sealed override void OnAddChild(VisualNode widget, BindableObject childControl)
         {
-            if (_contentTemplate != null)
+            if (childControl is Microsoft.Maui.Controls.Page page)
+                _nativeContent = page;
+            else
             {
-                return new[] { _contentTemplate };
+                throw new InvalidOperationException($"Type '{childControl.GetType()}' not supported under 'ShellContent'");
             }
-
-            return base.RenderChildren();
         }
 
-        partial void OnReset()
+        protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
         {
-            _contentTemplate = null;
-
-            var thisAsShellContent = (IShellContent)this;
-            thisAsShellContent.ContentTemplate = null;
         }
 
-        partial void OnBeginUpdate()
+        public new void Update()
         {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsShellContent = (IShellContent)this;
+            Root = ((IShellContent)Owner).ContentTemplate?.Invoke();
+        }
+    }
 
-            if (thisAsShellContent.ContentTemplate != null)
+    protected override IEnumerable<VisualNode> RenderChildren()
+    {
+        if (_contentTemplate != null)
+        {
+            return new[] { _contentTemplate };
+        }
+
+        return base.RenderChildren();
+    }
+
+    partial void OnReset()
+    {
+        _contentTemplate = null;
+
+        var thisAsShellContent = (IShellContent)this;
+        thisAsShellContent.ContentTemplate = null;
+    }
+
+    partial void OnBeginUpdate()
+    {
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsShellContent = (IShellContent)this;
+
+        if (thisAsShellContent.ContentTemplate != null)
+        {
+            if (_contentTemplate == null)
             {
-                if (_contentTemplate == null)
-                {
-                    _contentTemplate = new ContentTemplate(this);
-                    NativeControl.ContentTemplate = _contentTemplate.DataTemplate;
-                }
-                else
-                {
-                    _contentTemplate.Owner = this;
-                    _contentTemplate.Update();
-                }
+                _contentTemplate = new ContentTemplate(this);
+                NativeControl.ContentTemplate = _contentTemplate.DataTemplate;
             }
             else
             {
-                NativeControl.ClearValue(Microsoft.Maui.Controls.ShellContent.ContentTemplateProperty);
+                _contentTemplate.Owner = this;
+                _contentTemplate.Update();
             }
         }
-
-        protected override void OnMigrated(VisualNode newNode)
+        else
         {
-            var newShellContent = ((ShellContent<T>)newNode);
-            newShellContent._contentTemplate = _contentTemplate;
-            if (newShellContent._contentTemplate != null)
-            {
-                newShellContent._contentTemplate.Owner = newShellContent;
-            }
-
-            base.OnMigrated(newNode);
+            NativeControl.ClearValue(Microsoft.Maui.Controls.ShellContent.ContentTemplateProperty);
         }
-
-        protected override void OnAddChild(VisualNode widget, BindableObject childControl)
-        {
-            Validate.EnsureNotNull(NativeControl);
-
-            if (childControl is Microsoft.Maui.Controls.Page page)
-                NativeControl.Content = page;
-
-            base.OnAddChild(widget, childControl);
-        }
-
-        protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
-        {
-            Validate.EnsureNotNull(NativeControl);
-
-            if (NativeControl.Content == childControl)
-                NativeControl.Content = null;
-
-            base.OnRemoveChild(widget, childControl);
-        }
-
     }
 
-    public partial class ShellContent
+    protected override void OnMigrated(VisualNode newNode)
     {
-        public ShellContent(string title) => this.Title(title);
+        var newShellContent = ((ShellContent<T>)newNode);
+        newShellContent._contentTemplate = _contentTemplate;
+        if (newShellContent._contentTemplate != null)
+        {
+            newShellContent._contentTemplate.Owner = newShellContent;
+        }
 
-        public ShellContent(string title, string icon) => this.Title(title).Icon(icon);
+        base.OnMigrated(newNode);
     }
 
-    public static partial class ShellContentExtensions
+    protected override void OnAddChild(VisualNode widget, BindableObject childControl)
     {
-        public static T RenderContent<T>(this T shellContent, Func<VisualNode> template) where T : IShellContent
-        {
-            shellContent.ContentTemplate = template;
-            return shellContent;
-        }
+        Validate.EnsureNotNull(NativeControl);
+
+        if (childControl is Microsoft.Maui.Controls.Page page)
+            NativeControl.Content = page;
+
+        base.OnAddChild(widget, childControl);
+    }
+
+    protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
+    {
+        Validate.EnsureNotNull(NativeControl);
+
+        if (NativeControl.Content == childControl)
+            NativeControl.Content = null;
+
+        base.OnRemoveChild(widget, childControl);
+    }
+
+}
+
+public partial class ShellContent
+{
+    public ShellContent(string title) => this.Title(title);
+
+    public ShellContent(string title, string icon) => this.Title(title).Icon(icon);
+}
+
+public static partial class ShellContentExtensions
+{
+    public static T RenderContent<T>(this T shellContent, Func<VisualNode> template) where T : IShellContent
+    {
+        shellContent.ContentTemplate = template;
+        return shellContent;
     }
 }

@@ -5,56 +5,55 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MauiReactor
+namespace MauiReactor;
+
+public partial interface IPicker
 {
-    public partial interface IPicker
+    IReadOnlyList<string>? ItemsSource { get; set; }
+}
+
+public partial class Picker<T>
+{
+    IReadOnlyList<string>? IPicker.ItemsSource { get; set; }
+
+    partial void OnReset()
     {
-        IReadOnlyList<string>? ItemsSource { get; set; }
+        var thisAsIPicker = (IPicker)this;
+        thisAsIPicker.ItemsSource = null;
     }
 
-    public partial class Picker<T>
+    partial void OnEndUpdate()
     {
-        IReadOnlyList<string>? IPicker.ItemsSource { get; set; }
-
-        partial void OnReset()
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsIPicker = (IPicker)this;
+        if (NativeControl.ItemsSource == null ||
+            thisAsIPicker.ItemsSource == null ||
+            NativeControl.ItemsSource.Count != thisAsIPicker.ItemsSource.Count ||
+            !NativeControl.ItemsSource.Cast<object>().SequenceEqual(thisAsIPicker.ItemsSource))
         {
-            var thisAsIPicker = (IPicker)this;
-            thisAsIPicker.ItemsSource = null;
+            NativeControl.ItemsSource = (System.Collections.IList?)thisAsIPicker.ItemsSource;
         }
+    }
+}
 
-        partial void OnEndUpdate()
+
+public static partial class PickerExtensions
+{
+    public static T ItemsSource<T>(this T picker, IReadOnlyList<string>? itemsSource) where T : IPicker
+    {
+        picker.ItemsSource = itemsSource;
+        return picker;
+    }
+
+    public static T OnSelectedIndexChanged<T>(this T picker, Action<int>? selectedIndexChangedAction) where T : IPicker
+    {
+        picker.SelectedIndexChangedActionWithArgs = (sender, args) =>
         {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIPicker = (IPicker)this;
-            if (NativeControl.ItemsSource == null ||
-                thisAsIPicker.ItemsSource == null ||
-                NativeControl.ItemsSource.Count != thisAsIPicker.ItemsSource.Count ||
-                !NativeControl.ItemsSource.Cast<object>().SequenceEqual(thisAsIPicker.ItemsSource))
+            if (sender is Microsoft.Maui.Controls.Picker picker)
             {
-                NativeControl.ItemsSource = (System.Collections.IList?)thisAsIPicker.ItemsSource;
+                selectedIndexChangedAction?.Invoke(picker.SelectedIndex);
             }
-        }
-    }
-
-
-    public static partial class PickerExtensions
-    {
-        public static T ItemsSource<T>(this T picker, IReadOnlyList<string>? itemsSource) where T : IPicker
-        {
-            picker.ItemsSource = itemsSource;
-            return picker;
-        }
-
-        public static T OnSelectedIndexChanged<T>(this T picker, Action<int>? selectedIndexChangedAction) where T : IPicker
-        {
-            picker.SelectedIndexChangedActionWithArgs = (sender, args) =>
-            {
-                if (sender is Microsoft.Maui.Controls.Picker picker)
-                {
-                    selectedIndexChangedAction?.Invoke(picker.SelectedIndex);
-                }
-            };
-            return picker;
-        }
+        };
+        return picker;
     }
 }

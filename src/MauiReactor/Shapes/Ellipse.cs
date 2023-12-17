@@ -27,7 +27,6 @@ public sealed partial class Ellipse : Shapes.Shape<Microsoft.Maui.Controls.Shape
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIEllipse = (IEllipse)this;
         OnReset();
     }
 

@@ -27,7 +27,6 @@ public partial class Tab<T> : ShellSection<T>, ITab where T : Microsoft.Maui.Con
     internal override void Reset()
     {
         base.Reset();
-        var thisAsITab = (ITab)this;
         OnReset();
     }
 

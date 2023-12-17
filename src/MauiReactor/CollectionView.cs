@@ -27,7 +27,6 @@ public partial class CollectionView<T> : ReorderableItemsView<T>, ICollectionVie
     internal override void Reset()
     {
         base.Reset();
-        var thisAsICollectionView = (ICollectionView)this;
         OnReset();
     }
 

@@ -28,7 +28,6 @@ public abstract partial class Behavior<T, TChild> : Behavior<T>, IGenericBehavio
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIGenericBehavior = (IGenericBehavior)this;
         OnReset();
     }
 

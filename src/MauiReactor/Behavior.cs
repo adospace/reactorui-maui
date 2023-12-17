@@ -27,7 +27,6 @@ public abstract partial class Behavior<T> : VisualNode<T>, IBehavior where T : M
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIBehavior = (IBehavior)this;
         OnReset();
     }
 

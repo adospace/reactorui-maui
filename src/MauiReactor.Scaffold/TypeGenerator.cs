@@ -516,8 +516,15 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("\n\n    internal override void Reset()\n    {\n        base.Reset();\n\n        var thi" +
-                    "sAs");
+            this.Write("\n\n    internal override void Reset()\n    {\n        base.Reset();\n        \n       " +
+                    " ");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ if (Properties.Length > 0) { 
+            
+            #line default
+            #line hidden
+            this.Write("\n        var thisAs");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
@@ -553,6 +560,13 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             #line default
             #line hidden
             this.Write(" = null;\n        ");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\n        ");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 

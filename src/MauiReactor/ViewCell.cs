@@ -27,7 +27,6 @@ public partial class ViewCell<T> : Cell<T>, IViewCell where T : Microsoft.Maui.C
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIViewCell = (IViewCell)this;
         OnReset();
     }
 

@@ -27,7 +27,6 @@ public partial class MenuFlyout<T> : FlyoutBase<T>, IMenuFlyout where T : Micros
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIMenuFlyout = (IMenuFlyout)this;
         OnReset();
     }
 

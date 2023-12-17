@@ -27,7 +27,6 @@ public abstract partial class FlyoutBase<T> : Element<T>, IFlyoutBase where T : 
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIFlyoutBase = (IFlyoutBase)this;
         OnReset();
     }
 

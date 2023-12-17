@@ -27,7 +27,6 @@ public partial class FlyoutItem<T> : ShellItem<T>, IFlyoutItem where T : Microso
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIFlyoutItem = (IFlyoutItem)this;
         OnReset();
     }
 

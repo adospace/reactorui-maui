@@ -27,7 +27,6 @@ public abstract partial class Geometry<T> : VisualNode<T>, IGeometry where T : M
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIGeometry = (IGeometry)this;
         OnReset();
     }
 

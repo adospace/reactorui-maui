@@ -27,7 +27,6 @@ public partial class TemplatedPage<T> : Page<T>, ITemplatedPage where T : Micros
     internal override void Reset()
     {
         base.Reset();
-        var thisAsITemplatedPage = (ITemplatedPage)this;
         OnReset();
     }
 

@@ -66,7 +66,6 @@ public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microso
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
         OnReset();
     }
 

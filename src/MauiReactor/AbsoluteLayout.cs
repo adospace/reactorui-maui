@@ -27,7 +27,6 @@ public partial class AbsoluteLayout<T> : Layout<T>, IAbsoluteLayout where T : Mi
     internal override void Reset()
     {
         base.Reset();
-        var thisAsIAbsoluteLayout = (IAbsoluteLayout)this;
         OnReset();
     }
 

@@ -850,3 +850,9 @@ public partial class ListView
         base.OnMount();
     }
 }
+
+
+public partial class Component
+{
+
+}

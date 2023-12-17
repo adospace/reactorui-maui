@@ -12,6 +12,7 @@ namespace MauiReactor
     public partial class BaseShellItem<T>
     {
         PropertyValue<bool>? IBaseShellItem.FlyoutItemIsVisible { get; set; }
+
         string? IBaseShellItem.Route { get; set; }
 
         partial void OnReset()
