@@ -52,4 +52,12 @@ public partial class ContentPage
 public partial class Component
 {
     public ContentPage ContentPage(string text) => GetNodeFromPool<ContentPage>().Title(text);
+
+    public ContentPage ContentPage(string text, IEnumerable<VisualNode> children)
+    {
+        var contentPage = GetNodeFromPool<ContentPage>()
+            .Title(text);
+        contentPage.AddChildren(children);
+        return contentPage;
+    }
 }
