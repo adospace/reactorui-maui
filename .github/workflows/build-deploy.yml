@@ -17,7 +17,7 @@ jobs:
     env:
       Solution_Name: ./src/MauiReactor.Build.sln
       TemplatePack_Name: ./src/MauiReactor.TemplatePack/MauiReactor.TemplatePack.csproj
-      Version: 2.0.6-beta
+      Version: 2.0.7-beta
 
     steps:
     - name: Checkout
