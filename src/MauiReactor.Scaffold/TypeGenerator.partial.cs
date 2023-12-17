@@ -124,7 +124,7 @@ namespace MauiReactor.Scaffold
         }
 
         public bool IsTypeNotAbstractWithEmptyConstructor() 
-            => !_typeToScaffold.IsAbstract && _typeToScaffold.GetConstructor(Array.Empty<Type>()) != null;
+            => !_typeToScaffold.IsAbstract && _typeToScaffold.GetConstructor([]) != null;
 
         public bool IsTypeSealed()
             => _typeToScaffold.IsSealed;

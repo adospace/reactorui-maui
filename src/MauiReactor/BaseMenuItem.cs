@@ -9,36 +9,41 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IBaseMenuItem : IElement
 {
-    public partial interface IBaseMenuItem : IElement
+}
+
+public abstract partial class BaseMenuItem<T> : Element<T>, IBaseMenuItem where T : Microsoft.Maui.Controls.BaseMenuItem, new()
+{
+    protected BaseMenuItem()
     {
     }
 
-    public abstract partial class BaseMenuItem<T> : Element<T>, IBaseMenuItem where T : Microsoft.Maui.Controls.BaseMenuItem, new()
-    {
-        protected BaseMenuItem()
-        {
-        }
-
-        protected BaseMenuItem(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public static partial class BaseMenuItemExtensions
+    protected BaseMenuItem(Action<T?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public static partial class BaseMenuItemExtensions
+{
 }

@@ -9,47 +9,52 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface ITemplatedPage : IPage
 {
-    public partial interface ITemplatedPage : IPage
+}
+
+public partial class TemplatedPage<T> : Page<T>, ITemplatedPage where T : Microsoft.Maui.Controls.TemplatedPage, new()
+{
+    public TemplatedPage()
     {
     }
 
-    public partial class TemplatedPage<T> : Page<T>, ITemplatedPage where T : Microsoft.Maui.Controls.TemplatedPage, new()
-    {
-        public TemplatedPage()
-        {
-        }
-
-        public TemplatedPage(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public partial class TemplatedPage : TemplatedPage<Microsoft.Maui.Controls.TemplatedPage>
-    {
-        public TemplatedPage()
-        {
-        }
-
-        public TemplatedPage(Action<Microsoft.Maui.Controls.TemplatedPage?> componentRefAction) : base(componentRefAction)
-        {
-        }
-    }
-
-    public static partial class TemplatedPageExtensions
+    public TemplatedPage(Action<T?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public partial class TemplatedPage : TemplatedPage<Microsoft.Maui.Controls.TemplatedPage>
+{
+    public TemplatedPage()
+    {
+    }
+
+    public TemplatedPage(Action<Microsoft.Maui.Controls.TemplatedPage?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
+
+public static partial class TemplatedPageExtensions
+{
 }

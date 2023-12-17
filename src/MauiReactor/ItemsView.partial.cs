@@ -1,276 +1,287 @@
 ﻿using MauiReactor.Internals;
 using System.Collections;
 
-namespace MauiReactor
+namespace MauiReactor;
+
+public partial interface IItemsView
 {
-    public partial interface IItemsView
+    IEnumerable? ItemsSource { get; set; }
+
+    Func<object, VisualNode>? ItemTemplate { get; set; }
+
+    Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>? ItemTemplateWithNativeView { get; set; }
+
+    VisualStateGroupList? ItemVisualStateGroups { get; set; }
+
+    object? EmptyView { get; set; }
+}
+
+
+public partial class ItemsView<T> : ICustomDataTemplateOwner, IAutomationItemContainer
+{
+    private List<WeakReference<VisualNode>>? _loadedForciblyChildren;
+
+    private CustomDataTemplate? _customDataTemplate;
+
+    IEnumerable? IItemsView.ItemsSource { get; set; }
+
+    Func<object, VisualNode>? IItemsView.ItemTemplate { get; set; }
+
+    Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>? IItemsView.ItemTemplateWithNativeView { get; set; }
+
+    VisualStateGroupList? IItemsView.ItemVisualStateGroups { get; set; }
+
+    object? IItemsView.EmptyView { get; set; }
+
+    partial void OnReset()
     {
-        IEnumerable? ItemsSource { get; set; }
+        _loadedForciblyChildren = null;
+        _customDataTemplate = null;
 
-        Func<object, VisualNode>? ItemTemplate { get; set; }
-
-        Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>? ItemTemplateWithNativeView { get; set; }
-
-        VisualStateGroupList? ItemVisualStateGroups { get; set; }
-
-        object? EmptyView { get; set; }
+        var thisAsIItemsView = (IItemsView)this;
+        thisAsIItemsView.ItemsSource = null;
+        thisAsIItemsView.ItemTemplate = null;
+        thisAsIItemsView.ItemTemplateWithNativeView = null;
+        thisAsIItemsView.ItemVisualStateGroups = null;
+        thisAsIItemsView.EmptyView = null;
     }
 
-
-    public partial class ItemsView<T> : ICustomDataTemplateOwner, IAutomationItemContainer
+    VisualNode? ICustomDataTemplateOwner.GetVisualNodeForItem(object item)
     {
-        private List<WeakReference<VisualNode>>? _loadedForciblyChildren;
-
-        IEnumerable? IItemsView.ItemsSource { get; set; }
-
-        Func<object, VisualNode>? IItemsView.ItemTemplate { get; set; }
-
-        Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>? IItemsView.ItemTemplateWithNativeView { get; set; }
-
-        VisualStateGroupList? IItemsView.ItemVisualStateGroups { get; set; }
-
-        object? IItemsView.EmptyView { get; set; }
-
-        VisualNode? ICustomDataTemplateOwner.GetVisualNodeForItem(object item)
+        var thisAsIItemsView = (IItemsView)this;
+        if (thisAsIItemsView.ItemTemplate == null)
         {
-            var thisAsIItemsView = (IItemsView)this;
-            if (thisAsIItemsView.ItemTemplate == null)
-            {
-                return null;
-            }
-
-            var visualNodeForItem = thisAsIItemsView.ItemTemplate.Invoke(item);
-
-            _loadedForciblyChildren?.Add(new WeakReference<VisualNode>(visualNodeForItem));
-
-            return visualNodeForItem;
+            return null;
         }
 
-        private CustomDataTemplate? _customDataTemplate;
+        var visualNodeForItem = thisAsIItemsView.ItemTemplate.Invoke(item);
 
-        partial void OnBeginUpdate()
+        _loadedForciblyChildren?.Add(new WeakReference<VisualNode>(visualNodeForItem));
+
+        return visualNodeForItem;
+    }
+    partial void OnBeginUpdate()
+    {
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsIItemsView = (IItemsView)this;
+
+        _loadedForciblyChildren = null;
+
+        if (thisAsIItemsView.ItemsSource != null &&
+            NativeControl.ItemsSource == thisAsIItemsView.ItemsSource)
         {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIItemsView = (IItemsView)this;
+            Validate.EnsureNotNull(_customDataTemplate);
 
-            _loadedForciblyChildren = null;
+            _customDataTemplate.Owner = this;
 
-            if (thisAsIItemsView.ItemsSource != null &&
-                NativeControl.ItemsSource == thisAsIItemsView.ItemsSource)
-            {
-                Validate.EnsureNotNull(_customDataTemplate);
+            _customDataTemplate.Update();
+        }
+        else if (thisAsIItemsView.ItemsSource != null)
+        {
+            _customDataTemplate = new CustomDataTemplate(this, itemTemplatePresenter =>
+                thisAsIItemsView.ItemVisualStateGroups?.SetToVisualElement(itemTemplatePresenter));
+            NativeControl.ItemsSource = thisAsIItemsView.ItemsSource;
+            NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
+        }
+        else
+        {
+            NativeControl.ClearValue(ItemsView.ItemsSourceProperty);
+            NativeControl.ClearValue(ItemsView.ItemTemplateProperty);
+        }
+    }
 
-                _customDataTemplate.Owner = this;
-
-                _customDataTemplate.Update();
-            }
-            else if (thisAsIItemsView.ItemsSource != null)
-            {
-                _customDataTemplate = new CustomDataTemplate(this, itemTemplatePresenter =>
-                    thisAsIItemsView.ItemVisualStateGroups?.SetToVisualElement(itemTemplatePresenter));
-                NativeControl.ItemsSource = thisAsIItemsView.ItemsSource;
-                NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
-            }
-            else
-            {
-                NativeControl.ClearValue(ItemsView.ItemsSourceProperty);
-                NativeControl.ClearValue(ItemsView.ItemTemplateProperty);
-            }
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        var newItemsView = ((ItemsView<T>)newNode);
+        newItemsView._customDataTemplate = _customDataTemplate;
+        if (newItemsView._customDataTemplate != null)
+        {
+            newItemsView._customDataTemplate.Owner = newItemsView;
         }
 
-        protected override void OnMigrated(VisualNode newNode)
+
+        base.OnMigrated(newNode);
+    }
+
+    IEnumerable<TChild> IAutomationItemContainer.Descendants<TChild>()
+    {
+        if (_loadedForciblyChildren == null)
         {
-            var newItemsView = ((ItemsView<T>)newNode);
-            newItemsView._customDataTemplate = _customDataTemplate;
-            if (newItemsView._customDataTemplate != null)
-            {
-                newItemsView._customDataTemplate.Owner = newItemsView;
-            }
-
-
-            base.OnMigrated(newNode);
+            ForceItemsLoad();
         }
 
-        IEnumerable<TChild> IAutomationItemContainer.Descendants<TChild>()
+        Validate.EnsureNotNull(_loadedForciblyChildren);
+
+        foreach (var loadedForciblyChild in _loadedForciblyChildren)
         {
-            if (_loadedForciblyChildren == null)
+            if (loadedForciblyChild.TryGetTarget(out var child))
             {
-                ForceItemsLoad();
-            }
-
-            Validate.EnsureNotNull(_loadedForciblyChildren);
-
-            foreach (var loadedForciblyChild in _loadedForciblyChildren)
-            {
-                if (loadedForciblyChild.TryGetTarget(out var child))
+                if (child is TChild childT)
                 {
-                    if (child is TChild childT)
-                    {
-                        yield return childT;
-                    }
+                    yield return childT;
+                }
 
-                    if (child is IVisualNodeWithNativeControl childVisualNodeWithNativeControl)
-                    {
-                        var childNativeControl = childVisualNodeWithNativeControl.GetNativeControl<BindableObject>();
+                if (child is IVisualNodeWithNativeControl childVisualNodeWithNativeControl)
+                {
+                    var childNativeControl = childVisualNodeWithNativeControl.GetNativeControl<BindableObject>();
 
-                        if (childNativeControl is TChild childNativeControlAsT)
-                        {
-                            yield return childNativeControlAsT;
-                        }
-                    }
-
-                    foreach (var childChildT in ((IAutomationItemContainer)child).Descendants<TChild>())
+                    if (childNativeControl is TChild childNativeControlAsT)
                     {
-                        yield return childChildT;
+                        yield return childNativeControlAsT;
                     }
+                }
+
+                foreach (var childChildT in ((IAutomationItemContainer)child).Descendants<TChild>())
+                {
+                    yield return childChildT;
                 }
             }
         }
-
-        private void ForceItemsLoad()
-        {
-            Validate.EnsureNotNull(NativeControl);
-
-            var itemsSource = NativeControl.ItemsSource.Cast<object>().ToArray();
-
-            _loadedForciblyChildren = new();
-
-            foreach (var item in itemsSource)
-            {
-                var itemContent = (BindableObject)NativeControl.ItemTemplate.CreateContent();
-
-                itemContent.BindingContext = item;
-            }
-        }
-
-        partial void OnEndUpdate()
-        {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIItemsView = (IItemsView)this;
-
-            if (thisAsIItemsView.EmptyView is string)
-            {
-                NativeControl.EmptyView = thisAsIItemsView.EmptyView;
-            }
-        }
-
-        protected override IEnumerable<VisualNode> RenderChildren()
-        {
-            var thisAsIItemsView = (IItemsView)this;
-
-            var children = base.RenderChildren();
-
-            if (thisAsIItemsView.EmptyView is VisualNode emptyViewNode)
-            {
-                children = children.Concat(new[] { emptyViewNode });
-            }
-
-            return children;
-        }
-
-        protected override void OnAddChild(VisualNode widget, BindableObject childNativeControl)
-        {
-            Validate.EnsureNotNull(NativeControl);
-
-            var thisAsIItemsView = (IItemsView)this;
-
-            if (widget == thisAsIItemsView.EmptyView &&
-                childNativeControl is Microsoft.Maui.Controls.View emptyView)
-            {
-                NativeControl.EmptyView = emptyView;
-            }
-
-            base.OnAddChild(widget, childNativeControl);
-        }
-
-        protected override void OnRemoveChild(VisualNode widget, BindableObject childNativeControl)
-        {
-            Validate.EnsureNotNull(NativeControl);
-
-            var thisAsIItemsView = (IItemsView)this;
-
-            if (widget == thisAsIItemsView.EmptyView &&
-                childNativeControl is Microsoft.Maui.Controls.View)
-            {
-                NativeControl.EmptyView = null;
-            }
-
-            base.OnRemoveChild(widget, childNativeControl);
-        }
-
     }
 
-    public static partial class ItemsViewExtensions
+    private void ForceItemsLoad()
     {
-        public static T ItemsSource<T, TItem>(this T itemsView, IEnumerable<TItem> itemsSource) where T : IItemsView
+        Validate.EnsureNotNull(NativeControl);
+
+        var itemsSource = NativeControl.ItemsSource.Cast<object>().ToArray();
+
+        _loadedForciblyChildren = new();
+
+        foreach (var item in itemsSource)
         {
-            itemsView.ItemsSource = itemsSource;
-            return itemsView;
+            var itemContent = (BindableObject)NativeControl.ItemTemplate.CreateContent();
+
+            itemContent.BindingContext = item;
+        }
+    }
+
+    partial void OnEndUpdate()
+    {
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsIItemsView = (IItemsView)this;
+
+        if (thisAsIItemsView.EmptyView is string)
+        {
+            NativeControl.EmptyView = thisAsIItemsView.EmptyView;
+        }
+    }
+
+    protected override IEnumerable<VisualNode> RenderChildren()
+    {
+        var thisAsIItemsView = (IItemsView)this;
+
+        var children = base.RenderChildren();
+
+        if (thisAsIItemsView.EmptyView is VisualNode emptyViewNode)
+        {
+            children = children.Concat(new[] { emptyViewNode });
         }
 
-        public static T ItemsSource<T, TItem>(this T itemsView, IEnumerable<TItem> itemsSource, Func<TItem, VisualNode> template) where T : IItemsView
+        return children;
+    }
+
+    protected override void OnAddChild(VisualNode widget, BindableObject childNativeControl)
+    {
+        Validate.EnsureNotNull(NativeControl);
+
+        var thisAsIItemsView = (IItemsView)this;
+
+        if (widget == thisAsIItemsView.EmptyView &&
+            childNativeControl is Microsoft.Maui.Controls.View emptyView)
         {
-            itemsView.ItemsSource = itemsSource;
-            itemsView.ItemTemplate = new Func<object, VisualNode>(item => template((TItem)item));
-            return itemsView;
+            NativeControl.EmptyView = emptyView;
         }
 
-        public static T ItemsSource<T, TItem>(this T itemsView, IEnumerable<TItem> itemsSource, Func<TItem, Microsoft.Maui.Controls.ItemsView, VisualNode> template) where T : IItemsView
+        base.OnAddChild(widget, childNativeControl);
+    }
+
+    protected override void OnRemoveChild(VisualNode widget, BindableObject childNativeControl)
+    {
+        Validate.EnsureNotNull(NativeControl);
+
+        var thisAsIItemsView = (IItemsView)this;
+
+        if (widget == thisAsIItemsView.EmptyView &&
+            childNativeControl is Microsoft.Maui.Controls.View)
         {
-            itemsView.ItemsSource = itemsSource;
-            itemsView.ItemTemplateWithNativeView = new Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>((item, nativeView) => template((TItem)item, nativeView));
-            return itemsView;
+            NativeControl.EmptyView = null;
         }
 
-        public static T ItemsSource<T, TItem>(this T itemsView, IEnumerable itemsSource, Func<TItem, Microsoft.Maui.Controls.ItemsView, VisualNode> template) where T : IItemsView
+        base.OnRemoveChild(widget, childNativeControl);
+    }
+
+}
+
+public static partial class ItemsViewExtensions
+{
+    public static T ItemsSource<T, TItem>(this T itemsView, IEnumerable<TItem> itemsSource) where T : IItemsView
+    {
+        itemsView.ItemsSource = itemsSource;
+        return itemsView;
+    }
+
+    public static T ItemsSource<T, TItem>(this T itemsView, IEnumerable<TItem> itemsSource, Func<TItem, VisualNode> template) where T : IItemsView
+    {
+        itemsView.ItemsSource = itemsSource;
+        itemsView.ItemTemplate = new Func<object, VisualNode>(item => template((TItem)item));
+        return itemsView;
+    }
+
+    public static T ItemsSource<T, TItem>(this T itemsView, IEnumerable<TItem> itemsSource, Func<TItem, Microsoft.Maui.Controls.ItemsView, VisualNode> template) where T : IItemsView
+    {
+        itemsView.ItemsSource = itemsSource;
+        itemsView.ItemTemplateWithNativeView = new Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>((item, nativeView) => template((TItem)item, nativeView));
+        return itemsView;
+    }
+
+    public static T ItemsSource<T, TItem>(this T itemsView, IEnumerable itemsSource, Func<TItem, Microsoft.Maui.Controls.ItemsView, VisualNode> template) where T : IItemsView
+    {
+        itemsView.ItemsSource = itemsSource;
+        itemsView.ItemTemplateWithNativeView = new Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>((item, nativeView) => template((TItem)item, nativeView));
+        return itemsView;
+    }
+
+    public static T ItemVisualState<T>(this T itemsView, string groupName, string stateName, BindableProperty property, object? value, string? targetName = null) where T : IItemsView
+    {
+        itemsView.ItemVisualStateGroups ??= new();
+
+        itemsView.ItemVisualStateGroups.TryGetValue(groupName, out var group);
+
+        if (group == null)
         {
-            itemsView.ItemsSource = itemsSource;
-            itemsView.ItemTemplateWithNativeView = new Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>((item, nativeView) => template((TItem)item, nativeView));
-            return itemsView;
+            itemsView.ItemVisualStateGroups.Add(groupName, group = new VisualStateGroup());
         }
 
-        public static T ItemVisualState<T>(this T itemsView, string groupName, string stateName, BindableProperty property, object? value, string? targetName = null) where T : IItemsView
+        group.TryGetValue(stateName, out var state);
+        if (state == null)
         {
-            itemsView.ItemVisualStateGroups ??= new();
-
-            itemsView.ItemVisualStateGroups.TryGetValue(groupName, out var group);
-
-            if (group == null)
-            {
-                itemsView.ItemVisualStateGroups.Add(groupName, group = new VisualStateGroup());
-            }
-
-            group.TryGetValue(stateName, out var state);
-            if (state == null)
-            {
-                group.Add(stateName, state = new VisualState());
-            }
-
-            state.Add(new VisualStatePropertySetter(property, value, targetName));
-
-            return itemsView;
+            group.Add(stateName, state = new VisualState());
         }
 
-        public static T ItemVisualState<T>(this T itemsView, VisualStateGroupList visualState) where T : IItemsView
-        {
-            itemsView.ItemVisualStateGroups = visualState;
+        state.Add(new VisualStatePropertySetter(property, value, targetName));
 
-            return itemsView;
-        }
+        return itemsView;
+    }
+
+    public static T ItemVisualState<T>(this T itemsView, VisualStateGroupList visualState) where T : IItemsView
+    {
+        itemsView.ItemVisualStateGroups = visualState;
+
+        return itemsView;
+    }
 
 
-        public static T EmptyView<T>(this T itemsView, VisualNode emptyView) where T : IItemsView
-        {
-            itemsView.EmptyView = emptyView;
+    public static T EmptyView<T>(this T itemsView, VisualNode emptyView) where T : IItemsView
+    {
+        itemsView.EmptyView = emptyView;
 
-            return itemsView;
-        }
+        return itemsView;
+    }
 
-        public static T EmptyView<T>(this T itemsView, string emptyView) where T : IItemsView
-        {
-            itemsView.EmptyView = emptyView;
+    public static T EmptyView<T>(this T itemsView, string emptyView) where T : IItemsView
+    {
+        itemsView.EmptyView = emptyView;
 
-            return itemsView;
-        }
+        return itemsView;
     }
 }

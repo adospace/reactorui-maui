@@ -15,7 +15,11 @@ namespace MauiReactor
     {
         Shapes.IShape? IBorder.StrokeShape { get; set; }
 
-        
+        partial void OnReset()
+        {
+            var thisAsIVisualElement = (IBorder)this;
+            thisAsIVisualElement.StrokeShape = null;
+        }
 
         protected override IEnumerable<VisualNode> RenderChildren()
         {

@@ -15,6 +15,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="ComponentTypeGenerator.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>ComponentTypeGenerator.tt</DependentUpon>
+		</Compile>
 		<Compile Update="TypeGenerator.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -23,6 +28,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<None Update="ComponentTypeGenerator.tt">
+		  <Generator>TextTemplatingFilePreprocessor</Generator>
+		  <LastGenOutput>ComponentTypeGenerator.cs</LastGenOutput>
+		</None>
 		<None Update="TypeGenerator.tt">
 			<Generator>TextTemplatingFilePreprocessor</Generator>
 			<LastGenOutput>TypeGenerator.cs</LastGenOutput>

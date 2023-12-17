@@ -1,43 +1,60 @@
 ﻿using MauiReactor.Internals;
 
-namespace MauiReactor
+namespace MauiReactor;
+
+public partial class ScrollView<T>
 {
-    public partial class ScrollView<T>
+    public ScrollView(VisualNode content)
     {
-        public ScrollView(VisualNode content)
-        {
-            _internalChildren.Add(content);
-        }
-
-        protected override void OnAddChild(VisualNode widget, BindableObject childControl)
-        {
-            Validate.EnsureNotNull(NativeControl);
-
-            if (childControl is View view)
-                NativeControl.Content = view;
-
-            base.OnAddChild(widget, childControl);
-        }
-
-        protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
-        {
-            Validate.EnsureNotNull(NativeControl);
-
-            if (childControl is View)
-                NativeControl.Content = null;
-
-            base.OnRemoveChild(widget, childControl);
-        }
-
+        _internalChildren.Add(content);
     }
 
-    public class HorizontalScrollView : ScrollView
+    protected override void OnAddChild(VisualNode widget, BindableObject childControl)
     {
-        public HorizontalScrollView() => this.Orientation(ScrollOrientation.Horizontal);
+        Validate.EnsureNotNull(NativeControl);
+
+        if (childControl is View view)
+            NativeControl.Content = view;
+
+        base.OnAddChild(widget, childControl);
     }
 
-    public class VerticalScrollView : ScrollView
+    protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
     {
-        public VerticalScrollView() => this.Orientation(ScrollOrientation.Vertical);
+        Validate.EnsureNotNull(NativeControl);
+
+        if (childControl is View)
+            NativeControl.Content = null;
+
+        base.OnRemoveChild(widget, childControl);
     }
+
+}
+public class HorizontalScrollView : ScrollView
+{
+    public HorizontalScrollView() => this.Orientation(ScrollOrientation.Horizontal);
+}
+
+public class VerticalScrollView : ScrollView
+{
+    public VerticalScrollView() => this.Orientation(ScrollOrientation.Vertical);
+}
+
+public class HScrollView : ScrollView
+{
+    public HScrollView() => this.Orientation(ScrollOrientation.Horizontal);
+}
+
+public class VScrollView : ScrollView
+{
+    public VScrollView() => this.Orientation(ScrollOrientation.Vertical);
+}
+
+
+public partial class Component
+{
+    public ScrollView HScrollView() =>
+        GetNodeFromPool<ScrollView>().Orientation(ScrollOrientation.Horizontal);
+    public ScrollView VScrollView() =>
+        GetNodeFromPool<ScrollView>().Orientation(ScrollOrientation.Horizontal);
 }

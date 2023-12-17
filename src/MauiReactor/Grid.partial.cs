@@ -1,211 +1,199 @@
 ﻿using MauiReactor.Internals;
 
-namespace MauiReactor
+namespace MauiReactor;
+
+public partial interface IGrid
 {
-    public partial interface IGrid
+    ColumnDefinitionCollection ColumnDefinitions { get; set; }
+    RowDefinitionCollection RowDefinitions { get; set; }
+}
+
+public partial class Grid<T>
+{
+    public Grid(string rows, string columns)
     {
-        ColumnDefinitionCollection ColumnDefinitions { get; set; }
-        RowDefinitionCollection RowDefinitions { get; set; }
+        var thisAsIGrid = (IGrid)this;
+        thisAsIGrid.Rows(rows).Columns(columns);
     }
 
-    public partial class Grid<T>
+    public Grid(RowDefinitionCollection rows, ColumnDefinitionCollection columns)
     {
-        public Grid(string rows, string columns)
-        {
-            var thisAsIGrid = (IGrid)this;
-            thisAsIGrid.Rows(rows).Columns(columns);
-        }
-
-        public Grid(RowDefinitionCollection rows, ColumnDefinitionCollection columns)
-        {
-            var thisAsIGrid = (IGrid)this;
-            thisAsIGrid.Rows(rows).Columns(columns);
-        }
-
-        public Grid(IEnumerable<RowDefinition> rows, IEnumerable<ColumnDefinition> columns)
-        {
-            var thisAsIGrid = (IGrid)this;
-            thisAsIGrid.Rows(rows).Columns(columns);
-        }
-
-        ColumnDefinitionCollection IGrid.ColumnDefinitions { get; set; } = new ColumnDefinitionCollection();
-        RowDefinitionCollection IGrid.RowDefinitions { get; set; } = new RowDefinitionCollection();
-
-        partial void OnBeginUpdate()
-        {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIGrid = (IGrid)this;
-            if (!NativeControl.ColumnDefinitions.IsEqualTo(thisAsIGrid.ColumnDefinitions)) NativeControl.ColumnDefinitions = thisAsIGrid.ColumnDefinitions;
-            if (!NativeControl.RowDefinitions.IsEqualTo(thisAsIGrid.RowDefinitions)) NativeControl.RowDefinitions = thisAsIGrid.RowDefinitions;
-        }
+        var thisAsIGrid = (IGrid)this;
+        thisAsIGrid.Rows(rows).Columns(columns);
     }
 
-    public partial class Grid
+    public Grid(IEnumerable<RowDefinition> rows, IEnumerable<ColumnDefinition> columns)
     {
-        public Grid(string rows, string columns)
-            : base(rows, columns) { }
-
-        public Grid(RowDefinitionCollection rows, ColumnDefinitionCollection columns)
-            : base(rows, columns) { }
-
-        public Grid(IEnumerable<RowDefinition> rows, IEnumerable<ColumnDefinition> columns)
-            : base(rows, columns) { }
+        var thisAsIGrid = (IGrid)this;
+        thisAsIGrid.Rows(rows).Columns(columns);
     }
 
-    internal static class RowColumnDefinitionExtensions
+    ColumnDefinitionCollection IGrid.ColumnDefinitions { get; set; } = [];
+    RowDefinitionCollection IGrid.RowDefinitions { get; set; } = [];
+
+    partial void OnReset()
     {
-        public static bool IsEqualTo(this RowDefinitionCollection rows, RowDefinitionCollection otherRows)
-        {
-            if (rows == null && otherRows == null)
-                return true;
-            if (rows == null)
-                return false;
-            if (otherRows == null)
-                return false;
-            if (rows.Count != otherRows.Count)
-                return false;
+        var thisAsIGrid = (IGrid)this;
+        thisAsIGrid.RowDefinitions.Clear();
+        thisAsIGrid.ColumnDefinitions.Clear();
+    }
 
-            for (int i = 0; i < rows.Count; i++)
-            {
-                if (!rows[i].Height.Equals(otherRows[i].Height))
-                    return false;
-            }
+    partial void OnBeginUpdate()
+    {
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsIGrid = (IGrid)this;
+        if (!NativeControl.ColumnDefinitions.IsEqualTo(thisAsIGrid.ColumnDefinitions)) NativeControl.ColumnDefinitions = thisAsIGrid.ColumnDefinitions;
+        if (!NativeControl.RowDefinitions.IsEqualTo(thisAsIGrid.RowDefinitions)) NativeControl.RowDefinitions = thisAsIGrid.RowDefinitions;
+    }
+}
 
+public partial class Grid
+{
+    public Grid(string rows, string columns)
+        : base(rows, columns) { }
+
+    public Grid(RowDefinitionCollection rows, ColumnDefinitionCollection columns)
+        : base(rows, columns) { }
+
+    public Grid(IEnumerable<RowDefinition> rows, IEnumerable<ColumnDefinition> columns)
+        : base(rows, columns) { }
+}
+
+internal static class RowColumnDefinitionExtensions
+{
+    public static bool IsEqualTo(this RowDefinitionCollection rows, RowDefinitionCollection otherRows)
+    {
+        if (rows == null && otherRows == null)
             return true;
-        }
+        if (rows == null)
+            return false;
+        if (otherRows == null)
+            return false;
+        if (rows.Count != otherRows.Count)
+            return false;
 
-        public static bool IsEqualTo(this ColumnDefinitionCollection columns, ColumnDefinitionCollection otherColumns)
+        for (int i = 0; i < rows.Count; i++)
         {
-            if (columns == null && otherColumns == null)
-                return true;
-            if (columns == null)
+            if (!rows[i].Height.Equals(otherRows[i].Height))
                 return false;
-            if (otherColumns == null)
-                return false;
-            if (columns.Count != otherColumns.Count)
-                return false;
-
-            for (int i = 0; i < columns.Count; i++)
-            {
-                if (!columns[i].Width.Equals(otherColumns[i].Width))
-                    return false;
-            }
-
-            return true;
         }
+
+        return true;
     }
 
-    public static partial class GridExtensions
+    public static bool IsEqualTo(this ColumnDefinitionCollection columns, ColumnDefinitionCollection otherColumns)
     {
-        private static readonly GridLengthTypeConverter _gridLengthTypeConverter = new GridLengthTypeConverter();
+        if (columns == null && otherColumns == null)
+            return true;
+        if (columns == null)
+            return false;
+        if (otherColumns == null)
+            return false;
+        if (columns.Count != otherColumns.Count)
+            return false;
 
-        public static T Rows<T>(this T grid, string rows) where T : IGrid
+        for (int i = 0; i < columns.Count; i++)
         {
-            foreach (var rowDefinition in rows.Split(new[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(_ => (GridLength)Validate.EnsureNotNull(_gridLengthTypeConverter.ConvertFromInvariantString(_)))
-                .Select(_ => new RowDefinition() { Height = _ }))
-            {
-                grid.RowDefinitions.Add(rowDefinition);
-            }
-
-            return grid;
+            if (!columns[i].Width.Equals(otherColumns[i].Width))
+                return false;
         }
 
-        public static T Columns<T>(this T grid, string columns) where T : IGrid
-        {
-            foreach (var columnDefinition in columns.Split(new[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(_ => (GridLength)Validate.EnsureNotNull(_gridLengthTypeConverter.ConvertFromInvariantString(_)))
-                .Select(_ => new ColumnDefinition() { Width = _ }))
-            {
-                grid.ColumnDefinitions.Add(columnDefinition);
-            }
+        return true;
+    }
+}
 
-            return grid;
+public static partial class GridExtensions
+{
+    private static readonly GridLengthTypeConverter _gridLengthTypeConverter = new GridLengthTypeConverter();
+
+    public static T Rows<T>(this T grid, string rows) where T : IGrid
+    {
+        foreach (var rowDefinition in rows.Split(new[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(_ => (GridLength)Validate.EnsureNotNull(_gridLengthTypeConverter.ConvertFromInvariantString(_)))
+            .Select(_ => new RowDefinition() { Height = _ }))
+        {
+            grid.RowDefinitions.Add(rowDefinition);
         }
 
-        public static T Rows<T>(this T grid, RowDefinitionCollection rowDefinitions) where T : IGrid
-        {
-            grid.RowDefinitions = rowDefinitions;
-            return grid;
-        }
-
-        public static T Columns<T>(this T grid, ColumnDefinitionCollection columnDefinitions) where T : IGrid
-        {
-            grid.ColumnDefinitions = columnDefinitions;
-            return grid;
-        }
-
-        public static T Rows<T>(this T grid, IEnumerable<RowDefinition> rows) where T : IGrid
-        {
-            foreach (var row in rows)
-                grid.RowDefinitions.Add(row);
-            return grid;
-        }
-
-        public static T Columns<T>(this T grid, IEnumerable<ColumnDefinition> columns) where T : IGrid
-        {
-            foreach (var column in columns)
-                grid.ColumnDefinitions.Add(column);
-            return grid;
-        }
-
-
-        public static T GridRow<T>(this T visualNodeWithAttachedProperties, int rowIndex) where T : IVisualNodeWithAttachedProperties
-        {
-            visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.Grid.RowProperty, rowIndex);
-
-            return visualNodeWithAttachedProperties;
-        }
-
-        public static T GridRowSpan<T>(this T visualNodeWithAttachedProperties, int rowSpan) where T : IVisualNodeWithAttachedProperties
-        {
-            visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.Grid.RowSpanProperty, rowSpan);
-
-            return visualNodeWithAttachedProperties;
-        }
-
-        public static T GridColumn<T>(this T visualNodeWithAttachedProperties, int columnIndex) where T : IVisualNodeWithAttachedProperties
-        {
-            visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.Grid.ColumnProperty, columnIndex);
-
-            return visualNodeWithAttachedProperties;
-        }
-
-        public static T GridColumnSpan<T>(this T visualNodeWithAttachedProperties, int columnSpan) where T : IVisualNodeWithAttachedProperties
-        {
-            visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.Grid.ColumnSpanProperty, columnSpan);
-
-            return visualNodeWithAttachedProperties;
-        }
-
+        return grid;
     }
 
-    //public class Column : Grid
-    //{
-    //    protected override void OnChildAdded(VisualNode child)
-    //    {
-    //        if (child is MauiReactor.IView)
-    //        {
-    //            var thisAsIGrid = (IGrid)this;
-    //            thisAsIGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1.0, GridUnitType.Star) });
-    //            ((IVisualNodeWithAttachedProperties)child).GridRow(thisAsIGrid.RowDefinitions.Count - 1);
-    //        }
-    //        base.OnChildAdded(child);
-    //    }
-    //}
+    public static T Columns<T>(this T grid, string columns) where T : IGrid
+    {
+        foreach (var columnDefinition in columns.Split(new[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(_ => (GridLength)Validate.EnsureNotNull(_gridLengthTypeConverter.ConvertFromInvariantString(_)))
+            .Select(_ => new ColumnDefinition() { Width = _ }))
+        {
+            grid.ColumnDefinitions.Add(columnDefinition);
+        }
 
-    //public class Row : Grid
-    //{
-    //    protected override void OnChildAdded(VisualNode child)
-    //    {
-    //        if (child is MauiReactor.IView)
-    //        {
-    //            var thisAsIGrid = (IGrid)this;
-    //            thisAsIGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1.0, GridUnitType.Star) });
-    //            ((IVisualNodeWithAttachedProperties)child).GridColumn(thisAsIGrid.ColumnDefinitions.Count - 1);
-    //        }
-    //        base.OnChildAdded(child);
-    //    }
-    //}
+        return grid;
+    }
+
+    public static T Rows<T>(this T grid, RowDefinitionCollection rowDefinitions) where T : IGrid
+    {
+        grid.RowDefinitions = rowDefinitions;
+        return grid;
+    }
+
+    public static T Columns<T>(this T grid, ColumnDefinitionCollection columnDefinitions) where T : IGrid
+    {
+        grid.ColumnDefinitions = columnDefinitions;
+        return grid;
+    }
+
+    public static T Rows<T>(this T grid, IEnumerable<RowDefinition> rows) where T : IGrid
+    {
+        foreach (var row in rows)
+            grid.RowDefinitions.Add(row);
+        return grid;
+    }
+
+    public static T Columns<T>(this T grid, IEnumerable<ColumnDefinition> columns) where T : IGrid
+    {
+        foreach (var column in columns)
+            grid.ColumnDefinitions.Add(column);
+        return grid;
+    }
+
+
+    public static T GridRow<T>(this T visualNodeWithAttachedProperties, int rowIndex) where T : IVisualNodeWithAttachedProperties
+    {
+        visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.Grid.RowProperty, rowIndex);
+
+        return visualNodeWithAttachedProperties;
+    }
+
+    public static T GridRowSpan<T>(this T visualNodeWithAttachedProperties, int rowSpan) where T : IVisualNodeWithAttachedProperties
+    {
+        visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.Grid.RowSpanProperty, rowSpan);
+
+        return visualNodeWithAttachedProperties;
+    }
+
+    public static T GridColumn<T>(this T visualNodeWithAttachedProperties, int columnIndex) where T : IVisualNodeWithAttachedProperties
+    {
+        visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.Grid.ColumnProperty, columnIndex);
+
+        return visualNodeWithAttachedProperties;
+    }
+
+    public static T GridColumnSpan<T>(this T visualNodeWithAttachedProperties, int columnSpan) where T : IVisualNodeWithAttachedProperties
+    {
+        visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.Grid.ColumnSpanProperty, columnSpan);
+
+        return visualNodeWithAttachedProperties;
+    }
+
+}
+
+
+public partial class Component
+{
+    public Grid Grid(string rows, string columns) => GetNodeFromPool<Grid>().Rows(rows).Columns(columns);
+    
+    public Grid Grid(RowDefinitionCollection rows, ColumnDefinitionCollection columns) => GetNodeFromPool<Grid>().Rows(rows).Columns(columns);
+    
+    public Grid Grid(IEnumerable<RowDefinition> rows, IEnumerable<ColumnDefinition> columns) => GetNodeFromPool<Grid>().Rows(rows).Columns(columns);
 
 }

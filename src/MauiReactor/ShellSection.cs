@@ -9,47 +9,52 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IShellSection : IShellGroupItem
 {
-    public partial interface IShellSection : IShellGroupItem
+}
+
+public partial class ShellSection<T> : ShellGroupItem<T>, IShellSection where T : Microsoft.Maui.Controls.ShellSection, new()
+{
+    public ShellSection()
     {
     }
 
-    public partial class ShellSection<T> : ShellGroupItem<T>, IShellSection where T : Microsoft.Maui.Controls.ShellSection, new()
-    {
-        public ShellSection()
-        {
-        }
-
-        public ShellSection(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public partial class ShellSection : ShellSection<Microsoft.Maui.Controls.ShellSection>
-    {
-        public ShellSection()
-        {
-        }
-
-        public ShellSection(Action<Microsoft.Maui.Controls.ShellSection?> componentRefAction) : base(componentRefAction)
-        {
-        }
-    }
-
-    public static partial class ShellSectionExtensions
+    public ShellSection(Action<T?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public partial class ShellSection : ShellSection<Microsoft.Maui.Controls.ShellSection>
+{
+    public ShellSection()
+    {
+    }
+
+    public ShellSection(Action<Microsoft.Maui.Controls.ShellSection?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
+
+public static partial class ShellSectionExtensions
+{
 }

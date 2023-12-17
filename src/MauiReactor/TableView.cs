@@ -9,85 +9,93 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface ITableView : IView
 {
-    public partial interface ITableView : IView
-    {
-        PropertyValue<int>? RowHeight { get; set; }
+    PropertyValue<int>? RowHeight { get; set; }
 
-        PropertyValue<bool>? HasUnevenRows { get; set; }
+    PropertyValue<bool>? HasUnevenRows { get; set; }
+}
+
+public partial class TableView<T> : View<T>, ITableView where T : Microsoft.Maui.Controls.TableView, new()
+{
+    public TableView()
+    {
     }
 
-    public partial class TableView<T> : View<T>, ITableView where T : Microsoft.Maui.Controls.TableView, new()
+    public TableView(Action<T?> componentRefAction) : base(componentRefAction)
     {
-        public TableView()
-        {
-        }
-
-        public TableView(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        PropertyValue<int>? ITableView.RowHeight { get; set; }
-
-        PropertyValue<bool>? ITableView.HasUnevenRows { get; set; }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsITableView = (ITableView)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TableView.RowHeightProperty, thisAsITableView.RowHeight);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TableView.HasUnevenRowsProperty, thisAsITableView.HasUnevenRows);
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
     }
 
-    public partial class TableView : TableView<Microsoft.Maui.Controls.TableView>
-    {
-        public TableView()
-        {
-        }
+    PropertyValue<int>? ITableView.RowHeight { get; set; }
 
-        public TableView(Action<Microsoft.Maui.Controls.TableView?> componentRefAction) : base(componentRefAction)
-        {
-        }
+    PropertyValue<bool>? ITableView.HasUnevenRows { get; set; }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsITableView = (ITableView)this;
+        thisAsITableView.RowHeight = null;
+        thisAsITableView.HasUnevenRows = null;
+        OnReset();
     }
 
-    public static partial class TableViewExtensions
+    partial void OnReset();
+    protected override void OnUpdate()
     {
-        public static T RowHeight<T>(this T tableView, int rowHeight)
-            where T : ITableView
-        {
-            tableView.RowHeight = new PropertyValue<int>(rowHeight);
-            return tableView;
-        }
+        OnBeginUpdate();
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsITableView = (ITableView)this;
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TableView.RowHeightProperty, thisAsITableView.RowHeight);
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TableView.HasUnevenRowsProperty, thisAsITableView.HasUnevenRows);
+        base.OnUpdate();
+        OnEndUpdate();
+    }
 
-        public static T RowHeight<T>(this T tableView, Func<int> rowHeightFunc)
-            where T : ITableView
-        {
-            tableView.RowHeight = new PropertyValue<int>(rowHeightFunc);
-            return tableView;
-        }
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
 
-        public static T HasUnevenRows<T>(this T tableView, bool hasUnevenRows)
-            where T : ITableView
-        {
-            tableView.HasUnevenRows = new PropertyValue<bool>(hasUnevenRows);
-            return tableView;
-        }
+public partial class TableView : TableView<Microsoft.Maui.Controls.TableView>
+{
+    public TableView()
+    {
+    }
 
-        public static T HasUnevenRows<T>(this T tableView, Func<bool> hasUnevenRowsFunc)
-            where T : ITableView
-        {
-            tableView.HasUnevenRows = new PropertyValue<bool>(hasUnevenRowsFunc);
-            return tableView;
-        }
+    public TableView(Action<Microsoft.Maui.Controls.TableView?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
+
+public static partial class TableViewExtensions
+{
+    public static T RowHeight<T>(this T tableView, int rowHeight)
+        where T : ITableView
+    {
+        tableView.RowHeight = new PropertyValue<int>(rowHeight);
+        return tableView;
+    }
+
+    public static T RowHeight<T>(this T tableView, Func<int> rowHeightFunc)
+        where T : ITableView
+    {
+        tableView.RowHeight = new PropertyValue<int>(rowHeightFunc);
+        return tableView;
+    }
+
+    public static T HasUnevenRows<T>(this T tableView, bool hasUnevenRows)
+        where T : ITableView
+    {
+        tableView.HasUnevenRows = new PropertyValue<bool>(hasUnevenRows);
+        return tableView;
+    }
+
+    public static T HasUnevenRows<T>(this T tableView, Func<bool> hasUnevenRowsFunc)
+        where T : ITableView
+    {
+        tableView.HasUnevenRows = new PropertyValue<bool>(hasUnevenRowsFunc);
+        return tableView;
     }
 }

@@ -18,27 +18,29 @@ class BorderCornerRadiusPage : Component<BorderCornerRadiusPageState>
 {
     public override VisualNode Render()
     {
-        return new ContentPage
-        {
-            new VerticalStackLayout
-            {
-                new Button("Increase corner radius")
+        return ContentPage(
+        [
+            VStack(
+            [
+                Button()
+                    .Text("Increase corner radius")
                     .OnClicked(()=>SetState(s => s.CornerRadius+=15))
                     .HCenter(),
 
-                new Border()
-                .StrokeShape(new RoundRectangle()
-                    .CornerRadius(new CornerRadius(State.CornerRadius))
-                    .WithAnimation(duration: 1000)
-                    )
-                .BackgroundColor(Colors.Red)
-                .HeightRequest(200)
-                .WidthRequest(200),
-            }
+                Border()
+                    .StrokeShape(
+                        RoundRectangle()
+                            .CornerRadius(new CornerRadius(State.CornerRadius))
+                            .WithAnimation(duration: 1000))
+                    .BackgroundColor(Colors.Red)
+                    .HeightRequest(200)
+                    .WidthRequest(200),
+            ])
             .VCenter()
             .Spacing(25)
             .Padding(30, 0)
-        };
+        ])
+        .Title("Test Border Corner");
     }
 
 }

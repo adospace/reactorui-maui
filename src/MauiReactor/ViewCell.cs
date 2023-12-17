@@ -9,47 +9,52 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IViewCell : ICell
 {
-    public partial interface IViewCell : ICell
+}
+
+public partial class ViewCell<T> : Cell<T>, IViewCell where T : Microsoft.Maui.Controls.ViewCell, new()
+{
+    public ViewCell()
     {
     }
 
-    public partial class ViewCell<T> : Cell<T>, IViewCell where T : Microsoft.Maui.Controls.ViewCell, new()
-    {
-        public ViewCell()
-        {
-        }
-
-        public ViewCell(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public partial class ViewCell : ViewCell<Microsoft.Maui.Controls.ViewCell>
-    {
-        public ViewCell()
-        {
-        }
-
-        public ViewCell(Action<Microsoft.Maui.Controls.ViewCell?> componentRefAction) : base(componentRefAction)
-        {
-        }
-    }
-
-    public static partial class ViewCellExtensions
+    public ViewCell(Action<T?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public partial class ViewCell : ViewCell<Microsoft.Maui.Controls.ViewCell>
+{
+    public ViewCell()
+    {
+    }
+
+    public ViewCell(Action<Microsoft.Maui.Controls.ViewCell?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
+
+public static partial class ViewCellExtensions
+{
 }

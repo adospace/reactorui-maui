@@ -9,158 +9,167 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface ISearchBar : IInputView
 {
-    public partial interface ISearchBar : IInputView
+    PropertyValue<Microsoft.Maui.Graphics.Color>? CancelButtonColor { get; set; }
+
+    PropertyValue<Microsoft.Maui.TextAlignment>? HorizontalTextAlignment { get; set; }
+
+    PropertyValue<Microsoft.Maui.TextAlignment>? VerticalTextAlignment { get; set; }
+
+    Action? SearchButtonPressedAction { get; set; }
+
+    Action<object?, EventArgs>? SearchButtonPressedActionWithArgs { get; set; }
+}
+
+public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft.Maui.Controls.SearchBar, new()
+{
+    public SearchBar()
     {
-        PropertyValue<Microsoft.Maui.Graphics.Color>? CancelButtonColor { get; set; }
-
-        PropertyValue<Microsoft.Maui.TextAlignment>? HorizontalTextAlignment { get; set; }
-
-        PropertyValue<Microsoft.Maui.TextAlignment>? VerticalTextAlignment { get; set; }
-
-        Action? SearchButtonPressedAction { get; set; }
-
-        Action<object?, EventArgs>? SearchButtonPressedActionWithArgs { get; set; }
     }
 
-    public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft.Maui.Controls.SearchBar, new()
+    public SearchBar(Action<T?> componentRefAction) : base(componentRefAction)
     {
-        public SearchBar()
-        {
-        }
-
-        public SearchBar(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        PropertyValue<Microsoft.Maui.Graphics.Color>? ISearchBar.CancelButtonColor { get; set; }
-
-        PropertyValue<Microsoft.Maui.TextAlignment>? ISearchBar.HorizontalTextAlignment { get; set; }
-
-        PropertyValue<Microsoft.Maui.TextAlignment>? ISearchBar.VerticalTextAlignment { get; set; }
-
-        Action? ISearchBar.SearchButtonPressedAction { get; set; }
-
-        Action<object?, EventArgs>? ISearchBar.SearchButtonPressedActionWithArgs { get; set; }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsISearchBar = (ISearchBar)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchBar.CancelButtonColorProperty, thisAsISearchBar.CancelButtonColor);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchBar.HorizontalTextAlignmentProperty, thisAsISearchBar.HorizontalTextAlignment);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchBar.VerticalTextAlignmentProperty, thisAsISearchBar.VerticalTextAlignment);
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-        partial void OnAttachingNativeEvents();
-        partial void OnDetachingNativeEvents();
-        protected override void OnAttachNativeEvents()
-        {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsISearchBar = (ISearchBar)this;
-            if (thisAsISearchBar.SearchButtonPressedAction != null || thisAsISearchBar.SearchButtonPressedActionWithArgs != null)
-            {
-                NativeControl.SearchButtonPressed += NativeControl_SearchButtonPressed;
-            }
-
-            OnAttachingNativeEvents();
-            base.OnAttachNativeEvents();
-        }
-
-        private void NativeControl_SearchButtonPressed(object? sender, EventArgs e)
-        {
-            var thisAsISearchBar = (ISearchBar)this;
-            thisAsISearchBar.SearchButtonPressedAction?.Invoke();
-            thisAsISearchBar.SearchButtonPressedActionWithArgs?.Invoke(sender, e);
-        }
-
-        protected override void OnDetachNativeEvents()
-        {
-            if (NativeControl != null)
-            {
-                NativeControl.SearchButtonPressed -= NativeControl_SearchButtonPressed;
-            }
-
-            OnDetachingNativeEvents();
-            base.OnDetachNativeEvents();
-        }
     }
 
-    public partial class SearchBar : SearchBar<Microsoft.Maui.Controls.SearchBar>
-    {
-        public SearchBar()
-        {
-        }
+    PropertyValue<Microsoft.Maui.Graphics.Color>? ISearchBar.CancelButtonColor { get; set; }
 
-        public SearchBar(Action<Microsoft.Maui.Controls.SearchBar?> componentRefAction) : base(componentRefAction)
-        {
-        }
+    PropertyValue<Microsoft.Maui.TextAlignment>? ISearchBar.HorizontalTextAlignment { get; set; }
+
+    PropertyValue<Microsoft.Maui.TextAlignment>? ISearchBar.VerticalTextAlignment { get; set; }
+
+    Action? ISearchBar.SearchButtonPressedAction { get; set; }
+
+    Action<object?, EventArgs>? ISearchBar.SearchButtonPressedActionWithArgs { get; set; }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsISearchBar = (ISearchBar)this;
+        thisAsISearchBar.CancelButtonColor = null;
+        thisAsISearchBar.HorizontalTextAlignment = null;
+        thisAsISearchBar.VerticalTextAlignment = null;
+        OnReset();
     }
 
-    public static partial class SearchBarExtensions
+    partial void OnReset();
+    protected override void OnUpdate()
     {
-        public static T CancelButtonColor<T>(this T searchBar, Microsoft.Maui.Graphics.Color cancelButtonColor)
-            where T : ISearchBar
+        OnBeginUpdate();
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsISearchBar = (ISearchBar)this;
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchBar.CancelButtonColorProperty, thisAsISearchBar.CancelButtonColor);
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchBar.HorizontalTextAlignmentProperty, thisAsISearchBar.HorizontalTextAlignment);
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchBar.VerticalTextAlignmentProperty, thisAsISearchBar.VerticalTextAlignment);
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+    partial void OnAttachingNativeEvents();
+    partial void OnDetachingNativeEvents();
+    protected override void OnAttachNativeEvents()
+    {
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsISearchBar = (ISearchBar)this;
+        if (thisAsISearchBar.SearchButtonPressedAction != null || thisAsISearchBar.SearchButtonPressedActionWithArgs != null)
         {
-            searchBar.CancelButtonColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(cancelButtonColor);
-            return searchBar;
+            NativeControl.SearchButtonPressed += NativeControl_SearchButtonPressed;
         }
 
-        public static T CancelButtonColor<T>(this T searchBar, Func<Microsoft.Maui.Graphics.Color> cancelButtonColorFunc)
-            where T : ISearchBar
+        OnAttachingNativeEvents();
+        base.OnAttachNativeEvents();
+    }
+
+    private void NativeControl_SearchButtonPressed(object? sender, EventArgs e)
+    {
+        var thisAsISearchBar = (ISearchBar)this;
+        thisAsISearchBar.SearchButtonPressedAction?.Invoke();
+        thisAsISearchBar.SearchButtonPressedActionWithArgs?.Invoke(sender, e);
+    }
+
+    protected override void OnDetachNativeEvents()
+    {
+        if (NativeControl != null)
         {
-            searchBar.CancelButtonColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(cancelButtonColorFunc);
-            return searchBar;
+            NativeControl.SearchButtonPressed -= NativeControl_SearchButtonPressed;
         }
 
-        public static T HorizontalTextAlignment<T>(this T searchBar, Microsoft.Maui.TextAlignment horizontalTextAlignment)
-            where T : ISearchBar
-        {
-            searchBar.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignment);
-            return searchBar;
-        }
+        OnDetachingNativeEvents();
+        base.OnDetachNativeEvents();
+    }
+}
 
-        public static T HorizontalTextAlignment<T>(this T searchBar, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc)
-            where T : ISearchBar
-        {
-            searchBar.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
-            return searchBar;
-        }
+public partial class SearchBar : SearchBar<Microsoft.Maui.Controls.SearchBar>
+{
+    public SearchBar()
+    {
+    }
 
-        public static T VerticalTextAlignment<T>(this T searchBar, Microsoft.Maui.TextAlignment verticalTextAlignment)
-            where T : ISearchBar
-        {
-            searchBar.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignment);
-            return searchBar;
-        }
+    public SearchBar(Action<Microsoft.Maui.Controls.SearchBar?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
 
-        public static T VerticalTextAlignment<T>(this T searchBar, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc)
-            where T : ISearchBar
-        {
-            searchBar.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
-            return searchBar;
-        }
+public static partial class SearchBarExtensions
+{
+    public static T CancelButtonColor<T>(this T searchBar, Microsoft.Maui.Graphics.Color cancelButtonColor)
+        where T : ISearchBar
+    {
+        searchBar.CancelButtonColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(cancelButtonColor);
+        return searchBar;
+    }
 
-        public static T OnSearchButtonPressed<T>(this T searchBar, Action? searchButtonPressedAction)
-            where T : ISearchBar
-        {
-            searchBar.SearchButtonPressedAction = searchButtonPressedAction;
-            return searchBar;
-        }
+    public static T CancelButtonColor<T>(this T searchBar, Func<Microsoft.Maui.Graphics.Color> cancelButtonColorFunc)
+        where T : ISearchBar
+    {
+        searchBar.CancelButtonColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(cancelButtonColorFunc);
+        return searchBar;
+    }
 
-        public static T OnSearchButtonPressed<T>(this T searchBar, Action<object?, EventArgs>? searchButtonPressedActionWithArgs)
-            where T : ISearchBar
-        {
-            searchBar.SearchButtonPressedActionWithArgs = searchButtonPressedActionWithArgs;
-            return searchBar;
-        }
+    public static T HorizontalTextAlignment<T>(this T searchBar, Microsoft.Maui.TextAlignment horizontalTextAlignment)
+        where T : ISearchBar
+    {
+        searchBar.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignment);
+        return searchBar;
+    }
+
+    public static T HorizontalTextAlignment<T>(this T searchBar, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc)
+        where T : ISearchBar
+    {
+        searchBar.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
+        return searchBar;
+    }
+
+    public static T VerticalTextAlignment<T>(this T searchBar, Microsoft.Maui.TextAlignment verticalTextAlignment)
+        where T : ISearchBar
+    {
+        searchBar.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignment);
+        return searchBar;
+    }
+
+    public static T VerticalTextAlignment<T>(this T searchBar, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc)
+        where T : ISearchBar
+    {
+        searchBar.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
+        return searchBar;
+    }
+
+    public static T OnSearchButtonPressed<T>(this T searchBar, Action? searchButtonPressedAction)
+        where T : ISearchBar
+    {
+        searchBar.SearchButtonPressedAction = searchButtonPressedAction;
+        return searchBar;
+    }
+
+    public static T OnSearchButtonPressed<T>(this T searchBar, Action<object?, EventArgs>? searchButtonPressedActionWithArgs)
+        where T : ISearchBar
+    {
+        searchBar.SearchButtonPressedActionWithArgs = searchButtonPressedActionWithArgs;
+        return searchBar;
     }
 }

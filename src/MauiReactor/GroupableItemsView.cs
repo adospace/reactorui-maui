@@ -9,66 +9,73 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IGroupableItemsView : ISelectableItemsView
 {
-    public partial interface IGroupableItemsView : ISelectableItemsView
+    PropertyValue<bool>? IsGrouped { get; set; }
+}
+
+public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableItemsView where T : Microsoft.Maui.Controls.GroupableItemsView, new()
+{
+    public GroupableItemsView()
     {
-        PropertyValue<bool>? IsGrouped { get; set; }
     }
 
-    public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableItemsView where T : Microsoft.Maui.Controls.GroupableItemsView, new()
+    public GroupableItemsView(Action<T?> componentRefAction) : base(componentRefAction)
     {
-        public GroupableItemsView()
-        {
-        }
-
-        public GroupableItemsView(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        PropertyValue<bool>? IGroupableItemsView.IsGrouped { get; set; }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIGroupableItemsView = (IGroupableItemsView)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.GroupableItemsView.IsGroupedProperty, thisAsIGroupableItemsView.IsGrouped);
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
     }
 
-    public partial class GroupableItemsView : GroupableItemsView<Microsoft.Maui.Controls.GroupableItemsView>
-    {
-        public GroupableItemsView()
-        {
-        }
+    PropertyValue<bool>? IGroupableItemsView.IsGrouped { get; set; }
 
-        public GroupableItemsView(Action<Microsoft.Maui.Controls.GroupableItemsView?> componentRefAction) : base(componentRefAction)
-        {
-        }
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsIGroupableItemsView = (IGroupableItemsView)this;
+        thisAsIGroupableItemsView.IsGrouped = null;
+        OnReset();
     }
 
-    public static partial class GroupableItemsViewExtensions
+    partial void OnReset();
+    protected override void OnUpdate()
     {
-        public static T IsGrouped<T>(this T groupableItemsView, bool isGrouped)
-            where T : IGroupableItemsView
-        {
-            groupableItemsView.IsGrouped = new PropertyValue<bool>(isGrouped);
-            return groupableItemsView;
-        }
+        OnBeginUpdate();
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsIGroupableItemsView = (IGroupableItemsView)this;
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.GroupableItemsView.IsGroupedProperty, thisAsIGroupableItemsView.IsGrouped);
+        base.OnUpdate();
+        OnEndUpdate();
+    }
 
-        public static T IsGrouped<T>(this T groupableItemsView, Func<bool> isGroupedFunc)
-            where T : IGroupableItemsView
-        {
-            groupableItemsView.IsGrouped = new PropertyValue<bool>(isGroupedFunc);
-            return groupableItemsView;
-        }
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public partial class GroupableItemsView : GroupableItemsView<Microsoft.Maui.Controls.GroupableItemsView>
+{
+    public GroupableItemsView()
+    {
+    }
+
+    public GroupableItemsView(Action<Microsoft.Maui.Controls.GroupableItemsView?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
+
+public static partial class GroupableItemsViewExtensions
+{
+    public static T IsGrouped<T>(this T groupableItemsView, bool isGrouped)
+        where T : IGroupableItemsView
+    {
+        groupableItemsView.IsGrouped = new PropertyValue<bool>(isGrouped);
+        return groupableItemsView;
+    }
+
+    public static T IsGrouped<T>(this T groupableItemsView, Func<bool> isGroupedFunc)
+        where T : IGroupableItemsView
+    {
+        groupableItemsView.IsGrouped = new PropertyValue<bool>(isGroupedFunc);
+        return groupableItemsView;
     }
 }

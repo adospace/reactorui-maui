@@ -4,11 +4,23 @@ using MauiReactor.Parameters;
 
 namespace MauiReactor
 {
-    public abstract class Component : VisualNode, IEnumerable<VisualNode>, IVisualNodeWithAttachedProperties
+    public abstract partial class Component : VisualNode, IEnumerable<VisualNode>, IVisualNodeWithAttachedProperties
     {
-        private readonly Dictionary<BindableProperty, object> _attachedProperties = new();
 
-        //private Component? _newComponent;
+        private BindableObject? _nativeControl;
+
+        private readonly List<VisualNode> _children = [];
+
+        private readonly Dictionary<BindableProperty, object> _attachedProperties = [];
+
+        internal override void Reset()
+        {
+            base.Reset();
+
+            _nativeControl = null;
+            _children.Clear();
+            _attachedProperties.Clear();
+        }
 
         public abstract VisualNode Render();
 
@@ -17,10 +29,6 @@ namespace MauiReactor
 
         public bool HasAttachedProperty(BindableProperty property)
             => _attachedProperties.ContainsKey(property);
-
-        private BindableObject? _nativeControl;
-
-        private readonly List<VisualNode> _children = new();
 
         public IEnumerator<VisualNode> GetEnumerator()
         {
@@ -34,12 +42,16 @@ namespace MauiReactor
 
         public void Add(params VisualNode[] nodes)
         {
-            if (nodes is null)
-            {
-                throw new ArgumentNullException(nameof(nodes));
-            }
+            ArgumentNullException.ThrowIfNull(nodes);
 
             _children.AddRange(nodes);
+        }
+
+        protected T GetNodeFromPool<T>(VisualNode[] nodes) where T : Component, new()
+        {
+            var node = GetNodeFromPool<T>();
+            node.Add(nodes);
+            return node;
         }
 
         protected new IReadOnlyList<VisualNode> Children()
@@ -100,11 +112,13 @@ namespace MauiReactor
         {
             if (newNode.GetType().FullName == GetType().FullName && _isMounted)
             {
+                OnMigrating(newNode);
                 ((Component)newNode)._isMounted = true;
                 ((Component)newNode)._nativeControl = _nativeControl;
                 _nativeControl = null;
                 ((Component)newNode).OnPropsChanged();
                 ((Component)newNode).OnMountedOrPropsChanged();
+                OnMigrated(newNode);
 
                 base.MergeWith(newNode);
             }
@@ -224,8 +238,16 @@ namespace MauiReactor
 
     public abstract class ComponentWithProps<P>(P? props = null) : Component, IComponentWithProps where P : class, new()
     {
-        private readonly bool _derivedProps = props != null;
+        private bool _derivedProps = props != null;
         private P? _props = props;
+
+        internal override void Reset()
+        {
+            base.Reset();
+
+            _derivedProps = false;
+            _props = null;
+        }
 
         public P Props
         {
@@ -275,7 +297,7 @@ namespace MauiReactor
 
         private List<RegisteredAction> _actionsRegisteredOnStateChange = [];
 
-        private readonly bool _derivedState;
+        private bool _derivedState;
 
         private S? _state;
 
@@ -284,6 +306,16 @@ namespace MauiReactor
         {
             _state = state;
             _derivedState = state != null;
+        }
+
+        internal override void Reset()
+        {
+            base.Reset();
+
+            _newComponent = null;
+            _actionsRegisteredOnStateChange.Clear();
+            _derivedState = false;
+            _state = null;
         }
 
         public S State 

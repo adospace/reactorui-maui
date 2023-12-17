@@ -1,11 +1,10 @@
-﻿namespace MauiReactor
-{
-    public partial class TemplatedPage<T> : Page<T>
-    {
-        public TemplatedPage(string title)
-            : base(title)
-        {
+﻿namespace MauiReactor;
 
-        }
+public partial class TemplatedPage<T> : Page<T>
+{
+    public TemplatedPage(string title)
+        : base(title)
+    {
+
     }
 }

@@ -9,179 +9,186 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface ICell : IElement
 {
-    public partial interface ICell : IElement
+    PropertyValue<bool>? IsEnabled { get; set; }
+
+    Action? AppearingAction { get; set; }
+
+    Action<object?, EventArgs>? AppearingActionWithArgs { get; set; }
+
+    Action? DisappearingAction { get; set; }
+
+    Action<object?, EventArgs>? DisappearingActionWithArgs { get; set; }
+
+    Action? TappedAction { get; set; }
+
+    Action<object?, EventArgs>? TappedActionWithArgs { get; set; }
+}
+
+public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Maui.Controls.Cell, new()
+{
+    protected Cell()
     {
-        PropertyValue<bool>? IsEnabled { get; set; }
-
-        Action? AppearingAction { get; set; }
-
-        Action<object?, EventArgs>? AppearingActionWithArgs { get; set; }
-
-        Action? DisappearingAction { get; set; }
-
-        Action<object?, EventArgs>? DisappearingActionWithArgs { get; set; }
-
-        Action? TappedAction { get; set; }
-
-        Action<object?, EventArgs>? TappedActionWithArgs { get; set; }
     }
 
-    public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Maui.Controls.Cell, new()
+    protected Cell(Action<T?> componentRefAction) : base(componentRefAction)
     {
-        protected Cell()
-        {
-        }
-
-        protected Cell(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        PropertyValue<bool>? ICell.IsEnabled { get; set; }
-
-        Action? ICell.AppearingAction { get; set; }
-
-        Action<object?, EventArgs>? ICell.AppearingActionWithArgs { get; set; }
-
-        Action? ICell.DisappearingAction { get; set; }
-
-        Action<object?, EventArgs>? ICell.DisappearingActionWithArgs { get; set; }
-
-        Action? ICell.TappedAction { get; set; }
-
-        Action<object?, EventArgs>? ICell.TappedActionWithArgs { get; set; }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsICell = (ICell)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Cell.IsEnabledProperty, thisAsICell.IsEnabled);
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-        partial void OnAttachingNativeEvents();
-        partial void OnDetachingNativeEvents();
-        protected override void OnAttachNativeEvents()
-        {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsICell = (ICell)this;
-            if (thisAsICell.AppearingAction != null || thisAsICell.AppearingActionWithArgs != null)
-            {
-                NativeControl.Appearing += NativeControl_Appearing;
-            }
-
-            if (thisAsICell.DisappearingAction != null || thisAsICell.DisappearingActionWithArgs != null)
-            {
-                NativeControl.Disappearing += NativeControl_Disappearing;
-            }
-
-            if (thisAsICell.TappedAction != null || thisAsICell.TappedActionWithArgs != null)
-            {
-                NativeControl.Tapped += NativeControl_Tapped;
-            }
-
-            OnAttachingNativeEvents();
-            base.OnAttachNativeEvents();
-        }
-
-        private void NativeControl_Appearing(object? sender, EventArgs e)
-        {
-            var thisAsICell = (ICell)this;
-            thisAsICell.AppearingAction?.Invoke();
-            thisAsICell.AppearingActionWithArgs?.Invoke(sender, e);
-        }
-
-        private void NativeControl_Disappearing(object? sender, EventArgs e)
-        {
-            var thisAsICell = (ICell)this;
-            thisAsICell.DisappearingAction?.Invoke();
-            thisAsICell.DisappearingActionWithArgs?.Invoke(sender, e);
-        }
-
-        private void NativeControl_Tapped(object? sender, EventArgs e)
-        {
-            var thisAsICell = (ICell)this;
-            thisAsICell.TappedAction?.Invoke();
-            thisAsICell.TappedActionWithArgs?.Invoke(sender, e);
-        }
-
-        protected override void OnDetachNativeEvents()
-        {
-            if (NativeControl != null)
-            {
-                NativeControl.Appearing -= NativeControl_Appearing;
-                NativeControl.Disappearing -= NativeControl_Disappearing;
-                NativeControl.Tapped -= NativeControl_Tapped;
-            }
-
-            OnDetachingNativeEvents();
-            base.OnDetachNativeEvents();
-        }
     }
 
-    public static partial class CellExtensions
+    PropertyValue<bool>? ICell.IsEnabled { get; set; }
+
+    Action? ICell.AppearingAction { get; set; }
+
+    Action<object?, EventArgs>? ICell.AppearingActionWithArgs { get; set; }
+
+    Action? ICell.DisappearingAction { get; set; }
+
+    Action<object?, EventArgs>? ICell.DisappearingActionWithArgs { get; set; }
+
+    Action? ICell.TappedAction { get; set; }
+
+    Action<object?, EventArgs>? ICell.TappedActionWithArgs { get; set; }
+
+    internal override void Reset()
     {
-        public static T IsEnabled<T>(this T cell, bool isEnabled)
-            where T : ICell
+        base.Reset();
+        var thisAsICell = (ICell)this;
+        thisAsICell.IsEnabled = null;
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsICell = (ICell)this;
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Cell.IsEnabledProperty, thisAsICell.IsEnabled);
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+    partial void OnAttachingNativeEvents();
+    partial void OnDetachingNativeEvents();
+    protected override void OnAttachNativeEvents()
+    {
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsICell = (ICell)this;
+        if (thisAsICell.AppearingAction != null || thisAsICell.AppearingActionWithArgs != null)
         {
-            cell.IsEnabled = new PropertyValue<bool>(isEnabled);
-            return cell;
+            NativeControl.Appearing += NativeControl_Appearing;
         }
 
-        public static T IsEnabled<T>(this T cell, Func<bool> isEnabledFunc)
-            where T : ICell
+        if (thisAsICell.DisappearingAction != null || thisAsICell.DisappearingActionWithArgs != null)
         {
-            cell.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
-            return cell;
+            NativeControl.Disappearing += NativeControl_Disappearing;
         }
 
-        public static T OnAppearing<T>(this T cell, Action? appearingAction)
-            where T : ICell
+        if (thisAsICell.TappedAction != null || thisAsICell.TappedActionWithArgs != null)
         {
-            cell.AppearingAction = appearingAction;
-            return cell;
+            NativeControl.Tapped += NativeControl_Tapped;
         }
 
-        public static T OnAppearing<T>(this T cell, Action<object?, EventArgs>? appearingActionWithArgs)
-            where T : ICell
+        OnAttachingNativeEvents();
+        base.OnAttachNativeEvents();
+    }
+
+    private void NativeControl_Appearing(object? sender, EventArgs e)
+    {
+        var thisAsICell = (ICell)this;
+        thisAsICell.AppearingAction?.Invoke();
+        thisAsICell.AppearingActionWithArgs?.Invoke(sender, e);
+    }
+
+    private void NativeControl_Disappearing(object? sender, EventArgs e)
+    {
+        var thisAsICell = (ICell)this;
+        thisAsICell.DisappearingAction?.Invoke();
+        thisAsICell.DisappearingActionWithArgs?.Invoke(sender, e);
+    }
+
+    private void NativeControl_Tapped(object? sender, EventArgs e)
+    {
+        var thisAsICell = (ICell)this;
+        thisAsICell.TappedAction?.Invoke();
+        thisAsICell.TappedActionWithArgs?.Invoke(sender, e);
+    }
+
+    protected override void OnDetachNativeEvents()
+    {
+        if (NativeControl != null)
         {
-            cell.AppearingActionWithArgs = appearingActionWithArgs;
-            return cell;
+            NativeControl.Appearing -= NativeControl_Appearing;
+            NativeControl.Disappearing -= NativeControl_Disappearing;
+            NativeControl.Tapped -= NativeControl_Tapped;
         }
 
-        public static T OnDisappearing<T>(this T cell, Action? disappearingAction)
-            where T : ICell
-        {
-            cell.DisappearingAction = disappearingAction;
-            return cell;
-        }
+        OnDetachingNativeEvents();
+        base.OnDetachNativeEvents();
+    }
+}
 
-        public static T OnDisappearing<T>(this T cell, Action<object?, EventArgs>? disappearingActionWithArgs)
-            where T : ICell
-        {
-            cell.DisappearingActionWithArgs = disappearingActionWithArgs;
-            return cell;
-        }
+public static partial class CellExtensions
+{
+    public static T IsEnabled<T>(this T cell, bool isEnabled)
+        where T : ICell
+    {
+        cell.IsEnabled = new PropertyValue<bool>(isEnabled);
+        return cell;
+    }
 
-        public static T OnTapped<T>(this T cell, Action? tappedAction)
-            where T : ICell
-        {
-            cell.TappedAction = tappedAction;
-            return cell;
-        }
+    public static T IsEnabled<T>(this T cell, Func<bool> isEnabledFunc)
+        where T : ICell
+    {
+        cell.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
+        return cell;
+    }
 
-        public static T OnTapped<T>(this T cell, Action<object?, EventArgs>? tappedActionWithArgs)
-            where T : ICell
-        {
-            cell.TappedActionWithArgs = tappedActionWithArgs;
-            return cell;
-        }
+    public static T OnAppearing<T>(this T cell, Action? appearingAction)
+        where T : ICell
+    {
+        cell.AppearingAction = appearingAction;
+        return cell;
+    }
+
+    public static T OnAppearing<T>(this T cell, Action<object?, EventArgs>? appearingActionWithArgs)
+        where T : ICell
+    {
+        cell.AppearingActionWithArgs = appearingActionWithArgs;
+        return cell;
+    }
+
+    public static T OnDisappearing<T>(this T cell, Action? disappearingAction)
+        where T : ICell
+    {
+        cell.DisappearingAction = disappearingAction;
+        return cell;
+    }
+
+    public static T OnDisappearing<T>(this T cell, Action<object?, EventArgs>? disappearingActionWithArgs)
+        where T : ICell
+    {
+        cell.DisappearingActionWithArgs = disappearingActionWithArgs;
+        return cell;
+    }
+
+    public static T OnTapped<T>(this T cell, Action? tappedAction)
+        where T : ICell
+    {
+        cell.TappedAction = tappedAction;
+        return cell;
+    }
+
+    public static T OnTapped<T>(this T cell, Action<object?, EventArgs>? tappedActionWithArgs)
+        where T : ICell
+    {
+        cell.TappedActionWithArgs = tappedActionWithArgs;
+        return cell;
     }
 }

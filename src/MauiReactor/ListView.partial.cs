@@ -40,6 +40,11 @@ public partial interface IListView
 
 public abstract partial class ListView<T>
 {
+
+    private CustomDataTemplate? _customDataTemplate;
+
+    private CustomDataTemplate? _customGroupDataTemplate;
+
     IEnumerable? IListView.ItemsSource { get; set; }
 
     (Type, Func<object, ViewCell>)? IListView.ViewCellItemTemplate { get; set; }
@@ -444,10 +449,6 @@ public abstract partial class ListView<T>
         }
     }
 
-    private CustomDataTemplate? _customDataTemplate;
-
-    private CustomDataTemplate? _customGroupDataTemplate;
-
     private (Type, Func<object, VisualNode>)? GetItemTemplateFunc()
     {
         IListView itemsView = this;
@@ -475,6 +476,7 @@ public abstract partial class ListView<T>
 
         return null;
     }
+    
     private (Type, Func<object, VisualNode>)? GetGroupItemTemplateFunc()
     {
         IListView itemsView = this;
@@ -501,6 +503,27 @@ public abstract partial class ListView<T>
         }
 
         return null;
+    }
+
+    partial void OnReset()
+    {
+        _customDataTemplate = null;
+        _customGroupDataTemplate = null;
+
+        var thisAsIItemsView = (IListView)this;
+        thisAsIItemsView.ItemsSource = null;
+        thisAsIItemsView.ViewCellItemTemplate = null;
+        thisAsIItemsView.ViewCellGroupItemTemplate = null;
+        thisAsIItemsView.EntryCellItemTemplate = null;
+        thisAsIItemsView.EntryCellGroupItemTemplate = null;
+        thisAsIItemsView.TextCellItemTemplate = null;
+        thisAsIItemsView.TextCellGroupItemTemplate = null;
+        thisAsIItemsView.SwitchCellItemTemplate = null;
+        thisAsIItemsView.SwitchCellGroupItemTemplate = null;
+        thisAsIItemsView.ImageCellItemTemplate = null;
+        thisAsIItemsView.ImageCellGroupItemTemplate = null;
+        thisAsIItemsView.Header = null;
+        thisAsIItemsView.Footer = null;
     }
 
     partial void OnBeginUpdate()
@@ -826,4 +849,10 @@ public partial class ListView
 
         base.OnMount();
     }
+}
+
+
+public partial class Component
+{
+
 }

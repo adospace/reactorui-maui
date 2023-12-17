@@ -9,228 +9,233 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IPointerGestureRecognizer : IGestureRecognizer
 {
-    public partial interface IPointerGestureRecognizer : IGestureRecognizer
+    Action? PointerEnteredAction { get; set; }
+
+    Action<object?, PointerEventArgs>? PointerEnteredActionWithArgs { get; set; }
+
+    Action? PointerExitedAction { get; set; }
+
+    Action<object?, PointerEventArgs>? PointerExitedActionWithArgs { get; set; }
+
+    Action? PointerMovedAction { get; set; }
+
+    Action<object?, PointerEventArgs>? PointerMovedActionWithArgs { get; set; }
+
+    Action? PointerPressedAction { get; set; }
+
+    Action<object?, PointerEventArgs>? PointerPressedActionWithArgs { get; set; }
+
+    Action? PointerReleasedAction { get; set; }
+
+    Action<object?, PointerEventArgs>? PointerReleasedActionWithArgs { get; set; }
+}
+
+public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.PointerGestureRecognizer>, IPointerGestureRecognizer
+{
+    public PointerGestureRecognizer()
     {
-        Action? PointerEnteredAction { get; set; }
-
-        Action<object?, PointerEventArgs>? PointerEnteredActionWithArgs { get; set; }
-
-        Action? PointerExitedAction { get; set; }
-
-        Action<object?, PointerEventArgs>? PointerExitedActionWithArgs { get; set; }
-
-        Action? PointerMovedAction { get; set; }
-
-        Action<object?, PointerEventArgs>? PointerMovedActionWithArgs { get; set; }
-
-        Action? PointerPressedAction { get; set; }
-
-        Action<object?, PointerEventArgs>? PointerPressedActionWithArgs { get; set; }
-
-        Action? PointerReleasedAction { get; set; }
-
-        Action<object?, PointerEventArgs>? PointerReleasedActionWithArgs { get; set; }
     }
 
-    public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.PointerGestureRecognizer>, IPointerGestureRecognizer
+    public PointerGestureRecognizer(Action<Microsoft.Maui.Controls.PointerGestureRecognizer?> componentRefAction) : base(componentRefAction)
     {
-        public PointerGestureRecognizer()
-        {
-        }
-
-        public PointerGestureRecognizer(Action<Microsoft.Maui.Controls.PointerGestureRecognizer?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        Action? IPointerGestureRecognizer.PointerEnteredAction { get; set; }
-
-        Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerEnteredActionWithArgs { get; set; }
-
-        Action? IPointerGestureRecognizer.PointerExitedAction { get; set; }
-
-        Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerExitedActionWithArgs { get; set; }
-
-        Action? IPointerGestureRecognizer.PointerMovedAction { get; set; }
-
-        Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerMovedActionWithArgs { get; set; }
-
-        Action? IPointerGestureRecognizer.PointerPressedAction { get; set; }
-
-        Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerPressedActionWithArgs { get; set; }
-
-        Action? IPointerGestureRecognizer.PointerReleasedAction { get; set; }
-
-        Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerReleasedActionWithArgs { get; set; }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-        partial void OnAttachingNativeEvents();
-        partial void OnDetachingNativeEvents();
-        protected override void OnAttachNativeEvents()
-        {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
-            if (thisAsIPointerGestureRecognizer.PointerEnteredAction != null || thisAsIPointerGestureRecognizer.PointerEnteredActionWithArgs != null)
-            {
-                NativeControl.PointerEntered += NativeControl_PointerEntered;
-            }
-
-            if (thisAsIPointerGestureRecognizer.PointerExitedAction != null || thisAsIPointerGestureRecognizer.PointerExitedActionWithArgs != null)
-            {
-                NativeControl.PointerExited += NativeControl_PointerExited;
-            }
-
-            if (thisAsIPointerGestureRecognizer.PointerMovedAction != null || thisAsIPointerGestureRecognizer.PointerMovedActionWithArgs != null)
-            {
-                NativeControl.PointerMoved += NativeControl_PointerMoved;
-            }
-
-            if (thisAsIPointerGestureRecognizer.PointerPressedAction != null || thisAsIPointerGestureRecognizer.PointerPressedActionWithArgs != null)
-            {
-                NativeControl.PointerPressed += NativeControl_PointerPressed;
-            }
-
-            if (thisAsIPointerGestureRecognizer.PointerReleasedAction != null || thisAsIPointerGestureRecognizer.PointerReleasedActionWithArgs != null)
-            {
-                NativeControl.PointerReleased += NativeControl_PointerReleased;
-            }
-
-            OnAttachingNativeEvents();
-            base.OnAttachNativeEvents();
-        }
-
-        private void NativeControl_PointerEntered(object? sender, PointerEventArgs e)
-        {
-            var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
-            thisAsIPointerGestureRecognizer.PointerEnteredAction?.Invoke();
-            thisAsIPointerGestureRecognizer.PointerEnteredActionWithArgs?.Invoke(sender, e);
-        }
-
-        private void NativeControl_PointerExited(object? sender, PointerEventArgs e)
-        {
-            var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
-            thisAsIPointerGestureRecognizer.PointerExitedAction?.Invoke();
-            thisAsIPointerGestureRecognizer.PointerExitedActionWithArgs?.Invoke(sender, e);
-        }
-
-        private void NativeControl_PointerMoved(object? sender, PointerEventArgs e)
-        {
-            var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
-            thisAsIPointerGestureRecognizer.PointerMovedAction?.Invoke();
-            thisAsIPointerGestureRecognizer.PointerMovedActionWithArgs?.Invoke(sender, e);
-        }
-
-        private void NativeControl_PointerPressed(object? sender, PointerEventArgs e)
-        {
-            var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
-            thisAsIPointerGestureRecognizer.PointerPressedAction?.Invoke();
-            thisAsIPointerGestureRecognizer.PointerPressedActionWithArgs?.Invoke(sender, e);
-        }
-
-        private void NativeControl_PointerReleased(object? sender, PointerEventArgs e)
-        {
-            var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
-            thisAsIPointerGestureRecognizer.PointerReleasedAction?.Invoke();
-            thisAsIPointerGestureRecognizer.PointerReleasedActionWithArgs?.Invoke(sender, e);
-        }
-
-        protected override void OnDetachNativeEvents()
-        {
-            if (NativeControl != null)
-            {
-                NativeControl.PointerEntered -= NativeControl_PointerEntered;
-                NativeControl.PointerExited -= NativeControl_PointerExited;
-                NativeControl.PointerMoved -= NativeControl_PointerMoved;
-                NativeControl.PointerPressed -= NativeControl_PointerPressed;
-                NativeControl.PointerReleased -= NativeControl_PointerReleased;
-            }
-
-            OnDetachingNativeEvents();
-            base.OnDetachNativeEvents();
-        }
     }
 
-    public static partial class PointerGestureRecognizerExtensions
+    Action? IPointerGestureRecognizer.PointerEnteredAction { get; set; }
+
+    Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerEnteredActionWithArgs { get; set; }
+
+    Action? IPointerGestureRecognizer.PointerExitedAction { get; set; }
+
+    Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerExitedActionWithArgs { get; set; }
+
+    Action? IPointerGestureRecognizer.PointerMovedAction { get; set; }
+
+    Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerMovedActionWithArgs { get; set; }
+
+    Action? IPointerGestureRecognizer.PointerPressedAction { get; set; }
+
+    Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerPressedActionWithArgs { get; set; }
+
+    Action? IPointerGestureRecognizer.PointerReleasedAction { get; set; }
+
+    Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerReleasedActionWithArgs { get; set; }
+
+    internal override void Reset()
     {
-        public static T OnPointerEntered<T>(this T pointerGestureRecognizer, Action? pointerEnteredAction)
-            where T : IPointerGestureRecognizer
+        base.Reset();
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+    partial void OnAttachingNativeEvents();
+    partial void OnDetachingNativeEvents();
+    protected override void OnAttachNativeEvents()
+    {
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
+        if (thisAsIPointerGestureRecognizer.PointerEnteredAction != null || thisAsIPointerGestureRecognizer.PointerEnteredActionWithArgs != null)
         {
-            pointerGestureRecognizer.PointerEnteredAction = pointerEnteredAction;
-            return pointerGestureRecognizer;
+            NativeControl.PointerEntered += NativeControl_PointerEntered;
         }
 
-        public static T OnPointerEntered<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerEnteredActionWithArgs)
-            where T : IPointerGestureRecognizer
+        if (thisAsIPointerGestureRecognizer.PointerExitedAction != null || thisAsIPointerGestureRecognizer.PointerExitedActionWithArgs != null)
         {
-            pointerGestureRecognizer.PointerEnteredActionWithArgs = pointerEnteredActionWithArgs;
-            return pointerGestureRecognizer;
+            NativeControl.PointerExited += NativeControl_PointerExited;
         }
 
-        public static T OnPointerExited<T>(this T pointerGestureRecognizer, Action? pointerExitedAction)
-            where T : IPointerGestureRecognizer
+        if (thisAsIPointerGestureRecognizer.PointerMovedAction != null || thisAsIPointerGestureRecognizer.PointerMovedActionWithArgs != null)
         {
-            pointerGestureRecognizer.PointerExitedAction = pointerExitedAction;
-            return pointerGestureRecognizer;
+            NativeControl.PointerMoved += NativeControl_PointerMoved;
         }
 
-        public static T OnPointerExited<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerExitedActionWithArgs)
-            where T : IPointerGestureRecognizer
+        if (thisAsIPointerGestureRecognizer.PointerPressedAction != null || thisAsIPointerGestureRecognizer.PointerPressedActionWithArgs != null)
         {
-            pointerGestureRecognizer.PointerExitedActionWithArgs = pointerExitedActionWithArgs;
-            return pointerGestureRecognizer;
+            NativeControl.PointerPressed += NativeControl_PointerPressed;
         }
 
-        public static T OnPointerMoved<T>(this T pointerGestureRecognizer, Action? pointerMovedAction)
-            where T : IPointerGestureRecognizer
+        if (thisAsIPointerGestureRecognizer.PointerReleasedAction != null || thisAsIPointerGestureRecognizer.PointerReleasedActionWithArgs != null)
         {
-            pointerGestureRecognizer.PointerMovedAction = pointerMovedAction;
-            return pointerGestureRecognizer;
+            NativeControl.PointerReleased += NativeControl_PointerReleased;
         }
 
-        public static T OnPointerMoved<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerMovedActionWithArgs)
-            where T : IPointerGestureRecognizer
+        OnAttachingNativeEvents();
+        base.OnAttachNativeEvents();
+    }
+
+    private void NativeControl_PointerEntered(object? sender, PointerEventArgs e)
+    {
+        var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
+        thisAsIPointerGestureRecognizer.PointerEnteredAction?.Invoke();
+        thisAsIPointerGestureRecognizer.PointerEnteredActionWithArgs?.Invoke(sender, e);
+    }
+
+    private void NativeControl_PointerExited(object? sender, PointerEventArgs e)
+    {
+        var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
+        thisAsIPointerGestureRecognizer.PointerExitedAction?.Invoke();
+        thisAsIPointerGestureRecognizer.PointerExitedActionWithArgs?.Invoke(sender, e);
+    }
+
+    private void NativeControl_PointerMoved(object? sender, PointerEventArgs e)
+    {
+        var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
+        thisAsIPointerGestureRecognizer.PointerMovedAction?.Invoke();
+        thisAsIPointerGestureRecognizer.PointerMovedActionWithArgs?.Invoke(sender, e);
+    }
+
+    private void NativeControl_PointerPressed(object? sender, PointerEventArgs e)
+    {
+        var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
+        thisAsIPointerGestureRecognizer.PointerPressedAction?.Invoke();
+        thisAsIPointerGestureRecognizer.PointerPressedActionWithArgs?.Invoke(sender, e);
+    }
+
+    private void NativeControl_PointerReleased(object? sender, PointerEventArgs e)
+    {
+        var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
+        thisAsIPointerGestureRecognizer.PointerReleasedAction?.Invoke();
+        thisAsIPointerGestureRecognizer.PointerReleasedActionWithArgs?.Invoke(sender, e);
+    }
+
+    protected override void OnDetachNativeEvents()
+    {
+        if (NativeControl != null)
         {
-            pointerGestureRecognizer.PointerMovedActionWithArgs = pointerMovedActionWithArgs;
-            return pointerGestureRecognizer;
+            NativeControl.PointerEntered -= NativeControl_PointerEntered;
+            NativeControl.PointerExited -= NativeControl_PointerExited;
+            NativeControl.PointerMoved -= NativeControl_PointerMoved;
+            NativeControl.PointerPressed -= NativeControl_PointerPressed;
+            NativeControl.PointerReleased -= NativeControl_PointerReleased;
         }
 
-        public static T OnPointerPressed<T>(this T pointerGestureRecognizer, Action? pointerPressedAction)
-            where T : IPointerGestureRecognizer
-        {
-            pointerGestureRecognizer.PointerPressedAction = pointerPressedAction;
-            return pointerGestureRecognizer;
-        }
+        OnDetachingNativeEvents();
+        base.OnDetachNativeEvents();
+    }
+}
 
-        public static T OnPointerPressed<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerPressedActionWithArgs)
-            where T : IPointerGestureRecognizer
-        {
-            pointerGestureRecognizer.PointerPressedActionWithArgs = pointerPressedActionWithArgs;
-            return pointerGestureRecognizer;
-        }
+public static partial class PointerGestureRecognizerExtensions
+{
+    public static T OnPointerEntered<T>(this T pointerGestureRecognizer, Action? pointerEnteredAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerEnteredAction = pointerEnteredAction;
+        return pointerGestureRecognizer;
+    }
 
-        public static T OnPointerReleased<T>(this T pointerGestureRecognizer, Action? pointerReleasedAction)
-            where T : IPointerGestureRecognizer
-        {
-            pointerGestureRecognizer.PointerReleasedAction = pointerReleasedAction;
-            return pointerGestureRecognizer;
-        }
+    public static T OnPointerEntered<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerEnteredActionWithArgs)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerEnteredActionWithArgs = pointerEnteredActionWithArgs;
+        return pointerGestureRecognizer;
+    }
 
-        public static T OnPointerReleased<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerReleasedActionWithArgs)
-            where T : IPointerGestureRecognizer
-        {
-            pointerGestureRecognizer.PointerReleasedActionWithArgs = pointerReleasedActionWithArgs;
-            return pointerGestureRecognizer;
-        }
+    public static T OnPointerExited<T>(this T pointerGestureRecognizer, Action? pointerExitedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerExitedAction = pointerExitedAction;
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerExited<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerExitedActionWithArgs)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerExitedActionWithArgs = pointerExitedActionWithArgs;
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerMoved<T>(this T pointerGestureRecognizer, Action? pointerMovedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerMovedAction = pointerMovedAction;
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerMoved<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerMovedActionWithArgs)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerMovedActionWithArgs = pointerMovedActionWithArgs;
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerPressed<T>(this T pointerGestureRecognizer, Action? pointerPressedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerPressedAction = pointerPressedAction;
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerPressed<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerPressedActionWithArgs)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerPressedActionWithArgs = pointerPressedActionWithArgs;
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerReleased<T>(this T pointerGestureRecognizer, Action? pointerReleasedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerReleasedAction = pointerReleasedAction;
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerReleased<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerReleasedActionWithArgs)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerReleasedActionWithArgs = pointerReleasedActionWithArgs;
+        return pointerGestureRecognizer;
     }
 }

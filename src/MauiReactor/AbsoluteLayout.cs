@@ -9,47 +9,52 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IAbsoluteLayout : ILayout
 {
-    public partial interface IAbsoluteLayout : ILayout
+}
+
+public partial class AbsoluteLayout<T> : Layout<T>, IAbsoluteLayout where T : Microsoft.Maui.Controls.AbsoluteLayout, new()
+{
+    public AbsoluteLayout()
     {
     }
 
-    public partial class AbsoluteLayout<T> : Layout<T>, IAbsoluteLayout where T : Microsoft.Maui.Controls.AbsoluteLayout, new()
-    {
-        public AbsoluteLayout()
-        {
-        }
-
-        public AbsoluteLayout(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public partial class AbsoluteLayout : AbsoluteLayout<Microsoft.Maui.Controls.AbsoluteLayout>
-    {
-        public AbsoluteLayout()
-        {
-        }
-
-        public AbsoluteLayout(Action<Microsoft.Maui.Controls.AbsoluteLayout?> componentRefAction) : base(componentRefAction)
-        {
-        }
-    }
-
-    public static partial class AbsoluteLayoutExtensions
+    public AbsoluteLayout(Action<T?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public partial class AbsoluteLayout : AbsoluteLayout<Microsoft.Maui.Controls.AbsoluteLayout>
+{
+    public AbsoluteLayout()
+    {
+    }
+
+    public AbsoluteLayout(Action<Microsoft.Maui.Controls.AbsoluteLayout?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
+
+public static partial class AbsoluteLayoutExtensions
+{
 }

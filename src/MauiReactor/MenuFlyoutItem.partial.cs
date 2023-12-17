@@ -4,13 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MauiReactor
+namespace MauiReactor;
+
+public partial class MenuFlyoutItem
 {
-    public partial class MenuFlyoutItem
+    public MenuFlyoutItem(string text)
     {
-        public MenuFlyoutItem(string text)
-        {
-            this.Text(text);
-        }
+        this.Text(text);
     }
+}
+
+public partial class Component
+{
+    public MenuFlyoutItem MenuFlyoutItem(string text) =>
+        GetNodeFromPool<MenuFlyoutItem>().Text(text);
+
 }

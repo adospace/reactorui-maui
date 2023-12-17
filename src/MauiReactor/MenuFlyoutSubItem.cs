@@ -9,47 +9,52 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IMenuFlyoutSubItem : IMenuFlyoutItem
 {
-    public partial interface IMenuFlyoutSubItem : IMenuFlyoutItem
+}
+
+public partial class MenuFlyoutSubItem<T> : MenuFlyoutItem<T>, IMenuFlyoutSubItem where T : Microsoft.Maui.Controls.MenuFlyoutSubItem, new()
+{
+    public MenuFlyoutSubItem()
     {
     }
 
-    public partial class MenuFlyoutSubItem<T> : MenuFlyoutItem<T>, IMenuFlyoutSubItem where T : Microsoft.Maui.Controls.MenuFlyoutSubItem, new()
-    {
-        public MenuFlyoutSubItem()
-        {
-        }
-
-        public MenuFlyoutSubItem(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public partial class MenuFlyoutSubItem : MenuFlyoutSubItem<Microsoft.Maui.Controls.MenuFlyoutSubItem>
-    {
-        public MenuFlyoutSubItem()
-        {
-        }
-
-        public MenuFlyoutSubItem(Action<Microsoft.Maui.Controls.MenuFlyoutSubItem?> componentRefAction) : base(componentRefAction)
-        {
-        }
-    }
-
-    public static partial class MenuFlyoutSubItemExtensions
+    public MenuFlyoutSubItem(Action<T?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public partial class MenuFlyoutSubItem : MenuFlyoutSubItem<Microsoft.Maui.Controls.MenuFlyoutSubItem>
+{
+    public MenuFlyoutSubItem()
+    {
+    }
+
+    public MenuFlyoutSubItem(Action<Microsoft.Maui.Controls.MenuFlyoutSubItem?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
+
+public static partial class MenuFlyoutSubItemExtensions
+{
 }

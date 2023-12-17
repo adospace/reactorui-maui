@@ -9,158 +9,167 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IEditor : IInputView
 {
-    public partial interface IEditor : IInputView
+    PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>? AutoSize { get; set; }
+
+    PropertyValue<Microsoft.Maui.TextAlignment>? HorizontalTextAlignment { get; set; }
+
+    PropertyValue<Microsoft.Maui.TextAlignment>? VerticalTextAlignment { get; set; }
+
+    Action? CompletedAction { get; set; }
+
+    Action<object?, EventArgs>? CompletedActionWithArgs { get; set; }
+}
+
+public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.Controls.Editor, new()
+{
+    public Editor()
     {
-        PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>? AutoSize { get; set; }
-
-        PropertyValue<Microsoft.Maui.TextAlignment>? HorizontalTextAlignment { get; set; }
-
-        PropertyValue<Microsoft.Maui.TextAlignment>? VerticalTextAlignment { get; set; }
-
-        Action? CompletedAction { get; set; }
-
-        Action<object?, EventArgs>? CompletedActionWithArgs { get; set; }
     }
 
-    public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.Controls.Editor, new()
+    public Editor(Action<T?> componentRefAction) : base(componentRefAction)
     {
-        public Editor()
-        {
-        }
-
-        public Editor(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>? IEditor.AutoSize { get; set; }
-
-        PropertyValue<Microsoft.Maui.TextAlignment>? IEditor.HorizontalTextAlignment { get; set; }
-
-        PropertyValue<Microsoft.Maui.TextAlignment>? IEditor.VerticalTextAlignment { get; set; }
-
-        Action? IEditor.CompletedAction { get; set; }
-
-        Action<object?, EventArgs>? IEditor.CompletedActionWithArgs { get; set; }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIEditor = (IEditor)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.AutoSizeProperty, thisAsIEditor.AutoSize);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.HorizontalTextAlignmentProperty, thisAsIEditor.HorizontalTextAlignment);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.VerticalTextAlignmentProperty, thisAsIEditor.VerticalTextAlignment);
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-        partial void OnAttachingNativeEvents();
-        partial void OnDetachingNativeEvents();
-        protected override void OnAttachNativeEvents()
-        {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIEditor = (IEditor)this;
-            if (thisAsIEditor.CompletedAction != null || thisAsIEditor.CompletedActionWithArgs != null)
-            {
-                NativeControl.Completed += NativeControl_Completed;
-            }
-
-            OnAttachingNativeEvents();
-            base.OnAttachNativeEvents();
-        }
-
-        private void NativeControl_Completed(object? sender, EventArgs e)
-        {
-            var thisAsIEditor = (IEditor)this;
-            thisAsIEditor.CompletedAction?.Invoke();
-            thisAsIEditor.CompletedActionWithArgs?.Invoke(sender, e);
-        }
-
-        protected override void OnDetachNativeEvents()
-        {
-            if (NativeControl != null)
-            {
-                NativeControl.Completed -= NativeControl_Completed;
-            }
-
-            OnDetachingNativeEvents();
-            base.OnDetachNativeEvents();
-        }
     }
 
-    public partial class Editor : Editor<Microsoft.Maui.Controls.Editor>
-    {
-        public Editor()
-        {
-        }
+    PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>? IEditor.AutoSize { get; set; }
 
-        public Editor(Action<Microsoft.Maui.Controls.Editor?> componentRefAction) : base(componentRefAction)
-        {
-        }
+    PropertyValue<Microsoft.Maui.TextAlignment>? IEditor.HorizontalTextAlignment { get; set; }
+
+    PropertyValue<Microsoft.Maui.TextAlignment>? IEditor.VerticalTextAlignment { get; set; }
+
+    Action? IEditor.CompletedAction { get; set; }
+
+    Action<object?, EventArgs>? IEditor.CompletedActionWithArgs { get; set; }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsIEditor = (IEditor)this;
+        thisAsIEditor.AutoSize = null;
+        thisAsIEditor.HorizontalTextAlignment = null;
+        thisAsIEditor.VerticalTextAlignment = null;
+        OnReset();
     }
 
-    public static partial class EditorExtensions
+    partial void OnReset();
+    protected override void OnUpdate()
     {
-        public static T AutoSize<T>(this T editor, Microsoft.Maui.Controls.EditorAutoSizeOption autoSize)
-            where T : IEditor
+        OnBeginUpdate();
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsIEditor = (IEditor)this;
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.AutoSizeProperty, thisAsIEditor.AutoSize);
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.HorizontalTextAlignmentProperty, thisAsIEditor.HorizontalTextAlignment);
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.VerticalTextAlignmentProperty, thisAsIEditor.VerticalTextAlignment);
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+    partial void OnAttachingNativeEvents();
+    partial void OnDetachingNativeEvents();
+    protected override void OnAttachNativeEvents()
+    {
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsIEditor = (IEditor)this;
+        if (thisAsIEditor.CompletedAction != null || thisAsIEditor.CompletedActionWithArgs != null)
         {
-            editor.AutoSize = new PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>(autoSize);
-            return editor;
+            NativeControl.Completed += NativeControl_Completed;
         }
 
-        public static T AutoSize<T>(this T editor, Func<Microsoft.Maui.Controls.EditorAutoSizeOption> autoSizeFunc)
-            where T : IEditor
+        OnAttachingNativeEvents();
+        base.OnAttachNativeEvents();
+    }
+
+    private void NativeControl_Completed(object? sender, EventArgs e)
+    {
+        var thisAsIEditor = (IEditor)this;
+        thisAsIEditor.CompletedAction?.Invoke();
+        thisAsIEditor.CompletedActionWithArgs?.Invoke(sender, e);
+    }
+
+    protected override void OnDetachNativeEvents()
+    {
+        if (NativeControl != null)
         {
-            editor.AutoSize = new PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>(autoSizeFunc);
-            return editor;
+            NativeControl.Completed -= NativeControl_Completed;
         }
 
-        public static T HorizontalTextAlignment<T>(this T editor, Microsoft.Maui.TextAlignment horizontalTextAlignment)
-            where T : IEditor
-        {
-            editor.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignment);
-            return editor;
-        }
+        OnDetachingNativeEvents();
+        base.OnDetachNativeEvents();
+    }
+}
 
-        public static T HorizontalTextAlignment<T>(this T editor, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc)
-            where T : IEditor
-        {
-            editor.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
-            return editor;
-        }
+public partial class Editor : Editor<Microsoft.Maui.Controls.Editor>
+{
+    public Editor()
+    {
+    }
 
-        public static T VerticalTextAlignment<T>(this T editor, Microsoft.Maui.TextAlignment verticalTextAlignment)
-            where T : IEditor
-        {
-            editor.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignment);
-            return editor;
-        }
+    public Editor(Action<Microsoft.Maui.Controls.Editor?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
 
-        public static T VerticalTextAlignment<T>(this T editor, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc)
-            where T : IEditor
-        {
-            editor.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
-            return editor;
-        }
+public static partial class EditorExtensions
+{
+    public static T AutoSize<T>(this T editor, Microsoft.Maui.Controls.EditorAutoSizeOption autoSize)
+        where T : IEditor
+    {
+        editor.AutoSize = new PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>(autoSize);
+        return editor;
+    }
 
-        public static T OnCompleted<T>(this T editor, Action? completedAction)
-            where T : IEditor
-        {
-            editor.CompletedAction = completedAction;
-            return editor;
-        }
+    public static T AutoSize<T>(this T editor, Func<Microsoft.Maui.Controls.EditorAutoSizeOption> autoSizeFunc)
+        where T : IEditor
+    {
+        editor.AutoSize = new PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>(autoSizeFunc);
+        return editor;
+    }
 
-        public static T OnCompleted<T>(this T editor, Action<object?, EventArgs>? completedActionWithArgs)
-            where T : IEditor
-        {
-            editor.CompletedActionWithArgs = completedActionWithArgs;
-            return editor;
-        }
+    public static T HorizontalTextAlignment<T>(this T editor, Microsoft.Maui.TextAlignment horizontalTextAlignment)
+        where T : IEditor
+    {
+        editor.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignment);
+        return editor;
+    }
+
+    public static T HorizontalTextAlignment<T>(this T editor, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc)
+        where T : IEditor
+    {
+        editor.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
+        return editor;
+    }
+
+    public static T VerticalTextAlignment<T>(this T editor, Microsoft.Maui.TextAlignment verticalTextAlignment)
+        where T : IEditor
+    {
+        editor.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignment);
+        return editor;
+    }
+
+    public static T VerticalTextAlignment<T>(this T editor, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc)
+        where T : IEditor
+    {
+        editor.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
+        return editor;
+    }
+
+    public static T OnCompleted<T>(this T editor, Action? completedAction)
+        where T : IEditor
+    {
+        editor.CompletedAction = completedAction;
+        return editor;
+    }
+
+    public static T OnCompleted<T>(this T editor, Action<object?, EventArgs>? completedActionWithArgs)
+        where T : IEditor
+    {
+        editor.CompletedActionWithArgs = completedActionWithArgs;
+        return editor;
     }
 }

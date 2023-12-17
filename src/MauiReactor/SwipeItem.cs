@@ -9,139 +9,147 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface ISwipeItem : IMenuItem
 {
-    public partial interface ISwipeItem : IMenuItem
+    PropertyValue<Microsoft.Maui.Graphics.Color>? BackgroundColor { get; set; }
+
+    PropertyValue<bool>? IsVisible { get; set; }
+
+    Action? InvokedAction { get; set; }
+
+    Action<object?, EventArgs>? InvokedActionWithArgs { get; set; }
+}
+
+public partial class SwipeItem<T> : MenuItem<T>, ISwipeItem where T : Microsoft.Maui.Controls.SwipeItem, new()
+{
+    public SwipeItem()
     {
-        PropertyValue<Microsoft.Maui.Graphics.Color>? BackgroundColor { get; set; }
-
-        PropertyValue<bool>? IsVisible { get; set; }
-
-        Action? InvokedAction { get; set; }
-
-        Action<object?, EventArgs>? InvokedActionWithArgs { get; set; }
     }
 
-    public partial class SwipeItem<T> : MenuItem<T>, ISwipeItem where T : Microsoft.Maui.Controls.SwipeItem, new()
+    public SwipeItem(Action<T?> componentRefAction) : base(componentRefAction)
     {
-        public SwipeItem()
-        {
-        }
-
-        public SwipeItem(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        PropertyValue<Microsoft.Maui.Graphics.Color>? ISwipeItem.BackgroundColor { get; set; }
-
-        PropertyValue<bool>? ISwipeItem.IsVisible { get; set; }
-
-        Action? ISwipeItem.InvokedAction { get; set; }
-
-        Action<object?, EventArgs>? ISwipeItem.InvokedActionWithArgs { get; set; }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsISwipeItem = (ISwipeItem)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeItem.BackgroundColorProperty, thisAsISwipeItem.BackgroundColor);
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeItem.IsVisibleProperty, thisAsISwipeItem.IsVisible);
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-        partial void OnAttachingNativeEvents();
-        partial void OnDetachingNativeEvents();
-        protected override void OnAttachNativeEvents()
-        {
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsISwipeItem = (ISwipeItem)this;
-            if (thisAsISwipeItem.InvokedAction != null || thisAsISwipeItem.InvokedActionWithArgs != null)
-            {
-                NativeControl.Invoked += NativeControl_Invoked;
-            }
-
-            OnAttachingNativeEvents();
-            base.OnAttachNativeEvents();
-        }
-
-        private void NativeControl_Invoked(object? sender, EventArgs e)
-        {
-            var thisAsISwipeItem = (ISwipeItem)this;
-            thisAsISwipeItem.InvokedAction?.Invoke();
-            thisAsISwipeItem.InvokedActionWithArgs?.Invoke(sender, e);
-        }
-
-        protected override void OnDetachNativeEvents()
-        {
-            if (NativeControl != null)
-            {
-                NativeControl.Invoked -= NativeControl_Invoked;
-            }
-
-            OnDetachingNativeEvents();
-            base.OnDetachNativeEvents();
-        }
     }
 
-    public partial class SwipeItem : SwipeItem<Microsoft.Maui.Controls.SwipeItem>
-    {
-        public SwipeItem()
-        {
-        }
+    PropertyValue<Microsoft.Maui.Graphics.Color>? ISwipeItem.BackgroundColor { get; set; }
 
-        public SwipeItem(Action<Microsoft.Maui.Controls.SwipeItem?> componentRefAction) : base(componentRefAction)
-        {
-        }
+    PropertyValue<bool>? ISwipeItem.IsVisible { get; set; }
+
+    Action? ISwipeItem.InvokedAction { get; set; }
+
+    Action<object?, EventArgs>? ISwipeItem.InvokedActionWithArgs { get; set; }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsISwipeItem = (ISwipeItem)this;
+        thisAsISwipeItem.BackgroundColor = null;
+        thisAsISwipeItem.IsVisible = null;
+        OnReset();
     }
 
-    public static partial class SwipeItemExtensions
+    partial void OnReset();
+    protected override void OnUpdate()
     {
-        public static T BackgroundColor<T>(this T swipeItem, Microsoft.Maui.Graphics.Color backgroundColor)
-            where T : ISwipeItem
+        OnBeginUpdate();
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsISwipeItem = (ISwipeItem)this;
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeItem.BackgroundColorProperty, thisAsISwipeItem.BackgroundColor);
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeItem.IsVisibleProperty, thisAsISwipeItem.IsVisible);
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+    partial void OnAttachingNativeEvents();
+    partial void OnDetachingNativeEvents();
+    protected override void OnAttachNativeEvents()
+    {
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsISwipeItem = (ISwipeItem)this;
+        if (thisAsISwipeItem.InvokedAction != null || thisAsISwipeItem.InvokedActionWithArgs != null)
         {
-            swipeItem.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColor);
-            return swipeItem;
+            NativeControl.Invoked += NativeControl_Invoked;
         }
 
-        public static T BackgroundColor<T>(this T swipeItem, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc)
-            where T : ISwipeItem
+        OnAttachingNativeEvents();
+        base.OnAttachNativeEvents();
+    }
+
+    private void NativeControl_Invoked(object? sender, EventArgs e)
+    {
+        var thisAsISwipeItem = (ISwipeItem)this;
+        thisAsISwipeItem.InvokedAction?.Invoke();
+        thisAsISwipeItem.InvokedActionWithArgs?.Invoke(sender, e);
+    }
+
+    protected override void OnDetachNativeEvents()
+    {
+        if (NativeControl != null)
         {
-            swipeItem.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc);
-            return swipeItem;
+            NativeControl.Invoked -= NativeControl_Invoked;
         }
 
-        public static T IsVisible<T>(this T swipeItem, bool isVisible)
-            where T : ISwipeItem
-        {
-            swipeItem.IsVisible = new PropertyValue<bool>(isVisible);
-            return swipeItem;
-        }
+        OnDetachingNativeEvents();
+        base.OnDetachNativeEvents();
+    }
+}
 
-        public static T IsVisible<T>(this T swipeItem, Func<bool> isVisibleFunc)
-            where T : ISwipeItem
-        {
-            swipeItem.IsVisible = new PropertyValue<bool>(isVisibleFunc);
-            return swipeItem;
-        }
+public partial class SwipeItem : SwipeItem<Microsoft.Maui.Controls.SwipeItem>
+{
+    public SwipeItem()
+    {
+    }
 
-        public static T OnInvoked<T>(this T swipeItem, Action? invokedAction)
-            where T : ISwipeItem
-        {
-            swipeItem.InvokedAction = invokedAction;
-            return swipeItem;
-        }
+    public SwipeItem(Action<Microsoft.Maui.Controls.SwipeItem?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
 
-        public static T OnInvoked<T>(this T swipeItem, Action<object?, EventArgs>? invokedActionWithArgs)
-            where T : ISwipeItem
-        {
-            swipeItem.InvokedActionWithArgs = invokedActionWithArgs;
-            return swipeItem;
-        }
+public static partial class SwipeItemExtensions
+{
+    public static T BackgroundColor<T>(this T swipeItem, Microsoft.Maui.Graphics.Color backgroundColor)
+        where T : ISwipeItem
+    {
+        swipeItem.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColor);
+        return swipeItem;
+    }
+
+    public static T BackgroundColor<T>(this T swipeItem, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc)
+        where T : ISwipeItem
+    {
+        swipeItem.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc);
+        return swipeItem;
+    }
+
+    public static T IsVisible<T>(this T swipeItem, bool isVisible)
+        where T : ISwipeItem
+    {
+        swipeItem.IsVisible = new PropertyValue<bool>(isVisible);
+        return swipeItem;
+    }
+
+    public static T IsVisible<T>(this T swipeItem, Func<bool> isVisibleFunc)
+        where T : ISwipeItem
+    {
+        swipeItem.IsVisible = new PropertyValue<bool>(isVisibleFunc);
+        return swipeItem;
+    }
+
+    public static T OnInvoked<T>(this T swipeItem, Action? invokedAction)
+        where T : ISwipeItem
+    {
+        swipeItem.InvokedAction = invokedAction;
+        return swipeItem;
+    }
+
+    public static T OnInvoked<T>(this T swipeItem, Action<object?, EventArgs>? invokedActionWithArgs)
+        where T : ISwipeItem
+    {
+        swipeItem.InvokedActionWithArgs = invokedActionWithArgs;
+        return swipeItem;
     }
 }

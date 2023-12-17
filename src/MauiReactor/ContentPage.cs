@@ -9,66 +9,73 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IContentPage : ITemplatedPage
 {
-    public partial interface IContentPage : ITemplatedPage
+    PropertyValue<bool>? HideSoftInputOnTapped { get; set; }
+}
+
+public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : Microsoft.Maui.Controls.ContentPage, new()
+{
+    public ContentPage()
     {
-        PropertyValue<bool>? HideSoftInputOnTapped { get; set; }
     }
 
-    public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : Microsoft.Maui.Controls.ContentPage, new()
+    public ContentPage(Action<T?> componentRefAction) : base(componentRefAction)
     {
-        public ContentPage()
-        {
-        }
-
-        public ContentPage(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        PropertyValue<bool>? IContentPage.HideSoftInputOnTapped { get; set; }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsIContentPage = (IContentPage)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ContentPage.HideSoftInputOnTappedProperty, thisAsIContentPage.HideSoftInputOnTapped);
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
     }
 
-    public partial class ContentPage : ContentPage<Microsoft.Maui.Controls.ContentPage>
-    {
-        public ContentPage()
-        {
-        }
+    PropertyValue<bool>? IContentPage.HideSoftInputOnTapped { get; set; }
 
-        public ContentPage(Action<Microsoft.Maui.Controls.ContentPage?> componentRefAction) : base(componentRefAction)
-        {
-        }
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsIContentPage = (IContentPage)this;
+        thisAsIContentPage.HideSoftInputOnTapped = null;
+        OnReset();
     }
 
-    public static partial class ContentPageExtensions
+    partial void OnReset();
+    protected override void OnUpdate()
     {
-        public static T HideSoftInputOnTapped<T>(this T contentPage, bool hideSoftInputOnTapped)
-            where T : IContentPage
-        {
-            contentPage.HideSoftInputOnTapped = new PropertyValue<bool>(hideSoftInputOnTapped);
-            return contentPage;
-        }
+        OnBeginUpdate();
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsIContentPage = (IContentPage)this;
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ContentPage.HideSoftInputOnTappedProperty, thisAsIContentPage.HideSoftInputOnTapped);
+        base.OnUpdate();
+        OnEndUpdate();
+    }
 
-        public static T HideSoftInputOnTapped<T>(this T contentPage, Func<bool> hideSoftInputOnTappedFunc)
-            where T : IContentPage
-        {
-            contentPage.HideSoftInputOnTapped = new PropertyValue<bool>(hideSoftInputOnTappedFunc);
-            return contentPage;
-        }
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public partial class ContentPage : ContentPage<Microsoft.Maui.Controls.ContentPage>
+{
+    public ContentPage()
+    {
+    }
+
+    public ContentPage(Action<Microsoft.Maui.Controls.ContentPage?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
+
+public static partial class ContentPageExtensions
+{
+    public static T HideSoftInputOnTapped<T>(this T contentPage, bool hideSoftInputOnTapped)
+        where T : IContentPage
+    {
+        contentPage.HideSoftInputOnTapped = new PropertyValue<bool>(hideSoftInputOnTapped);
+        return contentPage;
+    }
+
+    public static T HideSoftInputOnTapped<T>(this T contentPage, Func<bool> hideSoftInputOnTappedFunc)
+        where T : IContentPage
+    {
+        contentPage.HideSoftInputOnTapped = new PropertyValue<bool>(hideSoftInputOnTappedFunc);
+        return contentPage;
     }
 }

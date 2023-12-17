@@ -9,47 +9,52 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IGestureRecognizer : IElement
 {
-    public partial interface IGestureRecognizer : IElement
+}
+
+public partial class GestureRecognizer<T> : Element<T>, IGestureRecognizer where T : Microsoft.Maui.Controls.GestureRecognizer, new()
+{
+    public GestureRecognizer()
     {
     }
 
-    public partial class GestureRecognizer<T> : Element<T>, IGestureRecognizer where T : Microsoft.Maui.Controls.GestureRecognizer, new()
-    {
-        public GestureRecognizer()
-        {
-        }
-
-        public GestureRecognizer(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public partial class GestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.GestureRecognizer>
-    {
-        public GestureRecognizer()
-        {
-        }
-
-        public GestureRecognizer(Action<Microsoft.Maui.Controls.GestureRecognizer?> componentRefAction) : base(componentRefAction)
-        {
-        }
-    }
-
-    public static partial class GestureRecognizerExtensions
+    public GestureRecognizer(Action<T?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public partial class GestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.GestureRecognizer>
+{
+    public GestureRecognizer()
+    {
+    }
+
+    public GestureRecognizer(Action<Microsoft.Maui.Controls.GestureRecognizer?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
+
+public static partial class GestureRecognizerExtensions
+{
 }

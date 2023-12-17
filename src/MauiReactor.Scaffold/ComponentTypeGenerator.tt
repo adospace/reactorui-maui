@@ -1,0 +1,48 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Reflection;
+
+using MauiReactor.Animations;
+using MauiReactor.Shapes;
+using MauiReactor.Internals;
+
+#nullable enable
+
+namespace MauiReactor;
+
+
+public partial class Component
+{
+    <# foreach (var type in _typesScaffolded) { #>
+    <# var typeName = type.FullName.Replace("Microsoft.Maui.Controls.", string.Empty); #>
+
+    public <#= typeName #> <#= type.Name #>()
+        => GetNodeFromPool<<#= typeName #>>();
+
+    <# if (typeof(Element).IsAssignableFrom(type)) { #>
+    public <#= typeName #> <#= type.Name #>(IEnumerable<VisualNode> children)
+    {
+        var @<#= type.Name.ToLower() #> = GetNodeFromPool<<#= typeName #>>();
+        @<#= type.Name.ToLower() #>.AddChildren(children);
+        return @<#= type.Name.ToLower() #>;
+    }
+    <# } #>
+
+    public <#= typeName #> <#= type.Name #>(Action<<#= type.FullName #>?> componentRefAction)
+    {
+        var @<#= type.Name.ToLower() #> = GetNodeFromPool<<#= typeName #>>();
+        @<#= type.Name.ToLower() #>.ComponentRefAction = componentRefAction;
+        return @<#= type.Name.ToLower() #>;
+    }
+
+    <# } #>
+}
+
+

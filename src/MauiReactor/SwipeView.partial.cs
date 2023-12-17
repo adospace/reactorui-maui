@@ -23,6 +23,15 @@ public partial class SwipeView<T>
     SwipeItems? ISwipeView.TopItems { get; set; }
     SwipeItems? ISwipeView.BottomItems { get; set; }
 
+    partial void OnReset()
+    {
+        var thisAsISwipeView = (ISwipeView)this;
+        thisAsISwipeView.LeftItems = null;
+        thisAsISwipeView.RightItems = null;
+        thisAsISwipeView.TopItems = null;
+        thisAsISwipeView.BottomItems = null;
+    }
+
     protected override IEnumerable<VisualNode> RenderChildren()
     {
         Validate.EnsureNotNull(NativeControl);

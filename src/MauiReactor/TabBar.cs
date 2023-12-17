@@ -9,47 +9,52 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface ITabBar : IShellItem
 {
-    public partial interface ITabBar : IShellItem
+}
+
+public partial class TabBar<T> : ShellItem<T>, ITabBar where T : Microsoft.Maui.Controls.TabBar, new()
+{
+    public TabBar()
     {
     }
 
-    public partial class TabBar<T> : ShellItem<T>, ITabBar where T : Microsoft.Maui.Controls.TabBar, new()
-    {
-        public TabBar()
-        {
-        }
-
-        public TabBar(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public partial class TabBar : TabBar<Microsoft.Maui.Controls.TabBar>
-    {
-        public TabBar()
-        {
-        }
-
-        public TabBar(Action<Microsoft.Maui.Controls.TabBar?> componentRefAction) : base(componentRefAction)
-        {
-        }
-    }
-
-    public static partial class TabBarExtensions
+    public TabBar(Action<T?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public partial class TabBar : TabBar<Microsoft.Maui.Controls.TabBar>
+{
+    public TabBar()
+    {
+    }
+
+    public TabBar(Action<Microsoft.Maui.Controls.TabBar?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
+
+public static partial class TabBarExtensions
+{
 }

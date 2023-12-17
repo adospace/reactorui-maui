@@ -9,65 +9,72 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface ILinearItemsLayout : IItemsLayout
 {
-    public partial interface ILinearItemsLayout : IItemsLayout
+    PropertyValue<double>? ItemSpacing { get; set; }
+}
+
+public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItemsLayout where T : Microsoft.Maui.Controls.LinearItemsLayout, new()
+{
+    protected LinearItemsLayout()
     {
-        PropertyValue<double>? ItemSpacing { get; set; }
     }
 
-    public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItemsLayout where T : Microsoft.Maui.Controls.LinearItemsLayout, new()
+    protected LinearItemsLayout(Action<T?> componentRefAction) : base(componentRefAction)
     {
-        protected LinearItemsLayout()
-        {
-        }
-
-        protected LinearItemsLayout(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        PropertyValue<double>? ILinearItemsLayout.ItemSpacing { get; set; }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            Validate.EnsureNotNull(NativeControl);
-            var thisAsILinearItemsLayout = (ILinearItemsLayout)this;
-            SetPropertyValue(NativeControl, Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, thisAsILinearItemsLayout.ItemSpacing);
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        protected override void OnAnimate()
-        {
-            OnBeginAnimate();
-            var thisAsILinearItemsLayout = (ILinearItemsLayout)this;
-            AnimateProperty(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, thisAsILinearItemsLayout.ItemSpacing);
-            base.OnAnimate();
-            OnEndAnimate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
     }
 
-    public static partial class LinearItemsLayoutExtensions
-    {
-        public static T ItemSpacing<T>(this T linearItemsLayout, double itemSpacing, RxDoubleAnimation? customAnimation = null)
-            where T : ILinearItemsLayout
-        {
-            linearItemsLayout.ItemSpacing = new PropertyValue<double>(itemSpacing);
-            linearItemsLayout.AppendAnimatable(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, customAnimation ?? new RxDoubleAnimation(itemSpacing), v => linearItemsLayout.ItemSpacing = new PropertyValue<double>(v.CurrentValue()));
-            return linearItemsLayout;
-        }
+    PropertyValue<double>? ILinearItemsLayout.ItemSpacing { get; set; }
 
-        public static T ItemSpacing<T>(this T linearItemsLayout, Func<double> itemSpacingFunc)
-            where T : ILinearItemsLayout
-        {
-            linearItemsLayout.ItemSpacing = new PropertyValue<double>(itemSpacingFunc);
-            return linearItemsLayout;
-        }
+    internal override void Reset()
+    {
+        base.Reset();
+        var thisAsILinearItemsLayout = (ILinearItemsLayout)this;
+        thisAsILinearItemsLayout.ItemSpacing = null;
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsILinearItemsLayout = (ILinearItemsLayout)this;
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, thisAsILinearItemsLayout.ItemSpacing);
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    protected override void OnAnimate()
+    {
+        OnBeginAnimate();
+        var thisAsILinearItemsLayout = (ILinearItemsLayout)this;
+        AnimateProperty(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, thisAsILinearItemsLayout.ItemSpacing);
+        base.OnAnimate();
+        OnEndAnimate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public static partial class LinearItemsLayoutExtensions
+{
+    public static T ItemSpacing<T>(this T linearItemsLayout, double itemSpacing, RxDoubleAnimation? customAnimation = null)
+        where T : ILinearItemsLayout
+    {
+        linearItemsLayout.ItemSpacing = new PropertyValue<double>(itemSpacing);
+        linearItemsLayout.AppendAnimatable(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, customAnimation ?? new RxDoubleAnimation(itemSpacing), v => linearItemsLayout.ItemSpacing = new PropertyValue<double>(v.CurrentValue()));
+        return linearItemsLayout;
+    }
+
+    public static T ItemSpacing<T>(this T linearItemsLayout, Func<double> itemSpacingFunc)
+        where T : ILinearItemsLayout
+    {
+        linearItemsLayout.ItemSpacing = new PropertyValue<double>(itemSpacingFunc);
+        return linearItemsLayout;
     }
 }

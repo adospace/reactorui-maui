@@ -9,47 +9,52 @@ using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
 #nullable enable
-namespace MauiReactor
+namespace MauiReactor;
+public partial interface IVerticalStackLayout : IStackBase
 {
-    public partial interface IVerticalStackLayout : IStackBase
+}
+
+public partial class VerticalStackLayout<T> : StackBase<T>, IVerticalStackLayout where T : Microsoft.Maui.Controls.VerticalStackLayout, new()
+{
+    public VerticalStackLayout()
     {
     }
 
-    public partial class VerticalStackLayout<T> : StackBase<T>, IVerticalStackLayout where T : Microsoft.Maui.Controls.VerticalStackLayout, new()
-    {
-        public VerticalStackLayout()
-        {
-        }
-
-        public VerticalStackLayout(Action<T?> componentRefAction) : base(componentRefAction)
-        {
-        }
-
-        protected override void OnUpdate()
-        {
-            OnBeginUpdate();
-            base.OnUpdate();
-            OnEndUpdate();
-        }
-
-        partial void OnBeginUpdate();
-        partial void OnEndUpdate();
-        partial void OnBeginAnimate();
-        partial void OnEndAnimate();
-    }
-
-    public partial class VerticalStackLayout : VerticalStackLayout<Microsoft.Maui.Controls.VerticalStackLayout>
-    {
-        public VerticalStackLayout()
-        {
-        }
-
-        public VerticalStackLayout(Action<Microsoft.Maui.Controls.VerticalStackLayout?> componentRefAction) : base(componentRefAction)
-        {
-        }
-    }
-
-    public static partial class VerticalStackLayoutExtensions
+    public VerticalStackLayout(Action<T?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    internal override void Reset()
+    {
+        base.Reset();
+        OnReset();
+    }
+
+    partial void OnReset();
+    protected override void OnUpdate()
+    {
+        OnBeginUpdate();
+        base.OnUpdate();
+        OnEndUpdate();
+    }
+
+    partial void OnBeginUpdate();
+    partial void OnEndUpdate();
+    partial void OnBeginAnimate();
+    partial void OnEndAnimate();
+}
+
+public partial class VerticalStackLayout : VerticalStackLayout<Microsoft.Maui.Controls.VerticalStackLayout>
+{
+    public VerticalStackLayout()
+    {
+    }
+
+    public VerticalStackLayout(Action<Microsoft.Maui.Controls.VerticalStackLayout?> componentRefAction) : base(componentRefAction)
+    {
+    }
+}
+
+public static partial class VerticalStackLayoutExtensions
+{
 }

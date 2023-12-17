@@ -1,8 +1,7 @@
-//using MauiReactor.Shapes;
 
 namespace MauiReactor
 {
-    public class VerticalGridItemsLayout : GridItemsLayout<MauiReactor.Internals.VerticalGridItemsLayout>
+    public class VerticalGridItemsLayout : GridItemsLayout<Internals.VerticalGridItemsLayout>
     {
         private readonly int? _span;
 
@@ -20,14 +19,14 @@ namespace MauiReactor
         {
             if (_span != null)
             {
-                _nativeControl ??= new MauiReactor.Internals.VerticalGridItemsLayout(_span.Value);
+                _nativeControl ??= new Internals.VerticalGridItemsLayout(_span.Value);
             }
 
             base.OnMount();
         }
     }
 
-    public class HorizontalGridItemsLayout : GridItemsLayout<MauiReactor.Internals.HorizontalGridItemsLayout>
+    public class HorizontalGridItemsLayout : GridItemsLayout<Internals.HorizontalGridItemsLayout>
     {
         private readonly int? _span;
 
@@ -45,7 +44,7 @@ namespace MauiReactor
         {
             if (_span != null)
             {
-                _nativeControl ??= new MauiReactor.Internals.HorizontalGridItemsLayout(_span.Value);
+                _nativeControl ??= new Internals.HorizontalGridItemsLayout(_span.Value);
             }
             
             base.OnMount();
@@ -55,7 +54,7 @@ namespace MauiReactor
 
 namespace MauiReactor.Internals
 {
-    public class VerticalGridItemsLayout : Microsoft.Maui.Controls.GridItemsLayout
+    public class VerticalGridItemsLayout : GridItemsLayout
     {
         public VerticalGridItemsLayout() : base(ItemsLayoutOrientation.Vertical)
         {
@@ -66,7 +65,7 @@ namespace MauiReactor.Internals
         }
     }
 
-    public class HorizontalGridItemsLayout : Microsoft.Maui.Controls.GridItemsLayout
+    public class HorizontalGridItemsLayout : GridItemsLayout
     {
         public HorizontalGridItemsLayout() : base(ItemsLayoutOrientation.Horizontal)
         {

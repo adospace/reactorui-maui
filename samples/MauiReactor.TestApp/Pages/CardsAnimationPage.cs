@@ -24,10 +24,9 @@ namespace MauiReactor.TestApp.Pages
     {
         public override VisualNode Render()
         {
-            return new ContentPage("Animation Sample")
-            {
-                new Grid
-                {
+            return ContentPage(
+            [
+                Grid(                
                     State.Cards
                         .Select(card => new CardPage()
                             .Index(card.Index)
@@ -44,10 +43,11 @@ namespace MauiReactor.TestApp.Pages
                                     s.Cards[cardIndex].Position = 1;
                                 });
                             })
-                            ),
-                }
+                            )
+                )
                 .Background(Microsoft.Maui.Controls.Brush.Black)
-            };
+            ])
+            .Title("Animation Sample");
         }
     }
 
@@ -60,7 +60,7 @@ namespace MauiReactor.TestApp.Pages
 
     class CardPage : Component<CardState>
     {
-        private static readonly Microsoft.Maui.Controls.Brush[] _cardBackgrounds = new[]
+        private static readonly MauiControls.Brush[] _cardBackgrounds = new[]
         { 
             (From: "#36D1DC", To: "#5B86E5"),
             (From: "#CB356B", To: "#BD3F32"),
@@ -76,11 +76,11 @@ namespace MauiReactor.TestApp.Pages
         .Select(MakeBrush)
         .ToArray();
 
-        public static Microsoft.Maui.Controls.Brush MakeBrush((string From, string To) fromTo)
+        public static MauiControls.Brush MakeBrush((string From, string To) fromTo)
         {
-            var brush = new Microsoft.Maui.Controls.LinearGradientBrush();
-            brush.GradientStops.Add(new Microsoft.Maui.Controls.GradientStop(Color.FromArgb(fromTo.From), 0.0f));
-            brush.GradientStops.Add(new Microsoft.Maui.Controls.GradientStop(Color.FromArgb(fromTo.To), 1.0f));
+            var brush = new MauiControls.LinearGradientBrush();
+            brush.GradientStops.Add(new MauiControls.GradientStop(Color.FromArgb(fromTo.From), 0.0f));
+            brush.GradientStops.Add(new MauiControls.GradientStop(Color.FromArgb(fromTo.To), 1.0f));
             return brush;
         }
 
@@ -108,18 +108,20 @@ namespace MauiReactor.TestApp.Pages
 
         public override VisualNode Render()
         {
-            return new Border()
-            {
-                new Timer(300, ()=>
-                {
-                    if (State.MovingBack)
+            return Border(
+            [
+                Timer()
+                    .Interval(300)
+                    .OnTick(()=>
                     {
-                        State.MovingBack = false;
-                        _onMovedBackAction?.Invoke(_cardIndex);
-                    }
-                })
-                .IsEnabled(State.MovingBack)
-            }
+                        if (State.MovingBack)
+                        {
+                            State.MovingBack = false;
+                            _onMovedBackAction?.Invoke(_cardIndex);
+                        }
+                    })
+                    .IsEnabled(State.MovingBack)
+            ])
             .ZIndex(_zIndex)
             .TranslationY(State.MovingBack ? -230 : 0)
             .Rotation(State.Rotation)
@@ -127,7 +129,7 @@ namespace MauiReactor.TestApp.Pages
             .Background(_cardBackgrounds[_cardIndex])
             .WidthRequest(300)
             .HeightRequest(200)
-            .StrokeShape(new RoundRectangle().CornerRadius(5))
+            .StrokeCornerRadius(5)
             .VEnd()
             .HCenter()
             .Margin(0, 40)
