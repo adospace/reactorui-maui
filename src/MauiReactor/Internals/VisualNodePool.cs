@@ -15,7 +15,7 @@ internal class VisualNodePool
         }
         else
         {
-            System.Diagnostics.Debug.WriteLine($"Generating new visual node: {typeof(T)}");
+            //System.Diagnostics.Debug.WriteLine($"Generating new visual node: {typeof(T)}");
             return new T();
         }
     }
