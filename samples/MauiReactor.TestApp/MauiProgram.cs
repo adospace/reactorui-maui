@@ -9,7 +9,7 @@ namespace MauiReactor.TestApp
         {
             var builder = MauiApp.CreateBuilder();
             builder
-                .UseMauiReactorApp<Pages.TestBug187>(app =>
+                .UseMauiReactorApp<HomePage>(app =>
                 {
                     app.AddResource("Resources/Styles/DefaultTheme.xaml");
 
