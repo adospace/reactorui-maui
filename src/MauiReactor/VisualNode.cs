@@ -96,10 +96,7 @@ namespace MauiReactor
 
         public static T WithMetadata<T>(this T node, object value) where T : VisualNode
         {
-            if (value is null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
+            ArgumentNullException.ThrowIfNull(value);
 
             node.SetMetadata(value.GetType().FullName ?? throw new InvalidOperationException(), value);
             return node;
@@ -120,7 +117,7 @@ namespace MauiReactor
 
         protected internal Dictionary<BindableProperty, Animatable> _animatables = [];
 
-        private readonly Dictionary<string, object?> _metadata = new();
+        private readonly Dictionary<string, object?> _metadata = [];
 
         private IReadOnlyList<VisualNode>? _children = null;
 
@@ -214,21 +211,6 @@ namespace MauiReactor
 
         public void AppendAnimatable<T>(BindableProperty key, T animation, Action<T> action) where T : RxAnimation
         {
-            if (key is null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
-            if (animation is null)
-            {
-                throw new ArgumentNullException(nameof(animation));
-            }
-
-            if (action is null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
-
             var newAnimatableProperty = new Animatable(key, animation, new Action<RxAnimation>(target => action((T)target)));
 
             _animatables[key] = newAnimatableProperty;
@@ -274,11 +256,11 @@ namespace MauiReactor
         {
             if (_isMounted)
             {
-                var animated = AnimateThis();
+              var animated = AnimateThis();
 
-                OnAnimate();
+              OnAnimate();
 
-                return animated;
+              return animated;
             }
 
             return false;
@@ -541,7 +523,7 @@ namespace MauiReactor
 
             _animatables.Clear();
 
-            _isMounted = false;
+            //_isMounted = false;
 
             ReleaseNodeToPool(this);
         }
@@ -643,7 +625,7 @@ namespace MauiReactor
 
         static readonly Dictionary<Type, VisualNodePool> _nodePools = [];
 
-        protected T GetNodeFromPool<T>() where T : VisualNode, new()
+        protected static T GetNodeFromPool<T>() where T : VisualNode, new()
         {
             if (!_nodePools.TryGetValue(typeof(T), out var nodePool))
             {
@@ -654,7 +636,7 @@ namespace MauiReactor
         }
 
 
-        private void ReleaseNodeToPool(VisualNode node)
+        private static void ReleaseNodeToPool(VisualNode node)
         {
             if (!_nodePools.TryGetValue(node.GetType(), out var nodePool))
             {
@@ -692,7 +674,7 @@ namespace MauiReactor
     {
         protected BindableObject? _nativeControl;
 
-        private readonly Dictionary<BindableProperty, object?> _attachedProperties = new();
+        private readonly Dictionary<BindableProperty, object?> _attachedProperties = [];
 
         private Action<T?>? _componentRefAction;
 
@@ -738,9 +720,12 @@ namespace MauiReactor
                 ((VisualNode<T>)newNode)._nativeControl = this._nativeControl;
                 ((VisualNode<T>)newNode)._isMounted = this._nativeControl != null;
                 ((VisualNode<T>)newNode)._componentRefAction?.Invoke(NativeControl);
+
                 OnMigrated(newNode);
 
                 base.MergeWith(newNode);
+
+                _nativeControl = null;
             }
             else
             {
@@ -769,7 +754,7 @@ namespace MauiReactor
             }
 
             _attachedProperties.Clear();
-            _nativeControl = null;
+            //_nativeControl = null;
 
             base.OnMigrated(newNode);
 
@@ -937,7 +922,7 @@ namespace MauiReactor
                 var propertiesBag = (HashSet<BindableProperty>?)dependencyObject.GetValue(VisualNode._mauiReactorPropertiesBagKey.BindableProperty);
                 if (propertiesBag == null)
                 {
-                    dependencyObject.SetValue(VisualNode._mauiReactorPropertiesBagKey, propertiesBag = new HashSet<BindableProperty>());
+                    dependencyObject.SetValue(VisualNode._mauiReactorPropertiesBagKey, propertiesBag = []);
                 }
 
                 propertiesBag.Add(property);

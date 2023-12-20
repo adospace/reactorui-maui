@@ -26,8 +26,8 @@ class ListViewExtendedTestPage : Component<ListViewExtendedTestPageState>
                 //NOTE: Header/Footer not working under .net 7
                 //https://github.com/dotnet/maui/issues/13560
                 //https://github.com/dotnet/maui/issues/12312
-                .Header(new Label("Header"))
-                .Footer(new Label("Footer"))
+                .Header(Label("Header"))
+                .Footer(Label("Footer"))
         };
     }
 
@@ -38,38 +38,37 @@ class ListViewExtendedTestPage : Component<ListViewExtendedTestPageState>
 
     private ViewCell RenderGroup(GroupOfPerson person)
     {
-        return new ViewCell
-        {
-            new Label(person.Initial)
-            {
-                new MenuFlyout
-                {
-                    new MenuFlyoutItem("MenuItem1")
+        return ViewCell(
+        [
+            Label(person.Initial,
+            [
+                MenuFlyout(
+                [
+                    MenuFlyoutItem("MenuItem1")
                         .OnClicked(()=>OnClickMenuItem("MenuItem1")),
-                    new MenuFlyoutItem("MenuItem2")
+                    MenuFlyoutItem("MenuItem2")
                         .OnClicked(()=>OnClickMenuItem("MenuItem2")),
-                    new MenuFlyoutItem("MenuItem3")
+                    MenuFlyoutItem("MenuItem3")
                         .OnClicked(()=>OnClickMenuItem("MenuItem3")),
-                }
-            }
+                ])
+            ])
             .FontSize(14.0)
             .FontAttributes(MauiControls.FontAttributes.Bold)
             .Margin(5)
             .BackgroundColor(Colors.LightGray)
-            ,
-        };
+        ]);
     }
 
     private ViewCell RenderItem(Person person)
     {
-        return new ViewCell
-        {
-            new Label($"{person.FirstName} {person.LastName}")
+        return ViewCell(
+        [
+            Label($"{person.FirstName} {person.LastName}")
                 .FontSize(14.0)
                 .FontAttributes(MauiControls.FontAttributes.Bold)
                 .Padding(5)
                 .VerticalTextAlignment(TextAlignment.Center)
-        };
+        ]);
     }
 
     private void OnClickMenuItem(string title)
