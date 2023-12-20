@@ -2,7 +2,8 @@
 
 internal class VisualNodePool
 {
-    private readonly Stack<VisualNode> _availableObjects = new();
+    private readonly Stack<VisualNode> _availableObjects = [];
+    private readonly HashSet<VisualNode> _pooledObjects = [];
 
     public T GetObject<T>() where T : VisualNode, new()
     {
@@ -16,13 +17,18 @@ internal class VisualNodePool
         else
         {
             //System.Diagnostics.Debug.WriteLine($"Generating new visual node: {typeof(T)}");
-            return new T();
+            var newInstance = new T();
+            _pooledObjects.Add(newInstance);
+            return newInstance;
         }
     }
 
     public void ReleaseObject(VisualNode obj)
     {
-        //System.Diagnostics.Debug.WriteLine($"Releasing new visual node: {obj.GetType()}");
-        _availableObjects.Push(obj);
+        if (_pooledObjects.Contains(obj))
+        {
+            //System.Diagnostics.Debug.WriteLine($"Releasing new visual node: {obj.GetType()}");
+            _availableObjects.Push(obj);
+        }
     }
 }
