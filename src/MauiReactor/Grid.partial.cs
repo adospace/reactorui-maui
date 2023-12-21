@@ -190,10 +190,13 @@ public static partial class GridExtensions
 
 public partial class Component
 {
-    public Grid Grid(string rows, string columns) => GetNodeFromPool<Grid>().Rows(rows).Columns(columns);
-    
-    public Grid Grid(RowDefinitionCollection rows, ColumnDefinitionCollection columns) => GetNodeFromPool<Grid>().Rows(rows).Columns(columns);
-    
-    public Grid Grid(IEnumerable<RowDefinition> rows, IEnumerable<ColumnDefinition> columns) => GetNodeFromPool<Grid>().Rows(rows).Columns(columns);
+    public static Grid Grid(string rows, string columns, IEnumerable<VisualNode> children)
+        => Grid(children).Rows(rows).Columns(columns);
+
+    public static Grid Grid(RowDefinitionCollection rows, ColumnDefinitionCollection columns, IEnumerable<VisualNode> children)
+        => Grid(children).Rows(rows).Columns(columns);
+
+    public static Grid Grid(IEnumerable<RowDefinition> rows, IEnumerable<ColumnDefinition> columns, IEnumerable<VisualNode> children)
+        => Grid(children).Rows(rows).Columns(columns);
 
 }

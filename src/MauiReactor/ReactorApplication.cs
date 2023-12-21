@@ -9,6 +9,8 @@ namespace MauiReactor
     { 
         protected readonly ReactorApplication _application;
 
+        internal static bool _showFrameRate = false;
+
         protected ReactorApplicationHost(ReactorApplication application)
         {
             Instance = this;
@@ -118,6 +120,11 @@ namespace MauiReactor
                 _rootComponent ??= new T();
                 OnLayout();
                 ComponentLoader.Instance.Run();
+
+                if (_showFrameRate)
+                {
+                    FrameRateIndicator.Start();
+                }
             }
 
             return this;
@@ -154,6 +161,11 @@ namespace MauiReactor
             {
                 _started = false;
                 ComponentLoader.Instance.Stop();
+
+                if (_showFrameRate)
+                {
+                    FrameRateIndicator.Start();
+                }
             }
         }
 
@@ -338,6 +350,13 @@ namespace MauiReactor
             ComponentLoader.UseRemoteLoader = true;
             return appBuilder;
         }
+
+        public static MauiAppBuilder EnableFrameRateIndicator(this MauiAppBuilder appBuilder)
+        {
+            ReactorApplicationHost._showFrameRate = true;
+            return appBuilder;
+        }
+
     }
 
     public static class ApplicationExtensions

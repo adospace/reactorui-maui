@@ -9,10 +9,10 @@ public partial class Label
 
 public partial class Component
 {
-    public Label Label(object? text) =>
+    public static Label Label(object? text) =>
         GetNodeFromPool<Label>().Text(text?.ToString() ?? string.Empty);
 
-    public Label Label(object? text, IEnumerable<VisualNode> children)
+    public static Label Label(object? text, IEnumerable<VisualNode> children)
     {
         var vstack = GetNodeFromPool<Label>()
             .Text(text?.ToString() ?? string.Empty);
@@ -20,6 +20,6 @@ public partial class Component
         return vstack;
     }
 
-    public Label Label(Func<string> textFunc) =>
+    public static Label Label(Func<string> textFunc) =>
         GetNodeFromPool<Label>().Text(textFunc);
 }

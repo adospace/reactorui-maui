@@ -23,11 +23,11 @@ public partial class Component
     <# foreach (var type in _typesScaffolded) { #>
     <# var typeName = type.FullName.Replace("Microsoft.Maui.Controls.", string.Empty); #>
 
-    public <#= typeName #> <#= type.Name #>()
+    public static <#= typeName #> <#= type.Name #>()
         => GetNodeFromPool<<#= typeName #>>();
 
     <# if (typeof(Element).IsAssignableFrom(type)) { #>
-    public <#= typeName #> <#= type.Name #>(IEnumerable<VisualNode> children)
+    public static <#= typeName #> <#= type.Name #>(IEnumerable<VisualNode> children)
     {
         var @<#= type.Name.ToLower() #> = GetNodeFromPool<<#= typeName #>>();
         @<#= type.Name.ToLower() #>.AddChildren(children);
@@ -35,7 +35,7 @@ public partial class Component
     }
     <# } #>
 
-    public <#= typeName #> <#= type.Name #>(Action<<#= type.FullName #>?> componentRefAction)
+    public static <#= typeName #> <#= type.Name #>(Action<<#= type.FullName #>?> componentRefAction)
     {
         var @<#= type.Name.ToLower() #> = GetNodeFromPool<<#= typeName #>>();
         @<#= type.Name.ToLower() #>.ComponentRefAction = componentRefAction;

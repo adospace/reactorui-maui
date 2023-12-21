@@ -17,6 +17,9 @@ namespace MauiReactor.TestApp
                 })
 #if DEBUG
                 .EnableMauiReactorHotReload()
+                //This will enable the FrameRateIndicator widget
+                //Disable before publishing the app
+                .EnableFrameRateIndicator()
 #endif                
                 .ConfigureFonts(fonts =>
                 {

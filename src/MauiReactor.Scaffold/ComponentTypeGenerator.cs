@@ -59,7 +59,7 @@ public partial class Component
             
             #line default
             #line hidden
-            this.Write("\r\n    public ");
+            this.Write("\r\n    public static ");
             
             #line 26 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(typeName));
@@ -87,7 +87,7 @@ public partial class Component
             
             #line default
             #line hidden
-            this.Write("    public ");
+            this.Write("    public static ");
             
             #line 30 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(typeName));
@@ -136,7 +136,7 @@ public partial class Component
             
             #line default
             #line hidden
-            this.Write("\r\n    public ");
+            this.Write("\r\n    public static ");
             
             #line 38 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(typeName));

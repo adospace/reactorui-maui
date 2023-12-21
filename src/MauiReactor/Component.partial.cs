@@ -12,1353 +12,1353 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial class Component
 {
-    public ListView ListView() => GetNodeFromPool<ListView>();
-    public ListView ListView(IEnumerable<VisualNode> children)
+    public static ListView ListView() => GetNodeFromPool<ListView>();
+    public static ListView ListView(IEnumerable<VisualNode> children)
     {
         var @listview = GetNodeFromPool<ListView>();
         @listview.AddChildren(children);
         return @listview;
     }
 
-    public ListView ListView(Action<Microsoft.Maui.Controls.ListView?> componentRefAction)
+    public static ListView ListView(Action<Microsoft.Maui.Controls.ListView?> componentRefAction)
     {
         var @listview = GetNodeFromPool<ListView>();
         @listview.ComponentRefAction = componentRefAction;
         return @listview;
     }
 
-    public TabbedPage TabbedPage() => GetNodeFromPool<TabbedPage>();
-    public TabbedPage TabbedPage(IEnumerable<VisualNode> children)
+    public static TabbedPage TabbedPage() => GetNodeFromPool<TabbedPage>();
+    public static TabbedPage TabbedPage(IEnumerable<VisualNode> children)
     {
         var @tabbedpage = GetNodeFromPool<TabbedPage>();
         @tabbedpage.AddChildren(children);
         return @tabbedpage;
     }
 
-    public TabbedPage TabbedPage(Action<Microsoft.Maui.Controls.TabbedPage?> componentRefAction)
+    public static TabbedPage TabbedPage(Action<Microsoft.Maui.Controls.TabbedPage?> componentRefAction)
     {
         var @tabbedpage = GetNodeFromPool<TabbedPage>();
         @tabbedpage.ComponentRefAction = componentRefAction;
         return @tabbedpage;
     }
 
-    public Page Page() => GetNodeFromPool<Page>();
-    public Page Page(IEnumerable<VisualNode> children)
+    public static Page Page() => GetNodeFromPool<Page>();
+    public static Page Page(IEnumerable<VisualNode> children)
     {
         var @page = GetNodeFromPool<Page>();
         @page.AddChildren(children);
         return @page;
     }
 
-    public Page Page(Action<Microsoft.Maui.Controls.Page?> componentRefAction)
+    public static Page Page(Action<Microsoft.Maui.Controls.Page?> componentRefAction)
     {
         var @page = GetNodeFromPool<Page>();
         @page.ComponentRefAction = componentRefAction;
         return @page;
     }
 
-    public TemplatedPage TemplatedPage() => GetNodeFromPool<TemplatedPage>();
-    public TemplatedPage TemplatedPage(IEnumerable<VisualNode> children)
+    public static TemplatedPage TemplatedPage() => GetNodeFromPool<TemplatedPage>();
+    public static TemplatedPage TemplatedPage(IEnumerable<VisualNode> children)
     {
         var @templatedpage = GetNodeFromPool<TemplatedPage>();
         @templatedpage.AddChildren(children);
         return @templatedpage;
     }
 
-    public TemplatedPage TemplatedPage(Action<Microsoft.Maui.Controls.TemplatedPage?> componentRefAction)
+    public static TemplatedPage TemplatedPage(Action<Microsoft.Maui.Controls.TemplatedPage?> componentRefAction)
     {
         var @templatedpage = GetNodeFromPool<TemplatedPage>();
         @templatedpage.ComponentRefAction = componentRefAction;
         return @templatedpage;
     }
 
-    public ContentPage ContentPage() => GetNodeFromPool<ContentPage>();
-    public ContentPage ContentPage(IEnumerable<VisualNode> children)
+    public static ContentPage ContentPage() => GetNodeFromPool<ContentPage>();
+    public static ContentPage ContentPage(IEnumerable<VisualNode> children)
     {
         var @contentpage = GetNodeFromPool<ContentPage>();
         @contentpage.AddChildren(children);
         return @contentpage;
     }
 
-    public ContentPage ContentPage(Action<Microsoft.Maui.Controls.ContentPage?> componentRefAction)
+    public static ContentPage ContentPage(Action<Microsoft.Maui.Controls.ContentPage?> componentRefAction)
     {
         var @contentpage = GetNodeFromPool<ContentPage>();
         @contentpage.ComponentRefAction = componentRefAction;
         return @contentpage;
     }
 
-    public NavigationPage NavigationPage() => GetNodeFromPool<NavigationPage>();
-    public NavigationPage NavigationPage(IEnumerable<VisualNode> children)
+    public static NavigationPage NavigationPage() => GetNodeFromPool<NavigationPage>();
+    public static NavigationPage NavigationPage(IEnumerable<VisualNode> children)
     {
         var @navigationpage = GetNodeFromPool<NavigationPage>();
         @navigationpage.AddChildren(children);
         return @navigationpage;
     }
 
-    public NavigationPage NavigationPage(Action<Microsoft.Maui.Controls.NavigationPage?> componentRefAction)
+    public static NavigationPage NavigationPage(Action<Microsoft.Maui.Controls.NavigationPage?> componentRefAction)
     {
         var @navigationpage = GetNodeFromPool<NavigationPage>();
         @navigationpage.ComponentRefAction = componentRefAction;
         return @navigationpage;
     }
 
-    public FlyoutPage FlyoutPage() => GetNodeFromPool<FlyoutPage>();
-    public FlyoutPage FlyoutPage(IEnumerable<VisualNode> children)
+    public static FlyoutPage FlyoutPage() => GetNodeFromPool<FlyoutPage>();
+    public static FlyoutPage FlyoutPage(IEnumerable<VisualNode> children)
     {
         var @flyoutpage = GetNodeFromPool<FlyoutPage>();
         @flyoutpage.AddChildren(children);
         return @flyoutpage;
     }
 
-    public FlyoutPage FlyoutPage(Action<Microsoft.Maui.Controls.FlyoutPage?> componentRefAction)
+    public static FlyoutPage FlyoutPage(Action<Microsoft.Maui.Controls.FlyoutPage?> componentRefAction)
     {
         var @flyoutpage = GetNodeFromPool<FlyoutPage>();
         @flyoutpage.ComponentRefAction = componentRefAction;
         return @flyoutpage;
     }
 
-    public Button Button() => GetNodeFromPool<Button>();
-    public Button Button(IEnumerable<VisualNode> children)
+    public static Button Button() => GetNodeFromPool<Button>();
+    public static Button Button(IEnumerable<VisualNode> children)
     {
         var @button = GetNodeFromPool<Button>();
         @button.AddChildren(children);
         return @button;
     }
 
-    public Button Button(Action<Microsoft.Maui.Controls.Button?> componentRefAction)
+    public static Button Button(Action<Microsoft.Maui.Controls.Button?> componentRefAction)
     {
         var @button = GetNodeFromPool<Button>();
         @button.ComponentRefAction = componentRefAction;
         return @button;
     }
 
-    public Label Label() => GetNodeFromPool<Label>();
-    public Label Label(IEnumerable<VisualNode> children)
+    public static Label Label() => GetNodeFromPool<Label>();
+    public static Label Label(IEnumerable<VisualNode> children)
     {
         var @label = GetNodeFromPool<Label>();
         @label.AddChildren(children);
         return @label;
     }
 
-    public Label Label(Action<Microsoft.Maui.Controls.Label?> componentRefAction)
+    public static Label Label(Action<Microsoft.Maui.Controls.Label?> componentRefAction)
     {
         var @label = GetNodeFromPool<Label>();
         @label.ComponentRefAction = componentRefAction;
         return @label;
     }
 
-    public StackLayout StackLayout() => GetNodeFromPool<StackLayout>();
-    public StackLayout StackLayout(IEnumerable<VisualNode> children)
+    public static StackLayout StackLayout() => GetNodeFromPool<StackLayout>();
+    public static StackLayout StackLayout(IEnumerable<VisualNode> children)
     {
         var @stacklayout = GetNodeFromPool<StackLayout>();
         @stacklayout.AddChildren(children);
         return @stacklayout;
     }
 
-    public StackLayout StackLayout(Action<Microsoft.Maui.Controls.StackLayout?> componentRefAction)
+    public static StackLayout StackLayout(Action<Microsoft.Maui.Controls.StackLayout?> componentRefAction)
     {
         var @stacklayout = GetNodeFromPool<StackLayout>();
         @stacklayout.ComponentRefAction = componentRefAction;
         return @stacklayout;
     }
 
-    public VerticalStackLayout VerticalStackLayout() => GetNodeFromPool<VerticalStackLayout>();
-    public VerticalStackLayout VerticalStackLayout(IEnumerable<VisualNode> children)
+    public static VerticalStackLayout VerticalStackLayout() => GetNodeFromPool<VerticalStackLayout>();
+    public static VerticalStackLayout VerticalStackLayout(IEnumerable<VisualNode> children)
     {
         var @verticalstacklayout = GetNodeFromPool<VerticalStackLayout>();
         @verticalstacklayout.AddChildren(children);
         return @verticalstacklayout;
     }
 
-    public VerticalStackLayout VerticalStackLayout(Action<Microsoft.Maui.Controls.VerticalStackLayout?> componentRefAction)
+    public static VerticalStackLayout VerticalStackLayout(Action<Microsoft.Maui.Controls.VerticalStackLayout?> componentRefAction)
     {
         var @verticalstacklayout = GetNodeFromPool<VerticalStackLayout>();
         @verticalstacklayout.ComponentRefAction = componentRefAction;
         return @verticalstacklayout;
     }
 
-    public HorizontalStackLayout HorizontalStackLayout() => GetNodeFromPool<HorizontalStackLayout>();
-    public HorizontalStackLayout HorizontalStackLayout(IEnumerable<VisualNode> children)
+    public static HorizontalStackLayout HorizontalStackLayout() => GetNodeFromPool<HorizontalStackLayout>();
+    public static HorizontalStackLayout HorizontalStackLayout(IEnumerable<VisualNode> children)
     {
         var @horizontalstacklayout = GetNodeFromPool<HorizontalStackLayout>();
         @horizontalstacklayout.AddChildren(children);
         return @horizontalstacklayout;
     }
 
-    public HorizontalStackLayout HorizontalStackLayout(Action<Microsoft.Maui.Controls.HorizontalStackLayout?> componentRefAction)
+    public static HorizontalStackLayout HorizontalStackLayout(Action<Microsoft.Maui.Controls.HorizontalStackLayout?> componentRefAction)
     {
         var @horizontalstacklayout = GetNodeFromPool<HorizontalStackLayout>();
         @horizontalstacklayout.ComponentRefAction = componentRefAction;
         return @horizontalstacklayout;
     }
 
-    public Grid Grid() => GetNodeFromPool<Grid>();
-    public Grid Grid(IEnumerable<VisualNode> children)
+    public static Grid Grid() => GetNodeFromPool<Grid>();
+    public static Grid Grid(IEnumerable<VisualNode> children)
     {
         var @grid = GetNodeFromPool<Grid>();
         @grid.AddChildren(children);
         return @grid;
     }
 
-    public Grid Grid(Action<Microsoft.Maui.Controls.Grid?> componentRefAction)
+    public static Grid Grid(Action<Microsoft.Maui.Controls.Grid?> componentRefAction)
     {
         var @grid = GetNodeFromPool<Grid>();
         @grid.ComponentRefAction = componentRefAction;
         return @grid;
     }
 
-    public Shell Shell() => GetNodeFromPool<Shell>();
-    public Shell Shell(IEnumerable<VisualNode> children)
+    public static Shell Shell() => GetNodeFromPool<Shell>();
+    public static Shell Shell(IEnumerable<VisualNode> children)
     {
         var @shell = GetNodeFromPool<Shell>();
         @shell.AddChildren(children);
         return @shell;
     }
 
-    public Shell Shell(Action<Microsoft.Maui.Controls.Shell?> componentRefAction)
+    public static Shell Shell(Action<Microsoft.Maui.Controls.Shell?> componentRefAction)
     {
         var @shell = GetNodeFromPool<Shell>();
         @shell.ComponentRefAction = componentRefAction;
         return @shell;
     }
 
-    public BaseShellItem BaseShellItem() => GetNodeFromPool<BaseShellItem>();
-    public BaseShellItem BaseShellItem(IEnumerable<VisualNode> children)
+    public static BaseShellItem BaseShellItem() => GetNodeFromPool<BaseShellItem>();
+    public static BaseShellItem BaseShellItem(IEnumerable<VisualNode> children)
     {
         var @baseshellitem = GetNodeFromPool<BaseShellItem>();
         @baseshellitem.AddChildren(children);
         return @baseshellitem;
     }
 
-    public BaseShellItem BaseShellItem(Action<Microsoft.Maui.Controls.BaseShellItem?> componentRefAction)
+    public static BaseShellItem BaseShellItem(Action<Microsoft.Maui.Controls.BaseShellItem?> componentRefAction)
     {
         var @baseshellitem = GetNodeFromPool<BaseShellItem>();
         @baseshellitem.ComponentRefAction = componentRefAction;
         return @baseshellitem;
     }
 
-    public ShellGroupItem ShellGroupItem() => GetNodeFromPool<ShellGroupItem>();
-    public ShellGroupItem ShellGroupItem(IEnumerable<VisualNode> children)
+    public static ShellGroupItem ShellGroupItem() => GetNodeFromPool<ShellGroupItem>();
+    public static ShellGroupItem ShellGroupItem(IEnumerable<VisualNode> children)
     {
         var @shellgroupitem = GetNodeFromPool<ShellGroupItem>();
         @shellgroupitem.AddChildren(children);
         return @shellgroupitem;
     }
 
-    public ShellGroupItem ShellGroupItem(Action<Microsoft.Maui.Controls.ShellGroupItem?> componentRefAction)
+    public static ShellGroupItem ShellGroupItem(Action<Microsoft.Maui.Controls.ShellGroupItem?> componentRefAction)
     {
         var @shellgroupitem = GetNodeFromPool<ShellGroupItem>();
         @shellgroupitem.ComponentRefAction = componentRefAction;
         return @shellgroupitem;
     }
 
-    public ShellItem ShellItem() => GetNodeFromPool<ShellItem>();
-    public ShellItem ShellItem(IEnumerable<VisualNode> children)
+    public static ShellItem ShellItem() => GetNodeFromPool<ShellItem>();
+    public static ShellItem ShellItem(IEnumerable<VisualNode> children)
     {
         var @shellitem = GetNodeFromPool<ShellItem>();
         @shellitem.AddChildren(children);
         return @shellitem;
     }
 
-    public ShellItem ShellItem(Action<Microsoft.Maui.Controls.ShellItem?> componentRefAction)
+    public static ShellItem ShellItem(Action<Microsoft.Maui.Controls.ShellItem?> componentRefAction)
     {
         var @shellitem = GetNodeFromPool<ShellItem>();
         @shellitem.ComponentRefAction = componentRefAction;
         return @shellitem;
     }
 
-    public FlyoutItem FlyoutItem() => GetNodeFromPool<FlyoutItem>();
-    public FlyoutItem FlyoutItem(IEnumerable<VisualNode> children)
+    public static FlyoutItem FlyoutItem() => GetNodeFromPool<FlyoutItem>();
+    public static FlyoutItem FlyoutItem(IEnumerable<VisualNode> children)
     {
         var @flyoutitem = GetNodeFromPool<FlyoutItem>();
         @flyoutitem.AddChildren(children);
         return @flyoutitem;
     }
 
-    public FlyoutItem FlyoutItem(Action<Microsoft.Maui.Controls.FlyoutItem?> componentRefAction)
+    public static FlyoutItem FlyoutItem(Action<Microsoft.Maui.Controls.FlyoutItem?> componentRefAction)
     {
         var @flyoutitem = GetNodeFromPool<FlyoutItem>();
         @flyoutitem.ComponentRefAction = componentRefAction;
         return @flyoutitem;
     }
 
-    public ShellContent ShellContent() => GetNodeFromPool<ShellContent>();
-    public ShellContent ShellContent(IEnumerable<VisualNode> children)
+    public static ShellContent ShellContent() => GetNodeFromPool<ShellContent>();
+    public static ShellContent ShellContent(IEnumerable<VisualNode> children)
     {
         var @shellcontent = GetNodeFromPool<ShellContent>();
         @shellcontent.AddChildren(children);
         return @shellcontent;
     }
 
-    public ShellContent ShellContent(Action<Microsoft.Maui.Controls.ShellContent?> componentRefAction)
+    public static ShellContent ShellContent(Action<Microsoft.Maui.Controls.ShellContent?> componentRefAction)
     {
         var @shellcontent = GetNodeFromPool<ShellContent>();
         @shellcontent.ComponentRefAction = componentRefAction;
         return @shellcontent;
     }
 
-    public TabBar TabBar() => GetNodeFromPool<TabBar>();
-    public TabBar TabBar(IEnumerable<VisualNode> children)
+    public static TabBar TabBar() => GetNodeFromPool<TabBar>();
+    public static TabBar TabBar(IEnumerable<VisualNode> children)
     {
         var @tabbar = GetNodeFromPool<TabBar>();
         @tabbar.AddChildren(children);
         return @tabbar;
     }
 
-    public TabBar TabBar(Action<Microsoft.Maui.Controls.TabBar?> componentRefAction)
+    public static TabBar TabBar(Action<Microsoft.Maui.Controls.TabBar?> componentRefAction)
     {
         var @tabbar = GetNodeFromPool<TabBar>();
         @tabbar.ComponentRefAction = componentRefAction;
         return @tabbar;
     }
 
-    public Tab Tab() => GetNodeFromPool<Tab>();
-    public Tab Tab(IEnumerable<VisualNode> children)
+    public static Tab Tab() => GetNodeFromPool<Tab>();
+    public static Tab Tab(IEnumerable<VisualNode> children)
     {
         var @tab = GetNodeFromPool<Tab>();
         @tab.AddChildren(children);
         return @tab;
     }
 
-    public Tab Tab(Action<Microsoft.Maui.Controls.Tab?> componentRefAction)
+    public static Tab Tab(Action<Microsoft.Maui.Controls.Tab?> componentRefAction)
     {
         var @tab = GetNodeFromPool<Tab>();
         @tab.ComponentRefAction = componentRefAction;
         return @tab;
     }
 
-    public ShellSection ShellSection() => GetNodeFromPool<ShellSection>();
-    public ShellSection ShellSection(IEnumerable<VisualNode> children)
+    public static ShellSection ShellSection() => GetNodeFromPool<ShellSection>();
+    public static ShellSection ShellSection(IEnumerable<VisualNode> children)
     {
         var @shellsection = GetNodeFromPool<ShellSection>();
         @shellsection.AddChildren(children);
         return @shellsection;
     }
 
-    public ShellSection ShellSection(Action<Microsoft.Maui.Controls.ShellSection?> componentRefAction)
+    public static ShellSection ShellSection(Action<Microsoft.Maui.Controls.ShellSection?> componentRefAction)
     {
         var @shellsection = GetNodeFromPool<ShellSection>();
         @shellsection.ComponentRefAction = componentRefAction;
         return @shellsection;
     }
 
-    public MenuItem MenuItem() => GetNodeFromPool<MenuItem>();
-    public MenuItem MenuItem(IEnumerable<VisualNode> children)
+    public static MenuItem MenuItem() => GetNodeFromPool<MenuItem>();
+    public static MenuItem MenuItem(IEnumerable<VisualNode> children)
     {
         var @menuitem = GetNodeFromPool<MenuItem>();
         @menuitem.AddChildren(children);
         return @menuitem;
     }
 
-    public MenuItem MenuItem(Action<Microsoft.Maui.Controls.MenuItem?> componentRefAction)
+    public static MenuItem MenuItem(Action<Microsoft.Maui.Controls.MenuItem?> componentRefAction)
     {
         var @menuitem = GetNodeFromPool<MenuItem>();
         @menuitem.ComponentRefAction = componentRefAction;
         return @menuitem;
     }
 
-    public MenuBarItem MenuBarItem() => GetNodeFromPool<MenuBarItem>();
-    public MenuBarItem MenuBarItem(IEnumerable<VisualNode> children)
+    public static MenuBarItem MenuBarItem() => GetNodeFromPool<MenuBarItem>();
+    public static MenuBarItem MenuBarItem(IEnumerable<VisualNode> children)
     {
         var @menubaritem = GetNodeFromPool<MenuBarItem>();
         @menubaritem.AddChildren(children);
         return @menubaritem;
     }
 
-    public MenuBarItem MenuBarItem(Action<Microsoft.Maui.Controls.MenuBarItem?> componentRefAction)
+    public static MenuBarItem MenuBarItem(Action<Microsoft.Maui.Controls.MenuBarItem?> componentRefAction)
     {
         var @menubaritem = GetNodeFromPool<MenuBarItem>();
         @menubaritem.ComponentRefAction = componentRefAction;
         return @menubaritem;
     }
 
-    public MenuFlyout MenuFlyout() => GetNodeFromPool<MenuFlyout>();
-    public MenuFlyout MenuFlyout(IEnumerable<VisualNode> children)
+    public static MenuFlyout MenuFlyout() => GetNodeFromPool<MenuFlyout>();
+    public static MenuFlyout MenuFlyout(IEnumerable<VisualNode> children)
     {
         var @menuflyout = GetNodeFromPool<MenuFlyout>();
         @menuflyout.AddChildren(children);
         return @menuflyout;
     }
 
-    public MenuFlyout MenuFlyout(Action<Microsoft.Maui.Controls.MenuFlyout?> componentRefAction)
+    public static MenuFlyout MenuFlyout(Action<Microsoft.Maui.Controls.MenuFlyout?> componentRefAction)
     {
         var @menuflyout = GetNodeFromPool<MenuFlyout>();
         @menuflyout.ComponentRefAction = componentRefAction;
         return @menuflyout;
     }
 
-    public MenuFlyoutItem MenuFlyoutItem() => GetNodeFromPool<MenuFlyoutItem>();
-    public MenuFlyoutItem MenuFlyoutItem(IEnumerable<VisualNode> children)
+    public static MenuFlyoutItem MenuFlyoutItem() => GetNodeFromPool<MenuFlyoutItem>();
+    public static MenuFlyoutItem MenuFlyoutItem(IEnumerable<VisualNode> children)
     {
         var @menuflyoutitem = GetNodeFromPool<MenuFlyoutItem>();
         @menuflyoutitem.AddChildren(children);
         return @menuflyoutitem;
     }
 
-    public MenuFlyoutItem MenuFlyoutItem(Action<Microsoft.Maui.Controls.MenuFlyoutItem?> componentRefAction)
+    public static MenuFlyoutItem MenuFlyoutItem(Action<Microsoft.Maui.Controls.MenuFlyoutItem?> componentRefAction)
     {
         var @menuflyoutitem = GetNodeFromPool<MenuFlyoutItem>();
         @menuflyoutitem.ComponentRefAction = componentRefAction;
         return @menuflyoutitem;
     }
 
-    public MenuFlyoutSubItem MenuFlyoutSubItem() => GetNodeFromPool<MenuFlyoutSubItem>();
-    public MenuFlyoutSubItem MenuFlyoutSubItem(IEnumerable<VisualNode> children)
+    public static MenuFlyoutSubItem MenuFlyoutSubItem() => GetNodeFromPool<MenuFlyoutSubItem>();
+    public static MenuFlyoutSubItem MenuFlyoutSubItem(IEnumerable<VisualNode> children)
     {
         var @menuflyoutsubitem = GetNodeFromPool<MenuFlyoutSubItem>();
         @menuflyoutsubitem.AddChildren(children);
         return @menuflyoutsubitem;
     }
 
-    public MenuFlyoutSubItem MenuFlyoutSubItem(Action<Microsoft.Maui.Controls.MenuFlyoutSubItem?> componentRefAction)
+    public static MenuFlyoutSubItem MenuFlyoutSubItem(Action<Microsoft.Maui.Controls.MenuFlyoutSubItem?> componentRefAction)
     {
         var @menuflyoutsubitem = GetNodeFromPool<MenuFlyoutSubItem>();
         @menuflyoutsubitem.ComponentRefAction = componentRefAction;
         return @menuflyoutsubitem;
     }
 
-    public MenuFlyoutSeparator MenuFlyoutSeparator() => GetNodeFromPool<MenuFlyoutSeparator>();
-    public MenuFlyoutSeparator MenuFlyoutSeparator(IEnumerable<VisualNode> children)
+    public static MenuFlyoutSeparator MenuFlyoutSeparator() => GetNodeFromPool<MenuFlyoutSeparator>();
+    public static MenuFlyoutSeparator MenuFlyoutSeparator(IEnumerable<VisualNode> children)
     {
         var @menuflyoutseparator = GetNodeFromPool<MenuFlyoutSeparator>();
         @menuflyoutseparator.AddChildren(children);
         return @menuflyoutseparator;
     }
 
-    public MenuFlyoutSeparator MenuFlyoutSeparator(Action<Microsoft.Maui.Controls.MenuFlyoutSeparator?> componentRefAction)
+    public static MenuFlyoutSeparator MenuFlyoutSeparator(Action<Microsoft.Maui.Controls.MenuFlyoutSeparator?> componentRefAction)
     {
         var @menuflyoutseparator = GetNodeFromPool<MenuFlyoutSeparator>();
         @menuflyoutseparator.ComponentRefAction = componentRefAction;
         return @menuflyoutseparator;
     }
 
-    public ToolbarItem ToolbarItem() => GetNodeFromPool<ToolbarItem>();
-    public ToolbarItem ToolbarItem(IEnumerable<VisualNode> children)
+    public static ToolbarItem ToolbarItem() => GetNodeFromPool<ToolbarItem>();
+    public static ToolbarItem ToolbarItem(IEnumerable<VisualNode> children)
     {
         var @toolbaritem = GetNodeFromPool<ToolbarItem>();
         @toolbaritem.AddChildren(children);
         return @toolbaritem;
     }
 
-    public ToolbarItem ToolbarItem(Action<Microsoft.Maui.Controls.ToolbarItem?> componentRefAction)
+    public static ToolbarItem ToolbarItem(Action<Microsoft.Maui.Controls.ToolbarItem?> componentRefAction)
     {
         var @toolbaritem = GetNodeFromPool<ToolbarItem>();
         @toolbaritem.ComponentRefAction = componentRefAction;
         return @toolbaritem;
     }
 
-    public BoxView BoxView() => GetNodeFromPool<BoxView>();
-    public BoxView BoxView(IEnumerable<VisualNode> children)
+    public static BoxView BoxView() => GetNodeFromPool<BoxView>();
+    public static BoxView BoxView(IEnumerable<VisualNode> children)
     {
         var @boxview = GetNodeFromPool<BoxView>();
         @boxview.AddChildren(children);
         return @boxview;
     }
 
-    public BoxView BoxView(Action<Microsoft.Maui.Controls.BoxView?> componentRefAction)
+    public static BoxView BoxView(Action<Microsoft.Maui.Controls.BoxView?> componentRefAction)
     {
         var @boxview = GetNodeFromPool<BoxView>();
         @boxview.ComponentRefAction = componentRefAction;
         return @boxview;
     }
 
-    public ScrollView ScrollView() => GetNodeFromPool<ScrollView>();
-    public ScrollView ScrollView(IEnumerable<VisualNode> children)
+    public static ScrollView ScrollView() => GetNodeFromPool<ScrollView>();
+    public static ScrollView ScrollView(IEnumerable<VisualNode> children)
     {
         var @scrollview = GetNodeFromPool<ScrollView>();
         @scrollview.AddChildren(children);
         return @scrollview;
     }
 
-    public ScrollView ScrollView(Action<Microsoft.Maui.Controls.ScrollView?> componentRefAction)
+    public static ScrollView ScrollView(Action<Microsoft.Maui.Controls.ScrollView?> componentRefAction)
     {
         var @scrollview = GetNodeFromPool<ScrollView>();
         @scrollview.ComponentRefAction = componentRefAction;
         return @scrollview;
     }
 
-    public Image Image() => GetNodeFromPool<Image>();
-    public Image Image(IEnumerable<VisualNode> children)
+    public static Image Image() => GetNodeFromPool<Image>();
+    public static Image Image(IEnumerable<VisualNode> children)
     {
         var @image = GetNodeFromPool<Image>();
         @image.AddChildren(children);
         return @image;
     }
 
-    public Image Image(Action<Microsoft.Maui.Controls.Image?> componentRefAction)
+    public static Image Image(Action<Microsoft.Maui.Controls.Image?> componentRefAction)
     {
         var @image = GetNodeFromPool<Image>();
         @image.ComponentRefAction = componentRefAction;
         return @image;
     }
 
-    public GestureRecognizer GestureRecognizer() => GetNodeFromPool<GestureRecognizer>();
-    public GestureRecognizer GestureRecognizer(IEnumerable<VisualNode> children)
+    public static GestureRecognizer GestureRecognizer() => GetNodeFromPool<GestureRecognizer>();
+    public static GestureRecognizer GestureRecognizer(IEnumerable<VisualNode> children)
     {
         var @gesturerecognizer = GetNodeFromPool<GestureRecognizer>();
         @gesturerecognizer.AddChildren(children);
         return @gesturerecognizer;
     }
 
-    public GestureRecognizer GestureRecognizer(Action<Microsoft.Maui.Controls.GestureRecognizer?> componentRefAction)
+    public static GestureRecognizer GestureRecognizer(Action<Microsoft.Maui.Controls.GestureRecognizer?> componentRefAction)
     {
         var @gesturerecognizer = GetNodeFromPool<GestureRecognizer>();
         @gesturerecognizer.ComponentRefAction = componentRefAction;
         return @gesturerecognizer;
     }
 
-    public TapGestureRecognizer TapGestureRecognizer() => GetNodeFromPool<TapGestureRecognizer>();
-    public TapGestureRecognizer TapGestureRecognizer(IEnumerable<VisualNode> children)
+    public static TapGestureRecognizer TapGestureRecognizer() => GetNodeFromPool<TapGestureRecognizer>();
+    public static TapGestureRecognizer TapGestureRecognizer(IEnumerable<VisualNode> children)
     {
         var @tapgesturerecognizer = GetNodeFromPool<TapGestureRecognizer>();
         @tapgesturerecognizer.AddChildren(children);
         return @tapgesturerecognizer;
     }
 
-    public TapGestureRecognizer TapGestureRecognizer(Action<Microsoft.Maui.Controls.TapGestureRecognizer?> componentRefAction)
+    public static TapGestureRecognizer TapGestureRecognizer(Action<Microsoft.Maui.Controls.TapGestureRecognizer?> componentRefAction)
     {
         var @tapgesturerecognizer = GetNodeFromPool<TapGestureRecognizer>();
         @tapgesturerecognizer.ComponentRefAction = componentRefAction;
         return @tapgesturerecognizer;
     }
 
-    public DragGestureRecognizer DragGestureRecognizer() => GetNodeFromPool<DragGestureRecognizer>();
-    public DragGestureRecognizer DragGestureRecognizer(IEnumerable<VisualNode> children)
+    public static DragGestureRecognizer DragGestureRecognizer() => GetNodeFromPool<DragGestureRecognizer>();
+    public static DragGestureRecognizer DragGestureRecognizer(IEnumerable<VisualNode> children)
     {
         var @draggesturerecognizer = GetNodeFromPool<DragGestureRecognizer>();
         @draggesturerecognizer.AddChildren(children);
         return @draggesturerecognizer;
     }
 
-    public DragGestureRecognizer DragGestureRecognizer(Action<Microsoft.Maui.Controls.DragGestureRecognizer?> componentRefAction)
+    public static DragGestureRecognizer DragGestureRecognizer(Action<Microsoft.Maui.Controls.DragGestureRecognizer?> componentRefAction)
     {
         var @draggesturerecognizer = GetNodeFromPool<DragGestureRecognizer>();
         @draggesturerecognizer.ComponentRefAction = componentRefAction;
         return @draggesturerecognizer;
     }
 
-    public DropGestureRecognizer DropGestureRecognizer() => GetNodeFromPool<DropGestureRecognizer>();
-    public DropGestureRecognizer DropGestureRecognizer(IEnumerable<VisualNode> children)
+    public static DropGestureRecognizer DropGestureRecognizer() => GetNodeFromPool<DropGestureRecognizer>();
+    public static DropGestureRecognizer DropGestureRecognizer(IEnumerable<VisualNode> children)
     {
         var @dropgesturerecognizer = GetNodeFromPool<DropGestureRecognizer>();
         @dropgesturerecognizer.AddChildren(children);
         return @dropgesturerecognizer;
     }
 
-    public DropGestureRecognizer DropGestureRecognizer(Action<Microsoft.Maui.Controls.DropGestureRecognizer?> componentRefAction)
+    public static DropGestureRecognizer DropGestureRecognizer(Action<Microsoft.Maui.Controls.DropGestureRecognizer?> componentRefAction)
     {
         var @dropgesturerecognizer = GetNodeFromPool<DropGestureRecognizer>();
         @dropgesturerecognizer.ComponentRefAction = componentRefAction;
         return @dropgesturerecognizer;
     }
 
-    public PanGestureRecognizer PanGestureRecognizer() => GetNodeFromPool<PanGestureRecognizer>();
-    public PanGestureRecognizer PanGestureRecognizer(IEnumerable<VisualNode> children)
+    public static PanGestureRecognizer PanGestureRecognizer() => GetNodeFromPool<PanGestureRecognizer>();
+    public static PanGestureRecognizer PanGestureRecognizer(IEnumerable<VisualNode> children)
     {
         var @pangesturerecognizer = GetNodeFromPool<PanGestureRecognizer>();
         @pangesturerecognizer.AddChildren(children);
         return @pangesturerecognizer;
     }
 
-    public PanGestureRecognizer PanGestureRecognizer(Action<Microsoft.Maui.Controls.PanGestureRecognizer?> componentRefAction)
+    public static PanGestureRecognizer PanGestureRecognizer(Action<Microsoft.Maui.Controls.PanGestureRecognizer?> componentRefAction)
     {
         var @pangesturerecognizer = GetNodeFromPool<PanGestureRecognizer>();
         @pangesturerecognizer.ComponentRefAction = componentRefAction;
         return @pangesturerecognizer;
     }
 
-    public PinchGestureRecognizer PinchGestureRecognizer() => GetNodeFromPool<PinchGestureRecognizer>();
-    public PinchGestureRecognizer PinchGestureRecognizer(IEnumerable<VisualNode> children)
+    public static PinchGestureRecognizer PinchGestureRecognizer() => GetNodeFromPool<PinchGestureRecognizer>();
+    public static PinchGestureRecognizer PinchGestureRecognizer(IEnumerable<VisualNode> children)
     {
         var @pinchgesturerecognizer = GetNodeFromPool<PinchGestureRecognizer>();
         @pinchgesturerecognizer.AddChildren(children);
         return @pinchgesturerecognizer;
     }
 
-    public PinchGestureRecognizer PinchGestureRecognizer(Action<Microsoft.Maui.Controls.PinchGestureRecognizer?> componentRefAction)
+    public static PinchGestureRecognizer PinchGestureRecognizer(Action<Microsoft.Maui.Controls.PinchGestureRecognizer?> componentRefAction)
     {
         var @pinchgesturerecognizer = GetNodeFromPool<PinchGestureRecognizer>();
         @pinchgesturerecognizer.ComponentRefAction = componentRefAction;
         return @pinchgesturerecognizer;
     }
 
-    public PointerGestureRecognizer PointerGestureRecognizer() => GetNodeFromPool<PointerGestureRecognizer>();
-    public PointerGestureRecognizer PointerGestureRecognizer(IEnumerable<VisualNode> children)
+    public static PointerGestureRecognizer PointerGestureRecognizer() => GetNodeFromPool<PointerGestureRecognizer>();
+    public static PointerGestureRecognizer PointerGestureRecognizer(IEnumerable<VisualNode> children)
     {
         var @pointergesturerecognizer = GetNodeFromPool<PointerGestureRecognizer>();
         @pointergesturerecognizer.AddChildren(children);
         return @pointergesturerecognizer;
     }
 
-    public PointerGestureRecognizer PointerGestureRecognizer(Action<Microsoft.Maui.Controls.PointerGestureRecognizer?> componentRefAction)
+    public static PointerGestureRecognizer PointerGestureRecognizer(Action<Microsoft.Maui.Controls.PointerGestureRecognizer?> componentRefAction)
     {
         var @pointergesturerecognizer = GetNodeFromPool<PointerGestureRecognizer>();
         @pointergesturerecognizer.ComponentRefAction = componentRefAction;
         return @pointergesturerecognizer;
     }
 
-    public SwipeGestureRecognizer SwipeGestureRecognizer() => GetNodeFromPool<SwipeGestureRecognizer>();
-    public SwipeGestureRecognizer SwipeGestureRecognizer(IEnumerable<VisualNode> children)
+    public static SwipeGestureRecognizer SwipeGestureRecognizer() => GetNodeFromPool<SwipeGestureRecognizer>();
+    public static SwipeGestureRecognizer SwipeGestureRecognizer(IEnumerable<VisualNode> children)
     {
         var @swipegesturerecognizer = GetNodeFromPool<SwipeGestureRecognizer>();
         @swipegesturerecognizer.AddChildren(children);
         return @swipegesturerecognizer;
     }
 
-    public SwipeGestureRecognizer SwipeGestureRecognizer(Action<Microsoft.Maui.Controls.SwipeGestureRecognizer?> componentRefAction)
+    public static SwipeGestureRecognizer SwipeGestureRecognizer(Action<Microsoft.Maui.Controls.SwipeGestureRecognizer?> componentRefAction)
     {
         var @swipegesturerecognizer = GetNodeFromPool<SwipeGestureRecognizer>();
         @swipegesturerecognizer.ComponentRefAction = componentRefAction;
         return @swipegesturerecognizer;
     }
 
-    public Shapes.EllipseGeometry EllipseGeometry() => GetNodeFromPool<Shapes.EllipseGeometry>();
-    public Shapes.EllipseGeometry EllipseGeometry(Action<Microsoft.Maui.Controls.Shapes.EllipseGeometry?> componentRefAction)
+    public static Shapes.EllipseGeometry EllipseGeometry() => GetNodeFromPool<Shapes.EllipseGeometry>();
+    public static Shapes.EllipseGeometry EllipseGeometry(Action<Microsoft.Maui.Controls.Shapes.EllipseGeometry?> componentRefAction)
     {
         var @ellipsegeometry = GetNodeFromPool<Shapes.EllipseGeometry>();
         @ellipsegeometry.ComponentRefAction = componentRefAction;
         return @ellipsegeometry;
     }
 
-    public Shapes.LineGeometry LineGeometry() => GetNodeFromPool<Shapes.LineGeometry>();
-    public Shapes.LineGeometry LineGeometry(Action<Microsoft.Maui.Controls.Shapes.LineGeometry?> componentRefAction)
+    public static Shapes.LineGeometry LineGeometry() => GetNodeFromPool<Shapes.LineGeometry>();
+    public static Shapes.LineGeometry LineGeometry(Action<Microsoft.Maui.Controls.Shapes.LineGeometry?> componentRefAction)
     {
         var @linegeometry = GetNodeFromPool<Shapes.LineGeometry>();
         @linegeometry.ComponentRefAction = componentRefAction;
         return @linegeometry;
     }
 
-    public Shapes.RectangleGeometry RectangleGeometry() => GetNodeFromPool<Shapes.RectangleGeometry>();
-    public Shapes.RectangleGeometry RectangleGeometry(Action<Microsoft.Maui.Controls.Shapes.RectangleGeometry?> componentRefAction)
+    public static Shapes.RectangleGeometry RectangleGeometry() => GetNodeFromPool<Shapes.RectangleGeometry>();
+    public static Shapes.RectangleGeometry RectangleGeometry(Action<Microsoft.Maui.Controls.Shapes.RectangleGeometry?> componentRefAction)
     {
         var @rectanglegeometry = GetNodeFromPool<Shapes.RectangleGeometry>();
         @rectanglegeometry.ComponentRefAction = componentRefAction;
         return @rectanglegeometry;
     }
 
-    public Shapes.PathGeometry PathGeometry() => GetNodeFromPool<Shapes.PathGeometry>();
-    public Shapes.PathGeometry PathGeometry(Action<Microsoft.Maui.Controls.Shapes.PathGeometry?> componentRefAction)
+    public static Shapes.PathGeometry PathGeometry() => GetNodeFromPool<Shapes.PathGeometry>();
+    public static Shapes.PathGeometry PathGeometry(Action<Microsoft.Maui.Controls.Shapes.PathGeometry?> componentRefAction)
     {
         var @pathgeometry = GetNodeFromPool<Shapes.PathGeometry>();
         @pathgeometry.ComponentRefAction = componentRefAction;
         return @pathgeometry;
     }
 
-    public Shapes.RoundRectangleGeometry RoundRectangleGeometry() => GetNodeFromPool<Shapes.RoundRectangleGeometry>();
-    public Shapes.RoundRectangleGeometry RoundRectangleGeometry(Action<Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry?> componentRefAction)
+    public static Shapes.RoundRectangleGeometry RoundRectangleGeometry() => GetNodeFromPool<Shapes.RoundRectangleGeometry>();
+    public static Shapes.RoundRectangleGeometry RoundRectangleGeometry(Action<Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry?> componentRefAction)
     {
         var @roundrectanglegeometry = GetNodeFromPool<Shapes.RoundRectangleGeometry>();
         @roundrectanglegeometry.ComponentRefAction = componentRefAction;
         return @roundrectanglegeometry;
     }
 
-    public Shapes.RoundRectangle RoundRectangle() => GetNodeFromPool<Shapes.RoundRectangle>();
-    public Shapes.RoundRectangle RoundRectangle(IEnumerable<VisualNode> children)
+    public static Shapes.RoundRectangle RoundRectangle() => GetNodeFromPool<Shapes.RoundRectangle>();
+    public static Shapes.RoundRectangle RoundRectangle(IEnumerable<VisualNode> children)
     {
         var @roundrectangle = GetNodeFromPool<Shapes.RoundRectangle>();
         @roundrectangle.AddChildren(children);
         return @roundrectangle;
     }
 
-    public Shapes.RoundRectangle RoundRectangle(Action<Microsoft.Maui.Controls.Shapes.RoundRectangle?> componentRefAction)
+    public static Shapes.RoundRectangle RoundRectangle(Action<Microsoft.Maui.Controls.Shapes.RoundRectangle?> componentRefAction)
     {
         var @roundrectangle = GetNodeFromPool<Shapes.RoundRectangle>();
         @roundrectangle.ComponentRefAction = componentRefAction;
         return @roundrectangle;
     }
 
-    public Shapes.Line Line() => GetNodeFromPool<Shapes.Line>();
-    public Shapes.Line Line(IEnumerable<VisualNode> children)
+    public static Shapes.Line Line() => GetNodeFromPool<Shapes.Line>();
+    public static Shapes.Line Line(IEnumerable<VisualNode> children)
     {
         var @line = GetNodeFromPool<Shapes.Line>();
         @line.AddChildren(children);
         return @line;
     }
 
-    public Shapes.Line Line(Action<Microsoft.Maui.Controls.Shapes.Line?> componentRefAction)
+    public static Shapes.Line Line(Action<Microsoft.Maui.Controls.Shapes.Line?> componentRefAction)
     {
         var @line = GetNodeFromPool<Shapes.Line>();
         @line.ComponentRefAction = componentRefAction;
         return @line;
     }
 
-    public Shapes.Path Path() => GetNodeFromPool<Shapes.Path>();
-    public Shapes.Path Path(IEnumerable<VisualNode> children)
+    public static Shapes.Path Path() => GetNodeFromPool<Shapes.Path>();
+    public static Shapes.Path Path(IEnumerable<VisualNode> children)
     {
         var @path = GetNodeFromPool<Shapes.Path>();
         @path.AddChildren(children);
         return @path;
     }
 
-    public Shapes.Path Path(Action<Microsoft.Maui.Controls.Shapes.Path?> componentRefAction)
+    public static Shapes.Path Path(Action<Microsoft.Maui.Controls.Shapes.Path?> componentRefAction)
     {
         var @path = GetNodeFromPool<Shapes.Path>();
         @path.ComponentRefAction = componentRefAction;
         return @path;
     }
 
-    public Shapes.Polygon Polygon() => GetNodeFromPool<Shapes.Polygon>();
-    public Shapes.Polygon Polygon(IEnumerable<VisualNode> children)
+    public static Shapes.Polygon Polygon() => GetNodeFromPool<Shapes.Polygon>();
+    public static Shapes.Polygon Polygon(IEnumerable<VisualNode> children)
     {
         var @polygon = GetNodeFromPool<Shapes.Polygon>();
         @polygon.AddChildren(children);
         return @polygon;
     }
 
-    public Shapes.Polygon Polygon(Action<Microsoft.Maui.Controls.Shapes.Polygon?> componentRefAction)
+    public static Shapes.Polygon Polygon(Action<Microsoft.Maui.Controls.Shapes.Polygon?> componentRefAction)
     {
         var @polygon = GetNodeFromPool<Shapes.Polygon>();
         @polygon.ComponentRefAction = componentRefAction;
         return @polygon;
     }
 
-    public Shapes.Polyline Polyline() => GetNodeFromPool<Shapes.Polyline>();
-    public Shapes.Polyline Polyline(IEnumerable<VisualNode> children)
+    public static Shapes.Polyline Polyline() => GetNodeFromPool<Shapes.Polyline>();
+    public static Shapes.Polyline Polyline(IEnumerable<VisualNode> children)
     {
         var @polyline = GetNodeFromPool<Shapes.Polyline>();
         @polyline.AddChildren(children);
         return @polyline;
     }
 
-    public Shapes.Polyline Polyline(Action<Microsoft.Maui.Controls.Shapes.Polyline?> componentRefAction)
+    public static Shapes.Polyline Polyline(Action<Microsoft.Maui.Controls.Shapes.Polyline?> componentRefAction)
     {
         var @polyline = GetNodeFromPool<Shapes.Polyline>();
         @polyline.ComponentRefAction = componentRefAction;
         return @polyline;
     }
 
-    public Shapes.Rectangle Rectangle() => GetNodeFromPool<Shapes.Rectangle>();
-    public Shapes.Rectangle Rectangle(IEnumerable<VisualNode> children)
+    public static Shapes.Rectangle Rectangle() => GetNodeFromPool<Shapes.Rectangle>();
+    public static Shapes.Rectangle Rectangle(IEnumerable<VisualNode> children)
     {
         var @rectangle = GetNodeFromPool<Shapes.Rectangle>();
         @rectangle.AddChildren(children);
         return @rectangle;
     }
 
-    public Shapes.Rectangle Rectangle(Action<Microsoft.Maui.Controls.Shapes.Rectangle?> componentRefAction)
+    public static Shapes.Rectangle Rectangle(Action<Microsoft.Maui.Controls.Shapes.Rectangle?> componentRefAction)
     {
         var @rectangle = GetNodeFromPool<Shapes.Rectangle>();
         @rectangle.ComponentRefAction = componentRefAction;
         return @rectangle;
     }
 
-    public Shapes.GeometryGroup GeometryGroup() => GetNodeFromPool<Shapes.GeometryGroup>();
-    public Shapes.GeometryGroup GeometryGroup(Action<Microsoft.Maui.Controls.Shapes.GeometryGroup?> componentRefAction)
+    public static Shapes.GeometryGroup GeometryGroup() => GetNodeFromPool<Shapes.GeometryGroup>();
+    public static Shapes.GeometryGroup GeometryGroup(Action<Microsoft.Maui.Controls.Shapes.GeometryGroup?> componentRefAction)
     {
         var @geometrygroup = GetNodeFromPool<Shapes.GeometryGroup>();
         @geometrygroup.ComponentRefAction = componentRefAction;
         return @geometrygroup;
     }
 
-    public Shapes.Ellipse Ellipse() => GetNodeFromPool<Shapes.Ellipse>();
-    public Shapes.Ellipse Ellipse(IEnumerable<VisualNode> children)
+    public static Shapes.Ellipse Ellipse() => GetNodeFromPool<Shapes.Ellipse>();
+    public static Shapes.Ellipse Ellipse(IEnumerable<VisualNode> children)
     {
         var @ellipse = GetNodeFromPool<Shapes.Ellipse>();
         @ellipse.AddChildren(children);
         return @ellipse;
     }
 
-    public Shapes.Ellipse Ellipse(Action<Microsoft.Maui.Controls.Shapes.Ellipse?> componentRefAction)
+    public static Shapes.Ellipse Ellipse(Action<Microsoft.Maui.Controls.Shapes.Ellipse?> componentRefAction)
     {
         var @ellipse = GetNodeFromPool<Shapes.Ellipse>();
         @ellipse.ComponentRefAction = componentRefAction;
         return @ellipse;
     }
 
-    public Border Border() => GetNodeFromPool<Border>();
-    public Border Border(IEnumerable<VisualNode> children)
+    public static Border Border() => GetNodeFromPool<Border>();
+    public static Border Border(IEnumerable<VisualNode> children)
     {
         var @border = GetNodeFromPool<Border>();
         @border.AddChildren(children);
         return @border;
     }
 
-    public Border Border(Action<Microsoft.Maui.Controls.Border?> componentRefAction)
+    public static Border Border(Action<Microsoft.Maui.Controls.Border?> componentRefAction)
     {
         var @border = GetNodeFromPool<Border>();
         @border.ComponentRefAction = componentRefAction;
         return @border;
     }
 
-    public FlexLayout FlexLayout() => GetNodeFromPool<FlexLayout>();
-    public FlexLayout FlexLayout(IEnumerable<VisualNode> children)
+    public static FlexLayout FlexLayout() => GetNodeFromPool<FlexLayout>();
+    public static FlexLayout FlexLayout(IEnumerable<VisualNode> children)
     {
         var @flexlayout = GetNodeFromPool<FlexLayout>();
         @flexlayout.AddChildren(children);
         return @flexlayout;
     }
 
-    public FlexLayout FlexLayout(Action<Microsoft.Maui.Controls.FlexLayout?> componentRefAction)
+    public static FlexLayout FlexLayout(Action<Microsoft.Maui.Controls.FlexLayout?> componentRefAction)
     {
         var @flexlayout = GetNodeFromPool<FlexLayout>();
         @flexlayout.ComponentRefAction = componentRefAction;
         return @flexlayout;
     }
 
-    public CollectionView CollectionView() => GetNodeFromPool<CollectionView>();
-    public CollectionView CollectionView(IEnumerable<VisualNode> children)
+    public static CollectionView CollectionView() => GetNodeFromPool<CollectionView>();
+    public static CollectionView CollectionView(IEnumerable<VisualNode> children)
     {
         var @collectionview = GetNodeFromPool<CollectionView>();
         @collectionview.AddChildren(children);
         return @collectionview;
     }
 
-    public CollectionView CollectionView(Action<Microsoft.Maui.Controls.CollectionView?> componentRefAction)
+    public static CollectionView CollectionView(Action<Microsoft.Maui.Controls.CollectionView?> componentRefAction)
     {
         var @collectionview = GetNodeFromPool<CollectionView>();
         @collectionview.ComponentRefAction = componentRefAction;
         return @collectionview;
     }
 
-    public GroupableItemsView GroupableItemsView() => GetNodeFromPool<GroupableItemsView>();
-    public GroupableItemsView GroupableItemsView(IEnumerable<VisualNode> children)
+    public static GroupableItemsView GroupableItemsView() => GetNodeFromPool<GroupableItemsView>();
+    public static GroupableItemsView GroupableItemsView(IEnumerable<VisualNode> children)
     {
         var @groupableitemsview = GetNodeFromPool<GroupableItemsView>();
         @groupableitemsview.AddChildren(children);
         return @groupableitemsview;
     }
 
-    public GroupableItemsView GroupableItemsView(Action<Microsoft.Maui.Controls.GroupableItemsView?> componentRefAction)
+    public static GroupableItemsView GroupableItemsView(Action<Microsoft.Maui.Controls.GroupableItemsView?> componentRefAction)
     {
         var @groupableitemsview = GetNodeFromPool<GroupableItemsView>();
         @groupableitemsview.ComponentRefAction = componentRefAction;
         return @groupableitemsview;
     }
 
-    public ReorderableItemsView ReorderableItemsView() => GetNodeFromPool<ReorderableItemsView>();
-    public ReorderableItemsView ReorderableItemsView(IEnumerable<VisualNode> children)
+    public static ReorderableItemsView ReorderableItemsView() => GetNodeFromPool<ReorderableItemsView>();
+    public static ReorderableItemsView ReorderableItemsView(IEnumerable<VisualNode> children)
     {
         var @reorderableitemsview = GetNodeFromPool<ReorderableItemsView>();
         @reorderableitemsview.AddChildren(children);
         return @reorderableitemsview;
     }
 
-    public ReorderableItemsView ReorderableItemsView(Action<Microsoft.Maui.Controls.ReorderableItemsView?> componentRefAction)
+    public static ReorderableItemsView ReorderableItemsView(Action<Microsoft.Maui.Controls.ReorderableItemsView?> componentRefAction)
     {
         var @reorderableitemsview = GetNodeFromPool<ReorderableItemsView>();
         @reorderableitemsview.ComponentRefAction = componentRefAction;
         return @reorderableitemsview;
     }
 
-    public SelectableItemsView SelectableItemsView() => GetNodeFromPool<SelectableItemsView>();
-    public SelectableItemsView SelectableItemsView(IEnumerable<VisualNode> children)
+    public static SelectableItemsView SelectableItemsView() => GetNodeFromPool<SelectableItemsView>();
+    public static SelectableItemsView SelectableItemsView(IEnumerable<VisualNode> children)
     {
         var @selectableitemsview = GetNodeFromPool<SelectableItemsView>();
         @selectableitemsview.AddChildren(children);
         return @selectableitemsview;
     }
 
-    public SelectableItemsView SelectableItemsView(Action<Microsoft.Maui.Controls.SelectableItemsView?> componentRefAction)
+    public static SelectableItemsView SelectableItemsView(Action<Microsoft.Maui.Controls.SelectableItemsView?> componentRefAction)
     {
         var @selectableitemsview = GetNodeFromPool<SelectableItemsView>();
         @selectableitemsview.ComponentRefAction = componentRefAction;
         return @selectableitemsview;
     }
 
-    public StructuredItemsView StructuredItemsView() => GetNodeFromPool<StructuredItemsView>();
-    public StructuredItemsView StructuredItemsView(IEnumerable<VisualNode> children)
+    public static StructuredItemsView StructuredItemsView() => GetNodeFromPool<StructuredItemsView>();
+    public static StructuredItemsView StructuredItemsView(IEnumerable<VisualNode> children)
     {
         var @structureditemsview = GetNodeFromPool<StructuredItemsView>();
         @structureditemsview.AddChildren(children);
         return @structureditemsview;
     }
 
-    public StructuredItemsView StructuredItemsView(Action<Microsoft.Maui.Controls.StructuredItemsView?> componentRefAction)
+    public static StructuredItemsView StructuredItemsView(Action<Microsoft.Maui.Controls.StructuredItemsView?> componentRefAction)
     {
         var @structureditemsview = GetNodeFromPool<StructuredItemsView>();
         @structureditemsview.ComponentRefAction = componentRefAction;
         return @structureditemsview;
     }
 
-    public ContentView ContentView() => GetNodeFromPool<ContentView>();
-    public ContentView ContentView(IEnumerable<VisualNode> children)
+    public static ContentView ContentView() => GetNodeFromPool<ContentView>();
+    public static ContentView ContentView(IEnumerable<VisualNode> children)
     {
         var @contentview = GetNodeFromPool<ContentView>();
         @contentview.AddChildren(children);
         return @contentview;
     }
 
-    public ContentView ContentView(Action<Microsoft.Maui.Controls.ContentView?> componentRefAction)
+    public static ContentView ContentView(Action<Microsoft.Maui.Controls.ContentView?> componentRefAction)
     {
         var @contentview = GetNodeFromPool<ContentView>();
         @contentview.ComponentRefAction = componentRefAction;
         return @contentview;
     }
 
-    public Frame Frame() => GetNodeFromPool<Frame>();
-    public Frame Frame(IEnumerable<VisualNode> children)
+    public static Frame Frame() => GetNodeFromPool<Frame>();
+    public static Frame Frame(IEnumerable<VisualNode> children)
     {
         var @frame = GetNodeFromPool<Frame>();
         @frame.AddChildren(children);
         return @frame;
     }
 
-    public Frame Frame(Action<Microsoft.Maui.Controls.Frame?> componentRefAction)
+    public static Frame Frame(Action<Microsoft.Maui.Controls.Frame?> componentRefAction)
     {
         var @frame = GetNodeFromPool<Frame>();
         @frame.ComponentRefAction = componentRefAction;
         return @frame;
     }
 
-    public TemplatedView TemplatedView() => GetNodeFromPool<TemplatedView>();
-    public TemplatedView TemplatedView(IEnumerable<VisualNode> children)
+    public static TemplatedView TemplatedView() => GetNodeFromPool<TemplatedView>();
+    public static TemplatedView TemplatedView(IEnumerable<VisualNode> children)
     {
         var @templatedview = GetNodeFromPool<TemplatedView>();
         @templatedview.AddChildren(children);
         return @templatedview;
     }
 
-    public TemplatedView TemplatedView(Action<Microsoft.Maui.Controls.TemplatedView?> componentRefAction)
+    public static TemplatedView TemplatedView(Action<Microsoft.Maui.Controls.TemplatedView?> componentRefAction)
     {
         var @templatedview = GetNodeFromPool<TemplatedView>();
         @templatedview.ComponentRefAction = componentRefAction;
         return @templatedview;
     }
 
-    public ImageButton ImageButton() => GetNodeFromPool<ImageButton>();
-    public ImageButton ImageButton(IEnumerable<VisualNode> children)
+    public static ImageButton ImageButton() => GetNodeFromPool<ImageButton>();
+    public static ImageButton ImageButton(IEnumerable<VisualNode> children)
     {
         var @imagebutton = GetNodeFromPool<ImageButton>();
         @imagebutton.AddChildren(children);
         return @imagebutton;
     }
 
-    public ImageButton ImageButton(Action<Microsoft.Maui.Controls.ImageButton?> componentRefAction)
+    public static ImageButton ImageButton(Action<Microsoft.Maui.Controls.ImageButton?> componentRefAction)
     {
         var @imagebutton = GetNodeFromPool<ImageButton>();
         @imagebutton.ComponentRefAction = componentRefAction;
         return @imagebutton;
     }
 
-    public RadioButton RadioButton() => GetNodeFromPool<RadioButton>();
-    public RadioButton RadioButton(IEnumerable<VisualNode> children)
+    public static RadioButton RadioButton() => GetNodeFromPool<RadioButton>();
+    public static RadioButton RadioButton(IEnumerable<VisualNode> children)
     {
         var @radiobutton = GetNodeFromPool<RadioButton>();
         @radiobutton.AddChildren(children);
         return @radiobutton;
     }
 
-    public RadioButton RadioButton(Action<Microsoft.Maui.Controls.RadioButton?> componentRefAction)
+    public static RadioButton RadioButton(Action<Microsoft.Maui.Controls.RadioButton?> componentRefAction)
     {
         var @radiobutton = GetNodeFromPool<RadioButton>();
         @radiobutton.ComponentRefAction = componentRefAction;
         return @radiobutton;
     }
 
-    public WebView WebView() => GetNodeFromPool<WebView>();
-    public WebView WebView(IEnumerable<VisualNode> children)
+    public static WebView WebView() => GetNodeFromPool<WebView>();
+    public static WebView WebView(IEnumerable<VisualNode> children)
     {
         var @webview = GetNodeFromPool<WebView>();
         @webview.AddChildren(children);
         return @webview;
     }
 
-    public WebView WebView(Action<Microsoft.Maui.Controls.WebView?> componentRefAction)
+    public static WebView WebView(Action<Microsoft.Maui.Controls.WebView?> componentRefAction)
     {
         var @webview = GetNodeFromPool<WebView>();
         @webview.ComponentRefAction = componentRefAction;
         return @webview;
     }
 
-    public RefreshView RefreshView() => GetNodeFromPool<RefreshView>();
-    public RefreshView RefreshView(IEnumerable<VisualNode> children)
+    public static RefreshView RefreshView() => GetNodeFromPool<RefreshView>();
+    public static RefreshView RefreshView(IEnumerable<VisualNode> children)
     {
         var @refreshview = GetNodeFromPool<RefreshView>();
         @refreshview.AddChildren(children);
         return @refreshview;
     }
 
-    public RefreshView RefreshView(Action<Microsoft.Maui.Controls.RefreshView?> componentRefAction)
+    public static RefreshView RefreshView(Action<Microsoft.Maui.Controls.RefreshView?> componentRefAction)
     {
         var @refreshview = GetNodeFromPool<RefreshView>();
         @refreshview.ComponentRefAction = componentRefAction;
         return @refreshview;
     }
 
-    public SearchBar SearchBar() => GetNodeFromPool<SearchBar>();
-    public SearchBar SearchBar(IEnumerable<VisualNode> children)
+    public static SearchBar SearchBar() => GetNodeFromPool<SearchBar>();
+    public static SearchBar SearchBar(IEnumerable<VisualNode> children)
     {
         var @searchbar = GetNodeFromPool<SearchBar>();
         @searchbar.AddChildren(children);
         return @searchbar;
     }
 
-    public SearchBar SearchBar(Action<Microsoft.Maui.Controls.SearchBar?> componentRefAction)
+    public static SearchBar SearchBar(Action<Microsoft.Maui.Controls.SearchBar?> componentRefAction)
     {
         var @searchbar = GetNodeFromPool<SearchBar>();
         @searchbar.ComponentRefAction = componentRefAction;
         return @searchbar;
     }
 
-    public SwipeView SwipeView() => GetNodeFromPool<SwipeView>();
-    public SwipeView SwipeView(IEnumerable<VisualNode> children)
+    public static SwipeView SwipeView() => GetNodeFromPool<SwipeView>();
+    public static SwipeView SwipeView(IEnumerable<VisualNode> children)
     {
         var @swipeview = GetNodeFromPool<SwipeView>();
         @swipeview.AddChildren(children);
         return @swipeview;
     }
 
-    public SwipeView SwipeView(Action<Microsoft.Maui.Controls.SwipeView?> componentRefAction)
+    public static SwipeView SwipeView(Action<Microsoft.Maui.Controls.SwipeView?> componentRefAction)
     {
         var @swipeview = GetNodeFromPool<SwipeView>();
         @swipeview.ComponentRefAction = componentRefAction;
         return @swipeview;
     }
 
-    public SwipeItem SwipeItem() => GetNodeFromPool<SwipeItem>();
-    public SwipeItem SwipeItem(IEnumerable<VisualNode> children)
+    public static SwipeItem SwipeItem() => GetNodeFromPool<SwipeItem>();
+    public static SwipeItem SwipeItem(IEnumerable<VisualNode> children)
     {
         var @swipeitem = GetNodeFromPool<SwipeItem>();
         @swipeitem.AddChildren(children);
         return @swipeitem;
     }
 
-    public SwipeItem SwipeItem(Action<Microsoft.Maui.Controls.SwipeItem?> componentRefAction)
+    public static SwipeItem SwipeItem(Action<Microsoft.Maui.Controls.SwipeItem?> componentRefAction)
     {
         var @swipeitem = GetNodeFromPool<SwipeItem>();
         @swipeitem.ComponentRefAction = componentRefAction;
         return @swipeitem;
     }
 
-    public SwipeItems SwipeItems() => GetNodeFromPool<SwipeItems>();
-    public SwipeItems SwipeItems(IEnumerable<VisualNode> children)
+    public static SwipeItems SwipeItems() => GetNodeFromPool<SwipeItems>();
+    public static SwipeItems SwipeItems(IEnumerable<VisualNode> children)
     {
         var @swipeitems = GetNodeFromPool<SwipeItems>();
         @swipeitems.AddChildren(children);
         return @swipeitems;
     }
 
-    public SwipeItems SwipeItems(Action<Microsoft.Maui.Controls.SwipeItems?> componentRefAction)
+    public static SwipeItems SwipeItems(Action<Microsoft.Maui.Controls.SwipeItems?> componentRefAction)
     {
         var @swipeitems = GetNodeFromPool<SwipeItems>();
         @swipeitems.ComponentRefAction = componentRefAction;
         return @swipeitems;
     }
 
-    public CheckBox CheckBox() => GetNodeFromPool<CheckBox>();
-    public CheckBox CheckBox(IEnumerable<VisualNode> children)
+    public static CheckBox CheckBox() => GetNodeFromPool<CheckBox>();
+    public static CheckBox CheckBox(IEnumerable<VisualNode> children)
     {
         var @checkbox = GetNodeFromPool<CheckBox>();
         @checkbox.AddChildren(children);
         return @checkbox;
     }
 
-    public CheckBox CheckBox(Action<Microsoft.Maui.Controls.CheckBox?> componentRefAction)
+    public static CheckBox CheckBox(Action<Microsoft.Maui.Controls.CheckBox?> componentRefAction)
     {
         var @checkbox = GetNodeFromPool<CheckBox>();
         @checkbox.ComponentRefAction = componentRefAction;
         return @checkbox;
     }
 
-    public Slider Slider() => GetNodeFromPool<Slider>();
-    public Slider Slider(IEnumerable<VisualNode> children)
+    public static Slider Slider() => GetNodeFromPool<Slider>();
+    public static Slider Slider(IEnumerable<VisualNode> children)
     {
         var @slider = GetNodeFromPool<Slider>();
         @slider.AddChildren(children);
         return @slider;
     }
 
-    public Slider Slider(Action<Microsoft.Maui.Controls.Slider?> componentRefAction)
+    public static Slider Slider(Action<Microsoft.Maui.Controls.Slider?> componentRefAction)
     {
         var @slider = GetNodeFromPool<Slider>();
         @slider.ComponentRefAction = componentRefAction;
         return @slider;
     }
 
-    public Stepper Stepper() => GetNodeFromPool<Stepper>();
-    public Stepper Stepper(IEnumerable<VisualNode> children)
+    public static Stepper Stepper() => GetNodeFromPool<Stepper>();
+    public static Stepper Stepper(IEnumerable<VisualNode> children)
     {
         var @stepper = GetNodeFromPool<Stepper>();
         @stepper.AddChildren(children);
         return @stepper;
     }
 
-    public Stepper Stepper(Action<Microsoft.Maui.Controls.Stepper?> componentRefAction)
+    public static Stepper Stepper(Action<Microsoft.Maui.Controls.Stepper?> componentRefAction)
     {
         var @stepper = GetNodeFromPool<Stepper>();
         @stepper.ComponentRefAction = componentRefAction;
         return @stepper;
     }
 
-    public Editor Editor() => GetNodeFromPool<Editor>();
-    public Editor Editor(IEnumerable<VisualNode> children)
+    public static Editor Editor() => GetNodeFromPool<Editor>();
+    public static Editor Editor(IEnumerable<VisualNode> children)
     {
         var @editor = GetNodeFromPool<Editor>();
         @editor.AddChildren(children);
         return @editor;
     }
 
-    public Editor Editor(Action<Microsoft.Maui.Controls.Editor?> componentRefAction)
+    public static Editor Editor(Action<Microsoft.Maui.Controls.Editor?> componentRefAction)
     {
         var @editor = GetNodeFromPool<Editor>();
         @editor.ComponentRefAction = componentRefAction;
         return @editor;
     }
 
-    public Switch Switch() => GetNodeFromPool<Switch>();
-    public Switch Switch(IEnumerable<VisualNode> children)
+    public static Switch Switch() => GetNodeFromPool<Switch>();
+    public static Switch Switch(IEnumerable<VisualNode> children)
     {
         var @switch = GetNodeFromPool<Switch>();
         @switch.AddChildren(children);
         return @switch;
     }
 
-    public Switch Switch(Action<Microsoft.Maui.Controls.Switch?> componentRefAction)
+    public static Switch Switch(Action<Microsoft.Maui.Controls.Switch?> componentRefAction)
     {
         var @switch = GetNodeFromPool<Switch>();
         @switch.ComponentRefAction = componentRefAction;
         return @switch;
     }
 
-    public DatePicker DatePicker() => GetNodeFromPool<DatePicker>();
-    public DatePicker DatePicker(IEnumerable<VisualNode> children)
+    public static DatePicker DatePicker() => GetNodeFromPool<DatePicker>();
+    public static DatePicker DatePicker(IEnumerable<VisualNode> children)
     {
         var @datepicker = GetNodeFromPool<DatePicker>();
         @datepicker.AddChildren(children);
         return @datepicker;
     }
 
-    public DatePicker DatePicker(Action<Microsoft.Maui.Controls.DatePicker?> componentRefAction)
+    public static DatePicker DatePicker(Action<Microsoft.Maui.Controls.DatePicker?> componentRefAction)
     {
         var @datepicker = GetNodeFromPool<DatePicker>();
         @datepicker.ComponentRefAction = componentRefAction;
         return @datepicker;
     }
 
-    public Entry Entry() => GetNodeFromPool<Entry>();
-    public Entry Entry(IEnumerable<VisualNode> children)
+    public static Entry Entry() => GetNodeFromPool<Entry>();
+    public static Entry Entry(IEnumerable<VisualNode> children)
     {
         var @entry = GetNodeFromPool<Entry>();
         @entry.AddChildren(children);
         return @entry;
     }
 
-    public Entry Entry(Action<Microsoft.Maui.Controls.Entry?> componentRefAction)
+    public static Entry Entry(Action<Microsoft.Maui.Controls.Entry?> componentRefAction)
     {
         var @entry = GetNodeFromPool<Entry>();
         @entry.ComponentRefAction = componentRefAction;
         return @entry;
     }
 
-    public ActivityIndicator ActivityIndicator() => GetNodeFromPool<ActivityIndicator>();
-    public ActivityIndicator ActivityIndicator(IEnumerable<VisualNode> children)
+    public static ActivityIndicator ActivityIndicator() => GetNodeFromPool<ActivityIndicator>();
+    public static ActivityIndicator ActivityIndicator(IEnumerable<VisualNode> children)
     {
         var @activityindicator = GetNodeFromPool<ActivityIndicator>();
         @activityindicator.AddChildren(children);
         return @activityindicator;
     }
 
-    public ActivityIndicator ActivityIndicator(Action<Microsoft.Maui.Controls.ActivityIndicator?> componentRefAction)
+    public static ActivityIndicator ActivityIndicator(Action<Microsoft.Maui.Controls.ActivityIndicator?> componentRefAction)
     {
         var @activityindicator = GetNodeFromPool<ActivityIndicator>();
         @activityindicator.ComponentRefAction = componentRefAction;
         return @activityindicator;
     }
 
-    public ProgressBar ProgressBar() => GetNodeFromPool<ProgressBar>();
-    public ProgressBar ProgressBar(IEnumerable<VisualNode> children)
+    public static ProgressBar ProgressBar() => GetNodeFromPool<ProgressBar>();
+    public static ProgressBar ProgressBar(IEnumerable<VisualNode> children)
     {
         var @progressbar = GetNodeFromPool<ProgressBar>();
         @progressbar.AddChildren(children);
         return @progressbar;
     }
 
-    public ProgressBar ProgressBar(Action<Microsoft.Maui.Controls.ProgressBar?> componentRefAction)
+    public static ProgressBar ProgressBar(Action<Microsoft.Maui.Controls.ProgressBar?> componentRefAction)
     {
         var @progressbar = GetNodeFromPool<ProgressBar>();
         @progressbar.ComponentRefAction = componentRefAction;
         return @progressbar;
     }
 
-    public AbsoluteLayout AbsoluteLayout() => GetNodeFromPool<AbsoluteLayout>();
-    public AbsoluteLayout AbsoluteLayout(IEnumerable<VisualNode> children)
+    public static AbsoluteLayout AbsoluteLayout() => GetNodeFromPool<AbsoluteLayout>();
+    public static AbsoluteLayout AbsoluteLayout(IEnumerable<VisualNode> children)
     {
         var @absolutelayout = GetNodeFromPool<AbsoluteLayout>();
         @absolutelayout.AddChildren(children);
         return @absolutelayout;
     }
 
-    public AbsoluteLayout AbsoluteLayout(Action<Microsoft.Maui.Controls.AbsoluteLayout?> componentRefAction)
+    public static AbsoluteLayout AbsoluteLayout(Action<Microsoft.Maui.Controls.AbsoluteLayout?> componentRefAction)
     {
         var @absolutelayout = GetNodeFromPool<AbsoluteLayout>();
         @absolutelayout.ComponentRefAction = componentRefAction;
         return @absolutelayout;
     }
 
-    public IndicatorView IndicatorView() => GetNodeFromPool<IndicatorView>();
-    public IndicatorView IndicatorView(IEnumerable<VisualNode> children)
+    public static IndicatorView IndicatorView() => GetNodeFromPool<IndicatorView>();
+    public static IndicatorView IndicatorView(IEnumerable<VisualNode> children)
     {
         var @indicatorview = GetNodeFromPool<IndicatorView>();
         @indicatorview.AddChildren(children);
         return @indicatorview;
     }
 
-    public IndicatorView IndicatorView(Action<Microsoft.Maui.Controls.IndicatorView?> componentRefAction)
+    public static IndicatorView IndicatorView(Action<Microsoft.Maui.Controls.IndicatorView?> componentRefAction)
     {
         var @indicatorview = GetNodeFromPool<IndicatorView>();
         @indicatorview.ComponentRefAction = componentRefAction;
         return @indicatorview;
     }
 
-    public Picker Picker() => GetNodeFromPool<Picker>();
-    public Picker Picker(IEnumerable<VisualNode> children)
+    public static Picker Picker() => GetNodeFromPool<Picker>();
+    public static Picker Picker(IEnumerable<VisualNode> children)
     {
         var @picker = GetNodeFromPool<Picker>();
         @picker.AddChildren(children);
         return @picker;
     }
 
-    public Picker Picker(Action<Microsoft.Maui.Controls.Picker?> componentRefAction)
+    public static Picker Picker(Action<Microsoft.Maui.Controls.Picker?> componentRefAction)
     {
         var @picker = GetNodeFromPool<Picker>();
         @picker.ComponentRefAction = componentRefAction;
         return @picker;
     }
 
-    public TableView TableView() => GetNodeFromPool<TableView>();
-    public TableView TableView(IEnumerable<VisualNode> children)
+    public static TableView TableView() => GetNodeFromPool<TableView>();
+    public static TableView TableView(IEnumerable<VisualNode> children)
     {
         var @tableview = GetNodeFromPool<TableView>();
         @tableview.AddChildren(children);
         return @tableview;
     }
 
-    public TableView TableView(Action<Microsoft.Maui.Controls.TableView?> componentRefAction)
+    public static TableView TableView(Action<Microsoft.Maui.Controls.TableView?> componentRefAction)
     {
         var @tableview = GetNodeFromPool<TableView>();
         @tableview.ComponentRefAction = componentRefAction;
         return @tableview;
     }
 
-    public TextCell TextCell() => GetNodeFromPool<TextCell>();
-    public TextCell TextCell(IEnumerable<VisualNode> children)
+    public static TextCell TextCell() => GetNodeFromPool<TextCell>();
+    public static TextCell TextCell(IEnumerable<VisualNode> children)
     {
         var @textcell = GetNodeFromPool<TextCell>();
         @textcell.AddChildren(children);
         return @textcell;
     }
 
-    public TextCell TextCell(Action<Microsoft.Maui.Controls.TextCell?> componentRefAction)
+    public static TextCell TextCell(Action<Microsoft.Maui.Controls.TextCell?> componentRefAction)
     {
         var @textcell = GetNodeFromPool<TextCell>();
         @textcell.ComponentRefAction = componentRefAction;
         return @textcell;
     }
 
-    public ImageCell ImageCell() => GetNodeFromPool<ImageCell>();
-    public ImageCell ImageCell(IEnumerable<VisualNode> children)
+    public static ImageCell ImageCell() => GetNodeFromPool<ImageCell>();
+    public static ImageCell ImageCell(IEnumerable<VisualNode> children)
     {
         var @imagecell = GetNodeFromPool<ImageCell>();
         @imagecell.AddChildren(children);
         return @imagecell;
     }
 
-    public ImageCell ImageCell(Action<Microsoft.Maui.Controls.ImageCell?> componentRefAction)
+    public static ImageCell ImageCell(Action<Microsoft.Maui.Controls.ImageCell?> componentRefAction)
     {
         var @imagecell = GetNodeFromPool<ImageCell>();
         @imagecell.ComponentRefAction = componentRefAction;
         return @imagecell;
     }
 
-    public SwitchCell SwitchCell() => GetNodeFromPool<SwitchCell>();
-    public SwitchCell SwitchCell(IEnumerable<VisualNode> children)
+    public static SwitchCell SwitchCell() => GetNodeFromPool<SwitchCell>();
+    public static SwitchCell SwitchCell(IEnumerable<VisualNode> children)
     {
         var @switchcell = GetNodeFromPool<SwitchCell>();
         @switchcell.AddChildren(children);
         return @switchcell;
     }
 
-    public SwitchCell SwitchCell(Action<Microsoft.Maui.Controls.SwitchCell?> componentRefAction)
+    public static SwitchCell SwitchCell(Action<Microsoft.Maui.Controls.SwitchCell?> componentRefAction)
     {
         var @switchcell = GetNodeFromPool<SwitchCell>();
         @switchcell.ComponentRefAction = componentRefAction;
         return @switchcell;
     }
 
-    public EntryCell EntryCell() => GetNodeFromPool<EntryCell>();
-    public EntryCell EntryCell(IEnumerable<VisualNode> children)
+    public static EntryCell EntryCell() => GetNodeFromPool<EntryCell>();
+    public static EntryCell EntryCell(IEnumerable<VisualNode> children)
     {
         var @entrycell = GetNodeFromPool<EntryCell>();
         @entrycell.AddChildren(children);
         return @entrycell;
     }
 
-    public EntryCell EntryCell(Action<Microsoft.Maui.Controls.EntryCell?> componentRefAction)
+    public static EntryCell EntryCell(Action<Microsoft.Maui.Controls.EntryCell?> componentRefAction)
     {
         var @entrycell = GetNodeFromPool<EntryCell>();
         @entrycell.ComponentRefAction = componentRefAction;
         return @entrycell;
     }
 
-    public ViewCell ViewCell() => GetNodeFromPool<ViewCell>();
-    public ViewCell ViewCell(IEnumerable<VisualNode> children)
+    public static ViewCell ViewCell() => GetNodeFromPool<ViewCell>();
+    public static ViewCell ViewCell(IEnumerable<VisualNode> children)
     {
         var @viewcell = GetNodeFromPool<ViewCell>();
         @viewcell.AddChildren(children);
         return @viewcell;
     }
 
-    public ViewCell ViewCell(Action<Microsoft.Maui.Controls.ViewCell?> componentRefAction)
+    public static ViewCell ViewCell(Action<Microsoft.Maui.Controls.ViewCell?> componentRefAction)
     {
         var @viewcell = GetNodeFromPool<ViewCell>();
         @viewcell.ComponentRefAction = componentRefAction;
         return @viewcell;
     }
 
-    public CarouselView CarouselView() => GetNodeFromPool<CarouselView>();
-    public CarouselView CarouselView(IEnumerable<VisualNode> children)
+    public static CarouselView CarouselView() => GetNodeFromPool<CarouselView>();
+    public static CarouselView CarouselView(IEnumerable<VisualNode> children)
     {
         var @carouselview = GetNodeFromPool<CarouselView>();
         @carouselview.AddChildren(children);
         return @carouselview;
     }
 
-    public CarouselView CarouselView(Action<Microsoft.Maui.Controls.CarouselView?> componentRefAction)
+    public static CarouselView CarouselView(Action<Microsoft.Maui.Controls.CarouselView?> componentRefAction)
     {
         var @carouselview = GetNodeFromPool<CarouselView>();
         @carouselview.ComponentRefAction = componentRefAction;
         return @carouselview;
     }
 
-    public GraphicsView GraphicsView() => GetNodeFromPool<GraphicsView>();
-    public GraphicsView GraphicsView(IEnumerable<VisualNode> children)
+    public static GraphicsView GraphicsView() => GetNodeFromPool<GraphicsView>();
+    public static GraphicsView GraphicsView(IEnumerable<VisualNode> children)
     {
         var @graphicsview = GetNodeFromPool<GraphicsView>();
         @graphicsview.AddChildren(children);
         return @graphicsview;
     }
 
-    public GraphicsView GraphicsView(Action<Microsoft.Maui.Controls.GraphicsView?> componentRefAction)
+    public static GraphicsView GraphicsView(Action<Microsoft.Maui.Controls.GraphicsView?> componentRefAction)
     {
         var @graphicsview = GetNodeFromPool<GraphicsView>();
         @graphicsview.ComponentRefAction = componentRefAction;
         return @graphicsview;
     }
 
-    public Shadow Shadow() => GetNodeFromPool<Shadow>();
-    public Shadow Shadow(IEnumerable<VisualNode> children)
+    public static Shadow Shadow() => GetNodeFromPool<Shadow>();
+    public static Shadow Shadow(IEnumerable<VisualNode> children)
     {
         var @shadow = GetNodeFromPool<Shadow>();
         @shadow.AddChildren(children);
         return @shadow;
     }
 
-    public Shadow Shadow(Action<Microsoft.Maui.Controls.Shadow?> componentRefAction)
+    public static Shadow Shadow(Action<Microsoft.Maui.Controls.Shadow?> componentRefAction)
     {
         var @shadow = GetNodeFromPool<Shadow>();
         @shadow.ComponentRefAction = componentRefAction;
         return @shadow;
     }
 
-    public Window Window() => GetNodeFromPool<Window>();
-    public Window Window(IEnumerable<VisualNode> children)
+    public static Window Window() => GetNodeFromPool<Window>();
+    public static Window Window(IEnumerable<VisualNode> children)
     {
         var @window = GetNodeFromPool<Window>();
         @window.AddChildren(children);
         return @window;
     }
 
-    public Window Window(Action<Microsoft.Maui.Controls.Window?> componentRefAction)
+    public static Window Window(Action<Microsoft.Maui.Controls.Window?> componentRefAction)
     {
         var @window = GetNodeFromPool<Window>();
         @window.ComponentRefAction = componentRefAction;
