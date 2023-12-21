@@ -92,7 +92,7 @@ class AnimatedItem : Component<AnimatedItemState>
     }
 
     public override VisualNode Render() =>
-        Grid(Children())
+        Grid([.. Children()])
             .ScaleX(State.ScaleX)
             .ScaleY(State.ScaleY)
             .WithAnimation(easing: Easing.CubicOut);

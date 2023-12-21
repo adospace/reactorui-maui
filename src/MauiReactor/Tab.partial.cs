@@ -12,12 +12,12 @@ public partial class Tab
 
 public partial class Component
 {
-    public Tab Tab(string title) =>
+    public static Tab Tab(string title) =>
         GetNodeFromPool<Tab>().Title(title);
 
-    public Tab Tab(string title, string icon) =>
+    public static Tab Tab(string title, string icon) =>
         GetNodeFromPool<Tab>().Title(title).Icon(icon);
 
-    public Tab Tab(string title, Uri iconUri) =>
+    public static Tab Tab(string title, Uri iconUri) =>
         GetNodeFromPool<Tab>().Title(title).Icon(iconUri);
 }

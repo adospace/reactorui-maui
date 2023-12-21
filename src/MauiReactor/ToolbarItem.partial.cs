@@ -60,7 +60,7 @@ public static partial class ToolbarItemExtensions
 
 public partial class Component
 {
-    public ToolbarItem ToolbarItem(string text) =>
+    public static ToolbarItem ToolbarItem(string text) =>
         GetNodeFromPool<ToolbarItem>().Text(text);
 
 }

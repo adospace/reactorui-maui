@@ -14,17 +14,14 @@ public class HStack : HorizontalStackLayout
 
 public partial class Component
 {
-    public HStack HStack() =>
-        GetNodeFromPool<HStack>();
 
-    public HStack HStack(double spacing) =>
-        GetNodeFromPool<HStack>()
-            .Spacing(spacing);
-
-    public HStack HStack(IEnumerable<VisualNode> children)
+    public static HStack HStack(params VisualNode[] children)
     {
         var hstack = GetNodeFromPool<HStack>();
         hstack.AddChildren(children);
         return hstack;
     }
+    public static HStack HStack(double spacing, params VisualNode[] children) 
+        => HStack(children)
+            .Spacing(spacing);
 }

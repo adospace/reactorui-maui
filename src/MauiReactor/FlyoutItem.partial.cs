@@ -10,7 +10,9 @@ public partial class FlyoutItem
 
 public partial class Component
 {
-    public FlyoutItem FlyoutItem(string title) => GetNodeFromPool<FlyoutItem>().Title(title);
-    
-    public FlyoutItem FlyoutItem(string title, string icon) => GetNodeFromPool<FlyoutItem>().Title(title).Icon(icon);
+    public static FlyoutItem FlyoutItem(string title) 
+        => GetNodeFromPool<FlyoutItem>().Title(title);
+
+    public static FlyoutItem FlyoutItem(string title, string icon) 
+        => GetNodeFromPool<FlyoutItem>().Title(title).Icon(icon);
 }

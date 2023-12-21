@@ -26,28 +26,27 @@ public class Bug187_2ChildPageState
 
 public class Bug187_2ChildPage : Component<Bug187_2ChildPageState>
 {
-    public override VisualNode Render() => new NavigationPage()
-    {
-        new ContentPage
-        {
-            new ToolbarItem("Close").OnClicked(() => Navigation?.PopModalAsync()),
-
-            new Grid
-            {
-                new MudEditor()
-                    .Placeholder("Test")
-            }
-            .VCenter()
-        }
-        .Title("Child Page")
-        .BackgroundColor(Colors.Aquamarine)
-    }
-    .OniOS(page => page.Set(MauiControls.PlatformConfiguration.iOSSpecific.Page.ModalPresentationStyleProperty, MauiControls.PlatformConfiguration.iOSSpecific.UIModalPresentationStyle.FormSheet));
+    public override VisualNode Render() 
+        => NavigationPage(
+            ContentPage(
+                ToolbarItem("Close")
+                    .OnClicked(() => Navigation?.PopModalAsync()),
+                Grid(
+                    new MudEditor()
+                        .Placeholder("Test")
+                )
+                .VCenter()
+            )
+            .Title("Child Page")
+            .BackgroundColor(Colors.Aquamarine)
+        )
+        .OniOS(page => page.Set(MauiControls.PlatformConfiguration.iOSSpecific.Page.ModalPresentationStyleProperty, MauiControls.PlatformConfiguration.iOSSpecific.UIModalPresentationStyle.FormSheet));
 }
 
 class MudEditorState
 {
     public string? Text { get; set; }
+
     public bool Focused { get; set; }
 
     public bool IsEmpty { get; set; } = true;
@@ -74,9 +73,8 @@ class MudEditor : Component<MudEditorState>
 
     public override VisualNode Render()
     {
-        return new Grid("Auto", "*")
-        {
-            new Editor(editorRef => _editorRef = editorRef)
+        return Grid("Auto", "*",        
+            Editor(editorRef => _editorRef = editorRef)
                 .Text(State.Text ?? "")
                 // .OnAfterTextChanged(OnTextChanged)
                 .OnTextChanged((s, e) =>
@@ -92,7 +90,7 @@ class MudEditor : Component<MudEditorState>
                 .OnFocused(() => SetState(s => s.Focused = true))
                 .OnUnfocused(() => SetState(s => s.Focused = false)),
 
-            new Label(_label)
+            Label(_label)
                 .OnTapped(() => _editorRef?.Focus())
                 .Margin(5,0)
                 .HStart()
@@ -103,8 +101,8 @@ class MudEditor : Component<MudEditorState>
                 //these 2 properties will be animated
                 .TranslationY(State.Focused || !State.IsEmpty ? -20 : 0)
                 .ScaleX(State.Focused || !State.IsEmpty ? 0.8 : 1.0)
-                .WithAnimation(duration: 20),
-        }
+                .WithAnimation(duration: 20)
+        )
         .HFill()
         .VFill();
     }

@@ -11,20 +11,17 @@ class ElementRefPage : Component
     private MauiControls.Entry? _entryRef;
 
     public override VisualNode Render()
-    {
-        return new ContentPage
-        {
-            new VStack(spacing: 10)
-            {
-                new Entry(entryRef => _entryRef = entryRef)
+        => ContentPage("Element Reference",
+            VStack(spacing: 10,
+                Entry(entryRef => _entryRef = entryRef)
                     .Text("Hi!")
                     .VCenter()
                     .HCenter(),
 
-                new Button("Focus Entry")
+                Button("Focus Entry")
+                    .BackgroundColor(Colors.Green)
+                    .HCenter()
                     .OnClicked(()=> _entryRef?.Focus())
-            }
-        }
-        .Title("Element Reference");
-    }
+            )
+        );    
 }

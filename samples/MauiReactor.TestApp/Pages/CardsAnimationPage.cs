@@ -26,7 +26,7 @@ namespace MauiReactor.TestApp.Pages
         {
             return ContentPage(
             [
-                Grid(                
+                Grid(
                     State.Cards
                         .Select(card => new CardPage()
                             .Index(card.Index)
@@ -44,8 +44,9 @@ namespace MauiReactor.TestApp.Pages
                                 });
                             })
                             )
+                        .ToArray()
                 )
-                .Background(Microsoft.Maui.Controls.Brush.Black)
+                .Background(MauiControls.Brush.Black)
             ])
             .Title("Animation Sample");
         }
