@@ -13,7 +13,7 @@ namespace MauiReactor;
 public partial class Component
 {
     public static ListView ListView() => GetNodeFromPool<ListView>();
-    public static ListView ListView(IEnumerable<VisualNode> children)
+    public static ListView ListView(params VisualNode[] children)
     {
         var @listview = GetNodeFromPool<ListView>();
         @listview.AddChildren(children);
@@ -28,7 +28,7 @@ public partial class Component
     }
 
     public static TabbedPage TabbedPage() => GetNodeFromPool<TabbedPage>();
-    public static TabbedPage TabbedPage(IEnumerable<VisualNode> children)
+    public static TabbedPage TabbedPage(params VisualNode[] children)
     {
         var @tabbedpage = GetNodeFromPool<TabbedPage>();
         @tabbedpage.AddChildren(children);
@@ -43,7 +43,7 @@ public partial class Component
     }
 
     public static Page Page() => GetNodeFromPool<Page>();
-    public static Page Page(IEnumerable<VisualNode> children)
+    public static Page Page(params VisualNode[] children)
     {
         var @page = GetNodeFromPool<Page>();
         @page.AddChildren(children);
@@ -58,7 +58,7 @@ public partial class Component
     }
 
     public static TemplatedPage TemplatedPage() => GetNodeFromPool<TemplatedPage>();
-    public static TemplatedPage TemplatedPage(IEnumerable<VisualNode> children)
+    public static TemplatedPage TemplatedPage(params VisualNode[] children)
     {
         var @templatedpage = GetNodeFromPool<TemplatedPage>();
         @templatedpage.AddChildren(children);
@@ -73,7 +73,7 @@ public partial class Component
     }
 
     public static ContentPage ContentPage() => GetNodeFromPool<ContentPage>();
-    public static ContentPage ContentPage(IEnumerable<VisualNode> children)
+    public static ContentPage ContentPage(params VisualNode[] children)
     {
         var @contentpage = GetNodeFromPool<ContentPage>();
         @contentpage.AddChildren(children);
@@ -88,7 +88,7 @@ public partial class Component
     }
 
     public static NavigationPage NavigationPage() => GetNodeFromPool<NavigationPage>();
-    public static NavigationPage NavigationPage(IEnumerable<VisualNode> children)
+    public static NavigationPage NavigationPage(params VisualNode[] children)
     {
         var @navigationpage = GetNodeFromPool<NavigationPage>();
         @navigationpage.AddChildren(children);
@@ -103,7 +103,7 @@ public partial class Component
     }
 
     public static FlyoutPage FlyoutPage() => GetNodeFromPool<FlyoutPage>();
-    public static FlyoutPage FlyoutPage(IEnumerable<VisualNode> children)
+    public static FlyoutPage FlyoutPage(params VisualNode[] children)
     {
         var @flyoutpage = GetNodeFromPool<FlyoutPage>();
         @flyoutpage.AddChildren(children);
@@ -118,7 +118,7 @@ public partial class Component
     }
 
     public static Button Button() => GetNodeFromPool<Button>();
-    public static Button Button(IEnumerable<VisualNode> children)
+    public static Button Button(params VisualNode[] children)
     {
         var @button = GetNodeFromPool<Button>();
         @button.AddChildren(children);
@@ -133,7 +133,7 @@ public partial class Component
     }
 
     public static Label Label() => GetNodeFromPool<Label>();
-    public static Label Label(IEnumerable<VisualNode> children)
+    public static Label Label(params VisualNode[] children)
     {
         var @label = GetNodeFromPool<Label>();
         @label.AddChildren(children);
@@ -148,7 +148,7 @@ public partial class Component
     }
 
     public static StackLayout StackLayout() => GetNodeFromPool<StackLayout>();
-    public static StackLayout StackLayout(IEnumerable<VisualNode> children)
+    public static StackLayout StackLayout(params VisualNode[] children)
     {
         var @stacklayout = GetNodeFromPool<StackLayout>();
         @stacklayout.AddChildren(children);
@@ -163,7 +163,7 @@ public partial class Component
     }
 
     public static VerticalStackLayout VerticalStackLayout() => GetNodeFromPool<VerticalStackLayout>();
-    public static VerticalStackLayout VerticalStackLayout(IEnumerable<VisualNode> children)
+    public static VerticalStackLayout VerticalStackLayout(params VisualNode[] children)
     {
         var @verticalstacklayout = GetNodeFromPool<VerticalStackLayout>();
         @verticalstacklayout.AddChildren(children);
@@ -178,7 +178,7 @@ public partial class Component
     }
 
     public static HorizontalStackLayout HorizontalStackLayout() => GetNodeFromPool<HorizontalStackLayout>();
-    public static HorizontalStackLayout HorizontalStackLayout(IEnumerable<VisualNode> children)
+    public static HorizontalStackLayout HorizontalStackLayout(params VisualNode[] children)
     {
         var @horizontalstacklayout = GetNodeFromPool<HorizontalStackLayout>();
         @horizontalstacklayout.AddChildren(children);
@@ -193,7 +193,7 @@ public partial class Component
     }
 
     public static Grid Grid() => GetNodeFromPool<Grid>();
-    public static Grid Grid(IEnumerable<VisualNode> children)
+    public static Grid Grid(params VisualNode[] children)
     {
         var @grid = GetNodeFromPool<Grid>();
         @grid.AddChildren(children);
@@ -208,7 +208,7 @@ public partial class Component
     }
 
     public static Shell Shell() => GetNodeFromPool<Shell>();
-    public static Shell Shell(IEnumerable<VisualNode> children)
+    public static Shell Shell(params VisualNode[] children)
     {
         var @shell = GetNodeFromPool<Shell>();
         @shell.AddChildren(children);
@@ -223,7 +223,7 @@ public partial class Component
     }
 
     public static BaseShellItem BaseShellItem() => GetNodeFromPool<BaseShellItem>();
-    public static BaseShellItem BaseShellItem(IEnumerable<VisualNode> children)
+    public static BaseShellItem BaseShellItem(params VisualNode[] children)
     {
         var @baseshellitem = GetNodeFromPool<BaseShellItem>();
         @baseshellitem.AddChildren(children);
@@ -238,7 +238,7 @@ public partial class Component
     }
 
     public static ShellGroupItem ShellGroupItem() => GetNodeFromPool<ShellGroupItem>();
-    public static ShellGroupItem ShellGroupItem(IEnumerable<VisualNode> children)
+    public static ShellGroupItem ShellGroupItem(params VisualNode[] children)
     {
         var @shellgroupitem = GetNodeFromPool<ShellGroupItem>();
         @shellgroupitem.AddChildren(children);
@@ -253,7 +253,7 @@ public partial class Component
     }
 
     public static ShellItem ShellItem() => GetNodeFromPool<ShellItem>();
-    public static ShellItem ShellItem(IEnumerable<VisualNode> children)
+    public static ShellItem ShellItem(params VisualNode[] children)
     {
         var @shellitem = GetNodeFromPool<ShellItem>();
         @shellitem.AddChildren(children);
@@ -268,7 +268,7 @@ public partial class Component
     }
 
     public static FlyoutItem FlyoutItem() => GetNodeFromPool<FlyoutItem>();
-    public static FlyoutItem FlyoutItem(IEnumerable<VisualNode> children)
+    public static FlyoutItem FlyoutItem(params VisualNode[] children)
     {
         var @flyoutitem = GetNodeFromPool<FlyoutItem>();
         @flyoutitem.AddChildren(children);
@@ -283,7 +283,7 @@ public partial class Component
     }
 
     public static ShellContent ShellContent() => GetNodeFromPool<ShellContent>();
-    public static ShellContent ShellContent(IEnumerable<VisualNode> children)
+    public static ShellContent ShellContent(params VisualNode[] children)
     {
         var @shellcontent = GetNodeFromPool<ShellContent>();
         @shellcontent.AddChildren(children);
@@ -298,7 +298,7 @@ public partial class Component
     }
 
     public static TabBar TabBar() => GetNodeFromPool<TabBar>();
-    public static TabBar TabBar(IEnumerable<VisualNode> children)
+    public static TabBar TabBar(params VisualNode[] children)
     {
         var @tabbar = GetNodeFromPool<TabBar>();
         @tabbar.AddChildren(children);
@@ -313,7 +313,7 @@ public partial class Component
     }
 
     public static Tab Tab() => GetNodeFromPool<Tab>();
-    public static Tab Tab(IEnumerable<VisualNode> children)
+    public static Tab Tab(params VisualNode[] children)
     {
         var @tab = GetNodeFromPool<Tab>();
         @tab.AddChildren(children);
@@ -328,7 +328,7 @@ public partial class Component
     }
 
     public static ShellSection ShellSection() => GetNodeFromPool<ShellSection>();
-    public static ShellSection ShellSection(IEnumerable<VisualNode> children)
+    public static ShellSection ShellSection(params VisualNode[] children)
     {
         var @shellsection = GetNodeFromPool<ShellSection>();
         @shellsection.AddChildren(children);
@@ -343,7 +343,7 @@ public partial class Component
     }
 
     public static MenuItem MenuItem() => GetNodeFromPool<MenuItem>();
-    public static MenuItem MenuItem(IEnumerable<VisualNode> children)
+    public static MenuItem MenuItem(params VisualNode[] children)
     {
         var @menuitem = GetNodeFromPool<MenuItem>();
         @menuitem.AddChildren(children);
@@ -358,7 +358,7 @@ public partial class Component
     }
 
     public static MenuBarItem MenuBarItem() => GetNodeFromPool<MenuBarItem>();
-    public static MenuBarItem MenuBarItem(IEnumerable<VisualNode> children)
+    public static MenuBarItem MenuBarItem(params VisualNode[] children)
     {
         var @menubaritem = GetNodeFromPool<MenuBarItem>();
         @menubaritem.AddChildren(children);
@@ -373,7 +373,7 @@ public partial class Component
     }
 
     public static MenuFlyout MenuFlyout() => GetNodeFromPool<MenuFlyout>();
-    public static MenuFlyout MenuFlyout(IEnumerable<VisualNode> children)
+    public static MenuFlyout MenuFlyout(params VisualNode[] children)
     {
         var @menuflyout = GetNodeFromPool<MenuFlyout>();
         @menuflyout.AddChildren(children);
@@ -388,7 +388,7 @@ public partial class Component
     }
 
     public static MenuFlyoutItem MenuFlyoutItem() => GetNodeFromPool<MenuFlyoutItem>();
-    public static MenuFlyoutItem MenuFlyoutItem(IEnumerable<VisualNode> children)
+    public static MenuFlyoutItem MenuFlyoutItem(params VisualNode[] children)
     {
         var @menuflyoutitem = GetNodeFromPool<MenuFlyoutItem>();
         @menuflyoutitem.AddChildren(children);
@@ -403,7 +403,7 @@ public partial class Component
     }
 
     public static MenuFlyoutSubItem MenuFlyoutSubItem() => GetNodeFromPool<MenuFlyoutSubItem>();
-    public static MenuFlyoutSubItem MenuFlyoutSubItem(IEnumerable<VisualNode> children)
+    public static MenuFlyoutSubItem MenuFlyoutSubItem(params VisualNode[] children)
     {
         var @menuflyoutsubitem = GetNodeFromPool<MenuFlyoutSubItem>();
         @menuflyoutsubitem.AddChildren(children);
@@ -418,7 +418,7 @@ public partial class Component
     }
 
     public static MenuFlyoutSeparator MenuFlyoutSeparator() => GetNodeFromPool<MenuFlyoutSeparator>();
-    public static MenuFlyoutSeparator MenuFlyoutSeparator(IEnumerable<VisualNode> children)
+    public static MenuFlyoutSeparator MenuFlyoutSeparator(params VisualNode[] children)
     {
         var @menuflyoutseparator = GetNodeFromPool<MenuFlyoutSeparator>();
         @menuflyoutseparator.AddChildren(children);
@@ -433,7 +433,7 @@ public partial class Component
     }
 
     public static ToolbarItem ToolbarItem() => GetNodeFromPool<ToolbarItem>();
-    public static ToolbarItem ToolbarItem(IEnumerable<VisualNode> children)
+    public static ToolbarItem ToolbarItem(params VisualNode[] children)
     {
         var @toolbaritem = GetNodeFromPool<ToolbarItem>();
         @toolbaritem.AddChildren(children);
@@ -448,7 +448,7 @@ public partial class Component
     }
 
     public static BoxView BoxView() => GetNodeFromPool<BoxView>();
-    public static BoxView BoxView(IEnumerable<VisualNode> children)
+    public static BoxView BoxView(params VisualNode[] children)
     {
         var @boxview = GetNodeFromPool<BoxView>();
         @boxview.AddChildren(children);
@@ -463,7 +463,7 @@ public partial class Component
     }
 
     public static ScrollView ScrollView() => GetNodeFromPool<ScrollView>();
-    public static ScrollView ScrollView(IEnumerable<VisualNode> children)
+    public static ScrollView ScrollView(params VisualNode[] children)
     {
         var @scrollview = GetNodeFromPool<ScrollView>();
         @scrollview.AddChildren(children);
@@ -478,7 +478,7 @@ public partial class Component
     }
 
     public static Image Image() => GetNodeFromPool<Image>();
-    public static Image Image(IEnumerable<VisualNode> children)
+    public static Image Image(params VisualNode[] children)
     {
         var @image = GetNodeFromPool<Image>();
         @image.AddChildren(children);
@@ -493,7 +493,7 @@ public partial class Component
     }
 
     public static GestureRecognizer GestureRecognizer() => GetNodeFromPool<GestureRecognizer>();
-    public static GestureRecognizer GestureRecognizer(IEnumerable<VisualNode> children)
+    public static GestureRecognizer GestureRecognizer(params VisualNode[] children)
     {
         var @gesturerecognizer = GetNodeFromPool<GestureRecognizer>();
         @gesturerecognizer.AddChildren(children);
@@ -508,7 +508,7 @@ public partial class Component
     }
 
     public static TapGestureRecognizer TapGestureRecognizer() => GetNodeFromPool<TapGestureRecognizer>();
-    public static TapGestureRecognizer TapGestureRecognizer(IEnumerable<VisualNode> children)
+    public static TapGestureRecognizer TapGestureRecognizer(params VisualNode[] children)
     {
         var @tapgesturerecognizer = GetNodeFromPool<TapGestureRecognizer>();
         @tapgesturerecognizer.AddChildren(children);
@@ -523,7 +523,7 @@ public partial class Component
     }
 
     public static DragGestureRecognizer DragGestureRecognizer() => GetNodeFromPool<DragGestureRecognizer>();
-    public static DragGestureRecognizer DragGestureRecognizer(IEnumerable<VisualNode> children)
+    public static DragGestureRecognizer DragGestureRecognizer(params VisualNode[] children)
     {
         var @draggesturerecognizer = GetNodeFromPool<DragGestureRecognizer>();
         @draggesturerecognizer.AddChildren(children);
@@ -538,7 +538,7 @@ public partial class Component
     }
 
     public static DropGestureRecognizer DropGestureRecognizer() => GetNodeFromPool<DropGestureRecognizer>();
-    public static DropGestureRecognizer DropGestureRecognizer(IEnumerable<VisualNode> children)
+    public static DropGestureRecognizer DropGestureRecognizer(params VisualNode[] children)
     {
         var @dropgesturerecognizer = GetNodeFromPool<DropGestureRecognizer>();
         @dropgesturerecognizer.AddChildren(children);
@@ -553,7 +553,7 @@ public partial class Component
     }
 
     public static PanGestureRecognizer PanGestureRecognizer() => GetNodeFromPool<PanGestureRecognizer>();
-    public static PanGestureRecognizer PanGestureRecognizer(IEnumerable<VisualNode> children)
+    public static PanGestureRecognizer PanGestureRecognizer(params VisualNode[] children)
     {
         var @pangesturerecognizer = GetNodeFromPool<PanGestureRecognizer>();
         @pangesturerecognizer.AddChildren(children);
@@ -568,7 +568,7 @@ public partial class Component
     }
 
     public static PinchGestureRecognizer PinchGestureRecognizer() => GetNodeFromPool<PinchGestureRecognizer>();
-    public static PinchGestureRecognizer PinchGestureRecognizer(IEnumerable<VisualNode> children)
+    public static PinchGestureRecognizer PinchGestureRecognizer(params VisualNode[] children)
     {
         var @pinchgesturerecognizer = GetNodeFromPool<PinchGestureRecognizer>();
         @pinchgesturerecognizer.AddChildren(children);
@@ -583,7 +583,7 @@ public partial class Component
     }
 
     public static PointerGestureRecognizer PointerGestureRecognizer() => GetNodeFromPool<PointerGestureRecognizer>();
-    public static PointerGestureRecognizer PointerGestureRecognizer(IEnumerable<VisualNode> children)
+    public static PointerGestureRecognizer PointerGestureRecognizer(params VisualNode[] children)
     {
         var @pointergesturerecognizer = GetNodeFromPool<PointerGestureRecognizer>();
         @pointergesturerecognizer.AddChildren(children);
@@ -598,7 +598,7 @@ public partial class Component
     }
 
     public static SwipeGestureRecognizer SwipeGestureRecognizer() => GetNodeFromPool<SwipeGestureRecognizer>();
-    public static SwipeGestureRecognizer SwipeGestureRecognizer(IEnumerable<VisualNode> children)
+    public static SwipeGestureRecognizer SwipeGestureRecognizer(params VisualNode[] children)
     {
         var @swipegesturerecognizer = GetNodeFromPool<SwipeGestureRecognizer>();
         @swipegesturerecognizer.AddChildren(children);
@@ -653,7 +653,7 @@ public partial class Component
     }
 
     public static Shapes.RoundRectangle RoundRectangle() => GetNodeFromPool<Shapes.RoundRectangle>();
-    public static Shapes.RoundRectangle RoundRectangle(IEnumerable<VisualNode> children)
+    public static Shapes.RoundRectangle RoundRectangle(params VisualNode[] children)
     {
         var @roundrectangle = GetNodeFromPool<Shapes.RoundRectangle>();
         @roundrectangle.AddChildren(children);
@@ -668,7 +668,7 @@ public partial class Component
     }
 
     public static Shapes.Line Line() => GetNodeFromPool<Shapes.Line>();
-    public static Shapes.Line Line(IEnumerable<VisualNode> children)
+    public static Shapes.Line Line(params VisualNode[] children)
     {
         var @line = GetNodeFromPool<Shapes.Line>();
         @line.AddChildren(children);
@@ -683,7 +683,7 @@ public partial class Component
     }
 
     public static Shapes.Path Path() => GetNodeFromPool<Shapes.Path>();
-    public static Shapes.Path Path(IEnumerable<VisualNode> children)
+    public static Shapes.Path Path(params VisualNode[] children)
     {
         var @path = GetNodeFromPool<Shapes.Path>();
         @path.AddChildren(children);
@@ -698,7 +698,7 @@ public partial class Component
     }
 
     public static Shapes.Polygon Polygon() => GetNodeFromPool<Shapes.Polygon>();
-    public static Shapes.Polygon Polygon(IEnumerable<VisualNode> children)
+    public static Shapes.Polygon Polygon(params VisualNode[] children)
     {
         var @polygon = GetNodeFromPool<Shapes.Polygon>();
         @polygon.AddChildren(children);
@@ -713,7 +713,7 @@ public partial class Component
     }
 
     public static Shapes.Polyline Polyline() => GetNodeFromPool<Shapes.Polyline>();
-    public static Shapes.Polyline Polyline(IEnumerable<VisualNode> children)
+    public static Shapes.Polyline Polyline(params VisualNode[] children)
     {
         var @polyline = GetNodeFromPool<Shapes.Polyline>();
         @polyline.AddChildren(children);
@@ -728,7 +728,7 @@ public partial class Component
     }
 
     public static Shapes.Rectangle Rectangle() => GetNodeFromPool<Shapes.Rectangle>();
-    public static Shapes.Rectangle Rectangle(IEnumerable<VisualNode> children)
+    public static Shapes.Rectangle Rectangle(params VisualNode[] children)
     {
         var @rectangle = GetNodeFromPool<Shapes.Rectangle>();
         @rectangle.AddChildren(children);
@@ -751,7 +751,7 @@ public partial class Component
     }
 
     public static Shapes.Ellipse Ellipse() => GetNodeFromPool<Shapes.Ellipse>();
-    public static Shapes.Ellipse Ellipse(IEnumerable<VisualNode> children)
+    public static Shapes.Ellipse Ellipse(params VisualNode[] children)
     {
         var @ellipse = GetNodeFromPool<Shapes.Ellipse>();
         @ellipse.AddChildren(children);
@@ -766,7 +766,7 @@ public partial class Component
     }
 
     public static Border Border() => GetNodeFromPool<Border>();
-    public static Border Border(IEnumerable<VisualNode> children)
+    public static Border Border(params VisualNode[] children)
     {
         var @border = GetNodeFromPool<Border>();
         @border.AddChildren(children);
@@ -781,7 +781,7 @@ public partial class Component
     }
 
     public static FlexLayout FlexLayout() => GetNodeFromPool<FlexLayout>();
-    public static FlexLayout FlexLayout(IEnumerable<VisualNode> children)
+    public static FlexLayout FlexLayout(params VisualNode[] children)
     {
         var @flexlayout = GetNodeFromPool<FlexLayout>();
         @flexlayout.AddChildren(children);
@@ -796,7 +796,7 @@ public partial class Component
     }
 
     public static CollectionView CollectionView() => GetNodeFromPool<CollectionView>();
-    public static CollectionView CollectionView(IEnumerable<VisualNode> children)
+    public static CollectionView CollectionView(params VisualNode[] children)
     {
         var @collectionview = GetNodeFromPool<CollectionView>();
         @collectionview.AddChildren(children);
@@ -811,7 +811,7 @@ public partial class Component
     }
 
     public static GroupableItemsView GroupableItemsView() => GetNodeFromPool<GroupableItemsView>();
-    public static GroupableItemsView GroupableItemsView(IEnumerable<VisualNode> children)
+    public static GroupableItemsView GroupableItemsView(params VisualNode[] children)
     {
         var @groupableitemsview = GetNodeFromPool<GroupableItemsView>();
         @groupableitemsview.AddChildren(children);
@@ -826,7 +826,7 @@ public partial class Component
     }
 
     public static ReorderableItemsView ReorderableItemsView() => GetNodeFromPool<ReorderableItemsView>();
-    public static ReorderableItemsView ReorderableItemsView(IEnumerable<VisualNode> children)
+    public static ReorderableItemsView ReorderableItemsView(params VisualNode[] children)
     {
         var @reorderableitemsview = GetNodeFromPool<ReorderableItemsView>();
         @reorderableitemsview.AddChildren(children);
@@ -841,7 +841,7 @@ public partial class Component
     }
 
     public static SelectableItemsView SelectableItemsView() => GetNodeFromPool<SelectableItemsView>();
-    public static SelectableItemsView SelectableItemsView(IEnumerable<VisualNode> children)
+    public static SelectableItemsView SelectableItemsView(params VisualNode[] children)
     {
         var @selectableitemsview = GetNodeFromPool<SelectableItemsView>();
         @selectableitemsview.AddChildren(children);
@@ -856,7 +856,7 @@ public partial class Component
     }
 
     public static StructuredItemsView StructuredItemsView() => GetNodeFromPool<StructuredItemsView>();
-    public static StructuredItemsView StructuredItemsView(IEnumerable<VisualNode> children)
+    public static StructuredItemsView StructuredItemsView(params VisualNode[] children)
     {
         var @structureditemsview = GetNodeFromPool<StructuredItemsView>();
         @structureditemsview.AddChildren(children);
@@ -871,7 +871,7 @@ public partial class Component
     }
 
     public static ContentView ContentView() => GetNodeFromPool<ContentView>();
-    public static ContentView ContentView(IEnumerable<VisualNode> children)
+    public static ContentView ContentView(params VisualNode[] children)
     {
         var @contentview = GetNodeFromPool<ContentView>();
         @contentview.AddChildren(children);
@@ -886,7 +886,7 @@ public partial class Component
     }
 
     public static Frame Frame() => GetNodeFromPool<Frame>();
-    public static Frame Frame(IEnumerable<VisualNode> children)
+    public static Frame Frame(params VisualNode[] children)
     {
         var @frame = GetNodeFromPool<Frame>();
         @frame.AddChildren(children);
@@ -901,7 +901,7 @@ public partial class Component
     }
 
     public static TemplatedView TemplatedView() => GetNodeFromPool<TemplatedView>();
-    public static TemplatedView TemplatedView(IEnumerable<VisualNode> children)
+    public static TemplatedView TemplatedView(params VisualNode[] children)
     {
         var @templatedview = GetNodeFromPool<TemplatedView>();
         @templatedview.AddChildren(children);
@@ -916,7 +916,7 @@ public partial class Component
     }
 
     public static ImageButton ImageButton() => GetNodeFromPool<ImageButton>();
-    public static ImageButton ImageButton(IEnumerable<VisualNode> children)
+    public static ImageButton ImageButton(params VisualNode[] children)
     {
         var @imagebutton = GetNodeFromPool<ImageButton>();
         @imagebutton.AddChildren(children);
@@ -931,7 +931,7 @@ public partial class Component
     }
 
     public static RadioButton RadioButton() => GetNodeFromPool<RadioButton>();
-    public static RadioButton RadioButton(IEnumerable<VisualNode> children)
+    public static RadioButton RadioButton(params VisualNode[] children)
     {
         var @radiobutton = GetNodeFromPool<RadioButton>();
         @radiobutton.AddChildren(children);
@@ -946,7 +946,7 @@ public partial class Component
     }
 
     public static WebView WebView() => GetNodeFromPool<WebView>();
-    public static WebView WebView(IEnumerable<VisualNode> children)
+    public static WebView WebView(params VisualNode[] children)
     {
         var @webview = GetNodeFromPool<WebView>();
         @webview.AddChildren(children);
@@ -961,7 +961,7 @@ public partial class Component
     }
 
     public static RefreshView RefreshView() => GetNodeFromPool<RefreshView>();
-    public static RefreshView RefreshView(IEnumerable<VisualNode> children)
+    public static RefreshView RefreshView(params VisualNode[] children)
     {
         var @refreshview = GetNodeFromPool<RefreshView>();
         @refreshview.AddChildren(children);
@@ -976,7 +976,7 @@ public partial class Component
     }
 
     public static SearchBar SearchBar() => GetNodeFromPool<SearchBar>();
-    public static SearchBar SearchBar(IEnumerable<VisualNode> children)
+    public static SearchBar SearchBar(params VisualNode[] children)
     {
         var @searchbar = GetNodeFromPool<SearchBar>();
         @searchbar.AddChildren(children);
@@ -991,7 +991,7 @@ public partial class Component
     }
 
     public static SwipeView SwipeView() => GetNodeFromPool<SwipeView>();
-    public static SwipeView SwipeView(IEnumerable<VisualNode> children)
+    public static SwipeView SwipeView(params VisualNode[] children)
     {
         var @swipeview = GetNodeFromPool<SwipeView>();
         @swipeview.AddChildren(children);
@@ -1006,7 +1006,7 @@ public partial class Component
     }
 
     public static SwipeItem SwipeItem() => GetNodeFromPool<SwipeItem>();
-    public static SwipeItem SwipeItem(IEnumerable<VisualNode> children)
+    public static SwipeItem SwipeItem(params VisualNode[] children)
     {
         var @swipeitem = GetNodeFromPool<SwipeItem>();
         @swipeitem.AddChildren(children);
@@ -1021,7 +1021,7 @@ public partial class Component
     }
 
     public static SwipeItems SwipeItems() => GetNodeFromPool<SwipeItems>();
-    public static SwipeItems SwipeItems(IEnumerable<VisualNode> children)
+    public static SwipeItems SwipeItems(params VisualNode[] children)
     {
         var @swipeitems = GetNodeFromPool<SwipeItems>();
         @swipeitems.AddChildren(children);
@@ -1036,7 +1036,7 @@ public partial class Component
     }
 
     public static CheckBox CheckBox() => GetNodeFromPool<CheckBox>();
-    public static CheckBox CheckBox(IEnumerable<VisualNode> children)
+    public static CheckBox CheckBox(params VisualNode[] children)
     {
         var @checkbox = GetNodeFromPool<CheckBox>();
         @checkbox.AddChildren(children);
@@ -1051,7 +1051,7 @@ public partial class Component
     }
 
     public static Slider Slider() => GetNodeFromPool<Slider>();
-    public static Slider Slider(IEnumerable<VisualNode> children)
+    public static Slider Slider(params VisualNode[] children)
     {
         var @slider = GetNodeFromPool<Slider>();
         @slider.AddChildren(children);
@@ -1066,7 +1066,7 @@ public partial class Component
     }
 
     public static Stepper Stepper() => GetNodeFromPool<Stepper>();
-    public static Stepper Stepper(IEnumerable<VisualNode> children)
+    public static Stepper Stepper(params VisualNode[] children)
     {
         var @stepper = GetNodeFromPool<Stepper>();
         @stepper.AddChildren(children);
@@ -1081,7 +1081,7 @@ public partial class Component
     }
 
     public static Editor Editor() => GetNodeFromPool<Editor>();
-    public static Editor Editor(IEnumerable<VisualNode> children)
+    public static Editor Editor(params VisualNode[] children)
     {
         var @editor = GetNodeFromPool<Editor>();
         @editor.AddChildren(children);
@@ -1096,7 +1096,7 @@ public partial class Component
     }
 
     public static Switch Switch() => GetNodeFromPool<Switch>();
-    public static Switch Switch(IEnumerable<VisualNode> children)
+    public static Switch Switch(params VisualNode[] children)
     {
         var @switch = GetNodeFromPool<Switch>();
         @switch.AddChildren(children);
@@ -1111,7 +1111,7 @@ public partial class Component
     }
 
     public static DatePicker DatePicker() => GetNodeFromPool<DatePicker>();
-    public static DatePicker DatePicker(IEnumerable<VisualNode> children)
+    public static DatePicker DatePicker(params VisualNode[] children)
     {
         var @datepicker = GetNodeFromPool<DatePicker>();
         @datepicker.AddChildren(children);
@@ -1126,7 +1126,7 @@ public partial class Component
     }
 
     public static Entry Entry() => GetNodeFromPool<Entry>();
-    public static Entry Entry(IEnumerable<VisualNode> children)
+    public static Entry Entry(params VisualNode[] children)
     {
         var @entry = GetNodeFromPool<Entry>();
         @entry.AddChildren(children);
@@ -1141,7 +1141,7 @@ public partial class Component
     }
 
     public static ActivityIndicator ActivityIndicator() => GetNodeFromPool<ActivityIndicator>();
-    public static ActivityIndicator ActivityIndicator(IEnumerable<VisualNode> children)
+    public static ActivityIndicator ActivityIndicator(params VisualNode[] children)
     {
         var @activityindicator = GetNodeFromPool<ActivityIndicator>();
         @activityindicator.AddChildren(children);
@@ -1156,7 +1156,7 @@ public partial class Component
     }
 
     public static ProgressBar ProgressBar() => GetNodeFromPool<ProgressBar>();
-    public static ProgressBar ProgressBar(IEnumerable<VisualNode> children)
+    public static ProgressBar ProgressBar(params VisualNode[] children)
     {
         var @progressbar = GetNodeFromPool<ProgressBar>();
         @progressbar.AddChildren(children);
@@ -1171,7 +1171,7 @@ public partial class Component
     }
 
     public static AbsoluteLayout AbsoluteLayout() => GetNodeFromPool<AbsoluteLayout>();
-    public static AbsoluteLayout AbsoluteLayout(IEnumerable<VisualNode> children)
+    public static AbsoluteLayout AbsoluteLayout(params VisualNode[] children)
     {
         var @absolutelayout = GetNodeFromPool<AbsoluteLayout>();
         @absolutelayout.AddChildren(children);
@@ -1186,7 +1186,7 @@ public partial class Component
     }
 
     public static IndicatorView IndicatorView() => GetNodeFromPool<IndicatorView>();
-    public static IndicatorView IndicatorView(IEnumerable<VisualNode> children)
+    public static IndicatorView IndicatorView(params VisualNode[] children)
     {
         var @indicatorview = GetNodeFromPool<IndicatorView>();
         @indicatorview.AddChildren(children);
@@ -1201,7 +1201,7 @@ public partial class Component
     }
 
     public static Picker Picker() => GetNodeFromPool<Picker>();
-    public static Picker Picker(IEnumerable<VisualNode> children)
+    public static Picker Picker(params VisualNode[] children)
     {
         var @picker = GetNodeFromPool<Picker>();
         @picker.AddChildren(children);
@@ -1216,7 +1216,7 @@ public partial class Component
     }
 
     public static TableView TableView() => GetNodeFromPool<TableView>();
-    public static TableView TableView(IEnumerable<VisualNode> children)
+    public static TableView TableView(params VisualNode[] children)
     {
         var @tableview = GetNodeFromPool<TableView>();
         @tableview.AddChildren(children);
@@ -1231,7 +1231,7 @@ public partial class Component
     }
 
     public static TextCell TextCell() => GetNodeFromPool<TextCell>();
-    public static TextCell TextCell(IEnumerable<VisualNode> children)
+    public static TextCell TextCell(params VisualNode[] children)
     {
         var @textcell = GetNodeFromPool<TextCell>();
         @textcell.AddChildren(children);
@@ -1246,7 +1246,7 @@ public partial class Component
     }
 
     public static ImageCell ImageCell() => GetNodeFromPool<ImageCell>();
-    public static ImageCell ImageCell(IEnumerable<VisualNode> children)
+    public static ImageCell ImageCell(params VisualNode[] children)
     {
         var @imagecell = GetNodeFromPool<ImageCell>();
         @imagecell.AddChildren(children);
@@ -1261,7 +1261,7 @@ public partial class Component
     }
 
     public static SwitchCell SwitchCell() => GetNodeFromPool<SwitchCell>();
-    public static SwitchCell SwitchCell(IEnumerable<VisualNode> children)
+    public static SwitchCell SwitchCell(params VisualNode[] children)
     {
         var @switchcell = GetNodeFromPool<SwitchCell>();
         @switchcell.AddChildren(children);
@@ -1276,7 +1276,7 @@ public partial class Component
     }
 
     public static EntryCell EntryCell() => GetNodeFromPool<EntryCell>();
-    public static EntryCell EntryCell(IEnumerable<VisualNode> children)
+    public static EntryCell EntryCell(params VisualNode[] children)
     {
         var @entrycell = GetNodeFromPool<EntryCell>();
         @entrycell.AddChildren(children);
@@ -1291,7 +1291,7 @@ public partial class Component
     }
 
     public static ViewCell ViewCell() => GetNodeFromPool<ViewCell>();
-    public static ViewCell ViewCell(IEnumerable<VisualNode> children)
+    public static ViewCell ViewCell(params VisualNode[] children)
     {
         var @viewcell = GetNodeFromPool<ViewCell>();
         @viewcell.AddChildren(children);
@@ -1306,7 +1306,7 @@ public partial class Component
     }
 
     public static CarouselView CarouselView() => GetNodeFromPool<CarouselView>();
-    public static CarouselView CarouselView(IEnumerable<VisualNode> children)
+    public static CarouselView CarouselView(params VisualNode[] children)
     {
         var @carouselview = GetNodeFromPool<CarouselView>();
         @carouselview.AddChildren(children);
@@ -1321,7 +1321,7 @@ public partial class Component
     }
 
     public static GraphicsView GraphicsView() => GetNodeFromPool<GraphicsView>();
-    public static GraphicsView GraphicsView(IEnumerable<VisualNode> children)
+    public static GraphicsView GraphicsView(params VisualNode[] children)
     {
         var @graphicsview = GetNodeFromPool<GraphicsView>();
         @graphicsview.AddChildren(children);
@@ -1336,7 +1336,7 @@ public partial class Component
     }
 
     public static Shadow Shadow() => GetNodeFromPool<Shadow>();
-    public static Shadow Shadow(IEnumerable<VisualNode> children)
+    public static Shadow Shadow(params VisualNode[] children)
     {
         var @shadow = GetNodeFromPool<Shadow>();
         @shadow.AddChildren(children);
@@ -1351,7 +1351,7 @@ public partial class Component
     }
 
     public static Window Window() => GetNodeFromPool<Window>();
-    public static Window Window(IEnumerable<VisualNode> children)
+    public static Window Window(params VisualNode[] children)
     {
         var @window = GetNodeFromPool<Window>();
         @window.AddChildren(children);

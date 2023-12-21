@@ -173,9 +173,9 @@ namespace MauiReactor
 
     public partial class Component
     {
-        public Timer Timer() => GetNodeFromPool<Timer>();
+        public static Timer Timer() => GetNodeFromPool<Timer>();
 
-        public Timer ListView(Action<MauiReactor.Internals.Timer?> componentRefAction)
+        public static Timer ListView(Action<Internals.Timer?> componentRefAction)
         {
             var @listview = GetNodeFromPool<Timer>();
             @listview.ComponentRefAction = componentRefAction;

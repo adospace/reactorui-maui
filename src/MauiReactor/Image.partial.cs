@@ -10,9 +10,9 @@ public partial class Image
 
 public partial class Component
 {
-    public Image Image(string imageSource) =>
+    public static Image Image(string imageSource) =>
         GetNodeFromPool<Image>().Source(imageSource);
 
-    public Image Image(Uri imageSource) =>
+    public static Image Image(Uri imageSource) =>
         GetNodeFromPool<Image>().Source(imageSource);
 }

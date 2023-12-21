@@ -18,8 +18,6 @@ public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage 
 
         if (childControl is TChild page)
             NativeControl.Children.Insert(widget.ChildIndex, page);
-        else if (childControl is Microsoft.Maui.Controls.ToolbarItem toolbarItem)
-            NativeControl.ToolbarItems.Add(toolbarItem);
 
         base.OnAddChild(widget, childControl);
     }
@@ -30,8 +28,6 @@ public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage 
 
         if (childControl is TChild page)
             NativeControl.Children.Remove(page);
-        else if (childControl is Microsoft.Maui.Controls.ToolbarItem toolbarItem)
-            NativeControl.ToolbarItems.Remove(toolbarItem);
 
         base.OnRemoveChild(widget, childControl);
     }

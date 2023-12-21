@@ -13,16 +13,16 @@ public partial class TapGestureRecognizer
 
 public partial class Component
 {
-    public TapGestureRecognizer TapGestureRecognizer(Action onTap) =>
-        GetNodeFromPool<TapGestureRecognizer>().OnTapped(onTap);
+    public static TapGestureRecognizer TapGestureRecognizer(Action onTap) =>
+        TapGestureRecognizer().OnTapped(onTap);
 
-    public TapGestureRecognizer TapGestureRecognizer(Action onTap, int numberOfTapsRequired) =>
-        GetNodeFromPool<TapGestureRecognizer>().OnTapped(onTap).NumberOfTapsRequired(numberOfTapsRequired);
+    public static TapGestureRecognizer TapGestureRecognizer(Action onTap, int numberOfTapsRequired) =>
+        TapGestureRecognizer().OnTapped(onTap).NumberOfTapsRequired(numberOfTapsRequired);
 
-    public TapGestureRecognizer TapGestureRecognizer(Action<object?, EventArgs> onTap) =>
-        GetNodeFromPool<TapGestureRecognizer>().OnTapped(onTap);
+    public static TapGestureRecognizer TapGestureRecognizer(Action<object?, EventArgs> onTap) =>
+        TapGestureRecognizer().OnTapped(onTap);
 
-    public TapGestureRecognizer TapGestureRecognizer(Action<object?, EventArgs> onTap, int numberOfTapsRequired) =>
-        GetNodeFromPool<TapGestureRecognizer>().OnTapped(onTap).NumberOfTapsRequired(numberOfTapsRequired);
+    public static TapGestureRecognizer TapGestureRecognizer(Action<object?, EventArgs> onTap, int numberOfTapsRequired) =>
+        TapGestureRecognizer().OnTapped(onTap).NumberOfTapsRequired(numberOfTapsRequired);
 
 }

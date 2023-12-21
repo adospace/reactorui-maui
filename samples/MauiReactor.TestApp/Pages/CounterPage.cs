@@ -17,38 +17,35 @@ class CounterPage : Component<CounterPageState>
 {
     public override VisualNode Render()
         => ContentPage("Counter Sample",
-        [
             VStack(
-            [
                 Label($"Counter: {State.Counter}"),
 
                 Button("Click To Increment", () =>
                     SetState(s => s.Counter++))
-            ])
+            )
             .Spacing(10)
             .Center()
-        ]);
+        );
     
 }
 
-internal class CounterWithServicePage : Component<CounterPageState>
+class CounterWithServicePage : Component<CounterPageState>
 {
+    IncrementService _incrementService = Services.GetRequiredService<IncrementService>();
+
     public override VisualNode Render()
     {
-        var incrementService = Services.GetRequiredService<IncrementService>();
         return new ContentPage("Counter Sample")
         {
-            new VerticalStackLayout(spacing: 10)
-            {
-                new Label($"Counter: {State.Counter}")
+            VStack(spacing: 10,
+                Label($"Counter: {State.Counter}")
                     .AutomationId("Counter_Label")
                     .VCenter()
                     .HCenter(),
 
-                new Button("Click To Increment", () =>
-                    SetState(s => s.Counter = incrementService.Increment(s.Counter)))
+                Button("Click To Increment",() => SetState(s => s.Counter = _incrementService.Increment(s.Counter)))
                     .AutomationId("Counter_Button")
-            }
+            )
             .VCenter()
             .HCenter()
         };

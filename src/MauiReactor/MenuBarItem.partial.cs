@@ -43,7 +43,7 @@ public partial class MenuBarItem
 
 public partial class Component
 {
-    public MenuBarItem MenuBarItem(string text) =>
+    public static MenuBarItem MenuBarItem(string text) =>
         GetNodeFromPool<MenuBarItem>().Text(text);
 
 }

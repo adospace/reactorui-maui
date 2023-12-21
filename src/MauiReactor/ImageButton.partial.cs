@@ -10,9 +10,9 @@ public partial class ImageButton
 
 public partial class Component
 {
-    public ImageButton ImageButton(string imageSource) =>
+    public static ImageButton ImageButton(string imageSource) =>
         GetNodeFromPool<ImageButton>().Source(imageSource);
 
-    public ImageButton ImageButton(Uri imageSource) =>
+    public static ImageButton ImageButton(Uri imageSource) =>
         GetNodeFromPool<ImageButton>().Source(imageSource);
 }
