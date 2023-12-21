@@ -38,6 +38,13 @@ class AnimatedCollectionViewPage : Component
                     .ItemsLayout(new VerticalGridItemsLayout().Span(4))
                     .ItemsSource(ItemsSource, RenderItem)
                     .GridRow(2),
+
+
+
+                new Internals.FrameRateIndicator()
+                    .VStart()
+                    .HEnd()
+                    .BackgroundColor(Colors.White)
             }
         };
     }
@@ -45,7 +52,7 @@ class AnimatedCollectionViewPage : Component
     private VisualNode RenderItem(ItemModel item)
         => new AnimatedItem
         {
-            Frame()
+            new Frame()
                 .BackgroundColor(Color.Parse("#512BD4"))
                 .Margin(4)
                 .CornerRadius(8)

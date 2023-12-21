@@ -11,11 +11,19 @@ public class TestBug187 : Component
 {
     private readonly IEnumerable<Monkey> _allMonkeys = Monkey.GetList();
 
-    public override VisualNode Render() => ContentPage([
-        new ListView(MauiControls.ListViewCachingStrategy.RetainElement)
-            .HasUnevenRows(true)
-            .ItemsSource(_allMonkeys, RenderMonkeyTemplate)
-    ]);
+    public override VisualNode Render() 
+        => ContentPage([
+            Grid("*", "*", [
+                new ListView(MauiControls.ListViewCachingStrategy.RecycleElementAndDataTemplate)
+                    .HasUnevenRows(true)
+                    .ItemsSource(_allMonkeys, RenderMonkeyTemplate),
+
+                new Internals.FrameRateIndicator()
+                    .VStart()
+                    .HEnd()
+                    .BackgroundColor(Colors.White)
+            ]),
+        ]);
 
     private ViewCell RenderMonkeyTemplate(Monkey monkey) => monkey.Name switch
     {
@@ -37,7 +45,7 @@ public class TestBug187 : Component
     private ViewCell RenderSpecialMonkeyTemplate2(Monkey monkey) => ViewCell([
         HorizontalStackLayout(
         [
-            Label(monkey.Name)
+            Component.Label(monkey.Name)
                 .FontSize(12.0)
                 .Margin(5)
         ])
@@ -77,11 +85,11 @@ public class TestBug187 : Component
 
             StackLayout(
             [
-                Label(monkey.Name)
+                Component.Label(monkey.Name)
                     .FontSize(12.0)
                     .Margin(5),
 
-                Label(monkey.Location)
+                Component.Label(monkey.Location)
                     .FontSize(12.0)
                     .Margin(5)
             ])

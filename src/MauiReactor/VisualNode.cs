@@ -377,6 +377,7 @@ namespace MauiReactor
             }
 
             Parent = null;
+            _isMounted = false;
         }
 
         internal void RemoveChild(VisualNode widget, BindableObject childNativeControl)
@@ -522,8 +523,6 @@ namespace MauiReactor
             }
 
             _animatables.Clear();
-
-            //_isMounted = false;
 
             ReleaseNodeToPool(this);
         }
@@ -754,7 +753,6 @@ namespace MauiReactor
             }
 
             _attachedProperties.Clear();
-            //_nativeControl = null;
 
             base.OnMigrated(newNode);
 
