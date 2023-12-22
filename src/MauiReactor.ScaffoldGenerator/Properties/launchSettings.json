@@ -2,7 +2,7 @@
   "profiles": {
     "Profile 1": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "..\\..\\..\\mauireactor-integration\\UraniumUI\\UraniumIntApp\\UraniumIntApp.csproj"
+      "targetProject": "..\\..\\samples\\MauiReactor.TestApp\\MauiReactor.TestApp.csproj"
     }
   }
 }

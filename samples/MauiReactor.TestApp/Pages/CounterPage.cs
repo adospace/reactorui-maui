@@ -29,9 +29,10 @@ class CounterPage : Component<CounterPageState>
     
 }
 
-class CounterWithServicePage : Component<CounterPageState>
+partial class CounterWithServicePage : Component<CounterPageState>
 {
-    IncrementService _incrementService = Services.GetRequiredService<IncrementService>();
+    [Inject]
+    IncrementService? _incrementService;
 
     public override VisualNode Render()
     {
