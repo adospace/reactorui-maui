@@ -91,7 +91,7 @@ partial class CardPage : Component<CardState>
     [Prop]
     private int _position;
 
-    [Prop]
+    //[Prop]
     private Action<int>? _onMovedBack;
 
     //public CardPage Index(int cardIndex)

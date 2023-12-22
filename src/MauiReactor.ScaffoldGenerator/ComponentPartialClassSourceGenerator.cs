@@ -51,7 +51,6 @@ namespace MauiReactor
         SymbolDisplayFormat symbolDisplayFormat = new SymbolDisplayFormat(
             typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
             genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
-            memberOptions: SymbolDisplayMemberOptions.IncludeType,
             miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes
         );
 
@@ -73,11 +72,8 @@ namespace MauiReactor
                 return;
             }
 
-            string fieldTypeFullyQualifiedName = fieldTypeSymbol is INamedTypeSymbol namedTypeSymbol &&
-                      namedTypeSymbol.IsGenericType &&
-                      namedTypeSymbol.ConstructedFrom.SpecialType == SpecialType.System_Nullable_T
-                    ? $"{namedTypeSymbol.TypeArguments[0].ToDisplayString(symbolDisplayFormat)}?"
-                    : fieldTypeSymbol.ToDisplayString(symbolDisplayFormat);
+            string fieldTypeFullyQualifiedName = fieldTypeSymbol.ToDisplayString(symbolDisplayFormat) +
+                  (fieldTypeSymbol.NullableAnnotation == NullableAnnotation.Annotated ? "?" : string.Empty);
 
             if (fieldDeclaration.Declaration.Variables.Count != 1)
             {

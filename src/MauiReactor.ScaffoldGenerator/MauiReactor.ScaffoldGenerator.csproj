@@ -39,6 +39,10 @@
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ScaffoldTypeGenerator.cs</LastGenOutput>
     </None>
+    <None Update="ComponentPartialClassGenerator.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ComponentPartialClassGenerator.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -50,6 +54,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ScaffoldTypeGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Update="ComponentPartialClassGenerator.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ComponentPartialClassGenerator.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

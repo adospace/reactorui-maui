@@ -13,7 +13,11 @@ namespace <#= _classItem.Namespace #>
 		public <#= _classItem.ClassName #>()
 		{
 			<# foreach (var fieldItem in GetInjectFields()) { #>
+			<# if (fieldItem.FieldTypeFullyQualifiedName.EndsWith("?")) { #>
+			<#= fieldItem.FieldName #> = Services.GetService<<#= fieldItem.FieldTypeFullyQualifiedName.TrimEnd('?') #>>();
+			<# } else { #>
 			<#= fieldItem.FieldName #> = Services.GetRequiredService<<#= fieldItem.FieldTypeFullyQualifiedName #>>();
+			<# } #>
 			<# } #>
 		}
 		<# } #>
