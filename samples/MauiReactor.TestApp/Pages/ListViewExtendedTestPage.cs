@@ -16,7 +16,7 @@ class ListViewExtendedTestPage : Component<ListViewExtendedTestPageState>
 {
     public override VisualNode Render()
     {
-        return new ContentPage("ListView Extended Test (BETA)")
+        return new ContentPage("ListView Extended")
         {
             new ListView(MauiControls.ListViewCachingStrategy.RecycleElement)
                 .IsGroupingEnabled(true)
@@ -39,24 +39,21 @@ class ListViewExtendedTestPage : Component<ListViewExtendedTestPageState>
     private ViewCell RenderGroup(GroupOfPerson person)
     {
         return ViewCell(
-        [
             Label(person.Initial,
-            [
                 MenuFlyout(
-                [
                     MenuFlyoutItem("MenuItem1")
                         .OnClicked(()=>OnClickMenuItem("MenuItem1")),
                     MenuFlyoutItem("MenuItem2")
                         .OnClicked(()=>OnClickMenuItem("MenuItem2")),
                     MenuFlyoutItem("MenuItem3")
-                        .OnClicked(()=>OnClickMenuItem("MenuItem3")),
-                ])
-            ])
+                        .OnClicked(()=>OnClickMenuItem("MenuItem3"))
+                )
+            )
             .FontSize(14.0)
             .FontAttributes(MauiControls.FontAttributes.Bold)
             .Margin(5)
             .BackgroundColor(Colors.LightGray)
-        ]);
+        );
     }
 
     private ViewCell RenderItem(Person person)
