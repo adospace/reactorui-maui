@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System;
@@ -17,7 +18,7 @@ public class ComponentPartialClassSourceGenerator : ISourceGenerator
 
     public void Initialize(GeneratorInitializationContext context)
     {
-        context.RegisterForPostInitialization((i) => i.AddSource("ServiceInjection.g.cs", @"using System;
+        context.RegisterForPostInitialization((i) => i.AddSource("ComponentAttributes.g.cs", @"using System;
 
 namespace MauiReactor
 {
@@ -44,6 +45,7 @@ namespace MauiReactor
 
     public void Execute(GeneratorExecutionContext context)
     {
+
         // Format it to get the fully qualified name (namespace + type name).
         SymbolDisplayFormat qualifiedFormat = new SymbolDisplayFormat(
             typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces
@@ -51,7 +53,7 @@ namespace MauiReactor
         SymbolDisplayFormat symbolDisplayFormat = new SymbolDisplayFormat(
             typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
             genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
-            miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes
+            miscellaneousOptions: SymbolDisplayMiscellaneousOptions.UseSpecialTypes | SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier
         );
 
         Dictionary<string, GeneratorClassItem> generatingClassItems = new();
@@ -64,27 +66,35 @@ namespace MauiReactor
             // Get the TypeSyntax from the FieldDeclarationSyntax.
             TypeSyntax typeSyntax = fieldDeclaration.Declaration.Type;
 
-            // Get the type symbol using the semantic model.
-            ITypeSymbol? fieldTypeSymbol = semanticModel.GetTypeInfo(typeSyntax).Type;
+            // Check if it is a nullable value type.
+            bool isNullableValueType = typeSyntax is NullableTypeSyntax;
 
+            // Get the type symbol using the semantic model.
+            var fieldTypeSymbol = semanticModel.GetTypeInfo(typeSyntax).Type;
+            
             if (fieldTypeSymbol == null)
             {
                 return;
             }
 
-            string fieldTypeFullyQualifiedName = fieldTypeSymbol.ToDisplayString(symbolDisplayFormat) +
-                  (fieldTypeSymbol.NullableAnnotation == NullableAnnotation.Annotated ? "?" : string.Empty);
+            // Start with the fully qualified name of the type.
+            string fieldTypeFullyQualifiedName = fieldTypeSymbol.ToDisplayString(symbolDisplayFormat);
+
+            // Append "?" if it's a nullable value type or if the nullable annotation is set for reference types.
+            if ((isNullableValueType || fieldTypeSymbol.NullableAnnotation == NullableAnnotation.Annotated) &&
+                !fieldTypeFullyQualifiedName.EndsWith("?"))
+            {
+                fieldTypeFullyQualifiedName += "?";
+            }
 
             if (fieldDeclaration.Declaration.Variables.Count != 1)
             {
                 return;
             }
 
-            string variableFieldName = fieldDeclaration.Declaration.Variables[0].Identifier.ValueText;
-
             var typeDeclarationSyntax = fieldDeclaration.Ancestors()
-                .OfType<TypeDeclarationSyntax>()
-                .FirstOrDefault();
+                                .OfType<TypeDeclarationSyntax>()
+                                .FirstOrDefault();
 
             if (typeDeclarationSyntax == null)
             {
@@ -92,7 +102,7 @@ namespace MauiReactor
             }
 
             // Get the type symbol for the containing type.
-            var classTypeSymbol = semanticModel.GetDeclaredSymbol(typeDeclarationSyntax) as INamedTypeSymbol;
+            var classTypeSymbol = semanticModel.GetDeclaredSymbol(typeDeclarationSyntax);
 
             if (classTypeSymbol == null)
             {
@@ -108,13 +118,16 @@ namespace MauiReactor
                 generatingClassItems[fullyQualifiedTypeName] = generatingClassItem = new GeneratorClassItem(namespaceName, className);
             }
 
-            if (generatingClassItem.FieldItems.ContainsKey(variableFieldName))
+            foreach (var variableFieldName in fieldDeclaration.Declaration.Variables.Select(_=>_.Identifier.ValueText))
             {
-                return;
-            }
+                if (generatingClassItem.FieldItems.ContainsKey(variableFieldName))
+                {
+                    return;
+                }
 
-            generatingClassItem.FieldItems[variableFieldName]
-                = new GeneratorFieldItem(variableFieldName, fieldTypeFullyQualifiedName, attributeType);            
+                generatingClassItem.FieldItems[variableFieldName]
+                    = new GeneratorFieldItem(variableFieldName, fieldTypeFullyQualifiedName, attributeType);
+            }
         }
 
         foreach (var injectFieldToGenerate in ((ComponentPartialClassSyntaxReceiver)context.SyntaxReceiver.EnsureNotNull()).InjectFieldsToGenerate)

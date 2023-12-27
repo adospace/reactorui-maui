@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MauiReactor.Shapes;
+using Microsoft.Maui.Controls;
 
 namespace MauiReactor.TestApp.Pages;
 
@@ -91,26 +92,8 @@ partial class CardPage : Component<CardState>
     [Prop]
     private int _position;
 
-    //[Prop]
+    [Prop]
     private Action<int>? _onMovedBack;
-
-    //public CardPage Index(int cardIndex)
-    //{
-    //    _index = cardIndex;
-    //    return this;
-    //}
-
-    //public CardPage Position(int zIndex)
-    //{
-    //    _zIndex = zIndex;
-    //    return this;
-    //}
-
-    //public CardPage OnMovedBack(Action<int> onMovedBackAction)
-    //{
-    //    _onMovedBackAction = onMovedBackAction;
-    //    return this;
-    //}
 
     public override VisualNode Render()
     {

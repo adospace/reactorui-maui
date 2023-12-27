@@ -3,7 +3,11 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
+<# if (GetInjectFields().Any()) { #>
 using Microsoft.Extensions.DependencyInjection;
+<# } #>
+
+#nullable enable
 
 namespace <#= _classItem.Namespace #>
 {

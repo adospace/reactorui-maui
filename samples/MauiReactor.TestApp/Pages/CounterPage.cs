@@ -32,23 +32,20 @@ class CounterPage : Component<CounterPageState>
 partial class CounterWithServicePage : Component<CounterPageState>
 {
     [Inject]
-    IncrementService? _incrementService;
+    IncrementService _incrementService;
 
-    public override VisualNode Render()
-    {
-        return new ContentPage("Counter Sample")
-        {
+    public override VisualNode Render() 
+        => ContentPage("Counter Sample",
             VStack(spacing: 10,
                 Label($"Counter: {State.Counter}")
                     .AutomationId("Counter_Label")
                     .VCenter()
                     .HCenter(),
 
-                Button("Click To Increment",() => SetState(s => s.Counter = _incrementService.Increment(s.Counter)))
+                Button("Click To Increment", () => SetState(s => s.Counter = _incrementService.Increment(s.Counter)))
                     .AutomationId("Counter_Button")
             )
             .VCenter()
             .HCenter()
-        };
-    }
+        );
 }

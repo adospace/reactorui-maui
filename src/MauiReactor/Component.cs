@@ -47,7 +47,7 @@ namespace MauiReactor
             _children.AddRange(nodes);
         }
 
-        protected T GetNodeFromPool<T>(VisualNode[] nodes) where T : Component, new()
+        protected static T GetNodeFromPool<T>(VisualNode[] nodes) where T : Component, new()
         {
             var node = GetNodeFromPool<T>();
             node.Add(nodes);
@@ -187,16 +187,22 @@ namespace MauiReactor
 
         protected new void Invalidate()
         {
-            if (Application.Current != null)
+            if (!_invalidated)
             {
-                if (Application.Current.Dispatcher.IsDispatchRequired)
-                    Application.Current.Dispatcher.Dispatch(base.Invalidate);
+                if (Application.Current != null)
+                {
+                    if (Application.Current.Dispatcher.IsDispatchRequired)
+                    {
+                        _invalidated = true;
+                        Application.Current.Dispatcher.Dispatch(base.Invalidate);
+                    }
+                    else
+                        base.Invalidate();
+                }
                 else
+                {
                     base.Invalidate();
-            }
-            else
-            {
-                base.Invalidate();
+                }
             }
         }
 
@@ -290,12 +296,12 @@ namespace MauiReactor
     {
         private IComponentWithState? _newComponent;
 
-        private record RegisteredAction(WeakReference<IVisualNode> Owner, Action Action)
+        private record RegisteredAction(WeakReference<IVisualNode> OwnerRef, Action Action)
         {
-            internal bool IsOwnerAlive() =>Owner.TryGetTarget(out var _);
+            internal bool IsOwnerAlive() => OwnerRef.TryGetTarget(out var _);
         }
 
-        private List<RegisteredAction> _actionsRegisteredOnStateChange = [];
+        private List<RegisteredAction>? _actionsRegisteredOnStateChange;
 
         private bool _derivedState;
 
@@ -313,7 +319,7 @@ namespace MauiReactor
             base.Reset();
 
             _newComponent = null;
-            _actionsRegisteredOnStateChange.Clear();
+            _actionsRegisteredOnStateChange?.Clear();
             _derivedState = false;
             _state = null;
         }
@@ -365,17 +371,20 @@ namespace MauiReactor
                 CopyObjectExtensions.CopyProperties(stateFromOldComponent, State);
             }
 
-            List<RegisteredAction> liveActions = new(_actionsRegisteredOnStateChange.Count);
-            foreach (var registeredAction in _actionsRegisteredOnStateChange)
+            if (_actionsRegisteredOnStateChange != null)
             {
-                if (registeredAction.IsOwnerAlive())
+                List<RegisteredAction> liveActions = new(_actionsRegisteredOnStateChange.Count);
+                foreach (var registeredAction in _actionsRegisteredOnStateChange)
                 {
-                    registeredAction.Action.Invoke();
-                    liveActions.Add(registeredAction);
+                    if (registeredAction.IsOwnerAlive())
+                    {
+                        registeredAction.Action.Invoke();
+                        liveActions.Add(registeredAction);
+                    }
                 }
-            }
 
-            _actionsRegisteredOnStateChange = liveActions;
+                _actionsRegisteredOnStateChange = liveActions;
+            }
 
             if (invalidateComponent)
             {
@@ -387,6 +396,7 @@ namespace MauiReactor
         {
             ArgumentNullException.ThrowIfNull(action);
 
+            _actionsRegisteredOnStateChange ??= [];
             _actionsRegisteredOnStateChange.Add(new RegisteredAction(new WeakReference<IVisualNode>(owner), action));
         }
 
@@ -420,17 +430,20 @@ namespace MauiReactor
             if (TryForwardStateToNewComponent(invalidateComponent))
                 return;
 
-            List<RegisteredAction> liveActions = new(_actionsRegisteredOnStateChange.Count);
-            foreach (var registeredAction in _actionsRegisteredOnStateChange)
+            if (_actionsRegisteredOnStateChange != null)
             {
-                if (registeredAction.IsOwnerAlive())
+                List<RegisteredAction> liveActions = new(_actionsRegisteredOnStateChange.Count);
+                foreach (var registeredAction in _actionsRegisteredOnStateChange)
                 {
-                    registeredAction.Action.Invoke();
-                    liveActions.Add(registeredAction);
+                    if (registeredAction.IsOwnerAlive())
+                    {
+                        registeredAction.Action.Invoke();
+                        liveActions.Add(registeredAction);
+                    }
                 }
-            }
 
-            _actionsRegisteredOnStateChange = liveActions;
+                _actionsRegisteredOnStateChange = liveActions;
+            }
 
             if (invalidateComponent && !_isMounted)
             {

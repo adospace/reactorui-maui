@@ -9,6 +9,7 @@
 		<SingleProject>true</SingleProject>
 		<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
 		<Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
 		
 		<!-- Display name -->
 		<ApplicationTitle>MauiReactor.TestApp</ApplicationTitle>

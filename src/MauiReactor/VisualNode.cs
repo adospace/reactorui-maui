@@ -121,7 +121,7 @@ namespace MauiReactor
 
         private IReadOnlyList<VisualNode>? _children = null;
 
-        private bool _invalidated = false;
+        internal protected bool _invalidated = false;
 
         private IComponentWithState? _containerComponent;
 
