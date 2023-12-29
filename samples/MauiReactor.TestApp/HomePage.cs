@@ -15,7 +15,7 @@ class HomePage : Component
         {
             new FlyoutItem("Counter")
             {
-                new CounterWithServicePage()
+                new CounterPage()
             },
             new FlyoutItem("Parameters")
             {

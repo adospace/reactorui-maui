@@ -27,10 +27,13 @@ public partial class Component
         => GetNodeFromPool<<#= typeName #>>();
 
     <# if (typeof(Element).IsAssignableFrom(type)) { #>
-    public static <#= typeName #> <#= type.Name #>(params VisualNode[] children)
+    public static <#= typeName #> <#= type.Name #>(params VisualNode?[]? children)
     {
         var @<#= type.Name.ToLower() #> = GetNodeFromPool<<#= typeName #>>();
-        @<#= type.Name.ToLower() #>.AddChildren(children);
+        if (children != null)
+        {
+            @<#= type.Name.ToLower() #>.AddChildren(children);
+        }
         return @<#= type.Name.ToLower() #>;
     }
     <# } #>

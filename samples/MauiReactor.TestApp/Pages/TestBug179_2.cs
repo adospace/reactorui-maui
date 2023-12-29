@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MauiReactor.TestApp.Pages2;
+namespace MauiReactor.TestApp.Pages;
 
 public class Bug179_2StartPage : Component
 {

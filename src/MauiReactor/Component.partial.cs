@@ -13,10 +13,14 @@ namespace MauiReactor;
 public partial class Component
 {
     public static ListView ListView() => GetNodeFromPool<ListView>();
-    public static ListView ListView(params VisualNode[] children)
+    public static ListView ListView(params VisualNode? []? children)
     {
         var @listview = GetNodeFromPool<ListView>();
-        @listview.AddChildren(children);
+        if (children != null)
+        {
+            @listview.AddChildren(children);
+        }
+
         return @listview;
     }
 
@@ -28,10 +32,14 @@ public partial class Component
     }
 
     public static TabbedPage TabbedPage() => GetNodeFromPool<TabbedPage>();
-    public static TabbedPage TabbedPage(params VisualNode[] children)
+    public static TabbedPage TabbedPage(params VisualNode? []? children)
     {
         var @tabbedpage = GetNodeFromPool<TabbedPage>();
-        @tabbedpage.AddChildren(children);
+        if (children != null)
+        {
+            @tabbedpage.AddChildren(children);
+        }
+
         return @tabbedpage;
     }
 
@@ -43,10 +51,14 @@ public partial class Component
     }
 
     public static Page Page() => GetNodeFromPool<Page>();
-    public static Page Page(params VisualNode[] children)
+    public static Page Page(params VisualNode? []? children)
     {
         var @page = GetNodeFromPool<Page>();
-        @page.AddChildren(children);
+        if (children != null)
+        {
+            @page.AddChildren(children);
+        }
+
         return @page;
     }
 
@@ -58,10 +70,14 @@ public partial class Component
     }
 
     public static TemplatedPage TemplatedPage() => GetNodeFromPool<TemplatedPage>();
-    public static TemplatedPage TemplatedPage(params VisualNode[] children)
+    public static TemplatedPage TemplatedPage(params VisualNode? []? children)
     {
         var @templatedpage = GetNodeFromPool<TemplatedPage>();
-        @templatedpage.AddChildren(children);
+        if (children != null)
+        {
+            @templatedpage.AddChildren(children);
+        }
+
         return @templatedpage;
     }
 
@@ -73,10 +89,14 @@ public partial class Component
     }
 
     public static ContentPage ContentPage() => GetNodeFromPool<ContentPage>();
-    public static ContentPage ContentPage(params VisualNode[] children)
+    public static ContentPage ContentPage(params VisualNode? []? children)
     {
         var @contentpage = GetNodeFromPool<ContentPage>();
-        @contentpage.AddChildren(children);
+        if (children != null)
+        {
+            @contentpage.AddChildren(children);
+        }
+
         return @contentpage;
     }
 
@@ -88,10 +108,14 @@ public partial class Component
     }
 
     public static NavigationPage NavigationPage() => GetNodeFromPool<NavigationPage>();
-    public static NavigationPage NavigationPage(params VisualNode[] children)
+    public static NavigationPage NavigationPage(params VisualNode? []? children)
     {
         var @navigationpage = GetNodeFromPool<NavigationPage>();
-        @navigationpage.AddChildren(children);
+        if (children != null)
+        {
+            @navigationpage.AddChildren(children);
+        }
+
         return @navigationpage;
     }
 
@@ -103,10 +127,14 @@ public partial class Component
     }
 
     public static FlyoutPage FlyoutPage() => GetNodeFromPool<FlyoutPage>();
-    public static FlyoutPage FlyoutPage(params VisualNode[] children)
+    public static FlyoutPage FlyoutPage(params VisualNode? []? children)
     {
         var @flyoutpage = GetNodeFromPool<FlyoutPage>();
-        @flyoutpage.AddChildren(children);
+        if (children != null)
+        {
+            @flyoutpage.AddChildren(children);
+        }
+
         return @flyoutpage;
     }
 
@@ -118,10 +146,14 @@ public partial class Component
     }
 
     public static Button Button() => GetNodeFromPool<Button>();
-    public static Button Button(params VisualNode[] children)
+    public static Button Button(params VisualNode? []? children)
     {
         var @button = GetNodeFromPool<Button>();
-        @button.AddChildren(children);
+        if (children != null)
+        {
+            @button.AddChildren(children);
+        }
+
         return @button;
     }
 
@@ -133,10 +165,14 @@ public partial class Component
     }
 
     public static Label Label() => GetNodeFromPool<Label>();
-    public static Label Label(params VisualNode[] children)
+    public static Label Label(params VisualNode? []? children)
     {
         var @label = GetNodeFromPool<Label>();
-        @label.AddChildren(children);
+        if (children != null)
+        {
+            @label.AddChildren(children);
+        }
+
         return @label;
     }
 
@@ -148,10 +184,14 @@ public partial class Component
     }
 
     public static StackLayout StackLayout() => GetNodeFromPool<StackLayout>();
-    public static StackLayout StackLayout(params VisualNode[] children)
+    public static StackLayout StackLayout(params VisualNode? []? children)
     {
         var @stacklayout = GetNodeFromPool<StackLayout>();
-        @stacklayout.AddChildren(children);
+        if (children != null)
+        {
+            @stacklayout.AddChildren(children);
+        }
+
         return @stacklayout;
     }
 
@@ -163,10 +203,14 @@ public partial class Component
     }
 
     public static VerticalStackLayout VerticalStackLayout() => GetNodeFromPool<VerticalStackLayout>();
-    public static VerticalStackLayout VerticalStackLayout(params VisualNode[] children)
+    public static VerticalStackLayout VerticalStackLayout(params VisualNode? []? children)
     {
         var @verticalstacklayout = GetNodeFromPool<VerticalStackLayout>();
-        @verticalstacklayout.AddChildren(children);
+        if (children != null)
+        {
+            @verticalstacklayout.AddChildren(children);
+        }
+
         return @verticalstacklayout;
     }
 
@@ -178,10 +222,14 @@ public partial class Component
     }
 
     public static HorizontalStackLayout HorizontalStackLayout() => GetNodeFromPool<HorizontalStackLayout>();
-    public static HorizontalStackLayout HorizontalStackLayout(params VisualNode[] children)
+    public static HorizontalStackLayout HorizontalStackLayout(params VisualNode? []? children)
     {
         var @horizontalstacklayout = GetNodeFromPool<HorizontalStackLayout>();
-        @horizontalstacklayout.AddChildren(children);
+        if (children != null)
+        {
+            @horizontalstacklayout.AddChildren(children);
+        }
+
         return @horizontalstacklayout;
     }
 
@@ -193,10 +241,14 @@ public partial class Component
     }
 
     public static Grid Grid() => GetNodeFromPool<Grid>();
-    public static Grid Grid(params VisualNode[] children)
+    public static Grid Grid(params VisualNode? []? children)
     {
         var @grid = GetNodeFromPool<Grid>();
-        @grid.AddChildren(children);
+        if (children != null)
+        {
+            @grid.AddChildren(children);
+        }
+
         return @grid;
     }
 
@@ -208,10 +260,14 @@ public partial class Component
     }
 
     public static Shell Shell() => GetNodeFromPool<Shell>();
-    public static Shell Shell(params VisualNode[] children)
+    public static Shell Shell(params VisualNode? []? children)
     {
         var @shell = GetNodeFromPool<Shell>();
-        @shell.AddChildren(children);
+        if (children != null)
+        {
+            @shell.AddChildren(children);
+        }
+
         return @shell;
     }
 
@@ -223,10 +279,14 @@ public partial class Component
     }
 
     public static BaseShellItem BaseShellItem() => GetNodeFromPool<BaseShellItem>();
-    public static BaseShellItem BaseShellItem(params VisualNode[] children)
+    public static BaseShellItem BaseShellItem(params VisualNode? []? children)
     {
         var @baseshellitem = GetNodeFromPool<BaseShellItem>();
-        @baseshellitem.AddChildren(children);
+        if (children != null)
+        {
+            @baseshellitem.AddChildren(children);
+        }
+
         return @baseshellitem;
     }
 
@@ -238,10 +298,14 @@ public partial class Component
     }
 
     public static ShellGroupItem ShellGroupItem() => GetNodeFromPool<ShellGroupItem>();
-    public static ShellGroupItem ShellGroupItem(params VisualNode[] children)
+    public static ShellGroupItem ShellGroupItem(params VisualNode? []? children)
     {
         var @shellgroupitem = GetNodeFromPool<ShellGroupItem>();
-        @shellgroupitem.AddChildren(children);
+        if (children != null)
+        {
+            @shellgroupitem.AddChildren(children);
+        }
+
         return @shellgroupitem;
     }
 
@@ -253,10 +317,14 @@ public partial class Component
     }
 
     public static ShellItem ShellItem() => GetNodeFromPool<ShellItem>();
-    public static ShellItem ShellItem(params VisualNode[] children)
+    public static ShellItem ShellItem(params VisualNode? []? children)
     {
         var @shellitem = GetNodeFromPool<ShellItem>();
-        @shellitem.AddChildren(children);
+        if (children != null)
+        {
+            @shellitem.AddChildren(children);
+        }
+
         return @shellitem;
     }
 
@@ -268,10 +336,14 @@ public partial class Component
     }
 
     public static FlyoutItem FlyoutItem() => GetNodeFromPool<FlyoutItem>();
-    public static FlyoutItem FlyoutItem(params VisualNode[] children)
+    public static FlyoutItem FlyoutItem(params VisualNode? []? children)
     {
         var @flyoutitem = GetNodeFromPool<FlyoutItem>();
-        @flyoutitem.AddChildren(children);
+        if (children != null)
+        {
+            @flyoutitem.AddChildren(children);
+        }
+
         return @flyoutitem;
     }
 
@@ -283,10 +355,14 @@ public partial class Component
     }
 
     public static ShellContent ShellContent() => GetNodeFromPool<ShellContent>();
-    public static ShellContent ShellContent(params VisualNode[] children)
+    public static ShellContent ShellContent(params VisualNode? []? children)
     {
         var @shellcontent = GetNodeFromPool<ShellContent>();
-        @shellcontent.AddChildren(children);
+        if (children != null)
+        {
+            @shellcontent.AddChildren(children);
+        }
+
         return @shellcontent;
     }
 
@@ -298,10 +374,14 @@ public partial class Component
     }
 
     public static TabBar TabBar() => GetNodeFromPool<TabBar>();
-    public static TabBar TabBar(params VisualNode[] children)
+    public static TabBar TabBar(params VisualNode? []? children)
     {
         var @tabbar = GetNodeFromPool<TabBar>();
-        @tabbar.AddChildren(children);
+        if (children != null)
+        {
+            @tabbar.AddChildren(children);
+        }
+
         return @tabbar;
     }
 
@@ -313,10 +393,14 @@ public partial class Component
     }
 
     public static Tab Tab() => GetNodeFromPool<Tab>();
-    public static Tab Tab(params VisualNode[] children)
+    public static Tab Tab(params VisualNode? []? children)
     {
         var @tab = GetNodeFromPool<Tab>();
-        @tab.AddChildren(children);
+        if (children != null)
+        {
+            @tab.AddChildren(children);
+        }
+
         return @tab;
     }
 
@@ -328,10 +412,14 @@ public partial class Component
     }
 
     public static ShellSection ShellSection() => GetNodeFromPool<ShellSection>();
-    public static ShellSection ShellSection(params VisualNode[] children)
+    public static ShellSection ShellSection(params VisualNode? []? children)
     {
         var @shellsection = GetNodeFromPool<ShellSection>();
-        @shellsection.AddChildren(children);
+        if (children != null)
+        {
+            @shellsection.AddChildren(children);
+        }
+
         return @shellsection;
     }
 
@@ -343,10 +431,14 @@ public partial class Component
     }
 
     public static MenuItem MenuItem() => GetNodeFromPool<MenuItem>();
-    public static MenuItem MenuItem(params VisualNode[] children)
+    public static MenuItem MenuItem(params VisualNode? []? children)
     {
         var @menuitem = GetNodeFromPool<MenuItem>();
-        @menuitem.AddChildren(children);
+        if (children != null)
+        {
+            @menuitem.AddChildren(children);
+        }
+
         return @menuitem;
     }
 
@@ -358,10 +450,14 @@ public partial class Component
     }
 
     public static MenuBarItem MenuBarItem() => GetNodeFromPool<MenuBarItem>();
-    public static MenuBarItem MenuBarItem(params VisualNode[] children)
+    public static MenuBarItem MenuBarItem(params VisualNode? []? children)
     {
         var @menubaritem = GetNodeFromPool<MenuBarItem>();
-        @menubaritem.AddChildren(children);
+        if (children != null)
+        {
+            @menubaritem.AddChildren(children);
+        }
+
         return @menubaritem;
     }
 
@@ -373,10 +469,14 @@ public partial class Component
     }
 
     public static MenuFlyout MenuFlyout() => GetNodeFromPool<MenuFlyout>();
-    public static MenuFlyout MenuFlyout(params VisualNode[] children)
+    public static MenuFlyout MenuFlyout(params VisualNode? []? children)
     {
         var @menuflyout = GetNodeFromPool<MenuFlyout>();
-        @menuflyout.AddChildren(children);
+        if (children != null)
+        {
+            @menuflyout.AddChildren(children);
+        }
+
         return @menuflyout;
     }
 
@@ -388,10 +488,14 @@ public partial class Component
     }
 
     public static MenuFlyoutItem MenuFlyoutItem() => GetNodeFromPool<MenuFlyoutItem>();
-    public static MenuFlyoutItem MenuFlyoutItem(params VisualNode[] children)
+    public static MenuFlyoutItem MenuFlyoutItem(params VisualNode? []? children)
     {
         var @menuflyoutitem = GetNodeFromPool<MenuFlyoutItem>();
-        @menuflyoutitem.AddChildren(children);
+        if (children != null)
+        {
+            @menuflyoutitem.AddChildren(children);
+        }
+
         return @menuflyoutitem;
     }
 
@@ -403,10 +507,14 @@ public partial class Component
     }
 
     public static MenuFlyoutSubItem MenuFlyoutSubItem() => GetNodeFromPool<MenuFlyoutSubItem>();
-    public static MenuFlyoutSubItem MenuFlyoutSubItem(params VisualNode[] children)
+    public static MenuFlyoutSubItem MenuFlyoutSubItem(params VisualNode? []? children)
     {
         var @menuflyoutsubitem = GetNodeFromPool<MenuFlyoutSubItem>();
-        @menuflyoutsubitem.AddChildren(children);
+        if (children != null)
+        {
+            @menuflyoutsubitem.AddChildren(children);
+        }
+
         return @menuflyoutsubitem;
     }
 
@@ -418,10 +526,14 @@ public partial class Component
     }
 
     public static MenuFlyoutSeparator MenuFlyoutSeparator() => GetNodeFromPool<MenuFlyoutSeparator>();
-    public static MenuFlyoutSeparator MenuFlyoutSeparator(params VisualNode[] children)
+    public static MenuFlyoutSeparator MenuFlyoutSeparator(params VisualNode? []? children)
     {
         var @menuflyoutseparator = GetNodeFromPool<MenuFlyoutSeparator>();
-        @menuflyoutseparator.AddChildren(children);
+        if (children != null)
+        {
+            @menuflyoutseparator.AddChildren(children);
+        }
+
         return @menuflyoutseparator;
     }
 
@@ -433,10 +545,14 @@ public partial class Component
     }
 
     public static ToolbarItem ToolbarItem() => GetNodeFromPool<ToolbarItem>();
-    public static ToolbarItem ToolbarItem(params VisualNode[] children)
+    public static ToolbarItem ToolbarItem(params VisualNode? []? children)
     {
         var @toolbaritem = GetNodeFromPool<ToolbarItem>();
-        @toolbaritem.AddChildren(children);
+        if (children != null)
+        {
+            @toolbaritem.AddChildren(children);
+        }
+
         return @toolbaritem;
     }
 
@@ -448,10 +564,14 @@ public partial class Component
     }
 
     public static BoxView BoxView() => GetNodeFromPool<BoxView>();
-    public static BoxView BoxView(params VisualNode[] children)
+    public static BoxView BoxView(params VisualNode? []? children)
     {
         var @boxview = GetNodeFromPool<BoxView>();
-        @boxview.AddChildren(children);
+        if (children != null)
+        {
+            @boxview.AddChildren(children);
+        }
+
         return @boxview;
     }
 
@@ -463,10 +583,14 @@ public partial class Component
     }
 
     public static ScrollView ScrollView() => GetNodeFromPool<ScrollView>();
-    public static ScrollView ScrollView(params VisualNode[] children)
+    public static ScrollView ScrollView(params VisualNode? []? children)
     {
         var @scrollview = GetNodeFromPool<ScrollView>();
-        @scrollview.AddChildren(children);
+        if (children != null)
+        {
+            @scrollview.AddChildren(children);
+        }
+
         return @scrollview;
     }
 
@@ -478,10 +602,14 @@ public partial class Component
     }
 
     public static Image Image() => GetNodeFromPool<Image>();
-    public static Image Image(params VisualNode[] children)
+    public static Image Image(params VisualNode? []? children)
     {
         var @image = GetNodeFromPool<Image>();
-        @image.AddChildren(children);
+        if (children != null)
+        {
+            @image.AddChildren(children);
+        }
+
         return @image;
     }
 
@@ -493,10 +621,14 @@ public partial class Component
     }
 
     public static GestureRecognizer GestureRecognizer() => GetNodeFromPool<GestureRecognizer>();
-    public static GestureRecognizer GestureRecognizer(params VisualNode[] children)
+    public static GestureRecognizer GestureRecognizer(params VisualNode? []? children)
     {
         var @gesturerecognizer = GetNodeFromPool<GestureRecognizer>();
-        @gesturerecognizer.AddChildren(children);
+        if (children != null)
+        {
+            @gesturerecognizer.AddChildren(children);
+        }
+
         return @gesturerecognizer;
     }
 
@@ -508,10 +640,14 @@ public partial class Component
     }
 
     public static TapGestureRecognizer TapGestureRecognizer() => GetNodeFromPool<TapGestureRecognizer>();
-    public static TapGestureRecognizer TapGestureRecognizer(params VisualNode[] children)
+    public static TapGestureRecognizer TapGestureRecognizer(params VisualNode? []? children)
     {
         var @tapgesturerecognizer = GetNodeFromPool<TapGestureRecognizer>();
-        @tapgesturerecognizer.AddChildren(children);
+        if (children != null)
+        {
+            @tapgesturerecognizer.AddChildren(children);
+        }
+
         return @tapgesturerecognizer;
     }
 
@@ -523,10 +659,14 @@ public partial class Component
     }
 
     public static DragGestureRecognizer DragGestureRecognizer() => GetNodeFromPool<DragGestureRecognizer>();
-    public static DragGestureRecognizer DragGestureRecognizer(params VisualNode[] children)
+    public static DragGestureRecognizer DragGestureRecognizer(params VisualNode? []? children)
     {
         var @draggesturerecognizer = GetNodeFromPool<DragGestureRecognizer>();
-        @draggesturerecognizer.AddChildren(children);
+        if (children != null)
+        {
+            @draggesturerecognizer.AddChildren(children);
+        }
+
         return @draggesturerecognizer;
     }
 
@@ -538,10 +678,14 @@ public partial class Component
     }
 
     public static DropGestureRecognizer DropGestureRecognizer() => GetNodeFromPool<DropGestureRecognizer>();
-    public static DropGestureRecognizer DropGestureRecognizer(params VisualNode[] children)
+    public static DropGestureRecognizer DropGestureRecognizer(params VisualNode? []? children)
     {
         var @dropgesturerecognizer = GetNodeFromPool<DropGestureRecognizer>();
-        @dropgesturerecognizer.AddChildren(children);
+        if (children != null)
+        {
+            @dropgesturerecognizer.AddChildren(children);
+        }
+
         return @dropgesturerecognizer;
     }
 
@@ -553,10 +697,14 @@ public partial class Component
     }
 
     public static PanGestureRecognizer PanGestureRecognizer() => GetNodeFromPool<PanGestureRecognizer>();
-    public static PanGestureRecognizer PanGestureRecognizer(params VisualNode[] children)
+    public static PanGestureRecognizer PanGestureRecognizer(params VisualNode? []? children)
     {
         var @pangesturerecognizer = GetNodeFromPool<PanGestureRecognizer>();
-        @pangesturerecognizer.AddChildren(children);
+        if (children != null)
+        {
+            @pangesturerecognizer.AddChildren(children);
+        }
+
         return @pangesturerecognizer;
     }
 
@@ -568,10 +716,14 @@ public partial class Component
     }
 
     public static PinchGestureRecognizer PinchGestureRecognizer() => GetNodeFromPool<PinchGestureRecognizer>();
-    public static PinchGestureRecognizer PinchGestureRecognizer(params VisualNode[] children)
+    public static PinchGestureRecognizer PinchGestureRecognizer(params VisualNode? []? children)
     {
         var @pinchgesturerecognizer = GetNodeFromPool<PinchGestureRecognizer>();
-        @pinchgesturerecognizer.AddChildren(children);
+        if (children != null)
+        {
+            @pinchgesturerecognizer.AddChildren(children);
+        }
+
         return @pinchgesturerecognizer;
     }
 
@@ -583,10 +735,14 @@ public partial class Component
     }
 
     public static PointerGestureRecognizer PointerGestureRecognizer() => GetNodeFromPool<PointerGestureRecognizer>();
-    public static PointerGestureRecognizer PointerGestureRecognizer(params VisualNode[] children)
+    public static PointerGestureRecognizer PointerGestureRecognizer(params VisualNode? []? children)
     {
         var @pointergesturerecognizer = GetNodeFromPool<PointerGestureRecognizer>();
-        @pointergesturerecognizer.AddChildren(children);
+        if (children != null)
+        {
+            @pointergesturerecognizer.AddChildren(children);
+        }
+
         return @pointergesturerecognizer;
     }
 
@@ -598,10 +754,14 @@ public partial class Component
     }
 
     public static SwipeGestureRecognizer SwipeGestureRecognizer() => GetNodeFromPool<SwipeGestureRecognizer>();
-    public static SwipeGestureRecognizer SwipeGestureRecognizer(params VisualNode[] children)
+    public static SwipeGestureRecognizer SwipeGestureRecognizer(params VisualNode? []? children)
     {
         var @swipegesturerecognizer = GetNodeFromPool<SwipeGestureRecognizer>();
-        @swipegesturerecognizer.AddChildren(children);
+        if (children != null)
+        {
+            @swipegesturerecognizer.AddChildren(children);
+        }
+
         return @swipegesturerecognizer;
     }
 
@@ -653,10 +813,14 @@ public partial class Component
     }
 
     public static Shapes.RoundRectangle RoundRectangle() => GetNodeFromPool<Shapes.RoundRectangle>();
-    public static Shapes.RoundRectangle RoundRectangle(params VisualNode[] children)
+    public static Shapes.RoundRectangle RoundRectangle(params VisualNode? []? children)
     {
         var @roundrectangle = GetNodeFromPool<Shapes.RoundRectangle>();
-        @roundrectangle.AddChildren(children);
+        if (children != null)
+        {
+            @roundrectangle.AddChildren(children);
+        }
+
         return @roundrectangle;
     }
 
@@ -668,10 +832,14 @@ public partial class Component
     }
 
     public static Shapes.Line Line() => GetNodeFromPool<Shapes.Line>();
-    public static Shapes.Line Line(params VisualNode[] children)
+    public static Shapes.Line Line(params VisualNode? []? children)
     {
         var @line = GetNodeFromPool<Shapes.Line>();
-        @line.AddChildren(children);
+        if (children != null)
+        {
+            @line.AddChildren(children);
+        }
+
         return @line;
     }
 
@@ -683,10 +851,14 @@ public partial class Component
     }
 
     public static Shapes.Path Path() => GetNodeFromPool<Shapes.Path>();
-    public static Shapes.Path Path(params VisualNode[] children)
+    public static Shapes.Path Path(params VisualNode? []? children)
     {
         var @path = GetNodeFromPool<Shapes.Path>();
-        @path.AddChildren(children);
+        if (children != null)
+        {
+            @path.AddChildren(children);
+        }
+
         return @path;
     }
 
@@ -698,10 +870,14 @@ public partial class Component
     }
 
     public static Shapes.Polygon Polygon() => GetNodeFromPool<Shapes.Polygon>();
-    public static Shapes.Polygon Polygon(params VisualNode[] children)
+    public static Shapes.Polygon Polygon(params VisualNode? []? children)
     {
         var @polygon = GetNodeFromPool<Shapes.Polygon>();
-        @polygon.AddChildren(children);
+        if (children != null)
+        {
+            @polygon.AddChildren(children);
+        }
+
         return @polygon;
     }
 
@@ -713,10 +889,14 @@ public partial class Component
     }
 
     public static Shapes.Polyline Polyline() => GetNodeFromPool<Shapes.Polyline>();
-    public static Shapes.Polyline Polyline(params VisualNode[] children)
+    public static Shapes.Polyline Polyline(params VisualNode? []? children)
     {
         var @polyline = GetNodeFromPool<Shapes.Polyline>();
-        @polyline.AddChildren(children);
+        if (children != null)
+        {
+            @polyline.AddChildren(children);
+        }
+
         return @polyline;
     }
 
@@ -728,10 +908,14 @@ public partial class Component
     }
 
     public static Shapes.Rectangle Rectangle() => GetNodeFromPool<Shapes.Rectangle>();
-    public static Shapes.Rectangle Rectangle(params VisualNode[] children)
+    public static Shapes.Rectangle Rectangle(params VisualNode? []? children)
     {
         var @rectangle = GetNodeFromPool<Shapes.Rectangle>();
-        @rectangle.AddChildren(children);
+        if (children != null)
+        {
+            @rectangle.AddChildren(children);
+        }
+
         return @rectangle;
     }
 
@@ -751,10 +935,14 @@ public partial class Component
     }
 
     public static Shapes.Ellipse Ellipse() => GetNodeFromPool<Shapes.Ellipse>();
-    public static Shapes.Ellipse Ellipse(params VisualNode[] children)
+    public static Shapes.Ellipse Ellipse(params VisualNode? []? children)
     {
         var @ellipse = GetNodeFromPool<Shapes.Ellipse>();
-        @ellipse.AddChildren(children);
+        if (children != null)
+        {
+            @ellipse.AddChildren(children);
+        }
+
         return @ellipse;
     }
 
@@ -766,10 +954,14 @@ public partial class Component
     }
 
     public static Border Border() => GetNodeFromPool<Border>();
-    public static Border Border(params VisualNode[] children)
+    public static Border Border(params VisualNode? []? children)
     {
         var @border = GetNodeFromPool<Border>();
-        @border.AddChildren(children);
+        if (children != null)
+        {
+            @border.AddChildren(children);
+        }
+
         return @border;
     }
 
@@ -781,10 +973,14 @@ public partial class Component
     }
 
     public static FlexLayout FlexLayout() => GetNodeFromPool<FlexLayout>();
-    public static FlexLayout FlexLayout(params VisualNode[] children)
+    public static FlexLayout FlexLayout(params VisualNode? []? children)
     {
         var @flexlayout = GetNodeFromPool<FlexLayout>();
-        @flexlayout.AddChildren(children);
+        if (children != null)
+        {
+            @flexlayout.AddChildren(children);
+        }
+
         return @flexlayout;
     }
 
@@ -796,10 +992,14 @@ public partial class Component
     }
 
     public static CollectionView CollectionView() => GetNodeFromPool<CollectionView>();
-    public static CollectionView CollectionView(params VisualNode[] children)
+    public static CollectionView CollectionView(params VisualNode? []? children)
     {
         var @collectionview = GetNodeFromPool<CollectionView>();
-        @collectionview.AddChildren(children);
+        if (children != null)
+        {
+            @collectionview.AddChildren(children);
+        }
+
         return @collectionview;
     }
 
@@ -811,10 +1011,14 @@ public partial class Component
     }
 
     public static GroupableItemsView GroupableItemsView() => GetNodeFromPool<GroupableItemsView>();
-    public static GroupableItemsView GroupableItemsView(params VisualNode[] children)
+    public static GroupableItemsView GroupableItemsView(params VisualNode? []? children)
     {
         var @groupableitemsview = GetNodeFromPool<GroupableItemsView>();
-        @groupableitemsview.AddChildren(children);
+        if (children != null)
+        {
+            @groupableitemsview.AddChildren(children);
+        }
+
         return @groupableitemsview;
     }
 
@@ -826,10 +1030,14 @@ public partial class Component
     }
 
     public static ReorderableItemsView ReorderableItemsView() => GetNodeFromPool<ReorderableItemsView>();
-    public static ReorderableItemsView ReorderableItemsView(params VisualNode[] children)
+    public static ReorderableItemsView ReorderableItemsView(params VisualNode? []? children)
     {
         var @reorderableitemsview = GetNodeFromPool<ReorderableItemsView>();
-        @reorderableitemsview.AddChildren(children);
+        if (children != null)
+        {
+            @reorderableitemsview.AddChildren(children);
+        }
+
         return @reorderableitemsview;
     }
 
@@ -841,10 +1049,14 @@ public partial class Component
     }
 
     public static SelectableItemsView SelectableItemsView() => GetNodeFromPool<SelectableItemsView>();
-    public static SelectableItemsView SelectableItemsView(params VisualNode[] children)
+    public static SelectableItemsView SelectableItemsView(params VisualNode? []? children)
     {
         var @selectableitemsview = GetNodeFromPool<SelectableItemsView>();
-        @selectableitemsview.AddChildren(children);
+        if (children != null)
+        {
+            @selectableitemsview.AddChildren(children);
+        }
+
         return @selectableitemsview;
     }
 
@@ -856,10 +1068,14 @@ public partial class Component
     }
 
     public static StructuredItemsView StructuredItemsView() => GetNodeFromPool<StructuredItemsView>();
-    public static StructuredItemsView StructuredItemsView(params VisualNode[] children)
+    public static StructuredItemsView StructuredItemsView(params VisualNode? []? children)
     {
         var @structureditemsview = GetNodeFromPool<StructuredItemsView>();
-        @structureditemsview.AddChildren(children);
+        if (children != null)
+        {
+            @structureditemsview.AddChildren(children);
+        }
+
         return @structureditemsview;
     }
 
@@ -871,10 +1087,14 @@ public partial class Component
     }
 
     public static ContentView ContentView() => GetNodeFromPool<ContentView>();
-    public static ContentView ContentView(params VisualNode[] children)
+    public static ContentView ContentView(params VisualNode? []? children)
     {
         var @contentview = GetNodeFromPool<ContentView>();
-        @contentview.AddChildren(children);
+        if (children != null)
+        {
+            @contentview.AddChildren(children);
+        }
+
         return @contentview;
     }
 
@@ -886,10 +1106,14 @@ public partial class Component
     }
 
     public static Frame Frame() => GetNodeFromPool<Frame>();
-    public static Frame Frame(params VisualNode[] children)
+    public static Frame Frame(params VisualNode? []? children)
     {
         var @frame = GetNodeFromPool<Frame>();
-        @frame.AddChildren(children);
+        if (children != null)
+        {
+            @frame.AddChildren(children);
+        }
+
         return @frame;
     }
 
@@ -901,10 +1125,14 @@ public partial class Component
     }
 
     public static TemplatedView TemplatedView() => GetNodeFromPool<TemplatedView>();
-    public static TemplatedView TemplatedView(params VisualNode[] children)
+    public static TemplatedView TemplatedView(params VisualNode? []? children)
     {
         var @templatedview = GetNodeFromPool<TemplatedView>();
-        @templatedview.AddChildren(children);
+        if (children != null)
+        {
+            @templatedview.AddChildren(children);
+        }
+
         return @templatedview;
     }
 
@@ -916,10 +1144,14 @@ public partial class Component
     }
 
     public static ImageButton ImageButton() => GetNodeFromPool<ImageButton>();
-    public static ImageButton ImageButton(params VisualNode[] children)
+    public static ImageButton ImageButton(params VisualNode? []? children)
     {
         var @imagebutton = GetNodeFromPool<ImageButton>();
-        @imagebutton.AddChildren(children);
+        if (children != null)
+        {
+            @imagebutton.AddChildren(children);
+        }
+
         return @imagebutton;
     }
 
@@ -931,10 +1163,14 @@ public partial class Component
     }
 
     public static RadioButton RadioButton() => GetNodeFromPool<RadioButton>();
-    public static RadioButton RadioButton(params VisualNode[] children)
+    public static RadioButton RadioButton(params VisualNode? []? children)
     {
         var @radiobutton = GetNodeFromPool<RadioButton>();
-        @radiobutton.AddChildren(children);
+        if (children != null)
+        {
+            @radiobutton.AddChildren(children);
+        }
+
         return @radiobutton;
     }
 
@@ -946,10 +1182,14 @@ public partial class Component
     }
 
     public static WebView WebView() => GetNodeFromPool<WebView>();
-    public static WebView WebView(params VisualNode[] children)
+    public static WebView WebView(params VisualNode? []? children)
     {
         var @webview = GetNodeFromPool<WebView>();
-        @webview.AddChildren(children);
+        if (children != null)
+        {
+            @webview.AddChildren(children);
+        }
+
         return @webview;
     }
 
@@ -961,10 +1201,14 @@ public partial class Component
     }
 
     public static RefreshView RefreshView() => GetNodeFromPool<RefreshView>();
-    public static RefreshView RefreshView(params VisualNode[] children)
+    public static RefreshView RefreshView(params VisualNode? []? children)
     {
         var @refreshview = GetNodeFromPool<RefreshView>();
-        @refreshview.AddChildren(children);
+        if (children != null)
+        {
+            @refreshview.AddChildren(children);
+        }
+
         return @refreshview;
     }
 
@@ -976,10 +1220,14 @@ public partial class Component
     }
 
     public static SearchBar SearchBar() => GetNodeFromPool<SearchBar>();
-    public static SearchBar SearchBar(params VisualNode[] children)
+    public static SearchBar SearchBar(params VisualNode? []? children)
     {
         var @searchbar = GetNodeFromPool<SearchBar>();
-        @searchbar.AddChildren(children);
+        if (children != null)
+        {
+            @searchbar.AddChildren(children);
+        }
+
         return @searchbar;
     }
 
@@ -991,10 +1239,14 @@ public partial class Component
     }
 
     public static SwipeView SwipeView() => GetNodeFromPool<SwipeView>();
-    public static SwipeView SwipeView(params VisualNode[] children)
+    public static SwipeView SwipeView(params VisualNode? []? children)
     {
         var @swipeview = GetNodeFromPool<SwipeView>();
-        @swipeview.AddChildren(children);
+        if (children != null)
+        {
+            @swipeview.AddChildren(children);
+        }
+
         return @swipeview;
     }
 
@@ -1006,10 +1258,14 @@ public partial class Component
     }
 
     public static SwipeItem SwipeItem() => GetNodeFromPool<SwipeItem>();
-    public static SwipeItem SwipeItem(params VisualNode[] children)
+    public static SwipeItem SwipeItem(params VisualNode? []? children)
     {
         var @swipeitem = GetNodeFromPool<SwipeItem>();
-        @swipeitem.AddChildren(children);
+        if (children != null)
+        {
+            @swipeitem.AddChildren(children);
+        }
+
         return @swipeitem;
     }
 
@@ -1021,10 +1277,14 @@ public partial class Component
     }
 
     public static SwipeItems SwipeItems() => GetNodeFromPool<SwipeItems>();
-    public static SwipeItems SwipeItems(params VisualNode[] children)
+    public static SwipeItems SwipeItems(params VisualNode? []? children)
     {
         var @swipeitems = GetNodeFromPool<SwipeItems>();
-        @swipeitems.AddChildren(children);
+        if (children != null)
+        {
+            @swipeitems.AddChildren(children);
+        }
+
         return @swipeitems;
     }
 
@@ -1036,10 +1296,14 @@ public partial class Component
     }
 
     public static CheckBox CheckBox() => GetNodeFromPool<CheckBox>();
-    public static CheckBox CheckBox(params VisualNode[] children)
+    public static CheckBox CheckBox(params VisualNode? []? children)
     {
         var @checkbox = GetNodeFromPool<CheckBox>();
-        @checkbox.AddChildren(children);
+        if (children != null)
+        {
+            @checkbox.AddChildren(children);
+        }
+
         return @checkbox;
     }
 
@@ -1051,10 +1315,14 @@ public partial class Component
     }
 
     public static Slider Slider() => GetNodeFromPool<Slider>();
-    public static Slider Slider(params VisualNode[] children)
+    public static Slider Slider(params VisualNode? []? children)
     {
         var @slider = GetNodeFromPool<Slider>();
-        @slider.AddChildren(children);
+        if (children != null)
+        {
+            @slider.AddChildren(children);
+        }
+
         return @slider;
     }
 
@@ -1066,10 +1334,14 @@ public partial class Component
     }
 
     public static Stepper Stepper() => GetNodeFromPool<Stepper>();
-    public static Stepper Stepper(params VisualNode[] children)
+    public static Stepper Stepper(params VisualNode? []? children)
     {
         var @stepper = GetNodeFromPool<Stepper>();
-        @stepper.AddChildren(children);
+        if (children != null)
+        {
+            @stepper.AddChildren(children);
+        }
+
         return @stepper;
     }
 
@@ -1081,10 +1353,14 @@ public partial class Component
     }
 
     public static Editor Editor() => GetNodeFromPool<Editor>();
-    public static Editor Editor(params VisualNode[] children)
+    public static Editor Editor(params VisualNode? []? children)
     {
         var @editor = GetNodeFromPool<Editor>();
-        @editor.AddChildren(children);
+        if (children != null)
+        {
+            @editor.AddChildren(children);
+        }
+
         return @editor;
     }
 
@@ -1096,10 +1372,14 @@ public partial class Component
     }
 
     public static Switch Switch() => GetNodeFromPool<Switch>();
-    public static Switch Switch(params VisualNode[] children)
+    public static Switch Switch(params VisualNode? []? children)
     {
         var @switch = GetNodeFromPool<Switch>();
-        @switch.AddChildren(children);
+        if (children != null)
+        {
+            @switch.AddChildren(children);
+        }
+
         return @switch;
     }
 
@@ -1111,10 +1391,14 @@ public partial class Component
     }
 
     public static DatePicker DatePicker() => GetNodeFromPool<DatePicker>();
-    public static DatePicker DatePicker(params VisualNode[] children)
+    public static DatePicker DatePicker(params VisualNode? []? children)
     {
         var @datepicker = GetNodeFromPool<DatePicker>();
-        @datepicker.AddChildren(children);
+        if (children != null)
+        {
+            @datepicker.AddChildren(children);
+        }
+
         return @datepicker;
     }
 
@@ -1126,10 +1410,14 @@ public partial class Component
     }
 
     public static Entry Entry() => GetNodeFromPool<Entry>();
-    public static Entry Entry(params VisualNode[] children)
+    public static Entry Entry(params VisualNode? []? children)
     {
         var @entry = GetNodeFromPool<Entry>();
-        @entry.AddChildren(children);
+        if (children != null)
+        {
+            @entry.AddChildren(children);
+        }
+
         return @entry;
     }
 
@@ -1141,10 +1429,14 @@ public partial class Component
     }
 
     public static ActivityIndicator ActivityIndicator() => GetNodeFromPool<ActivityIndicator>();
-    public static ActivityIndicator ActivityIndicator(params VisualNode[] children)
+    public static ActivityIndicator ActivityIndicator(params VisualNode? []? children)
     {
         var @activityindicator = GetNodeFromPool<ActivityIndicator>();
-        @activityindicator.AddChildren(children);
+        if (children != null)
+        {
+            @activityindicator.AddChildren(children);
+        }
+
         return @activityindicator;
     }
 
@@ -1156,10 +1448,14 @@ public partial class Component
     }
 
     public static ProgressBar ProgressBar() => GetNodeFromPool<ProgressBar>();
-    public static ProgressBar ProgressBar(params VisualNode[] children)
+    public static ProgressBar ProgressBar(params VisualNode? []? children)
     {
         var @progressbar = GetNodeFromPool<ProgressBar>();
-        @progressbar.AddChildren(children);
+        if (children != null)
+        {
+            @progressbar.AddChildren(children);
+        }
+
         return @progressbar;
     }
 
@@ -1171,10 +1467,14 @@ public partial class Component
     }
 
     public static AbsoluteLayout AbsoluteLayout() => GetNodeFromPool<AbsoluteLayout>();
-    public static AbsoluteLayout AbsoluteLayout(params VisualNode[] children)
+    public static AbsoluteLayout AbsoluteLayout(params VisualNode? []? children)
     {
         var @absolutelayout = GetNodeFromPool<AbsoluteLayout>();
-        @absolutelayout.AddChildren(children);
+        if (children != null)
+        {
+            @absolutelayout.AddChildren(children);
+        }
+
         return @absolutelayout;
     }
 
@@ -1186,10 +1486,14 @@ public partial class Component
     }
 
     public static IndicatorView IndicatorView() => GetNodeFromPool<IndicatorView>();
-    public static IndicatorView IndicatorView(params VisualNode[] children)
+    public static IndicatorView IndicatorView(params VisualNode? []? children)
     {
         var @indicatorview = GetNodeFromPool<IndicatorView>();
-        @indicatorview.AddChildren(children);
+        if (children != null)
+        {
+            @indicatorview.AddChildren(children);
+        }
+
         return @indicatorview;
     }
 
@@ -1201,10 +1505,14 @@ public partial class Component
     }
 
     public static Picker Picker() => GetNodeFromPool<Picker>();
-    public static Picker Picker(params VisualNode[] children)
+    public static Picker Picker(params VisualNode? []? children)
     {
         var @picker = GetNodeFromPool<Picker>();
-        @picker.AddChildren(children);
+        if (children != null)
+        {
+            @picker.AddChildren(children);
+        }
+
         return @picker;
     }
 
@@ -1216,10 +1524,14 @@ public partial class Component
     }
 
     public static TableView TableView() => GetNodeFromPool<TableView>();
-    public static TableView TableView(params VisualNode[] children)
+    public static TableView TableView(params VisualNode? []? children)
     {
         var @tableview = GetNodeFromPool<TableView>();
-        @tableview.AddChildren(children);
+        if (children != null)
+        {
+            @tableview.AddChildren(children);
+        }
+
         return @tableview;
     }
 
@@ -1231,10 +1543,14 @@ public partial class Component
     }
 
     public static TextCell TextCell() => GetNodeFromPool<TextCell>();
-    public static TextCell TextCell(params VisualNode[] children)
+    public static TextCell TextCell(params VisualNode? []? children)
     {
         var @textcell = GetNodeFromPool<TextCell>();
-        @textcell.AddChildren(children);
+        if (children != null)
+        {
+            @textcell.AddChildren(children);
+        }
+
         return @textcell;
     }
 
@@ -1246,10 +1562,14 @@ public partial class Component
     }
 
     public static ImageCell ImageCell() => GetNodeFromPool<ImageCell>();
-    public static ImageCell ImageCell(params VisualNode[] children)
+    public static ImageCell ImageCell(params VisualNode? []? children)
     {
         var @imagecell = GetNodeFromPool<ImageCell>();
-        @imagecell.AddChildren(children);
+        if (children != null)
+        {
+            @imagecell.AddChildren(children);
+        }
+
         return @imagecell;
     }
 
@@ -1261,10 +1581,14 @@ public partial class Component
     }
 
     public static SwitchCell SwitchCell() => GetNodeFromPool<SwitchCell>();
-    public static SwitchCell SwitchCell(params VisualNode[] children)
+    public static SwitchCell SwitchCell(params VisualNode? []? children)
     {
         var @switchcell = GetNodeFromPool<SwitchCell>();
-        @switchcell.AddChildren(children);
+        if (children != null)
+        {
+            @switchcell.AddChildren(children);
+        }
+
         return @switchcell;
     }
 
@@ -1276,10 +1600,14 @@ public partial class Component
     }
 
     public static EntryCell EntryCell() => GetNodeFromPool<EntryCell>();
-    public static EntryCell EntryCell(params VisualNode[] children)
+    public static EntryCell EntryCell(params VisualNode? []? children)
     {
         var @entrycell = GetNodeFromPool<EntryCell>();
-        @entrycell.AddChildren(children);
+        if (children != null)
+        {
+            @entrycell.AddChildren(children);
+        }
+
         return @entrycell;
     }
 
@@ -1291,10 +1619,14 @@ public partial class Component
     }
 
     public static ViewCell ViewCell() => GetNodeFromPool<ViewCell>();
-    public static ViewCell ViewCell(params VisualNode[] children)
+    public static ViewCell ViewCell(params VisualNode? []? children)
     {
         var @viewcell = GetNodeFromPool<ViewCell>();
-        @viewcell.AddChildren(children);
+        if (children != null)
+        {
+            @viewcell.AddChildren(children);
+        }
+
         return @viewcell;
     }
 
@@ -1306,10 +1638,14 @@ public partial class Component
     }
 
     public static CarouselView CarouselView() => GetNodeFromPool<CarouselView>();
-    public static CarouselView CarouselView(params VisualNode[] children)
+    public static CarouselView CarouselView(params VisualNode? []? children)
     {
         var @carouselview = GetNodeFromPool<CarouselView>();
-        @carouselview.AddChildren(children);
+        if (children != null)
+        {
+            @carouselview.AddChildren(children);
+        }
+
         return @carouselview;
     }
 
@@ -1321,10 +1657,14 @@ public partial class Component
     }
 
     public static GraphicsView GraphicsView() => GetNodeFromPool<GraphicsView>();
-    public static GraphicsView GraphicsView(params VisualNode[] children)
+    public static GraphicsView GraphicsView(params VisualNode? []? children)
     {
         var @graphicsview = GetNodeFromPool<GraphicsView>();
-        @graphicsview.AddChildren(children);
+        if (children != null)
+        {
+            @graphicsview.AddChildren(children);
+        }
+
         return @graphicsview;
     }
 
@@ -1336,10 +1676,14 @@ public partial class Component
     }
 
     public static Shadow Shadow() => GetNodeFromPool<Shadow>();
-    public static Shadow Shadow(params VisualNode[] children)
+    public static Shadow Shadow(params VisualNode? []? children)
     {
         var @shadow = GetNodeFromPool<Shadow>();
-        @shadow.AddChildren(children);
+        if (children != null)
+        {
+            @shadow.AddChildren(children);
+        }
+
         return @shadow;
     }
 
@@ -1351,10 +1695,14 @@ public partial class Component
     }
 
     public static Window Window() => GetNodeFromPool<Window>();
-    public static Window Window(params VisualNode[] children)
+    public static Window Window(params VisualNode? []? children)
     {
         var @window = GetNodeFromPool<Window>();
-        @window.AddChildren(children);
+        if (children != null)
+        {
+            @window.AddChildren(children);
+        }
+
         return @window;
     }
 

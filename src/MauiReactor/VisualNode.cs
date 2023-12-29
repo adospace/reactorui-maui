@@ -76,9 +76,9 @@ namespace MauiReactor
             return node;
         }
 
-        public static T WithAnimation<T>(this T node, Easing? easing = null, double duration = 600) where T : VisualNode
+        public static T WithAnimation<T>(this T node, Easing? easing = null, double duration = 600, double initialDelay = 0) where T : VisualNode
         {
-            node.EnableCurrentAnimatableProperties(easing, duration);
+            node.EnableCurrentAnimatableProperties(easing, duration, initialDelay);
             return node;
         }
 
@@ -523,8 +523,6 @@ namespace MauiReactor
             }
 
             _animatables.Clear();
-
-            ReleaseNodeToPool(this);
         }
 
         protected virtual void OnMount()
@@ -624,7 +622,7 @@ namespace MauiReactor
 
         static readonly Dictionary<Type, VisualNodePool> _nodePools = [];
 
-        protected static T GetNodeFromPool<T>() where T : VisualNode, new()
+        protected internal static T GetNodeFromPool<T>() where T : VisualNode, new()
         {
             if (!_nodePools.TryGetValue(typeof(T), out var nodePool))
             {
@@ -635,7 +633,7 @@ namespace MauiReactor
         }
 
 
-        private static void ReleaseNodeToPool(VisualNode node)
+        protected internal static void ReleaseNodeToPool(VisualNode node)
         {
             if (!_nodePools.TryGetValue(node.GetType(), out var nodePool))
             {
@@ -724,6 +722,7 @@ namespace MauiReactor
 
                 base.MergeWith(newNode);
 
+                ReleaseNodeToPool(this);
                 _nativeControl = null;
             }
             else

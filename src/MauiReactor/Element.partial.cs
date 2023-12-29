@@ -73,7 +73,7 @@ namespace MauiReactor
             }
         }
 
-        public void AddChildren(IEnumerable<VisualNode> children)
+        public void AddChildren(IEnumerable<VisualNode?> children)
         {
             foreach (var child in children.Cast<VisualNode>())
             {
