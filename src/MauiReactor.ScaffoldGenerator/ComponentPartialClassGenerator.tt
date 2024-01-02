@@ -27,7 +27,7 @@ namespace <#= _classItem.Namespace #>
 		<# } #>
 
 		<# foreach (var fieldItem in GetPropFields()) { #>
-		public <#= _classItem.ClassName #> <#= GetPropMethodName(fieldItem.FieldName) #>(<#= fieldItem.FieldTypeFullyQualifiedName #> propValue)
+		public <#= _classItem.ClassName #> <#= fieldItem.GetPropMethodName() #>(<#= fieldItem.FieldTypeFullyQualifiedName #> propValue)
 		{
 			<#= fieldItem.FieldName #> = propValue;
 			return this;

@@ -20,6 +20,7 @@ public class ComponentPartialClassSourceGenerator : ISourceGenerator
     {
         context.RegisterForPostInitialization((i) => i.AddSource("ComponentAttributes.g.cs", @"using System;
 
+#nullable enable
 namespace MauiReactor
 {
     [AttributeUsage(AttributeTargets.Field)]
@@ -33,7 +34,7 @@ namespace MauiReactor
     [AttributeUsage(AttributeTargets.Field)]
     internal class PropAttribute : Attribute
     {
-        public PropAttribute() 
+        public PropAttribute(string? methodName = null) 
         {
         }
     }
@@ -118,15 +119,33 @@ namespace MauiReactor
                 generatingClassItems[fullyQualifiedTypeName] = generatingClassItem = new GeneratorClassItem(namespaceName, className);
             }
 
-            foreach (var variableFieldName in fieldDeclaration.Declaration.Variables.Select(_=>_.Identifier.ValueText))
+            foreach (var variableFieldSyntax in fieldDeclaration.Declaration.Variables)
             {
+                var variableFieldName = variableFieldSyntax.Identifier.ValueText;
+
                 if (generatingClassItem.FieldItems.ContainsKey(variableFieldName))
                 {
                     return;
                 }
 
+                string? methodName = null;
+                if (attributeType == FieldAttributeType.Prop)
+                {
+                    if (semanticModel.GetDeclaredSymbol(variableFieldSyntax) 
+                        is IFieldSymbol variableDeclaratorFieldSymbol)
+                    {
+                        var propAttributeData = variableDeclaratorFieldSymbol.GetAttributes()
+                            .FirstOrDefault(_ => _.AttributeClass?.Name == "PropAttribute" || _.AttributeClass?.Name == "Prop");
+
+                        if (propAttributeData?.ConstructorArguments.Length > 0)
+                        {
+                            methodName = propAttributeData.ConstructorArguments[0].Value?.ToString();
+                        }
+                    }
+                }
+
                 generatingClassItem.FieldItems[variableFieldName]
-                    = new GeneratorFieldItem(variableFieldName, fieldTypeFullyQualifiedName, attributeType);
+                    = new GeneratorFieldItem(variableFieldName, fieldTypeFullyQualifiedName, attributeType, methodName);
             }
         }
 
@@ -201,17 +220,33 @@ public class GeneratorClassItem
 
 public class GeneratorFieldItem
 {
-    public GeneratorFieldItem(string fieldName, string fieldTypeFullyQualifiedName, FieldAttributeType type)
+    private readonly string? _propMethodName;
+
+    public GeneratorFieldItem(string fieldName, string fieldTypeFullyQualifiedName, FieldAttributeType type, string? propMethodName)
     {
         FieldName = fieldName;
         FieldTypeFullyQualifiedName = fieldTypeFullyQualifiedName;
         Type = type;
+        _propMethodName = propMethodName;
     }
 
     public string FieldName { get; }
+
     public string FieldTypeFullyQualifiedName { get; }
 
     public FieldAttributeType Type { get; }
+
+    public string GetPropMethodName()
+    {
+        if (_propMethodName != null)
+        {
+            return _propMethodName;
+        }
+
+        var fieldName = FieldName.TrimStart('_');
+        fieldName = char.ToUpper(fieldName[0]) + fieldName.Substring(1);
+        return fieldName;
+    }
 }
 
 public enum FieldAttributeType

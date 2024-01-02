@@ -54,6 +54,9 @@ class TestScaffoldGenerator
             
                 [Prop]
                 Action<int?>? _myProp10;
+
+                [Prop("MyTestMethod")]
+                int _myProp11;
             }            
             """);
 
@@ -104,6 +107,12 @@ class TestScaffoldGenerator
                     public MyComponent MyProp10(Action<int?>? propValue)
                     {
                         _myProp10 = propValue;
+                        return this;
+                    }
+            
+                    public MyComponent MyTestMethod(int propValue)
+                    {
+                        _myProp11 = propValue;
                         return this;
                     }
 

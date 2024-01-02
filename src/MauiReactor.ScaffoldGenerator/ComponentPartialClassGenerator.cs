@@ -156,7 +156,7 @@ namespace MauiReactor.ScaffoldGenerator
             this.Write(" ");
             
             #line 30 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(GetPropMethodName(fieldItem.FieldName)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(fieldItem.GetPropMethodName()));
             
             #line default
             #line hidden

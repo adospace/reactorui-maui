@@ -44,7 +44,19 @@ public partial class Component
         @<#= type.Name.ToLower() #>.ComponentRefAction = componentRefAction;
         return @<#= type.Name.ToLower() #>;
     }
-
+    
+    <# if (typeof(Element).IsAssignableFrom(type)) { #>
+    public static <#= typeName #> <#= type.Name #>(Action<<#= type.FullName #>?> componentRefAction, params VisualNode?[]? children)
+    {
+        var @<#= type.Name.ToLower() #> = GetNodeFromPool<<#= typeName #>>();
+        @<#= type.Name.ToLower() #>.ComponentRefAction = componentRefAction;
+        if (children != null)
+        {
+            @<#= type.Name.ToLower() #>.AddChildren(children);
+        }
+        return @<#= type.Name.ToLower() #>;
+    }
+    <# } #>
     <# } #>
 }
 

@@ -54,6 +54,6 @@ public partial class Component
     public static ContentPage ContentPage(string title) 
         => GetNodeFromPool<ContentPage>().Title(title);
 
-    public static ContentPage ContentPage(string title, params VisualNode[] children)
+    public static ContentPage ContentPage(string title, params VisualNode?[]? children)
         => ContentPage(children).Title(title);
 }

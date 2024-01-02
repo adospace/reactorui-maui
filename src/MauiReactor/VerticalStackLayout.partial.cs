@@ -15,13 +15,13 @@ public class VStack : VerticalStackLayout
 
 public partial class Component
 {
-    public static VStack VStack(params VisualNode[] children)
+    public static VStack VStack(params VisualNode?[] children)
     {
         var vstack = GetNodeFromPool<VStack>();
         vstack.AddChildren(children);
         return vstack;
     }
-    public static VStack VStack(double spacing, params VisualNode[] children) =>
+    public static VStack VStack(double spacing, params VisualNode?[] children) =>
         VStack(children)
             .Spacing(spacing);
 

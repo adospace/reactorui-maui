@@ -185,9 +185,80 @@ public partial class Component
             
             #line default
             #line hidden
-            this.Write(";\r\n    }\r\n\r\n    ");
+            this.Write(";\r\n    }\r\n    \r\n    ");
             
             #line 48 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
+ if (typeof(Element).IsAssignableFrom(type)) { 
+            
+            #line default
+            #line hidden
+            this.Write("    public static ");
+            
+            #line 49 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(typeName));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 49 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(type.Name));
+            
+            #line default
+            #line hidden
+            this.Write("(Action<");
+            
+            #line 49 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(type.FullName));
+            
+            #line default
+            #line hidden
+            this.Write("?> componentRefAction, params VisualNode?[]? children)\r\n    {\r\n        var @");
+            
+            #line 51 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(type.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(" = GetNodeFromPool<");
+            
+            #line 51 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(typeName));
+            
+            #line default
+            #line hidden
+            this.Write(">();\r\n        @");
+            
+            #line 52 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(type.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(".ComponentRefAction = componentRefAction;\r\n        if (children != null)\r\n       " +
+                    " {\r\n            @");
+            
+            #line 55 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(type.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(".AddChildren(children);\r\n        }\r\n        return @");
+            
+            #line 57 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(type.Name.ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n    }\r\n    ");
+            
+            #line 59 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("    ");
+            
+            #line 60 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
  } 
             
             #line default

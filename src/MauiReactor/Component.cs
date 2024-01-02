@@ -276,7 +276,7 @@ namespace MauiReactor
 
         internal override void MergeWith(VisualNode newNode)
         {
-            if (!_derivedProps && newNode is IComponentWithProps newComponentWithProps)
+            if (!_derivedProps && newNode != this && newNode is IComponentWithProps newComponentWithProps)
             {
                 if (newNode.GetType() == GetType())
                 {
@@ -458,7 +458,7 @@ namespace MauiReactor
 
         internal override void MergeWith(VisualNode newNode)
         {
-            if (!_derivedState && newNode is IComponentWithState newComponentWithState)
+            if (!_derivedState && newNode != this && newNode is IComponentWithState newComponentWithState)
             {
                 _newComponent = newComponentWithState;
                 if (newNode.GetType() == this.GetType())
