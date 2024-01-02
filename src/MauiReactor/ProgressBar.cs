@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IProgressBar : IView
 {
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ProgressColor { get; set; }
+    object? ProgressColor { get; set; }
 
-    PropertyValue<double>? Progress { get; set; }
+    object? Progress { get; set; }
 }
 
 public partial class ProgressBar<T> : View<T>, IProgressBar where T : Microsoft.Maui.Controls.ProgressBar, new()
@@ -27,9 +27,9 @@ public partial class ProgressBar<T> : View<T>, IProgressBar where T : Microsoft.
     {
     }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? IProgressBar.ProgressColor { get; set; }
+    object? IProgressBar.ProgressColor { get; set; }
 
-    PropertyValue<double>? IProgressBar.Progress { get; set; }
+    object? IProgressBar.Progress { get; set; }
 
     internal override void Reset()
     {
@@ -83,7 +83,7 @@ public static partial class ProgressBarExtensions
     public static T ProgressColor<T>(this T progressBar, Microsoft.Maui.Graphics.Color progressColor)
         where T : IProgressBar
     {
-        progressBar.ProgressColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(progressColor);
+        progressBar.ProgressColor = progressColor;
         return progressBar;
     }
 
@@ -97,7 +97,7 @@ public static partial class ProgressBarExtensions
     public static T Progress<T>(this T progressBar, double progress, RxDoubleAnimation? customAnimation = null)
         where T : IProgressBar
     {
-        progressBar.Progress = new PropertyValue<double>(progress);
+        progressBar.Progress = progress;
         progressBar.AppendAnimatable(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, customAnimation ?? new RxDoubleAnimation(progress), v => progressBar.Progress = new PropertyValue<double>(v.CurrentValue()));
         return progressBar;
     }

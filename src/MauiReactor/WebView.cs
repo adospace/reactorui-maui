@@ -12,11 +12,11 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IWebView : IView
 {
-    PropertyValue<Microsoft.Maui.Controls.WebViewSource>? Source { get; set; }
+    object? Source { get; set; }
 
-    PropertyValue<string>? UserAgent { get; set; }
+    object? UserAgent { get; set; }
 
-    PropertyValue<System.Net.CookieContainer>? Cookies { get; set; }
+    object? Cookies { get; set; }
 
     Action? NavigatedAction { get; set; }
 
@@ -37,11 +37,11 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
     {
     }
 
-    PropertyValue<Microsoft.Maui.Controls.WebViewSource>? IWebView.Source { get; set; }
+    object? IWebView.Source { get; set; }
 
-    PropertyValue<string>? IWebView.UserAgent { get; set; }
+    object? IWebView.UserAgent { get; set; }
 
-    PropertyValue<System.Net.CookieContainer>? IWebView.Cookies { get; set; }
+    object? IWebView.Cookies { get; set; }
 
     Action? IWebView.NavigatedAction { get; set; }
 
@@ -141,7 +141,7 @@ public static partial class WebViewExtensions
     public static T Source<T>(this T webView, Microsoft.Maui.Controls.WebViewSource source)
         where T : IWebView
     {
-        webView.Source = new PropertyValue<Microsoft.Maui.Controls.WebViewSource>(source);
+        webView.Source = source;
         return webView;
     }
 
@@ -155,7 +155,7 @@ public static partial class WebViewExtensions
     public static T UserAgent<T>(this T webView, string userAgent)
         where T : IWebView
     {
-        webView.UserAgent = new PropertyValue<string>(userAgent);
+        webView.UserAgent = userAgent;
         return webView;
     }
 
@@ -169,7 +169,7 @@ public static partial class WebViewExtensions
     public static T Cookies<T>(this T webView, System.Net.CookieContainer cookies)
         where T : IWebView
     {
-        webView.Cookies = new PropertyValue<System.Net.CookieContainer>(cookies);
+        webView.Cookies = cookies;
         return webView;
     }
 

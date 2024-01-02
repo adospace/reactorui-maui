@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ISelectableItemsView : IStructuredItemsView
 {
-    PropertyValue<Microsoft.Maui.Controls.SelectionMode>? SelectionMode { get; set; }
+    object? SelectionMode { get; set; }
 
-    PropertyValue<object>? SelectedItem { get; set; }
+    object? SelectedItem { get; set; }
 
     Action? SelectionChangedAction { get; set; }
 
@@ -31,9 +31,9 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectabl
     {
     }
 
-    PropertyValue<Microsoft.Maui.Controls.SelectionMode>? ISelectableItemsView.SelectionMode { get; set; }
+    object? ISelectableItemsView.SelectionMode { get; set; }
 
-    PropertyValue<object>? ISelectableItemsView.SelectedItem { get; set; }
+    object? ISelectableItemsView.SelectedItem { get; set; }
 
     Action? ISelectableItemsView.SelectionChangedAction { get; set; }
 
@@ -114,7 +114,7 @@ public static partial class SelectableItemsViewExtensions
     public static T SelectionMode<T>(this T selectableItemsView, Microsoft.Maui.Controls.SelectionMode selectionMode)
         where T : ISelectableItemsView
     {
-        selectableItemsView.SelectionMode = new PropertyValue<Microsoft.Maui.Controls.SelectionMode>(selectionMode);
+        selectableItemsView.SelectionMode = selectionMode;
         return selectableItemsView;
     }
 
@@ -128,7 +128,7 @@ public static partial class SelectableItemsViewExtensions
     public static T SelectedItem<T>(this T selectableItemsView, object selectedItem)
         where T : ISelectableItemsView
     {
-        selectableItemsView.SelectedItem = new PropertyValue<object>(selectedItem);
+        selectableItemsView.SelectedItem = selectedItem;
         return selectableItemsView;
     }
 

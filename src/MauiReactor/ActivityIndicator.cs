@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IActivityIndicator : IView
 {
-    PropertyValue<bool>? IsRunning { get; set; }
+    object? IsRunning { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? Color { get; set; }
+    object? Color { get; set; }
 }
 
 public partial class ActivityIndicator<T> : View<T>, IActivityIndicator where T : Microsoft.Maui.Controls.ActivityIndicator, new()
@@ -27,9 +27,9 @@ public partial class ActivityIndicator<T> : View<T>, IActivityIndicator where T 
     {
     }
 
-    PropertyValue<bool>? IActivityIndicator.IsRunning { get; set; }
+    object? IActivityIndicator.IsRunning { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? IActivityIndicator.Color { get; set; }
+    object? IActivityIndicator.Color { get; set; }
 
     internal override void Reset()
     {
@@ -74,7 +74,7 @@ public static partial class ActivityIndicatorExtensions
     public static T IsRunning<T>(this T activityIndicator, bool isRunning)
         where T : IActivityIndicator
     {
-        activityIndicator.IsRunning = new PropertyValue<bool>(isRunning);
+        activityIndicator.IsRunning = isRunning;
         return activityIndicator;
     }
 
@@ -88,7 +88,7 @@ public static partial class ActivityIndicatorExtensions
     public static T Color<T>(this T activityIndicator, Microsoft.Maui.Graphics.Color color)
         where T : IActivityIndicator
     {
-        activityIndicator.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(color);
+        activityIndicator.Color = color;
         return activityIndicator;
     }
 

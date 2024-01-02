@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IStructuredItemsView : IItemsView
 {
-    PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>? ItemSizingStrategy { get; set; }
+    object? ItemSizingStrategy { get; set; }
 }
 
 public partial class StructuredItemsView<T> : ItemsView<T>, IStructuredItemsView where T : Microsoft.Maui.Controls.StructuredItemsView, new()
@@ -25,7 +25,7 @@ public partial class StructuredItemsView<T> : ItemsView<T>, IStructuredItemsView
     {
     }
 
-    PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>? IStructuredItemsView.ItemSizingStrategy { get; set; }
+    object? IStructuredItemsView.ItemSizingStrategy { get; set; }
 
     internal override void Reset()
     {
@@ -68,7 +68,7 @@ public static partial class StructuredItemsViewExtensions
     public static T ItemSizingStrategy<T>(this T structuredItemsView, Microsoft.Maui.Controls.ItemSizingStrategy itemSizingStrategy)
         where T : IStructuredItemsView
     {
-        structuredItemsView.ItemSizingStrategy = new PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>(itemSizingStrategy);
+        structuredItemsView.ItemSizingStrategy = itemSizingStrategy;
         return structuredItemsView;
     }
 

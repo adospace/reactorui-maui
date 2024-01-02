@@ -12,19 +12,19 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ISlider : IView
 {
-    PropertyValue<double>? Minimum { get; set; }
+    object? Minimum { get; set; }
 
-    PropertyValue<double>? Maximum { get; set; }
+    object? Maximum { get; set; }
 
-    PropertyValue<double>? Value { get; set; }
+    object? Value { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? MinimumTrackColor { get; set; }
+    object? MinimumTrackColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? MaximumTrackColor { get; set; }
+    object? MaximumTrackColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ThumbColor { get; set; }
+    object? ThumbColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.ImageSource>? ThumbImageSource { get; set; }
+    object? ThumbImageSource { get; set; }
 
     Action? ValueChangedAction { get; set; }
 
@@ -49,19 +49,19 @@ public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Contr
     {
     }
 
-    PropertyValue<double>? ISlider.Minimum { get; set; }
+    object? ISlider.Minimum { get; set; }
 
-    PropertyValue<double>? ISlider.Maximum { get; set; }
+    object? ISlider.Maximum { get; set; }
 
-    PropertyValue<double>? ISlider.Value { get; set; }
+    object? ISlider.Value { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ISlider.MinimumTrackColor { get; set; }
+    object? ISlider.MinimumTrackColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ISlider.MaximumTrackColor { get; set; }
+    object? ISlider.MaximumTrackColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ISlider.ThumbColor { get; set; }
+    object? ISlider.ThumbColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.ImageSource>? ISlider.ThumbImageSource { get; set; }
+    object? ISlider.ThumbImageSource { get; set; }
 
     Action? ISlider.ValueChangedAction { get; set; }
 
@@ -197,7 +197,7 @@ public static partial class SliderExtensions
     public static T Minimum<T>(this T slider, double minimum, RxDoubleAnimation? customAnimation = null)
         where T : ISlider
     {
-        slider.Minimum = new PropertyValue<double>(minimum);
+        slider.Minimum = minimum;
         slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.MinimumProperty, customAnimation ?? new RxDoubleAnimation(minimum), v => slider.Minimum = new PropertyValue<double>(v.CurrentValue()));
         return slider;
     }
@@ -212,7 +212,7 @@ public static partial class SliderExtensions
     public static T Maximum<T>(this T slider, double maximum, RxDoubleAnimation? customAnimation = null)
         where T : ISlider
     {
-        slider.Maximum = new PropertyValue<double>(maximum);
+        slider.Maximum = maximum;
         slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.MaximumProperty, customAnimation ?? new RxDoubleAnimation(maximum), v => slider.Maximum = new PropertyValue<double>(v.CurrentValue()));
         return slider;
     }
@@ -227,7 +227,7 @@ public static partial class SliderExtensions
     public static T Value<T>(this T slider, double value, RxDoubleAnimation? customAnimation = null)
         where T : ISlider
     {
-        slider.Value = new PropertyValue<double>(value);
+        slider.Value = value;
         slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.ValueProperty, customAnimation ?? new RxDoubleAnimation(value), v => slider.Value = new PropertyValue<double>(v.CurrentValue()));
         return slider;
     }
@@ -242,7 +242,7 @@ public static partial class SliderExtensions
     public static T MinimumTrackColor<T>(this T slider, Microsoft.Maui.Graphics.Color minimumTrackColor)
         where T : ISlider
     {
-        slider.MinimumTrackColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(minimumTrackColor);
+        slider.MinimumTrackColor = minimumTrackColor;
         return slider;
     }
 
@@ -256,7 +256,7 @@ public static partial class SliderExtensions
     public static T MaximumTrackColor<T>(this T slider, Microsoft.Maui.Graphics.Color maximumTrackColor)
         where T : ISlider
     {
-        slider.MaximumTrackColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(maximumTrackColor);
+        slider.MaximumTrackColor = maximumTrackColor;
         return slider;
     }
 
@@ -270,7 +270,7 @@ public static partial class SliderExtensions
     public static T ThumbColor<T>(this T slider, Microsoft.Maui.Graphics.Color thumbColor)
         where T : ISlider
     {
-        slider.ThumbColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(thumbColor);
+        slider.ThumbColor = thumbColor;
         return slider;
     }
 
@@ -284,7 +284,7 @@ public static partial class SliderExtensions
     public static T ThumbImageSource<T>(this T slider, Microsoft.Maui.Controls.ImageSource thumbImageSource)
         where T : ISlider
     {
-        slider.ThumbImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(thumbImageSource);
+        slider.ThumbImageSource = thumbImageSource;
         return slider;
     }
 
@@ -298,7 +298,7 @@ public static partial class SliderExtensions
     public static T ThumbImageSource<T>(this T slider, string file)
         where T : ISlider
     {
-        slider.ThumbImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
+        slider.ThumbImageSource = Microsoft.Maui.Controls.ImageSource.FromFile(file);
         return slider;
     }
 
@@ -312,28 +312,33 @@ public static partial class SliderExtensions
     public static T ThumbImageSource<T>(this T slider, string resourceName, Assembly sourceAssembly)
         where T : ISlider
     {
-        slider.ThumbImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
+        slider.ThumbImageSource = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
         return slider;
     }
 
     public static T ThumbImageSource<T>(this T slider, Uri imageUri)
         where T : ISlider
     {
-        slider.ThumbImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
+        slider.ThumbImageSource = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
         return slider;
     }
 
     public static T ThumbImageSource<T>(this T slider, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : ISlider
     {
-        slider.ThumbImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource { Uri = imageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity });
+        slider.ThumbImageSource = new UriImageSource
+        {
+            Uri = imageUri,
+            CachingEnabled = cachingEnabled,
+            CacheValidity = cacheValidity
+        };
         return slider;
     }
 
     public static T ThumbImageSource<T>(this T slider, Func<Stream> imageStream)
         where T : ISlider
     {
-        slider.ThumbImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
+        slider.ThumbImageSource = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
         return slider;
     }
 

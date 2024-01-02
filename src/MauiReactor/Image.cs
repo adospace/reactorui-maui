@@ -12,13 +12,13 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IImage : IView
 {
-    PropertyValue<Microsoft.Maui.Controls.ImageSource>? Source { get; set; }
+    object? Source { get; set; }
 
-    PropertyValue<Microsoft.Maui.Aspect>? Aspect { get; set; }
+    object? Aspect { get; set; }
 
-    PropertyValue<bool>? IsOpaque { get; set; }
+    object? IsOpaque { get; set; }
 
-    PropertyValue<bool>? IsAnimationPlaying { get; set; }
+    object? IsAnimationPlaying { get; set; }
 }
 
 public partial class Image<T> : View<T>, IImage where T : Microsoft.Maui.Controls.Image, new()
@@ -31,13 +31,13 @@ public partial class Image<T> : View<T>, IImage where T : Microsoft.Maui.Control
     {
     }
 
-    PropertyValue<Microsoft.Maui.Controls.ImageSource>? IImage.Source { get; set; }
+    object? IImage.Source { get; set; }
 
-    PropertyValue<Microsoft.Maui.Aspect>? IImage.Aspect { get; set; }
+    object? IImage.Aspect { get; set; }
 
-    PropertyValue<bool>? IImage.IsOpaque { get; set; }
+    object? IImage.IsOpaque { get; set; }
 
-    PropertyValue<bool>? IImage.IsAnimationPlaying { get; set; }
+    object? IImage.IsAnimationPlaying { get; set; }
 
     internal override void Reset()
     {
@@ -86,7 +86,7 @@ public static partial class ImageExtensions
     public static T Source<T>(this T image, Microsoft.Maui.Controls.ImageSource source)
         where T : IImage
     {
-        image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(source);
+        image.Source = source;
         return image;
     }
 
@@ -100,7 +100,7 @@ public static partial class ImageExtensions
     public static T Source<T>(this T image, string file)
         where T : IImage
     {
-        image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
+        image.Source = Microsoft.Maui.Controls.ImageSource.FromFile(file);
         return image;
     }
 
@@ -114,35 +114,40 @@ public static partial class ImageExtensions
     public static T Source<T>(this T image, string resourceName, Assembly sourceAssembly)
         where T : IImage
     {
-        image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
+        image.Source = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
         return image;
     }
 
     public static T Source<T>(this T image, Uri imageUri)
         where T : IImage
     {
-        image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
+        image.Source = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
         return image;
     }
 
     public static T Source<T>(this T image, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IImage
     {
-        image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource { Uri = imageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity });
+        image.Source = new UriImageSource
+        {
+            Uri = imageUri,
+            CachingEnabled = cachingEnabled,
+            CacheValidity = cacheValidity
+        };
         return image;
     }
 
     public static T Source<T>(this T image, Func<Stream> imageStream)
         where T : IImage
     {
-        image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
+        image.Source = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
         return image;
     }
 
     public static T Aspect<T>(this T image, Microsoft.Maui.Aspect aspect)
         where T : IImage
     {
-        image.Aspect = new PropertyValue<Microsoft.Maui.Aspect>(aspect);
+        image.Aspect = aspect;
         return image;
     }
 
@@ -156,7 +161,7 @@ public static partial class ImageExtensions
     public static T IsOpaque<T>(this T image, bool isOpaque)
         where T : IImage
     {
-        image.IsOpaque = new PropertyValue<bool>(isOpaque);
+        image.IsOpaque = isOpaque;
         return image;
     }
 
@@ -170,7 +175,7 @@ public static partial class ImageExtensions
     public static T IsAnimationPlaying<T>(this T image, bool isAnimationPlaying)
         where T : IImage
     {
-        image.IsAnimationPlaying = new PropertyValue<bool>(isAnimationPlaying);
+        image.IsAnimationPlaying = isAnimationPlaying;
         return image;
     }
 

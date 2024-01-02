@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IGroupableItemsView : ISelectableItemsView
 {
-    PropertyValue<bool>? IsGrouped { get; set; }
+    object? IsGrouped { get; set; }
 }
 
 public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableItemsView where T : Microsoft.Maui.Controls.GroupableItemsView, new()
@@ -25,7 +25,7 @@ public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableI
     {
     }
 
-    PropertyValue<bool>? IGroupableItemsView.IsGrouped { get; set; }
+    object? IGroupableItemsView.IsGrouped { get; set; }
 
     internal override void Reset()
     {
@@ -68,7 +68,7 @@ public static partial class GroupableItemsViewExtensions
     public static T IsGrouped<T>(this T groupableItemsView, bool isGrouped)
         where T : IGroupableItemsView
     {
-        groupableItemsView.IsGrouped = new PropertyValue<bool>(isGrouped);
+        groupableItemsView.IsGrouped = isGrouped;
         return groupableItemsView;
     }
 

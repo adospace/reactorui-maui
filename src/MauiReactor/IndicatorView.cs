@@ -12,21 +12,21 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IIndicatorView : ITemplatedView
 {
-    PropertyValue<Microsoft.Maui.Controls.IndicatorShape>? IndicatorsShape { get; set; }
+    object? IndicatorsShape { get; set; }
 
-    PropertyValue<int>? Position { get; set; }
+    object? Position { get; set; }
 
-    PropertyValue<int>? Count { get; set; }
+    object? Count { get; set; }
 
-    PropertyValue<int>? MaximumVisible { get; set; }
+    object? MaximumVisible { get; set; }
 
-    PropertyValue<bool>? HideSingle { get; set; }
+    object? HideSingle { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? IndicatorColor { get; set; }
+    object? IndicatorColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? SelectedIndicatorColor { get; set; }
+    object? SelectedIndicatorColor { get; set; }
 
-    PropertyValue<double>? IndicatorSize { get; set; }
+    object? IndicatorSize { get; set; }
 }
 
 public partial class IndicatorView<T> : TemplatedView<T>, IIndicatorView where T : Microsoft.Maui.Controls.IndicatorView, new()
@@ -39,21 +39,21 @@ public partial class IndicatorView<T> : TemplatedView<T>, IIndicatorView where T
     {
     }
 
-    PropertyValue<Microsoft.Maui.Controls.IndicatorShape>? IIndicatorView.IndicatorsShape { get; set; }
+    object? IIndicatorView.IndicatorsShape { get; set; }
 
-    PropertyValue<int>? IIndicatorView.Position { get; set; }
+    object? IIndicatorView.Position { get; set; }
 
-    PropertyValue<int>? IIndicatorView.Count { get; set; }
+    object? IIndicatorView.Count { get; set; }
 
-    PropertyValue<int>? IIndicatorView.MaximumVisible { get; set; }
+    object? IIndicatorView.MaximumVisible { get; set; }
 
-    PropertyValue<bool>? IIndicatorView.HideSingle { get; set; }
+    object? IIndicatorView.HideSingle { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? IIndicatorView.IndicatorColor { get; set; }
+    object? IIndicatorView.IndicatorColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? IIndicatorView.SelectedIndicatorColor { get; set; }
+    object? IIndicatorView.SelectedIndicatorColor { get; set; }
 
-    PropertyValue<double>? IIndicatorView.IndicatorSize { get; set; }
+    object? IIndicatorView.IndicatorSize { get; set; }
 
     internal override void Reset()
     {
@@ -119,7 +119,7 @@ public static partial class IndicatorViewExtensions
     public static T IndicatorsShape<T>(this T indicatorView, Microsoft.Maui.Controls.IndicatorShape indicatorsShape)
         where T : IIndicatorView
     {
-        indicatorView.IndicatorsShape = new PropertyValue<Microsoft.Maui.Controls.IndicatorShape>(indicatorsShape);
+        indicatorView.IndicatorsShape = indicatorsShape;
         return indicatorView;
     }
 
@@ -133,7 +133,7 @@ public static partial class IndicatorViewExtensions
     public static T Position<T>(this T indicatorView, int position)
         where T : IIndicatorView
     {
-        indicatorView.Position = new PropertyValue<int>(position);
+        indicatorView.Position = position;
         return indicatorView;
     }
 
@@ -147,7 +147,7 @@ public static partial class IndicatorViewExtensions
     public static T Count<T>(this T indicatorView, int count)
         where T : IIndicatorView
     {
-        indicatorView.Count = new PropertyValue<int>(count);
+        indicatorView.Count = count;
         return indicatorView;
     }
 
@@ -161,7 +161,7 @@ public static partial class IndicatorViewExtensions
     public static T MaximumVisible<T>(this T indicatorView, int maximumVisible)
         where T : IIndicatorView
     {
-        indicatorView.MaximumVisible = new PropertyValue<int>(maximumVisible);
+        indicatorView.MaximumVisible = maximumVisible;
         return indicatorView;
     }
 
@@ -175,7 +175,7 @@ public static partial class IndicatorViewExtensions
     public static T HideSingle<T>(this T indicatorView, bool hideSingle)
         where T : IIndicatorView
     {
-        indicatorView.HideSingle = new PropertyValue<bool>(hideSingle);
+        indicatorView.HideSingle = hideSingle;
         return indicatorView;
     }
 
@@ -189,7 +189,7 @@ public static partial class IndicatorViewExtensions
     public static T IndicatorColor<T>(this T indicatorView, Microsoft.Maui.Graphics.Color indicatorColor)
         where T : IIndicatorView
     {
-        indicatorView.IndicatorColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(indicatorColor);
+        indicatorView.IndicatorColor = indicatorColor;
         return indicatorView;
     }
 
@@ -203,7 +203,7 @@ public static partial class IndicatorViewExtensions
     public static T SelectedIndicatorColor<T>(this T indicatorView, Microsoft.Maui.Graphics.Color selectedIndicatorColor)
         where T : IIndicatorView
     {
-        indicatorView.SelectedIndicatorColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(selectedIndicatorColor);
+        indicatorView.SelectedIndicatorColor = selectedIndicatorColor;
         return indicatorView;
     }
 
@@ -217,7 +217,7 @@ public static partial class IndicatorViewExtensions
     public static T IndicatorSize<T>(this T indicatorView, double indicatorSize, RxDoubleAnimation? customAnimation = null)
         where T : IIndicatorView
     {
-        indicatorView.IndicatorSize = new PropertyValue<double>(indicatorSize);
+        indicatorView.IndicatorSize = indicatorSize;
         indicatorView.AppendAnimatable(Microsoft.Maui.Controls.IndicatorView.IndicatorSizeProperty, customAnimation ?? new RxDoubleAnimation(indicatorSize), v => indicatorView.IndicatorSize = new PropertyValue<double>(v.CurrentValue()));
         return indicatorView;
     }

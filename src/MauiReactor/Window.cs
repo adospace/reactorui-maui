@@ -12,25 +12,25 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IWindow : INavigableElement
 {
-    PropertyValue<string>? Title { get; set; }
+    object? Title { get; set; }
 
-    PropertyValue<Microsoft.Maui.FlowDirection>? FlowDirection { get; set; }
+    object? FlowDirection { get; set; }
 
-    PropertyValue<double>? X { get; set; }
+    object? X { get; set; }
 
-    PropertyValue<double>? Y { get; set; }
+    object? Y { get; set; }
 
-    PropertyValue<double>? Width { get; set; }
+    object? Width { get; set; }
 
-    PropertyValue<double>? Height { get; set; }
+    object? Height { get; set; }
 
-    PropertyValue<double>? MaximumWidth { get; set; }
+    object? MaximumWidth { get; set; }
 
-    PropertyValue<double>? MaximumHeight { get; set; }
+    object? MaximumHeight { get; set; }
 
-    PropertyValue<double>? MinimumWidth { get; set; }
+    object? MinimumWidth { get; set; }
 
-    PropertyValue<double>? MinimumHeight { get; set; }
+    object? MinimumHeight { get; set; }
 
     Action? SizeChangedAction { get; set; }
 
@@ -99,25 +99,25 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
     {
     }
 
-    PropertyValue<string>? IWindow.Title { get; set; }
+    object? IWindow.Title { get; set; }
 
-    PropertyValue<Microsoft.Maui.FlowDirection>? IWindow.FlowDirection { get; set; }
+    object? IWindow.FlowDirection { get; set; }
 
-    PropertyValue<double>? IWindow.X { get; set; }
+    object? IWindow.X { get; set; }
 
-    PropertyValue<double>? IWindow.Y { get; set; }
+    object? IWindow.Y { get; set; }
 
-    PropertyValue<double>? IWindow.Width { get; set; }
+    object? IWindow.Width { get; set; }
 
-    PropertyValue<double>? IWindow.Height { get; set; }
+    object? IWindow.Height { get; set; }
 
-    PropertyValue<double>? IWindow.MaximumWidth { get; set; }
+    object? IWindow.MaximumWidth { get; set; }
 
-    PropertyValue<double>? IWindow.MaximumHeight { get; set; }
+    object? IWindow.MaximumHeight { get; set; }
 
-    PropertyValue<double>? IWindow.MinimumWidth { get; set; }
+    object? IWindow.MinimumWidth { get; set; }
 
-    PropertyValue<double>? IWindow.MinimumHeight { get; set; }
+    object? IWindow.MinimumHeight { get; set; }
 
     Action? IWindow.SizeChangedAction { get; set; }
 
@@ -451,7 +451,7 @@ public static partial class WindowExtensions
     public static T Title<T>(this T window, string title)
         where T : IWindow
     {
-        window.Title = new PropertyValue<string>(title);
+        window.Title = title;
         return window;
     }
 
@@ -465,7 +465,7 @@ public static partial class WindowExtensions
     public static T FlowDirection<T>(this T window, Microsoft.Maui.FlowDirection flowDirection)
         where T : IWindow
     {
-        window.FlowDirection = new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirection);
+        window.FlowDirection = flowDirection;
         return window;
     }
 
@@ -479,7 +479,7 @@ public static partial class WindowExtensions
     public static T X<T>(this T window, double x, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.X = new PropertyValue<double>(x);
+        window.X = x;
         window.AppendAnimatable(Microsoft.Maui.Controls.Window.XProperty, customAnimation ?? new RxDoubleAnimation(x), v => window.X = new PropertyValue<double>(v.CurrentValue()));
         return window;
     }
@@ -494,7 +494,7 @@ public static partial class WindowExtensions
     public static T Y<T>(this T window, double y, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.Y = new PropertyValue<double>(y);
+        window.Y = y;
         window.AppendAnimatable(Microsoft.Maui.Controls.Window.YProperty, customAnimation ?? new RxDoubleAnimation(y), v => window.Y = new PropertyValue<double>(v.CurrentValue()));
         return window;
     }
@@ -509,7 +509,7 @@ public static partial class WindowExtensions
     public static T Width<T>(this T window, double width, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.Width = new PropertyValue<double>(width);
+        window.Width = width;
         window.AppendAnimatable(Microsoft.Maui.Controls.Window.WidthProperty, customAnimation ?? new RxDoubleAnimation(width), v => window.Width = new PropertyValue<double>(v.CurrentValue()));
         return window;
     }
@@ -524,7 +524,7 @@ public static partial class WindowExtensions
     public static T Height<T>(this T window, double height, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.Height = new PropertyValue<double>(height);
+        window.Height = height;
         window.AppendAnimatable(Microsoft.Maui.Controls.Window.HeightProperty, customAnimation ?? new RxDoubleAnimation(height), v => window.Height = new PropertyValue<double>(v.CurrentValue()));
         return window;
     }
@@ -539,7 +539,7 @@ public static partial class WindowExtensions
     public static T MaximumWidth<T>(this T window, double maximumWidth, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.MaximumWidth = new PropertyValue<double>(maximumWidth);
+        window.MaximumWidth = maximumWidth;
         window.AppendAnimatable(Microsoft.Maui.Controls.Window.MaximumWidthProperty, customAnimation ?? new RxDoubleAnimation(maximumWidth), v => window.MaximumWidth = new PropertyValue<double>(v.CurrentValue()));
         return window;
     }
@@ -554,7 +554,7 @@ public static partial class WindowExtensions
     public static T MaximumHeight<T>(this T window, double maximumHeight, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.MaximumHeight = new PropertyValue<double>(maximumHeight);
+        window.MaximumHeight = maximumHeight;
         window.AppendAnimatable(Microsoft.Maui.Controls.Window.MaximumHeightProperty, customAnimation ?? new RxDoubleAnimation(maximumHeight), v => window.MaximumHeight = new PropertyValue<double>(v.CurrentValue()));
         return window;
     }
@@ -569,7 +569,7 @@ public static partial class WindowExtensions
     public static T MinimumWidth<T>(this T window, double minimumWidth, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.MinimumWidth = new PropertyValue<double>(minimumWidth);
+        window.MinimumWidth = minimumWidth;
         window.AppendAnimatable(Microsoft.Maui.Controls.Window.MinimumWidthProperty, customAnimation ?? new RxDoubleAnimation(minimumWidth), v => window.MinimumWidth = new PropertyValue<double>(v.CurrentValue()));
         return window;
     }
@@ -584,7 +584,7 @@ public static partial class WindowExtensions
     public static T MinimumHeight<T>(this T window, double minimumHeight, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.MinimumHeight = new PropertyValue<double>(minimumHeight);
+        window.MinimumHeight = minimumHeight;
         window.AppendAnimatable(Microsoft.Maui.Controls.Window.MinimumHeightProperty, customAnimation ?? new RxDoubleAnimation(minimumHeight), v => window.MinimumHeight = new PropertyValue<double>(v.CurrentValue()));
         return window;
     }

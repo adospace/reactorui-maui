@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IElement : IVisualNode
 {
-    PropertyValue<string>? AutomationId { get; set; }
+    object? AutomationId { get; set; }
 
-    PropertyValue<string>? ClassId { get; set; }
+    object? ClassId { get; set; }
 
     Action? ChildAddedAction { get; set; }
 
@@ -59,9 +59,9 @@ public abstract partial class Element<T> : VisualNode<T>, IElement where T : Mic
     {
     }
 
-    PropertyValue<string>? IElement.AutomationId { get; set; }
+    object? IElement.AutomationId { get; set; }
 
-    PropertyValue<string>? IElement.ClassId { get; set; }
+    object? IElement.ClassId { get; set; }
 
     Action? IElement.ChildAddedAction { get; set; }
 
@@ -250,7 +250,7 @@ public static partial class ElementExtensions
     public static T AutomationId<T>(this T element, string automationId)
         where T : IElement
     {
-        element.AutomationId = new PropertyValue<string>(automationId);
+        element.AutomationId = automationId;
         return element;
     }
 
@@ -264,7 +264,7 @@ public static partial class ElementExtensions
     public static T ClassId<T>(this T element, string classId)
         where T : IElement
     {
-        element.ClassId = new PropertyValue<string>(classId);
+        element.ClassId = classId;
         return element;
     }
 

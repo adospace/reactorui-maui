@@ -12,11 +12,11 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ISearchBar : IInputView
 {
-    PropertyValue<Microsoft.Maui.Graphics.Color>? CancelButtonColor { get; set; }
+    object? CancelButtonColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? HorizontalTextAlignment { get; set; }
+    object? HorizontalTextAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? VerticalTextAlignment { get; set; }
+    object? VerticalTextAlignment { get; set; }
 
     Action? SearchButtonPressedAction { get; set; }
 
@@ -33,11 +33,11 @@ public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft
     {
     }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ISearchBar.CancelButtonColor { get; set; }
+    object? ISearchBar.CancelButtonColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? ISearchBar.HorizontalTextAlignment { get; set; }
+    object? ISearchBar.HorizontalTextAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? ISearchBar.VerticalTextAlignment { get; set; }
+    object? ISearchBar.VerticalTextAlignment { get; set; }
 
     Action? ISearchBar.SearchButtonPressedAction { get; set; }
 
@@ -120,7 +120,7 @@ public static partial class SearchBarExtensions
     public static T CancelButtonColor<T>(this T searchBar, Microsoft.Maui.Graphics.Color cancelButtonColor)
         where T : ISearchBar
     {
-        searchBar.CancelButtonColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(cancelButtonColor);
+        searchBar.CancelButtonColor = cancelButtonColor;
         return searchBar;
     }
 
@@ -134,7 +134,7 @@ public static partial class SearchBarExtensions
     public static T HorizontalTextAlignment<T>(this T searchBar, Microsoft.Maui.TextAlignment horizontalTextAlignment)
         where T : ISearchBar
     {
-        searchBar.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignment);
+        searchBar.HorizontalTextAlignment = horizontalTextAlignment;
         return searchBar;
     }
 
@@ -148,7 +148,7 @@ public static partial class SearchBarExtensions
     public static T VerticalTextAlignment<T>(this T searchBar, Microsoft.Maui.TextAlignment verticalTextAlignment)
         where T : ISearchBar
     {
-        searchBar.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignment);
+        searchBar.VerticalTextAlignment = verticalTextAlignment;
         return searchBar;
     }
 

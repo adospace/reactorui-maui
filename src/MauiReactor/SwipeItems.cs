@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ISwipeItems : IElement
 {
-    PropertyValue<Microsoft.Maui.SwipeMode>? Mode { get; set; }
+    object? Mode { get; set; }
 
-    PropertyValue<Microsoft.Maui.SwipeBehaviorOnInvoked>? SwipeBehaviorOnInvoked { get; set; }
+    object? SwipeBehaviorOnInvoked { get; set; }
 
     Action? CollectionChangedAction { get; set; }
 
@@ -31,9 +31,9 @@ public partial class SwipeItems<T> : Element<T>, ISwipeItems where T : Microsoft
     {
     }
 
-    PropertyValue<Microsoft.Maui.SwipeMode>? ISwipeItems.Mode { get; set; }
+    object? ISwipeItems.Mode { get; set; }
 
-    PropertyValue<Microsoft.Maui.SwipeBehaviorOnInvoked>? ISwipeItems.SwipeBehaviorOnInvoked { get; set; }
+    object? ISwipeItems.SwipeBehaviorOnInvoked { get; set; }
 
     Action? ISwipeItems.CollectionChangedAction { get; set; }
 
@@ -114,7 +114,7 @@ public static partial class SwipeItemsExtensions
     public static T Mode<T>(this T swipeItems, Microsoft.Maui.SwipeMode mode)
         where T : ISwipeItems
     {
-        swipeItems.Mode = new PropertyValue<Microsoft.Maui.SwipeMode>(mode);
+        swipeItems.Mode = mode;
         return swipeItems;
     }
 
@@ -128,7 +128,7 @@ public static partial class SwipeItemsExtensions
     public static T SwipeBehaviorOnInvoked<T>(this T swipeItems, Microsoft.Maui.SwipeBehaviorOnInvoked swipeBehaviorOnInvoked)
         where T : ISwipeItems
     {
-        swipeItems.SwipeBehaviorOnInvoked = new PropertyValue<Microsoft.Maui.SwipeBehaviorOnInvoked>(swipeBehaviorOnInvoked);
+        swipeItems.SwipeBehaviorOnInvoked = swipeBehaviorOnInvoked;
         return swipeItems;
     }
 

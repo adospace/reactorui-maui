@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IStackLayout : IStackBase
 {
-    PropertyValue<Microsoft.Maui.Controls.StackOrientation>? Orientation { get; set; }
+    object? Orientation { get; set; }
 }
 
 public partial class StackLayout<T> : StackBase<T>, IStackLayout where T : Microsoft.Maui.Controls.StackLayout, new()
@@ -25,7 +25,7 @@ public partial class StackLayout<T> : StackBase<T>, IStackLayout where T : Micro
     {
     }
 
-    PropertyValue<Microsoft.Maui.Controls.StackOrientation>? IStackLayout.Orientation { get; set; }
+    object? IStackLayout.Orientation { get; set; }
 
     internal override void Reset()
     {
@@ -68,7 +68,7 @@ public static partial class StackLayoutExtensions
     public static T Orientation<T>(this T stackLayout, Microsoft.Maui.Controls.StackOrientation orientation)
         where T : IStackLayout
     {
-        stackLayout.Orientation = new PropertyValue<Microsoft.Maui.Controls.StackOrientation>(orientation);
+        stackLayout.Orientation = orientation;
         return stackLayout;
     }
 

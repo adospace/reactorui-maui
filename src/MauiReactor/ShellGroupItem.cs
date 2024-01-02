@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IShellGroupItem : IBaseShellItem
 {
-    PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>? FlyoutDisplayOptions { get; set; }
+    object? FlyoutDisplayOptions { get; set; }
 }
 
 public partial class ShellGroupItem<T> : BaseShellItem<T>, IShellGroupItem where T : Microsoft.Maui.Controls.ShellGroupItem, new()
@@ -25,7 +25,7 @@ public partial class ShellGroupItem<T> : BaseShellItem<T>, IShellGroupItem where
     {
     }
 
-    PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>? IShellGroupItem.FlyoutDisplayOptions { get; set; }
+    object? IShellGroupItem.FlyoutDisplayOptions { get; set; }
 
     internal override void Reset()
     {
@@ -68,7 +68,7 @@ public static partial class ShellGroupItemExtensions
     public static T FlyoutDisplayOptions<T>(this T shellGroupItem, Microsoft.Maui.Controls.FlyoutDisplayOptions flyoutDisplayOptions)
         where T : IShellGroupItem
     {
-        shellGroupItem.FlyoutDisplayOptions = new PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>(flyoutDisplayOptions);
+        shellGroupItem.FlyoutDisplayOptions = flyoutDisplayOptions;
         return shellGroupItem;
     }
 

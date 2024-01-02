@@ -12,19 +12,19 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ICarouselView : IItemsView
 {
-    PropertyValue<bool>? Loop { get; set; }
+    object? Loop { get; set; }
 
-    PropertyValue<Microsoft.Maui.Thickness>? PeekAreaInsets { get; set; }
+    object? PeekAreaInsets { get; set; }
 
-    PropertyValue<bool>? IsBounceEnabled { get; set; }
+    object? IsBounceEnabled { get; set; }
 
-    PropertyValue<bool>? IsSwipeEnabled { get; set; }
+    object? IsSwipeEnabled { get; set; }
 
-    PropertyValue<bool>? IsScrollAnimated { get; set; }
+    object? IsScrollAnimated { get; set; }
 
-    PropertyValue<object>? CurrentItem { get; set; }
+    object? CurrentItem { get; set; }
 
-    PropertyValue<int>? Position { get; set; }
+    object? Position { get; set; }
 
     Action? CurrentItemChangedAction { get; set; }
 
@@ -45,19 +45,19 @@ public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Mic
     {
     }
 
-    PropertyValue<bool>? ICarouselView.Loop { get; set; }
+    object? ICarouselView.Loop { get; set; }
 
-    PropertyValue<Microsoft.Maui.Thickness>? ICarouselView.PeekAreaInsets { get; set; }
+    object? ICarouselView.PeekAreaInsets { get; set; }
 
-    PropertyValue<bool>? ICarouselView.IsBounceEnabled { get; set; }
+    object? ICarouselView.IsBounceEnabled { get; set; }
 
-    PropertyValue<bool>? ICarouselView.IsSwipeEnabled { get; set; }
+    object? ICarouselView.IsSwipeEnabled { get; set; }
 
-    PropertyValue<bool>? ICarouselView.IsScrollAnimated { get; set; }
+    object? ICarouselView.IsScrollAnimated { get; set; }
 
-    PropertyValue<object>? ICarouselView.CurrentItem { get; set; }
+    object? ICarouselView.CurrentItem { get; set; }
 
-    PropertyValue<int>? ICarouselView.Position { get; set; }
+    object? ICarouselView.Position { get; set; }
 
     Action? ICarouselView.CurrentItemChangedAction { get; set; }
 
@@ -174,7 +174,7 @@ public static partial class CarouselViewExtensions
     public static T Loop<T>(this T carouselView, bool loop)
         where T : ICarouselView
     {
-        carouselView.Loop = new PropertyValue<bool>(loop);
+        carouselView.Loop = loop;
         return carouselView;
     }
 
@@ -188,7 +188,7 @@ public static partial class CarouselViewExtensions
     public static T PeekAreaInsets<T>(this T carouselView, Microsoft.Maui.Thickness peekAreaInsets, RxThicknessAnimation? customAnimation = null)
         where T : ICarouselView
     {
-        carouselView.PeekAreaInsets = new PropertyValue<Microsoft.Maui.Thickness>(peekAreaInsets);
+        carouselView.PeekAreaInsets = peekAreaInsets;
         carouselView.AppendAnimatable(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, customAnimation ?? new RxSimpleThicknessAnimation(peekAreaInsets), v => carouselView.PeekAreaInsets = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
         return carouselView;
     }
@@ -203,7 +203,7 @@ public static partial class CarouselViewExtensions
     public static T PeekAreaInsets<T>(this T carouselView, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
         where T : ICarouselView
     {
-        carouselView.PeekAreaInsets = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
+        carouselView.PeekAreaInsets = new Thickness(leftRight, topBottom);
         carouselView.AppendAnimatable(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => carouselView.PeekAreaInsets = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
         return carouselView;
     }
@@ -211,7 +211,7 @@ public static partial class CarouselViewExtensions
     public static T PeekAreaInsets<T>(this T carouselView, double uniformSize, RxThicknessAnimation? customAnimation = null)
         where T : ICarouselView
     {
-        carouselView.PeekAreaInsets = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
+        carouselView.PeekAreaInsets = new Thickness(uniformSize);
         carouselView.AppendAnimatable(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => carouselView.PeekAreaInsets = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
         return carouselView;
     }
@@ -219,7 +219,7 @@ public static partial class CarouselViewExtensions
     public static T PeekAreaInsets<T>(this T carouselView, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
         where T : ICarouselView
     {
-        carouselView.PeekAreaInsets = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(left, top, right, bottom));
+        carouselView.PeekAreaInsets = new Thickness(left, top, right, bottom);
         carouselView.AppendAnimatable(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => carouselView.PeekAreaInsets = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
         return carouselView;
     }
@@ -227,7 +227,7 @@ public static partial class CarouselViewExtensions
     public static T IsBounceEnabled<T>(this T carouselView, bool isBounceEnabled)
         where T : ICarouselView
     {
-        carouselView.IsBounceEnabled = new PropertyValue<bool>(isBounceEnabled);
+        carouselView.IsBounceEnabled = isBounceEnabled;
         return carouselView;
     }
 
@@ -241,7 +241,7 @@ public static partial class CarouselViewExtensions
     public static T IsSwipeEnabled<T>(this T carouselView, bool isSwipeEnabled)
         where T : ICarouselView
     {
-        carouselView.IsSwipeEnabled = new PropertyValue<bool>(isSwipeEnabled);
+        carouselView.IsSwipeEnabled = isSwipeEnabled;
         return carouselView;
     }
 
@@ -255,7 +255,7 @@ public static partial class CarouselViewExtensions
     public static T IsScrollAnimated<T>(this T carouselView, bool isScrollAnimated)
         where T : ICarouselView
     {
-        carouselView.IsScrollAnimated = new PropertyValue<bool>(isScrollAnimated);
+        carouselView.IsScrollAnimated = isScrollAnimated;
         return carouselView;
     }
 
@@ -269,7 +269,7 @@ public static partial class CarouselViewExtensions
     public static T CurrentItem<T>(this T carouselView, object currentItem)
         where T : ICarouselView
     {
-        carouselView.CurrentItem = new PropertyValue<object>(currentItem);
+        carouselView.CurrentItem = currentItem;
         return carouselView;
     }
 
@@ -283,7 +283,7 @@ public static partial class CarouselViewExtensions
     public static T Position<T>(this T carouselView, int position)
         where T : ICarouselView
     {
-        carouselView.Position = new PropertyValue<int>(position);
+        carouselView.Position = position;
         return carouselView;
     }
 

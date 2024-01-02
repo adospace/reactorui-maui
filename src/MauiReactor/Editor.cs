@@ -12,11 +12,11 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IEditor : IInputView
 {
-    PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>? AutoSize { get; set; }
+    object? AutoSize { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? HorizontalTextAlignment { get; set; }
+    object? HorizontalTextAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? VerticalTextAlignment { get; set; }
+    object? VerticalTextAlignment { get; set; }
 
     Action? CompletedAction { get; set; }
 
@@ -33,11 +33,11 @@ public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.
     {
     }
 
-    PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>? IEditor.AutoSize { get; set; }
+    object? IEditor.AutoSize { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? IEditor.HorizontalTextAlignment { get; set; }
+    object? IEditor.HorizontalTextAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? IEditor.VerticalTextAlignment { get; set; }
+    object? IEditor.VerticalTextAlignment { get; set; }
 
     Action? IEditor.CompletedAction { get; set; }
 
@@ -120,7 +120,7 @@ public static partial class EditorExtensions
     public static T AutoSize<T>(this T editor, Microsoft.Maui.Controls.EditorAutoSizeOption autoSize)
         where T : IEditor
     {
-        editor.AutoSize = new PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>(autoSize);
+        editor.AutoSize = autoSize;
         return editor;
     }
 
@@ -134,7 +134,7 @@ public static partial class EditorExtensions
     public static T HorizontalTextAlignment<T>(this T editor, Microsoft.Maui.TextAlignment horizontalTextAlignment)
         where T : IEditor
     {
-        editor.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignment);
+        editor.HorizontalTextAlignment = horizontalTextAlignment;
         return editor;
     }
 
@@ -148,7 +148,7 @@ public static partial class EditorExtensions
     public static T VerticalTextAlignment<T>(this T editor, Microsoft.Maui.TextAlignment verticalTextAlignment)
         where T : IEditor
     {
-        editor.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignment);
+        editor.VerticalTextAlignment = verticalTextAlignment;
         return editor;
     }
 

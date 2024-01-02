@@ -12,11 +12,11 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ISwitchCell : ICell
 {
-    PropertyValue<bool>? On { get; set; }
+    object? On { get; set; }
 
-    PropertyValue<string>? Text { get; set; }
+    object? Text { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? OnColor { get; set; }
+    object? OnColor { get; set; }
 
     Action? OnChangedAction { get; set; }
 
@@ -33,11 +33,11 @@ public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Ma
     {
     }
 
-    PropertyValue<bool>? ISwitchCell.On { get; set; }
+    object? ISwitchCell.On { get; set; }
 
-    PropertyValue<string>? ISwitchCell.Text { get; set; }
+    object? ISwitchCell.Text { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ISwitchCell.OnColor { get; set; }
+    object? ISwitchCell.OnColor { get; set; }
 
     Action? ISwitchCell.OnChangedAction { get; set; }
 
@@ -120,7 +120,7 @@ public static partial class SwitchCellExtensions
     public static T On<T>(this T switchCell, bool on)
         where T : ISwitchCell
     {
-        switchCell.On = new PropertyValue<bool>(on);
+        switchCell.On = on;
         return switchCell;
     }
 
@@ -134,7 +134,7 @@ public static partial class SwitchCellExtensions
     public static T Text<T>(this T switchCell, string text)
         where T : ISwitchCell
     {
-        switchCell.Text = new PropertyValue<string>(text);
+        switchCell.Text = text;
         return switchCell;
     }
 
@@ -148,7 +148,7 @@ public static partial class SwitchCellExtensions
     public static T OnColor<T>(this T switchCell, Microsoft.Maui.Graphics.Color onColor)
         where T : ISwitchCell
     {
-        switchCell.OnColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(onColor);
+        switchCell.OnColor = onColor;
         return switchCell;
     }
 

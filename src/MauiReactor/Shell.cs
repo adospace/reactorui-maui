@@ -12,29 +12,29 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IShell : IPage
 {
-    PropertyValue<Microsoft.Maui.FlyoutBehavior>? FlyoutBehavior { get; set; }
+    object? FlyoutBehavior { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Brush>? FlyoutBackdrop { get; set; }
+    object? FlyoutBackdrop { get; set; }
 
-    PropertyValue<double>? FlyoutWidth { get; set; }
+    object? FlyoutWidth { get; set; }
 
-    PropertyValue<double>? FlyoutHeight { get; set; }
+    object? FlyoutHeight { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.ImageSource>? FlyoutBackgroundImage { get; set; }
+    object? FlyoutBackgroundImage { get; set; }
 
-    PropertyValue<Microsoft.Maui.Aspect>? FlyoutBackgroundImageAspect { get; set; }
+    object? FlyoutBackgroundImageAspect { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? FlyoutBackgroundColor { get; set; }
+    object? FlyoutBackgroundColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Brush>? FlyoutBackground { get; set; }
+    object? FlyoutBackground { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.FlyoutHeaderBehavior>? FlyoutHeaderBehavior { get; set; }
+    object? FlyoutHeaderBehavior { get; set; }
 
-    PropertyValue<bool>? FlyoutIsPresented { get; set; }
+    object? FlyoutIsPresented { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.ImageSource>? FlyoutIcon { get; set; }
+    object? FlyoutIcon { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.ScrollMode>? FlyoutVerticalScrollMode { get; set; }
+    object? FlyoutVerticalScrollMode { get; set; }
 
     Action? NavigatedAction { get; set; }
 
@@ -55,29 +55,29 @@ public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Control
     {
     }
 
-    PropertyValue<Microsoft.Maui.FlyoutBehavior>? IShell.FlyoutBehavior { get; set; }
+    object? IShell.FlyoutBehavior { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Brush>? IShell.FlyoutBackdrop { get; set; }
+    object? IShell.FlyoutBackdrop { get; set; }
 
-    PropertyValue<double>? IShell.FlyoutWidth { get; set; }
+    object? IShell.FlyoutWidth { get; set; }
 
-    PropertyValue<double>? IShell.FlyoutHeight { get; set; }
+    object? IShell.FlyoutHeight { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.ImageSource>? IShell.FlyoutBackgroundImage { get; set; }
+    object? IShell.FlyoutBackgroundImage { get; set; }
 
-    PropertyValue<Microsoft.Maui.Aspect>? IShell.FlyoutBackgroundImageAspect { get; set; }
+    object? IShell.FlyoutBackgroundImageAspect { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? IShell.FlyoutBackgroundColor { get; set; }
+    object? IShell.FlyoutBackgroundColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Brush>? IShell.FlyoutBackground { get; set; }
+    object? IShell.FlyoutBackground { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.FlyoutHeaderBehavior>? IShell.FlyoutHeaderBehavior { get; set; }
+    object? IShell.FlyoutHeaderBehavior { get; set; }
 
-    PropertyValue<bool>? IShell.FlyoutIsPresented { get; set; }
+    object? IShell.FlyoutIsPresented { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.ImageSource>? IShell.FlyoutIcon { get; set; }
+    object? IShell.FlyoutIcon { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.ScrollMode>? IShell.FlyoutVerticalScrollMode { get; set; }
+    object? IShell.FlyoutVerticalScrollMode { get; set; }
 
     Action? IShell.NavigatedAction { get; set; }
 
@@ -205,7 +205,7 @@ public static partial class ShellExtensions
     public static T FlyoutBehavior<T>(this T shell, Microsoft.Maui.FlyoutBehavior flyoutBehavior)
         where T : IShell
     {
-        shell.FlyoutBehavior = new PropertyValue<Microsoft.Maui.FlyoutBehavior>(flyoutBehavior);
+        shell.FlyoutBehavior = flyoutBehavior;
         return shell;
     }
 
@@ -219,7 +219,7 @@ public static partial class ShellExtensions
     public static T FlyoutBackdrop<T>(this T shell, Microsoft.Maui.Controls.Brush flyoutBackdrop)
         where T : IShell
     {
-        shell.FlyoutBackdrop = new PropertyValue<Microsoft.Maui.Controls.Brush>(flyoutBackdrop);
+        shell.FlyoutBackdrop = flyoutBackdrop;
         return shell;
     }
 
@@ -233,7 +233,7 @@ public static partial class ShellExtensions
     public static T FlyoutWidth<T>(this T shell, double flyoutWidth, RxDoubleAnimation? customAnimation = null)
         where T : IShell
     {
-        shell.FlyoutWidth = new PropertyValue<double>(flyoutWidth);
+        shell.FlyoutWidth = flyoutWidth;
         shell.AppendAnimatable(Microsoft.Maui.Controls.Shell.FlyoutWidthProperty, customAnimation ?? new RxDoubleAnimation(flyoutWidth), v => shell.FlyoutWidth = new PropertyValue<double>(v.CurrentValue()));
         return shell;
     }
@@ -248,7 +248,7 @@ public static partial class ShellExtensions
     public static T FlyoutHeight<T>(this T shell, double flyoutHeight, RxDoubleAnimation? customAnimation = null)
         where T : IShell
     {
-        shell.FlyoutHeight = new PropertyValue<double>(flyoutHeight);
+        shell.FlyoutHeight = flyoutHeight;
         shell.AppendAnimatable(Microsoft.Maui.Controls.Shell.FlyoutHeightProperty, customAnimation ?? new RxDoubleAnimation(flyoutHeight), v => shell.FlyoutHeight = new PropertyValue<double>(v.CurrentValue()));
         return shell;
     }
@@ -263,7 +263,7 @@ public static partial class ShellExtensions
     public static T FlyoutBackgroundImage<T>(this T shell, Microsoft.Maui.Controls.ImageSource flyoutBackgroundImage)
         where T : IShell
     {
-        shell.FlyoutBackgroundImage = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutBackgroundImage);
+        shell.FlyoutBackgroundImage = flyoutBackgroundImage;
         return shell;
     }
 
@@ -277,7 +277,7 @@ public static partial class ShellExtensions
     public static T FlyoutBackgroundImage<T>(this T shell, string file)
         where T : IShell
     {
-        shell.FlyoutBackgroundImage = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
+        shell.FlyoutBackgroundImage = Microsoft.Maui.Controls.ImageSource.FromFile(file);
         return shell;
     }
 
@@ -291,35 +291,40 @@ public static partial class ShellExtensions
     public static T FlyoutBackgroundImage<T>(this T shell, string resourceName, Assembly sourceAssembly)
         where T : IShell
     {
-        shell.FlyoutBackgroundImage = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
+        shell.FlyoutBackgroundImage = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
         return shell;
     }
 
     public static T FlyoutBackgroundImage<T>(this T shell, Uri imageUri)
         where T : IShell
     {
-        shell.FlyoutBackgroundImage = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
+        shell.FlyoutBackgroundImage = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
         return shell;
     }
 
     public static T FlyoutBackgroundImage<T>(this T shell, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IShell
     {
-        shell.FlyoutBackgroundImage = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource { Uri = imageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity });
+        shell.FlyoutBackgroundImage = new UriImageSource
+        {
+            Uri = imageUri,
+            CachingEnabled = cachingEnabled,
+            CacheValidity = cacheValidity
+        };
         return shell;
     }
 
     public static T FlyoutBackgroundImage<T>(this T shell, Func<Stream> imageStream)
         where T : IShell
     {
-        shell.FlyoutBackgroundImage = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
+        shell.FlyoutBackgroundImage = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
         return shell;
     }
 
     public static T FlyoutBackgroundImageAspect<T>(this T shell, Microsoft.Maui.Aspect flyoutBackgroundImageAspect)
         where T : IShell
     {
-        shell.FlyoutBackgroundImageAspect = new PropertyValue<Microsoft.Maui.Aspect>(flyoutBackgroundImageAspect);
+        shell.FlyoutBackgroundImageAspect = flyoutBackgroundImageAspect;
         return shell;
     }
 
@@ -333,7 +338,7 @@ public static partial class ShellExtensions
     public static T FlyoutBackgroundColor<T>(this T shell, Microsoft.Maui.Graphics.Color flyoutBackgroundColor)
         where T : IShell
     {
-        shell.FlyoutBackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(flyoutBackgroundColor);
+        shell.FlyoutBackgroundColor = flyoutBackgroundColor;
         return shell;
     }
 
@@ -347,7 +352,7 @@ public static partial class ShellExtensions
     public static T FlyoutBackground<T>(this T shell, Microsoft.Maui.Controls.Brush flyoutBackground)
         where T : IShell
     {
-        shell.FlyoutBackground = new PropertyValue<Microsoft.Maui.Controls.Brush>(flyoutBackground);
+        shell.FlyoutBackground = flyoutBackground;
         return shell;
     }
 
@@ -361,7 +366,7 @@ public static partial class ShellExtensions
     public static T FlyoutHeaderBehavior<T>(this T shell, Microsoft.Maui.Controls.FlyoutHeaderBehavior flyoutHeaderBehavior)
         where T : IShell
     {
-        shell.FlyoutHeaderBehavior = new PropertyValue<Microsoft.Maui.Controls.FlyoutHeaderBehavior>(flyoutHeaderBehavior);
+        shell.FlyoutHeaderBehavior = flyoutHeaderBehavior;
         return shell;
     }
 
@@ -375,7 +380,7 @@ public static partial class ShellExtensions
     public static T FlyoutIsPresented<T>(this T shell, bool flyoutIsPresented)
         where T : IShell
     {
-        shell.FlyoutIsPresented = new PropertyValue<bool>(flyoutIsPresented);
+        shell.FlyoutIsPresented = flyoutIsPresented;
         return shell;
     }
 
@@ -389,7 +394,7 @@ public static partial class ShellExtensions
     public static T FlyoutIcon<T>(this T shell, Microsoft.Maui.Controls.ImageSource flyoutIcon)
         where T : IShell
     {
-        shell.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIcon);
+        shell.FlyoutIcon = flyoutIcon;
         return shell;
     }
 
@@ -403,7 +408,7 @@ public static partial class ShellExtensions
     public static T FlyoutIcon<T>(this T shell, string file)
         where T : IShell
     {
-        shell.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
+        shell.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromFile(file);
         return shell;
     }
 
@@ -417,35 +422,40 @@ public static partial class ShellExtensions
     public static T FlyoutIcon<T>(this T shell, string resourceName, Assembly sourceAssembly)
         where T : IShell
     {
-        shell.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
+        shell.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
         return shell;
     }
 
     public static T FlyoutIcon<T>(this T shell, Uri imageUri)
         where T : IShell
     {
-        shell.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
+        shell.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
         return shell;
     }
 
     public static T FlyoutIcon<T>(this T shell, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IShell
     {
-        shell.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource { Uri = imageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity });
+        shell.FlyoutIcon = new UriImageSource
+        {
+            Uri = imageUri,
+            CachingEnabled = cachingEnabled,
+            CacheValidity = cacheValidity
+        };
         return shell;
     }
 
     public static T FlyoutIcon<T>(this T shell, Func<Stream> imageStream)
         where T : IShell
     {
-        shell.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
+        shell.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
         return shell;
     }
 
     public static T FlyoutVerticalScrollMode<T>(this T shell, Microsoft.Maui.Controls.ScrollMode flyoutVerticalScrollMode)
         where T : IShell
     {
-        shell.FlyoutVerticalScrollMode = new PropertyValue<Microsoft.Maui.Controls.ScrollMode>(flyoutVerticalScrollMode);
+        shell.FlyoutVerticalScrollMode = flyoutVerticalScrollMode;
         return shell;
     }
 

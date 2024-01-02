@@ -12,11 +12,11 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ISwitch : IView
 {
-    PropertyValue<bool>? IsToggled { get; set; }
+    object? IsToggled { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? OnColor { get; set; }
+    object? OnColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ThumbColor { get; set; }
+    object? ThumbColor { get; set; }
 
     Action? ToggledAction { get; set; }
 
@@ -33,11 +33,11 @@ public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Contr
     {
     }
 
-    PropertyValue<bool>? ISwitch.IsToggled { get; set; }
+    object? ISwitch.IsToggled { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ISwitch.OnColor { get; set; }
+    object? ISwitch.OnColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ISwitch.ThumbColor { get; set; }
+    object? ISwitch.ThumbColor { get; set; }
 
     Action? ISwitch.ToggledAction { get; set; }
 
@@ -120,7 +120,7 @@ public static partial class SwitchExtensions
     public static T IsToggled<T>(this T @switch, bool isToggled)
         where T : ISwitch
     {
-        @switch.IsToggled = new PropertyValue<bool>(isToggled);
+        @switch.IsToggled = isToggled;
         return @switch;
     }
 
@@ -134,7 +134,7 @@ public static partial class SwitchExtensions
     public static T OnColor<T>(this T @switch, Microsoft.Maui.Graphics.Color onColor)
         where T : ISwitch
     {
-        @switch.OnColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(onColor);
+        @switch.OnColor = onColor;
         return @switch;
     }
 
@@ -148,7 +148,7 @@ public static partial class SwitchExtensions
     public static T ThumbColor<T>(this T @switch, Microsoft.Maui.Graphics.Color thumbColor)
         where T : ISwitch
     {
-        @switch.ThumbColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(thumbColor);
+        @switch.ThumbColor = thumbColor;
         return @switch;
     }
 

@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor.Shapes;
 public partial interface IGeometryGroup : Shapes.IGeometry
 {
-    PropertyValue<Microsoft.Maui.Controls.Shapes.GeometryCollection>? Children { get; set; }
+    object? Children { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>? FillRule { get; set; }
+    object? FillRule { get; set; }
 
     Action? InvalidateGeometryRequestedAction { get; set; }
 
@@ -31,9 +31,9 @@ public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where
     {
     }
 
-    PropertyValue<Microsoft.Maui.Controls.Shapes.GeometryCollection>? IGeometryGroup.Children { get; set; }
+    object? IGeometryGroup.Children { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>? IGeometryGroup.FillRule { get; set; }
+    object? IGeometryGroup.FillRule { get; set; }
 
     Action? IGeometryGroup.InvalidateGeometryRequestedAction { get; set; }
 
@@ -114,7 +114,7 @@ public static partial class GeometryGroupExtensions
     public static T Children<T>(this T geometryGroup, Microsoft.Maui.Controls.Shapes.GeometryCollection children)
         where T : IGeometryGroup
     {
-        geometryGroup.Children = new PropertyValue<Microsoft.Maui.Controls.Shapes.GeometryCollection>(children);
+        geometryGroup.Children = children;
         return geometryGroup;
     }
 
@@ -128,7 +128,7 @@ public static partial class GeometryGroupExtensions
     public static T FillRule<T>(this T geometryGroup, Microsoft.Maui.Controls.Shapes.FillRule fillRule)
         where T : IGeometryGroup
     {
-        geometryGroup.FillRule = new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRule);
+        geometryGroup.FillRule = fillRule;
         return geometryGroup;
     }
 

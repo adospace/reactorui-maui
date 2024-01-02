@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ITableView : IView
 {
-    PropertyValue<int>? RowHeight { get; set; }
+    object? RowHeight { get; set; }
 
-    PropertyValue<bool>? HasUnevenRows { get; set; }
+    object? HasUnevenRows { get; set; }
 }
 
 public partial class TableView<T> : View<T>, ITableView where T : Microsoft.Maui.Controls.TableView, new()
@@ -27,9 +27,9 @@ public partial class TableView<T> : View<T>, ITableView where T : Microsoft.Maui
     {
     }
 
-    PropertyValue<int>? ITableView.RowHeight { get; set; }
+    object? ITableView.RowHeight { get; set; }
 
-    PropertyValue<bool>? ITableView.HasUnevenRows { get; set; }
+    object? ITableView.HasUnevenRows { get; set; }
 
     internal override void Reset()
     {
@@ -74,7 +74,7 @@ public static partial class TableViewExtensions
     public static T RowHeight<T>(this T tableView, int rowHeight)
         where T : ITableView
     {
-        tableView.RowHeight = new PropertyValue<int>(rowHeight);
+        tableView.RowHeight = rowHeight;
         return tableView;
     }
 
@@ -88,7 +88,7 @@ public static partial class TableViewExtensions
     public static T HasUnevenRows<T>(this T tableView, bool hasUnevenRows)
         where T : ITableView
     {
-        tableView.HasUnevenRows = new PropertyValue<bool>(hasUnevenRows);
+        tableView.HasUnevenRows = hasUnevenRows;
         return tableView;
     }
 

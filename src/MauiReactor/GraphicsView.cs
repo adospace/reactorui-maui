@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IGraphicsView : IView
 {
-    PropertyValue<Microsoft.Maui.Graphics.IDrawable>? Drawable { get; set; }
+    object? Drawable { get; set; }
 
     Action? StartHoverInteractionAction { get; set; }
 
@@ -53,7 +53,7 @@ public partial class GraphicsView<T> : View<T>, IGraphicsView where T : Microsof
     {
     }
 
-    PropertyValue<Microsoft.Maui.Graphics.IDrawable>? IGraphicsView.Drawable { get; set; }
+    object? IGraphicsView.Drawable { get; set; }
 
     Action? IGraphicsView.StartHoverInteractionAction { get; set; }
 
@@ -234,7 +234,7 @@ public static partial class GraphicsViewExtensions
     public static T Drawable<T>(this T graphicsView, Microsoft.Maui.Graphics.IDrawable drawable)
         where T : IGraphicsView
     {
-        graphicsView.Drawable = new PropertyValue<Microsoft.Maui.Graphics.IDrawable>(drawable);
+        graphicsView.Drawable = drawable;
         return graphicsView;
     }
 

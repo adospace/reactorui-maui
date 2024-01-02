@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor.Shapes;
 public partial interface IRectangle : Shapes.IShape
 {
-    PropertyValue<double>? RadiusX { get; set; }
+    object? RadiusX { get; set; }
 
-    PropertyValue<double>? RadiusY { get; set; }
+    object? RadiusY { get; set; }
 }
 
 public sealed partial class Rectangle : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Rectangle>, IRectangle
@@ -27,9 +27,9 @@ public sealed partial class Rectangle : Shapes.Shape<Microsoft.Maui.Controls.Sha
     {
     }
 
-    PropertyValue<double>? IRectangle.RadiusX { get; set; }
+    object? IRectangle.RadiusX { get; set; }
 
-    PropertyValue<double>? IRectangle.RadiusY { get; set; }
+    object? IRectangle.RadiusY { get; set; }
 
     internal override void Reset()
     {
@@ -73,7 +73,7 @@ public static partial class RectangleExtensions
     public static T RadiusX<T>(this T rectangle, double radiusX, RxDoubleAnimation? customAnimation = null)
         where T : IRectangle
     {
-        rectangle.RadiusX = new PropertyValue<double>(radiusX);
+        rectangle.RadiusX = radiusX;
         rectangle.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusXProperty, customAnimation ?? new RxDoubleAnimation(radiusX), v => rectangle.RadiusX = new PropertyValue<double>(v.CurrentValue()));
         return rectangle;
     }
@@ -88,7 +88,7 @@ public static partial class RectangleExtensions
     public static T RadiusY<T>(this T rectangle, double radiusY, RxDoubleAnimation? customAnimation = null)
         where T : IRectangle
     {
-        rectangle.RadiusY = new PropertyValue<double>(radiusY);
+        rectangle.RadiusY = radiusY;
         rectangle.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusYProperty, customAnimation ?? new RxDoubleAnimation(radiusY), v => rectangle.RadiusY = new PropertyValue<double>(v.CurrentValue()));
         return rectangle;
     }

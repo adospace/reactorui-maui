@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ICell : IElement
 {
-    PropertyValue<bool>? IsEnabled { get; set; }
+    object? IsEnabled { get; set; }
 
     Action? AppearingAction { get; set; }
 
@@ -37,7 +37,7 @@ public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Ma
     {
     }
 
-    PropertyValue<bool>? ICell.IsEnabled { get; set; }
+    object? ICell.IsEnabled { get; set; }
 
     Action? ICell.AppearingAction { get; set; }
 
@@ -139,7 +139,7 @@ public static partial class CellExtensions
     public static T IsEnabled<T>(this T cell, bool isEnabled)
         where T : ICell
     {
-        cell.IsEnabled = new PropertyValue<bool>(isEnabled);
+        cell.IsEnabled = isEnabled;
         return cell;
     }
 

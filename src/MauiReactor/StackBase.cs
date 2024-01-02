@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IStackBase : ILayout
 {
-    PropertyValue<double>? Spacing { get; set; }
+    object? Spacing { get; set; }
 }
 
 public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Microsoft.Maui.Controls.StackBase, new()
@@ -25,7 +25,7 @@ public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Mic
     {
     }
 
-    PropertyValue<double>? IStackBase.Spacing { get; set; }
+    object? IStackBase.Spacing { get; set; }
 
     internal override void Reset()
     {
@@ -66,7 +66,7 @@ public static partial class StackBaseExtensions
     public static T Spacing<T>(this T stackBase, double spacing, RxDoubleAnimation? customAnimation = null)
         where T : IStackBase
     {
-        stackBase.Spacing = new PropertyValue<double>(spacing);
+        stackBase.Spacing = spacing;
         stackBase.AppendAnimatable(Microsoft.Maui.Controls.StackBase.SpacingProperty, customAnimation ?? new RxDoubleAnimation(spacing), v => stackBase.Spacing = new PropertyValue<double>(v.CurrentValue()));
         return stackBase;
     }

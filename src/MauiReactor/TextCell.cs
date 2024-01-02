@@ -12,13 +12,13 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ITextCell : ICell
 {
-    PropertyValue<string>? Text { get; set; }
+    object? Text { get; set; }
 
-    PropertyValue<string>? Detail { get; set; }
+    object? Detail { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? TextColor { get; set; }
+    object? TextColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? DetailColor { get; set; }
+    object? DetailColor { get; set; }
 }
 
 public partial class TextCell<T> : Cell<T>, ITextCell where T : Microsoft.Maui.Controls.TextCell, new()
@@ -31,13 +31,13 @@ public partial class TextCell<T> : Cell<T>, ITextCell where T : Microsoft.Maui.C
     {
     }
 
-    PropertyValue<string>? ITextCell.Text { get; set; }
+    object? ITextCell.Text { get; set; }
 
-    PropertyValue<string>? ITextCell.Detail { get; set; }
+    object? ITextCell.Detail { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ITextCell.TextColor { get; set; }
+    object? ITextCell.TextColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ITextCell.DetailColor { get; set; }
+    object? ITextCell.DetailColor { get; set; }
 
     internal override void Reset()
     {
@@ -86,7 +86,7 @@ public static partial class TextCellExtensions
     public static T Text<T>(this T textCell, string text)
         where T : ITextCell
     {
-        textCell.Text = new PropertyValue<string>(text);
+        textCell.Text = text;
         return textCell;
     }
 
@@ -100,7 +100,7 @@ public static partial class TextCellExtensions
     public static T Detail<T>(this T textCell, string detail)
         where T : ITextCell
     {
-        textCell.Detail = new PropertyValue<string>(detail);
+        textCell.Detail = detail;
         return textCell;
     }
 
@@ -114,7 +114,7 @@ public static partial class TextCellExtensions
     public static T TextColor<T>(this T textCell, Microsoft.Maui.Graphics.Color textColor)
         where T : ITextCell
     {
-        textCell.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColor);
+        textCell.TextColor = textColor;
         return textCell;
     }
 
@@ -128,7 +128,7 @@ public static partial class TextCellExtensions
     public static T DetailColor<T>(this T textCell, Microsoft.Maui.Graphics.Color detailColor)
         where T : ITextCell
     {
-        textCell.DetailColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(detailColor);
+        textCell.DetailColor = detailColor;
         return textCell;
     }
 

@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ILinearItemsLayout : IItemsLayout
 {
-    PropertyValue<double>? ItemSpacing { get; set; }
+    object? ItemSpacing { get; set; }
 }
 
 public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItemsLayout where T : Microsoft.Maui.Controls.LinearItemsLayout, new()
@@ -25,7 +25,7 @@ public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItem
     {
     }
 
-    PropertyValue<double>? ILinearItemsLayout.ItemSpacing { get; set; }
+    object? ILinearItemsLayout.ItemSpacing { get; set; }
 
     internal override void Reset()
     {
@@ -66,7 +66,7 @@ public static partial class LinearItemsLayoutExtensions
     public static T ItemSpacing<T>(this T linearItemsLayout, double itemSpacing, RxDoubleAnimation? customAnimation = null)
         where T : ILinearItemsLayout
     {
-        linearItemsLayout.ItemSpacing = new PropertyValue<double>(itemSpacing);
+        linearItemsLayout.ItemSpacing = itemSpacing;
         linearItemsLayout.AppendAnimatable(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, customAnimation ?? new RxDoubleAnimation(itemSpacing), v => linearItemsLayout.ItemSpacing = new PropertyValue<double>(v.CurrentValue()));
         return linearItemsLayout;
     }

@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IReorderableItemsView : IGroupableItemsView
 {
-    PropertyValue<bool>? CanMixGroups { get; set; }
+    object? CanMixGroups { get; set; }
 
-    PropertyValue<bool>? CanReorderItems { get; set; }
+    object? CanReorderItems { get; set; }
 
     Action? ReorderCompletedAction { get; set; }
 
@@ -31,9 +31,9 @@ public partial class ReorderableItemsView<T> : GroupableItemsView<T>, IReorderab
     {
     }
 
-    PropertyValue<bool>? IReorderableItemsView.CanMixGroups { get; set; }
+    object? IReorderableItemsView.CanMixGroups { get; set; }
 
-    PropertyValue<bool>? IReorderableItemsView.CanReorderItems { get; set; }
+    object? IReorderableItemsView.CanReorderItems { get; set; }
 
     Action? IReorderableItemsView.ReorderCompletedAction { get; set; }
 
@@ -114,7 +114,7 @@ public static partial class ReorderableItemsViewExtensions
     public static T CanMixGroups<T>(this T reorderableItemsView, bool canMixGroups)
         where T : IReorderableItemsView
     {
-        reorderableItemsView.CanMixGroups = new PropertyValue<bool>(canMixGroups);
+        reorderableItemsView.CanMixGroups = canMixGroups;
         return reorderableItemsView;
     }
 
@@ -128,7 +128,7 @@ public static partial class ReorderableItemsViewExtensions
     public static T CanReorderItems<T>(this T reorderableItemsView, bool canReorderItems)
         where T : IReorderableItemsView
     {
-        reorderableItemsView.CanReorderItems = new PropertyValue<bool>(canReorderItems);
+        reorderableItemsView.CanReorderItems = canReorderItems;
         return reorderableItemsView;
     }
 

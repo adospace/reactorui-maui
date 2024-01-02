@@ -422,6 +422,24 @@ namespace MauiReactor
             return ((IVisualNode?)Parent)?.GetContainerComponent();
         }
 
+        protected void SetPropertyValue(BindableObject dependencyObject, BindableProperty property, object? propertyValueAsObject)
+        {
+            if (propertyValueAsObject != null)
+            {
+                if (propertyValueAsObject is IPropertyValue propertyValue)
+                {
+                    SetPropertyValue(dependencyObject, property, propertyValue);
+                }
+                else
+                {
+                    dependencyObject.SetPropertyValue(property, propertyValueAsObject);
+                }
+            }
+            else
+            {
+                dependencyObject.ResetValue(property);
+            }
+        }
 
         protected void SetPropertyValue(BindableObject dependencyObject, BindableProperty property, IPropertyValue? propertyValue)
         {
@@ -866,9 +884,9 @@ namespace MauiReactor
             base.OnAnimate();
         }
 
-        protected void AnimateProperty(BindableProperty property, IPropertyValue? propertyValue)
+        protected void AnimateProperty(BindableProperty property, object? propertyValueAsObject)
         {
-            if (propertyValue == null)
+            if (propertyValueAsObject == null)
             {
                 return;
             }
@@ -876,7 +894,11 @@ namespace MauiReactor
             if (_animatables.TryGetValue(property, out var animatableProperty) && 
                 animatableProperty.IsEnabled == true)
             {
-                var newValue = propertyValue.GetValue();
+                var newValue = propertyValueAsObject;
+                if (propertyValueAsObject is IPropertyValue propertyValue)
+                {
+                    newValue = propertyValue.GetValue();
+                }
 
                 Validate.EnsureNotNull(NativeControl);
 
@@ -886,11 +908,6 @@ namespace MauiReactor
                 {
                     NativeControl.SetValue(property, newValue);
                 }
-                    
-                //if (SetPropertyValue(NativeControl, property, newValue))
-                //{
-                //    System.Diagnostics.Debug.WriteLine($"[{NativeControl.GetType().Name}] Animate property {property.PropertyName} to {newValue}");
-                //}
             }
         }
 

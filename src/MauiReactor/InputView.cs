@@ -12,39 +12,39 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IInputView : IView
 {
-    PropertyValue<string>? Text { get; set; }
+    object? Text { get; set; }
 
-    PropertyValue<Microsoft.Maui.Keyboard>? Keyboard { get; set; }
+    object? Keyboard { get; set; }
 
-    PropertyValue<bool>? IsSpellCheckEnabled { get; set; }
+    object? IsSpellCheckEnabled { get; set; }
 
-    PropertyValue<bool>? IsTextPredictionEnabled { get; set; }
+    object? IsTextPredictionEnabled { get; set; }
 
-    PropertyValue<int>? MaxLength { get; set; }
+    object? MaxLength { get; set; }
 
-    PropertyValue<bool>? IsReadOnly { get; set; }
+    object? IsReadOnly { get; set; }
 
-    PropertyValue<string>? Placeholder { get; set; }
+    object? Placeholder { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? PlaceholderColor { get; set; }
+    object? PlaceholderColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? TextColor { get; set; }
+    object? TextColor { get; set; }
 
-    PropertyValue<double>? CharacterSpacing { get; set; }
+    object? CharacterSpacing { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextTransform>? TextTransform { get; set; }
+    object? TextTransform { get; set; }
 
-    PropertyValue<int>? CursorPosition { get; set; }
+    object? CursorPosition { get; set; }
 
-    PropertyValue<int>? SelectionLength { get; set; }
+    object? SelectionLength { get; set; }
 
-    PropertyValue<string>? FontFamily { get; set; }
+    object? FontFamily { get; set; }
 
-    PropertyValue<double>? FontSize { get; set; }
+    object? FontSize { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.FontAttributes>? FontAttributes { get; set; }
+    object? FontAttributes { get; set; }
 
-    PropertyValue<bool>? FontAutoScalingEnabled { get; set; }
+    object? FontAutoScalingEnabled { get; set; }
 
     Action? TextChangedAction { get; set; }
 
@@ -61,39 +61,39 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
     {
     }
 
-    PropertyValue<string>? IInputView.Text { get; set; }
+    object? IInputView.Text { get; set; }
 
-    PropertyValue<Microsoft.Maui.Keyboard>? IInputView.Keyboard { get; set; }
+    object? IInputView.Keyboard { get; set; }
 
-    PropertyValue<bool>? IInputView.IsSpellCheckEnabled { get; set; }
+    object? IInputView.IsSpellCheckEnabled { get; set; }
 
-    PropertyValue<bool>? IInputView.IsTextPredictionEnabled { get; set; }
+    object? IInputView.IsTextPredictionEnabled { get; set; }
 
-    PropertyValue<int>? IInputView.MaxLength { get; set; }
+    object? IInputView.MaxLength { get; set; }
 
-    PropertyValue<bool>? IInputView.IsReadOnly { get; set; }
+    object? IInputView.IsReadOnly { get; set; }
 
-    PropertyValue<string>? IInputView.Placeholder { get; set; }
+    object? IInputView.Placeholder { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? IInputView.PlaceholderColor { get; set; }
+    object? IInputView.PlaceholderColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? IInputView.TextColor { get; set; }
+    object? IInputView.TextColor { get; set; }
 
-    PropertyValue<double>? IInputView.CharacterSpacing { get; set; }
+    object? IInputView.CharacterSpacing { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextTransform>? IInputView.TextTransform { get; set; }
+    object? IInputView.TextTransform { get; set; }
 
-    PropertyValue<int>? IInputView.CursorPosition { get; set; }
+    object? IInputView.CursorPosition { get; set; }
 
-    PropertyValue<int>? IInputView.SelectionLength { get; set; }
+    object? IInputView.SelectionLength { get; set; }
 
-    PropertyValue<string>? IInputView.FontFamily { get; set; }
+    object? IInputView.FontFamily { get; set; }
 
-    PropertyValue<double>? IInputView.FontSize { get; set; }
+    object? IInputView.FontSize { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.FontAttributes>? IInputView.FontAttributes { get; set; }
+    object? IInputView.FontAttributes { get; set; }
 
-    PropertyValue<bool>? IInputView.FontAutoScalingEnabled { get; set; }
+    object? IInputView.FontAutoScalingEnabled { get; set; }
 
     Action? IInputView.TextChangedAction { get; set; }
 
@@ -203,7 +203,7 @@ public static partial class InputViewExtensions
     public static T Text<T>(this T inputView, string text)
         where T : IInputView
     {
-        inputView.Text = new PropertyValue<string>(text);
+        inputView.Text = text;
         return inputView;
     }
 
@@ -217,7 +217,7 @@ public static partial class InputViewExtensions
     public static T Keyboard<T>(this T inputView, Microsoft.Maui.Keyboard keyboard)
         where T : IInputView
     {
-        inputView.Keyboard = new PropertyValue<Microsoft.Maui.Keyboard>(keyboard);
+        inputView.Keyboard = keyboard;
         return inputView;
     }
 
@@ -231,7 +231,7 @@ public static partial class InputViewExtensions
     public static T IsSpellCheckEnabled<T>(this T inputView, bool isSpellCheckEnabled)
         where T : IInputView
     {
-        inputView.IsSpellCheckEnabled = new PropertyValue<bool>(isSpellCheckEnabled);
+        inputView.IsSpellCheckEnabled = isSpellCheckEnabled;
         return inputView;
     }
 
@@ -245,7 +245,7 @@ public static partial class InputViewExtensions
     public static T IsTextPredictionEnabled<T>(this T inputView, bool isTextPredictionEnabled)
         where T : IInputView
     {
-        inputView.IsTextPredictionEnabled = new PropertyValue<bool>(isTextPredictionEnabled);
+        inputView.IsTextPredictionEnabled = isTextPredictionEnabled;
         return inputView;
     }
 
@@ -259,7 +259,7 @@ public static partial class InputViewExtensions
     public static T MaxLength<T>(this T inputView, int maxLength)
         where T : IInputView
     {
-        inputView.MaxLength = new PropertyValue<int>(maxLength);
+        inputView.MaxLength = maxLength;
         return inputView;
     }
 
@@ -273,7 +273,7 @@ public static partial class InputViewExtensions
     public static T IsReadOnly<T>(this T inputView, bool isReadOnly)
         where T : IInputView
     {
-        inputView.IsReadOnly = new PropertyValue<bool>(isReadOnly);
+        inputView.IsReadOnly = isReadOnly;
         return inputView;
     }
 
@@ -287,7 +287,7 @@ public static partial class InputViewExtensions
     public static T Placeholder<T>(this T inputView, string placeholder)
         where T : IInputView
     {
-        inputView.Placeholder = new PropertyValue<string>(placeholder);
+        inputView.Placeholder = placeholder;
         return inputView;
     }
 
@@ -301,7 +301,7 @@ public static partial class InputViewExtensions
     public static T PlaceholderColor<T>(this T inputView, Microsoft.Maui.Graphics.Color placeholderColor)
         where T : IInputView
     {
-        inputView.PlaceholderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(placeholderColor);
+        inputView.PlaceholderColor = placeholderColor;
         return inputView;
     }
 
@@ -315,7 +315,7 @@ public static partial class InputViewExtensions
     public static T TextColor<T>(this T inputView, Microsoft.Maui.Graphics.Color textColor)
         where T : IInputView
     {
-        inputView.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColor);
+        inputView.TextColor = textColor;
         return inputView;
     }
 
@@ -329,7 +329,7 @@ public static partial class InputViewExtensions
     public static T CharacterSpacing<T>(this T inputView, double characterSpacing, RxDoubleAnimation? customAnimation = null)
         where T : IInputView
     {
-        inputView.CharacterSpacing = new PropertyValue<double>(characterSpacing);
+        inputView.CharacterSpacing = characterSpacing;
         inputView.AppendAnimatable(Microsoft.Maui.Controls.InputView.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => inputView.CharacterSpacing = new PropertyValue<double>(v.CurrentValue()));
         return inputView;
     }
@@ -344,7 +344,7 @@ public static partial class InputViewExtensions
     public static T TextTransform<T>(this T inputView, Microsoft.Maui.TextTransform textTransform)
         where T : IInputView
     {
-        inputView.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransform);
+        inputView.TextTransform = textTransform;
         return inputView;
     }
 
@@ -358,7 +358,7 @@ public static partial class InputViewExtensions
     public static T CursorPosition<T>(this T inputView, int cursorPosition)
         where T : IInputView
     {
-        inputView.CursorPosition = new PropertyValue<int>(cursorPosition);
+        inputView.CursorPosition = cursorPosition;
         return inputView;
     }
 
@@ -372,7 +372,7 @@ public static partial class InputViewExtensions
     public static T SelectionLength<T>(this T inputView, int selectionLength)
         where T : IInputView
     {
-        inputView.SelectionLength = new PropertyValue<int>(selectionLength);
+        inputView.SelectionLength = selectionLength;
         return inputView;
     }
 
@@ -386,7 +386,7 @@ public static partial class InputViewExtensions
     public static T FontFamily<T>(this T inputView, string fontFamily)
         where T : IInputView
     {
-        inputView.FontFamily = new PropertyValue<string>(fontFamily);
+        inputView.FontFamily = fontFamily;
         return inputView;
     }
 
@@ -400,7 +400,7 @@ public static partial class InputViewExtensions
     public static T FontSize<T>(this T inputView, double fontSize, RxDoubleAnimation? customAnimation = null)
         where T : IInputView
     {
-        inputView.FontSize = new PropertyValue<double>(fontSize);
+        inputView.FontSize = fontSize;
         inputView.AppendAnimatable(Microsoft.Maui.Controls.InputView.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => inputView.FontSize = new PropertyValue<double>(v.CurrentValue()));
         return inputView;
     }
@@ -415,7 +415,7 @@ public static partial class InputViewExtensions
     public static T FontAttributes<T>(this T inputView, Microsoft.Maui.Controls.FontAttributes fontAttributes)
         where T : IInputView
     {
-        inputView.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributes);
+        inputView.FontAttributes = fontAttributes;
         return inputView;
     }
 
@@ -429,7 +429,7 @@ public static partial class InputViewExtensions
     public static T FontAutoScalingEnabled<T>(this T inputView, bool fontAutoScalingEnabled)
         where T : IInputView
     {
-        inputView.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabled);
+        inputView.FontAutoScalingEnabled = fontAutoScalingEnabled;
         return inputView;
     }
 

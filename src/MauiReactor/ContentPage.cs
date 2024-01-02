@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IContentPage : ITemplatedPage
 {
-    PropertyValue<bool>? HideSoftInputOnTapped { get; set; }
+    object? HideSoftInputOnTapped { get; set; }
 }
 
 public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : Microsoft.Maui.Controls.ContentPage, new()
@@ -25,7 +25,7 @@ public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : M
     {
     }
 
-    PropertyValue<bool>? IContentPage.HideSoftInputOnTapped { get; set; }
+    object? IContentPage.HideSoftInputOnTapped { get; set; }
 
     internal override void Reset()
     {
@@ -68,7 +68,7 @@ public static partial class ContentPageExtensions
     public static T HideSoftInputOnTapped<T>(this T contentPage, bool hideSoftInputOnTapped)
         where T : IContentPage
     {
-        contentPage.HideSoftInputOnTapped = new PropertyValue<bool>(hideSoftInputOnTapped);
+        contentPage.HideSoftInputOnTapped = hideSoftInputOnTapped;
         return contentPage;
     }
 

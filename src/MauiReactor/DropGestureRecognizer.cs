@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IDropGestureRecognizer : IGestureRecognizer
 {
-    PropertyValue<bool>? AllowDrop { get; set; }
+    object? AllowDrop { get; set; }
 
     Action? DragLeaveAction { get; set; }
 
@@ -37,7 +37,7 @@ public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestu
     {
     }
 
-    PropertyValue<bool>? IDropGestureRecognizer.AllowDrop { get; set; }
+    object? IDropGestureRecognizer.AllowDrop { get; set; }
 
     Action? IDropGestureRecognizer.DragLeaveAction { get; set; }
 
@@ -150,7 +150,7 @@ public static partial class DropGestureRecognizerExtensions
     public static T AllowDrop<T>(this T dropGestureRecognizer, bool allowDrop)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.AllowDrop = new PropertyValue<bool>(allowDrop);
+        dropGestureRecognizer.AllowDrop = allowDrop;
         return dropGestureRecognizer;
     }
 

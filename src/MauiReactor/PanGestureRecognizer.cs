@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IPanGestureRecognizer : IGestureRecognizer
 {
-    PropertyValue<int>? TouchPoints { get; set; }
+    object? TouchPoints { get; set; }
 
     Action? PanUpdatedAction { get; set; }
 
@@ -29,7 +29,7 @@ public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGesture
     {
     }
 
-    PropertyValue<int>? IPanGestureRecognizer.TouchPoints { get; set; }
+    object? IPanGestureRecognizer.TouchPoints { get; set; }
 
     Action? IPanGestureRecognizer.PanUpdatedAction { get; set; }
 
@@ -108,7 +108,7 @@ public static partial class PanGestureRecognizerExtensions
     public static T TouchPoints<T>(this T panGestureRecognizer, int touchPoints)
         where T : IPanGestureRecognizer
     {
-        panGestureRecognizer.TouchPoints = new PropertyValue<int>(touchPoints);
+        panGestureRecognizer.TouchPoints = touchPoints;
         return panGestureRecognizer;
     }
 

@@ -15,10 +15,6 @@ namespace MauiReactor
 
     public class PropertyValue<T> : IPropertyValue
     {
-        //private PropertyValue()
-        //{
-        //    SetDefault = true;
-        //}
         public PropertyValue(T value)
         {
             Value = value;
@@ -30,8 +26,6 @@ namespace MauiReactor
 
             Value = valueAction();
         }
-
-        //public static IPropertyValue Default { get; } = new PropertyValue<T>();
 
         public T? Value { get; }
 

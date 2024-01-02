@@ -12,19 +12,19 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IEntryCell : ICell
 {
-    PropertyValue<string>? Text { get; set; }
+    object? Text { get; set; }
 
-    PropertyValue<string>? Label { get; set; }
+    object? Label { get; set; }
 
-    PropertyValue<string>? Placeholder { get; set; }
+    object? Placeholder { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? LabelColor { get; set; }
+    object? LabelColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Keyboard>? Keyboard { get; set; }
+    object? Keyboard { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? HorizontalTextAlignment { get; set; }
+    object? HorizontalTextAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? VerticalTextAlignment { get; set; }
+    object? VerticalTextAlignment { get; set; }
 
     Action? CompletedAction { get; set; }
 
@@ -41,19 +41,19 @@ public partial class EntryCell<T> : Cell<T>, IEntryCell where T : Microsoft.Maui
     {
     }
 
-    PropertyValue<string>? IEntryCell.Text { get; set; }
+    object? IEntryCell.Text { get; set; }
 
-    PropertyValue<string>? IEntryCell.Label { get; set; }
+    object? IEntryCell.Label { get; set; }
 
-    PropertyValue<string>? IEntryCell.Placeholder { get; set; }
+    object? IEntryCell.Placeholder { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? IEntryCell.LabelColor { get; set; }
+    object? IEntryCell.LabelColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Keyboard>? IEntryCell.Keyboard { get; set; }
+    object? IEntryCell.Keyboard { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? IEntryCell.HorizontalTextAlignment { get; set; }
+    object? IEntryCell.HorizontalTextAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? IEntryCell.VerticalTextAlignment { get; set; }
+    object? IEntryCell.VerticalTextAlignment { get; set; }
 
     Action? IEntryCell.CompletedAction { get; set; }
 
@@ -144,7 +144,7 @@ public static partial class EntryCellExtensions
     public static T Text<T>(this T entryCell, string text)
         where T : IEntryCell
     {
-        entryCell.Text = new PropertyValue<string>(text);
+        entryCell.Text = text;
         return entryCell;
     }
 
@@ -158,7 +158,7 @@ public static partial class EntryCellExtensions
     public static T Label<T>(this T entryCell, string label)
         where T : IEntryCell
     {
-        entryCell.Label = new PropertyValue<string>(label);
+        entryCell.Label = label;
         return entryCell;
     }
 
@@ -172,7 +172,7 @@ public static partial class EntryCellExtensions
     public static T Placeholder<T>(this T entryCell, string placeholder)
         where T : IEntryCell
     {
-        entryCell.Placeholder = new PropertyValue<string>(placeholder);
+        entryCell.Placeholder = placeholder;
         return entryCell;
     }
 
@@ -186,7 +186,7 @@ public static partial class EntryCellExtensions
     public static T LabelColor<T>(this T entryCell, Microsoft.Maui.Graphics.Color labelColor)
         where T : IEntryCell
     {
-        entryCell.LabelColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(labelColor);
+        entryCell.LabelColor = labelColor;
         return entryCell;
     }
 
@@ -200,7 +200,7 @@ public static partial class EntryCellExtensions
     public static T Keyboard<T>(this T entryCell, Microsoft.Maui.Keyboard keyboard)
         where T : IEntryCell
     {
-        entryCell.Keyboard = new PropertyValue<Microsoft.Maui.Keyboard>(keyboard);
+        entryCell.Keyboard = keyboard;
         return entryCell;
     }
 
@@ -214,7 +214,7 @@ public static partial class EntryCellExtensions
     public static T HorizontalTextAlignment<T>(this T entryCell, Microsoft.Maui.TextAlignment horizontalTextAlignment)
         where T : IEntryCell
     {
-        entryCell.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignment);
+        entryCell.HorizontalTextAlignment = horizontalTextAlignment;
         return entryCell;
     }
 
@@ -228,7 +228,7 @@ public static partial class EntryCellExtensions
     public static T VerticalTextAlignment<T>(this T entryCell, Microsoft.Maui.TextAlignment verticalTextAlignment)
         where T : IEntryCell
     {
-        entryCell.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignment);
+        entryCell.VerticalTextAlignment = verticalTextAlignment;
         return entryCell;
     }
 

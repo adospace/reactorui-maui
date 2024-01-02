@@ -12,31 +12,31 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IRadioButton : ITemplatedView
 {
-    PropertyValue<object>? Value { get; set; }
+    object? Value { get; set; }
 
-    PropertyValue<bool>? IsChecked { get; set; }
+    object? IsChecked { get; set; }
 
-    PropertyValue<string>? GroupName { get; set; }
+    object? GroupName { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? TextColor { get; set; }
+    object? TextColor { get; set; }
 
-    PropertyValue<double>? CharacterSpacing { get; set; }
+    object? CharacterSpacing { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextTransform>? TextTransform { get; set; }
+    object? TextTransform { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.FontAttributes>? FontAttributes { get; set; }
+    object? FontAttributes { get; set; }
 
-    PropertyValue<string>? FontFamily { get; set; }
+    object? FontFamily { get; set; }
 
-    PropertyValue<double>? FontSize { get; set; }
+    object? FontSize { get; set; }
 
-    PropertyValue<bool>? FontAutoScalingEnabled { get; set; }
+    object? FontAutoScalingEnabled { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? BorderColor { get; set; }
+    object? BorderColor { get; set; }
 
-    PropertyValue<int>? CornerRadius { get; set; }
+    object? CornerRadius { get; set; }
 
-    PropertyValue<double>? BorderWidth { get; set; }
+    object? BorderWidth { get; set; }
 
     Action? CheckedChangedAction { get; set; }
 
@@ -53,31 +53,31 @@ public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : M
     {
     }
 
-    PropertyValue<object>? IRadioButton.Value { get; set; }
+    object? IRadioButton.Value { get; set; }
 
-    PropertyValue<bool>? IRadioButton.IsChecked { get; set; }
+    object? IRadioButton.IsChecked { get; set; }
 
-    PropertyValue<string>? IRadioButton.GroupName { get; set; }
+    object? IRadioButton.GroupName { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? IRadioButton.TextColor { get; set; }
+    object? IRadioButton.TextColor { get; set; }
 
-    PropertyValue<double>? IRadioButton.CharacterSpacing { get; set; }
+    object? IRadioButton.CharacterSpacing { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextTransform>? IRadioButton.TextTransform { get; set; }
+    object? IRadioButton.TextTransform { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.FontAttributes>? IRadioButton.FontAttributes { get; set; }
+    object? IRadioButton.FontAttributes { get; set; }
 
-    PropertyValue<string>? IRadioButton.FontFamily { get; set; }
+    object? IRadioButton.FontFamily { get; set; }
 
-    PropertyValue<double>? IRadioButton.FontSize { get; set; }
+    object? IRadioButton.FontSize { get; set; }
 
-    PropertyValue<bool>? IRadioButton.FontAutoScalingEnabled { get; set; }
+    object? IRadioButton.FontAutoScalingEnabled { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? IRadioButton.BorderColor { get; set; }
+    object? IRadioButton.BorderColor { get; set; }
 
-    PropertyValue<int>? IRadioButton.CornerRadius { get; set; }
+    object? IRadioButton.CornerRadius { get; set; }
 
-    PropertyValue<double>? IRadioButton.BorderWidth { get; set; }
+    object? IRadioButton.BorderWidth { get; set; }
 
     Action? IRadioButton.CheckedChangedAction { get; set; }
 
@@ -191,7 +191,7 @@ public static partial class RadioButtonExtensions
     public static T Value<T>(this T radioButton, object value)
         where T : IRadioButton
     {
-        radioButton.Value = new PropertyValue<object>(value);
+        radioButton.Value = value;
         return radioButton;
     }
 
@@ -205,7 +205,7 @@ public static partial class RadioButtonExtensions
     public static T IsChecked<T>(this T radioButton, bool isChecked)
         where T : IRadioButton
     {
-        radioButton.IsChecked = new PropertyValue<bool>(isChecked);
+        radioButton.IsChecked = isChecked;
         return radioButton;
     }
 
@@ -219,7 +219,7 @@ public static partial class RadioButtonExtensions
     public static T GroupName<T>(this T radioButton, string groupName)
         where T : IRadioButton
     {
-        radioButton.GroupName = new PropertyValue<string>(groupName);
+        radioButton.GroupName = groupName;
         return radioButton;
     }
 
@@ -233,7 +233,7 @@ public static partial class RadioButtonExtensions
     public static T TextColor<T>(this T radioButton, Microsoft.Maui.Graphics.Color textColor)
         where T : IRadioButton
     {
-        radioButton.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColor);
+        radioButton.TextColor = textColor;
         return radioButton;
     }
 
@@ -247,7 +247,7 @@ public static partial class RadioButtonExtensions
     public static T CharacterSpacing<T>(this T radioButton, double characterSpacing, RxDoubleAnimation? customAnimation = null)
         where T : IRadioButton
     {
-        radioButton.CharacterSpacing = new PropertyValue<double>(characterSpacing);
+        radioButton.CharacterSpacing = characterSpacing;
         radioButton.AppendAnimatable(Microsoft.Maui.Controls.RadioButton.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => radioButton.CharacterSpacing = new PropertyValue<double>(v.CurrentValue()));
         return radioButton;
     }
@@ -262,7 +262,7 @@ public static partial class RadioButtonExtensions
     public static T TextTransform<T>(this T radioButton, Microsoft.Maui.TextTransform textTransform)
         where T : IRadioButton
     {
-        radioButton.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransform);
+        radioButton.TextTransform = textTransform;
         return radioButton;
     }
 
@@ -276,7 +276,7 @@ public static partial class RadioButtonExtensions
     public static T FontAttributes<T>(this T radioButton, Microsoft.Maui.Controls.FontAttributes fontAttributes)
         where T : IRadioButton
     {
-        radioButton.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributes);
+        radioButton.FontAttributes = fontAttributes;
         return radioButton;
     }
 
@@ -290,7 +290,7 @@ public static partial class RadioButtonExtensions
     public static T FontFamily<T>(this T radioButton, string fontFamily)
         where T : IRadioButton
     {
-        radioButton.FontFamily = new PropertyValue<string>(fontFamily);
+        radioButton.FontFamily = fontFamily;
         return radioButton;
     }
 
@@ -304,7 +304,7 @@ public static partial class RadioButtonExtensions
     public static T FontSize<T>(this T radioButton, double fontSize, RxDoubleAnimation? customAnimation = null)
         where T : IRadioButton
     {
-        radioButton.FontSize = new PropertyValue<double>(fontSize);
+        radioButton.FontSize = fontSize;
         radioButton.AppendAnimatable(Microsoft.Maui.Controls.RadioButton.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => radioButton.FontSize = new PropertyValue<double>(v.CurrentValue()));
         return radioButton;
     }
@@ -319,7 +319,7 @@ public static partial class RadioButtonExtensions
     public static T FontAutoScalingEnabled<T>(this T radioButton, bool fontAutoScalingEnabled)
         where T : IRadioButton
     {
-        radioButton.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabled);
+        radioButton.FontAutoScalingEnabled = fontAutoScalingEnabled;
         return radioButton;
     }
 
@@ -333,7 +333,7 @@ public static partial class RadioButtonExtensions
     public static T BorderColor<T>(this T radioButton, Microsoft.Maui.Graphics.Color borderColor)
         where T : IRadioButton
     {
-        radioButton.BorderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColor);
+        radioButton.BorderColor = borderColor;
         return radioButton;
     }
 
@@ -347,7 +347,7 @@ public static partial class RadioButtonExtensions
     public static T CornerRadius<T>(this T radioButton, int cornerRadius)
         where T : IRadioButton
     {
-        radioButton.CornerRadius = new PropertyValue<int>(cornerRadius);
+        radioButton.CornerRadius = cornerRadius;
         return radioButton;
     }
 
@@ -361,7 +361,7 @@ public static partial class RadioButtonExtensions
     public static T BorderWidth<T>(this T radioButton, double borderWidth, RxDoubleAnimation? customAnimation = null)
         where T : IRadioButton
     {
-        radioButton.BorderWidth = new PropertyValue<double>(borderWidth);
+        radioButton.BorderWidth = borderWidth;
         radioButton.AppendAnimatable(Microsoft.Maui.Controls.RadioButton.BorderWidthProperty, customAnimation ?? new RxDoubleAnimation(borderWidth), v => radioButton.BorderWidth = new PropertyValue<double>(v.CurrentValue()));
         return radioButton;
     }

@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ISwipeView : IContentView
 {
-    PropertyValue<double>? Threshold { get; set; }
+    object? Threshold { get; set; }
 
     Action? SwipeStartedAction { get; set; }
 
@@ -37,7 +37,7 @@ public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microso
     {
     }
 
-    PropertyValue<double>? ISwipeView.Threshold { get; set; }
+    object? ISwipeView.Threshold { get; set; }
 
     Action? ISwipeView.SwipeStartedAction { get; set; }
 
@@ -159,7 +159,7 @@ public static partial class SwipeViewExtensions
     public static T Threshold<T>(this T swipeView, double threshold, RxDoubleAnimation? customAnimation = null)
         where T : ISwipeView
     {
-        swipeView.Threshold = new PropertyValue<double>(threshold);
+        swipeView.Threshold = threshold;
         swipeView.AppendAnimatable(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, customAnimation ?? new RxDoubleAnimation(threshold), v => swipeView.Threshold = new PropertyValue<double>(v.CurrentValue()));
         return swipeView;
     }

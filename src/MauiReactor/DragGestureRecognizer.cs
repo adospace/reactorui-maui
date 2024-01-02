@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IDragGestureRecognizer : IGestureRecognizer
 {
-    PropertyValue<bool>? CanDrag { get; set; }
+    object? CanDrag { get; set; }
 
     Action? DropCompletedAction { get; set; }
 
@@ -33,7 +33,7 @@ public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestu
     {
     }
 
-    PropertyValue<bool>? IDragGestureRecognizer.CanDrag { get; set; }
+    object? IDragGestureRecognizer.CanDrag { get; set; }
 
     Action? IDragGestureRecognizer.DropCompletedAction { get; set; }
 
@@ -129,7 +129,7 @@ public static partial class DragGestureRecognizerExtensions
     public static T CanDrag<T>(this T dragGestureRecognizer, bool canDrag)
         where T : IDragGestureRecognizer
     {
-        dragGestureRecognizer.CanDrag = new PropertyValue<bool>(canDrag);
+        dragGestureRecognizer.CanDrag = canDrag;
         return dragGestureRecognizer;
     }
 

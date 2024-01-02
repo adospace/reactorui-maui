@@ -12,11 +12,11 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface INavigationPage : IPage
 {
-    PropertyValue<Microsoft.Maui.Graphics.Color>? BarBackgroundColor { get; set; }
+    object? BarBackgroundColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Brush>? BarBackground { get; set; }
+    object? BarBackground { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? BarTextColor { get; set; }
+    object? BarTextColor { get; set; }
 
     Action? PoppedAction { get; set; }
 
@@ -41,11 +41,11 @@ public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Micr
     {
     }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? INavigationPage.BarBackgroundColor { get; set; }
+    object? INavigationPage.BarBackgroundColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Brush>? INavigationPage.BarBackground { get; set; }
+    object? INavigationPage.BarBackground { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? INavigationPage.BarTextColor { get; set; }
+    object? INavigationPage.BarTextColor { get; set; }
 
     Action? INavigationPage.PoppedAction { get; set; }
 
@@ -162,7 +162,7 @@ public static partial class NavigationPageExtensions
     public static T BarBackgroundColor<T>(this T navigationPage, Microsoft.Maui.Graphics.Color barBackgroundColor)
         where T : INavigationPage
     {
-        navigationPage.BarBackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(barBackgroundColor);
+        navigationPage.BarBackgroundColor = barBackgroundColor;
         return navigationPage;
     }
 
@@ -176,7 +176,7 @@ public static partial class NavigationPageExtensions
     public static T BarBackground<T>(this T navigationPage, Microsoft.Maui.Controls.Brush barBackground)
         where T : INavigationPage
     {
-        navigationPage.BarBackground = new PropertyValue<Microsoft.Maui.Controls.Brush>(barBackground);
+        navigationPage.BarBackground = barBackground;
         return navigationPage;
     }
 
@@ -190,7 +190,7 @@ public static partial class NavigationPageExtensions
     public static T BarTextColor<T>(this T navigationPage, Microsoft.Maui.Graphics.Color barTextColor)
         where T : INavigationPage
     {
-        navigationPage.BarTextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(barTextColor);
+        navigationPage.BarTextColor = barTextColor;
         return navigationPage;
     }
 

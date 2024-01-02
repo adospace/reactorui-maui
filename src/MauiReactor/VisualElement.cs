@@ -12,55 +12,55 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IVisualElement : INavigableElement
 {
-    PropertyValue<bool>? InputTransparent { get; set; }
+    object? InputTransparent { get; set; }
 
-    PropertyValue<bool>? IsEnabled { get; set; }
+    object? IsEnabled { get; set; }
 
-    PropertyValue<double>? AnchorX { get; set; }
+    object? AnchorX { get; set; }
 
-    PropertyValue<double>? AnchorY { get; set; }
+    object? AnchorY { get; set; }
 
-    PropertyValue<double>? TranslationX { get; set; }
+    object? TranslationX { get; set; }
 
-    PropertyValue<double>? TranslationY { get; set; }
+    object? TranslationY { get; set; }
 
-    PropertyValue<double>? Rotation { get; set; }
+    object? Rotation { get; set; }
 
-    PropertyValue<double>? RotationX { get; set; }
+    object? RotationX { get; set; }
 
-    PropertyValue<double>? RotationY { get; set; }
+    object? RotationY { get; set; }
 
-    PropertyValue<double>? Scale { get; set; }
+    object? Scale { get; set; }
 
-    PropertyValue<double>? ScaleX { get; set; }
+    object? ScaleX { get; set; }
 
-    PropertyValue<double>? ScaleY { get; set; }
+    object? ScaleY { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.IVisual>? Visual { get; set; }
+    object? Visual { get; set; }
 
-    PropertyValue<bool>? IsVisible { get; set; }
+    object? IsVisible { get; set; }
 
-    PropertyValue<double>? Opacity { get; set; }
+    object? Opacity { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? BackgroundColor { get; set; }
+    object? BackgroundColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Brush>? Background { get; set; }
+    object? Background { get; set; }
 
-    PropertyValue<double>? WidthRequest { get; set; }
+    object? WidthRequest { get; set; }
 
-    PropertyValue<double>? HeightRequest { get; set; }
+    object? HeightRequest { get; set; }
 
-    PropertyValue<double>? MinimumWidthRequest { get; set; }
+    object? MinimumWidthRequest { get; set; }
 
-    PropertyValue<double>? MinimumHeightRequest { get; set; }
+    object? MinimumHeightRequest { get; set; }
 
-    PropertyValue<double>? MaximumWidthRequest { get; set; }
+    object? MaximumWidthRequest { get; set; }
 
-    PropertyValue<double>? MaximumHeightRequest { get; set; }
+    object? MaximumHeightRequest { get; set; }
 
-    PropertyValue<Microsoft.Maui.FlowDirection>? FlowDirection { get; set; }
+    object? FlowDirection { get; set; }
 
-    PropertyValue<int>? ZIndex { get; set; }
+    object? ZIndex { get; set; }
 
     Action? ChildrenReorderedAction { get; set; }
 
@@ -101,55 +101,55 @@ public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualEle
     {
     }
 
-    PropertyValue<bool>? IVisualElement.InputTransparent { get; set; }
+    object? IVisualElement.InputTransparent { get; set; }
 
-    PropertyValue<bool>? IVisualElement.IsEnabled { get; set; }
+    object? IVisualElement.IsEnabled { get; set; }
 
-    PropertyValue<double>? IVisualElement.AnchorX { get; set; }
+    object? IVisualElement.AnchorX { get; set; }
 
-    PropertyValue<double>? IVisualElement.AnchorY { get; set; }
+    object? IVisualElement.AnchorY { get; set; }
 
-    PropertyValue<double>? IVisualElement.TranslationX { get; set; }
+    object? IVisualElement.TranslationX { get; set; }
 
-    PropertyValue<double>? IVisualElement.TranslationY { get; set; }
+    object? IVisualElement.TranslationY { get; set; }
 
-    PropertyValue<double>? IVisualElement.Rotation { get; set; }
+    object? IVisualElement.Rotation { get; set; }
 
-    PropertyValue<double>? IVisualElement.RotationX { get; set; }
+    object? IVisualElement.RotationX { get; set; }
 
-    PropertyValue<double>? IVisualElement.RotationY { get; set; }
+    object? IVisualElement.RotationY { get; set; }
 
-    PropertyValue<double>? IVisualElement.Scale { get; set; }
+    object? IVisualElement.Scale { get; set; }
 
-    PropertyValue<double>? IVisualElement.ScaleX { get; set; }
+    object? IVisualElement.ScaleX { get; set; }
 
-    PropertyValue<double>? IVisualElement.ScaleY { get; set; }
+    object? IVisualElement.ScaleY { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.IVisual>? IVisualElement.Visual { get; set; }
+    object? IVisualElement.Visual { get; set; }
 
-    PropertyValue<bool>? IVisualElement.IsVisible { get; set; }
+    object? IVisualElement.IsVisible { get; set; }
 
-    PropertyValue<double>? IVisualElement.Opacity { get; set; }
+    object? IVisualElement.Opacity { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? IVisualElement.BackgroundColor { get; set; }
+    object? IVisualElement.BackgroundColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Brush>? IVisualElement.Background { get; set; }
+    object? IVisualElement.Background { get; set; }
 
-    PropertyValue<double>? IVisualElement.WidthRequest { get; set; }
+    object? IVisualElement.WidthRequest { get; set; }
 
-    PropertyValue<double>? IVisualElement.HeightRequest { get; set; }
+    object? IVisualElement.HeightRequest { get; set; }
 
-    PropertyValue<double>? IVisualElement.MinimumWidthRequest { get; set; }
+    object? IVisualElement.MinimumWidthRequest { get; set; }
 
-    PropertyValue<double>? IVisualElement.MinimumHeightRequest { get; set; }
+    object? IVisualElement.MinimumHeightRequest { get; set; }
 
-    PropertyValue<double>? IVisualElement.MaximumWidthRequest { get; set; }
+    object? IVisualElement.MaximumWidthRequest { get; set; }
 
-    PropertyValue<double>? IVisualElement.MaximumHeightRequest { get; set; }
+    object? IVisualElement.MaximumHeightRequest { get; set; }
 
-    PropertyValue<Microsoft.Maui.FlowDirection>? IVisualElement.FlowDirection { get; set; }
+    object? IVisualElement.FlowDirection { get; set; }
 
-    PropertyValue<int>? IVisualElement.ZIndex { get; set; }
+    object? IVisualElement.ZIndex { get; set; }
 
     Action? IVisualElement.ChildrenReorderedAction { get; set; }
 
@@ -392,7 +392,7 @@ public static partial class VisualElementExtensions
     public static T InputTransparent<T>(this T visualElement, bool inputTransparent)
         where T : IVisualElement
     {
-        visualElement.InputTransparent = new PropertyValue<bool>(inputTransparent);
+        visualElement.InputTransparent = inputTransparent;
         return visualElement;
     }
 
@@ -406,7 +406,7 @@ public static partial class VisualElementExtensions
     public static T IsEnabled<T>(this T visualElement, bool isEnabled)
         where T : IVisualElement
     {
-        visualElement.IsEnabled = new PropertyValue<bool>(isEnabled);
+        visualElement.IsEnabled = isEnabled;
         return visualElement;
     }
 
@@ -420,7 +420,7 @@ public static partial class VisualElementExtensions
     public static T AnchorX<T>(this T visualElement, double anchorX, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.AnchorX = new PropertyValue<double>(anchorX);
+        visualElement.AnchorX = anchorX;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.AnchorXProperty, customAnimation ?? new RxDoubleAnimation(anchorX), v => visualElement.AnchorX = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -435,7 +435,7 @@ public static partial class VisualElementExtensions
     public static T AnchorY<T>(this T visualElement, double anchorY, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.AnchorY = new PropertyValue<double>(anchorY);
+        visualElement.AnchorY = anchorY;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.AnchorYProperty, customAnimation ?? new RxDoubleAnimation(anchorY), v => visualElement.AnchorY = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -450,7 +450,7 @@ public static partial class VisualElementExtensions
     public static T TranslationX<T>(this T visualElement, double translationX, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.TranslationX = new PropertyValue<double>(translationX);
+        visualElement.TranslationX = translationX;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.TranslationXProperty, customAnimation ?? new RxDoubleAnimation(translationX), v => visualElement.TranslationX = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -465,7 +465,7 @@ public static partial class VisualElementExtensions
     public static T TranslationY<T>(this T visualElement, double translationY, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.TranslationY = new PropertyValue<double>(translationY);
+        visualElement.TranslationY = translationY;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.TranslationYProperty, customAnimation ?? new RxDoubleAnimation(translationY), v => visualElement.TranslationY = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -480,7 +480,7 @@ public static partial class VisualElementExtensions
     public static T Rotation<T>(this T visualElement, double rotation, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.Rotation = new PropertyValue<double>(rotation);
+        visualElement.Rotation = rotation;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.RotationProperty, customAnimation ?? new RxDoubleAnimation(rotation), v => visualElement.Rotation = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -495,7 +495,7 @@ public static partial class VisualElementExtensions
     public static T RotationX<T>(this T visualElement, double rotationX, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.RotationX = new PropertyValue<double>(rotationX);
+        visualElement.RotationX = rotationX;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.RotationXProperty, customAnimation ?? new RxDoubleAnimation(rotationX), v => visualElement.RotationX = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -510,7 +510,7 @@ public static partial class VisualElementExtensions
     public static T RotationY<T>(this T visualElement, double rotationY, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.RotationY = new PropertyValue<double>(rotationY);
+        visualElement.RotationY = rotationY;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.RotationYProperty, customAnimation ?? new RxDoubleAnimation(rotationY), v => visualElement.RotationY = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -525,7 +525,7 @@ public static partial class VisualElementExtensions
     public static T Scale<T>(this T visualElement, double scale, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.Scale = new PropertyValue<double>(scale);
+        visualElement.Scale = scale;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.ScaleProperty, customAnimation ?? new RxDoubleAnimation(scale), v => visualElement.Scale = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -540,7 +540,7 @@ public static partial class VisualElementExtensions
     public static T ScaleX<T>(this T visualElement, double scaleX, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.ScaleX = new PropertyValue<double>(scaleX);
+        visualElement.ScaleX = scaleX;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.ScaleXProperty, customAnimation ?? new RxDoubleAnimation(scaleX), v => visualElement.ScaleX = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -555,7 +555,7 @@ public static partial class VisualElementExtensions
     public static T ScaleY<T>(this T visualElement, double scaleY, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.ScaleY = new PropertyValue<double>(scaleY);
+        visualElement.ScaleY = scaleY;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.ScaleYProperty, customAnimation ?? new RxDoubleAnimation(scaleY), v => visualElement.ScaleY = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -570,7 +570,7 @@ public static partial class VisualElementExtensions
     public static T Visual<T>(this T visualElement, Microsoft.Maui.Controls.IVisual visual)
         where T : IVisualElement
     {
-        visualElement.Visual = new PropertyValue<Microsoft.Maui.Controls.IVisual>(visual);
+        visualElement.Visual = visual;
         return visualElement;
     }
 
@@ -584,7 +584,7 @@ public static partial class VisualElementExtensions
     public static T IsVisible<T>(this T visualElement, bool isVisible)
         where T : IVisualElement
     {
-        visualElement.IsVisible = new PropertyValue<bool>(isVisible);
+        visualElement.IsVisible = isVisible;
         return visualElement;
     }
 
@@ -598,7 +598,7 @@ public static partial class VisualElementExtensions
     public static T Opacity<T>(this T visualElement, double opacity, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.Opacity = new PropertyValue<double>(opacity);
+        visualElement.Opacity = opacity;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.OpacityProperty, customAnimation ?? new RxDoubleAnimation(opacity), v => visualElement.Opacity = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -613,7 +613,7 @@ public static partial class VisualElementExtensions
     public static T BackgroundColor<T>(this T visualElement, Microsoft.Maui.Graphics.Color backgroundColor)
         where T : IVisualElement
     {
-        visualElement.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColor);
+        visualElement.BackgroundColor = backgroundColor;
         return visualElement;
     }
 
@@ -627,7 +627,7 @@ public static partial class VisualElementExtensions
     public static T Background<T>(this T visualElement, Microsoft.Maui.Controls.Brush background)
         where T : IVisualElement
     {
-        visualElement.Background = new PropertyValue<Microsoft.Maui.Controls.Brush>(background);
+        visualElement.Background = background;
         return visualElement;
     }
 
@@ -641,7 +641,7 @@ public static partial class VisualElementExtensions
     public static T WidthRequest<T>(this T visualElement, double widthRequest, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.WidthRequest = new PropertyValue<double>(widthRequest);
+        visualElement.WidthRequest = widthRequest;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.WidthRequestProperty, customAnimation ?? new RxDoubleAnimation(widthRequest), v => visualElement.WidthRequest = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -656,7 +656,7 @@ public static partial class VisualElementExtensions
     public static T HeightRequest<T>(this T visualElement, double heightRequest, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.HeightRequest = new PropertyValue<double>(heightRequest);
+        visualElement.HeightRequest = heightRequest;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.HeightRequestProperty, customAnimation ?? new RxDoubleAnimation(heightRequest), v => visualElement.HeightRequest = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -671,7 +671,7 @@ public static partial class VisualElementExtensions
     public static T MinimumWidthRequest<T>(this T visualElement, double minimumWidthRequest, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.MinimumWidthRequest = new PropertyValue<double>(minimumWidthRequest);
+        visualElement.MinimumWidthRequest = minimumWidthRequest;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MinimumWidthRequestProperty, customAnimation ?? new RxDoubleAnimation(minimumWidthRequest), v => visualElement.MinimumWidthRequest = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -686,7 +686,7 @@ public static partial class VisualElementExtensions
     public static T MinimumHeightRequest<T>(this T visualElement, double minimumHeightRequest, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.MinimumHeightRequest = new PropertyValue<double>(minimumHeightRequest);
+        visualElement.MinimumHeightRequest = minimumHeightRequest;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MinimumHeightRequestProperty, customAnimation ?? new RxDoubleAnimation(minimumHeightRequest), v => visualElement.MinimumHeightRequest = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -701,7 +701,7 @@ public static partial class VisualElementExtensions
     public static T MaximumWidthRequest<T>(this T visualElement, double maximumWidthRequest, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.MaximumWidthRequest = new PropertyValue<double>(maximumWidthRequest);
+        visualElement.MaximumWidthRequest = maximumWidthRequest;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MaximumWidthRequestProperty, customAnimation ?? new RxDoubleAnimation(maximumWidthRequest), v => visualElement.MaximumWidthRequest = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -716,7 +716,7 @@ public static partial class VisualElementExtensions
     public static T MaximumHeightRequest<T>(this T visualElement, double maximumHeightRequest, RxDoubleAnimation? customAnimation = null)
         where T : IVisualElement
     {
-        visualElement.MaximumHeightRequest = new PropertyValue<double>(maximumHeightRequest);
+        visualElement.MaximumHeightRequest = maximumHeightRequest;
         visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MaximumHeightRequestProperty, customAnimation ?? new RxDoubleAnimation(maximumHeightRequest), v => visualElement.MaximumHeightRequest = new PropertyValue<double>(v.CurrentValue()));
         return visualElement;
     }
@@ -731,7 +731,7 @@ public static partial class VisualElementExtensions
     public static T FlowDirection<T>(this T visualElement, Microsoft.Maui.FlowDirection flowDirection)
         where T : IVisualElement
     {
-        visualElement.FlowDirection = new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirection);
+        visualElement.FlowDirection = flowDirection;
         return visualElement;
     }
 
@@ -745,7 +745,7 @@ public static partial class VisualElementExtensions
     public static T ZIndex<T>(this T visualElement, int zIndex)
         where T : IVisualElement
     {
-        visualElement.ZIndex = new PropertyValue<int>(zIndex);
+        visualElement.ZIndex = zIndex;
         return visualElement;
     }
 

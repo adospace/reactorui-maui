@@ -12,11 +12,11 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IFlyoutPage : IPage
 {
-    PropertyValue<bool>? IsGestureEnabled { get; set; }
+    object? IsGestureEnabled { get; set; }
 
-    PropertyValue<bool>? IsPresented { get; set; }
+    object? IsPresented { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.FlyoutLayoutBehavior>? FlyoutLayoutBehavior { get; set; }
+    object? FlyoutLayoutBehavior { get; set; }
 
     Action? IsPresentedChangedAction { get; set; }
 
@@ -33,11 +33,11 @@ public partial class FlyoutPage<T> : Page<T>, IFlyoutPage where T : Microsoft.Ma
     {
     }
 
-    PropertyValue<bool>? IFlyoutPage.IsGestureEnabled { get; set; }
+    object? IFlyoutPage.IsGestureEnabled { get; set; }
 
-    PropertyValue<bool>? IFlyoutPage.IsPresented { get; set; }
+    object? IFlyoutPage.IsPresented { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.FlyoutLayoutBehavior>? IFlyoutPage.FlyoutLayoutBehavior { get; set; }
+    object? IFlyoutPage.FlyoutLayoutBehavior { get; set; }
 
     Action? IFlyoutPage.IsPresentedChangedAction { get; set; }
 
@@ -120,7 +120,7 @@ public static partial class FlyoutPageExtensions
     public static T IsGestureEnabled<T>(this T flyoutPage, bool isGestureEnabled)
         where T : IFlyoutPage
     {
-        flyoutPage.IsGestureEnabled = new PropertyValue<bool>(isGestureEnabled);
+        flyoutPage.IsGestureEnabled = isGestureEnabled;
         return flyoutPage;
     }
 
@@ -134,7 +134,7 @@ public static partial class FlyoutPageExtensions
     public static T IsPresented<T>(this T flyoutPage, bool isPresented)
         where T : IFlyoutPage
     {
-        flyoutPage.IsPresented = new PropertyValue<bool>(isPresented);
+        flyoutPage.IsPresented = isPresented;
         return flyoutPage;
     }
 
@@ -148,7 +148,7 @@ public static partial class FlyoutPageExtensions
     public static T FlyoutLayoutBehavior<T>(this T flyoutPage, Microsoft.Maui.Controls.FlyoutLayoutBehavior flyoutLayoutBehavior)
         where T : IFlyoutPage
     {
-        flyoutPage.FlyoutLayoutBehavior = new PropertyValue<Microsoft.Maui.Controls.FlyoutLayoutBehavior>(flyoutLayoutBehavior);
+        flyoutPage.FlyoutLayoutBehavior = flyoutLayoutBehavior;
         return flyoutPage;
     }
 

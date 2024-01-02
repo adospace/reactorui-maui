@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor.Shapes;
 public partial interface IPath : Shapes.IShape
 {
-    PropertyValue<Microsoft.Maui.Controls.Shapes.Transform>? RenderTransform { get; set; }
+    object? RenderTransform { get; set; }
 }
 
 public sealed partial class Path : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Path>, IPath
@@ -25,7 +25,7 @@ public sealed partial class Path : Shapes.Shape<Microsoft.Maui.Controls.Shapes.P
     {
     }
 
-    PropertyValue<Microsoft.Maui.Controls.Shapes.Transform>? IPath.RenderTransform { get; set; }
+    object? IPath.RenderTransform { get; set; }
 
     internal override void Reset()
     {
@@ -57,7 +57,7 @@ public static partial class PathExtensions
     public static T RenderTransform<T>(this T path, Microsoft.Maui.Controls.Shapes.Transform renderTransform)
         where T : IPath
     {
-        path.RenderTransform = new PropertyValue<Microsoft.Maui.Controls.Shapes.Transform>(renderTransform);
+        path.RenderTransform = renderTransform;
         return path;
     }
 

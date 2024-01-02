@@ -12,15 +12,15 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IEntry : IInputView
 {
-    PropertyValue<Microsoft.Maui.ReturnType>? ReturnType { get; set; }
+    object? ReturnType { get; set; }
 
-    PropertyValue<bool>? IsPassword { get; set; }
+    object? IsPassword { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? HorizontalTextAlignment { get; set; }
+    object? HorizontalTextAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? VerticalTextAlignment { get; set; }
+    object? VerticalTextAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.ClearButtonVisibility>? ClearButtonVisibility { get; set; }
+    object? ClearButtonVisibility { get; set; }
 
     Action? CompletedAction { get; set; }
 
@@ -37,15 +37,15 @@ public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Co
     {
     }
 
-    PropertyValue<Microsoft.Maui.ReturnType>? IEntry.ReturnType { get; set; }
+    object? IEntry.ReturnType { get; set; }
 
-    PropertyValue<bool>? IEntry.IsPassword { get; set; }
+    object? IEntry.IsPassword { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? IEntry.HorizontalTextAlignment { get; set; }
+    object? IEntry.HorizontalTextAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? IEntry.VerticalTextAlignment { get; set; }
+    object? IEntry.VerticalTextAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.ClearButtonVisibility>? IEntry.ClearButtonVisibility { get; set; }
+    object? IEntry.ClearButtonVisibility { get; set; }
 
     Action? IEntry.CompletedAction { get; set; }
 
@@ -132,7 +132,7 @@ public static partial class EntryExtensions
     public static T ReturnType<T>(this T entry, Microsoft.Maui.ReturnType returnType)
         where T : IEntry
     {
-        entry.ReturnType = new PropertyValue<Microsoft.Maui.ReturnType>(returnType);
+        entry.ReturnType = returnType;
         return entry;
     }
 
@@ -146,7 +146,7 @@ public static partial class EntryExtensions
     public static T IsPassword<T>(this T entry, bool isPassword)
         where T : IEntry
     {
-        entry.IsPassword = new PropertyValue<bool>(isPassword);
+        entry.IsPassword = isPassword;
         return entry;
     }
 
@@ -160,7 +160,7 @@ public static partial class EntryExtensions
     public static T HorizontalTextAlignment<T>(this T entry, Microsoft.Maui.TextAlignment horizontalTextAlignment)
         where T : IEntry
     {
-        entry.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignment);
+        entry.HorizontalTextAlignment = horizontalTextAlignment;
         return entry;
     }
 
@@ -174,7 +174,7 @@ public static partial class EntryExtensions
     public static T VerticalTextAlignment<T>(this T entry, Microsoft.Maui.TextAlignment verticalTextAlignment)
         where T : IEntry
     {
-        entry.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignment);
+        entry.VerticalTextAlignment = verticalTextAlignment;
         return entry;
     }
 
@@ -188,7 +188,7 @@ public static partial class EntryExtensions
     public static T ClearButtonVisibility<T>(this T entry, Microsoft.Maui.ClearButtonVisibility clearButtonVisibility)
         where T : IEntry
     {
-        entry.ClearButtonVisibility = new PropertyValue<Microsoft.Maui.ClearButtonVisibility>(clearButtonVisibility);
+        entry.ClearButtonVisibility = clearButtonVisibility;
         return entry;
     }
 

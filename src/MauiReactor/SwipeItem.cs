@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ISwipeItem : IMenuItem
 {
-    PropertyValue<Microsoft.Maui.Graphics.Color>? BackgroundColor { get; set; }
+    object? BackgroundColor { get; set; }
 
-    PropertyValue<bool>? IsVisible { get; set; }
+    object? IsVisible { get; set; }
 
     Action? InvokedAction { get; set; }
 
@@ -31,9 +31,9 @@ public partial class SwipeItem<T> : MenuItem<T>, ISwipeItem where T : Microsoft.
     {
     }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ISwipeItem.BackgroundColor { get; set; }
+    object? ISwipeItem.BackgroundColor { get; set; }
 
-    PropertyValue<bool>? ISwipeItem.IsVisible { get; set; }
+    object? ISwipeItem.IsVisible { get; set; }
 
     Action? ISwipeItem.InvokedAction { get; set; }
 
@@ -114,7 +114,7 @@ public static partial class SwipeItemExtensions
     public static T BackgroundColor<T>(this T swipeItem, Microsoft.Maui.Graphics.Color backgroundColor)
         where T : ISwipeItem
     {
-        swipeItem.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColor);
+        swipeItem.BackgroundColor = backgroundColor;
         return swipeItem;
     }
 
@@ -128,7 +128,7 @@ public static partial class SwipeItemExtensions
     public static T IsVisible<T>(this T swipeItem, bool isVisible)
         where T : ISwipeItem
     {
-        swipeItem.IsVisible = new PropertyValue<bool>(isVisible);
+        swipeItem.IsVisible = isVisible;
         return swipeItem;
     }
 

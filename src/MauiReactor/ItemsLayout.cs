@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IItemsLayout : IVisualNode
 {
-    PropertyValue<Microsoft.Maui.Controls.SnapPointsAlignment>? SnapPointsAlignment { get; set; }
+    object? SnapPointsAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.SnapPointsType>? SnapPointsType { get; set; }
+    object? SnapPointsType { get; set; }
 }
 
 public abstract partial class ItemsLayout<T> : VisualNode<T>, IItemsLayout where T : Microsoft.Maui.Controls.ItemsLayout, new()
@@ -27,9 +27,9 @@ public abstract partial class ItemsLayout<T> : VisualNode<T>, IItemsLayout where
     {
     }
 
-    PropertyValue<Microsoft.Maui.Controls.SnapPointsAlignment>? IItemsLayout.SnapPointsAlignment { get; set; }
+    object? IItemsLayout.SnapPointsAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.SnapPointsType>? IItemsLayout.SnapPointsType { get; set; }
+    object? IItemsLayout.SnapPointsType { get; set; }
 
     internal override void Reset()
     {
@@ -63,7 +63,7 @@ public static partial class ItemsLayoutExtensions
     public static T SnapPointsAlignment<T>(this T itemsLayout, Microsoft.Maui.Controls.SnapPointsAlignment snapPointsAlignment)
         where T : IItemsLayout
     {
-        itemsLayout.SnapPointsAlignment = new PropertyValue<Microsoft.Maui.Controls.SnapPointsAlignment>(snapPointsAlignment);
+        itemsLayout.SnapPointsAlignment = snapPointsAlignment;
         return itemsLayout;
     }
 
@@ -77,7 +77,7 @@ public static partial class ItemsLayoutExtensions
     public static T SnapPointsType<T>(this T itemsLayout, Microsoft.Maui.Controls.SnapPointsType snapPointsType)
         where T : IItemsLayout
     {
-        itemsLayout.SnapPointsType = new PropertyValue<Microsoft.Maui.Controls.SnapPointsType>(snapPointsType);
+        itemsLayout.SnapPointsType = snapPointsType;
         return itemsLayout;
     }
 

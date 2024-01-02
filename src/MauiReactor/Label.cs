@@ -12,39 +12,39 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ILabel : IView
 {
-    PropertyValue<Microsoft.Maui.TextAlignment>? HorizontalTextAlignment { get; set; }
+    object? HorizontalTextAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? VerticalTextAlignment { get; set; }
+    object? VerticalTextAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? TextColor { get; set; }
+    object? TextColor { get; set; }
 
-    PropertyValue<double>? CharacterSpacing { get; set; }
+    object? CharacterSpacing { get; set; }
 
-    PropertyValue<string>? Text { get; set; }
+    object? Text { get; set; }
 
-    PropertyValue<string>? FontFamily { get; set; }
+    object? FontFamily { get; set; }
 
-    PropertyValue<double>? FontSize { get; set; }
+    object? FontSize { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.FontAttributes>? FontAttributes { get; set; }
+    object? FontAttributes { get; set; }
 
-    PropertyValue<bool>? FontAutoScalingEnabled { get; set; }
+    object? FontAutoScalingEnabled { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextTransform>? TextTransform { get; set; }
+    object? TextTransform { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextDecorations>? TextDecorations { get; set; }
+    object? TextDecorations { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.FormattedString>? FormattedText { get; set; }
+    object? FormattedText { get; set; }
 
-    PropertyValue<Microsoft.Maui.LineBreakMode>? LineBreakMode { get; set; }
+    object? LineBreakMode { get; set; }
 
-    PropertyValue<double>? LineHeight { get; set; }
+    object? LineHeight { get; set; }
 
-    PropertyValue<int>? MaxLines { get; set; }
+    object? MaxLines { get; set; }
 
-    PropertyValue<Microsoft.Maui.Thickness>? Padding { get; set; }
+    object? Padding { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextType>? TextType { get; set; }
+    object? TextType { get; set; }
 }
 
 public partial class Label<T> : View<T>, ILabel where T : Microsoft.Maui.Controls.Label, new()
@@ -57,39 +57,39 @@ public partial class Label<T> : View<T>, ILabel where T : Microsoft.Maui.Control
     {
     }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? ILabel.HorizontalTextAlignment { get; set; }
+    object? ILabel.HorizontalTextAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextAlignment>? ILabel.VerticalTextAlignment { get; set; }
+    object? ILabel.VerticalTextAlignment { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ILabel.TextColor { get; set; }
+    object? ILabel.TextColor { get; set; }
 
-    PropertyValue<double>? ILabel.CharacterSpacing { get; set; }
+    object? ILabel.CharacterSpacing { get; set; }
 
-    PropertyValue<string>? ILabel.Text { get; set; }
+    object? ILabel.Text { get; set; }
 
-    PropertyValue<string>? ILabel.FontFamily { get; set; }
+    object? ILabel.FontFamily { get; set; }
 
-    PropertyValue<double>? ILabel.FontSize { get; set; }
+    object? ILabel.FontSize { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.FontAttributes>? ILabel.FontAttributes { get; set; }
+    object? ILabel.FontAttributes { get; set; }
 
-    PropertyValue<bool>? ILabel.FontAutoScalingEnabled { get; set; }
+    object? ILabel.FontAutoScalingEnabled { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextTransform>? ILabel.TextTransform { get; set; }
+    object? ILabel.TextTransform { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextDecorations>? ILabel.TextDecorations { get; set; }
+    object? ILabel.TextDecorations { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.FormattedString>? ILabel.FormattedText { get; set; }
+    object? ILabel.FormattedText { get; set; }
 
-    PropertyValue<Microsoft.Maui.LineBreakMode>? ILabel.LineBreakMode { get; set; }
+    object? ILabel.LineBreakMode { get; set; }
 
-    PropertyValue<double>? ILabel.LineHeight { get; set; }
+    object? ILabel.LineHeight { get; set; }
 
-    PropertyValue<int>? ILabel.MaxLines { get; set; }
+    object? ILabel.MaxLines { get; set; }
 
-    PropertyValue<Microsoft.Maui.Thickness>? ILabel.Padding { get; set; }
+    object? ILabel.Padding { get; set; }
 
-    PropertyValue<Microsoft.Maui.TextType>? ILabel.TextType { get; set; }
+    object? ILabel.TextType { get; set; }
 
     internal override void Reset()
     {
@@ -176,7 +176,7 @@ public static partial class LabelExtensions
     public static T HorizontalTextAlignment<T>(this T label, Microsoft.Maui.TextAlignment horizontalTextAlignment)
         where T : ILabel
     {
-        label.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignment);
+        label.HorizontalTextAlignment = horizontalTextAlignment;
         return label;
     }
 
@@ -190,7 +190,7 @@ public static partial class LabelExtensions
     public static T VerticalTextAlignment<T>(this T label, Microsoft.Maui.TextAlignment verticalTextAlignment)
         where T : ILabel
     {
-        label.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignment);
+        label.VerticalTextAlignment = verticalTextAlignment;
         return label;
     }
 
@@ -204,7 +204,7 @@ public static partial class LabelExtensions
     public static T TextColor<T>(this T label, Microsoft.Maui.Graphics.Color textColor)
         where T : ILabel
     {
-        label.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColor);
+        label.TextColor = textColor;
         return label;
     }
 
@@ -218,7 +218,7 @@ public static partial class LabelExtensions
     public static T CharacterSpacing<T>(this T label, double characterSpacing, RxDoubleAnimation? customAnimation = null)
         where T : ILabel
     {
-        label.CharacterSpacing = new PropertyValue<double>(characterSpacing);
+        label.CharacterSpacing = characterSpacing;
         label.AppendAnimatable(Microsoft.Maui.Controls.Label.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => label.CharacterSpacing = new PropertyValue<double>(v.CurrentValue()));
         return label;
     }
@@ -233,7 +233,7 @@ public static partial class LabelExtensions
     public static T Text<T>(this T label, string text)
         where T : ILabel
     {
-        label.Text = new PropertyValue<string>(text);
+        label.Text = text;
         return label;
     }
 
@@ -247,7 +247,7 @@ public static partial class LabelExtensions
     public static T FontFamily<T>(this T label, string fontFamily)
         where T : ILabel
     {
-        label.FontFamily = new PropertyValue<string>(fontFamily);
+        label.FontFamily = fontFamily;
         return label;
     }
 
@@ -261,7 +261,7 @@ public static partial class LabelExtensions
     public static T FontSize<T>(this T label, double fontSize, RxDoubleAnimation? customAnimation = null)
         where T : ILabel
     {
-        label.FontSize = new PropertyValue<double>(fontSize);
+        label.FontSize = fontSize;
         label.AppendAnimatable(Microsoft.Maui.Controls.Label.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => label.FontSize = new PropertyValue<double>(v.CurrentValue()));
         return label;
     }
@@ -276,7 +276,7 @@ public static partial class LabelExtensions
     public static T FontAttributes<T>(this T label, Microsoft.Maui.Controls.FontAttributes fontAttributes)
         where T : ILabel
     {
-        label.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributes);
+        label.FontAttributes = fontAttributes;
         return label;
     }
 
@@ -290,7 +290,7 @@ public static partial class LabelExtensions
     public static T FontAutoScalingEnabled<T>(this T label, bool fontAutoScalingEnabled)
         where T : ILabel
     {
-        label.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabled);
+        label.FontAutoScalingEnabled = fontAutoScalingEnabled;
         return label;
     }
 
@@ -304,7 +304,7 @@ public static partial class LabelExtensions
     public static T TextTransform<T>(this T label, Microsoft.Maui.TextTransform textTransform)
         where T : ILabel
     {
-        label.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransform);
+        label.TextTransform = textTransform;
         return label;
     }
 
@@ -318,7 +318,7 @@ public static partial class LabelExtensions
     public static T TextDecorations<T>(this T label, Microsoft.Maui.TextDecorations textDecorations)
         where T : ILabel
     {
-        label.TextDecorations = new PropertyValue<Microsoft.Maui.TextDecorations>(textDecorations);
+        label.TextDecorations = textDecorations;
         return label;
     }
 
@@ -332,7 +332,7 @@ public static partial class LabelExtensions
     public static T FormattedText<T>(this T label, Microsoft.Maui.Controls.FormattedString formattedText)
         where T : ILabel
     {
-        label.FormattedText = new PropertyValue<Microsoft.Maui.Controls.FormattedString>(formattedText);
+        label.FormattedText = formattedText;
         return label;
     }
 
@@ -346,7 +346,7 @@ public static partial class LabelExtensions
     public static T LineBreakMode<T>(this T label, Microsoft.Maui.LineBreakMode lineBreakMode)
         where T : ILabel
     {
-        label.LineBreakMode = new PropertyValue<Microsoft.Maui.LineBreakMode>(lineBreakMode);
+        label.LineBreakMode = lineBreakMode;
         return label;
     }
 
@@ -360,7 +360,7 @@ public static partial class LabelExtensions
     public static T LineHeight<T>(this T label, double lineHeight, RxDoubleAnimation? customAnimation = null)
         where T : ILabel
     {
-        label.LineHeight = new PropertyValue<double>(lineHeight);
+        label.LineHeight = lineHeight;
         label.AppendAnimatable(Microsoft.Maui.Controls.Label.LineHeightProperty, customAnimation ?? new RxDoubleAnimation(lineHeight), v => label.LineHeight = new PropertyValue<double>(v.CurrentValue()));
         return label;
     }
@@ -375,7 +375,7 @@ public static partial class LabelExtensions
     public static T MaxLines<T>(this T label, int maxLines)
         where T : ILabel
     {
-        label.MaxLines = new PropertyValue<int>(maxLines);
+        label.MaxLines = maxLines;
         return label;
     }
 
@@ -389,7 +389,7 @@ public static partial class LabelExtensions
     public static T Padding<T>(this T label, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
         where T : ILabel
     {
-        label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
+        label.Padding = padding;
         label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
         return label;
     }
@@ -404,7 +404,7 @@ public static partial class LabelExtensions
     public static T Padding<T>(this T label, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
         where T : ILabel
     {
-        label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
+        label.Padding = new Thickness(leftRight, topBottom);
         label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
         return label;
     }
@@ -412,7 +412,7 @@ public static partial class LabelExtensions
     public static T Padding<T>(this T label, double uniformSize, RxThicknessAnimation? customAnimation = null)
         where T : ILabel
     {
-        label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
+        label.Padding = new Thickness(uniformSize);
         label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
         return label;
     }
@@ -420,7 +420,7 @@ public static partial class LabelExtensions
     public static T Padding<T>(this T label, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
         where T : ILabel
     {
-        label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(left, top, right, bottom));
+        label.Padding = new Thickness(left, top, right, bottom);
         label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
         return label;
     }
@@ -428,7 +428,7 @@ public static partial class LabelExtensions
     public static T TextType<T>(this T label, Microsoft.Maui.TextType textType)
         where T : ILabel
     {
-        label.TextType = new PropertyValue<Microsoft.Maui.TextType>(textType);
+        label.TextType = textType;
         return label;
     }
 

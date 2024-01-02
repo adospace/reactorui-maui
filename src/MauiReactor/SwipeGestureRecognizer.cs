@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ISwipeGestureRecognizer : IGestureRecognizer
 {
-    PropertyValue<Microsoft.Maui.SwipeDirection>? Direction { get; set; }
+    object? Direction { get; set; }
 
-    PropertyValue<uint>? Threshold { get; set; }
+    object? Threshold { get; set; }
 
     Action? SwipedAction { get; set; }
 
@@ -31,9 +31,9 @@ public sealed partial class SwipeGestureRecognizer : GestureRecognizer<Microsoft
     {
     }
 
-    PropertyValue<Microsoft.Maui.SwipeDirection>? ISwipeGestureRecognizer.Direction { get; set; }
+    object? ISwipeGestureRecognizer.Direction { get; set; }
 
-    PropertyValue<uint>? ISwipeGestureRecognizer.Threshold { get; set; }
+    object? ISwipeGestureRecognizer.Threshold { get; set; }
 
     Action? ISwipeGestureRecognizer.SwipedAction { get; set; }
 
@@ -103,7 +103,7 @@ public static partial class SwipeGestureRecognizerExtensions
     public static T Direction<T>(this T swipeGestureRecognizer, Microsoft.Maui.SwipeDirection direction)
         where T : ISwipeGestureRecognizer
     {
-        swipeGestureRecognizer.Direction = new PropertyValue<Microsoft.Maui.SwipeDirection>(direction);
+        swipeGestureRecognizer.Direction = direction;
         return swipeGestureRecognizer;
     }
 
@@ -117,7 +117,7 @@ public static partial class SwipeGestureRecognizerExtensions
     public static T Threshold<T>(this T swipeGestureRecognizer, uint threshold)
         where T : ISwipeGestureRecognizer
     {
-        swipeGestureRecognizer.Threshold = new PropertyValue<uint>(threshold);
+        swipeGestureRecognizer.Threshold = threshold;
         return swipeGestureRecognizer;
     }
 

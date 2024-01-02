@@ -12,11 +12,11 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IMenuItem : IBaseMenuItem
 {
-    PropertyValue<bool>? IsDestructive { get; set; }
+    object? IsDestructive { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.ImageSource>? IconImageSource { get; set; }
+    object? IconImageSource { get; set; }
 
-    PropertyValue<string>? Text { get; set; }
+    object? Text { get; set; }
 
     Action? ClickedAction { get; set; }
 
@@ -33,11 +33,11 @@ public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsof
     {
     }
 
-    PropertyValue<bool>? IMenuItem.IsDestructive { get; set; }
+    object? IMenuItem.IsDestructive { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.ImageSource>? IMenuItem.IconImageSource { get; set; }
+    object? IMenuItem.IconImageSource { get; set; }
 
-    PropertyValue<string>? IMenuItem.Text { get; set; }
+    object? IMenuItem.Text { get; set; }
 
     Action? IMenuItem.ClickedAction { get; set; }
 
@@ -120,7 +120,7 @@ public static partial class MenuItemExtensions
     public static T IsDestructive<T>(this T menuItem, bool isDestructive)
         where T : IMenuItem
     {
-        menuItem.IsDestructive = new PropertyValue<bool>(isDestructive);
+        menuItem.IsDestructive = isDestructive;
         return menuItem;
     }
 
@@ -134,7 +134,7 @@ public static partial class MenuItemExtensions
     public static T IconImageSource<T>(this T menuItem, Microsoft.Maui.Controls.ImageSource iconImageSource)
         where T : IMenuItem
     {
-        menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSource);
+        menuItem.IconImageSource = iconImageSource;
         return menuItem;
     }
 
@@ -148,7 +148,7 @@ public static partial class MenuItemExtensions
     public static T IconImageSource<T>(this T menuItem, string file)
         where T : IMenuItem
     {
-        menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromFile(file));
+        menuItem.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromFile(file);
         return menuItem;
     }
 
@@ -162,35 +162,40 @@ public static partial class MenuItemExtensions
     public static T IconImageSource<T>(this T menuItem, string resourceName, Assembly sourceAssembly)
         where T : IMenuItem
     {
-        menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
+        menuItem.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
         return menuItem;
     }
 
     public static T IconImageSource<T>(this T menuItem, Uri imageUri)
         where T : IMenuItem
     {
-        menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
+        menuItem.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
         return menuItem;
     }
 
     public static T IconImageSource<T>(this T menuItem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IMenuItem
     {
-        menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(new UriImageSource { Uri = imageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity });
+        menuItem.IconImageSource = new UriImageSource
+        {
+            Uri = imageUri,
+            CachingEnabled = cachingEnabled,
+            CacheValidity = cacheValidity
+        };
         return menuItem;
     }
 
     public static T IconImageSource<T>(this T menuItem, Func<Stream> imageStream)
         where T : IMenuItem
     {
-        menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
+        menuItem.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
         return menuItem;
     }
 
     public static T Text<T>(this T menuItem, string text)
         where T : IMenuItem
     {
-        menuItem.Text = new PropertyValue<string>(text);
+        menuItem.Text = text;
         return menuItem;
     }
 

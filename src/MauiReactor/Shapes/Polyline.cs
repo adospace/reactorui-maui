@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor.Shapes;
 public partial interface IPolyline : Shapes.IShape
 {
-    PropertyValue<Microsoft.Maui.Controls.PointCollection>? Points { get; set; }
+    object? Points { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>? FillRule { get; set; }
+    object? FillRule { get; set; }
 }
 
 public sealed partial class Polyline : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Polyline>, IPolyline
@@ -27,9 +27,9 @@ public sealed partial class Polyline : Shapes.Shape<Microsoft.Maui.Controls.Shap
     {
     }
 
-    PropertyValue<Microsoft.Maui.Controls.PointCollection>? IPolyline.Points { get; set; }
+    object? IPolyline.Points { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>? IPolyline.FillRule { get; set; }
+    object? IPolyline.FillRule { get; set; }
 
     internal override void Reset()
     {
@@ -63,7 +63,7 @@ public static partial class PolylineExtensions
     public static T Points<T>(this T polyline, Microsoft.Maui.Controls.PointCollection points)
         where T : IPolyline
     {
-        polyline.Points = new PropertyValue<Microsoft.Maui.Controls.PointCollection>(points);
+        polyline.Points = points;
         return polyline;
     }
 
@@ -77,7 +77,7 @@ public static partial class PolylineExtensions
     public static T FillRule<T>(this T polyline, Microsoft.Maui.Controls.Shapes.FillRule fillRule)
         where T : IPolyline
     {
-        polyline.FillRule = new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRule);
+        polyline.FillRule = fillRule;
         return polyline;
     }
 

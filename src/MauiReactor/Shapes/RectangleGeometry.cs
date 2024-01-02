@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor.Shapes;
 public partial interface IRectangleGeometry : Shapes.IGeometry
 {
-    PropertyValue<Microsoft.Maui.Graphics.Rect>? Rect { get; set; }
+    object? Rect { get; set; }
 }
 
 public partial class RectangleGeometry<T> : Shapes.Geometry<T>, IRectangleGeometry where T : Microsoft.Maui.Controls.Shapes.RectangleGeometry, new()
@@ -25,7 +25,7 @@ public partial class RectangleGeometry<T> : Shapes.Geometry<T>, IRectangleGeomet
     {
     }
 
-    PropertyValue<Microsoft.Maui.Graphics.Rect>? IRectangleGeometry.Rect { get; set; }
+    object? IRectangleGeometry.Rect { get; set; }
 
     internal override void Reset()
     {
@@ -77,7 +77,7 @@ public static partial class RectangleGeometryExtensions
     public static T Rect<T>(this T rectangleGeometry, Microsoft.Maui.Graphics.Rect rect, RxRectAnimation? customAnimation = null)
         where T : IRectangleGeometry
     {
-        rectangleGeometry.Rect = new PropertyValue<Microsoft.Maui.Graphics.Rect>(rect);
+        rectangleGeometry.Rect = rect;
         rectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, customAnimation ?? new RxSimpleRectAnimation(rect), v => rectangleGeometry.Rect = new PropertyValue<Microsoft.Maui.Graphics.Rect>(v.CurrentValue()));
         return rectangleGeometry;
     }

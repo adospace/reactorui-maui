@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor.Shapes;
 public partial interface IPathGeometry : Shapes.IGeometry
 {
-    PropertyValue<Microsoft.Maui.Controls.Shapes.PathFigureCollection>? Figures { get; set; }
+    object? Figures { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>? FillRule { get; set; }
+    object? FillRule { get; set; }
 }
 
 public sealed partial class PathGeometry : Shapes.Geometry<Microsoft.Maui.Controls.Shapes.PathGeometry>, IPathGeometry
@@ -27,9 +27,9 @@ public sealed partial class PathGeometry : Shapes.Geometry<Microsoft.Maui.Contro
     {
     }
 
-    PropertyValue<Microsoft.Maui.Controls.Shapes.PathFigureCollection>? IPathGeometry.Figures { get; set; }
+    object? IPathGeometry.Figures { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>? IPathGeometry.FillRule { get; set; }
+    object? IPathGeometry.FillRule { get; set; }
 
     internal override void Reset()
     {
@@ -63,7 +63,7 @@ public static partial class PathGeometryExtensions
     public static T Figures<T>(this T pathGeometry, Microsoft.Maui.Controls.Shapes.PathFigureCollection figures)
         where T : IPathGeometry
     {
-        pathGeometry.Figures = new PropertyValue<Microsoft.Maui.Controls.Shapes.PathFigureCollection>(figures);
+        pathGeometry.Figures = figures;
         return pathGeometry;
     }
 
@@ -77,7 +77,7 @@ public static partial class PathGeometryExtensions
     public static T FillRule<T>(this T pathGeometry, Microsoft.Maui.Controls.Shapes.FillRule fillRule)
         where T : IPathGeometry
     {
-        pathGeometry.FillRule = new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRule);
+        pathGeometry.FillRule = fillRule;
         return pathGeometry;
     }
 

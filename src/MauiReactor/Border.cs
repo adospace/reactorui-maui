@@ -12,21 +12,21 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IBorder : IView
 {
-    PropertyValue<Microsoft.Maui.Thickness>? Padding { get; set; }
+    object? Padding { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Brush>? Stroke { get; set; }
+    object? Stroke { get; set; }
 
-    PropertyValue<double>? StrokeThickness { get; set; }
+    object? StrokeThickness { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.DoubleCollection>? StrokeDashArray { get; set; }
+    object? StrokeDashArray { get; set; }
 
-    PropertyValue<double>? StrokeDashOffset { get; set; }
+    object? StrokeDashOffset { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineCap>? StrokeLineCap { get; set; }
+    object? StrokeLineCap { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineJoin>? StrokeLineJoin { get; set; }
+    object? StrokeLineJoin { get; set; }
 
-    PropertyValue<double>? StrokeMiterLimit { get; set; }
+    object? StrokeMiterLimit { get; set; }
 }
 
 public partial class Border<T> : View<T>, IBorder where T : Microsoft.Maui.Controls.Border, new()
@@ -39,21 +39,21 @@ public partial class Border<T> : View<T>, IBorder where T : Microsoft.Maui.Contr
     {
     }
 
-    PropertyValue<Microsoft.Maui.Thickness>? IBorder.Padding { get; set; }
+    object? IBorder.Padding { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Brush>? IBorder.Stroke { get; set; }
+    object? IBorder.Stroke { get; set; }
 
-    PropertyValue<double>? IBorder.StrokeThickness { get; set; }
+    object? IBorder.StrokeThickness { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.DoubleCollection>? IBorder.StrokeDashArray { get; set; }
+    object? IBorder.StrokeDashArray { get; set; }
 
-    PropertyValue<double>? IBorder.StrokeDashOffset { get; set; }
+    object? IBorder.StrokeDashOffset { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineCap>? IBorder.StrokeLineCap { get; set; }
+    object? IBorder.StrokeLineCap { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineJoin>? IBorder.StrokeLineJoin { get; set; }
+    object? IBorder.StrokeLineJoin { get; set; }
 
-    PropertyValue<double>? IBorder.StrokeMiterLimit { get; set; }
+    object? IBorder.StrokeMiterLimit { get; set; }
 
     internal override void Reset()
     {
@@ -122,7 +122,7 @@ public static partial class BorderExtensions
     public static T Padding<T>(this T border, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
         where T : IBorder
     {
-        border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(padding);
+        border.Padding = padding;
         border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
         return border;
     }
@@ -137,7 +137,7 @@ public static partial class BorderExtensions
     public static T Padding<T>(this T border, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
         where T : IBorder
     {
-        border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(leftRight, topBottom));
+        border.Padding = new Thickness(leftRight, topBottom);
         border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
         return border;
     }
@@ -145,7 +145,7 @@ public static partial class BorderExtensions
     public static T Padding<T>(this T border, double uniformSize, RxThicknessAnimation? customAnimation = null)
         where T : IBorder
     {
-        border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(uniformSize));
+        border.Padding = new Thickness(uniformSize);
         border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
         return border;
     }
@@ -153,7 +153,7 @@ public static partial class BorderExtensions
     public static T Padding<T>(this T border, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
         where T : IBorder
     {
-        border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(new Thickness(left, top, right, bottom));
+        border.Padding = new Thickness(left, top, right, bottom);
         border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
         return border;
     }
@@ -161,7 +161,7 @@ public static partial class BorderExtensions
     public static T Stroke<T>(this T border, Microsoft.Maui.Controls.Brush stroke)
         where T : IBorder
     {
-        border.Stroke = new PropertyValue<Microsoft.Maui.Controls.Brush>(stroke);
+        border.Stroke = stroke;
         return border;
     }
 
@@ -175,7 +175,7 @@ public static partial class BorderExtensions
     public static T StrokeThickness<T>(this T border, double strokeThickness, RxDoubleAnimation? customAnimation = null)
         where T : IBorder
     {
-        border.StrokeThickness = new PropertyValue<double>(strokeThickness);
+        border.StrokeThickness = strokeThickness;
         border.AppendAnimatable(Microsoft.Maui.Controls.Border.StrokeThicknessProperty, customAnimation ?? new RxDoubleAnimation(strokeThickness), v => border.StrokeThickness = new PropertyValue<double>(v.CurrentValue()));
         return border;
     }
@@ -190,7 +190,7 @@ public static partial class BorderExtensions
     public static T StrokeDashArray<T>(this T border, Microsoft.Maui.Controls.DoubleCollection strokeDashArray)
         where T : IBorder
     {
-        border.StrokeDashArray = new PropertyValue<Microsoft.Maui.Controls.DoubleCollection>(strokeDashArray);
+        border.StrokeDashArray = strokeDashArray;
         return border;
     }
 
@@ -204,7 +204,7 @@ public static partial class BorderExtensions
     public static T StrokeDashOffset<T>(this T border, double strokeDashOffset, RxDoubleAnimation? customAnimation = null)
         where T : IBorder
     {
-        border.StrokeDashOffset = new PropertyValue<double>(strokeDashOffset);
+        border.StrokeDashOffset = strokeDashOffset;
         border.AppendAnimatable(Microsoft.Maui.Controls.Border.StrokeDashOffsetProperty, customAnimation ?? new RxDoubleAnimation(strokeDashOffset), v => border.StrokeDashOffset = new PropertyValue<double>(v.CurrentValue()));
         return border;
     }
@@ -219,7 +219,7 @@ public static partial class BorderExtensions
     public static T StrokeLineCap<T>(this T border, Microsoft.Maui.Controls.Shapes.PenLineCap strokeLineCap)
         where T : IBorder
     {
-        border.StrokeLineCap = new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineCap>(strokeLineCap);
+        border.StrokeLineCap = strokeLineCap;
         return border;
     }
 
@@ -233,7 +233,7 @@ public static partial class BorderExtensions
     public static T StrokeLineJoin<T>(this T border, Microsoft.Maui.Controls.Shapes.PenLineJoin strokeLineJoin)
         where T : IBorder
     {
-        border.StrokeLineJoin = new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineJoin>(strokeLineJoin);
+        border.StrokeLineJoin = strokeLineJoin;
         return border;
     }
 
@@ -247,7 +247,7 @@ public static partial class BorderExtensions
     public static T StrokeMiterLimit<T>(this T border, double strokeMiterLimit, RxDoubleAnimation? customAnimation = null)
         where T : IBorder
     {
-        border.StrokeMiterLimit = new PropertyValue<double>(strokeMiterLimit);
+        border.StrokeMiterLimit = strokeMiterLimit;
         border.AppendAnimatable(Microsoft.Maui.Controls.Border.StrokeMiterLimitProperty, customAnimation ?? new RxDoubleAnimation(strokeMiterLimit), v => border.StrokeMiterLimit = new PropertyValue<double>(v.CurrentValue()));
         return border;
     }

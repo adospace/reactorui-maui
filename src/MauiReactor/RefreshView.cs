@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IRefreshView : IContentView
 {
-    PropertyValue<bool>? IsRefreshing { get; set; }
+    object? IsRefreshing { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? RefreshColor { get; set; }
+    object? RefreshColor { get; set; }
 
     Action? RefreshingAction { get; set; }
 
@@ -31,9 +31,9 @@ public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Mic
     {
     }
 
-    PropertyValue<bool>? IRefreshView.IsRefreshing { get; set; }
+    object? IRefreshView.IsRefreshing { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? IRefreshView.RefreshColor { get; set; }
+    object? IRefreshView.RefreshColor { get; set; }
 
     Action? IRefreshView.RefreshingAction { get; set; }
 
@@ -114,7 +114,7 @@ public static partial class RefreshViewExtensions
     public static T IsRefreshing<T>(this T refreshView, bool isRefreshing)
         where T : IRefreshView
     {
-        refreshView.IsRefreshing = new PropertyValue<bool>(isRefreshing);
+        refreshView.IsRefreshing = isRefreshing;
         return refreshView;
     }
 
@@ -128,7 +128,7 @@ public static partial class RefreshViewExtensions
     public static T RefreshColor<T>(this T refreshView, Microsoft.Maui.Graphics.Color refreshColor)
         where T : IRefreshView
     {
-        refreshView.RefreshColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(refreshColor);
+        refreshView.RefreshColor = refreshColor;
         return refreshView;
     }
 

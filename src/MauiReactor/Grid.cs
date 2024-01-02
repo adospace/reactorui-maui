@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IGrid : ILayout
 {
-    PropertyValue<double>? RowSpacing { get; set; }
+    object? RowSpacing { get; set; }
 
-    PropertyValue<double>? ColumnSpacing { get; set; }
+    object? ColumnSpacing { get; set; }
 }
 
 public partial class Grid<T> : Layout<T>, IGrid where T : Microsoft.Maui.Controls.Grid, new()
@@ -27,9 +27,9 @@ public partial class Grid<T> : Layout<T>, IGrid where T : Microsoft.Maui.Control
     {
     }
 
-    PropertyValue<double>? IGrid.RowSpacing { get; set; }
+    object? IGrid.RowSpacing { get; set; }
 
-    PropertyValue<double>? IGrid.ColumnSpacing { get; set; }
+    object? IGrid.ColumnSpacing { get; set; }
 
     internal override void Reset()
     {
@@ -84,7 +84,7 @@ public static partial class GridExtensions
     public static T RowSpacing<T>(this T grid, double rowSpacing, RxDoubleAnimation? customAnimation = null)
         where T : IGrid
     {
-        grid.RowSpacing = new PropertyValue<double>(rowSpacing);
+        grid.RowSpacing = rowSpacing;
         grid.AppendAnimatable(Microsoft.Maui.Controls.Grid.RowSpacingProperty, customAnimation ?? new RxDoubleAnimation(rowSpacing), v => grid.RowSpacing = new PropertyValue<double>(v.CurrentValue()));
         return grid;
     }
@@ -99,7 +99,7 @@ public static partial class GridExtensions
     public static T ColumnSpacing<T>(this T grid, double columnSpacing, RxDoubleAnimation? customAnimation = null)
         where T : IGrid
     {
-        grid.ColumnSpacing = new PropertyValue<double>(columnSpacing);
+        grid.ColumnSpacing = columnSpacing;
         grid.AppendAnimatable(Microsoft.Maui.Controls.Grid.ColumnSpacingProperty, customAnimation ?? new RxDoubleAnimation(columnSpacing), v => grid.ColumnSpacing = new PropertyValue<double>(v.CurrentValue()));
         return grid;
     }

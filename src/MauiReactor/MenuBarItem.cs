@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IMenuBarItem : IBaseMenuItem
 {
-    PropertyValue<string>? Text { get; set; }
+    object? Text { get; set; }
 
-    PropertyValue<bool>? IsEnabled { get; set; }
+    object? IsEnabled { get; set; }
 }
 
 public partial class MenuBarItem<T> : BaseMenuItem<T>, IMenuBarItem where T : Microsoft.Maui.Controls.MenuBarItem, new()
@@ -27,9 +27,9 @@ public partial class MenuBarItem<T> : BaseMenuItem<T>, IMenuBarItem where T : Mi
     {
     }
 
-    PropertyValue<string>? IMenuBarItem.Text { get; set; }
+    object? IMenuBarItem.Text { get; set; }
 
-    PropertyValue<bool>? IMenuBarItem.IsEnabled { get; set; }
+    object? IMenuBarItem.IsEnabled { get; set; }
 
     internal override void Reset()
     {
@@ -74,7 +74,7 @@ public static partial class MenuBarItemExtensions
     public static T Text<T>(this T menuBarItem, string text)
         where T : IMenuBarItem
     {
-        menuBarItem.Text = new PropertyValue<string>(text);
+        menuBarItem.Text = text;
         return menuBarItem;
     }
 
@@ -88,7 +88,7 @@ public static partial class MenuBarItemExtensions
     public static T IsEnabled<T>(this T menuBarItem, bool isEnabled)
         where T : IMenuBarItem
     {
-        menuBarItem.IsEnabled = new PropertyValue<bool>(isEnabled);
+        menuBarItem.IsEnabled = isEnabled;
         return menuBarItem;
     }
 

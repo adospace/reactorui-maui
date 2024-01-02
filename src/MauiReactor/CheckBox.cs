@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ICheckBox : IView
 {
-    PropertyValue<bool>? IsChecked { get; set; }
+    object? IsChecked { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? Color { get; set; }
+    object? Color { get; set; }
 
     Action? CheckedChangedAction { get; set; }
 
@@ -31,9 +31,9 @@ public partial class CheckBox<T> : View<T>, ICheckBox where T : Microsoft.Maui.C
     {
     }
 
-    PropertyValue<bool>? ICheckBox.IsChecked { get; set; }
+    object? ICheckBox.IsChecked { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ICheckBox.Color { get; set; }
+    object? ICheckBox.Color { get; set; }
 
     Action? ICheckBox.CheckedChangedAction { get; set; }
 
@@ -114,7 +114,7 @@ public static partial class CheckBoxExtensions
     public static T IsChecked<T>(this T checkBox, bool isChecked)
         where T : ICheckBox
     {
-        checkBox.IsChecked = new PropertyValue<bool>(isChecked);
+        checkBox.IsChecked = isChecked;
         return checkBox;
     }
 
@@ -128,7 +128,7 @@ public static partial class CheckBoxExtensions
     public static T Color<T>(this T checkBox, Microsoft.Maui.Graphics.Color color)
         where T : ICheckBox
     {
-        checkBox.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(color);
+        checkBox.Color = color;
         return checkBox;
     }
 

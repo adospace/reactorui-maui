@@ -12,11 +12,11 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IFrame : IContentView
 {
-    PropertyValue<Microsoft.Maui.Graphics.Color>? BorderColor { get; set; }
+    object? BorderColor { get; set; }
 
-    PropertyValue<bool>? HasShadow { get; set; }
+    object? HasShadow { get; set; }
 
-    PropertyValue<float>? CornerRadius { get; set; }
+    object? CornerRadius { get; set; }
 }
 
 public partial class Frame<T> : ContentView<T>, IFrame where T : Microsoft.Maui.Controls.Frame, new()
@@ -29,11 +29,11 @@ public partial class Frame<T> : ContentView<T>, IFrame where T : Microsoft.Maui.
     {
     }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? IFrame.BorderColor { get; set; }
+    object? IFrame.BorderColor { get; set; }
 
-    PropertyValue<bool>? IFrame.HasShadow { get; set; }
+    object? IFrame.HasShadow { get; set; }
 
-    PropertyValue<float>? IFrame.CornerRadius { get; set; }
+    object? IFrame.CornerRadius { get; set; }
 
     internal override void Reset()
     {
@@ -80,7 +80,7 @@ public static partial class FrameExtensions
     public static T BorderColor<T>(this T frame, Microsoft.Maui.Graphics.Color borderColor)
         where T : IFrame
     {
-        frame.BorderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColor);
+        frame.BorderColor = borderColor;
         return frame;
     }
 
@@ -94,7 +94,7 @@ public static partial class FrameExtensions
     public static T HasShadow<T>(this T frame, bool hasShadow)
         where T : IFrame
     {
-        frame.HasShadow = new PropertyValue<bool>(hasShadow);
+        frame.HasShadow = hasShadow;
         return frame;
     }
 
@@ -108,7 +108,7 @@ public static partial class FrameExtensions
     public static T CornerRadius<T>(this T frame, float cornerRadius)
         where T : IFrame
     {
-        frame.CornerRadius = new PropertyValue<float>(cornerRadius);
+        frame.CornerRadius = cornerRadius;
         return frame;
     }
 

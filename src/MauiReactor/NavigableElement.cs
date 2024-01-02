@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface INavigableElement : IElement
 {
-    PropertyValue<Microsoft.Maui.Controls.Style>? Style { get; set; }
+    object? Style { get; set; }
 }
 
 public abstract partial class NavigableElement<T> : Element<T>, INavigableElement where T : Microsoft.Maui.Controls.NavigableElement, new()
@@ -25,7 +25,7 @@ public abstract partial class NavigableElement<T> : Element<T>, INavigableElemen
     {
     }
 
-    PropertyValue<Microsoft.Maui.Controls.Style>? INavigableElement.Style { get; set; }
+    object? INavigableElement.Style { get; set; }
 
     internal override void Reset()
     {
@@ -57,7 +57,7 @@ public static partial class NavigableElementExtensions
     public static T Style<T>(this T navigableElement, Microsoft.Maui.Controls.Style style)
         where T : INavigableElement
     {
-        navigableElement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(style);
+        navigableElement.Style = style;
         return navigableElement;
     }
 

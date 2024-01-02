@@ -12,13 +12,13 @@ using MauiReactor.Internals;
 namespace MauiReactor.Shapes;
 public partial interface ILine : Shapes.IShape
 {
-    PropertyValue<double>? X1 { get; set; }
+    object? X1 { get; set; }
 
-    PropertyValue<double>? Y1 { get; set; }
+    object? Y1 { get; set; }
 
-    PropertyValue<double>? X2 { get; set; }
+    object? X2 { get; set; }
 
-    PropertyValue<double>? Y2 { get; set; }
+    object? Y2 { get; set; }
 }
 
 public sealed partial class Line : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Line>, ILine
@@ -31,13 +31,13 @@ public sealed partial class Line : Shapes.Shape<Microsoft.Maui.Controls.Shapes.L
     {
     }
 
-    PropertyValue<double>? ILine.X1 { get; set; }
+    object? ILine.X1 { get; set; }
 
-    PropertyValue<double>? ILine.Y1 { get; set; }
+    object? ILine.Y1 { get; set; }
 
-    PropertyValue<double>? ILine.X2 { get; set; }
+    object? ILine.X2 { get; set; }
 
-    PropertyValue<double>? ILine.Y2 { get; set; }
+    object? ILine.Y2 { get; set; }
 
     internal override void Reset()
     {
@@ -87,7 +87,7 @@ public static partial class LineExtensions
     public static T X1<T>(this T line, double x1, RxDoubleAnimation? customAnimation = null)
         where T : ILine
     {
-        line.X1 = new PropertyValue<double>(x1);
+        line.X1 = x1;
         line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.X1Property, customAnimation ?? new RxDoubleAnimation(x1), v => line.X1 = new PropertyValue<double>(v.CurrentValue()));
         return line;
     }
@@ -102,7 +102,7 @@ public static partial class LineExtensions
     public static T Y1<T>(this T line, double y1, RxDoubleAnimation? customAnimation = null)
         where T : ILine
     {
-        line.Y1 = new PropertyValue<double>(y1);
+        line.Y1 = y1;
         line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.Y1Property, customAnimation ?? new RxDoubleAnimation(y1), v => line.Y1 = new PropertyValue<double>(v.CurrentValue()));
         return line;
     }
@@ -117,7 +117,7 @@ public static partial class LineExtensions
     public static T X2<T>(this T line, double x2, RxDoubleAnimation? customAnimation = null)
         where T : ILine
     {
-        line.X2 = new PropertyValue<double>(x2);
+        line.X2 = x2;
         line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.X2Property, customAnimation ?? new RxDoubleAnimation(x2), v => line.X2 = new PropertyValue<double>(v.CurrentValue()));
         return line;
     }
@@ -132,7 +132,7 @@ public static partial class LineExtensions
     public static T Y2<T>(this T line, double y2, RxDoubleAnimation? customAnimation = null)
         where T : ILine
     {
-        line.Y2 = new PropertyValue<double>(y2);
+        line.Y2 = y2;
         line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.Y2Property, customAnimation ?? new RxDoubleAnimation(y2), v => line.Y2 = new PropertyValue<double>(v.CurrentValue()));
         return line;
     }

@@ -12,15 +12,15 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ITabbedPage : IGenericMultiPage
 {
-    PropertyValue<Microsoft.Maui.Graphics.Color>? BarBackgroundColor { get; set; }
+    object? BarBackgroundColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Brush>? BarBackground { get; set; }
+    object? BarBackground { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? BarTextColor { get; set; }
+    object? BarTextColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? UnselectedTabColor { get; set; }
+    object? UnselectedTabColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? SelectedTabColor { get; set; }
+    object? SelectedTabColor { get; set; }
 }
 
 public abstract partial class TabbedPage<T> : MultiPage<T, Microsoft.Maui.Controls.Page>, ITabbedPage where T : Microsoft.Maui.Controls.TabbedPage, new()
@@ -33,15 +33,15 @@ public abstract partial class TabbedPage<T> : MultiPage<T, Microsoft.Maui.Contro
     {
     }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ITabbedPage.BarBackgroundColor { get; set; }
+    object? ITabbedPage.BarBackgroundColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.Brush>? ITabbedPage.BarBackground { get; set; }
+    object? ITabbedPage.BarBackground { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ITabbedPage.BarTextColor { get; set; }
+    object? ITabbedPage.BarTextColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ITabbedPage.UnselectedTabColor { get; set; }
+    object? ITabbedPage.UnselectedTabColor { get; set; }
 
-    PropertyValue<Microsoft.Maui.Graphics.Color>? ITabbedPage.SelectedTabColor { get; set; }
+    object? ITabbedPage.SelectedTabColor { get; set; }
 
     internal override void Reset()
     {
@@ -92,7 +92,7 @@ public static partial class TabbedPageExtensions
     public static T BarBackgroundColor<T>(this T tabbedPage, Microsoft.Maui.Graphics.Color barBackgroundColor)
         where T : ITabbedPage
     {
-        tabbedPage.BarBackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(barBackgroundColor);
+        tabbedPage.BarBackgroundColor = barBackgroundColor;
         return tabbedPage;
     }
 
@@ -106,7 +106,7 @@ public static partial class TabbedPageExtensions
     public static T BarBackground<T>(this T tabbedPage, Microsoft.Maui.Controls.Brush barBackground)
         where T : ITabbedPage
     {
-        tabbedPage.BarBackground = new PropertyValue<Microsoft.Maui.Controls.Brush>(barBackground);
+        tabbedPage.BarBackground = barBackground;
         return tabbedPage;
     }
 
@@ -120,7 +120,7 @@ public static partial class TabbedPageExtensions
     public static T BarTextColor<T>(this T tabbedPage, Microsoft.Maui.Graphics.Color barTextColor)
         where T : ITabbedPage
     {
-        tabbedPage.BarTextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(barTextColor);
+        tabbedPage.BarTextColor = barTextColor;
         return tabbedPage;
     }
 
@@ -134,7 +134,7 @@ public static partial class TabbedPageExtensions
     public static T UnselectedTabColor<T>(this T tabbedPage, Microsoft.Maui.Graphics.Color unselectedTabColor)
         where T : ITabbedPage
     {
-        tabbedPage.UnselectedTabColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(unselectedTabColor);
+        tabbedPage.UnselectedTabColor = unselectedTabColor;
         return tabbedPage;
     }
 
@@ -148,7 +148,7 @@ public static partial class TabbedPageExtensions
     public static T SelectedTabColor<T>(this T tabbedPage, Microsoft.Maui.Graphics.Color selectedTabColor)
         where T : ITabbedPage
     {
-        tabbedPage.SelectedTabColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(selectedTabColor);
+        tabbedPage.SelectedTabColor = selectedTabColor;
         return tabbedPage;
     }
 

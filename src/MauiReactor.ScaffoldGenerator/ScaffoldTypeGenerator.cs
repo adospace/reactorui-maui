@@ -121,14 +121,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("        PropertyValue<");
-            
-            #line 36 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">? ");
+            this.Write("        object? ");
             
             #line 36 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
@@ -580,14 +573,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("        PropertyValue<");
-            
-            #line 192 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">? ");
+            this.Write("        object? ");
             
             #line 192 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName));
@@ -1722,21 +1708,14 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 443 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(");
+            this.Write(" = ");
             
             #line 443 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
-            this.Write(");\r\n            ");
+            this.Write(";\r\n            ");
             
             #line 444 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -1848,21 +1827,14 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 450 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(");
+            this.Write(" = ");
             
             #line 450 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
-            this.Write(");\r\n            ");
+            this.Write(";\r\n            ");
             
             #line 451 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -1974,21 +1946,14 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 457 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(");
+            this.Write(" = ");
             
             #line 457 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
-            this.Write(");\r\n            ");
+            this.Write(";\r\n            ");
             
             #line 458 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -2100,21 +2065,14 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 464 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(");
+            this.Write(" = ");
             
             #line 464 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
-            this.Write(");\r\n            ");
+            this.Write(";\r\n            ");
             
             #line 465 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -2226,21 +2184,14 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 471 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(");
+            this.Write(" = ");
             
             #line 471 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
-            this.Write(");\r\n            ");
+            this.Write(";\r\n            ");
             
             #line 472 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -2352,21 +2303,14 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 478 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(");
+            this.Write(" = ");
             
             #line 478 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
-            this.Write(");\r\n            ");
+            this.Write(";\r\n            ");
             
             #line 479 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -2478,21 +2422,14 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 485 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(");
+            this.Write(" = ");
             
             #line 485 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
-            this.Write(");\r\n            ");
+            this.Write(";\r\n            ");
             
             #line 486 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -2604,21 +2541,14 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 492 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(");
+            this.Write(" = ");
             
             #line 492 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
-            this.Write(");\r\n            ");
+            this.Write(";\r\n            ");
             
             #line 493 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -2730,21 +2660,14 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 499 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(");
+            this.Write(" = ");
             
             #line 499 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
-            this.Write(");\r\n            ");
+            this.Write(";\r\n            ");
             
             #line 500 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -2856,21 +2779,14 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 506 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(");
+            this.Write(" = ");
             
             #line 506 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
-            this.Write(");\r\n            return ");
+            this.Write(";\r\n            return ");
             
             #line 507 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -2997,14 +2913,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 519 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(new Microsoft.Maui.Thickness(leftRight, topBottom));\r\n            ");
+            this.Write(" = new Microsoft.Maui.Thickness(leftRight, topBottom);\r\n            ");
             
             #line 520 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -3089,14 +2998,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 525 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(new Microsoft.Maui.Thickness(uniformSize));\r\n            ");
+            this.Write(" = new Microsoft.Maui.Thickness(uniformSize);\r\n            ");
             
             #line 526 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -3182,14 +3084,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 531 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(new Microsoft.Maui.Thickness(left, top, right, bottom));\r\n            ");
+            this.Write(" = new Microsoft.Maui.Thickness(left, top, right, bottom);\r\n            ");
             
             #line 532 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -3289,14 +3184,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 540 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(new ThicknessF(leftRight, topBottom));\r\n            ");
+            this.Write(" = new ThicknessF(leftRight, topBottom);\r\n            ");
             
             #line 541 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -3381,14 +3269,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 546 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(new ThicknessF(uniformSize));\r\n            ");
+            this.Write(" = new ThicknessF(uniformSize);\r\n            ");
             
             #line 547 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -3474,14 +3355,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 552 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(new ThicknessF(left, top, right, bottom));\r\n            ");
+            this.Write(" = new ThicknessF(left, top, right, bottom);\r\n            ");
             
             #line 553 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -3580,14 +3454,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 561 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(new CornerRadius(uniformSize));\r\n            ");
+            this.Write(" = new CornerRadius(uniformSize);\r\n            ");
             
             #line 562 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -3673,14 +3540,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 567 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(new CornerRadius(topLeft, topRight, bottomRight, bottomLeft));\r\n            ");
+            this.Write(" = new CornerRadius(topLeft, topRight, bottomRight, bottomLeft);\r\n            ");
             
             #line 568 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -3780,14 +3640,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 576 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(new CornerRadiusF(uniformSize));\r\n            ");
+            this.Write(" = new CornerRadiusF(uniformSize);\r\n            ");
             
             #line 577 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -3873,14 +3726,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 582 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft));\r\n            ");
+            this.Write(" = new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft);\r\n            ");
             
             #line 583 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -3979,14 +3825,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 592 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(new Microsoft.Maui.Graphics.Point(x, y));\r\n            return ");
+            this.Write(" = new Microsoft.Maui.Graphics.Point(x, y);\r\n            return ");
             
             #line 593 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -4042,14 +3881,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 601 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(new CornerRadius(uniformRadius));\r\n            return ");
+            this.Write(" = new CornerRadius(uniformRadius);\r\n            return ");
             
             #line 602 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -4092,14 +3924,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 606 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight));\r\n            ret" +
+            this.Write(" = new CornerRadius(topLeft, topRight, bottomLeft, bottomRight);\r\n            ret" +
                     "urn ");
             
             #line 607 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
@@ -4157,14 +3982,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 614 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(Microsoft.Maui.Controls.ImageSource.FromFile(file));\r\n            return ");
+            this.Write(" = Microsoft.Maui.Controls.ImageSource.FromFile(file);\r\n            return ");
             
             #line 615 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -4206,14 +4024,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 619 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly))" +
+            this.Write(" = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly)" +
                     ";\r\n            return ");
             
             #line 620 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
@@ -4256,14 +4067,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 624 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));\r\n            return ");
+            this.Write(" = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);\r\n            return ");
             
             #line 625 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -4305,16 +4109,9 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 629 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(new Microsoft.Maui.Controls.UriImageSource\r\n            {\r\n                Uri " +
-                    "= imageUri,\r\n                CachingEnabled = cachingEnabled,\r\n                C" +
-                    "acheValidity = cacheValidity\r\n            });\r\n            return ");
+            this.Write(" = new Microsoft.Maui.Controls.UriImageSource\r\n            {\r\n                Uri" +
+                    " = imageUri,\r\n                CachingEnabled = cachingEnabled,\r\n                " +
+                    "CacheValidity = cacheValidity\r\n            };\r\n            return ");
             
             #line 635 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -4356,14 +4153,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 639 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));\r\n            retu" +
+            this.Write(" = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);\r\n            retu" +
                     "rn ");
             
             #line 640 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"

@@ -12,7 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IGenericMultiPage : IPage
 {
-    PropertyValue<object>? SelectedItem { get; set; }
+    object? SelectedItem { get; set; }
 
     Action? CurrentPageChangedAction { get; set; }
 
@@ -34,7 +34,7 @@ public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage 
     {
     }
 
-    PropertyValue<object>? IGenericMultiPage.SelectedItem { get; set; }
+    object? IGenericMultiPage.SelectedItem { get; set; }
 
     Action? IGenericMultiPage.CurrentPageChangedAction { get; set; }
 
@@ -119,7 +119,7 @@ public static partial class MultiPageExtensions
     public static T SelectedItem<T>(this T multiPage, object selectedItem)
         where T : IGenericMultiPage
     {
-        multiPage.SelectedItem = new PropertyValue<object>(selectedItem);
+        multiPage.SelectedItem = selectedItem;
         return multiPage;
     }
 

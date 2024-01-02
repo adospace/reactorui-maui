@@ -12,9 +12,9 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ITapGestureRecognizer : IGestureRecognizer
 {
-    PropertyValue<int>? NumberOfTapsRequired { get; set; }
+    object? NumberOfTapsRequired { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.ButtonsMask>? Buttons { get; set; }
+    object? Buttons { get; set; }
 
     Action? TappedAction { get; set; }
 
@@ -31,9 +31,9 @@ public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.M
     {
     }
 
-    PropertyValue<int>? ITapGestureRecognizer.NumberOfTapsRequired { get; set; }
+    object? ITapGestureRecognizer.NumberOfTapsRequired { get; set; }
 
-    PropertyValue<Microsoft.Maui.Controls.ButtonsMask>? ITapGestureRecognizer.Buttons { get; set; }
+    object? ITapGestureRecognizer.Buttons { get; set; }
 
     Action? ITapGestureRecognizer.TappedAction { get; set; }
 
@@ -103,7 +103,7 @@ public static partial class TapGestureRecognizerExtensions
     public static T NumberOfTapsRequired<T>(this T tapGestureRecognizer, int numberOfTapsRequired)
         where T : ITapGestureRecognizer
     {
-        tapGestureRecognizer.NumberOfTapsRequired = new PropertyValue<int>(numberOfTapsRequired);
+        tapGestureRecognizer.NumberOfTapsRequired = numberOfTapsRequired;
         return tapGestureRecognizer;
     }
 
@@ -117,7 +117,7 @@ public static partial class TapGestureRecognizerExtensions
     public static T Buttons<T>(this T tapGestureRecognizer, Microsoft.Maui.Controls.ButtonsMask buttons)
         where T : ITapGestureRecognizer
     {
-        tapGestureRecognizer.Buttons = new PropertyValue<Microsoft.Maui.Controls.ButtonsMask>(buttons);
+        tapGestureRecognizer.Buttons = buttons;
         return tapGestureRecognizer;
     }
 
