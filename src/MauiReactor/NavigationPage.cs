@@ -66,6 +66,12 @@ public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Micr
         thisAsINavigationPage.BarBackgroundColor = null;
         thisAsINavigationPage.BarBackground = null;
         thisAsINavigationPage.BarTextColor = null;
+        thisAsINavigationPage.PoppedAction = null;
+        thisAsINavigationPage.PoppedActionWithArgs = null;
+        thisAsINavigationPage.PoppedToRootAction = null;
+        thisAsINavigationPage.PoppedToRootActionWithArgs = null;
+        thisAsINavigationPage.PushedAction = null;
+        thisAsINavigationPage.PushedActionWithArgs = null;
         OnReset();
     }
 

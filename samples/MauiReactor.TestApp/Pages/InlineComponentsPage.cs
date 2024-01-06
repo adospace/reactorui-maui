@@ -27,9 +27,8 @@ static class Buttons
 {
     public static VisualNode IncrementButton()
     {
-        return Component.Render(context =>
+        return Component.Render<int>(state =>
         {
-            var state = context.UseState<int>();
             return new Button(
                 state.Value == 0 ? "Click me!" : $"Counter is {state.Value}", 
                 () => state.Set(s => ++s));

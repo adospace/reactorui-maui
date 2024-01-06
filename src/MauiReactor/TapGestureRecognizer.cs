@@ -45,6 +45,8 @@ public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.M
         var thisAsITapGestureRecognizer = (ITapGestureRecognizer)this;
         thisAsITapGestureRecognizer.NumberOfTapsRequired = null;
         thisAsITapGestureRecognizer.Buttons = null;
+        thisAsITapGestureRecognizer.TappedAction = null;
+        thisAsITapGestureRecognizer.TappedActionWithArgs = null;
         OnReset();
     }
 

@@ -45,6 +45,8 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectabl
         var thisAsISelectableItemsView = (ISelectableItemsView)this;
         thisAsISelectableItemsView.SelectionMode = null;
         thisAsISelectableItemsView.SelectedItem = null;
+        thisAsISelectableItemsView.SelectionChangedAction = null;
+        thisAsISelectableItemsView.SelectionChangedActionWithArgs = null;
         OnReset();
     }
 

@@ -208,6 +208,20 @@ public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualEle
         thisAsIVisualElement.MaximumHeightRequest = null;
         thisAsIVisualElement.FlowDirection = null;
         thisAsIVisualElement.ZIndex = null;
+        thisAsIVisualElement.ChildrenReorderedAction = null;
+        thisAsIVisualElement.ChildrenReorderedActionWithArgs = null;
+        thisAsIVisualElement.FocusedAction = null;
+        thisAsIVisualElement.FocusedActionWithArgs = null;
+        thisAsIVisualElement.MeasureInvalidatedAction = null;
+        thisAsIVisualElement.MeasureInvalidatedActionWithArgs = null;
+        thisAsIVisualElement.SizeChangedAction = null;
+        thisAsIVisualElement.SizeChangedActionWithArgs = null;
+        thisAsIVisualElement.UnfocusedAction = null;
+        thisAsIVisualElement.UnfocusedActionWithArgs = null;
+        thisAsIVisualElement.LoadedAction = null;
+        thisAsIVisualElement.LoadedActionWithArgs = null;
+        thisAsIVisualElement.UnloadedAction = null;
+        thisAsIVisualElement.UnloadedActionWithArgs = null;
         OnReset();
     }
 

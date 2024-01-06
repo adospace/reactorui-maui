@@ -45,6 +45,8 @@ public sealed partial class SwipeGestureRecognizer : GestureRecognizer<Microsoft
         var thisAsISwipeGestureRecognizer = (ISwipeGestureRecognizer)this;
         thisAsISwipeGestureRecognizer.Direction = null;
         thisAsISwipeGestureRecognizer.Threshold = null;
+        thisAsISwipeGestureRecognizer.SwipedAction = null;
+        thisAsISwipeGestureRecognizer.SwipedActionWithArgs = null;
         OnReset();
     }
 

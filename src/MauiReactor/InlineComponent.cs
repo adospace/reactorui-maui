@@ -2,18 +2,20 @@
 
 namespace MauiReactor
 {
-    public class InlineComponent : Component<InlineComponentState>
+    public class InlineComponent<S> : Component<InlineComponentState>
     {
-        private readonly Func<ComponentContext, VisualNode> _renderFunc;
+        private readonly Func<ComponentContextState<S>, VisualNode> _renderFunc;
+        private readonly S? _defaultValue;
 
-        public InlineComponent(Func<ComponentContext, VisualNode> renderFunc)
+        public InlineComponent(Func<ComponentContextState<S>, VisualNode> renderFunc, S? defaultValue)
         {
             _renderFunc = renderFunc;
+            _defaultValue = defaultValue;
         }
 
         public override VisualNode Render()
         {
-            return _renderFunc(new ComponentContext(this));
+            return _renderFunc(new ComponentContextState<S>(this, _defaultValue));
         }
 
         internal void SetStateCore(object? newStateValue, bool invalidateComponent = true)
@@ -30,10 +32,10 @@ namespace MauiReactor
 
     public class ComponentContextState<S>
     {
-        private readonly InlineComponent _component;
+        private readonly InlineComponent<S> _component;
         private readonly S? _initialState;
 
-        internal ComponentContextState(InlineComponent component, S? initialState = default)
+        internal ComponentContextState(InlineComponent<S> component, S? initialState = default)
         {
             _component = component;
             _initialState = initialState;
@@ -60,23 +62,23 @@ namespace MauiReactor
         }
     }
 
-    public class ComponentContext
-    {
-        private readonly InlineComponent _component;
+    //public class ComponentContext
+    //{
+    //    private readonly InlineComponent _component;
 
-        internal ComponentContext(InlineComponent component)
-        {
-            _component = component;
-        }
+    //    internal ComponentContext(InlineComponent component)
+    //    {
+    //        _component = component;
+    //    }
 
-        public ComponentContextState<S> UseState<S>()
-            => new(_component);
-        public ComponentContextState<S> UseState<S>(S defaultValue)
-            => new(_component, defaultValue);
+    //    public ComponentContextState<S> UseState<S>()
+    //        => new(_component);
+    //    public ComponentContextState<S> UseState<S>(S defaultValue)
+    //        => new(_component, defaultValue);
 
-        public IServiceProvider Services
-            => ServiceCollectionProvider.ServiceProvider;
-    }
+    //    public IServiceProvider Services
+    //        => ServiceCollectionProvider.ServiceProvider;
+    //}
 
     public class InlineComponentState
     {

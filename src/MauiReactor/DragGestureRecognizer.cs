@@ -48,6 +48,10 @@ public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestu
         base.Reset();
         var thisAsIDragGestureRecognizer = (IDragGestureRecognizer)this;
         thisAsIDragGestureRecognizer.CanDrag = null;
+        thisAsIDragGestureRecognizer.DropCompletedAction = null;
+        thisAsIDragGestureRecognizer.DropCompletedActionWithArgs = null;
+        thisAsIDragGestureRecognizer.DragStartingAction = null;
+        thisAsIDragGestureRecognizer.DragStartingActionWithArgs = null;
         OnReset();
     }
 

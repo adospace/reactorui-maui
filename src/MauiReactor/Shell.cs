@@ -103,6 +103,10 @@ public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Control
         thisAsIShell.FlyoutIsPresented = null;
         thisAsIShell.FlyoutIcon = null;
         thisAsIShell.FlyoutVerticalScrollMode = null;
+        thisAsIShell.NavigatedAction = null;
+        thisAsIShell.NavigatedActionWithArgs = null;
+        thisAsIShell.NavigatingAction = null;
+        thisAsIShell.NavigatingActionWithArgs = null;
         OnReset();
     }
 

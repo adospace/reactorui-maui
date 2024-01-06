@@ -50,6 +50,8 @@ public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Ma
         thisAsISwitchCell.On = null;
         thisAsISwitchCell.Text = null;
         thisAsISwitchCell.OnColor = null;
+        thisAsISwitchCell.OnChangedAction = null;
+        thisAsISwitchCell.OnChangedActionWithArgs = null;
         OnReset();
     }
 

@@ -50,6 +50,8 @@ public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where 
         thisAsIScrollView.Orientation = null;
         thisAsIScrollView.HorizontalScrollBarVisibility = null;
         thisAsIScrollView.VerticalScrollBarVisibility = null;
+        thisAsIScrollView.ScrolledAction = null;
+        thisAsIScrollView.ScrolledActionWithArgs = null;
         OnReset();
     }
 

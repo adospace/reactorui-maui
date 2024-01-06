@@ -86,6 +86,12 @@ public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Contr
         thisAsISlider.MaximumTrackColor = null;
         thisAsISlider.ThumbColor = null;
         thisAsISlider.ThumbImageSource = null;
+        thisAsISlider.ValueChangedAction = null;
+        thisAsISlider.ValueChangedActionWithArgs = null;
+        thisAsISlider.DragStartedAction = null;
+        thisAsISlider.DragStartedActionWithArgs = null;
+        thisAsISlider.DragCompletedAction = null;
+        thisAsISlider.DragCompletedActionWithArgs = null;
         OnReset();
     }
 

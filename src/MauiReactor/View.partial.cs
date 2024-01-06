@@ -5,20 +5,16 @@ namespace MauiReactor;
 public partial interface IView
 {
     List<IGestureRecognizer>? GestureRecognizers { get; set; }
-
-    List<IBehavior>? Behaviors { get; set; }
 }
 
 public abstract partial class View<T>
 {
     List<IGestureRecognizer>? IView.GestureRecognizers { get; set; }
-    List<IBehavior>? IView.Behaviors { get; set; }
 
     partial void OnReset()
     {
         var thisAsIView = (IView)this;
         thisAsIView.GestureRecognizers = null;
-        thisAsIView.Behaviors = null;
     }
 
     protected override void OnChildAdd(VisualNode node)
@@ -30,14 +26,6 @@ public abstract partial class View<T>
             thisAsIView.GestureRecognizers.Add(gestureRecognizer);
             return;
         }
-        else if (node is IBehavior behavior)
-        {
-            var thisAsIView = (IView)this;
-            thisAsIView.Behaviors ??= new List<IBehavior>();
-            thisAsIView.Behaviors.Add(behavior);
-            return;
-        }
-
         base.OnChildAdd(node);
     }
 
@@ -50,11 +38,6 @@ public abstract partial class View<T>
         if (thisAsIView.GestureRecognizers != null)
         {
             children = children.Concat(thisAsIView.GestureRecognizers.Cast<VisualNode>());
-        }
-
-        if (thisAsIView.Behaviors != null)
-        {
-            children = children.Concat(thisAsIView.Behaviors.Cast<VisualNode>());
         }
 
         return children;
@@ -72,10 +55,6 @@ public abstract partial class View<T>
         {
             NativeControl.SetPropertyValue(FlyoutBase.ContextFlyoutProperty, menuFlyout);
         }
-        else if (childControl is Microsoft.Maui.Controls.Behavior behavior)
-        {
-            NativeControl.Behaviors.Add(behavior);
-        }
 
         base.OnAddChild(widget, childControl);
     }
@@ -91,10 +70,6 @@ public abstract partial class View<T>
         else if (childControl is Microsoft.Maui.Controls.MenuFlyout _)
         {
             NativeControl.SetPropertyValue(FlyoutBase.ContextFlyoutProperty, null);
-        }
-        else if (childControl is Microsoft.Maui.Controls.Behavior behavior)
-        {
-            NativeControl.Behaviors.Remove(behavior);
         }
 
 

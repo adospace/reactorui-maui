@@ -55,5 +55,16 @@ public partial class Component
         => GetNodeFromPool<ContentPage>().Title(title);
 
     public static ContentPage ContentPage(string title, params VisualNode?[]? children)
-        => ContentPage(children).Title(title);
+        => ContentPage(children).Title(title);    
+}
+
+public static partial class ContentPageExtensions
+{
+    public static T HasNavigationBar<T>(this T contentPage, bool hasNavigationBar)
+        where T : IContentPage, IVisualNodeWithAttachedProperties
+    {
+        contentPage.Set(Microsoft.Maui.Controls.NavigationPage.HasNavigationBarProperty, hasNavigationBar);
+        return contentPage;
+    }
+
 }

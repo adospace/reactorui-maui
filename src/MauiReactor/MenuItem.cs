@@ -50,6 +50,8 @@ public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsof
         thisAsIMenuItem.IsDestructive = null;
         thisAsIMenuItem.IconImageSource = null;
         thisAsIMenuItem.Text = null;
+        thisAsIMenuItem.ClickedAction = null;
+        thisAsIMenuItem.ClickedActionWithArgs = null;
         OnReset();
     }
 

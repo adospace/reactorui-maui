@@ -49,6 +49,10 @@ public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage 
         base.Reset();
         var thisAsIGenericMultiPage = (IGenericMultiPage)this;
         thisAsIGenericMultiPage.SelectedItem = null;
+        thisAsIGenericMultiPage.CurrentPageChangedAction = null;
+        thisAsIGenericMultiPage.CurrentPageChangedActionWithArgs = null;
+        thisAsIGenericMultiPage.PagesChangedAction = null;
+        thisAsIGenericMultiPage.PagesChangedActionWithArgs = null;
         OnReset();
     }
 

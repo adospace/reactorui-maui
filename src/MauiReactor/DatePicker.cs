@@ -85,6 +85,8 @@ public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Ma
         thisAsIDatePicker.FontSize = null;
         thisAsIDatePicker.FontAttributes = null;
         thisAsIDatePicker.FontAutoScalingEnabled = null;
+        thisAsIDatePicker.DateSelectedAction = null;
+        thisAsIDatePicker.DateSelectedActionWithArgs = null;
         OnReset();
     }
 

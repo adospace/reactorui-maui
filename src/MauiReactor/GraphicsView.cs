@@ -88,6 +88,20 @@ public partial class GraphicsView<T> : View<T>, IGraphicsView where T : Microsof
         base.Reset();
         var thisAsIGraphicsView = (IGraphicsView)this;
         thisAsIGraphicsView.Drawable = null;
+        thisAsIGraphicsView.StartHoverInteractionAction = null;
+        thisAsIGraphicsView.StartHoverInteractionActionWithArgs = null;
+        thisAsIGraphicsView.MoveHoverInteractionAction = null;
+        thisAsIGraphicsView.MoveHoverInteractionActionWithArgs = null;
+        thisAsIGraphicsView.EndHoverInteractionAction = null;
+        thisAsIGraphicsView.EndHoverInteractionActionWithArgs = null;
+        thisAsIGraphicsView.StartInteractionAction = null;
+        thisAsIGraphicsView.StartInteractionActionWithArgs = null;
+        thisAsIGraphicsView.DragInteractionAction = null;
+        thisAsIGraphicsView.DragInteractionActionWithArgs = null;
+        thisAsIGraphicsView.EndInteractionAction = null;
+        thisAsIGraphicsView.EndInteractionActionWithArgs = null;
+        thisAsIGraphicsView.CancelInteractionAction = null;
+        thisAsIGraphicsView.CancelInteractionActionWithArgs = null;
         OnReset();
     }
 

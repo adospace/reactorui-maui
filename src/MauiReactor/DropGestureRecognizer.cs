@@ -56,6 +56,12 @@ public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestu
         base.Reset();
         var thisAsIDropGestureRecognizer = (IDropGestureRecognizer)this;
         thisAsIDropGestureRecognizer.AllowDrop = null;
+        thisAsIDropGestureRecognizer.DragLeaveAction = null;
+        thisAsIDropGestureRecognizer.DragLeaveActionWithArgs = null;
+        thisAsIDropGestureRecognizer.DragOverAction = null;
+        thisAsIDropGestureRecognizer.DragOverActionWithArgs = null;
+        thisAsIDropGestureRecognizer.DropAction = null;
+        thisAsIDropGestureRecognizer.DropActionWithArgs = null;
         OnReset();
     }
 

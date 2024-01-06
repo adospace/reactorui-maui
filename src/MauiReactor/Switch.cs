@@ -50,6 +50,8 @@ public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Contr
         thisAsISwitch.IsToggled = null;
         thisAsISwitch.OnColor = null;
         thisAsISwitch.ThumbColor = null;
+        thisAsISwitch.ToggledAction = null;
+        thisAsISwitch.ToggledActionWithArgs = null;
         OnReset();
     }
 

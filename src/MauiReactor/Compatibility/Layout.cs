@@ -50,6 +50,8 @@ public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.M
         thisAsILayout.IsClippedToBounds = null;
         thisAsILayout.CascadeInputTransparent = null;
         thisAsILayout.Padding = null;
+        thisAsILayout.LayoutChangedAction = null;
+        thisAsILayout.LayoutChangedActionWithArgs = null;
         OnReset();
     }
 

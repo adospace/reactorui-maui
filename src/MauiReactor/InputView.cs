@@ -120,6 +120,8 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
         thisAsIInputView.FontSize = null;
         thisAsIInputView.FontAttributes = null;
         thisAsIInputView.FontAutoScalingEnabled = null;
+        thisAsIInputView.TextChangedAction = null;
+        thisAsIInputView.TextChangedActionWithArgs = null;
         OnReset();
     }
 

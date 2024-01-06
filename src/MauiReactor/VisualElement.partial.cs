@@ -9,6 +9,7 @@ public partial interface IVisualElement
     Shapes.IGeometry? Clip { get; set; }
     IShadow? Shadow { get; set; }
     VisualStateGroupList? VisualStateGroups { get; set; }
+    List<IBehavior>? Behaviors { get; set; }
 }
 
 public abstract partial class VisualElement<T>
@@ -19,12 +20,28 @@ public abstract partial class VisualElement<T>
 
     VisualStateGroupList? IVisualElement.VisualStateGroups { get; set; }
 
+    List<IBehavior>? IVisualElement.Behaviors { get; set; }
+
     partial void OnReset()
     {
         var thisAsIVisualElement = (IVisualElement)this;
         thisAsIVisualElement.Clip = null;
         thisAsIVisualElement.Shadow = null;
         thisAsIVisualElement.VisualStateGroups = null;
+        thisAsIVisualElement.Behaviors = null;
+    }
+
+    protected override void OnChildAdd(VisualNode node)
+    {
+        if (node is IBehavior behavior)
+        {
+            var thisAsIVisualElement = (IVisualElement)this;
+            thisAsIVisualElement.Behaviors ??= [];
+            thisAsIVisualElement.Behaviors.Add(behavior);
+            return;
+        }
+
+        base.OnChildAdd(node);
     }
 
     protected override void OnMount()
@@ -57,6 +74,11 @@ public abstract partial class VisualElement<T>
             children = children.Concat(new[] { (VisualNode)thisAsIVisualElement.Shadow });
         }
 
+        if (thisAsIVisualElement.Behaviors != null)
+        {
+            children = children.Concat(thisAsIVisualElement.Behaviors.Cast<VisualNode>());
+        }
+
         return children;
     }
 
@@ -75,6 +97,10 @@ public abstract partial class VisualElement<T>
             childNativeControl is Microsoft.Maui.Controls.Shadow shadow)
         {
             NativeControl.Shadow = shadow;
+        }
+        else if (childNativeControl is Microsoft.Maui.Controls.Behavior behavior)
+        {
+            NativeControl.Behaviors.Add(behavior);
         }
 
         base.OnAddChild(widget, childNativeControl);
@@ -95,6 +121,10 @@ public abstract partial class VisualElement<T>
             childNativeControl is Microsoft.Maui.Controls.Shadow)
         {
             NativeControl.Shadow = null!;
+        }
+        else if (childNativeControl is Microsoft.Maui.Controls.Behavior behavior)
+        {
+            NativeControl.Behaviors.Remove(behavior);
         }
 
         base.OnRemoveChild(widget, childNativeControl);

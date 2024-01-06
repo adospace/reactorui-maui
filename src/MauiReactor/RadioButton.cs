@@ -100,6 +100,8 @@ public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : M
         thisAsIRadioButton.BorderColor = null;
         thisAsIRadioButton.CornerRadius = null;
         thisAsIRadioButton.BorderWidth = null;
+        thisAsIRadioButton.CheckedChangedAction = null;
+        thisAsIRadioButton.CheckedChangedActionWithArgs = null;
         OnReset();
     }
 

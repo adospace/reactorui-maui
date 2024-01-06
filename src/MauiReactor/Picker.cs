@@ -90,6 +90,8 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
         thisAsIPicker.FontAutoScalingEnabled = null;
         thisAsIPicker.HorizontalTextAlignment = null;
         thisAsIPicker.VerticalTextAlignment = null;
+        thisAsIPicker.SelectedIndexChangedAction = null;
+        thisAsIPicker.SelectedIndexChangedActionWithArgs = null;
         OnReset();
     }
 

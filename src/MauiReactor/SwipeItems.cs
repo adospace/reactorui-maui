@@ -45,6 +45,8 @@ public partial class SwipeItems<T> : Element<T>, ISwipeItems where T : Microsoft
         var thisAsISwipeItems = (ISwipeItems)this;
         thisAsISwipeItems.Mode = null;
         thisAsISwipeItems.SwipeBehaviorOnInvoked = null;
+        thisAsISwipeItems.CollectionChangedAction = null;
+        thisAsISwipeItems.CollectionChangedActionWithArgs = null;
         OnReset();
     }
 

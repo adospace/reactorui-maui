@@ -135,6 +135,18 @@ public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls
         thisAsIListView.RefreshControlColor = null;
         thisAsIListView.HorizontalScrollBarVisibility = null;
         thisAsIListView.VerticalScrollBarVisibility = null;
+        thisAsIListView.ItemAppearingAction = null;
+        thisAsIListView.ItemAppearingActionWithArgs = null;
+        thisAsIListView.ItemDisappearingAction = null;
+        thisAsIListView.ItemDisappearingActionWithArgs = null;
+        thisAsIListView.ItemSelectedAction = null;
+        thisAsIListView.ItemSelectedActionWithArgs = null;
+        thisAsIListView.ItemTappedAction = null;
+        thisAsIListView.ItemTappedActionWithArgs = null;
+        thisAsIListView.ScrolledAction = null;
+        thisAsIListView.ScrolledActionWithArgs = null;
+        thisAsIListView.RefreshingAction = null;
+        thisAsIListView.RefreshingActionWithArgs = null;
         OnReset();
     }
 

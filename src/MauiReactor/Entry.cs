@@ -60,6 +60,8 @@ public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Co
         thisAsIEntry.HorizontalTextAlignment = null;
         thisAsIEntry.VerticalTextAlignment = null;
         thisAsIEntry.ClearButtonVisibility = null;
+        thisAsIEntry.CompletedAction = null;
+        thisAsIEntry.CompletedActionWithArgs = null;
         OnReset();
     }
 

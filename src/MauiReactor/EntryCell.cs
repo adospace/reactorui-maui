@@ -70,6 +70,8 @@ public partial class EntryCell<T> : Cell<T>, IEntryCell where T : Microsoft.Maui
         thisAsIEntryCell.Keyboard = null;
         thisAsIEntryCell.HorizontalTextAlignment = null;
         thisAsIEntryCell.VerticalTextAlignment = null;
+        thisAsIEntryCell.CompletedAction = null;
+        thisAsIEntryCell.CompletedActionWithArgs = null;
         OnReset();
     }
 

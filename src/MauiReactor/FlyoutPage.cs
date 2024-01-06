@@ -50,6 +50,8 @@ public partial class FlyoutPage<T> : Page<T>, IFlyoutPage where T : Microsoft.Ma
         thisAsIFlyoutPage.IsGestureEnabled = null;
         thisAsIFlyoutPage.IsPresented = null;
         thisAsIFlyoutPage.FlyoutLayoutBehavior = null;
+        thisAsIFlyoutPage.IsPresentedChangedAction = null;
+        thisAsIFlyoutPage.IsPresentedChangedActionWithArgs = null;
         OnReset();
     }
 

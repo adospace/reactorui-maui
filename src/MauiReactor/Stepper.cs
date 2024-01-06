@@ -55,6 +55,8 @@ public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Con
         thisAsIStepper.Minimum = null;
         thisAsIStepper.Value = null;
         thisAsIStepper.Increment = null;
+        thisAsIStepper.ValueChangedAction = null;
+        thisAsIStepper.ValueChangedActionWithArgs = null;
         OnReset();
     }
 

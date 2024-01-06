@@ -71,6 +71,12 @@ public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Micro
         thisAsIItemsView.VerticalScrollBarVisibility = null;
         thisAsIItemsView.RemainingItemsThreshold = null;
         thisAsIItemsView.ItemsUpdatingScrollMode = null;
+        thisAsIItemsView.ScrollToRequestedAction = null;
+        thisAsIItemsView.ScrollToRequestedActionWithArgs = null;
+        thisAsIItemsView.ScrolledAction = null;
+        thisAsIItemsView.ScrolledActionWithArgs = null;
+        thisAsIItemsView.RemainingItemsThresholdReachedAction = null;
+        thisAsIItemsView.RemainingItemsThresholdReachedActionWithArgs = null;
         OnReset();
     }
 

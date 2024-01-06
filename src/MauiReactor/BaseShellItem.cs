@@ -68,6 +68,10 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
         thisAsIBaseShellItem.IsEnabled = null;
         thisAsIBaseShellItem.Title = null;
         thisAsIBaseShellItem.IsVisible = null;
+        thisAsIBaseShellItem.AppearingAction = null;
+        thisAsIBaseShellItem.AppearingActionWithArgs = null;
+        thisAsIBaseShellItem.DisappearingAction = null;
+        thisAsIBaseShellItem.DisappearingActionWithArgs = null;
         OnReset();
     }
 

@@ -40,6 +40,8 @@ public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGesture
         base.Reset();
         var thisAsIPanGestureRecognizer = (IPanGestureRecognizer)this;
         thisAsIPanGestureRecognizer.TouchPoints = null;
+        thisAsIPanGestureRecognizer.PanUpdatedAction = null;
+        thisAsIPanGestureRecognizer.PanUpdatedActionWithArgs = null;
         OnReset();
     }
 

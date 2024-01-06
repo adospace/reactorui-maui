@@ -100,6 +100,18 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
         thisAsIPage.Padding = null;
         thisAsIPage.Title = null;
         thisAsIPage.IconImageSource = null;
+        thisAsIPage.LayoutChangedAction = null;
+        thisAsIPage.LayoutChangedActionWithArgs = null;
+        thisAsIPage.AppearingAction = null;
+        thisAsIPage.AppearingActionWithArgs = null;
+        thisAsIPage.DisappearingAction = null;
+        thisAsIPage.DisappearingActionWithArgs = null;
+        thisAsIPage.NavigatedToAction = null;
+        thisAsIPage.NavigatedToActionWithArgs = null;
+        thisAsIPage.NavigatingFromAction = null;
+        thisAsIPage.NavigatingFromActionWithArgs = null;
+        thisAsIPage.NavigatedFromAction = null;
+        thisAsIPage.NavigatedFromActionWithArgs = null;
         OnReset();
     }
 

@@ -78,6 +78,10 @@ public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Mic
         thisAsICarouselView.IsScrollAnimated = null;
         thisAsICarouselView.CurrentItem = null;
         thisAsICarouselView.Position = null;
+        thisAsICarouselView.CurrentItemChangedAction = null;
+        thisAsICarouselView.CurrentItemChangedActionWithArgs = null;
+        thisAsICarouselView.PositionChangedAction = null;
+        thisAsICarouselView.PositionChangedActionWithArgs = null;
         OnReset();
     }
 

@@ -58,6 +58,10 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
         thisAsIWebView.Source = null;
         thisAsIWebView.UserAgent = null;
         thisAsIWebView.Cookies = null;
+        thisAsIWebView.NavigatedAction = null;
+        thisAsIWebView.NavigatedActionWithArgs = null;
+        thisAsIWebView.NavigatingAction = null;
+        thisAsIWebView.NavigatingActionWithArgs = null;
         OnReset();
     }
 

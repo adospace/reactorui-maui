@@ -50,6 +50,8 @@ public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.
         thisAsIEditor.AutoSize = null;
         thisAsIEditor.HorizontalTextAlignment = null;
         thisAsIEditor.VerticalTextAlignment = null;
+        thisAsIEditor.CompletedAction = null;
+        thisAsIEditor.CompletedActionWithArgs = null;
         OnReset();
     }
 

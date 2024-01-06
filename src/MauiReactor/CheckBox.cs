@@ -45,6 +45,8 @@ public partial class CheckBox<T> : View<T>, ICheckBox where T : Microsoft.Maui.C
         var thisAsICheckBox = (ICheckBox)this;
         thisAsICheckBox.IsChecked = null;
         thisAsICheckBox.Color = null;
+        thisAsICheckBox.CheckedChangedAction = null;
+        thisAsICheckBox.CheckedChangedActionWithArgs = null;
         OnReset();
     }
 

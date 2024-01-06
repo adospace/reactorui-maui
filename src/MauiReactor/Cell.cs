@@ -56,6 +56,12 @@ public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Ma
         base.Reset();
         var thisAsICell = (ICell)this;
         thisAsICell.IsEnabled = null;
+        thisAsICell.AppearingAction = null;
+        thisAsICell.AppearingActionWithArgs = null;
+        thisAsICell.DisappearingAction = null;
+        thisAsICell.DisappearingActionWithArgs = null;
+        thisAsICell.TappedAction = null;
+        thisAsICell.TappedActionWithArgs = null;
         OnReset();
     }
 

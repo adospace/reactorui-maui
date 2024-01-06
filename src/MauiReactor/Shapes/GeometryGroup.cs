@@ -45,6 +45,8 @@ public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where
         var thisAsIGeometryGroup = (IGeometryGroup)this;
         thisAsIGeometryGroup.Children = null;
         thisAsIGeometryGroup.FillRule = null;
+        thisAsIGeometryGroup.InvalidateGeometryRequestedAction = null;
+        thisAsIGeometryGroup.InvalidateGeometryRequestedActionWithArgs = null;
         OnReset();
     }
 

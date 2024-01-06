@@ -86,6 +86,12 @@ public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.
         thisAsIImageButton.Aspect = null;
         thisAsIImageButton.IsOpaque = null;
         thisAsIImageButton.Padding = null;
+        thisAsIImageButton.ClickedAction = null;
+        thisAsIImageButton.ClickedActionWithArgs = null;
+        thisAsIImageButton.PressedAction = null;
+        thisAsIImageButton.PressedActionWithArgs = null;
+        thisAsIImageButton.ReleasedAction = null;
+        thisAsIImageButton.ReleasedActionWithArgs = null;
         OnReset();
     }
 

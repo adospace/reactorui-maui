@@ -126,6 +126,12 @@ public partial class Button<T> : View<T>, IButton where T : Microsoft.Maui.Contr
         thisAsIButton.ImageSource = null;
         thisAsIButton.Padding = null;
         thisAsIButton.LineBreakMode = null;
+        thisAsIButton.ClickedAction = null;
+        thisAsIButton.ClickedActionWithArgs = null;
+        thisAsIButton.PressedAction = null;
+        thisAsIButton.PressedActionWithArgs = null;
+        thisAsIButton.ReleasedAction = null;
+        thisAsIButton.ReleasedActionWithArgs = null;
         OnReset();
     }
 

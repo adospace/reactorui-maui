@@ -45,6 +45,8 @@ public partial class ReorderableItemsView<T> : GroupableItemsView<T>, IReorderab
         var thisAsIReorderableItemsView = (IReorderableItemsView)this;
         thisAsIReorderableItemsView.CanMixGroups = null;
         thisAsIReorderableItemsView.CanReorderItems = null;
+        thisAsIReorderableItemsView.ReorderCompletedAction = null;
+        thisAsIReorderableItemsView.ReorderCompletedActionWithArgs = null;
         OnReset();
     }
 

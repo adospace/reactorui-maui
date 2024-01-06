@@ -217,10 +217,20 @@ namespace MauiReactor
             var parameterContext = new ParameterContext(this);
             return parameterContext.Get<T>(name) ?? throw new InvalidOperationException($"Unable to find parameter with name '{name ?? typeof(T).FullName}'");
         }
-    
-        public static VisualNode Render(Func<ComponentContext, VisualNode> renderFunc)
+        protected IParameter<T> GetOrCreateParameter<T>(string? name = null) where T : new()
         {
-            return new InlineComponent(renderFunc);
+            var parameterContext = new ParameterContext(this);
+            return parameterContext.Get<T>(name) ?? parameterContext.Create<T>(name);
+        }
+
+        //public static VisualNode Render(Func<ComponentContext, VisualNode> renderFunc)
+        //{
+        //    return new InlineComponent(renderFunc);
+        //}
+
+        public static VisualNode Render<S>(Func<ComponentContextState<S>, VisualNode> renderFunc, S? defaultValue = default)
+        {
+            return new InlineComponent<S>(renderFunc, defaultValue);
         }
     }
 

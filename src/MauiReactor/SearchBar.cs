@@ -50,6 +50,8 @@ public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft
         thisAsISearchBar.CancelButtonColor = null;
         thisAsISearchBar.HorizontalTextAlignment = null;
         thisAsISearchBar.VerticalTextAlignment = null;
+        thisAsISearchBar.SearchButtonPressedAction = null;
+        thisAsISearchBar.SearchButtonPressedActionWithArgs = null;
         OnReset();
     }
 

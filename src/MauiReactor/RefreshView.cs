@@ -45,6 +45,8 @@ public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Mic
         var thisAsIRefreshView = (IRefreshView)this;
         thisAsIRefreshView.IsRefreshing = null;
         thisAsIRefreshView.RefreshColor = null;
+        thisAsIRefreshView.RefreshingAction = null;
+        thisAsIRefreshView.RefreshingActionWithArgs = null;
         OnReset();
     }
 
