@@ -5,55 +5,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MauiReactor.TestApp.Pages
+namespace MauiReactor.TestApp.Pages;
+
+class CustomParameter
 {
-    public class CustomParameter
+    public int Numeric { get; set; }
+}
+
+partial class ParametersPage : Component
+{
+    [Param]
+    IParameter<CustomParameter> _customParameter;
+
+
+    public override VisualNode Render()
     {
-        public int Numeric { get; set; }
-    }
-
-    internal class ParametersPage : Component
-    {
-        private readonly IParameter<CustomParameter> _customParameter;
-
-        public ParametersPage()
+        return new ContentPage("Parameters Sample")
         {
-            _customParameter = CreateParameter<CustomParameter>();
-        }
-
-        public override VisualNode Render()
-        {
-            return new ContentPage("Parameters Sample")
+            new VStack(spacing: 10)
             {
-                new VStack(spacing: 10)
-                {
-                    new Button("Increment from parent", () => _customParameter.Set(_=>_.Numeric += 1)),
-                    new Label(_customParameter.Value.Numeric),
+                new Button("Increment from parent", () => _customParameter.Set(_=>_.Numeric += 1)),
+                new Label(_customParameter.Value.Numeric),
 
-                    new Button("Open child page", ()=> Navigation?.PushAsync<ParameterChildComponent>())
-                }
-                .VCenter()
-                .HCenter()
-            };
-        }
+                new Button("Open child page", ()=> Navigation?.PushAsync<ParameterChildComponent>())
+            }
+            .VCenter()
+            .HCenter()
+        };
     }
+}
 
-    partial class ParameterChildComponent : Component
+partial class ParameterChildComponent : Component
+{
+    [Param]
+    IParameter<CustomParameter> _customParameter;
+
+    public override VisualNode Render()
     {
-        public override VisualNode Render()
+        return new ContentPage
         {
-            var customParameter = GetParameter<CustomParameter>();
-
-            return new ContentPage
+            new VStack(spacing: 10)
             {
-                new VStack(spacing: 10)
-                {
-                    new Button("Increment from child", ()=> customParameter.Set(_ => _.Numeric+=1)),
+                new Button("Increment from child", ()=> _customParameter.Set(_ => _.Numeric+=1)),
 
-                    new Label(customParameter.Value.Numeric),
-                }
-            };
-        }
+                new Label(_customParameter.Value.Numeric),
+            }
+        };
     }
-
 }

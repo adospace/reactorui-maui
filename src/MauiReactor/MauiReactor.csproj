@@ -35,4 +35,8 @@
     <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\MauiReactor.ScaffoldGenerator\bin\$(Configuration)\netstandard2.0\MauiReactor.ScaffoldGenerator.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
 </Project>

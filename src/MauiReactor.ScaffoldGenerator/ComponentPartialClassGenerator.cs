@@ -58,7 +58,7 @@ namespace MauiReactor.ScaffoldGenerator
             this.Write("\r\n\t{\r\n\t\t");
             
             #line 16 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
- if (GetInjectFields().Any()) { 
+ if (GetInjectFields().Any() || GetParameterFields().Any()) { 
             
             #line default
             #line hidden
@@ -132,51 +132,79 @@ namespace MauiReactor.ScaffoldGenerator
             
             #line default
             #line hidden
-            this.Write("\t\t}\r\n\t\t");
+            this.Write("\r\n\t\t\t");
             
             #line 27 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
+ foreach (var fieldItem in GetParameterFields()) { 
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\t");
+            
+            #line 28 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(fieldItem.FieldName));
+            
+            #line default
+            #line hidden
+            this.Write(" = GetOrCreateParameter<");
+            
+            #line 28 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(fieldItem.FieldTypeFullyQualifiedName));
+            
+            #line default
+            #line hidden
+            this.Write(">();\r\n\t\t\t");
+            
+            #line 29 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\t\t}\r\n\t\t");
+            
+            #line 31 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n\t\t");
             
-            #line 29 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
+            #line 33 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
  foreach (var fieldItem in GetPropFields()) { 
             
             #line default
             #line hidden
             this.Write("\t\tpublic ");
             
-            #line 30 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
+            #line 34 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(_classItem.ClassName));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 30 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
+            #line 34 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(fieldItem.GetPropMethodName()));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 30 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
+            #line 34 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(fieldItem.FieldTypeFullyQualifiedName));
             
             #line default
             #line hidden
             this.Write(" propValue)\r\n\t\t{\r\n\t\t\t");
             
-            #line 32 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
+            #line 36 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(fieldItem.FieldName));
             
             #line default
             #line hidden
             this.Write(" = propValue;\r\n\t\t\treturn this;\r\n\t\t}\r\n\t\t");
             
-            #line 35 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
+            #line 39 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
  } 
             
             #line default

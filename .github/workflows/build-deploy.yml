@@ -15,7 +15,7 @@ jobs:
     env:
       Solution_Name: ./src/MauiReactor.Build.sln
       TemplatePack_Name: ./src/MauiReactor.TemplatePack/MauiReactor.TemplatePack.csproj
-      Version: 2.0.15-beta
+      Version: 2.0.16-beta
 
     steps:
     - name: Checkout
@@ -31,6 +31,9 @@ jobs:
 
     - name: Install MAUI workload
       run: dotnet workload install maui
+
+    - name: Clean output directory
+      run: dotnet clean $env:Solution_Name -c Release
       
     - name: Build the packages
       run: dotnet build $env:Solution_Name -c Release /p:Version=$env:Version

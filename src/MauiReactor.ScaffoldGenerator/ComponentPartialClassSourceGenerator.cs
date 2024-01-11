@@ -38,6 +38,11 @@ namespace MauiReactor
         {
         }
     }
+
+    [AttributeUsage(AttributeTargets.Field)]
+    internal class ParamAttribute : Attribute
+    {
+    }
 }
 "));
 
@@ -143,6 +148,28 @@ namespace MauiReactor
                         }
                     }
                 }
+                else if (attributeType == FieldAttributeType.Parameter)
+                {
+                    if (semanticModel.GetDeclaredSymbol(variableFieldSyntax)
+                        is IFieldSymbol variableDeclaratorFieldSymbol)
+                    {
+                        // Now get the type symbol of the field's type, which should be a named type symbol
+                        INamedTypeSymbol? variableDeclaratorFieldTypeSymbol = variableDeclaratorFieldSymbol.Type as INamedTypeSymbol;
+                        if (variableDeclaratorFieldTypeSymbol != null)
+                        {
+                            // Ensure the field's type is generic (which it should be if it's an IParameter<T>)
+                            if (variableDeclaratorFieldTypeSymbol.IsGenericType)
+                            {
+                                // Get the type argument(s) for the generic type
+                                ITypeSymbol genericTypeArgument = variableDeclaratorFieldTypeSymbol.TypeArguments[0];
+
+                                // To get the fully qualified name, use ToDisplayString with the appropriate format
+                                fieldTypeFullyQualifiedName = genericTypeArgument.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+                            }
+                        }
+
+                    }
+                }
 
                 generatingClassItem.FieldItems[variableFieldName]
                     = new GeneratorFieldItem(variableFieldName, fieldTypeFullyQualifiedName, attributeType, methodName);
@@ -157,6 +184,11 @@ namespace MauiReactor
         foreach (var propFieldToGenerate in ((ComponentPartialClassSyntaxReceiver)context.SyntaxReceiver.EnsureNotNull()).PropFieldsToGenerate)
         {
             generateClassItem(propFieldToGenerate, FieldAttributeType.Prop);
+        }
+
+        foreach (var parameterFieldToGenerate in ((ComponentPartialClassSyntaxReceiver)context.SyntaxReceiver.EnsureNotNull()).ParameterFieldsToGenerate)
+        {
+            generateClassItem(parameterFieldToGenerate, FieldAttributeType.Parameter);
         }
 
         foreach (var generatingClassItem in generatingClassItems.OrderBy(_=>_.Key)) 
@@ -174,6 +206,7 @@ class ComponentPartialClassSyntaxReceiver : ISyntaxReceiver
 {
     public List<FieldDeclarationSyntax> InjectFieldsToGenerate = new();
     public List<FieldDeclarationSyntax> PropFieldsToGenerate = new();
+    public List<FieldDeclarationSyntax> ParameterFieldsToGenerate = new();
 
     public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
     {
@@ -199,6 +232,17 @@ class ComponentPartialClassSyntaxReceiver : ISyntaxReceiver
             if (propAttribute != null)
             {
                 PropFieldsToGenerate.Add(fds);
+            }
+
+            var parameterAttribute = fds.AttributeLists
+                .Where(_ => _.Attributes.Any(attr => attr.Name is IdentifierNameSyntax nameSyntax && (nameSyntax.Identifier.Text == "Param" ||
+                    nameSyntax.Identifier.Text == "ParamAttribute")))
+                .Select(_ => _.Attributes.First())
+                .FirstOrDefault();
+
+            if (parameterAttribute != null)
+            {
+                ParameterFieldsToGenerate.Add(fds);
             }
         }
     }
@@ -253,6 +297,8 @@ public enum FieldAttributeType
 {
     Inject,
 
-    Prop
+    Prop,
+
+    Parameter
 }
 

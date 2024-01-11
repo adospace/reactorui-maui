@@ -34,5 +34,9 @@ namespace MauiReactor.ScaffoldGenerator
         {
             return _classItem.FieldItems.Where(_ => _.Value.Type == FieldAttributeType.Prop).OrderBy(_ => _.Key).Select(_ => _.Value);
         }
+        private IEnumerable<GeneratorFieldItem> GetParameterFields()
+        {
+            return _classItem.FieldItems.Where(_ => _.Value.Type == FieldAttributeType.Parameter).OrderBy(_ => _.Key).Select(_ => _.Value);
+        }
     }
 }

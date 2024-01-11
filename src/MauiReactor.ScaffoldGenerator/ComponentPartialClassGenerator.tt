@@ -13,7 +13,7 @@ namespace <#= _classItem.Namespace #>
 {
 	partial class <#= _classItem.ClassName #>
 	{
-		<# if (GetInjectFields().Any()) { #>
+		<# if (GetInjectFields().Any() || GetParameterFields().Any()) { #>
 		public <#= _classItem.ClassName #>()
 		{
 			<# foreach (var fieldItem in GetInjectFields()) { #>
@@ -22,6 +22,10 @@ namespace <#= _classItem.Namespace #>
 			<# } else { #>
 			<#= fieldItem.FieldName #> = Services.GetRequiredService<<#= fieldItem.FieldTypeFullyQualifiedName #>>();
 			<# } #>
+			<# } #>
+
+			<# foreach (var fieldItem in GetParameterFields()) { #>
+			<#= fieldItem.FieldName #> = GetOrCreateParameter<<#= fieldItem.FieldTypeFullyQualifiedName #>>();
 			<# } #>
 		}
 		<# } #>

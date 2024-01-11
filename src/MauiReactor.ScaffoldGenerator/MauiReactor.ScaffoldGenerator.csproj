@@ -3,24 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
     <IsRoslynComponent>true</IsRoslynComponent>
     <LangVersion>latest</LangVersion>
     <IncludeBuildOutput>false</IncludeBuildOutput>
 
 
-    <Version>0.0.1</Version>
-    <Authors>adospace</Authors>
-    <Description>MauiReactor.ScaffoldGenerator is a source generator library that helps building MauiReactor wrappers for controls.</Description>
-    <Copyright>Adolfo Marinucci</Copyright>
-    <PackageProjectUrl>https://github.com/adospace/reactorui-maui</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/adospace/reactorui-maui</RepositoryUrl>
-    <PackageTags>maui mvu components reactjs flutter</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageId>Reactor.Maui.ScaffoldGenerator</PackageId>
 
   </PropertyGroup>
 
