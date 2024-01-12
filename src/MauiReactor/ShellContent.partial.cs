@@ -174,9 +174,11 @@ public partial class ShellContent<T>
 
 public partial class ShellContent
 {
-    public ShellContent(string title) => this.Title(title);
+    public ShellContent(string title) => 
+        this.Title(title);
 
-    public ShellContent(string title, string icon) => this.Title(title).Icon(icon);
+    public ShellContent(string title, string icon) => 
+        this.Title(title).Icon(icon);
 }
 
 public static partial class ShellContentExtensions
@@ -186,4 +188,12 @@ public static partial class ShellContentExtensions
         shellContent.ContentTemplate = template;
         return shellContent;
     }
+}
+public partial class Component
+{
+    public static ShellContent ShellContent(string title)
+        => GetNodeFromPool<ShellContent>().Title(title);
+
+    public static ShellContent ShellContent(string title, Func<VisualNode> template)
+        => GetNodeFromPool<ShellContent>().Title(title).RenderContent(template);
 }

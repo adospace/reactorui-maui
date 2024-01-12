@@ -12,20 +12,17 @@ namespace MauiReactor.AppShell;
 class AppShell : Component
 {
     public override VisualNode Render()
-        => new Shell
-        {
-            new FlyoutItem("MainPage")
-            {
-                new ShellContent()
+        => Shell(
+            FlyoutItem("MainPage",
+                ShellContent()
                     .Title("MainPage")
                     .RenderContent(()=>new MainPage())
-            },
-            new FlyoutItem("OtherPage")
-            {
-                new ShellContent()
+            ),
+            FlyoutItem("OtherPage",
+                ShellContent()
                     .Title("OtherPage")
                     .RenderContent(()=>new OtherPage())
-            }
-        };
+            )
+        );
 }
 

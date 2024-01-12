@@ -15,4 +15,10 @@ public partial class Component
 
     public static FlyoutItem FlyoutItem(string title, string icon) 
         => GetNodeFromPool<FlyoutItem>().Title(title).Icon(icon);
+
+    public static FlyoutItem FlyoutItem(string title, params VisualNode?[]? children)
+        => FlyoutItem(children).Title(title);
+
+    public static FlyoutItem FlyoutItem(string title, string icon, params VisualNode?[]? children)
+        => FlyoutItem(children).Title(title).Icon(icon);
 }
