@@ -219,7 +219,7 @@ public static partial class LabelExtensions
         where T : ILabel
     {
         label.CharacterSpacing = characterSpacing;
-        label.AppendAnimatable(Microsoft.Maui.Controls.Label.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => label.CharacterSpacing = new PropertyValue<double>(v.CurrentValue()));
+        label.AppendAnimatable(Microsoft.Maui.Controls.Label.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => label.CharacterSpacing = ((RxDoubleAnimation)v).CurrentValue());
         return label;
     }
 
@@ -262,7 +262,7 @@ public static partial class LabelExtensions
         where T : ILabel
     {
         label.FontSize = fontSize;
-        label.AppendAnimatable(Microsoft.Maui.Controls.Label.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => label.FontSize = new PropertyValue<double>(v.CurrentValue()));
+        label.AppendAnimatable(Microsoft.Maui.Controls.Label.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => label.FontSize = ((RxDoubleAnimation)v).CurrentValue());
         return label;
     }
 
@@ -361,7 +361,7 @@ public static partial class LabelExtensions
         where T : ILabel
     {
         label.LineHeight = lineHeight;
-        label.AppendAnimatable(Microsoft.Maui.Controls.Label.LineHeightProperty, customAnimation ?? new RxDoubleAnimation(lineHeight), v => label.LineHeight = new PropertyValue<double>(v.CurrentValue()));
+        label.AppendAnimatable(Microsoft.Maui.Controls.Label.LineHeightProperty, customAnimation ?? new RxDoubleAnimation(lineHeight), v => label.LineHeight = ((RxDoubleAnimation)v).CurrentValue());
         return label;
     }
 
@@ -390,7 +390,7 @@ public static partial class LabelExtensions
         where T : ILabel
     {
         label.Padding = padding;
-        label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
+        label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => label.Padding = ((RxThicknessAnimation)v).CurrentValue());
         return label;
     }
 
@@ -405,7 +405,7 @@ public static partial class LabelExtensions
         where T : ILabel
     {
         label.Padding = new Thickness(leftRight, topBottom);
-        label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
+        label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => label.Padding = ((RxThicknessAnimation)v).CurrentValue());
         return label;
     }
 
@@ -413,7 +413,7 @@ public static partial class LabelExtensions
         where T : ILabel
     {
         label.Padding = new Thickness(uniformSize);
-        label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
+        label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => label.Padding = ((RxThicknessAnimation)v).CurrentValue());
         return label;
     }
 
@@ -421,7 +421,7 @@ public static partial class LabelExtensions
         where T : ILabel
     {
         label.Padding = new Thickness(left, top, right, bottom);
-        label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => label.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
+        label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => label.Padding = ((RxThicknessAnimation)v).CurrentValue());
         return label;
     }
 

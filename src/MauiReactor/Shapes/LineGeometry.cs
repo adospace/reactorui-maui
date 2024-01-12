@@ -85,7 +85,7 @@ public static partial class LineGeometryExtensions
         where T : ILineGeometry
     {
         lineGeometry.StartPoint = startPoint;
-        lineGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, customAnimation ?? new RxSimplePointAnimation(startPoint), v => lineGeometry.StartPoint = new PropertyValue<Microsoft.Maui.Graphics.Point>(v.CurrentValue()));
+        lineGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, customAnimation ?? new RxSimplePointAnimation(startPoint), v => lineGeometry.StartPoint = ((RxPointAnimation)v).CurrentValue());
         return lineGeometry;
     }
 
@@ -107,7 +107,7 @@ public static partial class LineGeometryExtensions
         where T : ILineGeometry
     {
         lineGeometry.EndPoint = endPoint;
-        lineGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, customAnimation ?? new RxSimplePointAnimation(endPoint), v => lineGeometry.EndPoint = new PropertyValue<Microsoft.Maui.Graphics.Point>(v.CurrentValue()));
+        lineGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, customAnimation ?? new RxSimplePointAnimation(endPoint), v => lineGeometry.EndPoint = ((RxPointAnimation)v).CurrentValue());
         return lineGeometry;
     }
 

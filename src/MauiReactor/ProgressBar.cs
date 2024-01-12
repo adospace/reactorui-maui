@@ -98,7 +98,7 @@ public static partial class ProgressBarExtensions
         where T : IProgressBar
     {
         progressBar.Progress = progress;
-        progressBar.AppendAnimatable(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, customAnimation ?? new RxDoubleAnimation(progress), v => progressBar.Progress = new PropertyValue<double>(v.CurrentValue()));
+        progressBar.AppendAnimatable(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, customAnimation ?? new RxDoubleAnimation(progress), v => progressBar.Progress = ((RxDoubleAnimation)v).CurrentValue());
         return progressBar;
     }
 

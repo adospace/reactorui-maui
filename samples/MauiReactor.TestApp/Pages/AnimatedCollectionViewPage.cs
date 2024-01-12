@@ -52,7 +52,7 @@ class AnimatedCollectionViewPage : Component
     private VisualNode RenderItem(ItemModel item)
         => new AnimatedItem
         {
-            new Frame()
+            Frame()
                 .BackgroundColor(Color.Parse("#512BD4"))
                 .Margin(4)
                 .CornerRadius(8)
@@ -68,19 +68,7 @@ class AnimatedItemState
 
 class AnimatedItem : Component<AnimatedItemState>
 {
-    protected override void OnMounted()
-    {
-        InitializeState();
-        base.OnMounted();
-    }
-
-    protected override void OnPropsChanged()
-    {
-        InitializeState();
-        base.OnPropsChanged();
-    }
-
-    void InitializeState()
+    protected override void OnMountedOrPropsChanged()
     {
         State.ScaleX = 0.8;
         State.ScaleY = 0.5;
@@ -89,6 +77,7 @@ class AnimatedItem : Component<AnimatedItemState>
         {
             s.ScaleX = s.ScaleY = 1.0;
         }));
+        base.OnMountedOrPropsChanged();
     }
 
     public override VisualNode Render() =>

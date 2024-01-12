@@ -22,7 +22,7 @@ public partial class Picker<T>
         thisAsIPicker.ItemsSource = null;
     }
 
-    partial void OnEndUpdate()
+    partial void OnBeginUpdate()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIPicker = (IPicker)this;

@@ -16,7 +16,7 @@ namespace MauiReactor
             visualNodeWithAttachedProperties.AppendAnimatable(
                 Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, 
                 customAnimation ?? new RxSimpleRectAnimation(value), 
-                v => visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, v.CurrentValue()));
+                v => visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, ((RxRectAnimation)v).CurrentValue()));
 
             return visualNodeWithAttachedProperties;
         }

@@ -7,7 +7,9 @@ namespace MauiReactor
 {
     public interface IVisualNode
     {
-        void AppendAnimatable<T>(BindableProperty key, T animation, Action<T> action) where T : RxAnimation;
+        //void AppendAnimatable<T>(BindableProperty key, T animation, Action<T> action) where T : RxAnimation;
+
+        void AppendAnimatable(BindableProperty key, RxAnimation animation, Action<RxAnimation> action);
 
         Microsoft.Maui.Controls.Page? GetContainerPage();
 
@@ -115,9 +117,9 @@ namespace MauiReactor
 
         protected bool _stateChanged = true;
 
-        protected internal Dictionary<BindableProperty, Animatable> _animatables = [];
+        protected internal Dictionary<BindableProperty, Animatable>? _animatables;
 
-        private readonly Dictionary<string, object?> _metadata = [];
+        private Dictionary<string, object?>? _metadata;
 
         private IReadOnlyList<VisualNode>? _children = null;
 
@@ -195,8 +197,8 @@ namespace MauiReactor
         {
             _isMounted = false;
             _stateChanged = true;
-            _animatables.Clear();
-            _metadata.Clear();
+            _animatables = null;
+            _metadata = null;
             _children = null;
             _invalidated = false;
             _containerComponent = null;
@@ -209,10 +211,17 @@ namespace MauiReactor
             Parent = null;
         }
 
-        public void AppendAnimatable<T>(BindableProperty key, T animation, Action<T> action) where T : RxAnimation
-        {
-            var newAnimatableProperty = new Animatable(key, animation, new Action<RxAnimation>(target => action((T)target)));
+        //public void AppendAnimatable<T>(BindableProperty key, T animation, Action<T> action) where T : RxAnimation
+        //{
+        //    var newAnimatableProperty = new Animatable(key, animation, target => action((T)target));
 
+        //    _animatables[key] = newAnimatableProperty;
+        //}
+        public void AppendAnimatable(BindableProperty key, RxAnimation animation, Action<RxAnimation> action)
+        {
+            var newAnimatableProperty = new Animatable(key, animation, action);
+
+            _animatables ??= [];
             _animatables[key] = newAnimatableProperty;
         }
 
@@ -223,7 +232,7 @@ namespace MauiReactor
                 throw new ArgumentException("can'be null or empty", nameof(key));
             }
 
-            if (_metadata.TryGetValue(key, out var value))
+            if (_metadata != null && _metadata.TryGetValue(key, out var value))
                 return (T?)value;
 
             return defaultValue;
@@ -239,11 +248,13 @@ namespace MauiReactor
                 throw new ArgumentException("can'be null or empty", nameof(key));
             }
 
+            _metadata ??= [];
             _metadata[key] = value;
         }
 
         public void SetMetadata<T>(T value)
         {
+            _metadata ??= [];
             _metadata[typeof(T).FullName ?? throw new InvalidOperationException()] = value;
         }
 
@@ -268,27 +279,33 @@ namespace MauiReactor
 
         internal void DisableCurrentAnimatableProperties()
         {
-            foreach (var animatable in _animatables
-                .Where(_ => _.Value.IsEnabled.GetValueOrDefault(true)))
+            if (_animatables != null)
             {
-                animatable.Value.IsEnabled = false;
-            };
+                foreach (var animatable in _animatables
+                .Where(_ => _.Value.IsEnabled.GetValueOrDefault(true)))
+                {
+                    animatable.Value.IsEnabled = false;
+                };
+            }
         }
 
         internal void EnableCurrentAnimatableProperties(Easing? easing = null, double duration = 600, double initialDelay = 0)
         {
-            foreach (var animatable in _animatables
-                .Where(_ => _.Value.IsEnabled.GetValueOrDefault(true))
-                .Select(_ => _.Value))
+            if (_animatables != null)
             {
-                if (animatable.Animation is RxTweenAnimation tweenAnimation)
+                foreach (var animatable in _animatables
+                    .Where(_ => _.Value.IsEnabled.GetValueOrDefault(true))
+                    .Select(_ => _.Value))
                 {
-                    tweenAnimation.Easing ??= easing;
-                    tweenAnimation.Duration ??= duration;
-                    tweenAnimation.InitialDelay ??= initialDelay;
-                    animatable.IsEnabled = true;
-                }
-            };
+                    if (animatable.Animation is RxTweenAnimation tweenAnimation)
+                    {
+                        tweenAnimation.Easing ??= easing;
+                        tweenAnimation.Duration ??= duration;
+                        tweenAnimation.InitialDelay ??= initialDelay;
+                        animatable.IsEnabled = true;
+                    }
+                };
+            }
         }
 
         internal void Update()
@@ -464,7 +481,7 @@ namespace MauiReactor
 
         protected virtual void CommitAnimations()
         {
-            if (_animatables.Any(_ => _.Value.IsEnabled.GetValueOrDefault() && !_.Value.Animation.IsCompleted()))
+            if (_animatables?.Any(_ => _.Value.IsEnabled.GetValueOrDefault() && !_.Value.Animation.IsCompleted()) == true)
             {
                 var pageHost = ((IVisualNode)this).GetPageHost();
                 if (pageHost != null)
@@ -522,25 +539,28 @@ namespace MauiReactor
 
         protected virtual void OnMigrated(VisualNode newNode)
         {
-            if (!_skipAnimationMigration)
+            if (_animatables != null && newNode._animatables != null)
             {
-                foreach (var newAnimatableProperty in newNode._animatables)
+                if (!_skipAnimationMigration)
                 {
-                    if (_animatables.TryGetValue(newAnimatableProperty.Key, out var oldAnimatableProperty))
+                    foreach (var newAnimatableProperty in newNode._animatables)
                     {
-                        if (oldAnimatableProperty.Animation.GetType() == 
-                            newAnimatableProperty.Value.Animation.GetType())
+                        if (_animatables.TryGetValue(newAnimatableProperty.Key, out var oldAnimatableProperty))
                         {
-                            if (oldAnimatableProperty.IsEnabled.GetValueOrDefault())
+                            if (oldAnimatableProperty.Animation.GetType() ==
+                                newAnimatableProperty.Value.Animation.GetType())
                             {
-                                newAnimatableProperty.Value.Animation.MigrateFrom(oldAnimatableProperty.Animation);
+                                if (oldAnimatableProperty.IsEnabled.GetValueOrDefault())
+                                {
+                                    newAnimatableProperty.Value.Animation.MigrateFrom(oldAnimatableProperty.Animation);
+                                }
                             }
                         }
                     }
                 }
             }
 
-            _animatables.Clear();
+            _animatables = null;
         }
 
         protected virtual void OnMount()
@@ -581,11 +601,17 @@ namespace MauiReactor
         private bool AnimateThis()
         {
             bool animated = false;
-            foreach (var animatable in _animatables
-                .Where(_ => _.Value.IsEnabled.GetValueOrDefault() && !_.Value.Animation.IsCompleted()))
+            if (_animatables != null)
             {
-                animatable.Value.Animate();
-                animated = true;
+                foreach (var animatable in _animatables)
+                {
+                    if (animatable.Value.IsEnabled.GetValueOrDefault() && 
+                        !animatable.Value.Animation.IsCompleted())
+                    {
+                        animatable.Value.Animate();
+                        animated = true;
+                    }
+                }
             }
 
             return animated;
@@ -886,7 +912,8 @@ namespace MauiReactor
 
         protected void AnimateProperty(BindableProperty property, object? propertyValueAsObject)
         {
-            if (propertyValueAsObject == null)
+            if (propertyValueAsObject == null ||
+                _animatables == null)
             {
                 return;
             }

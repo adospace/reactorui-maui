@@ -332,7 +332,7 @@ public static partial class InputViewExtensions
         where T : IInputView
     {
         inputView.CharacterSpacing = characterSpacing;
-        inputView.AppendAnimatable(Microsoft.Maui.Controls.InputView.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => inputView.CharacterSpacing = new PropertyValue<double>(v.CurrentValue()));
+        inputView.AppendAnimatable(Microsoft.Maui.Controls.InputView.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => inputView.CharacterSpacing = ((RxDoubleAnimation)v).CurrentValue());
         return inputView;
     }
 
@@ -403,7 +403,7 @@ public static partial class InputViewExtensions
         where T : IInputView
     {
         inputView.FontSize = fontSize;
-        inputView.AppendAnimatable(Microsoft.Maui.Controls.InputView.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => inputView.FontSize = new PropertyValue<double>(v.CurrentValue()));
+        inputView.AppendAnimatable(Microsoft.Maui.Controls.InputView.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => inputView.FontSize = ((RxDoubleAnimation)v).CurrentValue());
         return inputView;
     }
 

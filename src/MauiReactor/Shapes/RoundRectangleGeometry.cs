@@ -85,7 +85,7 @@ public static partial class RoundRectangleGeometryExtensions
         where T : IRoundRectangleGeometry
     {
         roundRectangleGeometry.Rect = rect;
-        roundRectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry.RectProperty, customAnimation ?? new RxSimpleRectAnimation(rect), v => roundRectangleGeometry.Rect = new PropertyValue<Microsoft.Maui.Graphics.Rect>(v.CurrentValue()));
+        roundRectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry.RectProperty, customAnimation ?? new RxSimpleRectAnimation(rect), v => roundRectangleGeometry.Rect = ((RxRectAnimation)v).CurrentValue());
         return roundRectangleGeometry;
     }
 
@@ -100,7 +100,7 @@ public static partial class RoundRectangleGeometryExtensions
         where T : IRoundRectangleGeometry
     {
         roundRectangleGeometry.CornerRadius = cornerRadius;
-        roundRectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(cornerRadius), v => roundRectangleGeometry.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(v.CurrentValue()));
+        roundRectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(cornerRadius), v => roundRectangleGeometry.CornerRadius = ((RxCornerRadiusAnimation)v).CurrentValue());
         return roundRectangleGeometry;
     }
 
@@ -115,7 +115,7 @@ public static partial class RoundRectangleGeometryExtensions
         where T : IRoundRectangleGeometry
     {
         roundRectangleGeometry.CornerRadius = new CornerRadius(uniformRadius);
-        roundRectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(uniformRadius)), v => roundRectangleGeometry.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(v.CurrentValue()));
+        roundRectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(uniformRadius)), v => roundRectangleGeometry.CornerRadius = ((RxCornerRadiusAnimation)v).CurrentValue());
         return roundRectangleGeometry;
     }
 
@@ -123,7 +123,7 @@ public static partial class RoundRectangleGeometryExtensions
         where T : IRoundRectangleGeometry
     {
         roundRectangleGeometry.CornerRadius = new CornerRadius(topLeft, topRight, bottomLeft, bottomRight);
-        roundRectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight)), v => roundRectangleGeometry.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(v.CurrentValue()));
+        roundRectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight)), v => roundRectangleGeometry.CornerRadius = ((RxCornerRadiusAnimation)v).CurrentValue());
         return roundRectangleGeometry;
     }
 }

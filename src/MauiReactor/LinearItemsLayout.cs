@@ -67,7 +67,7 @@ public static partial class LinearItemsLayoutExtensions
         where T : ILinearItemsLayout
     {
         linearItemsLayout.ItemSpacing = itemSpacing;
-        linearItemsLayout.AppendAnimatable(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, customAnimation ?? new RxDoubleAnimation(itemSpacing), v => linearItemsLayout.ItemSpacing = new PropertyValue<double>(v.CurrentValue()));
+        linearItemsLayout.AppendAnimatable(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, customAnimation ?? new RxDoubleAnimation(itemSpacing), v => linearItemsLayout.ItemSpacing = ((RxDoubleAnimation)v).CurrentValue());
         return linearItemsLayout;
     }
 

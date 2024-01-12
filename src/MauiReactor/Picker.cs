@@ -195,7 +195,7 @@ public static partial class PickerExtensions
         where T : IPicker
     {
         picker.CharacterSpacing = characterSpacing;
-        picker.AppendAnimatable(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => picker.CharacterSpacing = new PropertyValue<double>(v.CurrentValue()));
+        picker.AppendAnimatable(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => picker.CharacterSpacing = ((RxDoubleAnimation)v).CurrentValue());
         return picker;
     }
 
@@ -266,7 +266,7 @@ public static partial class PickerExtensions
         where T : IPicker
     {
         picker.FontSize = fontSize;
-        picker.AppendAnimatable(Microsoft.Maui.Controls.Picker.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => picker.FontSize = new PropertyValue<double>(v.CurrentValue()));
+        picker.AppendAnimatable(Microsoft.Maui.Controls.Picker.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => picker.FontSize = ((RxDoubleAnimation)v).CurrentValue());
         return picker;
     }
 

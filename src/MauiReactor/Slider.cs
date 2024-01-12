@@ -204,7 +204,7 @@ public static partial class SliderExtensions
         where T : ISlider
     {
         slider.Minimum = minimum;
-        slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.MinimumProperty, customAnimation ?? new RxDoubleAnimation(minimum), v => slider.Minimum = new PropertyValue<double>(v.CurrentValue()));
+        slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.MinimumProperty, customAnimation ?? new RxDoubleAnimation(minimum), v => slider.Minimum = ((RxDoubleAnimation)v).CurrentValue());
         return slider;
     }
 
@@ -219,7 +219,7 @@ public static partial class SliderExtensions
         where T : ISlider
     {
         slider.Maximum = maximum;
-        slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.MaximumProperty, customAnimation ?? new RxDoubleAnimation(maximum), v => slider.Maximum = new PropertyValue<double>(v.CurrentValue()));
+        slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.MaximumProperty, customAnimation ?? new RxDoubleAnimation(maximum), v => slider.Maximum = ((RxDoubleAnimation)v).CurrentValue());
         return slider;
     }
 
@@ -234,7 +234,7 @@ public static partial class SliderExtensions
         where T : ISlider
     {
         slider.Value = value;
-        slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.ValueProperty, customAnimation ?? new RxDoubleAnimation(value), v => slider.Value = new PropertyValue<double>(v.CurrentValue()));
+        slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.ValueProperty, customAnimation ?? new RxDoubleAnimation(value), v => slider.Value = ((RxDoubleAnimation)v).CurrentValue());
         return slider;
     }
 

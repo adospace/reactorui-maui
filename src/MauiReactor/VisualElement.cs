@@ -435,7 +435,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.AnchorX = anchorX;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.AnchorXProperty, customAnimation ?? new RxDoubleAnimation(anchorX), v => visualElement.AnchorX = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.AnchorXProperty, customAnimation ?? new RxDoubleAnimation(anchorX), v => visualElement.AnchorX = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -450,7 +450,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.AnchorY = anchorY;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.AnchorYProperty, customAnimation ?? new RxDoubleAnimation(anchorY), v => visualElement.AnchorY = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.AnchorYProperty, customAnimation ?? new RxDoubleAnimation(anchorY), v => visualElement.AnchorY = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -465,7 +465,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.TranslationX = translationX;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.TranslationXProperty, customAnimation ?? new RxDoubleAnimation(translationX), v => visualElement.TranslationX = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.TranslationXProperty, customAnimation ?? new RxDoubleAnimation(translationX), v => visualElement.TranslationX = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -480,7 +480,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.TranslationY = translationY;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.TranslationYProperty, customAnimation ?? new RxDoubleAnimation(translationY), v => visualElement.TranslationY = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.TranslationYProperty, customAnimation ?? new RxDoubleAnimation(translationY), v => visualElement.TranslationY = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -495,7 +495,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.Rotation = rotation;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.RotationProperty, customAnimation ?? new RxDoubleAnimation(rotation), v => visualElement.Rotation = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.RotationProperty, customAnimation ?? new RxDoubleAnimation(rotation), v => visualElement.Rotation = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -510,7 +510,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.RotationX = rotationX;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.RotationXProperty, customAnimation ?? new RxDoubleAnimation(rotationX), v => visualElement.RotationX = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.RotationXProperty, customAnimation ?? new RxDoubleAnimation(rotationX), v => visualElement.RotationX = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -525,7 +525,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.RotationY = rotationY;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.RotationYProperty, customAnimation ?? new RxDoubleAnimation(rotationY), v => visualElement.RotationY = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.RotationYProperty, customAnimation ?? new RxDoubleAnimation(rotationY), v => visualElement.RotationY = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -540,7 +540,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.Scale = scale;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.ScaleProperty, customAnimation ?? new RxDoubleAnimation(scale), v => visualElement.Scale = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.ScaleProperty, customAnimation ?? new RxDoubleAnimation(scale), v => visualElement.Scale = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -555,7 +555,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.ScaleX = scaleX;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.ScaleXProperty, customAnimation ?? new RxDoubleAnimation(scaleX), v => visualElement.ScaleX = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.ScaleXProperty, customAnimation ?? new RxDoubleAnimation(scaleX), v => visualElement.ScaleX = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -570,7 +570,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.ScaleY = scaleY;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.ScaleYProperty, customAnimation ?? new RxDoubleAnimation(scaleY), v => visualElement.ScaleY = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.ScaleYProperty, customAnimation ?? new RxDoubleAnimation(scaleY), v => visualElement.ScaleY = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -613,7 +613,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.Opacity = opacity;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.OpacityProperty, customAnimation ?? new RxDoubleAnimation(opacity), v => visualElement.Opacity = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.OpacityProperty, customAnimation ?? new RxDoubleAnimation(opacity), v => visualElement.Opacity = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -656,7 +656,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.WidthRequest = widthRequest;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.WidthRequestProperty, customAnimation ?? new RxDoubleAnimation(widthRequest), v => visualElement.WidthRequest = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.WidthRequestProperty, customAnimation ?? new RxDoubleAnimation(widthRequest), v => visualElement.WidthRequest = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -671,7 +671,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.HeightRequest = heightRequest;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.HeightRequestProperty, customAnimation ?? new RxDoubleAnimation(heightRequest), v => visualElement.HeightRequest = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.HeightRequestProperty, customAnimation ?? new RxDoubleAnimation(heightRequest), v => visualElement.HeightRequest = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -686,7 +686,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.MinimumWidthRequest = minimumWidthRequest;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MinimumWidthRequestProperty, customAnimation ?? new RxDoubleAnimation(minimumWidthRequest), v => visualElement.MinimumWidthRequest = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MinimumWidthRequestProperty, customAnimation ?? new RxDoubleAnimation(minimumWidthRequest), v => visualElement.MinimumWidthRequest = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -701,7 +701,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.MinimumHeightRequest = minimumHeightRequest;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MinimumHeightRequestProperty, customAnimation ?? new RxDoubleAnimation(minimumHeightRequest), v => visualElement.MinimumHeightRequest = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MinimumHeightRequestProperty, customAnimation ?? new RxDoubleAnimation(minimumHeightRequest), v => visualElement.MinimumHeightRequest = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -716,7 +716,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.MaximumWidthRequest = maximumWidthRequest;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MaximumWidthRequestProperty, customAnimation ?? new RxDoubleAnimation(maximumWidthRequest), v => visualElement.MaximumWidthRequest = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MaximumWidthRequestProperty, customAnimation ?? new RxDoubleAnimation(maximumWidthRequest), v => visualElement.MaximumWidthRequest = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 
@@ -731,7 +731,7 @@ public static partial class VisualElementExtensions
         where T : IVisualElement
     {
         visualElement.MaximumHeightRequest = maximumHeightRequest;
-        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MaximumHeightRequestProperty, customAnimation ?? new RxDoubleAnimation(maximumHeightRequest), v => visualElement.MaximumHeightRequest = new PropertyValue<double>(v.CurrentValue()));
+        visualElement.AppendAnimatable(Microsoft.Maui.Controls.VisualElement.MaximumHeightRequestProperty, customAnimation ?? new RxDoubleAnimation(maximumHeightRequest), v => visualElement.MaximumHeightRequest = ((RxDoubleAnimation)v).CurrentValue());
         return visualElement;
     }
 

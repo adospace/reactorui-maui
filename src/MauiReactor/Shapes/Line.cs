@@ -88,7 +88,7 @@ public static partial class LineExtensions
         where T : ILine
     {
         line.X1 = x1;
-        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.X1Property, customAnimation ?? new RxDoubleAnimation(x1), v => line.X1 = new PropertyValue<double>(v.CurrentValue()));
+        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.X1Property, customAnimation ?? new RxDoubleAnimation(x1), v => line.X1 = ((RxDoubleAnimation)v).CurrentValue());
         return line;
     }
 
@@ -103,7 +103,7 @@ public static partial class LineExtensions
         where T : ILine
     {
         line.Y1 = y1;
-        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.Y1Property, customAnimation ?? new RxDoubleAnimation(y1), v => line.Y1 = new PropertyValue<double>(v.CurrentValue()));
+        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.Y1Property, customAnimation ?? new RxDoubleAnimation(y1), v => line.Y1 = ((RxDoubleAnimation)v).CurrentValue());
         return line;
     }
 
@@ -118,7 +118,7 @@ public static partial class LineExtensions
         where T : ILine
     {
         line.X2 = x2;
-        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.X2Property, customAnimation ?? new RxDoubleAnimation(x2), v => line.X2 = new PropertyValue<double>(v.CurrentValue()));
+        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.X2Property, customAnimation ?? new RxDoubleAnimation(x2), v => line.X2 = ((RxDoubleAnimation)v).CurrentValue());
         return line;
     }
 
@@ -133,7 +133,7 @@ public static partial class LineExtensions
         where T : ILine
     {
         line.Y2 = y2;
-        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.Y2Property, customAnimation ?? new RxDoubleAnimation(y2), v => line.Y2 = new PropertyValue<double>(v.CurrentValue()));
+        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.Y2Property, customAnimation ?? new RxDoubleAnimation(y2), v => line.Y2 = ((RxDoubleAnimation)v).CurrentValue());
         return line;
     }
 

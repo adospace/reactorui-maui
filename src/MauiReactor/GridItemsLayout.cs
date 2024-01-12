@@ -94,7 +94,7 @@ public static partial class GridItemsLayoutExtensions
         where T : IGridItemsLayout
     {
         gridItemsLayout.VerticalItemSpacing = verticalItemSpacing;
-        gridItemsLayout.AppendAnimatable(Microsoft.Maui.Controls.GridItemsLayout.VerticalItemSpacingProperty, customAnimation ?? new RxDoubleAnimation(verticalItemSpacing), v => gridItemsLayout.VerticalItemSpacing = new PropertyValue<double>(v.CurrentValue()));
+        gridItemsLayout.AppendAnimatable(Microsoft.Maui.Controls.GridItemsLayout.VerticalItemSpacingProperty, customAnimation ?? new RxDoubleAnimation(verticalItemSpacing), v => gridItemsLayout.VerticalItemSpacing = ((RxDoubleAnimation)v).CurrentValue());
         return gridItemsLayout;
     }
 
@@ -109,7 +109,7 @@ public static partial class GridItemsLayoutExtensions
         where T : IGridItemsLayout
     {
         gridItemsLayout.HorizontalItemSpacing = horizontalItemSpacing;
-        gridItemsLayout.AppendAnimatable(Microsoft.Maui.Controls.GridItemsLayout.HorizontalItemSpacingProperty, customAnimation ?? new RxDoubleAnimation(horizontalItemSpacing), v => gridItemsLayout.HorizontalItemSpacing = new PropertyValue<double>(v.CurrentValue()));
+        gridItemsLayout.AppendAnimatable(Microsoft.Maui.Controls.GridItemsLayout.HorizontalItemSpacingProperty, customAnimation ?? new RxDoubleAnimation(horizontalItemSpacing), v => gridItemsLayout.HorizontalItemSpacing = ((RxDoubleAnimation)v).CurrentValue());
         return gridItemsLayout;
     }
 

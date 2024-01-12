@@ -218,7 +218,7 @@ public static partial class IndicatorViewExtensions
         where T : IIndicatorView
     {
         indicatorView.IndicatorSize = indicatorSize;
-        indicatorView.AppendAnimatable(Microsoft.Maui.Controls.IndicatorView.IndicatorSizeProperty, customAnimation ?? new RxDoubleAnimation(indicatorSize), v => indicatorView.IndicatorSize = new PropertyValue<double>(v.CurrentValue()));
+        indicatorView.AppendAnimatable(Microsoft.Maui.Controls.IndicatorView.IndicatorSizeProperty, customAnimation ?? new RxDoubleAnimation(indicatorSize), v => indicatorView.IndicatorSize = ((RxDoubleAnimation)v).CurrentValue());
         return indicatorView;
     }
 

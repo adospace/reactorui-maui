@@ -92,7 +92,7 @@ public static partial class EllipseGeometryExtensions
         where T : IEllipseGeometry
     {
         ellipseGeometry.Center = center;
-        ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, customAnimation ?? new RxSimplePointAnimation(center), v => ellipseGeometry.Center = new PropertyValue<Microsoft.Maui.Graphics.Point>(v.CurrentValue()));
+        ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, customAnimation ?? new RxSimplePointAnimation(center), v => ellipseGeometry.Center = ((RxPointAnimation)v).CurrentValue());
         return ellipseGeometry;
     }
 
@@ -114,7 +114,7 @@ public static partial class EllipseGeometryExtensions
         where T : IEllipseGeometry
     {
         ellipseGeometry.RadiusX = radiusX;
-        ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, customAnimation ?? new RxDoubleAnimation(radiusX), v => ellipseGeometry.RadiusX = new PropertyValue<double>(v.CurrentValue()));
+        ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, customAnimation ?? new RxDoubleAnimation(radiusX), v => ellipseGeometry.RadiusX = ((RxDoubleAnimation)v).CurrentValue());
         return ellipseGeometry;
     }
 
@@ -129,7 +129,7 @@ public static partial class EllipseGeometryExtensions
         where T : IEllipseGeometry
     {
         ellipseGeometry.RadiusY = radiusY;
-        ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, customAnimation ?? new RxDoubleAnimation(radiusY), v => ellipseGeometry.RadiusY = new PropertyValue<double>(v.CurrentValue()));
+        ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, customAnimation ?? new RxDoubleAnimation(radiusY), v => ellipseGeometry.RadiusY = ((RxDoubleAnimation)v).CurrentValue());
         return ellipseGeometry;
     }
 

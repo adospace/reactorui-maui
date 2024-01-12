@@ -334,7 +334,7 @@ public static partial class PageExtensions
         where T : IPage
     {
         page.Padding = padding;
-        page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
+        page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => page.Padding = ((RxThicknessAnimation)v).CurrentValue());
         return page;
     }
 
@@ -349,7 +349,7 @@ public static partial class PageExtensions
         where T : IPage
     {
         page.Padding = new Thickness(leftRight, topBottom);
-        page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
+        page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => page.Padding = ((RxThicknessAnimation)v).CurrentValue());
         return page;
     }
 
@@ -357,7 +357,7 @@ public static partial class PageExtensions
         where T : IPage
     {
         page.Padding = new Thickness(uniformSize);
-        page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
+        page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => page.Padding = ((RxThicknessAnimation)v).CurrentValue());
         return page;
     }
 
@@ -365,7 +365,7 @@ public static partial class PageExtensions
         where T : IPage
     {
         page.Padding = new Thickness(left, top, right, bottom);
-        page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(v.CurrentValue()));
+        page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => page.Padding = ((RxThicknessAnimation)v).CurrentValue());
         return page;
     }
 

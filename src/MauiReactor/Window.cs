@@ -508,7 +508,7 @@ public static partial class WindowExtensions
         where T : IWindow
     {
         window.X = x;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.XProperty, customAnimation ?? new RxDoubleAnimation(x), v => window.X = new PropertyValue<double>(v.CurrentValue()));
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.XProperty, customAnimation ?? new RxDoubleAnimation(x), v => window.X = ((RxDoubleAnimation)v).CurrentValue());
         return window;
     }
 
@@ -523,7 +523,7 @@ public static partial class WindowExtensions
         where T : IWindow
     {
         window.Y = y;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.YProperty, customAnimation ?? new RxDoubleAnimation(y), v => window.Y = new PropertyValue<double>(v.CurrentValue()));
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.YProperty, customAnimation ?? new RxDoubleAnimation(y), v => window.Y = ((RxDoubleAnimation)v).CurrentValue());
         return window;
     }
 
@@ -538,7 +538,7 @@ public static partial class WindowExtensions
         where T : IWindow
     {
         window.Width = width;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.WidthProperty, customAnimation ?? new RxDoubleAnimation(width), v => window.Width = new PropertyValue<double>(v.CurrentValue()));
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.WidthProperty, customAnimation ?? new RxDoubleAnimation(width), v => window.Width = ((RxDoubleAnimation)v).CurrentValue());
         return window;
     }
 
@@ -553,7 +553,7 @@ public static partial class WindowExtensions
         where T : IWindow
     {
         window.Height = height;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.HeightProperty, customAnimation ?? new RxDoubleAnimation(height), v => window.Height = new PropertyValue<double>(v.CurrentValue()));
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.HeightProperty, customAnimation ?? new RxDoubleAnimation(height), v => window.Height = ((RxDoubleAnimation)v).CurrentValue());
         return window;
     }
 
@@ -568,7 +568,7 @@ public static partial class WindowExtensions
         where T : IWindow
     {
         window.MaximumWidth = maximumWidth;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MaximumWidthProperty, customAnimation ?? new RxDoubleAnimation(maximumWidth), v => window.MaximumWidth = new PropertyValue<double>(v.CurrentValue()));
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MaximumWidthProperty, customAnimation ?? new RxDoubleAnimation(maximumWidth), v => window.MaximumWidth = ((RxDoubleAnimation)v).CurrentValue());
         return window;
     }
 
@@ -583,7 +583,7 @@ public static partial class WindowExtensions
         where T : IWindow
     {
         window.MaximumHeight = maximumHeight;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MaximumHeightProperty, customAnimation ?? new RxDoubleAnimation(maximumHeight), v => window.MaximumHeight = new PropertyValue<double>(v.CurrentValue()));
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MaximumHeightProperty, customAnimation ?? new RxDoubleAnimation(maximumHeight), v => window.MaximumHeight = ((RxDoubleAnimation)v).CurrentValue());
         return window;
     }
 
@@ -598,7 +598,7 @@ public static partial class WindowExtensions
         where T : IWindow
     {
         window.MinimumWidth = minimumWidth;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MinimumWidthProperty, customAnimation ?? new RxDoubleAnimation(minimumWidth), v => window.MinimumWidth = new PropertyValue<double>(v.CurrentValue()));
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MinimumWidthProperty, customAnimation ?? new RxDoubleAnimation(minimumWidth), v => window.MinimumWidth = ((RxDoubleAnimation)v).CurrentValue());
         return window;
     }
 
@@ -613,7 +613,7 @@ public static partial class WindowExtensions
         where T : IWindow
     {
         window.MinimumHeight = minimumHeight;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MinimumHeightProperty, customAnimation ?? new RxDoubleAnimation(minimumHeight), v => window.MinimumHeight = new PropertyValue<double>(v.CurrentValue()));
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MinimumHeightProperty, customAnimation ?? new RxDoubleAnimation(minimumHeight), v => window.MinimumHeight = ((RxDoubleAnimation)v).CurrentValue());
         return window;
     }
 

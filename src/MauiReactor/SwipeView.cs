@@ -166,7 +166,7 @@ public static partial class SwipeViewExtensions
         where T : ISwipeView
     {
         swipeView.Threshold = threshold;
-        swipeView.AppendAnimatable(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, customAnimation ?? new RxDoubleAnimation(threshold), v => swipeView.Threshold = new PropertyValue<double>(v.CurrentValue()));
+        swipeView.AppendAnimatable(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, customAnimation ?? new RxDoubleAnimation(threshold), v => swipeView.Threshold = ((RxDoubleAnimation)v).CurrentValue());
         return swipeView;
     }
 

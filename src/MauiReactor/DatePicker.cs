@@ -245,7 +245,7 @@ public static partial class DatePickerExtensions
         where T : IDatePicker
     {
         datePicker.CharacterSpacing = characterSpacing;
-        datePicker.AppendAnimatable(Microsoft.Maui.Controls.DatePicker.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => datePicker.CharacterSpacing = new PropertyValue<double>(v.CurrentValue()));
+        datePicker.AppendAnimatable(Microsoft.Maui.Controls.DatePicker.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => datePicker.CharacterSpacing = ((RxDoubleAnimation)v).CurrentValue());
         return datePicker;
     }
 
@@ -274,7 +274,7 @@ public static partial class DatePickerExtensions
         where T : IDatePicker
     {
         datePicker.FontSize = fontSize;
-        datePicker.AppendAnimatable(Microsoft.Maui.Controls.DatePicker.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => datePicker.FontSize = new PropertyValue<double>(v.CurrentValue()));
+        datePicker.AppendAnimatable(Microsoft.Maui.Controls.DatePicker.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => datePicker.FontSize = ((RxDoubleAnimation)v).CurrentValue());
         return datePicker;
     }
 

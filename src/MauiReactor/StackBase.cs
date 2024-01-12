@@ -67,7 +67,7 @@ public static partial class StackBaseExtensions
         where T : IStackBase
     {
         stackBase.Spacing = spacing;
-        stackBase.AppendAnimatable(Microsoft.Maui.Controls.StackBase.SpacingProperty, customAnimation ?? new RxDoubleAnimation(spacing), v => stackBase.Spacing = new PropertyValue<double>(v.CurrentValue()));
+        stackBase.AppendAnimatable(Microsoft.Maui.Controls.StackBase.SpacingProperty, customAnimation ?? new RxDoubleAnimation(spacing), v => stackBase.Spacing = ((RxDoubleAnimation)v).CurrentValue());
         return stackBase;
     }
 

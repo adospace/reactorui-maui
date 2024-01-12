@@ -85,7 +85,7 @@ public static partial class GridExtensions
         where T : IGrid
     {
         grid.RowSpacing = rowSpacing;
-        grid.AppendAnimatable(Microsoft.Maui.Controls.Grid.RowSpacingProperty, customAnimation ?? new RxDoubleAnimation(rowSpacing), v => grid.RowSpacing = new PropertyValue<double>(v.CurrentValue()));
+        grid.AppendAnimatable(Microsoft.Maui.Controls.Grid.RowSpacingProperty, customAnimation ?? new RxDoubleAnimation(rowSpacing), v => grid.RowSpacing = ((RxDoubleAnimation)v).CurrentValue());
         return grid;
     }
 
@@ -100,7 +100,7 @@ public static partial class GridExtensions
         where T : IGrid
     {
         grid.ColumnSpacing = columnSpacing;
-        grid.AppendAnimatable(Microsoft.Maui.Controls.Grid.ColumnSpacingProperty, customAnimation ?? new RxDoubleAnimation(columnSpacing), v => grid.ColumnSpacing = new PropertyValue<double>(v.CurrentValue()));
+        grid.AppendAnimatable(Microsoft.Maui.Controls.Grid.ColumnSpacingProperty, customAnimation ?? new RxDoubleAnimation(columnSpacing), v => grid.ColumnSpacing = ((RxDoubleAnimation)v).CurrentValue());
         return grid;
     }
 

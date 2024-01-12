@@ -74,7 +74,7 @@ public static partial class RectangleExtensions
         where T : IRectangle
     {
         rectangle.RadiusX = radiusX;
-        rectangle.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusXProperty, customAnimation ?? new RxDoubleAnimation(radiusX), v => rectangle.RadiusX = new PropertyValue<double>(v.CurrentValue()));
+        rectangle.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusXProperty, customAnimation ?? new RxDoubleAnimation(radiusX), v => rectangle.RadiusX = ((RxDoubleAnimation)v).CurrentValue());
         return rectangle;
     }
 
@@ -89,7 +89,7 @@ public static partial class RectangleExtensions
         where T : IRectangle
     {
         rectangle.RadiusY = radiusY;
-        rectangle.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusYProperty, customAnimation ?? new RxDoubleAnimation(radiusY), v => rectangle.RadiusY = new PropertyValue<double>(v.CurrentValue()));
+        rectangle.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusYProperty, customAnimation ?? new RxDoubleAnimation(radiusY), v => rectangle.RadiusY = ((RxDoubleAnimation)v).CurrentValue());
         return rectangle;
     }
 

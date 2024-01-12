@@ -78,7 +78,7 @@ public static partial class RectangleGeometryExtensions
         where T : IRectangleGeometry
     {
         rectangleGeometry.Rect = rect;
-        rectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, customAnimation ?? new RxSimpleRectAnimation(rect), v => rectangleGeometry.Rect = new PropertyValue<Microsoft.Maui.Graphics.Rect>(v.CurrentValue()));
+        rectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, customAnimation ?? new RxSimpleRectAnimation(rect), v => rectangleGeometry.Rect = ((RxRectAnimation)v).CurrentValue());
         return rectangleGeometry;
     }
 

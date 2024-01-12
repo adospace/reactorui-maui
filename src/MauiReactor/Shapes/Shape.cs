@@ -145,7 +145,7 @@ public static partial class ShapeExtensions
         where T : IShape
     {
         shape.StrokeThickness = strokeThickness;
-        shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeThicknessProperty, customAnimation ?? new RxDoubleAnimation(strokeThickness), v => shape.StrokeThickness = new PropertyValue<double>(v.CurrentValue()));
+        shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeThicknessProperty, customAnimation ?? new RxDoubleAnimation(strokeThickness), v => shape.StrokeThickness = ((RxDoubleAnimation)v).CurrentValue());
         return shape;
     }
 
@@ -174,7 +174,7 @@ public static partial class ShapeExtensions
         where T : IShape
     {
         shape.StrokeDashOffset = strokeDashOffset;
-        shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashOffsetProperty, customAnimation ?? new RxDoubleAnimation(strokeDashOffset), v => shape.StrokeDashOffset = new PropertyValue<double>(v.CurrentValue()));
+        shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashOffsetProperty, customAnimation ?? new RxDoubleAnimation(strokeDashOffset), v => shape.StrokeDashOffset = ((RxDoubleAnimation)v).CurrentValue());
         return shape;
     }
 
@@ -217,7 +217,7 @@ public static partial class ShapeExtensions
         where T : IShape
     {
         shape.StrokeMiterLimit = strokeMiterLimit;
-        shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeMiterLimitProperty, customAnimation ?? new RxDoubleAnimation(strokeMiterLimit), v => shape.StrokeMiterLimit = new PropertyValue<double>(v.CurrentValue()));
+        shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeMiterLimitProperty, customAnimation ?? new RxDoubleAnimation(strokeMiterLimit), v => shape.StrokeMiterLimit = ((RxDoubleAnimation)v).CurrentValue());
         return shape;
     }
 

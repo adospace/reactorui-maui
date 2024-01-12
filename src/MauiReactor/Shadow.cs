@@ -138,7 +138,7 @@ public static partial class ShadowExtensions
         where T : IShadow
     {
         shadow.Offset = offset;
-        shadow.AppendAnimatable(Microsoft.Maui.Controls.Shadow.OffsetProperty, customAnimation ?? new RxSimplePointAnimation(offset), v => shadow.Offset = new PropertyValue<Microsoft.Maui.Graphics.Point>(v.CurrentValue()));
+        shadow.AppendAnimatable(Microsoft.Maui.Controls.Shadow.OffsetProperty, customAnimation ?? new RxSimplePointAnimation(offset), v => shadow.Offset = ((RxPointAnimation)v).CurrentValue());
         return shadow;
     }
 
