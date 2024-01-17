@@ -43,7 +43,7 @@ namespace MauiReactor.Animations
         Action<bool>? IAnimationController.IsPausedChangedAction { get; set; }
 
 
-        protected readonly List<VisualNode> _internalChildren = new();
+        protected readonly List<VisualNode> _internalChildren = [];
 
         protected override IEnumerable<VisualNode> RenderChildren()
         {
@@ -238,7 +238,7 @@ namespace MauiReactor.Animations
 
     public abstract class AnimationContainer<T> : Animation<T>, IAnimationContainer, IEnumerable where T : MauiReactor.Animations.Internals.AnimationContainer, new()
     {
-        protected readonly List<VisualNode> _internalChildren = new();
+        protected readonly List<VisualNode> _internalChildren = [];
 
         public AnimationContainer()
         {
@@ -951,7 +951,7 @@ namespace MauiReactor.Animations.Internals
         public event EventHandler<GenericAnimationEventArgs<bool>>? IsEnabledChanged;
         public event EventHandler<GenericAnimationEventArgs<bool>>? IsPausedChanged;
 
-        public List<AnimationContainer> Children { get; } = new();
+        public List<AnimationContainer> Children { get; } = [];
 
         private double _time;
         private double _elapsedTime;
@@ -1054,7 +1054,7 @@ namespace MauiReactor.Animations.Internals
             }));
 
 
-        private readonly List<Animation> _children = new();
+        private readonly List<Animation> _children = [];
 
         public IReadOnlyList<Animation> Children => _children;
 
@@ -1222,69 +1222,6 @@ namespace MauiReactor.Animations.Internals
                 Children[Children.Count - 1].FireTick(1.0);
             }            
         }
-
-        //public override bool Progress(double elapsedTime, out double remainingTime)
-        //{
-        //    if (elapsedTime <= InitialDelay)
-        //    {
-        //        FireTick(0.0);
-        //        remainingTime = 0.0;
-        //        return false;
-        //    }
-
-        //    elapsedTime -= InitialDelay;
-
-        //    var duration = GetDuration();
-
-        //    if (IterationCount != null && duration != null && elapsedTime >= IterationCount.Value * duration.Value)
-        //    {
-        //        FireTick(1.0);
-        //        remainingTime = elapsedTime - IterationCount.Value * duration.Value;
-        //        return true;
-        //    }
-
-        //    var iterationIndex = (int)(elapsedTime / Duration);
-        //    elapsedTime -= iterationIndex * Duration;
-
-        //    if (Loop)
-        //    {
-        //        if (iterationIndex % 2 == 0)
-        //        {
-        //            FireTick(elapsedTime / Duration);
-        //        }
-        //        else
-        //        {
-        //            FireTick(1.0 - elapsedTime / Duration);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        FireTick(elapsedTime / Duration);
-        //    }
-
-        //    remainingTime = 0.0;
-        //    return false;
-        //}
-
-        //private bool OnProgressCore(double elapsedTime, out double remainingTime)
-        //{
-        //    remainingTime = elapsedTime;
-
-        //    foreach (var child in Children)
-        //    {
-        //        if (!child.Progress(elapsedTime, out var childRemainingTime))
-        //        {
-        //            return false;
-        //        }
-
-        //        remainingTime -= childRemainingTime;
-        //        elapsedTime = childRemainingTime;
-
-        //        System.Diagnostics.Debug.Assert(remainingTime > 0);
-        //    }
-
-        //    return true;
-        //}
     }
 
     public abstract class TweenAnimation : Animation

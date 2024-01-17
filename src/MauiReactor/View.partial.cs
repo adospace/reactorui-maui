@@ -22,7 +22,7 @@ public abstract partial class View<T>
         if (node is IGestureRecognizer gestureRecognizer)
         {
             var thisAsIView = (IView)this;
-            thisAsIView.GestureRecognizers ??= new List<IGestureRecognizer>();
+            thisAsIView.GestureRecognizers ??= [];
             thisAsIView.GestureRecognizers.Add(gestureRecognizer);
             return;
         }
@@ -140,7 +140,7 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             view.GestureRecognizers.Add(new TapGestureRecognizer(action));
         }
 
@@ -151,7 +151,7 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             view.GestureRecognizers.Add(new TapGestureRecognizer(action));
         }
 
@@ -162,7 +162,7 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             view.GestureRecognizers.Add(new SwipeGestureRecognizer(action));
         }
 
@@ -173,7 +173,7 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             view.GestureRecognizers.Add(new SwipeGestureRecognizer(action, direction));
         }
 
@@ -184,7 +184,7 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             view.GestureRecognizers.Add(new SwipeGestureRecognizer(action, direction, threshold));
         }
 
@@ -195,7 +195,7 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             view.GestureRecognizers.Add(new SwipeGestureRecognizer(action));
         }
 
@@ -206,7 +206,7 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             view.GestureRecognizers.Add(new SwipeGestureRecognizer(action, direction));
         }
 
@@ -217,7 +217,7 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             view.GestureRecognizers.Add(new SwipeGestureRecognizer(action, direction, threshold));
         }
 
@@ -228,13 +228,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<PointerGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnPointerEntered(action);
@@ -247,13 +247,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<PointerGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnPointerEntered(action);
@@ -266,13 +266,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<PointerGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnPointerEntered(action);
@@ -285,13 +285,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<PointerGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnPointerExited(action);
@@ -304,13 +304,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<PointerGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnPointerExited(action);
@@ -323,13 +323,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<PointerGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnPointerExited(action);
@@ -342,13 +342,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<PointerGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnPointerMoved(action);
@@ -361,13 +361,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<PointerGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnPointerMoved(action);
@@ -380,13 +380,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<PointerGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new PointerGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnPointerMoved(action);
@@ -399,13 +399,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<PinchGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new PinchGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnPinchUpdated(action);
@@ -418,13 +418,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<PinchGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new PinchGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnPinchUpdated(action);
@@ -437,13 +437,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<DragGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new DragGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnDropCompleted(action);
@@ -456,13 +456,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<DragGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new DragGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnDropCompleted(action);
@@ -475,13 +475,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<DragGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new DragGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnDragStarting(action);
@@ -494,13 +494,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<DragGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new DragGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnDragStarting(action);
@@ -511,13 +511,13 @@ public static partial class ViewExtensions
 
     public static T CanDrag<T>(this T view, bool canDrag) where T : IView
     {
-        view.GestureRecognizers ??= new List<IGestureRecognizer>();
+        view.GestureRecognizers ??= [];
         var gesture = view.GestureRecognizers
             .OfType<DragGestureRecognizer>()
             .FirstOrDefault();
         if (gesture == null)
         {
-            view.GestureRecognizers.Add(gesture = new DragGestureRecognizer());
+            view.GestureRecognizers.Add(gesture = []);
         }
 
         gesture.CanDrag(canDrag);
@@ -527,13 +527,13 @@ public static partial class ViewExtensions
 
     public static T CanDrag<T>(this T view, Func<bool> canDragFunc) where T : IView
     {
-        view.GestureRecognizers ??= new List<IGestureRecognizer>();
+        view.GestureRecognizers ??= [];
         var gesture = view.GestureRecognizers
             .OfType<DragGestureRecognizer>()
             .FirstOrDefault();
         if (gesture == null)
         {
-            view.GestureRecognizers.Add(gesture = new DragGestureRecognizer());
+            view.GestureRecognizers.Add(gesture = []);
         }
 
         gesture.CanDrag(canDragFunc);
@@ -545,13 +545,32 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<PanGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new PanGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
+            }
+
+            gesture.OnPanUpdated(action);
+        }
+
+        return view;
+    }
+
+    public static T OnPanUpdated<T>(this T view, Action<PanUpdatedEventArgs>? action) where T : IView
+    {
+        if (action != null)
+        {
+            view.GestureRecognizers ??= [];
+            var gesture = view.GestureRecognizers
+                .OfType<PanGestureRecognizer>()
+                .FirstOrDefault();
+            if (gesture == null)
+            {
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnPanUpdated(action);
@@ -564,13 +583,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<PanGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new PanGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnPanUpdated(action);
@@ -583,13 +602,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<DropGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnDrop(action);
@@ -602,13 +621,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<DropGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnDrop(action);
@@ -621,13 +640,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<DropGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnDragLeave(action);
@@ -640,13 +659,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<DropGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnDragLeave(action);
@@ -659,13 +678,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<DropGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnDragOver(action);
@@ -678,13 +697,13 @@ public static partial class ViewExtensions
     {
         if (action != null)
         {
-            view.GestureRecognizers ??= new List<IGestureRecognizer>();
+            view.GestureRecognizers ??= [];
             var gesture = view.GestureRecognizers
                 .OfType<DropGestureRecognizer>()
                 .FirstOrDefault();
             if (gesture == null)
             {
-                view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+                view.GestureRecognizers.Add(gesture = []);
             }
 
             gesture.OnDragOver(action);
@@ -695,13 +714,13 @@ public static partial class ViewExtensions
 
     public static T AllowDrop<T>(this T view, bool allowDrop) where T : IView
     {
-        view.GestureRecognizers ??= new List<IGestureRecognizer>();
+        view.GestureRecognizers ??= [];
         var gesture = view.GestureRecognizers
             .OfType<DropGestureRecognizer>()
             .FirstOrDefault();
         if (gesture == null)
         {
-            view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+            view.GestureRecognizers.Add(gesture = []);
         }
 
         gesture.AllowDrop(allowDrop);
@@ -711,13 +730,13 @@ public static partial class ViewExtensions
 
     public static T AllowDrop<T>(this T view, Func<bool> allowDropFunc) where T : IView
     {
-        view.GestureRecognizers ??= new List<IGestureRecognizer>();
+        view.GestureRecognizers ??= [];
         var gesture = view.GestureRecognizers
             .OfType<DropGestureRecognizer>()
             .FirstOrDefault();
         if (gesture == null)
         {
-            view.GestureRecognizers.Add(gesture = new DropGestureRecognizer());
+            view.GestureRecognizers.Add(gesture = []);
         }
 
         gesture.AllowDrop(allowDropFunc);

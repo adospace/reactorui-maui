@@ -159,19 +159,19 @@ public static partial class VisualElementExtensions
 
     public static T VisualState<T>(this T itemsview, string groupName, string stateName, BindableProperty property, object? value, string? targetName = null) where T : IVisualElement
     {
-        itemsview.VisualStateGroups ??= new();
+        itemsview.VisualStateGroups ??= [];
 
         itemsview.VisualStateGroups.TryGetValue(groupName, out var group);
 
         if (group == null)
         {
-            itemsview.VisualStateGroups.Add(groupName, group = new VisualStateGroup());
+            itemsview.VisualStateGroups.Add(groupName, group = []);
         }
 
         group.TryGetValue(stateName, out var state);
         if (state == null)
         {
-            group.Add(stateName, state = new VisualState());
+            group.Add(stateName, state = []);
         }
 
         state.Add(new VisualStatePropertySetter(property, value, targetName));

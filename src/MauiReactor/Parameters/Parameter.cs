@@ -19,7 +19,7 @@ namespace MauiReactor.Parameters
 
     internal class Parameter<T> : IParameter<T> where T : new()
     {
-        private readonly HashSet<WeakReference<Component>> _parameterReferences = new();
+        private readonly HashSet<WeakReference<Component>> _parameterReferences = [];
 
         public Parameter(string name)
         {
@@ -78,7 +78,7 @@ namespace MauiReactor.Parameters
 
     public sealed class ParameterContext
     {
-        private static readonly Dictionary<string, IParameter> _parameters = new();
+        private static readonly Dictionary<string, IParameter> _parameters = [];
 
         public Component Component { get; }
 

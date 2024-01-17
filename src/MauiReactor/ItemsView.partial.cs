@@ -145,7 +145,7 @@ public partial class ItemsView<T> : ICustomDataTemplateOwner, IAutomationItemCon
 
         var itemsSource = NativeControl.ItemsSource.Cast<object>().ToArray();
 
-        _loadedForciblyChildren = new();
+        _loadedForciblyChildren = [];
 
         foreach (var item in itemsSource)
         {
@@ -243,19 +243,19 @@ public static partial class ItemsViewExtensions
 
     public static T ItemVisualState<T>(this T itemsView, string groupName, string stateName, BindableProperty property, object? value, string? targetName = null) where T : IItemsView
     {
-        itemsView.ItemVisualStateGroups ??= new();
+        itemsView.ItemVisualStateGroups ??= [];
 
         itemsView.ItemVisualStateGroups.TryGetValue(groupName, out var group);
 
         if (group == null)
         {
-            itemsView.ItemVisualStateGroups.Add(groupName, group = new VisualStateGroup());
+            itemsView.ItemVisualStateGroups.Add(groupName, group = []);
         }
 
         group.TryGetValue(stateName, out var state);
         if (state == null)
         {
-            group.Add(stateName, state = new VisualState());
+            group.Add(stateName, state = []);
         }
 
         state.Add(new VisualStatePropertySetter(property, value, targetName));

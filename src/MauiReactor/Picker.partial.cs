@@ -31,7 +31,14 @@ public partial class Picker<T>
             NativeControl.ItemsSource.Count != thisAsIPicker.ItemsSource.Count ||
             !NativeControl.ItemsSource.Cast<object>().SequenceEqual(thisAsIPicker.ItemsSource))
         {
-            NativeControl.ItemsSource = (System.Collections.IList?)thisAsIPicker.ItemsSource;
+            if (thisAsIPicker.ItemsSource is System.Collections.IList list)
+            {
+                NativeControl.ItemsSource = list;
+            }
+            else
+            {
+                NativeControl.ItemsSource = thisAsIPicker.ItemsSource?.ToList();
+            }
         }
     }
 }

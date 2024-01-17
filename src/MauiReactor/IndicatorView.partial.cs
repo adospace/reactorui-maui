@@ -76,19 +76,19 @@ public static partial class IndicatorViewExtensions
 
     public static T IndicatorVisualState<T>(this T indicatorView, string groupName, string stateName, BindableProperty property, object? value, string? targetName = null) where T : IIndicatorView
     {
-        indicatorView.IndicatorVisualStateGroups ??= new();
+        indicatorView.IndicatorVisualStateGroups ??= [];
 
         indicatorView.IndicatorVisualStateGroups.TryGetValue(groupName, out var group);
 
         if (group == null)
         {
-            indicatorView.IndicatorVisualStateGroups.Add(groupName, group = new VisualStateGroup());
+            indicatorView.IndicatorVisualStateGroups.Add(groupName, group = []);
         }
 
         group.TryGetValue(stateName, out var state);
         if (state == null)
         {
-            group.Add(stateName, state = new VisualState());
+            group.Add(stateName, state = []);
         }
 
         state.Add(new VisualStatePropertySetter(property, value, targetName));

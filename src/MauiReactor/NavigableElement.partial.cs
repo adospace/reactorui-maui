@@ -36,7 +36,7 @@ public static partial class NavigableElementExtensions
 {
     public static T Class<T>(this T navigableelement, string className) where T : INavigableElement
     {
-        navigableelement.Class ??= new List<string>();
+        navigableelement.Class ??= [];
         navigableelement.Class.Add(className);
         return navigableelement;
     }

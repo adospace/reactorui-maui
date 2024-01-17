@@ -16,7 +16,7 @@ namespace MauiReactor.Internals
         public DataTemplate DataTemplate { get; }
         public ICustomDataTemplateOwner Owner { get; set; }
 
-        private readonly List<ItemTemplateNode> _itemTemplateNodes = new();
+        private readonly List<ItemTemplateNode> _itemTemplateNodes = [];
 
         public CustomDataTemplate(ICustomDataTemplateOwner owner, Action<Microsoft.Maui.Controls.ContentView?>? constructorInjector = null)
         {

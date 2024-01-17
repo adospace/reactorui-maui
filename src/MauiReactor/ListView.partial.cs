@@ -380,7 +380,7 @@ public abstract partial class ListView<T>
     private class CustomDataTemplate
     {
         private readonly bool _isGroupTemplate;
-        private readonly List<WeakReference<IItemTemplatePresenter>> _presenters = new();
+        private readonly List<WeakReference<IItemTemplatePresenter>> _presenters = [];
 
         public CustomDataTemplate(ListView<T> owner, bool isGroupTemplate = false)
         {
