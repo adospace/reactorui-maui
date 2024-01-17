@@ -33,17 +33,15 @@ class CounterPage : Component<CounterPageState>
 ### Setting up MauiReactor from CLI
 
 1. Install MauiReactor templates
-[![Nuget](https://img.shields.io/nuget/v/Reactor.Maui.TemplatePack)](https://www.nuget.org/packages/Reactor.Maui.TemplatePack)
 ```
 dotnet new install Reactor.Maui.TemplatePack
 ```
 
 2. Install MauiReactor hot reload console command
-[![Nuget](https://img.shields.io/nuget/v/Reactor.Maui.HotReload)](https://www.nuget.org/packages/Reactor.Maui.HotReload)
 ```
 dotnet tool install -g Reactor.Maui.HotReload
 ```
-If you already installed an old version of Reactor.Maui.HotReload you can update it to latest using this command:
+If you already installed an old version of Reactor.Maui.HotReload you can update it to the latest using this command:
 ```
 dotnet tool update -g Reactor.Maui.HotReload
 ```
@@ -70,12 +68,12 @@ where the device id comes from this list:
 xcrun simctl list
 ```
 
-5. Hot-reload console
+5. Hot-reload console (in a different shell)
 ```
 dotnet-maui-reactor -f [net8.0-android|net8.0-ios|...]
 ```
 
-6. Edits to code should be hotreloaded by the application --> Enjoy!
+6. Edits to code should be hot-reloaded by the application --> Enjoy!
 
 ### Documentation ###
 
