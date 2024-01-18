@@ -441,7 +441,7 @@ namespace <#= Namespace #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxDoubleAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
-            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxDoubleAnimation(<#= property.Name.CamelCase() #>), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = v.CurrentValue());
+            <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxDoubleAnimation(<#= property.Name.CamelCase() #>), v => <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = ((RxDoubleAnimation)v).CurrentValue());
             return <#= TypeName.ToLocalVariableName() #>;
         }        
         <# } else if (property.Type.Equals(TypeofFloat, SymbolEqualityComparer.Default)) { #>

@@ -1757,7 +1757,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" = v.CurrentValue());\r\n            return ");
+            this.Write(" = ((RxDoubleAnimation)v).CurrentValue());\r\n            return ");
             
             #line 445 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
