@@ -199,6 +199,8 @@ public partial class ImageButton : ImageButton<Microsoft.Maui.Controls.ImageButt
 
 public static partial class ImageButtonExtensions
 {
+    static void SetBorderWidth(object imageButton, RxAnimation animation) => ((IImageButton)imageButton).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetPadding(object imageButton, RxAnimation animation) => ((IImageButton)imageButton).Padding = ((RxThicknessAnimation)animation).CurrentValue();
     public static T CornerRadius<T>(this T imageButton, int cornerRadius)
         where T : IImageButton
     {
@@ -217,7 +219,7 @@ public static partial class ImageButtonExtensions
         where T : IImageButton
     {
         imageButton.BorderWidth = borderWidth;
-        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, customAnimation ?? new RxDoubleAnimation(borderWidth), v => imageButton.BorderWidth = ((RxDoubleAnimation)v).CurrentValue());
+        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, customAnimation ?? new RxDoubleAnimation(borderWidth), SetBorderWidth);
         return imageButton;
     }
 
@@ -335,7 +337,7 @@ public static partial class ImageButtonExtensions
         where T : IImageButton
     {
         imageButton.Padding = padding;
-        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => imageButton.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), SetPadding);
         return imageButton;
     }
 
@@ -350,7 +352,7 @@ public static partial class ImageButtonExtensions
         where T : IImageButton
     {
         imageButton.Padding = new Thickness(leftRight, topBottom);
-        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => imageButton.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), SetPadding);
         return imageButton;
     }
 
@@ -358,7 +360,7 @@ public static partial class ImageButtonExtensions
         where T : IImageButton
     {
         imageButton.Padding = new Thickness(uniformSize);
-        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => imageButton.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), SetPadding);
         return imageButton;
     }
 
@@ -366,7 +368,7 @@ public static partial class ImageButtonExtensions
         where T : IImageButton
     {
         imageButton.Padding = new Thickness(left, top, right, bottom);
-        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => imageButton.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), SetPadding);
         return imageButton;
     }
 

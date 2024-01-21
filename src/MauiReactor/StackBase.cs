@@ -63,11 +63,12 @@ public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Mic
 
 public static partial class StackBaseExtensions
 {
+    static void SetSpacing(object stackBase, RxAnimation animation) => ((IStackBase)stackBase).Spacing = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Spacing<T>(this T stackBase, double spacing, RxDoubleAnimation? customAnimation = null)
         where T : IStackBase
     {
         stackBase.Spacing = spacing;
-        stackBase.AppendAnimatable(Microsoft.Maui.Controls.StackBase.SpacingProperty, customAnimation ?? new RxDoubleAnimation(spacing), v => stackBase.Spacing = ((RxDoubleAnimation)v).CurrentValue());
+        stackBase.AppendAnimatable(Microsoft.Maui.Controls.StackBase.SpacingProperty, customAnimation ?? new RxDoubleAnimation(spacing), SetSpacing);
         return stackBase;
     }
 

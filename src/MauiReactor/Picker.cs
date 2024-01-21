@@ -177,6 +177,8 @@ public partial class Picker : Picker<Microsoft.Maui.Controls.Picker>
 
 public static partial class PickerExtensions
 {
+    static void SetCharacterSpacing(object picker, RxAnimation animation) => ((IPicker)picker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetFontSize(object picker, RxAnimation animation) => ((IPicker)picker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
     public static T TextColor<T>(this T picker, Microsoft.Maui.Graphics.Color textColor)
         where T : IPicker
     {
@@ -195,7 +197,7 @@ public static partial class PickerExtensions
         where T : IPicker
     {
         picker.CharacterSpacing = characterSpacing;
-        picker.AppendAnimatable(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => picker.CharacterSpacing = ((RxDoubleAnimation)v).CurrentValue());
+        picker.AppendAnimatable(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), SetCharacterSpacing);
         return picker;
     }
 
@@ -266,7 +268,7 @@ public static partial class PickerExtensions
         where T : IPicker
     {
         picker.FontSize = fontSize;
-        picker.AppendAnimatable(Microsoft.Maui.Controls.Picker.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => picker.FontSize = ((RxDoubleAnimation)v).CurrentValue());
+        picker.AppendAnimatable(Microsoft.Maui.Controls.Picker.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), SetFontSize);
         return picker;
     }
 

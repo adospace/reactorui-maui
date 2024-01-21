@@ -44,6 +44,6 @@ public partial class MenuBarItem
 public partial class Component
 {
     public static MenuBarItem MenuBarItem(string text) =>
-        GetNodeFromPool<MenuBarItem>().Text(text);
+        new MenuBarItem().Text(text);
 
 }

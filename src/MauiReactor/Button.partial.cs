@@ -10,8 +10,8 @@ public partial class Button
 public partial class Component
 {
     public static Button Button(string text) 
-        => GetNodeFromPool<Button>().Text(text);
+        => new Button().Text(text);
 
     public static Button Button(string text, Action onClick) 
-        => GetNodeFromPool<Button>().Text(text).OnClicked(onClick);
+        => new Button().Text(text).OnClicked(onClick);
 }

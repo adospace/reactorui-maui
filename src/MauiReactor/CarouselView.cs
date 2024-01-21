@@ -175,6 +175,7 @@ public partial class CarouselView : CarouselView<Microsoft.Maui.Controls.Carouse
 
 public static partial class CarouselViewExtensions
 {
+    static void SetPeekAreaInsets(object carouselView, RxAnimation animation) => ((ICarouselView)carouselView).PeekAreaInsets = ((RxThicknessAnimation)animation).CurrentValue();
     public static T Loop<T>(this T carouselView, bool loop)
         where T : ICarouselView
     {
@@ -193,7 +194,7 @@ public static partial class CarouselViewExtensions
         where T : ICarouselView
     {
         carouselView.PeekAreaInsets = peekAreaInsets;
-        carouselView.AppendAnimatable(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, customAnimation ?? new RxSimpleThicknessAnimation(peekAreaInsets), v => carouselView.PeekAreaInsets = ((RxThicknessAnimation)v).CurrentValue());
+        carouselView.AppendAnimatable(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, customAnimation ?? new RxSimpleThicknessAnimation(peekAreaInsets), SetPeekAreaInsets);
         return carouselView;
     }
 
@@ -208,7 +209,7 @@ public static partial class CarouselViewExtensions
         where T : ICarouselView
     {
         carouselView.PeekAreaInsets = new Thickness(leftRight, topBottom);
-        carouselView.AppendAnimatable(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => carouselView.PeekAreaInsets = ((RxThicknessAnimation)v).CurrentValue());
+        carouselView.AppendAnimatable(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), SetPeekAreaInsets);
         return carouselView;
     }
 
@@ -216,7 +217,7 @@ public static partial class CarouselViewExtensions
         where T : ICarouselView
     {
         carouselView.PeekAreaInsets = new Thickness(uniformSize);
-        carouselView.AppendAnimatable(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => carouselView.PeekAreaInsets = ((RxThicknessAnimation)v).CurrentValue());
+        carouselView.AppendAnimatable(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), SetPeekAreaInsets);
         return carouselView;
     }
 
@@ -224,7 +225,7 @@ public static partial class CarouselViewExtensions
         where T : ICarouselView
     {
         carouselView.PeekAreaInsets = new Thickness(left, top, right, bottom);
-        carouselView.AppendAnimatable(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => carouselView.PeekAreaInsets = ((RxThicknessAnimation)v).CurrentValue());
+        carouselView.AppendAnimatable(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), SetPeekAreaInsets);
         return carouselView;
     }
 

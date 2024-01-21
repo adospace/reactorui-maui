@@ -200,11 +200,14 @@ public partial class Slider : Slider<Microsoft.Maui.Controls.Slider>
 
 public static partial class SliderExtensions
 {
+    static void SetMinimum(object slider, RxAnimation animation) => ((ISlider)slider).Minimum = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetMaximum(object slider, RxAnimation animation) => ((ISlider)slider).Maximum = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetValue(object slider, RxAnimation animation) => ((ISlider)slider).Value = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Minimum<T>(this T slider, double minimum, RxDoubleAnimation? customAnimation = null)
         where T : ISlider
     {
         slider.Minimum = minimum;
-        slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.MinimumProperty, customAnimation ?? new RxDoubleAnimation(minimum), v => slider.Minimum = ((RxDoubleAnimation)v).CurrentValue());
+        slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.MinimumProperty, customAnimation ?? new RxDoubleAnimation(minimum), SetMinimum);
         return slider;
     }
 
@@ -219,7 +222,7 @@ public static partial class SliderExtensions
         where T : ISlider
     {
         slider.Maximum = maximum;
-        slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.MaximumProperty, customAnimation ?? new RxDoubleAnimation(maximum), v => slider.Maximum = ((RxDoubleAnimation)v).CurrentValue());
+        slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.MaximumProperty, customAnimation ?? new RxDoubleAnimation(maximum), SetMaximum);
         return slider;
     }
 
@@ -234,7 +237,7 @@ public static partial class SliderExtensions
         where T : ISlider
     {
         slider.Value = value;
-        slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.ValueProperty, customAnimation ?? new RxDoubleAnimation(value), v => slider.Value = ((RxDoubleAnimation)v).CurrentValue());
+        slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.ValueProperty, customAnimation ?? new RxDoubleAnimation(value), SetValue);
         return slider;
     }
 

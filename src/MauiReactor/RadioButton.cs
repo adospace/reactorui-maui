@@ -190,6 +190,9 @@ public partial class RadioButton : RadioButton<Microsoft.Maui.Controls.RadioButt
 
 public static partial class RadioButtonExtensions
 {
+    static void SetCharacterSpacing(object radioButton, RxAnimation animation) => ((IRadioButton)radioButton).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetFontSize(object radioButton, RxAnimation animation) => ((IRadioButton)radioButton).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetBorderWidth(object radioButton, RxAnimation animation) => ((IRadioButton)radioButton).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Value<T>(this T radioButton, object value)
         where T : IRadioButton
     {
@@ -250,7 +253,7 @@ public static partial class RadioButtonExtensions
         where T : IRadioButton
     {
         radioButton.CharacterSpacing = characterSpacing;
-        radioButton.AppendAnimatable(Microsoft.Maui.Controls.RadioButton.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => radioButton.CharacterSpacing = ((RxDoubleAnimation)v).CurrentValue());
+        radioButton.AppendAnimatable(Microsoft.Maui.Controls.RadioButton.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), SetCharacterSpacing);
         return radioButton;
     }
 
@@ -307,7 +310,7 @@ public static partial class RadioButtonExtensions
         where T : IRadioButton
     {
         radioButton.FontSize = fontSize;
-        radioButton.AppendAnimatable(Microsoft.Maui.Controls.RadioButton.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => radioButton.FontSize = ((RxDoubleAnimation)v).CurrentValue());
+        radioButton.AppendAnimatable(Microsoft.Maui.Controls.RadioButton.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), SetFontSize);
         return radioButton;
     }
 
@@ -364,7 +367,7 @@ public static partial class RadioButtonExtensions
         where T : IRadioButton
     {
         radioButton.BorderWidth = borderWidth;
-        radioButton.AppendAnimatable(Microsoft.Maui.Controls.RadioButton.BorderWidthProperty, customAnimation ?? new RxDoubleAnimation(borderWidth), v => radioButton.BorderWidth = ((RxDoubleAnimation)v).CurrentValue());
+        radioButton.AppendAnimatable(Microsoft.Maui.Controls.RadioButton.BorderWidthProperty, customAnimation ?? new RxDoubleAnimation(borderWidth), SetBorderWidth);
         return radioButton;
     }
 

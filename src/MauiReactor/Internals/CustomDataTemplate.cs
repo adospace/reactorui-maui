@@ -14,9 +14,32 @@ namespace MauiReactor.Internals
     public class CustomDataTemplate
     {
         public DataTemplate DataTemplate { get; }
-        public ICustomDataTemplateOwner Owner { get; set; }
 
-        private readonly List<ItemTemplateNode> _itemTemplateNodes = [];
+        private readonly List<WeakReference<ItemTemplateNode>> _itemTemplateNodeRefs = [];
+
+        WeakReference<ICustomDataTemplateOwner>? _ownerRef;
+
+        public ICustomDataTemplateOwner? Owner
+        {
+            get
+            {
+                if (_ownerRef != null)
+                {
+                    _ownerRef.TryGetTarget(out var owner);
+                    return owner;
+                }
+
+                return null;
+            }
+            set
+            {
+                _ownerRef = null;
+                if (value != null)
+                {
+                    _ownerRef = new WeakReference<ICustomDataTemplateOwner>(value);
+                }
+            }
+        }
 
         public CustomDataTemplate(ICustomDataTemplateOwner owner, Action<Microsoft.Maui.Controls.ContentView?>? constructorInjector = null)
         {
@@ -27,7 +50,7 @@ namespace MauiReactor.Internals
                 itemTemplateNode.Layout();
                 constructorInjector?.Invoke(itemTemplateNode.ItemContainer);
 
-                _itemTemplateNodes.Add(itemTemplateNode);
+                _itemTemplateNodeRefs.Add(new WeakReference<ItemTemplateNode>(itemTemplateNode));
 
                 return itemTemplateNode.ItemContainer;
             });
@@ -35,14 +58,17 @@ namespace MauiReactor.Internals
 
         public virtual VisualNode? GetVisualNodeForItem(object item)
         {
-            return Owner.GetVisualNodeForItem(item);
+            return Owner?.GetVisualNodeForItem(item);
         }
 
         public void Update()
         {
-            foreach(var templateNodeItem in _itemTemplateNodes)
+            foreach(var templateNodeItemRef in _itemTemplateNodeRefs)
             {
-                templateNodeItem.Update();
+                if (templateNodeItemRef.TryGetTarget(out var itemTemplateNode))
+                {
+                    itemTemplateNode.Update();
+                }
             }
         }
     }

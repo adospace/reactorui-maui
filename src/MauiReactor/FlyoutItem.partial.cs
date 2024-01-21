@@ -11,10 +11,10 @@ public partial class FlyoutItem
 public partial class Component
 {
     public static FlyoutItem FlyoutItem(string title) 
-        => GetNodeFromPool<FlyoutItem>().Title(title);
+        => new FlyoutItem().Title(title);
 
     public static FlyoutItem FlyoutItem(string title, string icon) 
-        => GetNodeFromPool<FlyoutItem>().Title(title).Icon(icon);
+        => new FlyoutItem().Title(title).Icon(icon);
 
     public static FlyoutItem FlyoutItem(string title, params VisualNode?[]? children)
         => FlyoutItem(children).Title(title);

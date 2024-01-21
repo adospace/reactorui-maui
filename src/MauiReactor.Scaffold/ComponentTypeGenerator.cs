@@ -73,14 +73,14 @@ public partial class Component
             
             #line default
             #line hidden
-            this.Write("()\r\n        => GetNodeFromPool<");
+            this.Write("()\r\n        => new ");
             
             #line 27 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(typeName));
             
             #line default
             #line hidden
-            this.Write(">();\r\n\r\n    ");
+            this.Write("();\r\n\r\n    ");
             
             #line 29 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
  if (typeof(Element).IsAssignableFrom(type)) { 
@@ -108,14 +108,14 @@ public partial class Component
             
             #line default
             #line hidden
-            this.Write(" = GetNodeFromPool<");
+            this.Write(" = new ");
             
             #line 32 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(typeName));
             
             #line default
             #line hidden
-            this.Write(">();\r\n        if (children != null)\r\n        {\r\n            @");
+            this.Write("();\r\n        if (children != null)\r\n        {\r\n            @");
             
             #line 35 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(type.Name.ToLower()));
@@ -164,14 +164,14 @@ public partial class Component
             
             #line default
             #line hidden
-            this.Write(" = GetNodeFromPool<");
+            this.Write(" = new ");
             
             #line 43 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(typeName));
             
             #line default
             #line hidden
-            this.Write(">();\r\n        @");
+            this.Write("();\r\n        @");
             
             #line 44 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(type.Name.ToLower()));
@@ -220,14 +220,14 @@ public partial class Component
             
             #line default
             #line hidden
-            this.Write(" = GetNodeFromPool<");
+            this.Write(" = new ");
             
             #line 51 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(typeName));
             
             #line default
             #line hidden
-            this.Write(">();\r\n        @");
+            this.Write("();\r\n        @");
             
             #line 52 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(type.Name.ToLower()));

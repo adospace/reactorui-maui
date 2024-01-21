@@ -137,11 +137,15 @@ public partial class Stepper : Stepper<Microsoft.Maui.Controls.Stepper>
 
 public static partial class StepperExtensions
 {
+    static void SetMaximum(object stepper, RxAnimation animation) => ((IStepper)stepper).Maximum = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetMinimum(object stepper, RxAnimation animation) => ((IStepper)stepper).Minimum = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetValue(object stepper, RxAnimation animation) => ((IStepper)stepper).Value = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetIncrement(object stepper, RxAnimation animation) => ((IStepper)stepper).Increment = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Maximum<T>(this T stepper, double maximum, RxDoubleAnimation? customAnimation = null)
         where T : IStepper
     {
         stepper.Maximum = maximum;
-        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.MaximumProperty, customAnimation ?? new RxDoubleAnimation(maximum), v => stepper.Maximum = ((RxDoubleAnimation)v).CurrentValue());
+        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.MaximumProperty, customAnimation ?? new RxDoubleAnimation(maximum), SetMaximum);
         return stepper;
     }
 
@@ -156,7 +160,7 @@ public static partial class StepperExtensions
         where T : IStepper
     {
         stepper.Minimum = minimum;
-        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.MinimumProperty, customAnimation ?? new RxDoubleAnimation(minimum), v => stepper.Minimum = ((RxDoubleAnimation)v).CurrentValue());
+        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.MinimumProperty, customAnimation ?? new RxDoubleAnimation(minimum), SetMinimum);
         return stepper;
     }
 
@@ -171,7 +175,7 @@ public static partial class StepperExtensions
         where T : IStepper
     {
         stepper.Value = value;
-        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.ValueProperty, customAnimation ?? new RxDoubleAnimation(value), v => stepper.Value = ((RxDoubleAnimation)v).CurrentValue());
+        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.ValueProperty, customAnimation ?? new RxDoubleAnimation(value), SetValue);
         return stepper;
     }
 
@@ -186,7 +190,7 @@ public static partial class StepperExtensions
         where T : IStepper
     {
         stepper.Increment = increment;
-        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.IncrementProperty, customAnimation ?? new RxDoubleAnimation(increment), v => stepper.Increment = ((RxDoubleAnimation)v).CurrentValue());
+        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.IncrementProperty, customAnimation ?? new RxDoubleAnimation(increment), SetIncrement);
         return stepper;
     }
 

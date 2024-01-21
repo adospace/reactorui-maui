@@ -84,11 +84,15 @@ public sealed partial class Line : Shapes.Shape<Microsoft.Maui.Controls.Shapes.L
 
 public static partial class LineExtensions
 {
+    static void SetX1(object line, RxAnimation animation) => ((ILine)line).X1 = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetY1(object line, RxAnimation animation) => ((ILine)line).Y1 = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetX2(object line, RxAnimation animation) => ((ILine)line).X2 = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetY2(object line, RxAnimation animation) => ((ILine)line).Y2 = ((RxDoubleAnimation)animation).CurrentValue();
     public static T X1<T>(this T line, double x1, RxDoubleAnimation? customAnimation = null)
         where T : ILine
     {
         line.X1 = x1;
-        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.X1Property, customAnimation ?? new RxDoubleAnimation(x1), v => line.X1 = ((RxDoubleAnimation)v).CurrentValue());
+        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.X1Property, customAnimation ?? new RxDoubleAnimation(x1), SetX1);
         return line;
     }
 
@@ -103,7 +107,7 @@ public static partial class LineExtensions
         where T : ILine
     {
         line.Y1 = y1;
-        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.Y1Property, customAnimation ?? new RxDoubleAnimation(y1), v => line.Y1 = ((RxDoubleAnimation)v).CurrentValue());
+        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.Y1Property, customAnimation ?? new RxDoubleAnimation(y1), SetY1);
         return line;
     }
 
@@ -118,7 +122,7 @@ public static partial class LineExtensions
         where T : ILine
     {
         line.X2 = x2;
-        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.X2Property, customAnimation ?? new RxDoubleAnimation(x2), v => line.X2 = ((RxDoubleAnimation)v).CurrentValue());
+        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.X2Property, customAnimation ?? new RxDoubleAnimation(x2), SetX2);
         return line;
     }
 
@@ -133,7 +137,7 @@ public static partial class LineExtensions
         where T : ILine
     {
         line.Y2 = y2;
-        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.Y2Property, customAnimation ?? new RxDoubleAnimation(y2), v => line.Y2 = ((RxDoubleAnimation)v).CurrentValue());
+        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.Y2Property, customAnimation ?? new RxDoubleAnimation(y2), SetY2);
         return line;
     }
 

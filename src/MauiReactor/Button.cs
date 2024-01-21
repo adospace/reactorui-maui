@@ -249,6 +249,10 @@ public partial class Button : Button<Microsoft.Maui.Controls.Button>
 
 public static partial class ButtonExtensions
 {
+    static void SetCharacterSpacing(object button, RxAnimation animation) => ((IButton)button).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetFontSize(object button, RxAnimation animation) => ((IButton)button).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetBorderWidth(object button, RxAnimation animation) => ((IButton)button).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetPadding(object button, RxAnimation animation) => ((IButton)button).Padding = ((RxThicknessAnimation)animation).CurrentValue();
     public static T ContentLayout<T>(this T button, Microsoft.Maui.Controls.Button.ButtonContentLayout contentLayout)
         where T : IButton
     {
@@ -295,7 +299,7 @@ public static partial class ButtonExtensions
         where T : IButton
     {
         button.CharacterSpacing = characterSpacing;
-        button.AppendAnimatable(Microsoft.Maui.Controls.Button.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => button.CharacterSpacing = ((RxDoubleAnimation)v).CurrentValue());
+        button.AppendAnimatable(Microsoft.Maui.Controls.Button.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), SetCharacterSpacing);
         return button;
     }
 
@@ -324,7 +328,7 @@ public static partial class ButtonExtensions
         where T : IButton
     {
         button.FontSize = fontSize;
-        button.AppendAnimatable(Microsoft.Maui.Controls.Button.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => button.FontSize = ((RxDoubleAnimation)v).CurrentValue());
+        button.AppendAnimatable(Microsoft.Maui.Controls.Button.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), SetFontSize);
         return button;
     }
 
@@ -381,7 +385,7 @@ public static partial class ButtonExtensions
         where T : IButton
     {
         button.BorderWidth = borderWidth;
-        button.AppendAnimatable(Microsoft.Maui.Controls.Button.BorderWidthProperty, customAnimation ?? new RxDoubleAnimation(borderWidth), v => button.BorderWidth = ((RxDoubleAnimation)v).CurrentValue());
+        button.AppendAnimatable(Microsoft.Maui.Controls.Button.BorderWidthProperty, customAnimation ?? new RxDoubleAnimation(borderWidth), SetBorderWidth);
         return button;
     }
 
@@ -485,7 +489,7 @@ public static partial class ButtonExtensions
         where T : IButton
     {
         button.Padding = padding;
-        button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => button.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), SetPadding);
         return button;
     }
 
@@ -500,7 +504,7 @@ public static partial class ButtonExtensions
         where T : IButton
     {
         button.Padding = new Thickness(leftRight, topBottom);
-        button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => button.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), SetPadding);
         return button;
     }
 
@@ -508,7 +512,7 @@ public static partial class ButtonExtensions
         where T : IButton
     {
         button.Padding = new Thickness(uniformSize);
-        button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => button.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), SetPadding);
         return button;
     }
 
@@ -516,7 +520,7 @@ public static partial class ButtonExtensions
         where T : IButton
     {
         button.Padding = new Thickness(left, top, right, bottom);
-        button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => button.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), SetPadding);
         return button;
     }
 

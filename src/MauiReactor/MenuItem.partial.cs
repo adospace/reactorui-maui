@@ -9,6 +9,6 @@ public partial class MenuItem
 public partial class Component
 {
     public static MenuItem MenuItem(string text) =>
-        GetNodeFromPool<MenuItem>().Text(text);
+        new MenuItem().Text(text);
 
 }

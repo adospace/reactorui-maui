@@ -11,8 +11,8 @@ public partial class Image
 public partial class Component
 {
     public static Image Image(string imageSource) =>
-        GetNodeFromPool<Image>().Source(imageSource);
+        new Image().Source(imageSource);
 
     public static Image Image(Uri imageSource) =>
-        GetNodeFromPool<Image>().Source(imageSource);
+        new Image().Source(imageSource);
 }

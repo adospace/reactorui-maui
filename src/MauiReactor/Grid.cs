@@ -81,11 +81,13 @@ public partial class Grid : Grid<Microsoft.Maui.Controls.Grid>
 
 public static partial class GridExtensions
 {
+    static void SetRowSpacing(object grid, RxAnimation animation) => ((IGrid)grid).RowSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetColumnSpacing(object grid, RxAnimation animation) => ((IGrid)grid).ColumnSpacing = ((RxDoubleAnimation)animation).CurrentValue();
     public static T RowSpacing<T>(this T grid, double rowSpacing, RxDoubleAnimation? customAnimation = null)
         where T : IGrid
     {
         grid.RowSpacing = rowSpacing;
-        grid.AppendAnimatable(Microsoft.Maui.Controls.Grid.RowSpacingProperty, customAnimation ?? new RxDoubleAnimation(rowSpacing), v => grid.RowSpacing = ((RxDoubleAnimation)v).CurrentValue());
+        grid.AppendAnimatable(Microsoft.Maui.Controls.Grid.RowSpacingProperty, customAnimation ?? new RxDoubleAnimation(rowSpacing), SetRowSpacing);
         return grid;
     }
 
@@ -100,7 +102,7 @@ public static partial class GridExtensions
         where T : IGrid
     {
         grid.ColumnSpacing = columnSpacing;
-        grid.AppendAnimatable(Microsoft.Maui.Controls.Grid.ColumnSpacingProperty, customAnimation ?? new RxDoubleAnimation(columnSpacing), v => grid.ColumnSpacing = ((RxDoubleAnimation)v).CurrentValue());
+        grid.AppendAnimatable(Microsoft.Maui.Controls.Grid.ColumnSpacingProperty, customAnimation ?? new RxDoubleAnimation(columnSpacing), SetColumnSpacing);
         return grid;
     }
 

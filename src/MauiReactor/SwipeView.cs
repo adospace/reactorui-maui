@@ -162,11 +162,12 @@ public partial class SwipeView : SwipeView<Microsoft.Maui.Controls.SwipeView>
 
 public static partial class SwipeViewExtensions
 {
+    static void SetThreshold(object swipeView, RxAnimation animation) => ((ISwipeView)swipeView).Threshold = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Threshold<T>(this T swipeView, double threshold, RxDoubleAnimation? customAnimation = null)
         where T : ISwipeView
     {
         swipeView.Threshold = threshold;
-        swipeView.AppendAnimatable(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, customAnimation ?? new RxDoubleAnimation(threshold), v => swipeView.Threshold = ((RxDoubleAnimation)v).CurrentValue());
+        swipeView.AppendAnimatable(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, customAnimation ?? new RxDoubleAnimation(threshold), SetThreshold);
         return swipeView;
     }
 

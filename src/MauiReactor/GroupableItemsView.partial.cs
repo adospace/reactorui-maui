@@ -122,6 +122,15 @@ public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableI
 
         base.OnMigrated(newNode);
     }
+
+    protected override void OnUnmount()
+    {
+        Validate.EnsureNotNull(NativeControl);
+        NativeControl.GroupHeaderTemplate = null;
+        NativeControl.GroupFooterTemplate = null;
+
+        base.OnUnmount();
+    }
 }
 
 public static partial class GroupableItemsViewExtensions

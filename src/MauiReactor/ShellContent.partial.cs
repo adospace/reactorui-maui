@@ -192,8 +192,8 @@ public static partial class ShellContentExtensions
 public partial class Component
 {
     public static ShellContent ShellContent(string title)
-        => GetNodeFromPool<ShellContent>().Title(title);
+        => new ShellContent().Title(title);
 
     public static ShellContent ShellContent(string title, Func<VisualNode> template)
-        => GetNodeFromPool<ShellContent>().Title(title).RenderContent(template);
+        => new ShellContent().Title(title).RenderContent(template);
 }

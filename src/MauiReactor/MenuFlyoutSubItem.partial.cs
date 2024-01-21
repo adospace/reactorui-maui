@@ -43,6 +43,6 @@ public partial class MenuFlyoutSubItem
 public partial class Component
 {
     public static MenuFlyoutSubItem MenuFlyoutSubItem(string text) =>
-        GetNodeFromPool<MenuFlyoutSubItem>().Text(text);
+        new MenuFlyoutSubItem().Text(text);
 
 }

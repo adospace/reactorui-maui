@@ -63,11 +63,12 @@ public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItem
 
 public static partial class LinearItemsLayoutExtensions
 {
+    static void SetItemSpacing(object linearItemsLayout, RxAnimation animation) => ((ILinearItemsLayout)linearItemsLayout).ItemSpacing = ((RxDoubleAnimation)animation).CurrentValue();
     public static T ItemSpacing<T>(this T linearItemsLayout, double itemSpacing, RxDoubleAnimation? customAnimation = null)
         where T : ILinearItemsLayout
     {
         linearItemsLayout.ItemSpacing = itemSpacing;
-        linearItemsLayout.AppendAnimatable(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, customAnimation ?? new RxDoubleAnimation(itemSpacing), v => linearItemsLayout.ItemSpacing = ((RxDoubleAnimation)v).CurrentValue());
+        linearItemsLayout.AppendAnimatable(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, customAnimation ?? new RxDoubleAnimation(itemSpacing), SetItemSpacing);
         return linearItemsLayout;
     }
 

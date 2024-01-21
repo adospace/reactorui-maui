@@ -80,6 +80,7 @@ public partial class ProgressBar : ProgressBar<Microsoft.Maui.Controls.ProgressB
 
 public static partial class ProgressBarExtensions
 {
+    static void SetProgress(object progressBar, RxAnimation animation) => ((IProgressBar)progressBar).Progress = ((RxDoubleAnimation)animation).CurrentValue();
     public static T ProgressColor<T>(this T progressBar, Microsoft.Maui.Graphics.Color progressColor)
         where T : IProgressBar
     {
@@ -98,7 +99,7 @@ public static partial class ProgressBarExtensions
         where T : IProgressBar
     {
         progressBar.Progress = progress;
-        progressBar.AppendAnimatable(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, customAnimation ?? new RxDoubleAnimation(progress), v => progressBar.Progress = ((RxDoubleAnimation)v).CurrentValue());
+        progressBar.AppendAnimatable(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, customAnimation ?? new RxDoubleAnimation(progress), SetProgress);
         return progressBar;
     }
 

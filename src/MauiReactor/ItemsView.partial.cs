@@ -103,6 +103,14 @@ public partial class ItemsView<T> : ICustomDataTemplateOwner, IAutomationItemCon
         base.OnMigrated(newNode);
     }
 
+    protected override void OnUnmount()
+    {
+        Validate.EnsureNotNull(NativeControl);
+        NativeControl.ClearValue(ItemsView.ItemsSourceProperty);
+        NativeControl.ClearValue(ItemsView.ItemTemplateProperty);
+        base.OnUnmount();
+    }
+
     IEnumerable<TChild> IAutomationItemContainer.Descendants<TChild>()
     {
         if (_loadedForciblyChildren == null)

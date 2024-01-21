@@ -119,11 +119,15 @@ public partial class Border : Border<Microsoft.Maui.Controls.Border>
 
 public static partial class BorderExtensions
 {
+    static void SetPadding(object border, RxAnimation animation) => ((IBorder)border).Padding = ((RxThicknessAnimation)animation).CurrentValue();
+    static void SetStrokeThickness(object border, RxAnimation animation) => ((IBorder)border).StrokeThickness = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetStrokeDashOffset(object border, RxAnimation animation) => ((IBorder)border).StrokeDashOffset = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetStrokeMiterLimit(object border, RxAnimation animation) => ((IBorder)border).StrokeMiterLimit = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Padding<T>(this T border, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
         where T : IBorder
     {
         border.Padding = padding;
-        border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => border.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), SetPadding);
         return border;
     }
 
@@ -138,7 +142,7 @@ public static partial class BorderExtensions
         where T : IBorder
     {
         border.Padding = new Thickness(leftRight, topBottom);
-        border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => border.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), SetPadding);
         return border;
     }
 
@@ -146,7 +150,7 @@ public static partial class BorderExtensions
         where T : IBorder
     {
         border.Padding = new Thickness(uniformSize);
-        border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => border.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), SetPadding);
         return border;
     }
 
@@ -154,7 +158,7 @@ public static partial class BorderExtensions
         where T : IBorder
     {
         border.Padding = new Thickness(left, top, right, bottom);
-        border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => border.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        border.AppendAnimatable(Microsoft.Maui.Controls.Border.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), SetPadding);
         return border;
     }
 
@@ -176,7 +180,7 @@ public static partial class BorderExtensions
         where T : IBorder
     {
         border.StrokeThickness = strokeThickness;
-        border.AppendAnimatable(Microsoft.Maui.Controls.Border.StrokeThicknessProperty, customAnimation ?? new RxDoubleAnimation(strokeThickness), v => border.StrokeThickness = ((RxDoubleAnimation)v).CurrentValue());
+        border.AppendAnimatable(Microsoft.Maui.Controls.Border.StrokeThicknessProperty, customAnimation ?? new RxDoubleAnimation(strokeThickness), SetStrokeThickness);
         return border;
     }
 
@@ -205,7 +209,7 @@ public static partial class BorderExtensions
         where T : IBorder
     {
         border.StrokeDashOffset = strokeDashOffset;
-        border.AppendAnimatable(Microsoft.Maui.Controls.Border.StrokeDashOffsetProperty, customAnimation ?? new RxDoubleAnimation(strokeDashOffset), v => border.StrokeDashOffset = ((RxDoubleAnimation)v).CurrentValue());
+        border.AppendAnimatable(Microsoft.Maui.Controls.Border.StrokeDashOffsetProperty, customAnimation ?? new RxDoubleAnimation(strokeDashOffset), SetStrokeDashOffset);
         return border;
     }
 
@@ -248,7 +252,7 @@ public static partial class BorderExtensions
         where T : IBorder
     {
         border.StrokeMiterLimit = strokeMiterLimit;
-        border.AppendAnimatable(Microsoft.Maui.Controls.Border.StrokeMiterLimitProperty, customAnimation ?? new RxDoubleAnimation(strokeMiterLimit), v => border.StrokeMiterLimit = ((RxDoubleAnimation)v).CurrentValue());
+        border.AppendAnimatable(Microsoft.Maui.Controls.Border.StrokeMiterLimitProperty, customAnimation ?? new RxDoubleAnimation(strokeMiterLimit), SetStrokeMiterLimit);
         return border;
     }
 

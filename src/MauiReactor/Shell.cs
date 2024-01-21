@@ -206,6 +206,8 @@ public partial class Shell : Shell<Microsoft.Maui.Controls.Shell>
 
 public static partial class ShellExtensions
 {
+    static void SetFlyoutWidth(object shell, RxAnimation animation) => ((IShell)shell).FlyoutWidth = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetFlyoutHeight(object shell, RxAnimation animation) => ((IShell)shell).FlyoutHeight = ((RxDoubleAnimation)animation).CurrentValue();
     public static T FlyoutBehavior<T>(this T shell, Microsoft.Maui.FlyoutBehavior flyoutBehavior)
         where T : IShell
     {
@@ -238,7 +240,7 @@ public static partial class ShellExtensions
         where T : IShell
     {
         shell.FlyoutWidth = flyoutWidth;
-        shell.AppendAnimatable(Microsoft.Maui.Controls.Shell.FlyoutWidthProperty, customAnimation ?? new RxDoubleAnimation(flyoutWidth), v => shell.FlyoutWidth = ((RxDoubleAnimation)v).CurrentValue());
+        shell.AppendAnimatable(Microsoft.Maui.Controls.Shell.FlyoutWidthProperty, customAnimation ?? new RxDoubleAnimation(flyoutWidth), SetFlyoutWidth);
         return shell;
     }
 
@@ -253,7 +255,7 @@ public static partial class ShellExtensions
         where T : IShell
     {
         shell.FlyoutHeight = flyoutHeight;
-        shell.AppendAnimatable(Microsoft.Maui.Controls.Shell.FlyoutHeightProperty, customAnimation ?? new RxDoubleAnimation(flyoutHeight), v => shell.FlyoutHeight = ((RxDoubleAnimation)v).CurrentValue());
+        shell.AppendAnimatable(Microsoft.Maui.Controls.Shell.FlyoutHeightProperty, customAnimation ?? new RxDoubleAnimation(flyoutHeight), SetFlyoutHeight);
         return shell;
     }
 

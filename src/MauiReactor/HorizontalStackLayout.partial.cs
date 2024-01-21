@@ -17,7 +17,7 @@ public partial class Component
 
     public static HStack HStack(params VisualNode?[] children)
     {
-        var hstack = GetNodeFromPool<HStack>();
+        var hstack = new HStack();
         hstack.AddChildren(children);
         return hstack;
     }

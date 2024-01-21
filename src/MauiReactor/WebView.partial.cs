@@ -10,8 +10,8 @@ public partial class WebView
 public partial class Component
 {
     public static WebView WebView(string source) =>
-        GetNodeFromPool<WebView>().Source(source);
+        new WebView().Source(source);
 
     public static WebView WebView(Uri source) =>
-        GetNodeFromPool<WebView>().Source(source);
+        new WebView().Source(source);
 }

@@ -74,11 +74,12 @@ public partial class RectangleGeometry : RectangleGeometry<Microsoft.Maui.Contro
 
 public static partial class RectangleGeometryExtensions
 {
+    static void SetRect(object rectangleGeometry, RxAnimation animation) => ((IRectangleGeometry)rectangleGeometry).Rect = ((RxRectAnimation)animation).CurrentValue();
     public static T Rect<T>(this T rectangleGeometry, Microsoft.Maui.Graphics.Rect rect, RxRectAnimation? customAnimation = null)
         where T : IRectangleGeometry
     {
         rectangleGeometry.Rect = rect;
-        rectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, customAnimation ?? new RxSimpleRectAnimation(rect), v => rectangleGeometry.Rect = ((RxRectAnimation)v).CurrentValue());
+        rectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, customAnimation ?? new RxSimpleRectAnimation(rect), SetRect);
         return rectangleGeometry;
     }
 

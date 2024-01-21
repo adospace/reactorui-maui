@@ -116,6 +116,7 @@ public partial class IndicatorView : IndicatorView<Microsoft.Maui.Controls.Indic
 
 public static partial class IndicatorViewExtensions
 {
+    static void SetIndicatorSize(object indicatorView, RxAnimation animation) => ((IIndicatorView)indicatorView).IndicatorSize = ((RxDoubleAnimation)animation).CurrentValue();
     public static T IndicatorsShape<T>(this T indicatorView, Microsoft.Maui.Controls.IndicatorShape indicatorsShape)
         where T : IIndicatorView
     {
@@ -218,7 +219,7 @@ public static partial class IndicatorViewExtensions
         where T : IIndicatorView
     {
         indicatorView.IndicatorSize = indicatorSize;
-        indicatorView.AppendAnimatable(Microsoft.Maui.Controls.IndicatorView.IndicatorSizeProperty, customAnimation ?? new RxDoubleAnimation(indicatorSize), v => indicatorView.IndicatorSize = ((RxDoubleAnimation)v).CurrentValue());
+        indicatorView.AppendAnimatable(Microsoft.Maui.Controls.IndicatorView.IndicatorSizeProperty, customAnimation ?? new RxDoubleAnimation(indicatorSize), SetIndicatorSize);
         return indicatorView;
     }
 

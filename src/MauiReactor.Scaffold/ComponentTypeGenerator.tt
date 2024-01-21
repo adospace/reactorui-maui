@@ -24,12 +24,12 @@ public partial class Component
     <# var typeName = type.FullName.Replace("Microsoft.Maui.Controls.", string.Empty); #>
 
     public static <#= typeName #> <#= type.Name #>()
-        => GetNodeFromPool<<#= typeName #>>();
+        => new <#= typeName #>();
 
     <# if (typeof(Element).IsAssignableFrom(type)) { #>
     public static <#= typeName #> <#= type.Name #>(params VisualNode?[]? children)
     {
-        var @<#= type.Name.ToLower() #> = GetNodeFromPool<<#= typeName #>>();
+        var @<#= type.Name.ToLower() #> = new <#= typeName #>();
         if (children != null)
         {
             @<#= type.Name.ToLower() #>.AddChildren(children);
@@ -40,7 +40,7 @@ public partial class Component
 
     public static <#= typeName #> <#= type.Name #>(Action<<#= type.FullName #>?> componentRefAction)
     {
-        var @<#= type.Name.ToLower() #> = GetNodeFromPool<<#= typeName #>>();
+        var @<#= type.Name.ToLower() #> = new <#= typeName #>();
         @<#= type.Name.ToLower() #>.ComponentRefAction = componentRefAction;
         return @<#= type.Name.ToLower() #>;
     }
@@ -48,7 +48,7 @@ public partial class Component
     <# if (typeof(Element).IsAssignableFrom(type)) { #>
     public static <#= typeName #> <#= type.Name #>(Action<<#= type.FullName #>?> componentRefAction, params VisualNode?[]? children)
     {
-        var @<#= type.Name.ToLower() #> = GetNodeFromPool<<#= typeName #>>();
+        var @<#= type.Name.ToLower() #> = new <#= typeName #>();
         @<#= type.Name.ToLower() #>.ComponentRefAction = componentRefAction;
         if (children != null)
         {

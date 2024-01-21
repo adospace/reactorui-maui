@@ -17,7 +17,7 @@ public partial class Component
 {
     public static VStack VStack(params VisualNode?[] children)
     {
-        var vstack = GetNodeFromPool<VStack>();
+        var vstack = new VStack();
         vstack.AddChildren(children);
         return vstack;
     }

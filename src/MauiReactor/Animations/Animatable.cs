@@ -2,9 +2,9 @@
 
 public class Animatable
 {
-    private readonly Action<RxAnimation> _animateAction;
+    private readonly Action<IVisualNode, RxAnimation> _animateAction;
 
-    public Animatable(object key, RxAnimation animation, Action<RxAnimation> action)
+    public Animatable(object key, RxAnimation animation, Action<IVisualNode, RxAnimation> action)
     {
         Key = key ?? throw new ArgumentNullException(nameof(key));
         Animation = animation ?? throw new ArgumentNullException(nameof(animation));
@@ -15,8 +15,8 @@ public class Animatable
     public bool? IsEnabled { get; internal set; }
     public object Key { get; }
 
-    internal void Animate()
+    internal void Animate(IVisualNode visualNode)
     {
-        _animateAction(Animation);
+        _animateAction(visualNode, Animation);
     }
 }

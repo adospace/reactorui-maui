@@ -117,6 +117,7 @@ public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.M
 
 public static partial class LayoutExtensions
 {
+    static void SetPadding(object layout, RxAnimation animation) => ((ILayout)layout).Padding = ((RxThicknessAnimation)animation).CurrentValue();
     public static T IsClippedToBounds<T>(this T layout, bool isClippedToBounds)
         where T : ILayout
     {
@@ -149,7 +150,7 @@ public static partial class LayoutExtensions
         where T : ILayout
     {
         layout.Padding = padding;
-        layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), v => layout.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), SetPadding);
         return layout;
     }
 
@@ -164,7 +165,7 @@ public static partial class LayoutExtensions
         where T : ILayout
     {
         layout.Padding = new Thickness(leftRight, topBottom);
-        layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), v => layout.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), SetPadding);
         return layout;
     }
 
@@ -172,7 +173,7 @@ public static partial class LayoutExtensions
         where T : ILayout
     {
         layout.Padding = new Thickness(uniformSize);
-        layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), v => layout.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), SetPadding);
         return layout;
     }
 
@@ -180,7 +181,7 @@ public static partial class LayoutExtensions
         where T : ILayout
     {
         layout.Padding = new Thickness(left, top, right, bottom);
-        layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), v => layout.Padding = ((RxThicknessAnimation)v).CurrentValue());
+        layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), SetPadding);
         return layout;
     }
 

@@ -202,6 +202,8 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
 
 public static partial class InputViewExtensions
 {
+    static void SetCharacterSpacing(object inputView, RxAnimation animation) => ((IInputView)inputView).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetFontSize(object inputView, RxAnimation animation) => ((IInputView)inputView).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Text<T>(this T inputView, string text)
         where T : IInputView
     {
@@ -332,7 +334,7 @@ public static partial class InputViewExtensions
         where T : IInputView
     {
         inputView.CharacterSpacing = characterSpacing;
-        inputView.AppendAnimatable(Microsoft.Maui.Controls.InputView.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => inputView.CharacterSpacing = ((RxDoubleAnimation)v).CurrentValue());
+        inputView.AppendAnimatable(Microsoft.Maui.Controls.InputView.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), SetCharacterSpacing);
         return inputView;
     }
 
@@ -403,7 +405,7 @@ public static partial class InputViewExtensions
         where T : IInputView
     {
         inputView.FontSize = fontSize;
-        inputView.AppendAnimatable(Microsoft.Maui.Controls.InputView.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => inputView.FontSize = ((RxDoubleAnimation)v).CurrentValue());
+        inputView.AppendAnimatable(Microsoft.Maui.Controls.InputView.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), SetFontSize);
         return inputView;
     }
 

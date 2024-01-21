@@ -13,11 +13,11 @@ public partial class Tab
 public partial class Component
 {
     public static Tab Tab(string title) =>
-        GetNodeFromPool<Tab>().Title(title);
+        new Tab().Title(title);
 
     public static Tab Tab(string title, string icon) =>
-        GetNodeFromPool<Tab>().Title(title).Icon(icon);
+        new Tab().Title(title).Icon(icon);
 
     public static Tab Tab(string title, Uri iconUri) =>
-        GetNodeFromPool<Tab>().Title(title).Icon(iconUri);
+        new Tab().Title(title).Icon(iconUri);
 }

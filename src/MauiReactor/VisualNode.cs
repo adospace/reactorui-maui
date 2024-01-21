@@ -9,7 +9,7 @@ namespace MauiReactor
     {
         //void AppendAnimatable<T>(BindableProperty key, T animation, Action<T> action) where T : RxAnimation;
 
-        void AppendAnimatable(BindableProperty key, RxAnimation animation, Action<RxAnimation> action);
+        void AppendAnimatable(BindableProperty key, RxAnimation animation, Action<IVisualNode, RxAnimation> action);
 
         Microsoft.Maui.Controls.Page? GetContainerPage();
 
@@ -217,7 +217,7 @@ namespace MauiReactor
 
         //    _animatables[key] = newAnimatableProperty;
         //}
-        public void AppendAnimatable(BindableProperty key, RxAnimation animation, Action<RxAnimation> action)
+        public void AppendAnimatable(BindableProperty key, RxAnimation animation, Action<IVisualNode, RxAnimation> action)
         {
             var newAnimatableProperty = new Animatable(key, animation, action);
 
@@ -585,7 +585,7 @@ namespace MauiReactor
                 }
             }
 
-            ReleaseNodeToPool(this);
+            //ReleaseNodeToPool(this);
         }
 
         protected virtual void OnUpdate()
@@ -608,7 +608,7 @@ namespace MauiReactor
                     if (animatable.Value.IsEnabled.GetValueOrDefault() && 
                         !animatable.Value.Animation.IsCompleted())
                     {
-                        animatable.Value.Animate();
+                        animatable.Value.Animate(this);
                         animated = true;
                     }
                 }
@@ -664,28 +664,28 @@ namespace MauiReactor
             }
         }
 
-        static readonly Dictionary<Type, VisualNodePool> _nodePools = [];
+        //static readonly Dictionary<Type, VisualNodePool> _nodePools = [];
 
-        protected internal static T GetNodeFromPool<T>() where T : VisualNode, new()
-        {
-            if (!_nodePools.TryGetValue(typeof(T), out var nodePool))
-            {
-                _nodePools[typeof(T)] = nodePool = new VisualNodePool();
-            }
+        //protected internal static T GetNodeFromPool<T>() where T : VisualNode, new()
+        //{
+        //    if (!_nodePools.TryGetValue(typeof(T), out var nodePool))
+        //    {
+        //        _nodePools[typeof(T)] = nodePool = new VisualNodePool();
+        //    }
 
-            return nodePool.GetObject<T>();
-        }
+        //    return nodePool.GetObject<T>();
+        //}
 
 
-        protected internal static void ReleaseNodeToPool(VisualNode node)
-        {
-            if (!_nodePools.TryGetValue(node.GetType(), out var nodePool))
-            {
-                return;
-            }
+        //protected internal static void ReleaseNodeToPool(VisualNode node)
+        //{
+        //    if (!_nodePools.TryGetValue(node.GetType(), out var nodePool))
+        //    {
+        //        return;
+        //    }
 
-            nodePool.ReleaseObject(node);
-        }
+        //    nodePool.ReleaseObject(node);
+        //}
     }
 
     public interface IVisualNodeWithNativeControl : IVisualNode
@@ -766,7 +766,7 @@ namespace MauiReactor
 
                 base.MergeWith(newNode);
 
-                ReleaseNodeToPool(this);
+                //ReleaseNodeToPool(this);
                 _nativeControl = null;
             }
             else

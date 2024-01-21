@@ -171,6 +171,8 @@ public partial class DatePicker : DatePicker<Microsoft.Maui.Controls.DatePicker>
 
 public static partial class DatePickerExtensions
 {
+    static void SetCharacterSpacing(object datePicker, RxAnimation animation) => ((IDatePicker)datePicker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static void SetFontSize(object datePicker, RxAnimation animation) => ((IDatePicker)datePicker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Format<T>(this T datePicker, string format)
         where T : IDatePicker
     {
@@ -245,7 +247,7 @@ public static partial class DatePickerExtensions
         where T : IDatePicker
     {
         datePicker.CharacterSpacing = characterSpacing;
-        datePicker.AppendAnimatable(Microsoft.Maui.Controls.DatePicker.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), v => datePicker.CharacterSpacing = ((RxDoubleAnimation)v).CurrentValue());
+        datePicker.AppendAnimatable(Microsoft.Maui.Controls.DatePicker.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), SetCharacterSpacing);
         return datePicker;
     }
 
@@ -274,7 +276,7 @@ public static partial class DatePickerExtensions
         where T : IDatePicker
     {
         datePicker.FontSize = fontSize;
-        datePicker.AppendAnimatable(Microsoft.Maui.Controls.DatePicker.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), v => datePicker.FontSize = ((RxDoubleAnimation)v).CurrentValue());
+        datePicker.AppendAnimatable(Microsoft.Maui.Controls.DatePicker.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), SetFontSize);
         return datePicker;
     }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Maui.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,13 @@ namespace MauiReactor.Internals
 {
     internal class ItemTemplateNode : ContentView<Microsoft.Maui.Controls.ContentView>, IVisualNode
     {
+        private VisualNode? _root;
+        private readonly WeakReference<CustomDataTemplate> _dataTemplateRef;
 
         public ItemTemplateNode(CustomDataTemplate dataTemplate)
         {
-            _dataTemplate = dataTemplate;
+            _dataTemplateRef = new WeakReference<CustomDataTemplate>(dataTemplate);
         }
-
-        private VisualNode? _root;
-        private readonly CustomDataTemplate _dataTemplate;
 
         public VisualNode? Root
         {
@@ -60,7 +60,10 @@ namespace MauiReactor.Internals
                 return;
             }
 
-            Root = _dataTemplate.GetVisualNodeForItem(NativeControl.BindingContext);
+            if (_dataTemplateRef.TryGetTarget(out var dataTemplate))
+            {
+                Root = dataTemplate.GetVisualNodeForItem(NativeControl.BindingContext);
+            }
         }
 
         protected override void OnUnmount()
@@ -81,7 +84,14 @@ namespace MauiReactor.Internals
 
         internal override VisualNode? Parent
         {
-            get => _dataTemplate.Owner as VisualNode;
+            get
+            {
+                if (_dataTemplateRef.TryGetTarget(out var dataTemplate))
+                {
+                    return dataTemplate.Owner as VisualNode;
+                }
+                return null;
+            }
             set => throw new InvalidOperationException();
         }
 
@@ -112,7 +122,10 @@ namespace MauiReactor.Internals
             if (NativeControl != null &&
                 NativeControl.BindingContext != null)
             {
-                Root = _dataTemplate.GetVisualNodeForItem(NativeControl.BindingContext);
+                if (_dataTemplateRef.TryGetTarget(out var dataTemplate))
+                {
+                    Root = dataTemplate.GetVisualNodeForItem(NativeControl.BindingContext);
+                }
             }            
         }
     }

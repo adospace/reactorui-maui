@@ -92,6 +92,7 @@ public partial class Shadow : Shadow<Microsoft.Maui.Controls.Shadow>
 
 public static partial class ShadowExtensions
 {
+    static void SetOffset(object shadow, RxAnimation animation) => ((IShadow)shadow).Offset = ((RxPointAnimation)animation).CurrentValue();
     public static T Radius<T>(this T shadow, float radius)
         where T : IShadow
     {
@@ -138,7 +139,7 @@ public static partial class ShadowExtensions
         where T : IShadow
     {
         shadow.Offset = offset;
-        shadow.AppendAnimatable(Microsoft.Maui.Controls.Shadow.OffsetProperty, customAnimation ?? new RxSimplePointAnimation(offset), v => shadow.Offset = ((RxPointAnimation)v).CurrentValue());
+        shadow.AppendAnimatable(Microsoft.Maui.Controls.Shadow.OffsetProperty, customAnimation ?? new RxSimplePointAnimation(offset), SetOffset);
         return shadow;
     }
 

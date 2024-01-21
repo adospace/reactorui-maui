@@ -134,11 +134,4 @@ public static partial class PanGestureRecognizerExtensions
         panGestureRecognizer.PanUpdatedActionWithArgs = panUpdatedActionWithArgs;
         return panGestureRecognizer;
     }
-
-    public static T OnPanUpdated<T>(this T panGestureRecognizer, Action<PanUpdatedEventArgs>? panUpdatedActionWithArgs)
-        where T : IPanGestureRecognizer
-    {
-        panGestureRecognizer.PanUpdatedActionWithArgs = (sender, args) => panUpdatedActionWithArgs?.Invoke(args);
-        return panGestureRecognizer;
-    }
 }

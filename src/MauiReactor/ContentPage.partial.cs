@@ -52,7 +52,7 @@ public partial class ContentPage
 public partial class Component
 {
     public static ContentPage ContentPage(string title) 
-        => GetNodeFromPool<ContentPage>().Title(title);
+        => new ContentPage().Title(title);
 
     public static ContentPage ContentPage(string title, params VisualNode?[]? children)
         => ContentPage(children).Title(title);    

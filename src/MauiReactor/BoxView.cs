@@ -80,6 +80,7 @@ public partial class BoxView : BoxView<Microsoft.Maui.Controls.BoxView>
 
 public static partial class BoxViewExtensions
 {
+    static void SetCornerRadius(object boxView, RxAnimation animation) => ((IBoxView)boxView).CornerRadius = ((RxCornerRadiusAnimation)animation).CurrentValue();
     public static T Color<T>(this T boxView, Microsoft.Maui.Graphics.Color color)
         where T : IBoxView
     {
@@ -98,7 +99,7 @@ public static partial class BoxViewExtensions
         where T : IBoxView
     {
         boxView.CornerRadius = cornerRadius;
-        boxView.AppendAnimatable(Microsoft.Maui.Controls.BoxView.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(cornerRadius), v => boxView.CornerRadius = ((RxCornerRadiusAnimation)v).CurrentValue());
+        boxView.AppendAnimatable(Microsoft.Maui.Controls.BoxView.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(cornerRadius), SetCornerRadius);
         return boxView;
     }
 
@@ -113,7 +114,7 @@ public static partial class BoxViewExtensions
         where T : IBoxView
     {
         boxView.CornerRadius = new CornerRadius(uniformRadius);
-        boxView.AppendAnimatable(Microsoft.Maui.Controls.BoxView.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(uniformRadius)), v => boxView.CornerRadius = ((RxCornerRadiusAnimation)v).CurrentValue());
+        boxView.AppendAnimatable(Microsoft.Maui.Controls.BoxView.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(uniformRadius)), SetCornerRadius);
         return boxView;
     }
 
@@ -121,7 +122,7 @@ public static partial class BoxViewExtensions
         where T : IBoxView
     {
         boxView.CornerRadius = new CornerRadius(topLeft, topRight, bottomLeft, bottomRight);
-        boxView.AppendAnimatable(Microsoft.Maui.Controls.BoxView.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight)), v => boxView.CornerRadius = ((RxCornerRadiusAnimation)v).CurrentValue());
+        boxView.AppendAnimatable(Microsoft.Maui.Controls.BoxView.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight)), SetCornerRadius);
         return boxView;
     }
 }
