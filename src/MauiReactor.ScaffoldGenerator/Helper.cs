@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace MauiReactor.ScaffoldGenerator;
 
@@ -79,8 +80,26 @@ static class Helper
         }
     }
 
-
     public static T EnsureNotNull<T>(this T? value)
         => value ?? throw new InvalidOperationException();
+
+    public static string GetFullyQualifiedTypeName(this INamedTypeSymbol namedTypeSymbol)
+    {
+        // Get the name of the class
+        string className = namedTypeSymbol.Name;
+
+        // Check if the class is generic
+        if (namedTypeSymbol.IsGenericType)
+        {
+            // Construct the generic type parameter list (e.g., "<T>")
+            string typeParameters = string.Join(", ", namedTypeSymbol.TypeParameters.Select(p => p.Name));
+            return $"{className}<{typeParameters}>";
+        }
+        else
+        {
+            // If it's not a generic type, just return the class name
+            return className;
+        }
+    }
 
 }

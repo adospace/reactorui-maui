@@ -51,7 +51,7 @@ namespace MauiReactor.ScaffoldGenerator
             this.Write("\r\n{\r\n\tpartial class ");
             
             #line 14 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(_classItem.ClassName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(_classItem.FullyQualifiedClassName));
             
             #line default
             #line hidden
@@ -177,7 +177,7 @@ namespace MauiReactor.ScaffoldGenerator
             this.Write("\t\tpublic ");
             
             #line 34 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ComponentPartialClassGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(_classItem.ClassName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(_classItem.FullyQualifiedClassName));
             
             #line default
             #line hidden

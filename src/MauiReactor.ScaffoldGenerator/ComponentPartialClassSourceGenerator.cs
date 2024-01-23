@@ -117,11 +117,10 @@ namespace MauiReactor
 
             string fullyQualifiedTypeName = classTypeSymbol.ToDisplayString(qualifiedFormat);
             string namespaceName = classTypeSymbol.ContainingNamespace.ToDisplayString();
-            string className = classTypeSymbol.Name;
 
             if (!generatingClassItems.TryGetValue(fullyQualifiedTypeName, out var generatingClassItem))
             {
-                generatingClassItems[fullyQualifiedTypeName] = generatingClassItem = new GeneratorClassItem(namespaceName, className);
+                generatingClassItems[fullyQualifiedTypeName] = generatingClassItem = new GeneratorClassItem(namespaceName, classTypeSymbol);
             }
 
             foreach (var variableFieldSyntax in fieldDeclaration.Declaration.Variables)
@@ -250,16 +249,18 @@ class ComponentPartialClassSyntaxReceiver : ISyntaxReceiver
 
 public class GeneratorClassItem
 {
-    public GeneratorClassItem(string @namespace, string className)
+    public GeneratorClassItem(string @namespace, INamedTypeSymbol symbol)
     {
         Namespace = @namespace;
-        ClassName = className;
+        ClassName = symbol.Name;
+        FullyQualifiedClassName = symbol.GetFullyQualifiedTypeName();
     }
 
     public string Namespace { get; }
     public string ClassName { get; }
-
+    public string FullyQualifiedClassName { get; }
     public Dictionary<string, GeneratorFieldItem> FieldItems { get; } = new();
+
 }
 
 public class GeneratorFieldItem

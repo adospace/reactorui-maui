@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace <#= _classItem.Namespace #>
 {
-	partial class <#= _classItem.ClassName #>
+	partial class <#= _classItem.FullyQualifiedClassName #>
 	{
 		<# if (GetInjectFields().Any() || GetParameterFields().Any()) { #>
 		public <#= _classItem.ClassName #>()
@@ -31,7 +31,7 @@ namespace <#= _classItem.Namespace #>
 		<# } #>
 
 		<# foreach (var fieldItem in GetPropFields()) { #>
-		public <#= _classItem.ClassName #> <#= fieldItem.GetPropMethodName() #>(<#= fieldItem.FieldTypeFullyQualifiedName #> propValue)
+		public <#= _classItem.FullyQualifiedClassName #> <#= fieldItem.GetPropMethodName() #>(<#= fieldItem.FieldTypeFullyQualifiedName #> propValue)
 		{
 			<#= fieldItem.FieldName #> = propValue;
 			return this;
