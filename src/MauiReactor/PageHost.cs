@@ -188,7 +188,7 @@ namespace MauiReactor
             }
             catch (Exception ex)
             {
-                ReactorApplicationHost.Instance?.FireUnhandledExceptionEvent(ex);
+                ReactorApplicationHost.FireUnhandledExceptionEvent(ex);
                 System.Diagnostics.Debug.WriteLine(ex);
             }
         }
@@ -232,7 +232,7 @@ namespace MauiReactor
             }
             catch (Exception ex)
             {
-                ReactorApplicationHost.Instance?.FireUnhandledExceptionEvent(ex);
+                ReactorApplicationHost.FireUnhandledExceptionEvent(ex);
                 System.Diagnostics.Debug.WriteLine(ex);
             }
         }

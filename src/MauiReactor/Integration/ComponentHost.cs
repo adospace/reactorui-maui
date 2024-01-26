@@ -97,7 +97,7 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
             }
             catch (Exception ex)
             {
-                ReactorApplicationHost.Instance?.FireUnhandledExceptionEvent(ex);
+                ReactorApplicationHost.FireUnhandledExceptionEvent(ex);
                 System.Diagnostics.Debug.WriteLine(ex);
             }
         }

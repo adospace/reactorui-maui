@@ -13,19 +13,20 @@ namespace MauiReactor
 
         protected ReactorApplicationHost(ReactorApplication application)
         {
-            Instance = this;
+            //Instance = this;
 
             _application = application ?? throw new ArgumentNullException(nameof(application));
 
             ComponentLoader.Instance.AssemblyChanged += (s, e) => OnComponentAssemblyChanged();
         }
 
-        public static ReactorApplicationHost? Instance { get; private set; }
+        //public static ReactorApplicationHost? Instance { get; private set; }
 
-        public Action<UnhandledExceptionEventArgs>? UnhandledException { get; set; }
+        public static Action<UnhandledExceptionEventArgs>? UnhandledException { get; set; }
 
-        internal void FireUnhandledExceptionEvent(Exception ex)
+        internal static void FireUnhandledExceptionEvent(Exception ex)
         {
+            
             UnhandledException?.Invoke(new UnhandledExceptionEventArgs(ex, false));
         }
 
@@ -38,11 +39,11 @@ namespace MauiReactor
         protected virtual void OnComponentAssemblyChanged()
         { }
 
-        public ReactorApplicationHost OnUnhandledException(Action<UnhandledExceptionEventArgs> action)
-        {
-            UnhandledException = action;
-            return this;
-        }
+        //public ReactorApplicationHost OnUnhandledException(Action<UnhandledExceptionEventArgs> action)
+        //{
+        //    UnhandledException = action;
+        //    return this;
+        //}
 
         public abstract void RequestAnimationFrame(VisualNode visualNode);
 
@@ -354,6 +355,12 @@ namespace MauiReactor
         public static MauiAppBuilder EnableFrameRateIndicator(this MauiAppBuilder appBuilder)
         {
             ReactorApplicationHost._showFrameRate = true;
+            return appBuilder;
+        }
+
+        public static MauiAppBuilder OnMauiReactorUnhandledException(this MauiAppBuilder appBuilder, Action<UnhandledExceptionEventArgs> unhandledExceptionAction)
+        {
+            ReactorApplicationHost.UnhandledException = unhandledExceptionAction;
             return appBuilder;
         }
 
