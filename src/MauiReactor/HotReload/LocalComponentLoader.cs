@@ -11,9 +11,9 @@ namespace MauiReactor.HotReload
 #pragma warning restore CS0067
         public Component? LoadComponent<T>() where T : Component, new() => new T();
 
-        public Component? LoadComponent(Type componentType)
+        public Component LoadComponent(Type componentType)
         {
-            return (Component?)(Activator.CreateInstance(componentType) ?? throw new InvalidOperationException());
+            return (Component)(Activator.CreateInstance(componentType) ?? throw new InvalidOperationException());
         }
 
         public void Run()

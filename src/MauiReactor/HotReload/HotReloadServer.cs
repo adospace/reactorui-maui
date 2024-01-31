@@ -42,11 +42,12 @@ namespace MauiReactor.HotReload
             {
                 try
                 {
-                    tcpListener = new TcpListener(IPAddress.Any, listenPort);
+                    tcpListener = new TcpListener(DeviceInfo.Current.Idiom == DeviceIdiom.Desktop ? IPAddress.Loopback : IPAddress.Any, listenPort);
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine($"[MauiReactor] Unable to bind hot-reload server to local address {listenPort}, waiting 60000ms before try again:{Environment.NewLine}{ex}");
+                    ReactorApplicationHost.FireUnhandledExceptionEvent(new InvalidOperationException($"Unable to bind hot-reload server to local address {listenPort}, waiting 60000ms before try again.", ex));
 
                     await Task.Delay(60000, cancellationToken);
                 }
@@ -66,7 +67,8 @@ namespace MauiReactor.HotReload
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"[MauiReactor] Hot-Reload server is unable to list on port {listenPort}:{Environment.NewLine}{ex}");
+                    System.Diagnostics.Debug.WriteLine($"[MauiReactor] Hot-Reload server is unable to listen on port {listenPort}:{Environment.NewLine}{ex}");
+                    ReactorApplicationHost.FireUnhandledExceptionEvent(new InvalidOperationException($"Hot-Reload server is unable to listen on port {listenPort}.", ex));
                     await Task.Delay(60000, cancellationToken);
                     continue;
                 }

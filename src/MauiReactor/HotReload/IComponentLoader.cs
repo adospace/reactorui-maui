@@ -11,7 +11,7 @@ namespace MauiReactor.HotReload
 
         //Component? LoadComponent<T>() where T : Component, new();
 
-        Component? LoadComponent(Type componentType);
+        Component LoadComponent(Type componentType);
 
         void Run();
 
