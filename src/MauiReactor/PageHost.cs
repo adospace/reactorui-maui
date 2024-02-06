@@ -188,7 +188,8 @@ namespace MauiReactor
             }
             catch (Exception ex)
             {
-                ReactorApplicationHost.FireUnhandledExceptionEvent(ex);
+                ReactorApplicationHost.FireUnhandledExceptionEvent(
+                    new InvalidOperationException($"Unable to hot reload component {typeof(T).FullName}: type not found in received assembly", ex));
                 System.Diagnostics.Debug.WriteLine(ex);
             }
         }
