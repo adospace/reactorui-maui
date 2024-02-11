@@ -338,8 +338,13 @@ class ComponentShellRouteFactory<T> : RouteFactory where T : Component, new()
     {
         if (MauiControlsShellExtensions._propsStack.Count > 0)
         {
-            (Type PropsType, Action<object> PropsInitializer) = MauiControlsShellExtensions._propsStack.Peek();
-            return PageHost<T>.CreatePage(Microsoft.Maui.Controls.Shell.Current.Navigation, PropsInitializer);
+            (Type PropsType, Action<object> PropsInitializer, Microsoft.Maui.Controls.Shell? shell) = MauiControlsShellExtensions._propsStack.Peek();
+            return PageHost<T>.CreatePage(shell?.Navigation ?? Microsoft.Maui.Controls.Shell.Current.Navigation, PropsInitializer);
+        }
+        else if (MauiControlsShellExtensions._shellStack.Count > 0)
+        {
+            var shell = MauiControlsShellExtensions._shellStack.Peek();
+            return PageHost<T>.CreatePage(shell.Navigation);
         }
         else
         {
@@ -352,8 +357,9 @@ class ComponentShellRouteFactory<T> : RouteFactory where T : Component, new()
 
 public static class Routing
 {
-    public static void RegisterRoute<T>(string route) where T : Component, new()
+    public static void RegisterRoute<T>(string? route = null) where T : Component, new()
     {
+        route ??= typeof(T).FullName;
         Microsoft.Maui.Controls.Routing.UnRegisterRoute(route);
         Microsoft.Maui.Controls.Routing.RegisterRoute(route, new ComponentShellRouteFactory<T>());
     }
@@ -361,7 +367,9 @@ public static class Routing
 
 public static class MauiControlsShellExtensions
 {
-    internal static Stack<(Type PropsType, Action<object> PropsInitialiazer)> _propsStack = new();
+    internal static Stack<(Type PropsType, Action<object> PropsInitialiazer, Microsoft.Maui.Controls.Shell? shell)> _propsStack = [];
+
+    internal static Stack<Microsoft.Maui.Controls.Shell> _shellStack = [];
 
     public static async Task GoToAsync<P>(this Microsoft.Maui.Controls.Shell shell, string route, Action<P> propsInitializer) where P : new()
     {
@@ -379,12 +387,50 @@ public static class MauiControlsShellExtensions
                     CopyObjectExtensions.CopyProperties(props, convertedProps);
                     propsInitializer(convertedProps);
                 }
-            })));
+            }), shell));
             await shell.GoToAsync(route);
         }
         finally
         {
             _propsStack.Pop();
+        }
+    }
+    
+    public static async Task GoToAsync<T, P>(this Microsoft.Maui.Controls.Shell shell, Action<P> propsInitializer) where P : new()
+    {
+        try
+        {
+            _propsStack.Push((typeof(P), new Action<object>(props =>
+            {
+                if (props is P castedProps)
+                {
+                    propsInitializer(castedProps);
+                }
+                else
+                {
+                    var convertedProps = new P();
+                    CopyObjectExtensions.CopyProperties(props, convertedProps);
+                    propsInitializer(convertedProps);
+                }
+            }), shell));
+            await shell.GoToAsync(typeof(T).FullName);
+        }
+        finally
+        {
+            _propsStack.Pop();
+        }
+    }
+
+    public static async Task GoToAsync<T>(this Microsoft.Maui.Controls.Shell shell, string? route = null) where T : Component, new()
+    {
+        try
+        {
+            _shellStack.Push(shell);
+            await shell.GoToAsync(route ?? typeof(T).FullName);
+        }
+        finally
+        {
+            _shellStack.Pop();
         }
     }
 }
