@@ -96,6 +96,8 @@ dotnet-maui-reactor -f [net8.0-android|net8.0-ios|...]
 
 [Rive App](https://github.com/adospace/rive-app)
 
+[KeeMind App](https://github.com/adospace/kee-mind)
+
 [Samples and test application](https://github.com/adospace/reactorui-maui/tree/main/samples)
 
 
