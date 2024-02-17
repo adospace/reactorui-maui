@@ -34,11 +34,21 @@ public partial class NavigableElement<T>
 
 public static partial class NavigableElementExtensions
 {
-    public static T Class<T>(this T navigableelement, string className) where T : INavigableElement
+    public static T Class<T>(this T navigableElement, string className) where T : INavigableElement
     {
-        navigableelement.Class ??= [];
-        navigableelement.Class.Add(className);
-        return navigableelement;
+        navigableElement.Class ??= [];
+        navigableElement.Class.Add(className);
+        return navigableElement;
+    }
+
+    public static T Style<T>(this T navigableElement, string styleKey) where T : INavigableElement
+    {
+        var style = ResourceManager.FindStyle(styleKey);
+        if (style != null)
+        {
+            navigableElement.Style(style);
+        }
+        return navigableElement;
     }
 }
 

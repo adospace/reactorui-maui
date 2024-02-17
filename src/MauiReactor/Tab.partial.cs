@@ -20,4 +20,13 @@ public partial class Component
 
     public static Tab Tab(string title, Uri iconUri) =>
         new Tab().Title(title).Icon(iconUri);
+
+    public static Tab Tab(string title, params VisualNode?[]? children)
+        => Tab(children).Title(title);
+
+    public static Tab Tab(string title, string icon, params VisualNode?[]? children)
+        => Tab(children).Title(title).Icon(icon);
+
+    public static Tab Tab(string title, Uri iconUri, params VisualNode?[]? children)
+        => Tab(children).Title(title).Icon(iconUri);
 }
