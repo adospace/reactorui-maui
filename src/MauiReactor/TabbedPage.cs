@@ -27,10 +27,12 @@ public abstract partial class TabbedPage<T> : MultiPage<T, Microsoft.Maui.Contro
 {
     public TabbedPage()
     {
+        TabbedPageStyles.Default?.Invoke(this);
     }
 
     public TabbedPage(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        TabbedPageStyles.Default?.Invoke(this);
     }
 
     object? ITabbedPage.BarBackgroundColor { get; set; }
@@ -74,6 +76,15 @@ public abstract partial class TabbedPage<T> : MultiPage<T, Microsoft.Maui.Contro
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && TabbedPageStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class TabbedPage : TabbedPage<Microsoft.Maui.Controls.TabbedPage>
@@ -158,4 +169,10 @@ public static partial class TabbedPageExtensions
         tabbedPage.SelectedTabColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(selectedTabColorFunc);
         return tabbedPage;
     }
+}
+
+public static partial class TabbedPageStyles
+{
+    public static Action<ITabbedPage>? Default { get; set; }
+    public static Dictionary<string, Action<ITabbedPage>> Themes { get; } = [];
 }

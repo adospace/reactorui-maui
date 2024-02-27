@@ -23,10 +23,12 @@ public abstract partial class View<T> : VisualElement<T>, IView where T : Micros
 {
     protected View()
     {
+        ViewStyles.Default?.Invoke(this);
     }
 
     protected View(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ViewStyles.Default?.Invoke(this);
     }
 
     object? IView.VerticalOptions { get; set; }
@@ -71,6 +73,15 @@ public abstract partial class View<T> : VisualElement<T>, IView where T : Micros
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && ViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class ViewExtensions
@@ -142,4 +153,10 @@ public static partial class ViewExtensions
         view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), SetMargin);
         return view;
     }
+}
+
+public static partial class ViewStyles
+{
+    public static Action<IView>? Default { get; set; }
+    public static Dictionary<string, Action<IView>> Themes { get; } = [];
 }

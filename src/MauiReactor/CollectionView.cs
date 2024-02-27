@@ -18,10 +18,12 @@ public partial class CollectionView<T> : ReorderableItemsView<T>, ICollectionVie
 {
     public CollectionView()
     {
+        CollectionViewStyles.Default?.Invoke(this);
     }
 
     public CollectionView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        CollectionViewStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class CollectionView<T> : ReorderableItemsView<T>, ICollectionVie
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && CollectionViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class CollectionView : CollectionView<Microsoft.Maui.Controls.CollectionView>
@@ -57,4 +68,10 @@ public partial class CollectionView : CollectionView<Microsoft.Maui.Controls.Col
 
 public static partial class CollectionViewExtensions
 {
+}
+
+public static partial class CollectionViewStyles
+{
+    public static Action<ICollectionView>? Default { get; set; }
+    public static Dictionary<string, Action<ICollectionView>> Themes { get; } = [];
 }

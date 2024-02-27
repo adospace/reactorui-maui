@@ -18,10 +18,12 @@ public abstract partial class FlyoutBase<T> : Element<T>, IFlyoutBase where T : 
 {
     protected FlyoutBase()
     {
+        FlyoutBaseStyles.Default?.Invoke(this);
     }
 
     protected FlyoutBase(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        FlyoutBaseStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,8 +44,23 @@ public abstract partial class FlyoutBase<T> : Element<T>, IFlyoutBase where T : 
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && FlyoutBaseStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class FlyoutBaseExtensions
 {
+}
+
+public static partial class FlyoutBaseStyles
+{
+    public static Action<IFlyoutBase>? Default { get; set; }
+    public static Dictionary<string, Action<IFlyoutBase>> Themes { get; } = [];
 }

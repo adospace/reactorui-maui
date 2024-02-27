@@ -7,8 +7,6 @@ namespace MauiReactor
 {
     public interface IVisualNode
     {
-        //void AppendAnimatable<T>(BindableProperty key, T animation, Action<T> action) where T : RxAnimation;
-
         void AppendAnimatable(BindableProperty key, RxAnimation animation, Action<IVisualNode, RxAnimation> action);
 
         Microsoft.Maui.Controls.Page? GetContainerPage();
@@ -16,6 +14,8 @@ namespace MauiReactor
         IHostElement? GetPageHost();
 
         IComponentWithState? GetContainerComponent();
+
+        string? Theme { get; set; }
     }
 
     public static class VisualNodeExtensions
@@ -109,6 +109,17 @@ namespace MauiReactor
             node.DisableCurrentAnimatableProperties();
             return node;
         }
+
+        public static T Theme<T>(this T node, string theme) where T : IVisualNode
+        {
+            node.Theme = theme;
+            return node;
+        }
+    }
+
+    public static class VisualNodeStyles
+    {
+        public static Action<IVisualNode>? Default { get; set; }
     }
 
     public abstract class VisualNode : IVisualNode, IAutomationItemContainer
@@ -129,12 +140,14 @@ namespace MauiReactor
 
         private int _childIndex;
 
+        private string? _theme;
+
         [ThreadStatic] 
         internal static bool _skipAnimationMigration;
 
         protected VisualNode()
         {
-            //System.Diagnostics.Debug.WriteLine($"{this}->Created()");
+            VisualNodeStyles.Default?.Invoke(this);
         }
 
         internal static BindablePropertyKey _mauiReactorPropertiesBagKey = BindableProperty.CreateAttachedReadOnly(nameof(_mauiReactorPropertiesBagKey),
@@ -165,10 +178,31 @@ namespace MauiReactor
         protected virtual bool SupportChildIndexing { get; } = true;
 
         public object? Key { get; set; }
+        
         public Action<object?, PropertyChangedEventArgs>? PropertyChangedAction { get; set; }
+        
         public Action<object?, System.ComponentModel.PropertyChangingEventArgs>? PropertyChangingAction { get; set; }
+        
+        public string? Theme
+        {
+            get => _theme;
+            set
+            {
+                if (_theme != value)
+                {
+                    _theme = value;
+                    OnThemeChanged();
+                }
+            }
+        }
+
+        protected virtual void OnThemeChanged()
+        {
+
+        }
 
         internal bool IsLayoutCycleRequired { get; set; } = true;
+        
         internal virtual VisualNode? Parent { get; set; }
 
         internal IReadOnlyList<VisualNode> Children
@@ -211,12 +245,6 @@ namespace MauiReactor
             Parent = null;
         }
 
-        //public void AppendAnimatable<T>(BindableProperty key, T animation, Action<T> action) where T : RxAnimation
-        //{
-        //    var newAnimatableProperty = new Animatable(key, animation, target => action((T)target));
-
-        //    _animatables[key] = newAnimatableProperty;
-        //}
         public void AppendAnimatable(BindableProperty key, RxAnimation animation, Action<IVisualNode, RxAnimation> action)
         {
             var newAnimatableProperty = new Animatable(key, animation, action);

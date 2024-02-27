@@ -21,10 +21,12 @@ public partial class TableView<T> : View<T>, ITableView where T : Microsoft.Maui
 {
     public TableView()
     {
+        TableViewStyles.Default?.Invoke(this);
     }
 
     public TableView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        TableViewStyles.Default?.Invoke(this);
     }
 
     object? ITableView.RowHeight { get; set; }
@@ -56,6 +58,15 @@ public partial class TableView<T> : View<T>, ITableView where T : Microsoft.Maui
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && TableViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class TableView : TableView<Microsoft.Maui.Controls.TableView>
@@ -98,4 +109,10 @@ public static partial class TableViewExtensions
         tableView.HasUnevenRows = new PropertyValue<bool>(hasUnevenRowsFunc);
         return tableView;
     }
+}
+
+public static partial class TableViewStyles
+{
+    public static Action<ITableView>? Default { get; set; }
+    public static Dictionary<string, Action<ITableView>> Themes { get; } = [];
 }

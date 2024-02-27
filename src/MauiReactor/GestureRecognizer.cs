@@ -18,10 +18,12 @@ public partial class GestureRecognizer<T> : Element<T>, IGestureRecognizer where
 {
     public GestureRecognizer()
     {
+        GestureRecognizerStyles.Default?.Invoke(this);
     }
 
     public GestureRecognizer(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        GestureRecognizerStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class GestureRecognizer<T> : Element<T>, IGestureRecognizer where
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && GestureRecognizerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class GestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.GestureRecognizer>
@@ -57,4 +68,10 @@ public partial class GestureRecognizer : GestureRecognizer<Microsoft.Maui.Contro
 
 public static partial class GestureRecognizerExtensions
 {
+}
+
+public static partial class GestureRecognizerStyles
+{
+    public static Action<IGestureRecognizer>? Default { get; set; }
+    public static Dictionary<string, Action<IGestureRecognizer>> Themes { get; } = [];
 }

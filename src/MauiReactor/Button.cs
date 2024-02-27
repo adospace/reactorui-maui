@@ -59,10 +59,12 @@ public partial class Button<T> : View<T>, IButton where T : Microsoft.Maui.Contr
 {
     public Button()
     {
+        ButtonStyles.Default?.Invoke(this);
     }
 
     public Button(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ButtonStyles.Default?.Invoke(this);
     }
 
     object? IButton.ContentLayout { get; set; }
@@ -176,6 +178,16 @@ public partial class Button<T> : View<T>, IButton where T : Microsoft.Maui.Contr
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && ButtonStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -579,4 +591,10 @@ public static partial class ButtonExtensions
         button.ReleasedActionWithArgs = releasedActionWithArgs;
         return button;
     }
+}
+
+public static partial class ButtonStyles
+{
+    public static Action<IButton>? Default { get; set; }
+    public static Dictionary<string, Action<IButton>> Themes { get; } = [];
 }

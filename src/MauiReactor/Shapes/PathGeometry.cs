@@ -21,10 +21,12 @@ public sealed partial class PathGeometry : Shapes.Geometry<Microsoft.Maui.Contro
 {
     public PathGeometry()
     {
+        PathGeometryStyles.Default?.Invoke(this);
     }
 
     public PathGeometry(Action<Microsoft.Maui.Controls.Shapes.PathGeometry?> componentRefAction) : base(componentRefAction)
     {
+        PathGeometryStyles.Default?.Invoke(this);
     }
 
     object? IPathGeometry.Figures { get; set; }
@@ -56,6 +58,15 @@ public sealed partial class PathGeometry : Shapes.Geometry<Microsoft.Maui.Contro
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && PathGeometryStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class PathGeometryExtensions
@@ -87,4 +98,10 @@ public static partial class PathGeometryExtensions
         pathGeometry.FillRule = new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc);
         return pathGeometry;
     }
+}
+
+public static partial class PathGeometryStyles
+{
+    public static Action<IPathGeometry>? Default { get; set; }
+    public static Dictionary<string, Action<IPathGeometry>> Themes { get; } = [];
 }

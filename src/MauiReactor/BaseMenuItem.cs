@@ -18,10 +18,12 @@ public abstract partial class BaseMenuItem<T> : Element<T>, IBaseMenuItem where 
 {
     protected BaseMenuItem()
     {
+        BaseMenuItemStyles.Default?.Invoke(this);
     }
 
     protected BaseMenuItem(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        BaseMenuItemStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,8 +44,23 @@ public abstract partial class BaseMenuItem<T> : Element<T>, IBaseMenuItem where 
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && BaseMenuItemStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class BaseMenuItemExtensions
 {
+}
+
+public static partial class BaseMenuItemStyles
+{
+    public static Action<IBaseMenuItem>? Default { get; set; }
+    public static Dictionary<string, Action<IBaseMenuItem>> Themes { get; } = [];
 }

@@ -18,10 +18,12 @@ public partial class Tab<T> : ShellSection<T>, ITab where T : Microsoft.Maui.Con
 {
     public Tab()
     {
+        TabStyles.Default?.Invoke(this);
     }
 
     public Tab(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        TabStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class Tab<T> : ShellSection<T>, ITab where T : Microsoft.Maui.Con
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && TabStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class Tab : Tab<Microsoft.Maui.Controls.Tab>
@@ -57,4 +68,10 @@ public partial class Tab : Tab<Microsoft.Maui.Controls.Tab>
 
 public static partial class TabExtensions
 {
+}
+
+public static partial class TabStyles
+{
+    public static Action<ITab>? Default { get; set; }
+    public static Dictionary<string, Action<ITab>> Themes { get; } = [];
 }

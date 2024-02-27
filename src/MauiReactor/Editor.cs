@@ -27,10 +27,12 @@ public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.
 {
     public Editor()
     {
+        EditorStyles.Default?.Invoke(this);
     }
 
     public Editor(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        EditorStyles.Default?.Invoke(this);
     }
 
     object? IEditor.AutoSize { get; set; }
@@ -72,6 +74,16 @@ public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && EditorStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -174,4 +186,10 @@ public static partial class EditorExtensions
         editor.CompletedActionWithArgs = completedActionWithArgs;
         return editor;
     }
+}
+
+public static partial class EditorStyles
+{
+    public static Action<IEditor>? Default { get; set; }
+    public static Dictionary<string, Action<IEditor>> Themes { get; } = [];
 }

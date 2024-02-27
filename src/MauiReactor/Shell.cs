@@ -49,10 +49,12 @@ public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Control
 {
     public Shell()
     {
+        ShellStyles.Default?.Invoke(this);
     }
 
     public Shell(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ShellStyles.Default?.Invoke(this);
     }
 
     object? IShell.FlyoutBehavior { get; set; }
@@ -146,6 +148,16 @@ public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Control
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && ShellStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -499,4 +511,10 @@ public static partial class ShellExtensions
         shell.NavigatingActionWithArgs = navigatingActionWithArgs;
         return shell;
     }
+}
+
+public static partial class ShellStyles
+{
+    public static Action<IShell>? Default { get; set; }
+    public static Dictionary<string, Action<IShell>> Themes { get; } = [];
 }

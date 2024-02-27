@@ -43,10 +43,12 @@ public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Contr
 {
     public Slider()
     {
+        SliderStyles.Default?.Invoke(this);
     }
 
     public Slider(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        SliderStyles.Default?.Invoke(this);
     }
 
     object? ISlider.Minimum { get; set; }
@@ -127,6 +129,16 @@ public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Contr
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && SliderStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -392,4 +404,10 @@ public static partial class SliderExtensions
         slider.DragCompletedActionWithArgs = dragCompletedActionWithArgs;
         return slider;
     }
+}
+
+public static partial class SliderStyles
+{
+    public static Action<ISlider>? Default { get; set; }
+    public static Dictionary<string, Action<ISlider>> Themes { get; } = [];
 }

@@ -27,10 +27,12 @@ public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsof
 {
     public MenuItem()
     {
+        MenuItemStyles.Default?.Invoke(this);
     }
 
     public MenuItem(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        MenuItemStyles.Default?.Invoke(this);
     }
 
     object? IMenuItem.IsDestructive { get; set; }
@@ -72,6 +74,16 @@ public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsof
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && MenuItemStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -221,4 +233,10 @@ public static partial class MenuItemExtensions
         menuItem.ClickedActionWithArgs = clickedActionWithArgs;
         return menuItem;
     }
+}
+
+public static partial class MenuItemStyles
+{
+    public static Action<IMenuItem>? Default { get; set; }
+    public static Dictionary<string, Action<IMenuItem>> Themes { get; } = [];
 }

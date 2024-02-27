@@ -18,10 +18,12 @@ public abstract partial class Behavior<T> : VisualNode<T>, IBehavior where T : M
 {
     protected Behavior()
     {
+        BehaviorStyles.Default?.Invoke(this);
     }
 
     protected Behavior(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        BehaviorStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,8 +44,23 @@ public abstract partial class Behavior<T> : VisualNode<T>, IBehavior where T : M
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && BehaviorStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class BehaviorExtensions
 {
+}
+
+public static partial class BehaviorStyles
+{
+    public static Action<IBehavior>? Default { get; set; }
+    public static Dictionary<string, Action<IBehavior>> Themes { get; } = [];
 }

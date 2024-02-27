@@ -31,10 +31,12 @@ public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestu
 {
     public DropGestureRecognizer()
     {
+        DropGestureRecognizerStyles.Default?.Invoke(this);
     }
 
     public DropGestureRecognizer(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        DropGestureRecognizerStyles.Default?.Invoke(this);
     }
 
     object? IDropGestureRecognizer.AllowDrop { get; set; }
@@ -80,6 +82,16 @@ public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestu
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && DropGestureRecognizerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -208,4 +220,10 @@ public static partial class DropGestureRecognizerExtensions
         dropGestureRecognizer.DropActionWithArgs = dropActionWithArgs;
         return dropGestureRecognizer;
     }
+}
+
+public static partial class DropGestureRecognizerStyles
+{
+    public static Action<IDropGestureRecognizer>? Default { get; set; }
+    public static Dictionary<string, Action<IDropGestureRecognizer>> Themes { get; } = [];
 }

@@ -27,10 +27,12 @@ public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Ma
 {
     public SwitchCell()
     {
+        SwitchCellStyles.Default?.Invoke(this);
     }
 
     public SwitchCell(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        SwitchCellStyles.Default?.Invoke(this);
     }
 
     object? ISwitchCell.On { get; set; }
@@ -72,6 +74,16 @@ public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Ma
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && SwitchCellStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -174,4 +186,10 @@ public static partial class SwitchCellExtensions
         switchCell.OnChangedActionWithArgs = onChangedActionWithArgs;
         return switchCell;
     }
+}
+
+public static partial class SwitchCellStyles
+{
+    public static Action<ISwitchCell>? Default { get; set; }
+    public static Dictionary<string, Action<ISwitchCell>> Themes { get; } = [];
 }

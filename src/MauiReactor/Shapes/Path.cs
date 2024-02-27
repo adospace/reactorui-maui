@@ -19,10 +19,12 @@ public sealed partial class Path : Shapes.Shape<Microsoft.Maui.Controls.Shapes.P
 {
     public Path()
     {
+        PathStyles.Default?.Invoke(this);
     }
 
     public Path(Action<Microsoft.Maui.Controls.Shapes.Path?> componentRefAction) : base(componentRefAction)
     {
+        PathStyles.Default?.Invoke(this);
     }
 
     object? IPath.RenderTransform { get; set; }
@@ -50,6 +52,15 @@ public sealed partial class Path : Shapes.Shape<Microsoft.Maui.Controls.Shapes.P
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && PathStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class PathExtensions
@@ -67,4 +78,10 @@ public static partial class PathExtensions
         path.RenderTransform = new PropertyValue<Microsoft.Maui.Controls.Shapes.Transform>(renderTransformFunc);
         return path;
     }
+}
+
+public static partial class PathStyles
+{
+    public static Action<IPath>? Default { get; set; }
+    public static Dictionary<string, Action<IPath>> Themes { get; } = [];
 }

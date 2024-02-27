@@ -43,10 +43,12 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
 {
     public Picker()
     {
+        PickerStyles.Default?.Invoke(this);
     }
 
     public Picker(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        PickerStyles.Default?.Invoke(this);
     }
 
     object? IPicker.TextColor { get; set; }
@@ -130,6 +132,16 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && PickerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -348,4 +360,10 @@ public static partial class PickerExtensions
         picker.SelectedIndexChangedActionWithArgs = selectedIndexChangedActionWithArgs;
         return picker;
     }
+}
+
+public static partial class PickerStyles
+{
+    public static Action<IPicker>? Default { get; set; }
+    public static Dictionary<string, Action<IPicker>> Themes { get; } = [];
 }

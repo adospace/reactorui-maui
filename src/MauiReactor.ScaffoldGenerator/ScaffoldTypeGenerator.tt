@@ -50,65 +50,63 @@ namespace <#= Namespace #>
     {
         public <#= TypeName #>()
         { 
-        
+            <#= TypeName #>Styles.Default?.Invoke(this);
         }
 
         public <#= TypeName #>(Action<T?> componentRefAction)
             : base(componentRefAction)
         {
-
+            <#= TypeName #>Styles.Default?.Invoke(this);
         }
     <# } else if (IsGenericType) { #>
     public abstract partial class <#= TypeName #><T, TChild> : <#= BaseTypeName() #><T>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner" : string.Empty #> where T : <#= FullTypeName #><TChild>, new() where TChild : <#= GenericArgumentBaseFullTypeName #>
     {
         public <#= TypeName #>()
         { 
-        
         }
 
         public <#= TypeName #>(Action<T?> componentRefAction)
             : base(componentRefAction)
         {
-
         }
     <# } else if (IsTypeSealed) { #>
     public sealed partial class <#= TypeName #> : <#= BaseTypeName() #><<#= FullTypeName #>>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #>
     {
         public <#= TypeName #>()
         { 
-        
+            <#= TypeName #>Styles.Default?.Invoke(this);
         }
 
         public <#= TypeName #>(Action<<#= FullTypeName #>?> componentRefAction)
             : base(componentRefAction)
         {
-
+            <#= TypeName #>Styles.Default?.Invoke(this);
         }
     <# } else if (IsTypeNotAbstractWithEmptyConstructor) { #>
     public partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #> where T : <#= FullTypeName #>, new()
     {
         public <#= TypeName #>()
         { 
-        
+            <#= TypeName #>Styles.Default?.Invoke(this);
         }
 
         public <#= TypeName #>(Action<T?> componentRefAction)
             : base(componentRefAction)
         {
-
+            <#= TypeName #>Styles.Default?.Invoke(this);
         }
     <# } else { #>
     public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #> <#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #> where T : <#= FullTypeName #>, new()
     {
         protected <#= TypeName #>()
         { 
-        
+            <#= TypeName #>Styles.Default?.Invoke(this);
         }
 
         protected <#= TypeName #>(Action<T?> componentRefAction)
             : base(componentRefAction)
         {
-
+            <#= TypeName #>Styles.Default?.Invoke(this);
         }    
     <# } #>
         <# if (SupportItemTemplate) { #>
@@ -322,6 +320,18 @@ namespace <#= Namespace #>
 
         partial void OnBeginAnimate();
         partial void OnEndAnimate();
+        
+        <# if (!IsGenericType) { #>
+        protected override void OnThemeChanged()
+        {
+            if (Theme != null && <#= TypeName #>Styles.Themes.TryGetValue(Theme, out var styleAction))
+            {
+                styleAction(this);
+            }
+
+            base.OnThemeChanged();
+        }
+        <# } #>
 
         <# if (Events.Any()) { #>
 
@@ -721,4 +731,14 @@ namespace <#= Namespace #>
         }
         <# } #>
     }
+
+    <# if (!IsGenericType) { #>
+    public static partial class <#= TypeName #>Styles
+    {
+
+        public static Action<<#= InterfaceName #>>? Default { get; set; }
+
+        public static Dictionary<string, Action<<#= InterfaceName #>>> Themes { get; } = [];
+    }
+    <# } #>
 }

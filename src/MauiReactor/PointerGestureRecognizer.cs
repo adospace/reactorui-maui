@@ -37,10 +37,12 @@ public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microso
 {
     public PointerGestureRecognizer()
     {
+        PointerGestureRecognizerStyles.Default?.Invoke(this);
     }
 
     public PointerGestureRecognizer(Action<Microsoft.Maui.Controls.PointerGestureRecognizer?> componentRefAction) : base(componentRefAction)
     {
+        PointerGestureRecognizerStyles.Default?.Invoke(this);
     }
 
     Action? IPointerGestureRecognizer.PointerEnteredAction { get; set; }
@@ -92,6 +94,16 @@ public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microso
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && PointerGestureRecognizerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -249,4 +261,10 @@ public static partial class PointerGestureRecognizerExtensions
         pointerGestureRecognizer.PointerReleasedActionWithArgs = pointerReleasedActionWithArgs;
         return pointerGestureRecognizer;
     }
+}
+
+public static partial class PointerGestureRecognizerStyles
+{
+    public static Action<IPointerGestureRecognizer>? Default { get; set; }
+    public static Dictionary<string, Action<IPointerGestureRecognizer>> Themes { get; } = [];
 }

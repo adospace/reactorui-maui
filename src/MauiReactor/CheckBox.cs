@@ -25,10 +25,12 @@ public partial class CheckBox<T> : View<T>, ICheckBox where T : Microsoft.Maui.C
 {
     public CheckBox()
     {
+        CheckBoxStyles.Default?.Invoke(this);
     }
 
     public CheckBox(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        CheckBoxStyles.Default?.Invoke(this);
     }
 
     object? ICheckBox.IsChecked { get; set; }
@@ -66,6 +68,16 @@ public partial class CheckBox<T> : View<T>, ICheckBox where T : Microsoft.Maui.C
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && CheckBoxStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -154,4 +166,10 @@ public static partial class CheckBoxExtensions
         checkBox.CheckedChangedActionWithArgs = checkedChangedActionWithArgs;
         return checkBox;
     }
+}
+
+public static partial class CheckBoxStyles
+{
+    public static Action<ICheckBox>? Default { get; set; }
+    public static Dictionary<string, Action<ICheckBox>> Themes { get; } = [];
 }

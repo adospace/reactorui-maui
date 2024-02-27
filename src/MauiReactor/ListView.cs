@@ -65,10 +65,12 @@ public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls
 {
     public ListView()
     {
+        ListViewStyles.Default?.Invoke(this);
     }
 
     public ListView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ListViewStyles.Default?.Invoke(this);
     }
 
     object? IListView.IsPullToRefreshEnabled { get; set; }
@@ -176,6 +178,16 @@ public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && ListViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -539,4 +551,10 @@ public static partial class ListViewExtensions
         listView.RefreshingActionWithArgs = refreshingActionWithArgs;
         return listView;
     }
+}
+
+public static partial class ListViewStyles
+{
+    public static Action<IListView>? Default { get; set; }
+    public static Dictionary<string, Action<IListView>> Themes { get; } = [];
 }

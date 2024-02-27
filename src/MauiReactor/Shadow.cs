@@ -25,10 +25,12 @@ public partial class Shadow<T> : Element<T>, IShadow where T : Microsoft.Maui.Co
 {
     public Shadow()
     {
+        ShadowStyles.Default?.Invoke(this);
     }
 
     public Shadow(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ShadowStyles.Default?.Invoke(this);
     }
 
     object? IShadow.Radius { get; set; }
@@ -77,6 +79,15 @@ public partial class Shadow<T> : Element<T>, IShadow where T : Microsoft.Maui.Co
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && ShadowStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class Shadow : Shadow<Microsoft.Maui.Controls.Shadow>
@@ -156,4 +167,10 @@ public static partial class ShadowExtensions
         shadow.Offset = new Microsoft.Maui.Graphics.Point(x, y);
         return shadow;
     }
+}
+
+public static partial class ShadowStyles
+{
+    public static Action<IShadow>? Default { get; set; }
+    public static Dictionary<string, Action<IShadow>> Themes { get; } = [];
 }

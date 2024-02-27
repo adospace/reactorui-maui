@@ -27,10 +27,12 @@ public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Contr
 {
     public Switch()
     {
+        SwitchStyles.Default?.Invoke(this);
     }
 
     public Switch(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        SwitchStyles.Default?.Invoke(this);
     }
 
     object? ISwitch.IsToggled { get; set; }
@@ -72,6 +74,16 @@ public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Contr
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && SwitchStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -174,4 +186,10 @@ public static partial class SwitchExtensions
         @switch.ToggledActionWithArgs = toggledActionWithArgs;
         return @switch;
     }
+}
+
+public static partial class SwitchStyles
+{
+    public static Action<ISwitch>? Default { get; set; }
+    public static Dictionary<string, Action<ISwitch>> Themes { get; } = [];
 }

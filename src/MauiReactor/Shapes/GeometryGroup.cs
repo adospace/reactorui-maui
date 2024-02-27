@@ -25,10 +25,12 @@ public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where
 {
     public GeometryGroup()
     {
+        GeometryGroupStyles.Default?.Invoke(this);
     }
 
     public GeometryGroup(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        GeometryGroupStyles.Default?.Invoke(this);
     }
 
     object? IGeometryGroup.Children { get; set; }
@@ -66,6 +68,16 @@ public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && GeometryGroupStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -154,4 +166,10 @@ public static partial class GeometryGroupExtensions
         geometryGroup.InvalidateGeometryRequestedActionWithArgs = invalidateGeometryRequestedActionWithArgs;
         return geometryGroup;
     }
+}
+
+public static partial class GeometryGroupStyles
+{
+    public static Action<IGeometryGroup>? Default { get; set; }
+    public static Dictionary<string, Action<IGeometryGroup>> Themes { get; } = [];
 }

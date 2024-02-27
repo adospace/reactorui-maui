@@ -21,10 +21,12 @@ public partial class Grid<T> : Layout<T>, IGrid where T : Microsoft.Maui.Control
 {
     public Grid()
     {
+        GridStyles.Default?.Invoke(this);
     }
 
     public Grid(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        GridStyles.Default?.Invoke(this);
     }
 
     object? IGrid.RowSpacing { get; set; }
@@ -66,6 +68,15 @@ public partial class Grid<T> : Layout<T>, IGrid where T : Microsoft.Maui.Control
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && GridStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class Grid : Grid<Microsoft.Maui.Controls.Grid>
@@ -112,4 +123,10 @@ public static partial class GridExtensions
         grid.ColumnSpacing = new PropertyValue<double>(columnSpacingFunc);
         return grid;
     }
+}
+
+public static partial class GridStyles
+{
+    public static Action<IGrid>? Default { get; set; }
+    public static Dictionary<string, Action<IGrid>> Themes { get; } = [];
 }

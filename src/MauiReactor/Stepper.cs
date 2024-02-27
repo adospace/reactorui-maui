@@ -29,10 +29,12 @@ public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Con
 {
     public Stepper()
     {
+        StepperStyles.Default?.Invoke(this);
     }
 
     public Stepper(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        StepperStyles.Default?.Invoke(this);
     }
 
     object? IStepper.Maximum { get; set; }
@@ -90,6 +92,16 @@ public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Con
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && StepperStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -214,4 +226,10 @@ public static partial class StepperExtensions
         stepper.ValueChangedActionWithArgs = valueChangedActionWithArgs;
         return stepper;
     }
+}
+
+public static partial class StepperStyles
+{
+    public static Action<IStepper>? Default { get; set; }
+    public static Dictionary<string, Action<IStepper>> Themes { get; } = [];
 }

@@ -27,10 +27,12 @@ public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where 
 {
     public ScrollView()
     {
+        ScrollViewStyles.Default?.Invoke(this);
     }
 
     public ScrollView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ScrollViewStyles.Default?.Invoke(this);
     }
 
     object? IScrollView.Orientation { get; set; }
@@ -72,6 +74,16 @@ public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where 
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && ScrollViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -174,4 +186,10 @@ public static partial class ScrollViewExtensions
         scrollView.ScrolledActionWithArgs = scrolledActionWithArgs;
         return scrollView;
     }
+}
+
+public static partial class ScrollViewStyles
+{
+    public static Action<IScrollView>? Default { get; set; }
+    public static Dictionary<string, Action<IScrollView>> Themes { get; } = [];
 }

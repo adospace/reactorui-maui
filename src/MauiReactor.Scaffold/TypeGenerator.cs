@@ -199,14 +199,29 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("()\n    { \n        \n    }\n\n    public ");
+            this.Write("()\n    { \n        ");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
-            this.Write("(Action<T?> componentRefAction)\n        : base(componentRefAction)\n    {\n\n    }\n");
+            this.Write("Styles.Default?.Invoke(this);\n    }\n\n    public ");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
+            
+            #line default
+            #line hidden
+            this.Write("(Action<T?> componentRefAction)\n        : base(componentRefAction)\n    {\n        " +
+                    "");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
+            
+            #line default
+            #line hidden
+            this.Write("Styles.Default?.Invoke(this);\n    }\n");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } else if (IsGenericType()) { 
@@ -255,14 +270,14 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("()\n    { \n        \n    }\n\n    public ");
+            this.Write("()\n    { \n    }\n\n    public ");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
-            this.Write("(Action<T?> componentRefAction)\n        : base(componentRefAction)\n    {\n\n    }\n");
+            this.Write("(Action<T?> componentRefAction)\n        : base(componentRefAction)\n    {\n    }\n");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } else if (IsTypeSealed()) { 
@@ -304,7 +319,14 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("()\n    { \n        \n    }\n\n    public ");
+            this.Write("()\n    { \n        ");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
+            
+            #line default
+            #line hidden
+            this.Write("Styles.Default?.Invoke(this);\n    }\n\n    public ");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
@@ -318,7 +340,14 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("?> componentRefAction)\n        : base(componentRefAction)\n    {\n\n    }\n");
+            this.Write("?> componentRefAction)\n        : base(componentRefAction)\n    {\n        ");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
+            
+            #line default
+            #line hidden
+            this.Write("Styles.Default?.Invoke(this);\n    }\n");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } else if (IsTypeNotAbstractWithEmptyConstructor()) { 
@@ -360,14 +389,29 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("()\n    { \n        \n    }\n\n    public ");
+            this.Write("()\n    { \n        ");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
-            this.Write("(Action<T?> componentRefAction)\n        : base(componentRefAction)\n    {\n\n    }\n");
+            this.Write("Styles.Default?.Invoke(this);\n    }\n\n    public ");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
+            
+            #line default
+            #line hidden
+            this.Write("(Action<T?> componentRefAction)\n        : base(componentRefAction)\n    {\n        " +
+                    "");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
+            
+            #line default
+            #line hidden
+            this.Write("Styles.Default?.Invoke(this);\n    }\n");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } else { 
@@ -409,15 +453,29 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("()\n    { \n        \n    }\n\n    protected ");
+            this.Write("()\n    { \n        ");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
-            this.Write("(Action<T?> componentRefAction)\n        : base(componentRefAction)\n    {\n\n    }  " +
-                    "  \n");
+            this.Write("Styles.Default?.Invoke(this);\n    }\n\n    protected ");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
+            
+            #line default
+            #line hidden
+            this.Write("(Action<T?> componentRefAction)\n        : base(componentRefAction)\n    {\n        " +
+                    "");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
+            
+            #line default
+            #line hidden
+            this.Write("Styles.Default?.Invoke(this);\n    }    \n");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
@@ -844,6 +902,29 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             #line hidden
             this.Write("\n\n    partial void OnBeginUpdate();\n    partial void OnEndUpdate();\n\n    partial " +
                     "void OnBeginAnimate();\n    partial void OnEndAnimate();\n\n    ");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ if (!IsGenericType()) { 
+            
+            #line default
+            #line hidden
+            this.Write("\n    protected override void OnThemeChanged()\n    {\n        if (Theme != null && " +
+                    "");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
+            
+            #line default
+            #line hidden
+            this.Write("Styles.Themes.TryGetValue(Theme, out var styleAction))\n        {\n            styl" +
+                    "eAction(this);\n        }\n\n        base.OnThemeChanged();\n    }\n    ");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\n\n    ");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  if (Events.Any()) { 
@@ -2911,6 +2992,40 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             #line default
             #line hidden
             this.Write("\n}\n\n");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ if (!IsGenericType()) { 
+            
+            #line default
+            #line hidden
+            this.Write("\npublic static partial class ");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
+            
+            #line default
+            #line hidden
+            this.Write("Styles\n{\n\n    public static Action<");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
+            
+            #line default
+            #line hidden
+            this.Write(">? Default { get; set; }\n\n    public static Dictionary<string, Action<");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
+            
+            #line default
+            #line hidden
+            this.Write(">> Themes { get; } = [];\n}\n");
+            
+            #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
             return this.GenerationEnvironment.ToString();
         }
     }

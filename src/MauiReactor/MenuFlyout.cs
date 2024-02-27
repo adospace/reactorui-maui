@@ -18,10 +18,12 @@ public partial class MenuFlyout<T> : FlyoutBase<T>, IMenuFlyout where T : Micros
 {
     public MenuFlyout()
     {
+        MenuFlyoutStyles.Default?.Invoke(this);
     }
 
     public MenuFlyout(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        MenuFlyoutStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class MenuFlyout<T> : FlyoutBase<T>, IMenuFlyout where T : Micros
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && MenuFlyoutStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class MenuFlyout : MenuFlyout<Microsoft.Maui.Controls.MenuFlyout>
@@ -57,4 +68,10 @@ public partial class MenuFlyout : MenuFlyout<Microsoft.Maui.Controls.MenuFlyout>
 
 public static partial class MenuFlyoutExtensions
 {
+}
+
+public static partial class MenuFlyoutStyles
+{
+    public static Action<IMenuFlyout>? Default { get; set; }
+    public static Dictionary<string, Action<IMenuFlyout>> Themes { get; } = [];
 }

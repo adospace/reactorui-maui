@@ -21,10 +21,12 @@ public abstract partial class ItemsLayout<T> : VisualNode<T>, IItemsLayout where
 {
     protected ItemsLayout()
     {
+        ItemsLayoutStyles.Default?.Invoke(this);
     }
 
     protected ItemsLayout(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ItemsLayoutStyles.Default?.Invoke(this);
     }
 
     object? IItemsLayout.SnapPointsAlignment { get; set; }
@@ -56,6 +58,15 @@ public abstract partial class ItemsLayout<T> : VisualNode<T>, IItemsLayout where
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && ItemsLayoutStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class ItemsLayoutExtensions
@@ -87,4 +98,10 @@ public static partial class ItemsLayoutExtensions
         itemsLayout.SnapPointsType = new PropertyValue<Microsoft.Maui.Controls.SnapPointsType>(snapPointsTypeFunc);
         return itemsLayout;
     }
+}
+
+public static partial class ItemsLayoutStyles
+{
+    public static Action<IItemsLayout>? Default { get; set; }
+    public static Dictionary<string, Action<IItemsLayout>> Themes { get; } = [];
 }

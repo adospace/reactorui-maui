@@ -25,10 +25,12 @@ public partial class TextCell<T> : Cell<T>, ITextCell where T : Microsoft.Maui.C
 {
     public TextCell()
     {
+        TextCellStyles.Default?.Invoke(this);
     }
 
     public TextCell(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        TextCellStyles.Default?.Invoke(this);
     }
 
     object? ITextCell.Text { get; set; }
@@ -68,6 +70,15 @@ public partial class TextCell<T> : Cell<T>, ITextCell where T : Microsoft.Maui.C
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && TextCellStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class TextCell : TextCell<Microsoft.Maui.Controls.TextCell>
@@ -138,4 +149,10 @@ public static partial class TextCellExtensions
         textCell.DetailColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(detailColorFunc);
         return textCell;
     }
+}
+
+public static partial class TextCellStyles
+{
+    public static Action<ITextCell>? Default { get; set; }
+    public static Dictionary<string, Action<ITextCell>> Themes { get; } = [];
 }

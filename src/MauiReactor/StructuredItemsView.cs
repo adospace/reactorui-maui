@@ -19,10 +19,12 @@ public partial class StructuredItemsView<T> : ItemsView<T>, IStructuredItemsView
 {
     public StructuredItemsView()
     {
+        StructuredItemsViewStyles.Default?.Invoke(this);
     }
 
     public StructuredItemsView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        StructuredItemsViewStyles.Default?.Invoke(this);
     }
 
     object? IStructuredItemsView.ItemSizingStrategy { get; set; }
@@ -50,6 +52,15 @@ public partial class StructuredItemsView<T> : ItemsView<T>, IStructuredItemsView
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && StructuredItemsViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class StructuredItemsView : StructuredItemsView<Microsoft.Maui.Controls.StructuredItemsView>
@@ -78,4 +89,10 @@ public static partial class StructuredItemsViewExtensions
         structuredItemsView.ItemSizingStrategy = new PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>(itemSizingStrategyFunc);
         return structuredItemsView;
     }
+}
+
+public static partial class StructuredItemsViewStyles
+{
+    public static Action<IStructuredItemsView>? Default { get; set; }
+    public static Dictionary<string, Action<IStructuredItemsView>> Themes { get; } = [];
 }

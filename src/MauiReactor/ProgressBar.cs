@@ -21,10 +21,12 @@ public partial class ProgressBar<T> : View<T>, IProgressBar where T : Microsoft.
 {
     public ProgressBar()
     {
+        ProgressBarStyles.Default?.Invoke(this);
     }
 
     public ProgressBar(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ProgressBarStyles.Default?.Invoke(this);
     }
 
     object? IProgressBar.ProgressColor { get; set; }
@@ -65,6 +67,15 @@ public partial class ProgressBar<T> : View<T>, IProgressBar where T : Microsoft.
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && ProgressBarStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class ProgressBar : ProgressBar<Microsoft.Maui.Controls.ProgressBar>
@@ -109,4 +120,10 @@ public static partial class ProgressBarExtensions
         progressBar.Progress = new PropertyValue<double>(progressFunc);
         return progressBar;
     }
+}
+
+public static partial class ProgressBarStyles
+{
+    public static Action<IProgressBar>? Default { get; set; }
+    public static Dictionary<string, Action<IProgressBar>> Themes { get; } = [];
 }

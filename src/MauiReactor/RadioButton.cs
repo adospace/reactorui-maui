@@ -47,10 +47,12 @@ public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : M
 {
     public RadioButton()
     {
+        RadioButtonStyles.Default?.Invoke(this);
     }
 
     public RadioButton(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        RadioButtonStyles.Default?.Invoke(this);
     }
 
     object? IRadioButton.Value { get; set; }
@@ -143,6 +145,16 @@ public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : M
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && RadioButtonStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -391,4 +403,10 @@ public static partial class RadioButtonExtensions
         radioButton.CheckedChangedActionWithArgs = checkedChangedActionWithArgs;
         return radioButton;
     }
+}
+
+public static partial class RadioButtonStyles
+{
+    public static Action<IRadioButton>? Default { get; set; }
+    public static Dictionary<string, Action<IRadioButton>> Themes { get; } = [];
 }

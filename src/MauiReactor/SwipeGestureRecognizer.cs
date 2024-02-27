@@ -25,10 +25,12 @@ public sealed partial class SwipeGestureRecognizer : GestureRecognizer<Microsoft
 {
     public SwipeGestureRecognizer()
     {
+        SwipeGestureRecognizerStyles.Default?.Invoke(this);
     }
 
     public SwipeGestureRecognizer(Action<Microsoft.Maui.Controls.SwipeGestureRecognizer?> componentRefAction) : base(componentRefAction)
     {
+        SwipeGestureRecognizerStyles.Default?.Invoke(this);
     }
 
     object? ISwipeGestureRecognizer.Direction { get; set; }
@@ -66,6 +68,16 @@ public sealed partial class SwipeGestureRecognizer : GestureRecognizer<Microsoft
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && SwipeGestureRecognizerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -143,4 +155,10 @@ public static partial class SwipeGestureRecognizerExtensions
         swipeGestureRecognizer.SwipedActionWithArgs = swipedActionWithArgs;
         return swipeGestureRecognizer;
     }
+}
+
+public static partial class SwipeGestureRecognizerStyles
+{
+    public static Action<ISwipeGestureRecognizer>? Default { get; set; }
+    public static Dictionary<string, Action<ISwipeGestureRecognizer>> Themes { get; } = [];
 }

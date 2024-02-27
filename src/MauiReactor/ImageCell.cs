@@ -19,10 +19,12 @@ public partial class ImageCell<T> : TextCell<T>, IImageCell where T : Microsoft.
 {
     public ImageCell()
     {
+        ImageCellStyles.Default?.Invoke(this);
     }
 
     public ImageCell(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ImageCellStyles.Default?.Invoke(this);
     }
 
     object? IImageCell.ImageSource { get; set; }
@@ -50,6 +52,15 @@ public partial class ImageCell<T> : TextCell<T>, IImageCell where T : Microsoft.
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && ImageCellStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class ImageCell : ImageCell<Microsoft.Maui.Controls.ImageCell>
@@ -125,4 +136,10 @@ public static partial class ImageCellExtensions
         imageCell.ImageSource = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
         return imageCell;
     }
+}
+
+public static partial class ImageCellStyles
+{
+    public static Action<IImageCell>? Default { get; set; }
+    public static Dictionary<string, Action<IImageCell>> Themes { get; } = [];
 }

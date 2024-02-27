@@ -19,10 +19,12 @@ public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableI
 {
     public GroupableItemsView()
     {
+        GroupableItemsViewStyles.Default?.Invoke(this);
     }
 
     public GroupableItemsView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        GroupableItemsViewStyles.Default?.Invoke(this);
     }
 
     object? IGroupableItemsView.IsGrouped { get; set; }
@@ -50,6 +52,15 @@ public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableI
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && GroupableItemsViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class GroupableItemsView : GroupableItemsView<Microsoft.Maui.Controls.GroupableItemsView>
@@ -78,4 +89,10 @@ public static partial class GroupableItemsViewExtensions
         groupableItemsView.IsGrouped = new PropertyValue<bool>(isGroupedFunc);
         return groupableItemsView;
     }
+}
+
+public static partial class GroupableItemsViewStyles
+{
+    public static Action<IGroupableItemsView>? Default { get; set; }
+    public static Dictionary<string, Action<IGroupableItemsView>> Themes { get; } = [];
 }

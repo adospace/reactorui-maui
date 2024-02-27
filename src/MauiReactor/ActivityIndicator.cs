@@ -21,10 +21,12 @@ public partial class ActivityIndicator<T> : View<T>, IActivityIndicator where T 
 {
     public ActivityIndicator()
     {
+        ActivityIndicatorStyles.Default?.Invoke(this);
     }
 
     public ActivityIndicator(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ActivityIndicatorStyles.Default?.Invoke(this);
     }
 
     object? IActivityIndicator.IsRunning { get; set; }
@@ -56,6 +58,15 @@ public partial class ActivityIndicator<T> : View<T>, IActivityIndicator where T 
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && ActivityIndicatorStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class ActivityIndicator : ActivityIndicator<Microsoft.Maui.Controls.ActivityIndicator>
@@ -98,4 +109,10 @@ public static partial class ActivityIndicatorExtensions
         activityIndicator.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc);
         return activityIndicator;
     }
+}
+
+public static partial class ActivityIndicatorStyles
+{
+    public static Action<IActivityIndicator>? Default { get; set; }
+    public static Dictionary<string, Action<IActivityIndicator>> Themes { get; } = [];
 }

@@ -25,10 +25,12 @@ public sealed partial class Line : Shapes.Shape<Microsoft.Maui.Controls.Shapes.L
 {
     public Line()
     {
+        LineStyles.Default?.Invoke(this);
     }
 
     public Line(Action<Microsoft.Maui.Controls.Shapes.Line?> componentRefAction) : base(componentRefAction)
     {
+        LineStyles.Default?.Invoke(this);
     }
 
     object? ILine.X1 { get; set; }
@@ -80,6 +82,15 @@ public sealed partial class Line : Shapes.Shape<Microsoft.Maui.Controls.Shapes.L
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && LineStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class LineExtensions
@@ -147,4 +158,10 @@ public static partial class LineExtensions
         line.Y2 = new PropertyValue<double>(y2Func);
         return line;
     }
+}
+
+public static partial class LineStyles
+{
+    public static Action<ILine>? Default { get; set; }
+    public static Dictionary<string, Action<ILine>> Themes { get; } = [];
 }

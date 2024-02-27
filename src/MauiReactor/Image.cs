@@ -25,10 +25,12 @@ public partial class Image<T> : View<T>, IImage where T : Microsoft.Maui.Control
 {
     public Image()
     {
+        ImageStyles.Default?.Invoke(this);
     }
 
     public Image(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ImageStyles.Default?.Invoke(this);
     }
 
     object? IImage.Source { get; set; }
@@ -68,6 +70,15 @@ public partial class Image<T> : View<T>, IImage where T : Microsoft.Maui.Control
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && ImageStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class Image : Image<Microsoft.Maui.Controls.Image>
@@ -185,4 +196,10 @@ public static partial class ImageExtensions
         image.IsAnimationPlaying = new PropertyValue<bool>(isAnimationPlayingFunc);
         return image;
     }
+}
+
+public static partial class ImageStyles
+{
+    public static Action<IImage>? Default { get; set; }
+    public static Dictionary<string, Action<IImage>> Themes { get; } = [];
 }

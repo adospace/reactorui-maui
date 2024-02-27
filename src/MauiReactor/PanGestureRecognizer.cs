@@ -23,10 +23,12 @@ public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGesture
 {
     public PanGestureRecognizer()
     {
+        PanGestureRecognizerStyles.Default?.Invoke(this);
     }
 
     public PanGestureRecognizer(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        PanGestureRecognizerStyles.Default?.Invoke(this);
     }
 
     object? IPanGestureRecognizer.TouchPoints { get; set; }
@@ -60,6 +62,16 @@ public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGesture
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && PanGestureRecognizerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -134,4 +146,10 @@ public static partial class PanGestureRecognizerExtensions
         panGestureRecognizer.PanUpdatedActionWithArgs = panUpdatedActionWithArgs;
         return panGestureRecognizer;
     }
+}
+
+public static partial class PanGestureRecognizerStyles
+{
+    public static Action<IPanGestureRecognizer>? Default { get; set; }
+    public static Dictionary<string, Action<IPanGestureRecognizer>> Themes { get; } = [];
 }

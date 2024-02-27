@@ -31,10 +31,12 @@ public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Ma
 {
     protected Cell()
     {
+        CellStyles.Default?.Invoke(this);
     }
 
     protected Cell(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        CellStyles.Default?.Invoke(this);
     }
 
     object? ICell.IsEnabled { get; set; }
@@ -80,6 +82,16 @@ public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Ma
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && CellStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -197,4 +209,10 @@ public static partial class CellExtensions
         cell.TappedActionWithArgs = tappedActionWithArgs;
         return cell;
     }
+}
+
+public static partial class CellStyles
+{
+    public static Action<ICell>? Default { get; set; }
+    public static Dictionary<string, Action<ICell>> Themes { get; } = [];
 }

@@ -29,10 +29,12 @@ public partial class FlexLayout<T> : Layout<T>, IFlexLayout where T : Microsoft.
 {
     public FlexLayout()
     {
+        FlexLayoutStyles.Default?.Invoke(this);
     }
 
     public FlexLayout(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        FlexLayoutStyles.Default?.Invoke(this);
     }
 
     object? IFlexLayout.Direction { get; set; }
@@ -80,6 +82,15 @@ public partial class FlexLayout<T> : Layout<T>, IFlexLayout where T : Microsoft.
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && FlexLayoutStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class FlexLayout : FlexLayout<Microsoft.Maui.Controls.FlexLayout>
@@ -178,4 +189,10 @@ public static partial class FlexLayoutExtensions
         flexLayout.Wrap = new PropertyValue<Microsoft.Maui.Layouts.FlexWrap>(wrapFunc);
         return flexLayout;
     }
+}
+
+public static partial class FlexLayoutStyles
+{
+    public static Action<IFlexLayout>? Default { get; set; }
+    public static Dictionary<string, Action<IFlexLayout>> Themes { get; } = [];
 }

@@ -18,10 +18,12 @@ public partial class MenuFlyoutSeparator<T> : MenuFlyoutItem<T>, IMenuFlyoutSepa
 {
     public MenuFlyoutSeparator()
     {
+        MenuFlyoutSeparatorStyles.Default?.Invoke(this);
     }
 
     public MenuFlyoutSeparator(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        MenuFlyoutSeparatorStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class MenuFlyoutSeparator<T> : MenuFlyoutItem<T>, IMenuFlyoutSepa
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && MenuFlyoutSeparatorStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class MenuFlyoutSeparator : MenuFlyoutSeparator<Microsoft.Maui.Controls.MenuFlyoutSeparator>
@@ -57,4 +68,10 @@ public partial class MenuFlyoutSeparator : MenuFlyoutSeparator<Microsoft.Maui.Co
 
 public static partial class MenuFlyoutSeparatorExtensions
 {
+}
+
+public static partial class MenuFlyoutSeparatorStyles
+{
+    public static Action<IMenuFlyoutSeparator>? Default { get; set; }
+    public static Dictionary<string, Action<IMenuFlyoutSeparator>> Themes { get; } = [];
 }

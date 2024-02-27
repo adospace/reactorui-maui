@@ -25,10 +25,12 @@ public partial class ReorderableItemsView<T> : GroupableItemsView<T>, IReorderab
 {
     public ReorderableItemsView()
     {
+        ReorderableItemsViewStyles.Default?.Invoke(this);
     }
 
     public ReorderableItemsView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ReorderableItemsViewStyles.Default?.Invoke(this);
     }
 
     object? IReorderableItemsView.CanMixGroups { get; set; }
@@ -66,6 +68,16 @@ public partial class ReorderableItemsView<T> : GroupableItemsView<T>, IReorderab
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && ReorderableItemsViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -154,4 +166,10 @@ public static partial class ReorderableItemsViewExtensions
         reorderableItemsView.ReorderCompletedActionWithArgs = reorderCompletedActionWithArgs;
         return reorderableItemsView;
     }
+}
+
+public static partial class ReorderableItemsViewStyles
+{
+    public static Action<IReorderableItemsView>? Default { get; set; }
+    public static Dictionary<string, Action<IReorderableItemsView>> Themes { get; } = [];
 }

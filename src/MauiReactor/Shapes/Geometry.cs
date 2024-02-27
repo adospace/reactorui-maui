@@ -18,10 +18,12 @@ public abstract partial class Geometry<T> : VisualNode<T>, IGeometry where T : M
 {
     protected Geometry()
     {
+        GeometryStyles.Default?.Invoke(this);
     }
 
     protected Geometry(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        GeometryStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,8 +44,23 @@ public abstract partial class Geometry<T> : VisualNode<T>, IGeometry where T : M
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && GeometryStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class GeometryExtensions
 {
+}
+
+public static partial class GeometryStyles
+{
+    public static Action<IGeometry>? Default { get; set; }
+    public static Dictionary<string, Action<IGeometry>> Themes { get; } = [];
 }

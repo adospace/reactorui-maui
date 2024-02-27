@@ -21,7 +21,7 @@ public static class MauiProgram
             //This will enable the FrameRateIndicator widget
             //Disable before publishing the app
             .EnableFrameRateIndicator()
-#endif                
+#endif
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -29,6 +29,11 @@ public static class MauiProgram
             .UseMauiCommunityToolkit();
 
         builder.Services.AddSingleton<Services.IncrementService>();
+
+        LabelStyles.Themes["H1"] = _ => 
+            _.FontAttributes(MauiControls.FontAttributes.Bold).FontSize(32);
+
+        ViewStyles.Default = _ => _.Margin(10);
 
         return builder.Build();
     }

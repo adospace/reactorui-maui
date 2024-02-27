@@ -27,10 +27,12 @@ public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft
 {
     public SearchBar()
     {
+        SearchBarStyles.Default?.Invoke(this);
     }
 
     public SearchBar(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        SearchBarStyles.Default?.Invoke(this);
     }
 
     object? ISearchBar.CancelButtonColor { get; set; }
@@ -72,6 +74,16 @@ public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && SearchBarStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -174,4 +186,10 @@ public static partial class SearchBarExtensions
         searchBar.SearchButtonPressedActionWithArgs = searchButtonPressedActionWithArgs;
         return searchBar;
     }
+}
+
+public static partial class SearchBarStyles
+{
+    public static Action<ISearchBar>? Default { get; set; }
+    public static Dictionary<string, Action<ISearchBar>> Themes { get; } = [];
 }

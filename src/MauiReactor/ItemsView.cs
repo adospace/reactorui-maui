@@ -37,10 +37,12 @@ public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Micro
 {
     protected ItemsView()
     {
+        ItemsViewStyles.Default?.Invoke(this);
     }
 
     protected ItemsView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ItemsViewStyles.Default?.Invoke(this);
     }
 
     object? IItemsView.HorizontalScrollBarVisibility { get; set; }
@@ -98,6 +100,16 @@ public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Micro
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && ItemsViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -257,4 +269,10 @@ public static partial class ItemsViewExtensions
         itemsView.RemainingItemsThresholdReachedActionWithArgs = remainingItemsThresholdReachedActionWithArgs;
         return itemsView;
     }
+}
+
+public static partial class ItemsViewStyles
+{
+    public static Action<IItemsView>? Default { get; set; }
+    public static Dictionary<string, Action<IItemsView>> Themes { get; } = [];
 }

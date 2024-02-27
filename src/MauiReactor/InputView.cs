@@ -55,10 +55,12 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
 {
     protected InputView()
     {
+        InputViewStyles.Default?.Invoke(this);
     }
 
     protected InputView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        InputViewStyles.Default?.Invoke(this);
     }
 
     object? IInputView.Text { get; set; }
@@ -166,6 +168,16 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && InputViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -457,4 +469,10 @@ public static partial class InputViewExtensions
         inputView.TextChangedActionWithArgs = textChangedActionWithArgs;
         return inputView;
     }
+}
+
+public static partial class InputViewStyles
+{
+    public static Action<IInputView>? Default { get; set; }
+    public static Dictionary<string, Action<IInputView>> Themes { get; } = [];
 }

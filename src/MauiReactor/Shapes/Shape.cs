@@ -35,10 +35,12 @@ public abstract partial class Shape<T> : View<T>, IShape where T : Microsoft.Mau
 {
     protected Shape()
     {
+        ShapeStyles.Default?.Invoke(this);
     }
 
     protected Shape(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ShapeStyles.Default?.Invoke(this);
     }
 
     object? IShape.Fill { get; set; }
@@ -109,6 +111,15 @@ public abstract partial class Shape<T> : View<T>, IShape where T : Microsoft.Mau
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && ShapeStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class ShapeExtensions
@@ -244,4 +255,10 @@ public static partial class ShapeExtensions
         shape.Aspect = new PropertyValue<Microsoft.Maui.Controls.Stretch>(aspectFunc);
         return shape;
     }
+}
+
+public static partial class ShapeStyles
+{
+    public static Action<IShape>? Default { get; set; }
+    public static Dictionary<string, Action<IShape>> Themes { get; } = [];
 }

@@ -93,10 +93,12 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
 {
     public Window()
     {
+        WindowStyles.Default?.Invoke(this);
     }
 
     public Window(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        WindowStyles.Default?.Invoke(this);
     }
 
     object? IWindow.Title { get; set; }
@@ -260,6 +262,16 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && WindowStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -827,4 +839,10 @@ public static partial class WindowExtensions
         window.DisplayDensityChangedActionWithArgs = displayDensityChangedActionWithArgs;
         return window;
     }
+}
+
+public static partial class WindowStyles
+{
+    public static Action<IWindow>? Default { get; set; }
+    public static Dictionary<string, Action<IWindow>> Themes { get; } = [];
 }

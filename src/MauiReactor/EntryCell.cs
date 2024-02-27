@@ -35,10 +35,12 @@ public partial class EntryCell<T> : Cell<T>, IEntryCell where T : Microsoft.Maui
 {
     public EntryCell()
     {
+        EntryCellStyles.Default?.Invoke(this);
     }
 
     public EntryCell(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        EntryCellStyles.Default?.Invoke(this);
     }
 
     object? IEntryCell.Text { get; set; }
@@ -96,6 +98,16 @@ public partial class EntryCell<T> : Cell<T>, IEntryCell where T : Microsoft.Maui
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && EntryCellStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -254,4 +266,10 @@ public static partial class EntryCellExtensions
         entryCell.CompletedActionWithArgs = completedActionWithArgs;
         return entryCell;
     }
+}
+
+public static partial class EntryCellStyles
+{
+    public static Action<IEntryCell>? Default { get; set; }
+    public static Dictionary<string, Action<IEntryCell>> Themes { get; } = [];
 }

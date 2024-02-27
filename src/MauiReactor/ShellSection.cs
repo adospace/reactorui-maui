@@ -18,10 +18,12 @@ public partial class ShellSection<T> : ShellGroupItem<T>, IShellSection where T 
 {
     public ShellSection()
     {
+        ShellSectionStyles.Default?.Invoke(this);
     }
 
     public ShellSection(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ShellSectionStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class ShellSection<T> : ShellGroupItem<T>, IShellSection where T 
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && ShellSectionStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class ShellSection : ShellSection<Microsoft.Maui.Controls.ShellSection>
@@ -57,4 +68,10 @@ public partial class ShellSection : ShellSection<Microsoft.Maui.Controls.ShellSe
 
 public static partial class ShellSectionExtensions
 {
+}
+
+public static partial class ShellSectionStyles
+{
+    public static Action<IShellSection>? Default { get; set; }
+    public static Dictionary<string, Action<IShellSection>> Themes { get; } = [];
 }

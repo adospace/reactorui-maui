@@ -47,10 +47,12 @@ public partial class GraphicsView<T> : View<T>, IGraphicsView where T : Microsof
 {
     public GraphicsView()
     {
+        GraphicsViewStyles.Default?.Invoke(this);
     }
 
     public GraphicsView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        GraphicsViewStyles.Default?.Invoke(this);
     }
 
     object? IGraphicsView.Drawable { get; set; }
@@ -120,6 +122,16 @@ public partial class GraphicsView<T> : View<T>, IGraphicsView where T : Microsof
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && GraphicsViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -356,4 +368,10 @@ public static partial class GraphicsViewExtensions
         graphicsView.CancelInteractionActionWithArgs = cancelInteractionActionWithArgs;
         return graphicsView;
     }
+}
+
+public static partial class GraphicsViewStyles
+{
+    public static Action<IGraphicsView>? Default { get; set; }
+    public static Dictionary<string, Action<IGraphicsView>> Themes { get; } = [];
 }

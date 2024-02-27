@@ -19,10 +19,12 @@ public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Mic
 {
     protected StackBase()
     {
+        StackBaseStyles.Default?.Invoke(this);
     }
 
     protected StackBase(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        StackBaseStyles.Default?.Invoke(this);
     }
 
     object? IStackBase.Spacing { get; set; }
@@ -59,6 +61,15 @@ public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Mic
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && StackBaseStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class StackBaseExtensions
@@ -78,4 +89,10 @@ public static partial class StackBaseExtensions
         stackBase.Spacing = new PropertyValue<double>(spacingFunc);
         return stackBase;
     }
+}
+
+public static partial class StackBaseStyles
+{
+    public static Action<IStackBase>? Default { get; set; }
+    public static Dictionary<string, Action<IStackBase>> Themes { get; } = [];
 }

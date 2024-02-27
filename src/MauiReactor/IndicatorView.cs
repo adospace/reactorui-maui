@@ -33,10 +33,12 @@ public partial class IndicatorView<T> : TemplatedView<T>, IIndicatorView where T
 {
     public IndicatorView()
     {
+        IndicatorViewStyles.Default?.Invoke(this);
     }
 
     public IndicatorView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        IndicatorViewStyles.Default?.Invoke(this);
     }
 
     object? IIndicatorView.IndicatorsShape { get; set; }
@@ -101,6 +103,15 @@ public partial class IndicatorView<T> : TemplatedView<T>, IIndicatorView where T
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && IndicatorViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class IndicatorView : IndicatorView<Microsoft.Maui.Controls.IndicatorView>
@@ -229,4 +240,10 @@ public static partial class IndicatorViewExtensions
         indicatorView.IndicatorSize = new PropertyValue<double>(indicatorSizeFunc);
         return indicatorView;
     }
+}
+
+public static partial class IndicatorViewStyles
+{
+    public static Action<IIndicatorView>? Default { get; set; }
+    public static Dictionary<string, Action<IIndicatorView>> Themes { get; } = [];
 }

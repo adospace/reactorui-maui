@@ -19,10 +19,12 @@ public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItem
 {
     protected LinearItemsLayout()
     {
+        LinearItemsLayoutStyles.Default?.Invoke(this);
     }
 
     protected LinearItemsLayout(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        LinearItemsLayoutStyles.Default?.Invoke(this);
     }
 
     object? ILinearItemsLayout.ItemSpacing { get; set; }
@@ -59,6 +61,15 @@ public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItem
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && LinearItemsLayoutStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class LinearItemsLayoutExtensions
@@ -78,4 +89,10 @@ public static partial class LinearItemsLayoutExtensions
         linearItemsLayout.ItemSpacing = new PropertyValue<double>(itemSpacingFunc);
         return linearItemsLayout;
     }
+}
+
+public static partial class LinearItemsLayoutStyles
+{
+    public static Action<ILinearItemsLayout>? Default { get; set; }
+    public static Dictionary<string, Action<ILinearItemsLayout>> Themes { get; } = [];
 }

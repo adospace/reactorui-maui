@@ -18,10 +18,12 @@ public partial class HorizontalStackLayout<T> : StackBase<T>, IHorizontalStackLa
 {
     public HorizontalStackLayout()
     {
+        HorizontalStackLayoutStyles.Default?.Invoke(this);
     }
 
     public HorizontalStackLayout(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        HorizontalStackLayoutStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class HorizontalStackLayout<T> : StackBase<T>, IHorizontalStackLa
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && HorizontalStackLayoutStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class HorizontalStackLayout : HorizontalStackLayout<Microsoft.Maui.Controls.HorizontalStackLayout>
@@ -57,4 +68,10 @@ public partial class HorizontalStackLayout : HorizontalStackLayout<Microsoft.Mau
 
 public static partial class HorizontalStackLayoutExtensions
 {
+}
+
+public static partial class HorizontalStackLayoutStyles
+{
+    public static Action<IHorizontalStackLayout>? Default { get; set; }
+    public static Dictionary<string, Action<IHorizontalStackLayout>> Themes { get; } = [];
 }

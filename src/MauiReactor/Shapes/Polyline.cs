@@ -21,10 +21,12 @@ public sealed partial class Polyline : Shapes.Shape<Microsoft.Maui.Controls.Shap
 {
     public Polyline()
     {
+        PolylineStyles.Default?.Invoke(this);
     }
 
     public Polyline(Action<Microsoft.Maui.Controls.Shapes.Polyline?> componentRefAction) : base(componentRefAction)
     {
+        PolylineStyles.Default?.Invoke(this);
     }
 
     object? IPolyline.Points { get; set; }
@@ -56,6 +58,15 @@ public sealed partial class Polyline : Shapes.Shape<Microsoft.Maui.Controls.Shap
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (Theme != null && PolylineStyles.Themes.TryGetValue(Theme, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class PolylineExtensions
@@ -87,4 +98,10 @@ public static partial class PolylineExtensions
         polyline.FillRule = new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc);
         return polyline;
     }
+}
+
+public static partial class PolylineStyles
+{
+    public static Action<IPolyline>? Default { get; set; }
+    public static Dictionary<string, Action<IPolyline>> Themes { get; } = [];
 }
