@@ -13,7 +13,7 @@ public partial interface IShellContent
     Func<VisualNode>? ContentTemplate { get; set; }
 }
 
-public partial class ShellContent<T>
+public partial class ShellContent<T> : IAutomationItemContainer
 {
     Func<VisualNode>? IShellContent.ContentTemplate { get; set; }
     private ContentTemplate? _contentTemplate;
@@ -168,6 +168,55 @@ public partial class ShellContent<T>
             NativeControl.Content = null;
 
         base.OnRemoveChild(widget, childControl);
+    }
+
+
+    WeakReference<object>? _loadedForciblyChild;
+
+    IEnumerable<TChild> IAutomationItemContainer.Descendants<TChild>()
+    {
+        if (_loadedForciblyChild == null)
+        {
+            ForceContentLoad();
+        }
+
+        if (_loadedForciblyChild != null &&
+            _loadedForciblyChild.TryGetTarget(out var child))
+        {
+            if (child is TChild childT)
+            {
+                yield return childT;
+            }
+
+            if (child is IVisualNodeWithNativeControl childVisualNodeWithNativeControl)
+            {
+                var childNativeControl = childVisualNodeWithNativeControl.GetNativeControl<BindableObject>();
+
+                if (childNativeControl is TChild childNativeControlAsT)
+                {
+                    yield return childNativeControlAsT;
+                }
+            }
+
+            foreach (var childChildT in ((IAutomationItemContainer)child).Descendants<TChild>())
+            {
+                yield return childChildT;
+            }
+        }
+    }
+
+    private void ForceContentLoad()
+    {
+        Validate.EnsureNotNull(NativeControl);
+
+        _loadedForciblyChild = null;
+
+        if (_contentTemplate != null)
+        {
+            NativeControl.ContentTemplate.CreateContent();
+
+            _loadedForciblyChild = new WeakReference<object>(_contentTemplate);
+        }
     }
 
 }
