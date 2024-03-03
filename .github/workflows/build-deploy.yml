@@ -15,7 +15,7 @@ jobs:
     env:
       Solution_Name: ./src/MauiReactor.Build.sln
       TemplatePack_Name: ./src/MauiReactor.TemplatePack/MauiReactor.TemplatePack.csproj
-      Version: 2.0.27
+      Version: 2.0.28
 
     steps:
     - name: Checkout
@@ -27,7 +27,7 @@ jobs:
     - name: Install .NET Core
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 8.0.x
+        dotnet-version: 8.0.100
 
     - name: Install MAUI workload
       run: dotnet workload install maui
