@@ -12,7 +12,7 @@ public partial class SwipeItems
 
     protected override void OnAddChild(VisualNode widget, BindableObject childNativeControl)
     {
-        if (childNativeControl is Microsoft.Maui.Controls.SwipeItem swipeItem)
+        if (childNativeControl is Microsoft.Maui.Controls.ISwipeItem swipeItem)
         {
             Validate.EnsureNotNull(NativeControl);
             NativeControl.Add(swipeItem);
@@ -25,7 +25,7 @@ public partial class SwipeItems
 
     protected override void OnRemoveChild(VisualNode widget, BindableObject childNativeControl)
     {
-        if (childNativeControl is Microsoft.Maui.Controls.SwipeItem swipeItem)
+        if (childNativeControl is Microsoft.Maui.Controls.ISwipeItem swipeItem)
         {
             Validate.EnsureNotNull(NativeControl);
             NativeControl.Remove(swipeItem);
@@ -33,6 +33,4 @@ public partial class SwipeItems
 
         base.OnRemoveChild(widget, childNativeControl);
     }
-
-
 }

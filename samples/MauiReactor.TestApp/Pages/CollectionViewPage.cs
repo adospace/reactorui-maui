@@ -28,10 +28,18 @@ namespace MauiReactor.TestApp.Pages
         }
 
         private VisualNode RenderItem(Tuple<string, string> item)
-            => new VStack(spacing: 5)
-            {
-                new Label(item.Item1).AutomationId(item.Item1), //AutomationId used for test
-                new Label(item.Item2)
-            }.AutomationId($"Container_{item.Item1}");
+            => SwipeView(
+                VStack(spacing: 5,
+                    Label(item.Item1).AutomationId(item.Item1), //AutomationId used for test
+                    Label(item.Item2)
+                ).AutomationId($"Container_{item.Item1}")
+               )
+               .RightItems([
+                 SwipeItemView(
+                    HStack(
+                        Label("Custom Swipte Item")
+                        )
+                    )
+               ]);
     }
 }
