@@ -115,7 +115,7 @@ namespace MauiReactor
                 return;
             }
 
-            string fullyQualifiedTypeName = classTypeSymbol.ToDisplayString(qualifiedFormat);
+            string fullyQualifiedTypeName = classTypeSymbol.ToDisplayString(symbolDisplayFormat);
             string namespaceName = classTypeSymbol.ContainingNamespace.ToDisplayString();
 
             if (!generatingClassItems.TryGetValue(fullyQualifiedTypeName, out var generatingClassItem))
@@ -196,7 +196,7 @@ namespace MauiReactor
 
             var source = textGenerator.TransformAndPrettify();
 
-            context.AddSource($"{generatingClassItem.Value.ClassName}.g.cs", source);
+            context.AddSource($"{generatingClassItem.Value.ClassName}_{Guid.NewGuid().ToString().Substring(0,4)}.g.cs", source);
         }   
     }
 }
