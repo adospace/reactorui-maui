@@ -92,8 +92,6 @@ namespace MauiReactor
 
         BindableObject? ITemplateHost.NativeElement => ContainerPage;
 
-        private EventHandler? _layoutCycleExecuted;
-
         private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
 
         private readonly Action<object>? _propsInitializer;
@@ -102,18 +100,6 @@ namespace MauiReactor
             :base(navigation)
         {
             _propsInitializer = propsInitializer;
-        }
-
-        event EventHandler? ITemplateHost.LayoutCycleExecuted
-        {
-            add
-            {
-                _layoutCycleExecuted += value;
-            }
-            remove
-            {
-                _layoutCycleExecuted -= value;
-            }
         }
 
         Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
@@ -213,7 +199,7 @@ namespace MauiReactor
                     ContainerPage?.Dispatcher.Dispatch(OnLayout);
                 }
 
-                _layoutCycleExecuted?.Invoke(this, EventArgs.Empty);
+                TemplateHost.FireLayoutCycleExecuted(this);
             }
 
             base.OnLayoutCycleRequested();
