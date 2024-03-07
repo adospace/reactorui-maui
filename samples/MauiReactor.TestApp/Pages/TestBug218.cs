@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.TestApp.Pages;
 
+[Component("BaseComponent2_1")]
 abstract partial class BaseComponent2<TState> : Component<TState> where TState : class, new()
 {
     [Inject] protected readonly IncrementService? _injectedService;
     [Prop] protected MauiControls.Shell? shellRef;
 }
 
+[Component("BaseComponent2_2")]
 abstract partial class BaseComponent2<TState, TProps> : Component<TState, TProps> where TState : class, new()
     where TProps : class, new()
 {

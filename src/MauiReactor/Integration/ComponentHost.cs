@@ -18,8 +18,6 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
         private Component? _component;
         private bool _sleeping;
 
-        private EventHandler? _layoutCycleExecuted;
-
         private Microsoft.Maui.Controls.Page? _containerPage;
 
         private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
@@ -32,17 +30,6 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
         public Microsoft.Maui.Controls.Page? ContainerPage => _containerPage ??= _host.GetParent<Microsoft.Maui.Controls.Page>();
 
         BindableObject? ITemplateHost.NativeElement => ContainerPage;
-        event EventHandler? ITemplateHost.LayoutCycleExecuted
-        {
-            add
-            {
-                _layoutCycleExecuted += value;
-            }
-            remove
-            {
-                _layoutCycleExecuted -= value;
-            }
-        }
 
         private void OnComponentAssemblyChanged(object? sender, EventArgs e)
         {
@@ -82,7 +69,7 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
                     ContainerPage?.Dispatcher.Dispatch(OnLayout);
                 }
 
-                _layoutCycleExecuted?.Invoke(this, EventArgs.Empty);
+                TemplateHost.FireLayoutCycleExecuted(this);                
             }
 
             base.OnLayoutCycleRequested();

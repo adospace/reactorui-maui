@@ -66,7 +66,7 @@ public static class AutomationItemContainerExtensions
         }
     }
 
-    public static async Task<T?> FindOptional<T>(this IAutomationItemContainer automationItemContainer, ITemplateHost templateHost, string automationId, TimeSpan timeout, CancellationToken cancellationToken = default) where T : class
+    public static async Task<T?> FindOptional<T>(this IAutomationItemContainer automationItemContainer, string automationId, TimeSpan timeout, CancellationToken cancellationToken = default) where T : class
     {
         var itemFound = automationItemContainer.FindOptional<T>(automationId);
         if (itemFound != null)
@@ -80,7 +80,7 @@ public static class AutomationItemContainerExtensions
 
         try
         {
-            templateHost.LayoutCycleExecuted += handler;
+            TemplateHost.LayoutCycleExecuted += handler;
 
             var waitingTimeout = timeout.TotalMilliseconds;
 
@@ -102,14 +102,14 @@ public static class AutomationItemContainerExtensions
         }
         finally
         {
-            templateHost.LayoutCycleExecuted -= handler;
+            TemplateHost.LayoutCycleExecuted -= handler;
         }
     }
 
-    public static Task<T?> Find<T>(this IAutomationItemContainer automationItemContainer, ITemplateHost templateHost, string automationId, TimeSpan timeout, CancellationToken cancellationToken = default) where T : class
-        => automationItemContainer.FindOptional<T>(templateHost, automationId, timeout, cancellationToken) ?? throw new InvalidOperationException($"Element with automation id {automationId} not found");
+    public static Task<T?> Find<T>(this IAutomationItemContainer automationItemContainer, string automationId, TimeSpan timeout, CancellationToken cancellationToken = default) where T : class
+        => automationItemContainer.FindOptional<T>(automationId, timeout, cancellationToken) ?? throw new InvalidOperationException($"Element with automation id {automationId} not found");
 
-    public static async Task<T?> FindOptional<T>(this IAutomationItemContainer automationItemContainer, ITemplateHost templateHost, Func<T, bool> predicate, TimeSpan timeout, CancellationToken cancellationToken = default) where T : class
+    public static async Task<T?> FindOptional<T>(this IAutomationItemContainer automationItemContainer, Func<T, bool> predicate, TimeSpan timeout, CancellationToken cancellationToken = default) where T : class
     {
         var itemFound = automationItemContainer.FindOptional(predicate);
         if (itemFound != null)
@@ -123,7 +123,7 @@ public static class AutomationItemContainerExtensions
 
         try
         {
-            templateHost.LayoutCycleExecuted += handler;
+            TemplateHost.LayoutCycleExecuted += handler;
 
             var waitingTimeout = timeout.TotalMilliseconds;
 
@@ -145,11 +145,11 @@ public static class AutomationItemContainerExtensions
         }
         finally
         {
-            templateHost.LayoutCycleExecuted -= handler;
+            TemplateHost.LayoutCycleExecuted -= handler;
         }
     }
 
-    public static Task<T?> Find<T>(this IAutomationItemContainer automationItemContainer, ITemplateHost templateHost, Func<T, bool> predicate, TimeSpan timeout, CancellationToken cancellationToken = default) where T : class
-        => automationItemContainer.FindOptional<T>(templateHost, predicate, timeout, cancellationToken) ?? throw new InvalidOperationException($"Unable to find the element");
+    public static Task<T?> Find<T>(this IAutomationItemContainer automationItemContainer,Func<T, bool> predicate, TimeSpan timeout, CancellationToken cancellationToken = default) where T : class
+        => automationItemContainer.FindOptional<T>(predicate, timeout, cancellationToken) ?? throw new InvalidOperationException($"Unable to find the element");
 }
 
