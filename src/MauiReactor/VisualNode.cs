@@ -374,7 +374,7 @@ namespace MauiReactor
             }
         }
 
-        internal virtual void MergeWith(VisualNode newNode)
+        protected virtual void MergeWith(VisualNode newNode)
         {
             if (newNode == this)
                 return;
@@ -750,7 +750,7 @@ namespace MauiReactor
             set => _componentRefAction = value;
         }
 
-        internal override void MergeWith(VisualNode newNode)
+        protected override void MergeWith(VisualNode newNode)
         {
             if (newNode == this)
                 return;

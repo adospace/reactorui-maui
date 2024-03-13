@@ -22,11 +22,18 @@ class MainPage : Component<MainPageState>
         {
             new Map()
             {
-                State.Positions.Select((location, index)=> new Pin().Location(location).Label($"Pin{index+1}"))
+                State.Positions.Select((location, index)=> new Pin()
+                    .Location(location)
+                    .Label($"Pin{index+1}")
+                    .OnMarkerClicked(()=> SetState(s => s.Positions.Remove(location)))
+                    )
             }
             .AutomationId("Map")
             .GridRow(1)
-            .OnMapClicked((map, args) => SetState(s => s.Positions.Add(args.Location)))
+            .OnMapClicked((map, args) =>
+            {
+                SetState(s => s.Positions.Add(args.Location));
+            })
         };
     }
 }
