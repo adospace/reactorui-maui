@@ -105,7 +105,7 @@ public partial class IndicatorView<T> : TemplatedView<T>, IIndicatorView where T
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && IndicatorViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && IndicatorViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

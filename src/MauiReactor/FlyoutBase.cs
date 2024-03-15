@@ -46,7 +46,7 @@ public abstract partial class FlyoutBase<T> : Element<T>, IFlyoutBase where T : 
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && FlyoutBaseStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && FlyoutBaseStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

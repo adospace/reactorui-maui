@@ -46,7 +46,7 @@ public partial class MenuFlyoutSubItem<T> : MenuFlyoutItem<T>, IMenuFlyoutSubIte
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && MenuFlyoutSubItemStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && MenuFlyoutSubItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

@@ -60,7 +60,7 @@ public sealed partial class Polygon : Shapes.Shape<Microsoft.Maui.Controls.Shape
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && PolygonStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && PolygonStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

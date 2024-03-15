@@ -66,7 +66,7 @@ public partial class Frame<T> : ContentView<T>, IFrame where T : Microsoft.Maui.
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && FrameStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && FrameStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

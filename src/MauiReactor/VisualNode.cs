@@ -15,7 +15,7 @@ namespace MauiReactor
 
         IComponentWithState? GetContainerComponent();
 
-        string? Theme { get; set; }
+        string? ThemeKey { get; set; }
     }
 
     public static class VisualNodeExtensions
@@ -110,9 +110,9 @@ namespace MauiReactor
             return node;
         }
 
-        public static T Theme<T>(this T node, string theme) where T : IVisualNode
+        public static T ThemeKey<T>(this T node, string? themeKey) where T : IVisualNode
         {
-            node.Theme = theme;
+            node.ThemeKey = themeKey;
             return node;
         }
     }
@@ -140,7 +140,7 @@ namespace MauiReactor
 
         private int _childIndex;
 
-        private string? _theme;
+        private string? _themeKey;
 
         [ThreadStatic] 
         internal static bool _skipAnimationMigration;
@@ -183,14 +183,14 @@ namespace MauiReactor
         
         public Action<object?, System.ComponentModel.PropertyChangingEventArgs>? PropertyChangingAction { get; set; }
         
-        public string? Theme
+        public string? ThemeKey
         {
-            get => _theme;
+            get => _themeKey;
             set
             {
-                if (_theme != value)
+                if (_themeKey != value)
                 {
-                    _theme = value;
+                    _themeKey = value;
                     OnThemeChanged();
                 }
             }

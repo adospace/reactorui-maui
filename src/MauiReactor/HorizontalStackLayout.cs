@@ -46,7 +46,7 @@ public partial class HorizontalStackLayout<T> : StackBase<T>, IHorizontalStackLa
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && HorizontalStackLayoutStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && HorizontalStackLayoutStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

@@ -46,7 +46,7 @@ public partial class TabBar<T> : ShellItem<T>, ITabBar where T : Microsoft.Maui.
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && TabBarStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && TabBarStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

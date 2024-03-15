@@ -76,7 +76,7 @@ public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && SearchBarStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && SearchBarStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

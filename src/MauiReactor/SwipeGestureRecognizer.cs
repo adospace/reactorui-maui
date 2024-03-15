@@ -70,7 +70,7 @@ public sealed partial class SwipeGestureRecognizer : GestureRecognizer<Microsoft
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && SwipeGestureRecognizerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && SwipeGestureRecognizerStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

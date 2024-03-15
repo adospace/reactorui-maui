@@ -131,7 +131,7 @@ public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Contr
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && SliderStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && SliderStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

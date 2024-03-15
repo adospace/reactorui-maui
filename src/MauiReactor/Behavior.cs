@@ -46,7 +46,7 @@ public abstract partial class Behavior<T> : VisualNode<T>, IBehavior where T : M
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && BehaviorStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && BehaviorStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

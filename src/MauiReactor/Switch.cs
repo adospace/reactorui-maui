@@ -76,7 +76,7 @@ public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Contr
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && SwitchStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && SwitchStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

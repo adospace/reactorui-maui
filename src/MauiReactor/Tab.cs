@@ -46,7 +46,7 @@ public partial class Tab<T> : ShellSection<T>, ITab where T : Microsoft.Maui.Con
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && TabStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && TabStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

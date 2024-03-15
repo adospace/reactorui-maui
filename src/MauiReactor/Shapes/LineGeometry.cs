@@ -70,7 +70,7 @@ public partial class LineGeometry<T> : Shapes.Geometry<T>, ILineGeometry where T
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && LineGeometryStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && LineGeometryStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

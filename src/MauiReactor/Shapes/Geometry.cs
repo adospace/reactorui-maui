@@ -46,7 +46,7 @@ public abstract partial class Geometry<T> : VisualNode<T>, IGeometry where T : M
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && GeometryStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && GeometryStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

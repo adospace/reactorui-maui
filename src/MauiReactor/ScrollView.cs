@@ -76,7 +76,7 @@ public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where 
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ScrollViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ScrollViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

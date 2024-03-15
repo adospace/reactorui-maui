@@ -100,7 +100,7 @@ public partial class EntryCell<T> : Cell<T>, IEntryCell where T : Microsoft.Maui
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && EntryCellStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && EntryCellStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

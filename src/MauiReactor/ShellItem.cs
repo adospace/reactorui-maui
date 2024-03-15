@@ -46,7 +46,7 @@ public partial class ShellItem<T> : ShellGroupItem<T>, IShellItem where T : Micr
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ShellItemStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ShellItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

@@ -93,7 +93,7 @@ public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microso
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && SwipeViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && SwipeViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

@@ -75,7 +75,7 @@ public abstract partial class View<T> : VisualElement<T>, IView where T : Micros
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

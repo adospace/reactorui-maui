@@ -60,7 +60,7 @@ public abstract partial class ItemsLayout<T> : VisualNode<T>, IItemsLayout where
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ItemsLayoutStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ItemsLayoutStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

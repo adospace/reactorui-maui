@@ -63,7 +63,7 @@ public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Mic
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && StackBaseStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && StackBaseStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

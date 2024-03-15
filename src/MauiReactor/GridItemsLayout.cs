@@ -76,7 +76,7 @@ public abstract partial class GridItemsLayout<T> : ItemsLayout<T>, IGridItemsLay
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && GridItemsLayoutStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && GridItemsLayoutStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

@@ -70,7 +70,7 @@ public partial class RoundRectangleGeometry<T> : Shapes.GeometryGroup<T>, IRound
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && RoundRectangleGeometryStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && RoundRectangleGeometryStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

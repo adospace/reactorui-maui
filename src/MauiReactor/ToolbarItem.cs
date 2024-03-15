@@ -46,7 +46,7 @@ public partial class ToolbarItem<T> : MenuItem<T>, IToolbarItem where T : Micros
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ToolbarItemStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ToolbarItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

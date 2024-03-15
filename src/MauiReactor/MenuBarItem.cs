@@ -60,7 +60,7 @@ public partial class MenuBarItem<T> : BaseMenuItem<T>, IMenuBarItem where T : Mi
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && MenuBarItemStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && MenuBarItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

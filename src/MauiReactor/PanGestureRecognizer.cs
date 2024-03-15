@@ -64,7 +64,7 @@ public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGesture
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && PanGestureRecognizerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && PanGestureRecognizerStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

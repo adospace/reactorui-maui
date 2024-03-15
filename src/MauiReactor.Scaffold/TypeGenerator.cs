@@ -908,16 +908,16 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("\n    protected override void OnThemeChanged()\n    {\n        if (Theme != null && " +
-                    "");
+            this.Write("\n    protected override void OnThemeChanged()\n    {\n        if (ThemeKey != null " +
+                    "&& ");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
-            this.Write("Styles.Themes.TryGetValue(Theme, out var styleAction))\n        {\n            styl" +
-                    "eAction(this);\n        }\n\n        base.OnThemeChanged();\n    }\n    ");
+            this.Write("Styles.Themes.TryGetValue(ThemeKey, out var styleAction))\n        {\n            s" +
+                    "tyleAction(this);\n        }\n\n        base.OnThemeChanged();\n    }\n    ");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 

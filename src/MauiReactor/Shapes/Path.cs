@@ -54,7 +54,7 @@ public sealed partial class Path : Shapes.Shape<Microsoft.Maui.Controls.Shapes.P
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && PathStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && PathStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

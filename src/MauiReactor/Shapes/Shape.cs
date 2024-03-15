@@ -113,7 +113,7 @@ public abstract partial class Shape<T> : View<T>, IShape where T : Microsoft.Mau
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ShapeStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ShapeStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

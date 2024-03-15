@@ -70,7 +70,7 @@ public partial class ReorderableItemsView<T> : GroupableItemsView<T>, IReorderab
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ReorderableItemsViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ReorderableItemsViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

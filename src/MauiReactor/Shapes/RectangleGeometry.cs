@@ -63,7 +63,7 @@ public partial class RectangleGeometry<T> : Shapes.Geometry<T>, IRectangleGeomet
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && RectangleGeometryStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && RectangleGeometryStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

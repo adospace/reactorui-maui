@@ -70,7 +70,7 @@ public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && GeometryGroupStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && GeometryGroupStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

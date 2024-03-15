@@ -54,7 +54,7 @@ public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableI
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && GroupableItemsViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && GroupableItemsViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

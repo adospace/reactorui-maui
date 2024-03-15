@@ -81,7 +81,7 @@ public partial class Shadow<T> : Element<T>, IShadow where T : Microsoft.Maui.Co
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ShadowStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ShadowStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

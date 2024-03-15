@@ -46,7 +46,7 @@ public partial class AbsoluteLayout<T> : Layout<T>, IAbsoluteLayout where T : Mi
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && AbsoluteLayoutStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && AbsoluteLayoutStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

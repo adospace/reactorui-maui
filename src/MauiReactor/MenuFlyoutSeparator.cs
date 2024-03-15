@@ -46,7 +46,7 @@ public partial class MenuFlyoutSeparator<T> : MenuFlyoutItem<T>, IMenuFlyoutSepa
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && MenuFlyoutSeparatorStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && MenuFlyoutSeparatorStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

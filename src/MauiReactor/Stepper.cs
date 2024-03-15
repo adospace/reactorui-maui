@@ -94,7 +94,7 @@ public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Con
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && StepperStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && StepperStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

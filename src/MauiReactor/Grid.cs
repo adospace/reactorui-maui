@@ -70,7 +70,7 @@ public partial class Grid<T> : Layout<T>, IGrid where T : Microsoft.Maui.Control
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && GridStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && GridStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

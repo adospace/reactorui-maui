@@ -54,7 +54,7 @@ public partial class ImageCell<T> : TextCell<T>, IImageCell where T : Microsoft.
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ImageCellStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ImageCellStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

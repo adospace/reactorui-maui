@@ -46,7 +46,7 @@ public partial class TemplatedPage<T> : Page<T>, ITemplatedPage where T : Micros
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && TemplatedPageStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && TemplatedPageStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

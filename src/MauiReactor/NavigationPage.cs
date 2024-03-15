@@ -96,7 +96,7 @@ public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Micr
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && NavigationPageStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && NavigationPageStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

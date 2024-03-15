@@ -128,7 +128,7 @@ public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Ma
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && DatePickerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && DatePickerStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

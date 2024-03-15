@@ -60,7 +60,7 @@ public sealed partial class PathGeometry : Shapes.Geometry<Microsoft.Maui.Contro
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && PathGeometryStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && PathGeometryStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

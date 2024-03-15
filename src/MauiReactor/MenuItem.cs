@@ -76,7 +76,7 @@ public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsof
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && MenuItemStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && MenuItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

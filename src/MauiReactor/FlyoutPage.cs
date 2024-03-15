@@ -76,7 +76,7 @@ public partial class FlyoutPage<T> : Page<T>, IFlyoutPage where T : Microsoft.Ma
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && FlyoutPageStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && FlyoutPageStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

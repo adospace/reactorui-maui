@@ -96,7 +96,7 @@ public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microso
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && PointerGestureRecognizerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && PointerGestureRecognizerStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

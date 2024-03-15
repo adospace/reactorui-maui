@@ -69,7 +69,7 @@ public partial class BoxView<T> : View<T>, IBoxView where T : Microsoft.Maui.Con
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && BoxViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && BoxViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

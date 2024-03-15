@@ -1283,16 +1283,16 @@ namespace ");
             #line default
             #line hidden
             this.Write("        protected override void OnThemeChanged()\r\n        {\r\n            if (Them" +
-                    "e != null && ");
+                    "eKey != null && ");
             
             #line 327 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName));
             
             #line default
             #line hidden
-            this.Write("Styles.Themes.TryGetValue(Theme, out var styleAction))\r\n            {\r\n          " +
-                    "      styleAction(this);\r\n            }\r\n\r\n            base.OnThemeChanged();\r\n " +
-                    "       }\r\n        ");
+            this.Write("Styles.Themes.TryGetValue(ThemeKey, out var styleAction))\r\n            {\r\n       " +
+                    "         styleAction(this);\r\n            }\r\n\r\n            base.OnThemeChanged();" +
+                    "\r\n        }\r\n        ");
             
             #line 334 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
  } 

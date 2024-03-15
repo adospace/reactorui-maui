@@ -84,7 +84,7 @@ public sealed partial class Line : Shapes.Shape<Microsoft.Maui.Controls.Shapes.L
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && LineStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && LineStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

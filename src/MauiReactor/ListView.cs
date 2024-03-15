@@ -180,7 +180,7 @@ public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ListViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ListViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

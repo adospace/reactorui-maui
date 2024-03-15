@@ -60,7 +60,7 @@ public partial class TableView<T> : View<T>, ITableView where T : Microsoft.Maui
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && TableViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && TableViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

@@ -46,7 +46,7 @@ public partial class TemplatedView<T> : Compatibility.Layout<T>, ITemplatedView 
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && TemplatedViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && TemplatedViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

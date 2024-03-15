@@ -56,7 +56,7 @@ public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && PinchGestureRecognizerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && PinchGestureRecognizerStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

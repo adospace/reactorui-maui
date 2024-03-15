@@ -86,7 +86,7 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && WebViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && WebViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

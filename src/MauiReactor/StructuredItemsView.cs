@@ -54,7 +54,7 @@ public partial class StructuredItemsView<T> : ItemsView<T>, IStructuredItemsView
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && StructuredItemsViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && StructuredItemsViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

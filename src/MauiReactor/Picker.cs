@@ -134,7 +134,7 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && PickerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && PickerStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

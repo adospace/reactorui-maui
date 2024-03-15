@@ -72,7 +72,7 @@ public partial class TextCell<T> : Cell<T>, ITextCell where T : Microsoft.Maui.C
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && TextCellStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && TextCellStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

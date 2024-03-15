@@ -46,7 +46,7 @@ public partial class ContentView<T> : TemplatedView<T>, IContentView where T : M
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ContentViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ContentViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

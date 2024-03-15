@@ -54,7 +54,7 @@ public partial class StackLayout<T> : StackBase<T>, IStackLayout where T : Micro
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && StackLayoutStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && StackLayoutStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

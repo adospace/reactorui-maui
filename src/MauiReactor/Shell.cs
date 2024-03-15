@@ -150,7 +150,7 @@ public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Control
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ShellStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ShellStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

@@ -46,7 +46,7 @@ public partial class GestureRecognizer<T> : Element<T>, IGestureRecognizer where
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && GestureRecognizerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && GestureRecognizerStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

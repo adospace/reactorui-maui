@@ -77,7 +77,7 @@ public partial class EllipseGeometry<T> : Shapes.Geometry<T>, IEllipseGeometry w
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && EllipseGeometryStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && EllipseGeometryStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

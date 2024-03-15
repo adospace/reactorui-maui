@@ -70,7 +70,7 @@ public partial class SwipeItem<T> : MenuItem<T>, ISwipeItem where T : Microsoft.
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && SwipeItemStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && SwipeItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

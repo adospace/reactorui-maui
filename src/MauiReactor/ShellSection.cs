@@ -46,7 +46,7 @@ public partial class ShellSection<T> : ShellGroupItem<T>, IShellSection where T 
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ShellSectionStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ShellSectionStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

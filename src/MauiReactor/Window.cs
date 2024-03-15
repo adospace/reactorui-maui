@@ -264,7 +264,7 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && WindowStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && WindowStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

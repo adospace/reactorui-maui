@@ -119,7 +119,7 @@ public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Mic
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && CarouselViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && CarouselViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

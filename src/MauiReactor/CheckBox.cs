@@ -70,7 +70,7 @@ public partial class CheckBox<T> : View<T>, ICheckBox where T : Microsoft.Maui.C
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && CheckBoxStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && CheckBoxStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

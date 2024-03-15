@@ -60,7 +60,7 @@ public partial class ActivityIndicator<T> : View<T>, IActivityIndicator where T 
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ActivityIndicatorStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ActivityIndicatorStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

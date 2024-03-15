@@ -84,7 +84,7 @@ public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Ma
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && CellStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && CellStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

@@ -76,7 +76,7 @@ public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && EditorStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && EditorStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

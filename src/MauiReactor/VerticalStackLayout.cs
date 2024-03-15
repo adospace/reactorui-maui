@@ -46,7 +46,7 @@ public partial class VerticalStackLayout<T> : StackBase<T>, IVerticalStackLayout
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && VerticalStackLayoutStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && VerticalStackLayoutStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

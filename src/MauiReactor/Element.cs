@@ -140,7 +140,7 @@ public abstract partial class Element<T> : VisualNode<T>, IElement where T : Mic
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ElementStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ElementStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

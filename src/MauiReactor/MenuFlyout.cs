@@ -46,7 +46,7 @@ public partial class MenuFlyout<T> : FlyoutBase<T>, IMenuFlyout where T : Micros
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && MenuFlyoutStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && MenuFlyoutStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

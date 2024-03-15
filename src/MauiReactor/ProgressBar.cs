@@ -69,7 +69,7 @@ public partial class ProgressBar<T> : View<T>, IProgressBar where T : Microsoft.
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ProgressBarStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ProgressBarStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

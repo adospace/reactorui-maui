@@ -108,7 +108,7 @@ public partial class Border<T> : View<T>, IBorder where T : Microsoft.Maui.Contr
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && BorderStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && BorderStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

@@ -124,7 +124,7 @@ public partial class GraphicsView<T> : View<T>, IGraphicsView where T : Microsof
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && GraphicsViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && GraphicsViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

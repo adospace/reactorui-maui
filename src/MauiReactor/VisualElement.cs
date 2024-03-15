@@ -293,7 +293,7 @@ public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualEle
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && VisualElementStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && VisualElementStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

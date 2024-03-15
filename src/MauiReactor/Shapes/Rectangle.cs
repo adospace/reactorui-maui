@@ -70,7 +70,7 @@ public sealed partial class Rectangle : Shapes.Shape<Microsoft.Maui.Controls.Sha
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && RectangleStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && RectangleStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

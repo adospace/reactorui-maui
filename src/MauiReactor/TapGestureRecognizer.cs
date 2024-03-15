@@ -70,7 +70,7 @@ public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.M
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && TapGestureRecognizerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && TapGestureRecognizerStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

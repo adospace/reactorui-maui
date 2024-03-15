@@ -76,7 +76,7 @@ public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Ma
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && SwitchCellStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && SwitchCellStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

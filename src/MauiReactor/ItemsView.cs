@@ -102,7 +102,7 @@ public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Micro
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ItemsViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ItemsViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

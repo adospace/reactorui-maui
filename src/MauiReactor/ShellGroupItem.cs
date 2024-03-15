@@ -54,7 +54,7 @@ public partial class ShellGroupItem<T> : BaseShellItem<T>, IShellGroupItem where
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ShellGroupItemStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ShellGroupItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

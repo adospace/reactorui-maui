@@ -46,7 +46,7 @@ public partial class ShellContent<T> : BaseShellItem<T>, IShellContent where T :
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ShellContentStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ShellContentStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

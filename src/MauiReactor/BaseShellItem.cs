@@ -98,7 +98,7 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && BaseShellItemStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && BaseShellItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

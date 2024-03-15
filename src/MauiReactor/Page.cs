@@ -147,7 +147,7 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && PageStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && PageStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

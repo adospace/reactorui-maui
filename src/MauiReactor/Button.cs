@@ -180,7 +180,7 @@ public partial class Button<T> : View<T>, IButton where T : Microsoft.Maui.Contr
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ButtonStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ButtonStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

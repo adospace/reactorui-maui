@@ -78,7 +78,7 @@ public abstract partial class TabbedPage<T> : MultiPage<T, Microsoft.Maui.Contro
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && TabbedPageStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && TabbedPageStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

@@ -130,7 +130,7 @@ public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ImageButtonStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ImageButtonStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

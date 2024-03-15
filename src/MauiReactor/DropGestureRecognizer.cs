@@ -84,7 +84,7 @@ public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestu
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && DropGestureRecognizerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && DropGestureRecognizerStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

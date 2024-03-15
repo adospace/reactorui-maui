@@ -74,7 +74,7 @@ public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestu
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && DragGestureRecognizerStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && DragGestureRecognizerStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

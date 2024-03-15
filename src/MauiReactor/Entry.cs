@@ -88,7 +88,7 @@ public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Co
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && EntryStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && EntryStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

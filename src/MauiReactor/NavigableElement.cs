@@ -54,7 +54,7 @@ public abstract partial class NavigableElement<T> : Element<T>, INavigableElemen
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && NavigableElementStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && NavigableElementStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

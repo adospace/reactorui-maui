@@ -60,7 +60,7 @@ public sealed partial class Polyline : Shapes.Shape<Microsoft.Maui.Controls.Shap
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && PolylineStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && PolylineStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

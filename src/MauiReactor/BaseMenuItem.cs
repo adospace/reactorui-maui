@@ -46,7 +46,7 @@ public abstract partial class BaseMenuItem<T> : Element<T>, IBaseMenuItem where 
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && BaseMenuItemStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && BaseMenuItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

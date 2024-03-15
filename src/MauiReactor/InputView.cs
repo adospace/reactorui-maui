@@ -170,7 +170,7 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && InputViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && InputViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

@@ -46,7 +46,7 @@ public partial class FlyoutItem<T> : ShellItem<T>, IFlyoutItem where T : Microso
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && FlyoutItemStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && FlyoutItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

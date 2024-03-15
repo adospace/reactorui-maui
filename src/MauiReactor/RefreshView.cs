@@ -70,7 +70,7 @@ public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Mic
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && RefreshViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && RefreshViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

@@ -84,7 +84,7 @@ public partial class FlexLayout<T> : Layout<T>, IFlexLayout where T : Microsoft.
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && FlexLayoutStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && FlexLayoutStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

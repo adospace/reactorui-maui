@@ -54,7 +54,7 @@ public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : M
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ContentPageStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ContentPageStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

@@ -46,7 +46,7 @@ public sealed partial class Ellipse : Shapes.Shape<Microsoft.Maui.Controls.Shape
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && EllipseStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && EllipseStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

@@ -63,7 +63,7 @@ public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItem
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && LinearItemsLayoutStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && LinearItemsLayoutStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

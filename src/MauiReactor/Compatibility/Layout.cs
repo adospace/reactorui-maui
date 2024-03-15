@@ -85,7 +85,7 @@ public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.M
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && LayoutStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && LayoutStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

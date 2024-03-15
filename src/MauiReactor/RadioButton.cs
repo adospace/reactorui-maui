@@ -147,7 +147,7 @@ public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : M
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && RadioButtonStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && RadioButtonStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

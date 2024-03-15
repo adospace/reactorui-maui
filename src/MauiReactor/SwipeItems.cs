@@ -70,7 +70,7 @@ public partial class SwipeItems<T> : Element<T>, ISwipeItems where T : Microsoft
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && SwipeItemsStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && SwipeItemsStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

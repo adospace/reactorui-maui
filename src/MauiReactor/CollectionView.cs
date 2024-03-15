@@ -46,7 +46,7 @@ public partial class CollectionView<T> : ReorderableItemsView<T>, ICollectionVie
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && CollectionViewStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && CollectionViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

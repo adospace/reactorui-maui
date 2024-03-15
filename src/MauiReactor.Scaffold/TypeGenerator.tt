@@ -187,7 +187,7 @@ public abstract partial class <#= TypeName() #><T> : <#= BaseTypeName() #><T>, <
     <# if (!IsGenericType()) { #>
     protected override void OnThemeChanged()
     {
-        if (Theme != null && <#= TypeName() #>Styles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && <#= TypeName() #>Styles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }

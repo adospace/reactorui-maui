@@ -46,7 +46,7 @@ public partial class ViewCell<T> : Cell<T>, IViewCell where T : Microsoft.Maui.C
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
     {
-        if (Theme != null && ViewCellStyles.Themes.TryGetValue(Theme, out var styleAction))
+        if (ThemeKey != null && ViewCellStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
         {
             styleAction(this);
         }
