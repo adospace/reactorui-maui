@@ -2044,6 +2044,37 @@ public partial class Component
         return @swipeitem;
     }
 
+    public static SwipeItemView SwipeItemView() => new SwipeItemView();
+    public static SwipeItemView SwipeItemView(params VisualNode? []? children)
+    {
+        var @swipeitemview = new SwipeItemView();
+        if (children != null)
+        {
+            @swipeitemview.AddChildren(children);
+        }
+
+        return @swipeitemview;
+    }
+
+    public static SwipeItemView SwipeItemView(Action<Microsoft.Maui.Controls.SwipeItemView?> componentRefAction)
+    {
+        var @swipeitemview = new SwipeItemView();
+        @swipeitemview.ComponentRefAction = componentRefAction;
+        return @swipeitemview;
+    }
+
+    public static SwipeItemView SwipeItemView(Action<Microsoft.Maui.Controls.SwipeItemView?> componentRefAction, params VisualNode? []? children)
+    {
+        var @swipeitemview = new SwipeItemView();
+        @swipeitemview.ComponentRefAction = componentRefAction;
+        if (children != null)
+        {
+            @swipeitemview.AddChildren(children);
+        }
+
+        return @swipeitemview;
+    }
+
     public static SwipeItems SwipeItems() => new SwipeItems();
     public static SwipeItems SwipeItems(params VisualNode? []? children)
     {
@@ -2259,6 +2290,37 @@ public partial class Component
         }
 
         return @datepicker;
+    }
+
+    public static TimePicker TimePicker() => new TimePicker();
+    public static TimePicker TimePicker(params VisualNode? []? children)
+    {
+        var @timepicker = new TimePicker();
+        if (children != null)
+        {
+            @timepicker.AddChildren(children);
+        }
+
+        return @timepicker;
+    }
+
+    public static TimePicker TimePicker(Action<Microsoft.Maui.Controls.TimePicker?> componentRefAction)
+    {
+        var @timepicker = new TimePicker();
+        @timepicker.ComponentRefAction = componentRefAction;
+        return @timepicker;
+    }
+
+    public static TimePicker TimePicker(Action<Microsoft.Maui.Controls.TimePicker?> componentRefAction, params VisualNode? []? children)
+    {
+        var @timepicker = new TimePicker();
+        @timepicker.ComponentRefAction = componentRefAction;
+        if (children != null)
+        {
+            @timepicker.AddChildren(children);
+        }
+
+        return @timepicker;
     }
 
     public static Entry Entry() => new Entry();

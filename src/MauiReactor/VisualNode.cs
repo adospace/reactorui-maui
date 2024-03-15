@@ -402,7 +402,7 @@ namespace MauiReactor
             }
         }
 
-        internal virtual void MergeWith(VisualNode newNode)
+        protected virtual void MergeWith(VisualNode newNode)
         {
             if (newNode == this)
                 return;
@@ -718,7 +718,7 @@ namespace MauiReactor
 
     public interface IVisualNodeWithNativeControl : IVisualNode
     {
-        TResult GetNativeControl<TResult>() where TResult : BindableObject;
+        TResult? GetNativeControl<TResult>() where TResult : BindableObject;
 
         void Attach(BindableObject nativeControl);
     }
@@ -778,7 +778,7 @@ namespace MauiReactor
             set => _componentRefAction = value;
         }
 
-        internal override void MergeWith(VisualNode newNode)
+        protected override void MergeWith(VisualNode newNode)
         {
             if (newNode == this)
                 return;
@@ -916,8 +916,13 @@ namespace MauiReactor
             PropertyChangingAction?.Invoke(sender, new System.ComponentModel.PropertyChangingEventArgs(e.PropertyName));
         }
 
-        TResult IVisualNodeWithNativeControl.GetNativeControl<TResult>()
+        TResult? IVisualNodeWithNativeControl.GetNativeControl<TResult>() where TResult : class
         {
+            if (_nativeControl == null)
+            {
+                return default;
+            }
+
             return (_nativeControl as TResult) ??
                 throw new InvalidOperationException($"Unable to convert from type {typeof(T)} to type {typeof(TResult)} when getting the native control");
         }

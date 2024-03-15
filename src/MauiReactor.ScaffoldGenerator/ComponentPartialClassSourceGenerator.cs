@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -23,6 +24,14 @@ public class ComponentPartialClassSourceGenerator : ISourceGenerator
 #nullable enable
 namespace MauiReactor
 {
+    [AttributeUsage(AttributeTargets.Class)]
+    internal class ComponentAttribute : Attribute
+    {
+        public ComponentAttribute(string? generatingClassName = null) 
+        {
+        }
+    }
+
     [AttributeUsage(AttributeTargets.Field)]
     internal class InjectAttribute : Attribute
     {
@@ -115,12 +124,38 @@ namespace MauiReactor
                 return;
             }
 
-            string fullyQualifiedTypeName = classTypeSymbol.ToDisplayString(qualifiedFormat);
+            string fullyQualifiedTypeName = classTypeSymbol.ToDisplayString(symbolDisplayFormat);
             string namespaceName = classTypeSymbol.ContainingNamespace.ToDisplayString();
+            string generatingClassName = classTypeSymbol.Name;
 
-            if (!generatingClassItems.TryGetValue(fullyQualifiedTypeName, out var generatingClassItem))
+            // Find the ComponentAttribute by its name
+            AttributeData? componentAttribute = classTypeSymbol
+                .GetAttributes()
+                    .FirstOrDefault(ad =>
+                    ad.AttributeClass != null &&
+                    ad.AttributeClass.Name == "ComponentAttribute");
+
+            // If the attribute was found, try to get the constructor argument
+            if (componentAttribute != null)
             {
-                generatingClassItems[fullyQualifiedTypeName] = generatingClassItem = new GeneratorClassItem(namespaceName, classTypeSymbol);
+                foreach (var arg in componentAttribute.ConstructorArguments)
+                {
+                    // Check if the argument corresponds to the "generatingClassName" parameter
+                    // In case of string, you can compare by the type, or the parameter name if available
+                    if (arg.Type != null && arg.Type.SpecialType == SpecialType.System_String)
+                    {
+                        if (arg.Value != null)
+                        {
+                            generatingClassName = (string)arg.Value;
+                            break; // Exit loop once the argument is found
+                        }
+                    }
+                }
+            }
+
+            if (!generatingClassItems.TryGetValue(generatingClassName, out var generatingClassItem))
+            {
+                generatingClassItems[generatingClassName] = generatingClassItem = new GeneratorClassItem(namespaceName, classTypeSymbol, generatingClassName);
             }
 
             foreach (var variableFieldSyntax in fieldDeclaration.Declaration.Variables)
@@ -196,7 +231,7 @@ namespace MauiReactor
 
             var source = textGenerator.TransformAndPrettify();
 
-            context.AddSource($"{generatingClassItem.Value.ClassName}.g.cs", source);
+            context.AddSource($"{generatingClassItem.Value.GeneratingClassName}.g.cs", source);
         }   
     }
 }
@@ -249,18 +284,19 @@ class ComponentPartialClassSyntaxReceiver : ISyntaxReceiver
 
 public class GeneratorClassItem
 {
-    public GeneratorClassItem(string @namespace, INamedTypeSymbol symbol)
+    public GeneratorClassItem(string @namespace, INamedTypeSymbol symbol, string generatingClassName)
     {
         Namespace = @namespace;
         ClassName = symbol.Name;
         FullyQualifiedClassName = symbol.GetFullyQualifiedTypeName();
+        GeneratingClassName = generatingClassName;
     }
 
     public string Namespace { get; }
     public string ClassName { get; }
     public string FullyQualifiedClassName { get; }
     public Dictionary<string, GeneratorFieldItem> FieldItems { get; } = new();
-
+    public string GeneratingClassName { get; }
 }
 
 public class GeneratorFieldItem

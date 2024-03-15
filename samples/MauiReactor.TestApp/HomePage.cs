@@ -135,6 +135,11 @@ class HomePage : Component
             {
                 new BehaviorTestPage()
             },
+
+            new FlyoutItem("Pickers Page")
+            {
+                new PickerPage()
+            },
         }
         .ItemTemplate(RenderItemTemplate);
     }

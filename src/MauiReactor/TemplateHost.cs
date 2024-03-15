@@ -10,14 +10,11 @@ namespace MauiReactor;
 public interface ITemplateHost
 {
     BindableObject? NativeElement { get; }
-
-    event EventHandler? LayoutCycleExecuted;
 }
 
 public class TemplateHost : VisualNode, ITemplateHost
 {
     private readonly VisualNode _root;
-    private EventHandler? _layoutCycleExecuted;
     
     public TemplateHost(VisualNode root)
     {
@@ -38,17 +35,22 @@ public class TemplateHost : VisualNode, ITemplateHost
 
     BindableObject? ITemplateHost.NativeElement => NativeElement;
 
-    event EventHandler? ITemplateHost.LayoutCycleExecuted
-    {
-        add
-        {
-            _layoutCycleExecuted += value;
-        }
-        remove
-        {
-            _layoutCycleExecuted -= value;
-        }
-    }
+    internal static event EventHandler? LayoutCycleExecuted;
+
+    internal static void FireLayoutCycleExecuted(object? sender)
+        => LayoutCycleExecuted?.Invoke(sender, EventArgs.Empty);
+
+    //event EventHandler? ITemplateHost.LayoutCycleExecuted
+    //{
+    //    add
+    //    {
+    //        _layoutCycleExecuted += value;
+    //    }
+    //    remove
+    //    {
+    //        _layoutCycleExecuted -= value;
+    //    }
+    //}
 
     protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
     {
@@ -67,7 +69,7 @@ public class TemplateHost : VisualNode, ITemplateHost
     protected internal override void OnLayoutCycleRequested()
     {
         Layout();
-        _layoutCycleExecuted?.Invoke(this, EventArgs.Empty);
+        FireLayoutCycleExecuted(this);
         base.OnLayoutCycleRequested();
     }
 }
@@ -142,7 +144,7 @@ public static class TemplateHostExtensions
 
         try
         {
-            templateHost.LayoutCycleExecuted += handler;
+            TemplateHost.LayoutCycleExecuted += handler;
             
             var waitingTimeout = timeout.TotalMilliseconds;
             
@@ -164,7 +166,7 @@ public static class TemplateHostExtensions
         }
         finally
         {
-            templateHost.LayoutCycleExecuted -= handler;
+            TemplateHost.LayoutCycleExecuted -= handler;
         }
     }
 
@@ -185,7 +187,7 @@ public static class TemplateHostExtensions
 
         try
         {
-            templateHost.LayoutCycleExecuted += handler;
+            TemplateHost.LayoutCycleExecuted += handler;
 
             var waitingTimeout = timeout.TotalMilliseconds;
 
@@ -207,7 +209,7 @@ public static class TemplateHostExtensions
         }
         finally
         {
-            templateHost.LayoutCycleExecuted -= handler;
+            TemplateHost.LayoutCycleExecuted -= handler;
         }
     }
 

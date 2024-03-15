@@ -108,7 +108,7 @@ namespace MauiReactor
             base.OnAnimate();
         }
 
-        internal override void MergeWith(VisualNode newNode)
+        protected override void MergeWith(VisualNode newNode)
         {
             if (newNode.GetType().FullName == GetType().FullName && _isMounted)
             {
@@ -284,7 +284,7 @@ namespace MauiReactor
             }
         }
 
-        internal override void MergeWith(VisualNode newNode)
+        protected override void MergeWith(VisualNode newNode)
         {
             if (!_derivedProps && newNode != this && newNode is IComponentWithProps newComponentWithProps)
             {
@@ -457,7 +457,7 @@ namespace MauiReactor
 
             if (invalidateComponent && !_isMounted)
             {
-                System.Diagnostics.Debug.WriteLine($"WARNING: Your are calling SetState on an unmounted component '{this.GetType().Name}'");
+                System.Diagnostics.Debug.WriteLine($"WARNING: You are calling SetState on an unmounted component '{this.GetType().Name}'");
             }
 
             if (invalidateComponent && _isMounted)
@@ -466,7 +466,7 @@ namespace MauiReactor
             }
         }
 
-        internal override void MergeWith(VisualNode newNode)
+        protected override void MergeWith(VisualNode newNode)
         {
             if (!_derivedState && newNode != this && newNode is IComponentWithState newComponentWithState)
             {

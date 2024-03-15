@@ -90,6 +90,7 @@ Microsoft.Maui.Controls.RefreshView
 Microsoft.Maui.Controls.SearchBar
 Microsoft.Maui.Controls.SwipeView
 Microsoft.Maui.Controls.SwipeItem
+Microsoft.Maui.Controls.SwipeItemView
 Microsoft.Maui.Controls.SwipeItems
 
 Microsoft.Maui.Controls.CheckBox
@@ -100,6 +101,7 @@ Microsoft.Maui.Controls.Editor
 
 Microsoft.Maui.Controls.Switch
 Microsoft.Maui.Controls.DatePicker
+Microsoft.Maui.Controls.TimePicker
 Microsoft.Maui.Controls.InputView
 Microsoft.Maui.Controls.Entry
 Microsoft.Maui.Controls.ActivityIndicator
