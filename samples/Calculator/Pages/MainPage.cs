@@ -52,19 +52,19 @@ class MainPage : Component<MainPageState>
                     .GridRow(2),
             }
         }
-        .BackgroundColor(Theme.Background);
+        .BackgroundColor(AppTheme.Background);
     }
 
     VisualNode RenderDisplayPanel()
     {
         return new VStack(spacing: 0)
         {
-            Theme.Label(()=> $"{State.Number1} {State.CurrentOperation} {State.Number2}{(State.Perc ? "%" : string.Empty)}{(State.Result != null ? " =" : string.Empty)}")
+            AppTheme.Label(()=> $"{State.Number1} {State.CurrentOperation} {State.Number2}{(State.Perc ? "%" : string.Empty)}{(State.Result != null ? " =" : string.Empty)}")
                 .FontSize(40)
-                .TextColor(Theme.Text.WithAlpha(0.4f))
+                .TextColor(AppTheme.Text.WithAlpha(0.4f))
                 .HorizontalTextAlignment(TextAlignment.End),
 
-            Theme.Label(()=> State.Result != null ? State.Result.Value.ToString() : State.CurrentNumber.Length > 0 ? State.CurrentNumber : "0")
+            AppTheme.Label(()=> State.Result != null ? State.Result.Value.ToString() : State.CurrentNumber.Length > 0 ? State.CurrentNumber : "0")
                 .FontSize(63)
                 .HorizontalTextAlignment(TextAlignment.End)
         }
@@ -220,17 +220,17 @@ public class ThemeToggle : Component
                     new Align
                     {
                         new Ellipse()
-                            .FillColor(Theme.ButtonMediumEmphasisBackground)
+                            .FillColor(AppTheme.ButtonMediumEmphasisBackground)
                     }
                     .Height(24)
                     .Width(24)
                     .Margin(4)
-                    .HorizontalAlignment(Theme.IsDarkTheme ? Microsoft.Maui.Primitives.LayoutAlignment.Start : Microsoft.Maui.Primitives.LayoutAlignment.End)
+                    .HorizontalAlignment(AppTheme.IsDarkTheme ? Microsoft.Maui.Primitives.LayoutAlignment.Start : Microsoft.Maui.Primitives.LayoutAlignment.End)
                     .VCenter(),
                 
                     new Align
                     {
-                        Theme.IsDarkTheme ?
+                        AppTheme.IsDarkTheme ?
                         new Picture("Calculator.Resources.Images.moon.png")
                         :
                         new Picture("Calculator.Resources.Images.sun.png"),
@@ -238,14 +238,14 @@ public class ThemeToggle : Component
                     .Height(24)
                     .Width(24)
                     .Margin(8,4)
-                    .HorizontalAlignment(Theme.IsDarkTheme ? Microsoft.Maui.Primitives.LayoutAlignment.End : Microsoft.Maui.Primitives.LayoutAlignment.Start)
+                    .HorizontalAlignment(AppTheme.IsDarkTheme ? Microsoft.Maui.Primitives.LayoutAlignment.End : Microsoft.Maui.Primitives.LayoutAlignment.Start)
                     .VCenter()
                 }
             }
-            .BackgroundColor(Theme.ButtonLowEmphasisBackground)
+            .BackgroundColor(AppTheme.ButtonLowEmphasisBackground)
             .CornerRadius(16)
         }
-        .OnTapped(Theme.ToggleCurrentAppTheme)
+        .OnTapped(AppTheme.ToggleCurrentAppTheme)
         .Margin(16)
         .VCenter()
         .HCenter()
@@ -271,7 +271,7 @@ public class KeyPad : Component
         return new Grid()
         {
             RenderButtonMediumEmphasis("C", 0, 0),
-            RenderImageButtonMediumEmphasis(Theme.IsDarkTheme ? "plus_minus_white.png" : "plus_minus.png", "+-", 0, 1),
+            RenderImageButtonMediumEmphasis(AppTheme.IsDarkTheme ? "plus_minus_white.png" : "plus_minus.png", "+-", 0, 1),
             RenderButtonMediumEmphasis("%", 0, 2),
             RenderButtonHighEmphasis("÷", 0, 3),
 
@@ -292,7 +292,7 @@ public class KeyPad : Component
 
             RenderButtonLowEmphasis(".", 4, 0),
             RenderButtonLowEmphasis("0", 4, 1),
-            RenderImageButtonLowEmphasis(Theme.IsDarkTheme ? "back_white.png" : "back.png", "back", 4, 2),
+            RenderImageButtonLowEmphasis(AppTheme.IsDarkTheme ? "back_white.png" : "back.png", "back", 4, 2),
             RenderButtonHighEmphasis("=", 4, 3),
 
         }
@@ -306,29 +306,29 @@ public class KeyPad : Component
     }
 
     Button RenderButtonLowEmphasis(string text, int row, int column)
-        => Theme.ButtonLowEmphasis(text)
+        => AppTheme.ButtonLowEmphasis(text)
         .GridRow(row)
         .GridColumn(column)
         .OnClicked(() => _keyPressedAction?.Invoke(text));
 
     Button RenderButtonMediumEmphasis(string text, int row, int column)
-        => Theme.ButtonMediumEmphasis(text)
+        => AppTheme.ButtonMediumEmphasis(text)
         .GridRow(row)
         .GridColumn(column)
         .OnClicked(() => _keyPressedAction?.Invoke(text));
 
     Grid RenderImageButtonMediumEmphasis(string imageSource, string text, int row, int column)
-        => Theme.ImageButtonMediumEmphasis(imageSource, () => _keyPressedAction?.Invoke(text))        
+        => AppTheme.ImageButtonMediumEmphasis(imageSource, () => _keyPressedAction?.Invoke(text))        
         .GridRow(row)
         .GridColumn(column);
 
     Grid RenderImageButtonLowEmphasis(string imageSource, string text, int row, int column)
-        => Theme.ImageButtonLowEmphasis(imageSource, () => _keyPressedAction?.Invoke(text))
+        => AppTheme.ImageButtonLowEmphasis(imageSource, () => _keyPressedAction?.Invoke(text))
         .GridRow(row)
         .GridColumn(column);
 
     Button RenderButtonHighEmphasis(string text, int row, int column)
-        => Theme.ButtonHighEmphasis(text)
+        => AppTheme.ButtonHighEmphasis(text)
         .GridRow(row)
         .GridColumn(column)
         .OnClicked(() => _keyPressedAction?.Invoke(text));
