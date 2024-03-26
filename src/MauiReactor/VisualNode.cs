@@ -32,7 +32,7 @@ namespace MauiReactor
             return element;
         }
 
-        public static T When<T>(this T node, bool flag, Action<T> actionToApplyWhenFlagIsTrue) where T : VisualNode
+        public static T When<T>(this T node, bool flag, Action<T> actionToApplyWhenFlagIsTrue) where T : IVisualNode
         {
             if (flag)
             {
@@ -41,38 +41,38 @@ namespace MauiReactor
             return node;
         }
 
-        public static T OnAndroid<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : VisualNode
+        public static T OnAndroid<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : IVisualNode
         {
             node.When(DeviceInfo.Current.Platform == DevicePlatform.Android, actionToApplyWhenFlagIsTrue);
             return node;
         }
 
-        public static T OniOS<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : VisualNode
+        public static T OniOS<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : IVisualNode
         {
             node.When(DeviceInfo.Current.Platform == DevicePlatform.iOS, actionToApplyWhenFlagIsTrue);
             return node;
         }
 
-        public static T OnMac<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : VisualNode
+        public static T OnMac<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : IVisualNode
         {
             node.When(DeviceInfo.Current.Platform == DevicePlatform.macOS ||
                 DeviceInfo.Current.Platform == DevicePlatform.MacCatalyst, actionToApplyWhenFlagIsTrue);
             return node;
         }
 
-        public static T OnWindows<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : VisualNode
+        public static T OnWindows<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : IVisualNode
         {
             node.When(DeviceInfo.Current.Platform == DevicePlatform.WinUI, actionToApplyWhenFlagIsTrue);
             return node;
         }
 
-        public static T OnPhone<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : VisualNode
+        public static T OnPhone<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : IVisualNode
         {
             node.When(DeviceInfo.Current.Idiom == DeviceIdiom.Phone, actionToApplyWhenFlagIsTrue);
             return node;
         }
 
-        public static T OnDesktop<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : VisualNode
+        public static T OnDesktop<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : IVisualNode
         {
             node.When(DeviceInfo.Current.Idiom == DeviceIdiom.Desktop, actionToApplyWhenFlagIsTrue);
             return node;

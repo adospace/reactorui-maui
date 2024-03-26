@@ -1,60 +1,62 @@
-﻿using System;
+﻿using MauiReactor.Internals;
+using System;
 using System.Diagnostics;
 using System.Reflection;
 using System.Reflection.Metadata;
 
-[assembly: MetadataUpdateHandler(typeof(MauiReactor.HotReload.RemoteComponentLoader))]
+[assembly: MetadataUpdateHandler(typeof(MauiReactor.HotReload.RemoteTypeLoader))]
 
 namespace MauiReactor.HotReload;
 
-internal class RemoteComponentLoader : IComponentLoader
+internal class RemoteTypeLoader : ITypeLoader
 {
-    public event EventHandler<EventArgs>? AssemblyChanged;
+    //private readonly WeakEvent<EventArgs> _event = new();
+    //public event EventHandler<EventArgs> AssemblyChanged
+    //{
+    //    add => _event.AddListener(value);
+    //    remove => _event.RemoveListener(value);
+    //}
+    //public event EventHandler<EventArgs>? AssemblyChanged;
+    public WeakProducer<ITypeLoaderEventConsumer>? AssemblyChangedEvent { get; } = new();
+
 
     private readonly HotReloadServer _server;
 
-    private static RemoteComponentLoader? _instance;
+    private static RemoteTypeLoader? _instance;
 
     private Assembly? _assembly;
 
     private bool _running;
 
-    public Component? LoadComponent<T>() where T : Component, new()
-    {
-        if (_assembly == null)
-            return new T();
-
-        return LoadComponent(typeof(T));
-    }
-
-    public Component LoadComponent(Type componentType)
+    public T LoadObject<T>(Type type)
     {
         if (_assembly == null)
         {
-            return (Component)(Activator.CreateInstance(componentType) ?? throw new InvalidOperationException());
+            return (T)(Activator.CreateInstance(type) ?? throw new InvalidOperationException());
         }
 
-        var type = _assembly.GetType(componentType.FullName ?? throw new InvalidOperationException()) ?? throw new InvalidOperationException();
-
-        // if (type == null)
-        // {
-        //     Debug.WriteLine($"[MauiReactor] Unable to hot reload component {componentType.FullName}: type not found in received assembly");
-        //     return null;
-        //     //throw new InvalidOperationException($"Unable to hot-reload component {typeof(T).FullName}: type not found in received assembly");
-        // }
+        var objectTypeInAssembly = _assembly.GetType(type.FullName ?? throw new InvalidOperationException()) ?? throw new InvalidOperationException();
 
         try
         {
-            return (Component)(Activator.CreateInstance(type) ?? throw new InvalidOperationException());
+            return (T)(Activator.CreateInstance(objectTypeInAssembly) ?? throw new InvalidOperationException());
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"[MauiReactor] Unable to hot reload component {componentType.FullName}:{Environment.NewLine}{ex}");
-            throw new InvalidOperationException($"Unable to hot reload component {componentType.FullName}", ex);
+            Debug.WriteLine($"[MauiReactor] Unable to hot reload component {objectTypeInAssembly.FullName}:{Environment.NewLine}{ex}");
+            throw new InvalidOperationException($"Unable to hot reload component {objectTypeInAssembly.FullName}", ex);
         }
     }
 
-    public RemoteComponentLoader()
+    //public T LoadObject<T>() where T : new()
+    //{
+    //    if (_assembly == null)
+    //        return new T();
+
+    //    return LoadObject<T>(typeof(T));
+    //}
+
+    public RemoteTypeLoader()
     {
         _instance = this;
         _server = new HotReloadServer(ReceivedAssemblyFromHost);
@@ -63,7 +65,10 @@ internal class RemoteComponentLoader : IComponentLoader
     private void ReceivedAssemblyFromHost(Assembly? newAssembly)
     {
         _assembly = newAssembly;
-        AssemblyChanged?.Invoke(this, EventArgs.Empty);
+        //_event.Raise(this, EventArgs.Empty);
+        //AssemblyChanged?.Invoke(this, EventArgs.Empty);
+        AssemblyChangedEvent?.Raise(consumer => consumer.OnAssemblyChanged());
+        TypeLoader.OnHotReloadCompleted?.Invoke();
     }
 
     public void Run()

@@ -3,9 +3,9 @@
 
 namespace MauiReactor
 {
-    public partial interface IElement : IVisualNode
+    public partial interface IElement : IVisualNodeWithAttachedProperties
     {
-        void SetAttachedProperty(BindableProperty property, object value);
+        //void SetAttachedProperty(BindableProperty property, object value);
 
     }
 

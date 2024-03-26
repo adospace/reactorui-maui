@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace MauiReactor
 {
-    internal abstract class ReactorApplicationHost : VisualNode, IHostElement, IVisualNode
+    internal abstract class ReactorApplicationHost : VisualNode, IHostElement, IVisualNode, ITypeLoaderEventConsumer
     { 
         protected readonly ReactorApplication _application;
 
@@ -17,8 +17,14 @@ namespace MauiReactor
 
             _application = application ?? throw new ArgumentNullException(nameof(application));
 
-            ComponentLoader.Instance.AssemblyChanged += (s, e) => OnComponentAssemblyChanged();
+            //TypeLoader.Instance.AssemblyChanged += TypeLoader_AssemblyChanged;
+            TypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
         }
+
+        //private void TypeLoader_AssemblyChanged(object? sender, EventArgs e)
+        //{
+        //    OnComponentAssemblyChanged();
+        //}
 
         //public static ReactorApplicationHost? Instance { get; private set; }
 
@@ -36,7 +42,7 @@ namespace MauiReactor
 
         public abstract void Stop();
 
-        protected virtual void OnComponentAssemblyChanged()
+        public virtual void OnAssemblyChanged()
         { }
 
         //public ReactorApplicationHost OnUnhandledException(Action<UnhandledExceptionEventArgs> action)
@@ -118,9 +124,10 @@ namespace MauiReactor
             if (!_started)
             {
                 _started = true;
+                _application.Theme?.Apply();
                 _rootComponent ??= new T();
                 OnLayout();
-                ComponentLoader.Instance.Run();
+                TypeLoader.Instance.Run();
 
                 if (_showFrameRate)
                 {
@@ -131,11 +138,17 @@ namespace MauiReactor
             return this;
         }
 
-        protected override void OnComponentAssemblyChanged()
+        public override void OnAssemblyChanged()
         {
             try
             {
-                var newComponent = ComponentLoader.Instance.LoadComponent(typeof(T));
+                if (_application.Theme != null)
+                {
+                    _application.Theme = TypeLoader.Instance.LoadObject<Theme>(_application.Theme.GetType());
+                    _application.Theme?.Apply();
+                }
+
+                var newComponent = TypeLoader.Instance.LoadObject<Component>(typeof(T));
                 if (newComponent != null &&
                     _rootComponent != newComponent)
                 {
@@ -163,7 +176,7 @@ namespace MauiReactor
             if (_started)
             {
                 _started = false;
-                ComponentLoader.Instance.Stop();
+                TypeLoader.Instance.Stop();
 
                 if (_showFrameRate)
                 {
@@ -278,6 +291,8 @@ namespace MauiReactor
         }
         public Action<Uri>? AppLinkRequestReceived { get; set; }
 
+        public Theme? Theme { get; internal set; }
+
         protected override void OnAppLinkRequestReceived(Uri uri)
         {
             AppLinkRequestReceived?.Invoke(uri);
@@ -348,9 +363,10 @@ namespace MauiReactor
                 return app;
             });
 
-        public static MauiAppBuilder EnableMauiReactorHotReload(this MauiAppBuilder appBuilder)
+        public static MauiAppBuilder EnableMauiReactorHotReload(this MauiAppBuilder appBuilder, Action? onHotReloadCompleted = null)
         {
-            ComponentLoader.UseRemoteLoader = true;
+            TypeLoader.UseRemoteLoader = true;
+            TypeLoader.OnHotReloadCompleted = onHotReloadCompleted;
             return appBuilder;
         }
 
@@ -388,6 +404,12 @@ namespace MauiReactor
         {
             Microsoft.Maui.Controls.PlatformConfiguration.WindowsSpecific.Application.SetImageDirectory(application, directoryName);
 
+            return application;
+        }
+
+        public static Application UseTheme<T>(this ReactorApplication application) where T : Theme, new()
+        {
+            application.Theme = new T();
             return application;
         }
     }
