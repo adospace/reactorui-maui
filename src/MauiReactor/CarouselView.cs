@@ -39,10 +39,12 @@ public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Mic
 {
     public CarouselView()
     {
+        CarouselViewStyles.Default?.Invoke(this);
     }
 
     public CarouselView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        CarouselViewStyles.Default?.Invoke(this);
     }
 
     object? ICarouselView.Loop { get; set; }
@@ -115,6 +117,16 @@ public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Mic
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && CarouselViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -326,4 +338,10 @@ public static partial class CarouselViewExtensions
         carouselView.PositionChangedActionWithArgs = positionChangedActionWithArgs;
         return carouselView;
     }
+}
+
+public static partial class CarouselViewStyles
+{
+    public static Action<ICarouselView>? Default { get; set; }
+    public static Dictionary<string, Action<ICarouselView>> Themes { get; } = [];
 }

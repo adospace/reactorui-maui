@@ -21,10 +21,12 @@ public sealed partial class Polygon : Shapes.Shape<Microsoft.Maui.Controls.Shape
 {
     public Polygon()
     {
+        PolygonStyles.Default?.Invoke(this);
     }
 
     public Polygon(Action<Microsoft.Maui.Controls.Shapes.Polygon?> componentRefAction) : base(componentRefAction)
     {
+        PolygonStyles.Default?.Invoke(this);
     }
 
     object? IPolygon.Points { get; set; }
@@ -56,6 +58,15 @@ public sealed partial class Polygon : Shapes.Shape<Microsoft.Maui.Controls.Shape
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && PolygonStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class PolygonExtensions
@@ -87,4 +98,10 @@ public static partial class PolygonExtensions
         polygon.FillRule = new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc);
         return polygon;
     }
+}
+
+public static partial class PolygonStyles
+{
+    public static Action<IPolygon>? Default { get; set; }
+    public static Dictionary<string, Action<IPolygon>> Themes { get; } = [];
 }

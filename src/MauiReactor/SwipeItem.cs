@@ -25,10 +25,12 @@ public partial class SwipeItem<T> : MenuItem<T>, ISwipeItem where T : Microsoft.
 {
     public SwipeItem()
     {
+        SwipeItemStyles.Default?.Invoke(this);
     }
 
     public SwipeItem(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        SwipeItemStyles.Default?.Invoke(this);
     }
 
     object? ISwipeItem.BackgroundColor { get; set; }
@@ -66,6 +68,16 @@ public partial class SwipeItem<T> : MenuItem<T>, ISwipeItem where T : Microsoft.
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && SwipeItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -154,4 +166,10 @@ public static partial class SwipeItemExtensions
         swipeItem.InvokedActionWithArgs = invokedActionWithArgs;
         return swipeItem;
     }
+}
+
+public static partial class SwipeItemStyles
+{
+    public static Action<ISwipeItem>? Default { get; set; }
+    public static Dictionary<string, Action<ISwipeItem>> Themes { get; } = [];
 }

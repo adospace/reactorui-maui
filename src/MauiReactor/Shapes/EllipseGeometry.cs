@@ -23,10 +23,12 @@ public partial class EllipseGeometry<T> : Shapes.Geometry<T>, IEllipseGeometry w
 {
     public EllipseGeometry()
     {
+        EllipseGeometryStyles.Default?.Invoke(this);
     }
 
     public EllipseGeometry(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        EllipseGeometryStyles.Default?.Invoke(this);
     }
 
     object? IEllipseGeometry.Center { get; set; }
@@ -73,6 +75,15 @@ public partial class EllipseGeometry<T> : Shapes.Geometry<T>, IEllipseGeometry w
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && EllipseGeometryStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class EllipseGeometry : EllipseGeometry<Microsoft.Maui.Controls.Shapes.EllipseGeometry>
@@ -142,4 +153,10 @@ public static partial class EllipseGeometryExtensions
         ellipseGeometry.RadiusY = new PropertyValue<double>(radiusYFunc);
         return ellipseGeometry;
     }
+}
+
+public static partial class EllipseGeometryStyles
+{
+    public static Action<IEllipseGeometry>? Default { get; set; }
+    public static Dictionary<string, Action<IEllipseGeometry>> Themes { get; } = [];
 }

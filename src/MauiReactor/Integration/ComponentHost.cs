@@ -12,7 +12,7 @@ namespace MauiReactor.Integration;
 
 public class ComponentHost : Microsoft.Maui.Controls.ContentView
 {
-    internal class ComponentHostNode : VisualNode, IVisualNode, IHostElement, ITemplateHost
+    internal class ComponentHostNode : VisualNode, IVisualNode, IHostElement, ITemplateHost, ITypeLoaderEventConsumer
     {
         private readonly ComponentHost _host;
         private Component? _component;
@@ -31,13 +31,13 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
 
         BindableObject? ITemplateHost.NativeElement => ContainerPage;
 
-        private void OnComponentAssemblyChanged(object? sender, EventArgs e)
+        public void OnAssemblyChanged()
         {
             Validate.EnsureNotNull(_component);
 
             try
             {
-                var newComponent = ComponentLoader.Instance.LoadComponent(_component.GetType());
+                var newComponent = TypeLoader.Instance.LoadObject<Component>(_component.GetType());
                 if (newComponent != null)
                 {
                     _component = newComponent;
@@ -162,8 +162,9 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
         {
             _sleeping = false;
 
-            ComponentLoader.Instance.Run();
-            ComponentLoader.Instance.AssemblyChanged += OnComponentAssemblyChanged;
+            TypeLoader.Instance.Run();
+            //TypeLoader.Instance.AssemblyChanged += OnComponentAssemblyChanged;
+            TypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
 
             OnLayout();
 
@@ -172,7 +173,9 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
 
         void IHostElement.Stop()
         {
-            ComponentLoader.Instance.AssemblyChanged -= OnComponentAssemblyChanged;
+            //TypeLoader.Instance.AssemblyChanged -= OnComponentAssemblyChanged;
+            TypeLoader.Instance.AssemblyChangedEvent?.RemoveListener(this);
+
 
             _sleeping = true;
         }

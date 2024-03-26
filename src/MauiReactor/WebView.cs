@@ -31,10 +31,12 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
 {
     public WebView()
     {
+        WebViewStyles.Default?.Invoke(this);
     }
 
     public WebView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        WebViewStyles.Default?.Invoke(this);
     }
 
     object? IWebView.Source { get; set; }
@@ -82,6 +84,16 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && WebViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -211,4 +223,10 @@ public static partial class WebViewExtensions
         webView.NavigatingActionWithArgs = navigatingActionWithArgs;
         return webView;
     }
+}
+
+public static partial class WebViewStyles
+{
+    public static Action<IWebView>? Default { get; set; }
+    public static Dictionary<string, Action<IWebView>> Themes { get; } = [];
 }

@@ -43,10 +43,12 @@ public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.
 {
     public ImageButton()
     {
+        ImageButtonStyles.Default?.Invoke(this);
     }
 
     public ImageButton(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ImageButtonStyles.Default?.Invoke(this);
     }
 
     object? IImageButton.CornerRadius { get; set; }
@@ -126,6 +128,16 @@ public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && ImageButtonStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -413,4 +425,10 @@ public static partial class ImageButtonExtensions
         imageButton.ReleasedActionWithArgs = releasedActionWithArgs;
         return imageButton;
     }
+}
+
+public static partial class ImageButtonStyles
+{
+    public static Action<IImageButton>? Default { get; set; }
+    public static Dictionary<string, Action<IImageButton>> Themes { get; } = [];
 }

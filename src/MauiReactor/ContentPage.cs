@@ -19,10 +19,12 @@ public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : M
 {
     public ContentPage()
     {
+        ContentPageStyles.Default?.Invoke(this);
     }
 
     public ContentPage(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ContentPageStyles.Default?.Invoke(this);
     }
 
     object? IContentPage.HideSoftInputOnTapped { get; set; }
@@ -50,6 +52,15 @@ public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : M
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && ContentPageStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class ContentPage : ContentPage<Microsoft.Maui.Controls.ContentPage>
@@ -78,4 +89,10 @@ public static partial class ContentPageExtensions
         contentPage.HideSoftInputOnTapped = new PropertyValue<bool>(hideSoftInputOnTappedFunc);
         return contentPage;
     }
+}
+
+public static partial class ContentPageStyles
+{
+    public static Action<IContentPage>? Default { get; set; }
+    public static Dictionary<string, Action<IContentPage>> Themes { get; } = [];
 }

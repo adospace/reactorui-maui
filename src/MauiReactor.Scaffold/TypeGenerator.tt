@@ -42,65 +42,63 @@ public abstract partial class <#= TypeName() #><T> : <#= BaseTypeName() #><T, <#
 {
     public <#= TypeName() #>()
     { 
-        
+        <#= TypeName() #>Styles.Default?.Invoke(this);
     }
 
     public <#= TypeName() #>(Action<T?> componentRefAction)
         : base(componentRefAction)
     {
-
+        <#= TypeName() #>Styles.Default?.Invoke(this);
     }
 <# } else if (IsGenericType()) { #>
 public abstract partial class <#= TypeName() #><T, TChild> : <#= BaseTypeName() #><T>, <#= InterfaceName() #> where T : <#= FullTypeName() #><TChild>, new() where TChild : <#= GenericArgumentBaseFullTypeName() #>
 {
     public <#= TypeName() #>()
     { 
-        
     }
 
     public <#= TypeName() #>(Action<T?> componentRefAction)
         : base(componentRefAction)
     {
-
     }
 <# } else if (IsTypeSealed()) { #>
 public sealed partial class <#= TypeName() #> : <#= BaseTypeName() #><<#= FullTypeName() #>>, <#= InterfaceName() #>
 {
     public <#= TypeName() #>()
     { 
-        
+        <#= TypeName() #>Styles.Default?.Invoke(this);
     }
 
     public <#= TypeName() #>(Action<<#= FullTypeName() #>?> componentRefAction)
         : base(componentRefAction)
     {
-
+        <#= TypeName() #>Styles.Default?.Invoke(this);
     }
 <# } else if (IsTypeNotAbstractWithEmptyConstructor()) { #>
 public partial class <#= TypeName() #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName() #> where T : <#= FullTypeName() #>, new()
 {
     public <#= TypeName() #>()
     { 
-        
+        <#= TypeName() #>Styles.Default?.Invoke(this);
     }
 
     public <#= TypeName() #>(Action<T?> componentRefAction)
         : base(componentRefAction)
     {
-
+        <#= TypeName() #>Styles.Default?.Invoke(this);
     }
 <# } else { #>
 public abstract partial class <#= TypeName() #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName() #> where T : <#= FullTypeName() #>, new()
 {
     protected <#= TypeName() #>()
     { 
-        
+        <#= TypeName() #>Styles.Default?.Invoke(this);
     }
 
     protected <#= TypeName() #>(Action<T?> componentRefAction)
         : base(componentRefAction)
     {
-
+        <#= TypeName() #>Styles.Default?.Invoke(this);
     }    
 <# } #>
 
@@ -185,6 +183,18 @@ public abstract partial class <#= TypeName() #><T> : <#= BaseTypeName() #><T>, <
 
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+
+    <# if (!IsGenericType()) { #>
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && <#= TypeName() #>Styles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+    <# } #>
 
     <# if (Events.Any()) { #>
 
@@ -446,3 +456,12 @@ public static partial class <#= TypeName() #>Extensions
     <# } #>
 }
 
+<# if (!IsGenericType()) { #>
+public static partial class <#= TypeName() #>Styles
+{
+
+    public static Action<<#= InterfaceName() #>>? Default { get; set; }
+
+    public static Dictionary<string, Action<<#= InterfaceName() #>>> Themes { get; } = [];
+}
+<# } #>

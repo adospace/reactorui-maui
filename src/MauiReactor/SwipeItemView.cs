@@ -21,10 +21,12 @@ public partial class SwipeItemView<T> : ContentView<T>, ISwipeItemView where T :
 {
     public SwipeItemView()
     {
+        SwipeItemViewStyles.Default?.Invoke(this);
     }
 
     public SwipeItemView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        SwipeItemViewStyles.Default?.Invoke(this);
     }
 
     Action? ISwipeItemView.InvokedAction { get; set; }
@@ -52,6 +54,16 @@ public partial class SwipeItemView<T> : ContentView<T>, ISwipeItemView where T :
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && SwipeItemViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -112,4 +124,10 @@ public static partial class SwipeItemViewExtensions
         swipeItemView.InvokedActionWithArgs = invokedActionWithArgs;
         return swipeItemView;
     }
+}
+
+public static partial class SwipeItemViewStyles
+{
+    public static Action<ISwipeItemView>? Default { get; set; }
+    public static Dictionary<string, Action<ISwipeItemView>> Themes { get; } = [];
 }

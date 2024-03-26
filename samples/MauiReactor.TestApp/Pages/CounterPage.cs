@@ -18,7 +18,7 @@ class CounterPage : Component<CounterPageState>
     public override VisualNode Render()
         => ContentPage("Counter Sample",
             VStack(
-                Label($"Counter: {State.Counter}"),
+                Label($"Counter: {State.Counter}").ThemeKey("H1"),
 
                 Button("Click To Increment", () =>
                     SetState(s => s.Counter++))

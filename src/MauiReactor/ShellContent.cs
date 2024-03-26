@@ -18,10 +18,12 @@ public partial class ShellContent<T> : BaseShellItem<T>, IShellContent where T :
 {
     public ShellContent()
     {
+        ShellContentStyles.Default?.Invoke(this);
     }
 
     public ShellContent(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ShellContentStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class ShellContent<T> : BaseShellItem<T>, IShellContent where T :
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && ShellContentStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class ShellContent : ShellContent<Microsoft.Maui.Controls.ShellContent>
@@ -57,4 +68,10 @@ public partial class ShellContent : ShellContent<Microsoft.Maui.Controls.ShellCo
 
 public static partial class ShellContentExtensions
 {
+}
+
+public static partial class ShellContentStyles
+{
+    public static Action<IShellContent>? Default { get; set; }
+    public static Dictionary<string, Action<IShellContent>> Themes { get; } = [];
 }

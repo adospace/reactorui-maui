@@ -27,10 +27,12 @@ public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestu
 {
     public DragGestureRecognizer()
     {
+        DragGestureRecognizerStyles.Default?.Invoke(this);
     }
 
     public DragGestureRecognizer(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        DragGestureRecognizerStyles.Default?.Invoke(this);
     }
 
     object? IDragGestureRecognizer.CanDrag { get; set; }
@@ -70,6 +72,16 @@ public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestu
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && DragGestureRecognizerStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -171,4 +183,10 @@ public static partial class DragGestureRecognizerExtensions
         dragGestureRecognizer.DragStartingActionWithArgs = dragStartingActionWithArgs;
         return dragGestureRecognizer;
     }
+}
+
+public static partial class DragGestureRecognizerStyles
+{
+    public static Action<IDragGestureRecognizer>? Default { get; set; }
+    public static Dictionary<string, Action<IDragGestureRecognizer>> Themes { get; } = [];
 }

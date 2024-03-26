@@ -31,10 +31,12 @@ public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microso
 {
     public SwipeView()
     {
+        SwipeViewStyles.Default?.Invoke(this);
     }
 
     public SwipeView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        SwipeViewStyles.Default?.Invoke(this);
     }
 
     object? ISwipeView.Threshold { get; set; }
@@ -89,6 +91,16 @@ public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microso
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && SwipeViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -219,4 +231,10 @@ public static partial class SwipeViewExtensions
         swipeView.SwipeEndedActionWithArgs = swipeEndedActionWithArgs;
         return swipeView;
     }
+}
+
+public static partial class SwipeViewStyles
+{
+    public static Action<ISwipeView>? Default { get; set; }
+    public static Dictionary<string, Action<ISwipeView>> Themes { get; } = [];
 }

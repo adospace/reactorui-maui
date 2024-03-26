@@ -18,10 +18,12 @@ public partial class AbsoluteLayout<T> : Layout<T>, IAbsoluteLayout where T : Mi
 {
     public AbsoluteLayout()
     {
+        AbsoluteLayoutStyles.Default?.Invoke(this);
     }
 
     public AbsoluteLayout(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        AbsoluteLayoutStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class AbsoluteLayout<T> : Layout<T>, IAbsoluteLayout where T : Mi
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && AbsoluteLayoutStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class AbsoluteLayout : AbsoluteLayout<Microsoft.Maui.Controls.AbsoluteLayout>
@@ -57,4 +68,10 @@ public partial class AbsoluteLayout : AbsoluteLayout<Microsoft.Maui.Controls.Abs
 
 public static partial class AbsoluteLayoutExtensions
 {
+}
+
+public static partial class AbsoluteLayoutStyles
+{
+    public static Action<IAbsoluteLayout>? Default { get; set; }
+    public static Dictionary<string, Action<IAbsoluteLayout>> Themes { get; } = [];
 }

@@ -18,10 +18,12 @@ public sealed partial class Ellipse : Shapes.Shape<Microsoft.Maui.Controls.Shape
 {
     public Ellipse()
     {
+        EllipseStyles.Default?.Invoke(this);
     }
 
     public Ellipse(Action<Microsoft.Maui.Controls.Shapes.Ellipse?> componentRefAction) : base(componentRefAction)
     {
+        EllipseStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,8 +44,23 @@ public sealed partial class Ellipse : Shapes.Shape<Microsoft.Maui.Controls.Shape
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && EllipseStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class EllipseExtensions
 {
+}
+
+public static partial class EllipseStyles
+{
+    public static Action<IEllipse>? Default { get; set; }
+    public static Dictionary<string, Action<IEllipse>> Themes { get; } = [];
 }

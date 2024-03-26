@@ -53,10 +53,12 @@ public abstract partial class Element<T> : VisualNode<T>, IElement where T : Mic
 {
     protected Element()
     {
+        ElementStyles.Default?.Invoke(this);
     }
 
     protected Element(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ElementStyles.Default?.Invoke(this);
     }
 
     object? IElement.AutomationId { get; set; }
@@ -136,6 +138,16 @@ public abstract partial class Element<T> : VisualNode<T>, IElement where T : Mic
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && ElementStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -402,4 +414,10 @@ public static partial class ElementExtensions
         element.HandlerChangedActionWithArgs = handlerChangedActionWithArgs;
         return element;
     }
+}
+
+public static partial class ElementStyles
+{
+    public static Action<IElement>? Default { get; set; }
+    public static Dictionary<string, Action<IElement>> Themes { get; } = [];
 }

@@ -23,10 +23,12 @@ public partial class Frame<T> : ContentView<T>, IFrame where T : Microsoft.Maui.
 {
     public Frame()
     {
+        FrameStyles.Default?.Invoke(this);
     }
 
     public Frame(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        FrameStyles.Default?.Invoke(this);
     }
 
     object? IFrame.BorderColor { get; set; }
@@ -62,6 +64,15 @@ public partial class Frame<T> : ContentView<T>, IFrame where T : Microsoft.Maui.
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && FrameStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class Frame : Frame<Microsoft.Maui.Controls.Frame>
@@ -118,4 +129,10 @@ public static partial class FrameExtensions
         frame.CornerRadius = new PropertyValue<float>(cornerRadiusFunc);
         return frame;
     }
+}
+
+public static partial class FrameStyles
+{
+    public static Action<IFrame>? Default { get; set; }
+    public static Dictionary<string, Action<IFrame>> Themes { get; } = [];
 }

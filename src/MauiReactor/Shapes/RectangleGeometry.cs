@@ -19,10 +19,12 @@ public partial class RectangleGeometry<T> : Shapes.Geometry<T>, IRectangleGeomet
 {
     public RectangleGeometry()
     {
+        RectangleGeometryStyles.Default?.Invoke(this);
     }
 
     public RectangleGeometry(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        RectangleGeometryStyles.Default?.Invoke(this);
     }
 
     object? IRectangleGeometry.Rect { get; set; }
@@ -59,6 +61,15 @@ public partial class RectangleGeometry<T> : Shapes.Geometry<T>, IRectangleGeomet
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && RectangleGeometryStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class RectangleGeometry : RectangleGeometry<Microsoft.Maui.Controls.Shapes.RectangleGeometry>
@@ -89,4 +100,10 @@ public static partial class RectangleGeometryExtensions
         rectangleGeometry.Rect = new PropertyValue<Microsoft.Maui.Graphics.Rect>(rectFunc);
         return rectangleGeometry;
     }
+}
+
+public static partial class RectangleGeometryStyles
+{
+    public static Action<IRectangleGeometry>? Default { get; set; }
+    public static Dictionary<string, Action<IRectangleGeometry>> Themes { get; } = [];
 }

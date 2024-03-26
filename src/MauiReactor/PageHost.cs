@@ -86,7 +86,7 @@ namespace MauiReactor
     }
 
 
-    internal class PageHost<T> : PageHost, IVisualNode, IHostElement, ITemplateHost where T : Component, new()
+    internal class PageHost<T> : PageHost, IVisualNode, IHostElement, ITemplateHost, ITypeLoaderEventConsumer where T : Component, new()
     {
         private Component? _component;
 
@@ -139,8 +139,8 @@ namespace MauiReactor
         {
             _component ??= InitializeComponent(new T());
 
-            ComponentLoader.Instance.Run();
-            ComponentLoader.Instance.AssemblyChanged += OnComponentAssemblyChanged;
+            TypeLoader.Instance.Run();
+            TypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
 
             OnLayout();
 
@@ -154,13 +154,18 @@ namespace MauiReactor
             return this;
         }
 
-        private void OnComponentAssemblyChanged(object? sender, EventArgs e)
+        public void OnAssemblyChanged()
         {
+        //    OnComponentAssemblyChanged();
+        //}
+
+        //private void OnComponentAssemblyChanged(/*object? sender, EventArgs e*/)
+        //{
             //Validate.EnsureNotNull(ReactorApplicationHost.Instance);
 
             try
             {
-                var newComponent = ComponentLoader.Instance.LoadComponent(typeof(T));
+                var newComponent = TypeLoader.Instance.LoadObject<Component>(typeof(T));
                 if (newComponent != null)
                 {
                     _component = newComponent;
@@ -182,7 +187,8 @@ namespace MauiReactor
 
         public void Stop()
         {
-            ComponentLoader.Instance.AssemblyChanged -= OnComponentAssemblyChanged;
+            //TypeLoader.Instance.AssemblyChanged -= OnComponentAssemblyChanged;
+            TypeLoader.Instance.AssemblyChangedEvent?.RemoveListener(this);
             _sleeping = true;
         }
 

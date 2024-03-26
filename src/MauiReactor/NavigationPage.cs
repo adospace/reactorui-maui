@@ -35,10 +35,12 @@ public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Micr
 {
     public NavigationPage()
     {
+        NavigationPageStyles.Default?.Invoke(this);
     }
 
     public NavigationPage(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        NavigationPageStyles.Default?.Invoke(this);
     }
 
     object? INavigationPage.BarBackgroundColor { get; set; }
@@ -92,6 +94,16 @@ public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Micr
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && NavigationPageStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -248,4 +260,10 @@ public static partial class NavigationPageExtensions
         navigationPage.PushedActionWithArgs = pushedActionWithArgs;
         return navigationPage;
     }
+}
+
+public static partial class NavigationPageStyles
+{
+    public static Action<INavigationPage>? Default { get; set; }
+    public static Dictionary<string, Action<INavigationPage>> Themes { get; } = [];
 }

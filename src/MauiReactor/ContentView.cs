@@ -18,10 +18,12 @@ public partial class ContentView<T> : TemplatedView<T>, IContentView where T : M
 {
     public ContentView()
     {
+        ContentViewStyles.Default?.Invoke(this);
     }
 
     public ContentView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ContentViewStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class ContentView<T> : TemplatedView<T>, IContentView where T : M
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && ContentViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class ContentView : ContentView<Microsoft.Maui.Controls.ContentView>
@@ -57,4 +68,10 @@ public partial class ContentView : ContentView<Microsoft.Maui.Controls.ContentVi
 
 public static partial class ContentViewExtensions
 {
+}
+
+public static partial class ContentViewStyles
+{
+    public static Action<IContentView>? Default { get; set; }
+    public static Dictionary<string, Action<IContentView>> Themes { get; } = [];
 }

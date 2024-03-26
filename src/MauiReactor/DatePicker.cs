@@ -41,10 +41,12 @@ public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Ma
 {
     public DatePicker()
     {
+        DatePickerStyles.Default?.Invoke(this);
     }
 
     public DatePicker(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        DatePickerStyles.Default?.Invoke(this);
     }
 
     object? IDatePicker.Format { get; set; }
@@ -124,6 +126,16 @@ public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Ma
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && DatePickerStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -328,4 +340,10 @@ public static partial class DatePickerExtensions
         datePicker.DateSelectedActionWithArgs = dateSelectedActionWithArgs;
         return datePicker;
     }
+}
+
+public static partial class DatePickerStyles
+{
+    public static Action<IDatePicker>? Default { get; set; }
+    public static Dictionary<string, Action<IDatePicker>> Themes { get; } = [];
 }

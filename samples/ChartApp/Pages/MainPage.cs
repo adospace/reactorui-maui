@@ -22,7 +22,7 @@ partial class PolarChart { }
 
 class ChartPageState
 {
-    public double[] Values { get; set; } = new double[] { 2, 1, 2, 3, 2, 3, 3 };
+    public double[] Values { get; set; } = [2, 1, 2, 3, 2, 3, 3];
 }
 
 

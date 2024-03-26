@@ -33,10 +33,12 @@ public partial class Border<T> : View<T>, IBorder where T : Microsoft.Maui.Contr
 {
     public Border()
     {
+        BorderStyles.Default?.Invoke(this);
     }
 
     public Border(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        BorderStyles.Default?.Invoke(this);
     }
 
     object? IBorder.Padding { get; set; }
@@ -104,6 +106,15 @@ public partial class Border<T> : View<T>, IBorder where T : Microsoft.Maui.Contr
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && BorderStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class Border : Border<Microsoft.Maui.Controls.Border>
@@ -262,4 +273,10 @@ public static partial class BorderExtensions
         border.StrokeMiterLimit = new PropertyValue<double>(strokeMiterLimitFunc);
         return border;
     }
+}
+
+public static partial class BorderStyles
+{
+    public static Action<IBorder>? Default { get; set; }
+    public static Dictionary<string, Action<IBorder>> Themes { get; } = [];
 }

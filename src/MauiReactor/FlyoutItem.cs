@@ -18,10 +18,12 @@ public partial class FlyoutItem<T> : ShellItem<T>, IFlyoutItem where T : Microso
 {
     public FlyoutItem()
     {
+        FlyoutItemStyles.Default?.Invoke(this);
     }
 
     public FlyoutItem(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        FlyoutItemStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class FlyoutItem<T> : ShellItem<T>, IFlyoutItem where T : Microso
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && FlyoutItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class FlyoutItem : FlyoutItem<Microsoft.Maui.Controls.FlyoutItem>
@@ -57,4 +68,10 @@ public partial class FlyoutItem : FlyoutItem<Microsoft.Maui.Controls.FlyoutItem>
 
 public static partial class FlyoutItemExtensions
 {
+}
+
+public static partial class FlyoutItemStyles
+{
+    public static Action<IFlyoutItem>? Default { get; set; }
+    public static Dictionary<string, Action<IFlyoutItem>> Themes { get; } = [];
 }

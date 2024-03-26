@@ -19,10 +19,12 @@ public abstract partial class NavigableElement<T> : Element<T>, INavigableElemen
 {
     protected NavigableElement()
     {
+        NavigableElementStyles.Default?.Invoke(this);
     }
 
     protected NavigableElement(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        NavigableElementStyles.Default?.Invoke(this);
     }
 
     object? INavigableElement.Style { get; set; }
@@ -50,6 +52,15 @@ public abstract partial class NavigableElement<T> : Element<T>, INavigableElemen
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && NavigableElementStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class NavigableElementExtensions
@@ -67,4 +78,10 @@ public static partial class NavigableElementExtensions
         navigableElement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc);
         return navigableElement;
     }
+}
+
+public static partial class NavigableElementStyles
+{
+    public static Action<INavigableElement>? Default { get; set; }
+    public static Dictionary<string, Action<INavigableElement>> Themes { get; } = [];
 }

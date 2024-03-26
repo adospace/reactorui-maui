@@ -21,10 +21,12 @@ public partial class MenuBarItem<T> : BaseMenuItem<T>, IMenuBarItem where T : Mi
 {
     public MenuBarItem()
     {
+        MenuBarItemStyles.Default?.Invoke(this);
     }
 
     public MenuBarItem(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        MenuBarItemStyles.Default?.Invoke(this);
     }
 
     object? IMenuBarItem.Text { get; set; }
@@ -56,6 +58,15 @@ public partial class MenuBarItem<T> : BaseMenuItem<T>, IMenuBarItem where T : Mi
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && MenuBarItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class MenuBarItem : MenuBarItem<Microsoft.Maui.Controls.MenuBarItem>
@@ -98,4 +109,10 @@ public static partial class MenuBarItemExtensions
         menuBarItem.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
         return menuBarItem;
     }
+}
+
+public static partial class MenuBarItemStyles
+{
+    public static Action<IMenuBarItem>? Default { get; set; }
+    public static Dictionary<string, Action<IMenuBarItem>> Themes { get; } = [];
 }

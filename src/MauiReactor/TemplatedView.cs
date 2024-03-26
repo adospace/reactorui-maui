@@ -18,10 +18,12 @@ public partial class TemplatedView<T> : Compatibility.Layout<T>, ITemplatedView 
 {
     public TemplatedView()
     {
+        TemplatedViewStyles.Default?.Invoke(this);
     }
 
     public TemplatedView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        TemplatedViewStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class TemplatedView<T> : Compatibility.Layout<T>, ITemplatedView 
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && TemplatedViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class TemplatedView : TemplatedView<Microsoft.Maui.Controls.TemplatedView>
@@ -57,4 +68,10 @@ public partial class TemplatedView : TemplatedView<Microsoft.Maui.Controls.Templ
 
 public static partial class TemplatedViewExtensions
 {
+}
+
+public static partial class TemplatedViewStyles
+{
+    public static Action<ITemplatedView>? Default { get; set; }
+    public static Dictionary<string, Action<ITemplatedView>> Themes { get; } = [];
 }

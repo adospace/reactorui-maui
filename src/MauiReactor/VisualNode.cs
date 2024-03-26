@@ -7,8 +7,6 @@ namespace MauiReactor
 {
     public interface IVisualNode
     {
-        //void AppendAnimatable<T>(BindableProperty key, T animation, Action<T> action) where T : RxAnimation;
-
         void AppendAnimatable(BindableProperty key, RxAnimation animation, Action<IVisualNode, RxAnimation> action);
 
         Microsoft.Maui.Controls.Page? GetContainerPage();
@@ -16,6 +14,8 @@ namespace MauiReactor
         IHostElement? GetPageHost();
 
         IComponentWithState? GetContainerComponent();
+
+        string? ThemeKey { get; set; }
     }
 
     public static class VisualNodeExtensions
@@ -32,7 +32,7 @@ namespace MauiReactor
             return element;
         }
 
-        public static T When<T>(this T node, bool flag, Action<T> actionToApplyWhenFlagIsTrue) where T : VisualNode
+        public static T When<T>(this T node, bool flag, Action<T> actionToApplyWhenFlagIsTrue) where T : IVisualNode
         {
             if (flag)
             {
@@ -41,38 +41,38 @@ namespace MauiReactor
             return node;
         }
 
-        public static T OnAndroid<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : VisualNode
+        public static T OnAndroid<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : IVisualNode
         {
             node.When(DeviceInfo.Current.Platform == DevicePlatform.Android, actionToApplyWhenFlagIsTrue);
             return node;
         }
 
-        public static T OniOS<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : VisualNode
+        public static T OniOS<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : IVisualNode
         {
             node.When(DeviceInfo.Current.Platform == DevicePlatform.iOS, actionToApplyWhenFlagIsTrue);
             return node;
         }
 
-        public static T OnMac<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : VisualNode
+        public static T OnMac<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : IVisualNode
         {
             node.When(DeviceInfo.Current.Platform == DevicePlatform.macOS ||
                 DeviceInfo.Current.Platform == DevicePlatform.MacCatalyst, actionToApplyWhenFlagIsTrue);
             return node;
         }
 
-        public static T OnWindows<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : VisualNode
+        public static T OnWindows<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : IVisualNode
         {
             node.When(DeviceInfo.Current.Platform == DevicePlatform.WinUI, actionToApplyWhenFlagIsTrue);
             return node;
         }
 
-        public static T OnPhone<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : VisualNode
+        public static T OnPhone<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : IVisualNode
         {
             node.When(DeviceInfo.Current.Idiom == DeviceIdiom.Phone, actionToApplyWhenFlagIsTrue);
             return node;
         }
 
-        public static T OnDesktop<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : VisualNode
+        public static T OnDesktop<T>(this T node, Action<T> actionToApplyWhenFlagIsTrue) where T : IVisualNode
         {
             node.When(DeviceInfo.Current.Idiom == DeviceIdiom.Desktop, actionToApplyWhenFlagIsTrue);
             return node;
@@ -109,6 +109,17 @@ namespace MauiReactor
             node.DisableCurrentAnimatableProperties();
             return node;
         }
+
+        public static T ThemeKey<T>(this T node, string? themeKey) where T : IVisualNode
+        {
+            node.ThemeKey = themeKey;
+            return node;
+        }
+    }
+
+    public static class VisualNodeStyles
+    {
+        public static Action<IVisualNode>? Default { get; set; }
     }
 
     public abstract class VisualNode : IVisualNode, IAutomationItemContainer
@@ -129,12 +140,14 @@ namespace MauiReactor
 
         private int _childIndex;
 
+        private string? _themeKey;
+
         [ThreadStatic] 
         internal static bool _skipAnimationMigration;
 
         protected VisualNode()
         {
-            //System.Diagnostics.Debug.WriteLine($"{this}->Created()");
+            VisualNodeStyles.Default?.Invoke(this);
         }
 
         internal static BindablePropertyKey _mauiReactorPropertiesBagKey = BindableProperty.CreateAttachedReadOnly(nameof(_mauiReactorPropertiesBagKey),
@@ -165,10 +178,31 @@ namespace MauiReactor
         protected virtual bool SupportChildIndexing { get; } = true;
 
         public object? Key { get; set; }
+        
         public Action<object?, PropertyChangedEventArgs>? PropertyChangedAction { get; set; }
+        
         public Action<object?, System.ComponentModel.PropertyChangingEventArgs>? PropertyChangingAction { get; set; }
+        
+        public string? ThemeKey
+        {
+            get => _themeKey;
+            set
+            {
+                if (_themeKey != value)
+                {
+                    _themeKey = value;
+                    OnThemeChanged();
+                }
+            }
+        }
+
+        protected virtual void OnThemeChanged()
+        {
+
+        }
 
         internal bool IsLayoutCycleRequired { get; set; } = true;
+        
         internal virtual VisualNode? Parent { get; set; }
 
         internal IReadOnlyList<VisualNode> Children
@@ -211,12 +245,6 @@ namespace MauiReactor
             Parent = null;
         }
 
-        //public void AppendAnimatable<T>(BindableProperty key, T animation, Action<T> action) where T : RxAnimation
-        //{
-        //    var newAnimatableProperty = new Animatable(key, animation, target => action((T)target));
-
-        //    _animatables[key] = newAnimatableProperty;
-        //}
         public void AppendAnimatable(BindableProperty key, RxAnimation animation, Action<IVisualNode, RxAnimation> action)
         {
             var newAnimatableProperty = new Animatable(key, animation, action);

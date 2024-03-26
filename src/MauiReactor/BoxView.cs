@@ -21,10 +21,12 @@ public partial class BoxView<T> : View<T>, IBoxView where T : Microsoft.Maui.Con
 {
     public BoxView()
     {
+        BoxViewStyles.Default?.Invoke(this);
     }
 
     public BoxView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        BoxViewStyles.Default?.Invoke(this);
     }
 
     object? IBoxView.Color { get; set; }
@@ -65,6 +67,15 @@ public partial class BoxView<T> : View<T>, IBoxView where T : Microsoft.Maui.Con
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && BoxViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class BoxView : BoxView<Microsoft.Maui.Controls.BoxView>
@@ -125,4 +136,10 @@ public static partial class BoxViewExtensions
         boxView.AppendAnimatable(Microsoft.Maui.Controls.BoxView.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight)), SetCornerRadius);
         return boxView;
     }
+}
+
+public static partial class BoxViewStyles
+{
+    public static Action<IBoxView>? Default { get; set; }
+    public static Dictionary<string, Action<IBoxView>> Themes { get; } = [];
 }

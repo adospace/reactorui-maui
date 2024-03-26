@@ -25,10 +25,12 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectabl
 {
     public SelectableItemsView()
     {
+        SelectableItemsViewStyles.Default?.Invoke(this);
     }
 
     public SelectableItemsView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        SelectableItemsViewStyles.Default?.Invoke(this);
     }
 
     object? ISelectableItemsView.SelectionMode { get; set; }
@@ -66,6 +68,16 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectabl
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && SelectableItemsViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -154,4 +166,10 @@ public static partial class SelectableItemsViewExtensions
         selectableItemsView.SelectionChangedActionWithArgs = selectionChangedActionWithArgs;
         return selectableItemsView;
     }
+}
+
+public static partial class SelectableItemsViewStyles
+{
+    public static Action<ISelectableItemsView>? Default { get; set; }
+    public static Dictionary<string, Action<ISelectableItemsView>> Themes { get; } = [];
 }

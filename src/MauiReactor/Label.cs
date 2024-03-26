@@ -51,10 +51,12 @@ public partial class Label<T> : View<T>, ILabel where T : Microsoft.Maui.Control
 {
     public Label()
     {
+        LabelStyles.Default?.Invoke(this);
     }
 
     public Label(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        LabelStyles.Default?.Invoke(this);
     }
 
     object? ILabel.HorizontalTextAlignment { get; set; }
@@ -158,6 +160,15 @@ public partial class Label<T> : View<T>, ILabel where T : Microsoft.Maui.Control
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && LabelStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class Label : Label<Microsoft.Maui.Controls.Label>
@@ -442,4 +453,10 @@ public static partial class LabelExtensions
         label.TextType = new PropertyValue<Microsoft.Maui.TextType>(textTypeFunc);
         return label;
     }
+}
+
+public static partial class LabelStyles
+{
+    public static Action<ILabel>? Default { get; set; }
+    public static Dictionary<string, Action<ILabel>> Themes { get; } = [];
 }

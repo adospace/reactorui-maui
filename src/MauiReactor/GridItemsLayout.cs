@@ -23,10 +23,12 @@ public abstract partial class GridItemsLayout<T> : ItemsLayout<T>, IGridItemsLay
 {
     protected GridItemsLayout()
     {
+        GridItemsLayoutStyles.Default?.Invoke(this);
     }
 
     protected GridItemsLayout(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        GridItemsLayoutStyles.Default?.Invoke(this);
     }
 
     object? IGridItemsLayout.Span { get; set; }
@@ -72,6 +74,15 @@ public abstract partial class GridItemsLayout<T> : ItemsLayout<T>, IGridItemsLay
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && GridItemsLayoutStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class GridItemsLayoutExtensions
@@ -121,4 +132,10 @@ public static partial class GridItemsLayoutExtensions
         gridItemsLayout.HorizontalItemSpacing = new PropertyValue<double>(horizontalItemSpacingFunc);
         return gridItemsLayout;
     }
+}
+
+public static partial class GridItemsLayoutStyles
+{
+    public static Action<IGridItemsLayout>? Default { get; set; }
+    public static Dictionary<string, Action<IGridItemsLayout>> Themes { get; } = [];
 }
