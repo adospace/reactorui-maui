@@ -16,7 +16,6 @@ public static class MauiProgram
 
                 app.SetWindowsSpecificAssetsDirectory("Assets");
 
-                app.UseTheme<AppTheme>();
             })
 #if DEBUG
             .EnableMauiReactorHotReload()
@@ -34,15 +33,5 @@ public static class MauiProgram
 
 
         return builder.Build();
-    }
-}
-
-class AppTheme : Theme
-{
-    protected override void OnApply()
-    {
-        LabelStyles.Default = _ => _
-            .FontAttributes(MauiControls.FontAttributes.Italic)
-            .FontSize(32);
     }
 }
