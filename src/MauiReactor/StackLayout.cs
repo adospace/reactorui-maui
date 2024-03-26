@@ -19,10 +19,12 @@ public partial class StackLayout<T> : StackBase<T>, IStackLayout where T : Micro
 {
     public StackLayout()
     {
+        StackLayoutStyles.Default?.Invoke(this);
     }
 
     public StackLayout(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        StackLayoutStyles.Default?.Invoke(this);
     }
 
     object? IStackLayout.Orientation { get; set; }
@@ -50,6 +52,15 @@ public partial class StackLayout<T> : StackBase<T>, IStackLayout where T : Micro
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && StackLayoutStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class StackLayout : StackLayout<Microsoft.Maui.Controls.StackLayout>
@@ -78,4 +89,10 @@ public static partial class StackLayoutExtensions
         stackLayout.Orientation = new PropertyValue<Microsoft.Maui.Controls.StackOrientation>(orientationFunc);
         return stackLayout;
     }
+}
+
+public static partial class StackLayoutStyles
+{
+    public static Action<IStackLayout>? Default { get; set; }
+    public static Dictionary<string, Action<IStackLayout>> Themes { get; } = [];
 }

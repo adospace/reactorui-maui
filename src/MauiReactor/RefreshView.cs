@@ -25,10 +25,12 @@ public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Mic
 {
     public RefreshView()
     {
+        RefreshViewStyles.Default?.Invoke(this);
     }
 
     public RefreshView(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        RefreshViewStyles.Default?.Invoke(this);
     }
 
     object? IRefreshView.IsRefreshing { get; set; }
@@ -66,6 +68,16 @@ public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Mic
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && RefreshViewStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -154,4 +166,10 @@ public static partial class RefreshViewExtensions
         refreshView.RefreshingActionWithArgs = refreshingActionWithArgs;
         return refreshView;
     }
+}
+
+public static partial class RefreshViewStyles
+{
+    public static Action<IRefreshView>? Default { get; set; }
+    public static Dictionary<string, Action<IRefreshView>> Themes { get; } = [];
 }

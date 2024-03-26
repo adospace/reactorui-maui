@@ -18,10 +18,12 @@ public partial class VerticalStackLayout<T> : StackBase<T>, IVerticalStackLayout
 {
     public VerticalStackLayout()
     {
+        VerticalStackLayoutStyles.Default?.Invoke(this);
     }
 
     public VerticalStackLayout(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        VerticalStackLayoutStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class VerticalStackLayout<T> : StackBase<T>, IVerticalStackLayout
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && VerticalStackLayoutStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class VerticalStackLayout : VerticalStackLayout<Microsoft.Maui.Controls.VerticalStackLayout>
@@ -57,4 +68,10 @@ public partial class VerticalStackLayout : VerticalStackLayout<Microsoft.Maui.Co
 
 public static partial class VerticalStackLayoutExtensions
 {
+}
+
+public static partial class VerticalStackLayoutStyles
+{
+    public static Action<IVerticalStackLayout>? Default { get; set; }
+    public static Dictionary<string, Action<IVerticalStackLayout>> Themes { get; } = [];
 }

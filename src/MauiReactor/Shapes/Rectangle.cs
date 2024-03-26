@@ -21,10 +21,12 @@ public sealed partial class Rectangle : Shapes.Shape<Microsoft.Maui.Controls.Sha
 {
     public Rectangle()
     {
+        RectangleStyles.Default?.Invoke(this);
     }
 
     public Rectangle(Action<Microsoft.Maui.Controls.Shapes.Rectangle?> componentRefAction) : base(componentRefAction)
     {
+        RectangleStyles.Default?.Invoke(this);
     }
 
     object? IRectangle.RadiusX { get; set; }
@@ -66,6 +68,15 @@ public sealed partial class Rectangle : Shapes.Shape<Microsoft.Maui.Controls.Sha
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && RectangleStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class RectangleExtensions
@@ -101,4 +112,10 @@ public static partial class RectangleExtensions
         rectangle.RadiusY = new PropertyValue<double>(radiusYFunc);
         return rectangle;
     }
+}
+
+public static partial class RectangleStyles
+{
+    public static Action<IRectangle>? Default { get; set; }
+    public static Dictionary<string, Action<IRectangle>> Themes { get; } = [];
 }

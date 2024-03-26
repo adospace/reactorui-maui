@@ -31,10 +31,12 @@ public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Co
 {
     public Entry()
     {
+        EntryStyles.Default?.Invoke(this);
     }
 
     public Entry(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        EntryStyles.Default?.Invoke(this);
     }
 
     object? IEntry.ReturnType { get; set; }
@@ -84,6 +86,16 @@ public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Co
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && EntryStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -214,4 +226,10 @@ public static partial class EntryExtensions
         entry.CompletedActionWithArgs = completedActionWithArgs;
         return entry;
     }
+}
+
+public static partial class EntryStyles
+{
+    public static Action<IEntry>? Default { get; set; }
+    public static Dictionary<string, Action<IEntry>> Themes { get; } = [];
 }

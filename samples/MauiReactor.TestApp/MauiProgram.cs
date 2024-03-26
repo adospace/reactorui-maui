@@ -15,13 +15,15 @@ public static class MauiProgram
                 app.AddResource("Resources/Styles/DefaultTheme.xaml");
 
                 app.SetWindowsSpecificAssetsDirectory("Assets");
+
+                app.UseTheme<AppTheme>();
             })
 #if DEBUG
             .EnableMauiReactorHotReload()
             //This will enable the FrameRateIndicator widget
             //Disable before publishing the app
             .EnableFrameRateIndicator()
-#endif                
+#endif
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -30,6 +32,17 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<Services.IncrementService>();
 
+
         return builder.Build();
+    }
+}
+
+class AppTheme : Theme
+{
+    protected override void OnApply()
+    {
+        LabelStyles.Default = _ => _
+            .FontAttributes(MauiControls.FontAttributes.Italic)
+            .FontSize(32);
     }
 }

@@ -18,10 +18,12 @@ public partial class TabBar<T> : ShellItem<T>, ITabBar where T : Microsoft.Maui.
 {
     public TabBar()
     {
+        TabBarStyles.Default?.Invoke(this);
     }
 
     public TabBar(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        TabBarStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class TabBar<T> : ShellItem<T>, ITabBar where T : Microsoft.Maui.
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && TabBarStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class TabBar : TabBar<Microsoft.Maui.Controls.TabBar>
@@ -57,4 +68,10 @@ public partial class TabBar : TabBar<Microsoft.Maui.Controls.TabBar>
 
 public static partial class TabBarExtensions
 {
+}
+
+public static partial class TabBarStyles
+{
+    public static Action<ITabBar>? Default { get; set; }
+    public static Dictionary<string, Action<ITabBar>> Themes { get; } = [];
 }

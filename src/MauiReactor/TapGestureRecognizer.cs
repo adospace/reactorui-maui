@@ -25,10 +25,12 @@ public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.M
 {
     public TapGestureRecognizer()
     {
+        TapGestureRecognizerStyles.Default?.Invoke(this);
     }
 
     public TapGestureRecognizer(Action<Microsoft.Maui.Controls.TapGestureRecognizer?> componentRefAction) : base(componentRefAction)
     {
+        TapGestureRecognizerStyles.Default?.Invoke(this);
     }
 
     object? ITapGestureRecognizer.NumberOfTapsRequired { get; set; }
@@ -66,6 +68,16 @@ public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.M
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && TapGestureRecognizerStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -143,4 +155,10 @@ public static partial class TapGestureRecognizerExtensions
         tapGestureRecognizer.TappedActionWithArgs = tappedActionWithArgs;
         return tapGestureRecognizer;
     }
+}
+
+public static partial class TapGestureRecognizerStyles
+{
+    public static Action<ITapGestureRecognizer>? Default { get; set; }
+    public static Dictionary<string, Action<ITapGestureRecognizer>> Themes { get; } = [];
 }

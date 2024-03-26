@@ -18,10 +18,12 @@ public partial class TemplatedPage<T> : Page<T>, ITemplatedPage where T : Micros
 {
     public TemplatedPage()
     {
+        TemplatedPageStyles.Default?.Invoke(this);
     }
 
     public TemplatedPage(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        TemplatedPageStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class TemplatedPage<T> : Page<T>, ITemplatedPage where T : Micros
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && TemplatedPageStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class TemplatedPage : TemplatedPage<Microsoft.Maui.Controls.TemplatedPage>
@@ -57,4 +68,10 @@ public partial class TemplatedPage : TemplatedPage<Microsoft.Maui.Controls.Templ
 
 public static partial class TemplatedPageExtensions
 {
+}
+
+public static partial class TemplatedPageStyles
+{
+    public static Action<ITemplatedPage>? Default { get; set; }
+    public static Dictionary<string, Action<ITemplatedPage>> Themes { get; } = [];
 }

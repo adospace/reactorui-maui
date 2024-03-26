@@ -33,10 +33,12 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
 {
     public TimePicker()
     {
+        TimePickerStyles.Default?.Invoke(this);
     }
 
     public TimePicker(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        TimePickerStyles.Default?.Invoke(this);
     }
 
     object? ITimePicker.Format { get; set; }
@@ -102,6 +104,15 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && TimePickerStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class TimePicker : TimePicker<Microsoft.Maui.Controls.TimePicker>
@@ -232,4 +243,10 @@ public static partial class TimePickerExtensions
         timePicker.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
         return timePicker;
     }
+}
+
+public static partial class TimePickerStyles
+{
+    public static Action<ITimePicker>? Default { get; set; }
+    public static Dictionary<string, Action<ITimePicker>> Themes { get; } = [];
 }

@@ -95,10 +95,12 @@ public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualEle
 {
     protected VisualElement()
     {
+        VisualElementStyles.Default?.Invoke(this);
     }
 
     protected VisualElement(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        VisualElementStyles.Default?.Invoke(this);
     }
 
     object? IVisualElement.InputTransparent { get; set; }
@@ -289,6 +291,16 @@ public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualEle
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && VisualElementStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -884,4 +896,10 @@ public static partial class VisualElementExtensions
         visualElement.UnloadedActionWithArgs = unloadedActionWithArgs;
         return visualElement;
     }
+}
+
+public static partial class VisualElementStyles
+{
+    public static Action<IVisualElement>? Default { get; set; }
+    public static Dictionary<string, Action<IVisualElement>> Themes { get; } = [];
 }

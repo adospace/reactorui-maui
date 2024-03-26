@@ -19,10 +19,12 @@ public sealed partial class RoundRectangle : Shapes.Shape<Microsoft.Maui.Control
 {
     public RoundRectangle()
     {
+        RoundRectangleStyles.Default?.Invoke(this);
     }
 
     public RoundRectangle(Action<Microsoft.Maui.Controls.Shapes.RoundRectangle?> componentRefAction) : base(componentRefAction)
     {
+        RoundRectangleStyles.Default?.Invoke(this);
     }
 
     object? IRoundRectangle.CornerRadius { get; set; }
@@ -59,6 +61,15 @@ public sealed partial class RoundRectangle : Shapes.Shape<Microsoft.Maui.Control
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && RoundRectangleStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public static partial class RoundRectangleExtensions
@@ -94,4 +105,10 @@ public static partial class RoundRectangleExtensions
         roundRectangle.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RoundRectangle.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight)), SetCornerRadius);
         return roundRectangle;
     }
+}
+
+public static partial class RoundRectangleStyles
+{
+    public static Action<IRoundRectangle>? Default { get; set; }
+    public static Dictionary<string, Action<IRoundRectangle>> Themes { get; } = [];
 }

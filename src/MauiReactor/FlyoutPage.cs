@@ -27,10 +27,12 @@ public partial class FlyoutPage<T> : Page<T>, IFlyoutPage where T : Microsoft.Ma
 {
     public FlyoutPage()
     {
+        FlyoutPageStyles.Default?.Invoke(this);
     }
 
     public FlyoutPage(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        FlyoutPageStyles.Default?.Invoke(this);
     }
 
     object? IFlyoutPage.IsGestureEnabled { get; set; }
@@ -72,6 +74,16 @@ public partial class FlyoutPage<T> : Page<T>, IFlyoutPage where T : Microsoft.Ma
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && FlyoutPageStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -174,4 +186,10 @@ public static partial class FlyoutPageExtensions
         flyoutPage.IsPresentedChangedActionWithArgs = isPresentedChangedActionWithArgs;
         return flyoutPage;
     }
+}
+
+public static partial class FlyoutPageStyles
+{
+    public static Action<IFlyoutPage>? Default { get; set; }
+    public static Dictionary<string, Action<IFlyoutPage>> Themes { get; } = [];
 }

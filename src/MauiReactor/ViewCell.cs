@@ -18,10 +18,12 @@ public partial class ViewCell<T> : Cell<T>, IViewCell where T : Microsoft.Maui.C
 {
     public ViewCell()
     {
+        ViewCellStyles.Default?.Invoke(this);
     }
 
     public ViewCell(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ViewCellStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class ViewCell<T> : Cell<T>, IViewCell where T : Microsoft.Maui.C
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && ViewCellStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class ViewCell : ViewCell<Microsoft.Maui.Controls.ViewCell>
@@ -57,4 +68,10 @@ public partial class ViewCell : ViewCell<Microsoft.Maui.Controls.ViewCell>
 
 public static partial class ViewCellExtensions
 {
+}
+
+public static partial class ViewCellStyles
+{
+    public static Action<IViewCell>? Default { get; set; }
+    public static Dictionary<string, Action<IViewCell>> Themes { get; } = [];
 }

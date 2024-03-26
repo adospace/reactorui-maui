@@ -21,10 +21,12 @@ public partial class LineGeometry<T> : Shapes.Geometry<T>, ILineGeometry where T
 {
     public LineGeometry()
     {
+        LineGeometryStyles.Default?.Invoke(this);
     }
 
     public LineGeometry(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        LineGeometryStyles.Default?.Invoke(this);
     }
 
     object? ILineGeometry.StartPoint { get; set; }
@@ -66,6 +68,15 @@ public partial class LineGeometry<T> : Shapes.Geometry<T>, ILineGeometry where T
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && LineGeometryStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class LineGeometry : LineGeometry<Microsoft.Maui.Controls.Shapes.LineGeometry>
@@ -126,4 +137,10 @@ public static partial class LineGeometryExtensions
         lineGeometry.EndPoint = new Microsoft.Maui.Graphics.Point(x, y);
         return lineGeometry;
     }
+}
+
+public static partial class LineGeometryStyles
+{
+    public static Action<ILineGeometry>? Default { get; set; }
+    public static Dictionary<string, Action<ILineGeometry>> Themes { get; } = [];
 }

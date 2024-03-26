@@ -21,10 +21,12 @@ public partial class RoundRectangleGeometry<T> : Shapes.GeometryGroup<T>, IRound
 {
     public RoundRectangleGeometry()
     {
+        RoundRectangleGeometryStyles.Default?.Invoke(this);
     }
 
     public RoundRectangleGeometry(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        RoundRectangleGeometryStyles.Default?.Invoke(this);
     }
 
     object? IRoundRectangleGeometry.Rect { get; set; }
@@ -66,6 +68,15 @@ public partial class RoundRectangleGeometry<T> : Shapes.GeometryGroup<T>, IRound
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && RoundRectangleGeometryStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class RoundRectangleGeometry : RoundRectangleGeometry<Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry>
@@ -128,4 +139,10 @@ public static partial class RoundRectangleGeometryExtensions
         roundRectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight)), SetCornerRadius);
         return roundRectangleGeometry;
     }
+}
+
+public static partial class RoundRectangleGeometryStyles
+{
+    public static Action<IRoundRectangleGeometry>? Default { get; set; }
+    public static Dictionary<string, Action<IRoundRectangleGeometry>> Themes { get; } = [];
 }

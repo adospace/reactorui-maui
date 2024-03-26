@@ -27,10 +27,12 @@ public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.M
 {
     protected Layout()
     {
+        LayoutStyles.Default?.Invoke(this);
     }
 
     protected Layout(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        LayoutStyles.Default?.Invoke(this);
     }
 
     object? ILayout.IsClippedToBounds { get; set; }
@@ -81,6 +83,16 @@ public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.M
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && LayoutStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -198,4 +210,10 @@ public static partial class LayoutExtensions
         layout.LayoutChangedActionWithArgs = layoutChangedActionWithArgs;
         return layout;
     }
+}
+
+public static partial class LayoutStyles
+{
+    public static Action<ILayout>? Default { get; set; }
+    public static Dictionary<string, Action<ILayout>> Themes { get; } = [];
 }

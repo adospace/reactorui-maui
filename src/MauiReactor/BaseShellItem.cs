@@ -35,10 +35,12 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
 {
     public BaseShellItem()
     {
+        BaseShellItemStyles.Default?.Invoke(this);
     }
 
     public BaseShellItem(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        BaseShellItemStyles.Default?.Invoke(this);
     }
 
     object? IBaseShellItem.FlyoutIcon { get; set; }
@@ -94,6 +96,16 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && BaseShellItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -345,4 +357,10 @@ public static partial class BaseShellItemExtensions
         baseShellItem.DisappearingActionWithArgs = disappearingActionWithArgs;
         return baseShellItem;
     }
+}
+
+public static partial class BaseShellItemStyles
+{
+    public static Action<IBaseShellItem>? Default { get; set; }
+    public static Dictionary<string, Action<IBaseShellItem>> Themes { get; } = [];
 }

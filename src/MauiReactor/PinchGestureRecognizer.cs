@@ -21,10 +21,12 @@ public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft
 {
     public PinchGestureRecognizer()
     {
+        PinchGestureRecognizerStyles.Default?.Invoke(this);
     }
 
     public PinchGestureRecognizer(Action<Microsoft.Maui.Controls.PinchGestureRecognizer?> componentRefAction) : base(componentRefAction)
     {
+        PinchGestureRecognizerStyles.Default?.Invoke(this);
     }
 
     Action? IPinchGestureRecognizer.PinchUpdatedAction { get; set; }
@@ -52,6 +54,16 @@ public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && PinchGestureRecognizerStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -101,4 +113,10 @@ public static partial class PinchGestureRecognizerExtensions
         pinchGestureRecognizer.PinchUpdatedActionWithArgs = pinchUpdatedActionWithArgs;
         return pinchGestureRecognizer;
     }
+}
+
+public static partial class PinchGestureRecognizerStyles
+{
+    public static Action<IPinchGestureRecognizer>? Default { get; set; }
+    public static Dictionary<string, Action<IPinchGestureRecognizer>> Themes { get; } = [];
 }

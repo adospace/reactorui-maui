@@ -19,10 +19,12 @@ public partial class ShellGroupItem<T> : BaseShellItem<T>, IShellGroupItem where
 {
     public ShellGroupItem()
     {
+        ShellGroupItemStyles.Default?.Invoke(this);
     }
 
     public ShellGroupItem(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ShellGroupItemStyles.Default?.Invoke(this);
     }
 
     object? IShellGroupItem.FlyoutDisplayOptions { get; set; }
@@ -50,6 +52,15 @@ public partial class ShellGroupItem<T> : BaseShellItem<T>, IShellGroupItem where
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && ShellGroupItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class ShellGroupItem : ShellGroupItem<Microsoft.Maui.Controls.ShellGroupItem>
@@ -78,4 +89,10 @@ public static partial class ShellGroupItemExtensions
         shellGroupItem.FlyoutDisplayOptions = new PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>(flyoutDisplayOptionsFunc);
         return shellGroupItem;
     }
+}
+
+public static partial class ShellGroupItemStyles
+{
+    public static Action<IShellGroupItem>? Default { get; set; }
+    public static Dictionary<string, Action<IShellGroupItem>> Themes { get; } = [];
 }

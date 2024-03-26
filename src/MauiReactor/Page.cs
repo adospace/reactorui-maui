@@ -51,10 +51,12 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
 {
     public Page()
     {
+        PageStyles.Default?.Invoke(this);
     }
 
     public Page(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        PageStyles.Default?.Invoke(this);
     }
 
     object? IPage.BackgroundImageSource { get; set; }
@@ -143,6 +145,16 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && PageStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
+
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     protected override void OnAttachNativeEvents()
@@ -528,4 +540,10 @@ public static partial class PageExtensions
         page.NavigatedFromActionWithArgs = navigatedFromActionWithArgs;
         return page;
     }
+}
+
+public static partial class PageStyles
+{
+    public static Action<IPage>? Default { get; set; }
+    public static Dictionary<string, Action<IPage>> Themes { get; } = [];
 }

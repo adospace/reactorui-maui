@@ -18,10 +18,12 @@ public partial class ToolbarItem<T> : MenuItem<T>, IToolbarItem where T : Micros
 {
     public ToolbarItem()
     {
+        ToolbarItemStyles.Default?.Invoke(this);
     }
 
     public ToolbarItem(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ToolbarItemStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class ToolbarItem<T> : MenuItem<T>, IToolbarItem where T : Micros
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && ToolbarItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class ToolbarItem : ToolbarItem<Microsoft.Maui.Controls.ToolbarItem>
@@ -57,4 +68,10 @@ public partial class ToolbarItem : ToolbarItem<Microsoft.Maui.Controls.ToolbarIt
 
 public static partial class ToolbarItemExtensions
 {
+}
+
+public static partial class ToolbarItemStyles
+{
+    public static Action<IToolbarItem>? Default { get; set; }
+    public static Dictionary<string, Action<IToolbarItem>> Themes { get; } = [];
 }

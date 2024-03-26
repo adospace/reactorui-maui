@@ -18,10 +18,12 @@ public partial class ShellItem<T> : ShellGroupItem<T>, IShellItem where T : Micr
 {
     public ShellItem()
     {
+        ShellItemStyles.Default?.Invoke(this);
     }
 
     public ShellItem(Action<T?> componentRefAction) : base(componentRefAction)
     {
+        ShellItemStyles.Default?.Invoke(this);
     }
 
     internal override void Reset()
@@ -42,6 +44,15 @@ public partial class ShellItem<T> : ShellGroupItem<T>, IShellItem where T : Micr
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    protected override void OnThemeChanged()
+    {
+        if (ThemeKey != null && ShellItemStyles.Themes.TryGetValue(ThemeKey, out var styleAction))
+        {
+            styleAction(this);
+        }
+
+        base.OnThemeChanged();
+    }
 }
 
 public partial class ShellItem : ShellItem<Microsoft.Maui.Controls.ShellItem>
@@ -57,4 +68,10 @@ public partial class ShellItem : ShellItem<Microsoft.Maui.Controls.ShellItem>
 
 public static partial class ShellItemExtensions
 {
+}
+
+public static partial class ShellItemStyles
+{
+    public static Action<IShellItem>? Default { get; set; }
+    public static Dictionary<string, Action<IShellItem>> Themes { get; } = [];
 }
