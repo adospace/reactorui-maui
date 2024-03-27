@@ -49,4 +49,32 @@ public static partial class PointerGestureRecognizerExtensions
 
         return pointerGestureRecognizer;
     }
+
+    public static T OnPointerPressed<T>(this T pointerGestureRecognizer, Action<Point?>? pointerMovedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerPressedActionWithArgs = (sender, args) =>
+        {
+            if (pointerMovedAction != null && sender is Microsoft.Maui.Controls.Element element)
+            {
+                pointerMovedAction?.Invoke(args.GetPosition(element));
+            }
+        };
+
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerReleased<T>(this T pointerGestureRecognizer, Action<Point?>? pointerMovedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerReleasedActionWithArgs = (sender, args) =>
+        {
+            if (pointerMovedAction != null && sender is Microsoft.Maui.Controls.Element element)
+            {
+                pointerMovedAction?.Invoke(args.GetPosition(element));
+            }
+        };
+
+        return pointerGestureRecognizer;
+    }
 }

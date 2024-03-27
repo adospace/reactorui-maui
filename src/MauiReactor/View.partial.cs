@@ -395,6 +395,82 @@ public static partial class ViewExtensions
         return view;
     }
 
+    public static T OnPointerPressed<T>(this T view, Action<object?, PointerEventArgs>? action) where T : IView
+    {
+        if (action != null)
+        {
+            view.GestureRecognizers ??= [];
+            var gesture = view.GestureRecognizers
+                .OfType<PointerGestureRecognizer>()
+                .FirstOrDefault();
+            if (gesture == null)
+            {
+                view.GestureRecognizers.Add(gesture = []);
+            }
+
+            gesture.OnPointerPressed(action);
+        }
+
+        return view;
+    }
+
+    public static T OnPointerPressed<T>(this T view, Action<Point?>? action) where T : IView
+    {
+        if (action != null)
+        {
+            view.GestureRecognizers ??= [];
+            var gesture = view.GestureRecognizers
+                .OfType<PointerGestureRecognizer>()
+                .FirstOrDefault();
+            if (gesture == null)
+            {
+                view.GestureRecognizers.Add(gesture = []);
+            }
+
+            gesture.OnPointerPressed(action);
+        }
+
+        return view;
+    }
+
+    public static T OnPointerReleased<T>(this T view, Action<object?, PointerEventArgs>? action) where T : IView
+    {
+        if (action != null)
+        {
+            view.GestureRecognizers ??= [];
+            var gesture = view.GestureRecognizers
+                .OfType<PointerGestureRecognizer>()
+                .FirstOrDefault();
+            if (gesture == null)
+            {
+                view.GestureRecognizers.Add(gesture = []);
+            }
+
+            gesture.OnPointerReleased(action);
+        }
+
+        return view;
+    }
+
+    public static T OnPointerReleased<T>(this T view, Action<Point?>? action) where T : IView
+    {
+        if (action != null)
+        {
+            view.GestureRecognizers ??= [];
+            var gesture = view.GestureRecognizers
+                .OfType<PointerGestureRecognizer>()
+                .FirstOrDefault();
+            if (gesture == null)
+            {
+                view.GestureRecognizers.Add(gesture = []);
+            }
+
+            gesture.OnPointerReleased(action);
+        }
+
+        return view;
+    }
+
     public static T OnPinchUpdated<T>(this T view, Action? action) where T : IView
     {
         if (action != null)
