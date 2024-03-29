@@ -34,6 +34,26 @@ public class TestAppTests
     }
 
     [Test]
+    public void CounterPage_Clicking_Button_Correctly_Increments_The_Counter()
+    {
+        var mainPageNode = TemplateHost.Create(new CounterPage());
+
+        // Check that the counter is 0
+        mainPageNode.Find<MauiControls.Label>("Counter_Label")
+            .Text
+            .ShouldBe($"Counter: 0");
+
+        // Click on the button
+        mainPageNode.Find<MauiControls.Button>("Counter_Button")
+            .SendClicked();
+
+        // Check that the counter is 1
+        mainPageNode.Find<MauiControls.Label>("Counter_Label")
+            .Text
+            .ShouldBe($"Counter: 1");
+    }
+
+    [Test]
     public void CanvasPage_Moving_Hover_Norway_Image_The_Label_Text_Should_Change_Accordingly()
     {
         var mainPageNode = TemplateHost.Create(new CanvasPage());

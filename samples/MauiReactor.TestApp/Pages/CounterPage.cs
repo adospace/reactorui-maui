@@ -18,10 +18,11 @@ class CounterPage : Component<CounterPageState>
     public override VisualNode Render()
         => ContentPage("Counter Sample",
             VStack(
-                Label($"Counter: {State.Counter}").ThemeKey("H1"),
+                Label($"Counter: {State.Counter}")
+                    .AutomationId("Counter_Label"),
 
-                Button("Click To Increment", () =>
-                    SetState(s => s.Counter++))
+                Button("Click To Increment", () => SetState(s => s.Counter++))
+                    .AutomationId("Counter_Button")
             )
             .Spacing(10)
             .Center()

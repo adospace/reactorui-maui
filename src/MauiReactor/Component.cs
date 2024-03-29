@@ -425,6 +425,31 @@ namespace MauiReactor
             return false;
         }
 
+        protected new void Invalidate()
+        {
+            if (TryForwardInvalidateToNewComponent())
+            {
+                return;
+            }
+
+            base.Invalidate();
+        }
+
+        private bool TryForwardInvalidateToNewComponent()
+        {
+            var newComponent = _newComponent;
+            while (newComponent != null && newComponent.NewComponent != null && newComponent != newComponent.NewComponent)
+                newComponent = newComponent.NewComponent;
+
+            if (newComponent != null)
+            {
+                newComponent.InvalidateComponent();
+                return true;
+            }
+
+            return false;
+        }
+
         protected void SetState(Action<S> action, TimeSpan delay, bool invalidateComponent = true)
             => Application.Current?.Dispatcher.DispatchDelayed(delay, () => SetState(action, invalidateComponent));
 
@@ -438,7 +463,9 @@ namespace MauiReactor
             action(State);
 
             if (TryForwardStateToNewComponent(invalidateComponent))
+            {
                 return;
+            }
 
             if (_actionsRegisteredOnStateChange != null)
             {
