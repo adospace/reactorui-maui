@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Calculator.Resources.Styles;
 using MauiReactor;
 using MauiReactor.Canvas;
+using Rearch;
+using Rearch.Reactor.Components;
 
 namespace Calculator.Pages;
 
@@ -25,7 +27,7 @@ class MainPageState
     
 }
 
-class MainPage : Component<MainPageState>
+class MainPage : CapsuleConsumer
 {
     protected override void OnMounted()
     {
@@ -37,34 +39,36 @@ class MainPage : Component<MainPageState>
         base.OnMounted();
     }
 
-    public override VisualNode Render()
+    public override VisualNode Render(ICapsuleHandle use)
     {
+        var (state, setState) = use.State(new MainPageState());
+
         return new ContentPage
         {
             new Grid("48 * 420", "*")
             {
                 new ThemeToggle(),
                 
-                RenderDisplayPanel(),
+                RenderDisplayPanel(state),
 
                 new KeyPad()
-                    .OnKeyPressed(OnKeyPressed)
+                    .OnKeyPressed(key => OnKeyPressed(state, setState, key))
                     .GridRow(2),
             }
         }
         .BackgroundColor(AppTheme.Background);
     }
 
-    VisualNode RenderDisplayPanel()
+    VisualNode RenderDisplayPanel(MainPageState state)
     {
         return new VStack(spacing: 0)
         {
-            AppTheme.Label(()=> $"{State.Number1} {State.CurrentOperation} {State.Number2}{(State.Perc ? "%" : string.Empty)}{(State.Result != null ? " =" : string.Empty)}")
+            AppTheme.Label(()=> $"{state.Number1} {state.CurrentOperation} {state.Number2}{(state.Perc ? "%" : string.Empty)}{(state.Result != null ? " =" : string.Empty)}")
                 .FontSize(40)
                 .TextColor(AppTheme.Text.WithAlpha(0.4f))
                 .HorizontalTextAlignment(TextAlignment.End),
 
-            AppTheme.Label(()=> State.Result != null ? State.Result.Value.ToString() : State.CurrentNumber.Length > 0 ? State.CurrentNumber : "0")
+            AppTheme.Label(()=> state.Result != null ? state.Result.Value.ToString() : state.CurrentNumber.Length > 0 ? state.CurrentNumber : "0")
                 .FontSize(63)
                 .HorizontalTextAlignment(TextAlignment.End)
         }
@@ -74,135 +78,186 @@ class MainPage : Component<MainPageState>
         .VEnd();
     }
 
-    void OnKeyPressed(string key)
+    void OnKeyPressed(MainPageState state, Action<MainPageState> setState, string key)
     {
-        if (State.Result != null)
+        if (state.Result != null)
         {
             if (key == "÷" || key == "×" || key == "+" || key == "-")
             {
-                SetState(s =>
+                setState(new MainPageState
                 {
-                    s.Number1 = s.Result;
-                    s.Number2 = s.Result = null;
-                    s.CurrentOperation = key;
-                    s.CurrentNumber = string.Empty;
-                    s.Perc = false;
-                }, false);
+                    CurrentNumber = string.Empty,
+                    Number1 = state.Result,
+                    Number2 = null,
+                    CurrentOperation = key,
+                    Result = null,
+                    Perc = false,
+                });
             }
             else
             {
-                SetState(s =>
+                setState(new MainPageState
                 {
-                    s.Number1 = s.Number2 = s.Result = null;
-                    s.CurrentOperation = string.Empty;
-                    s.CurrentNumber = string.Empty;
-                    s.Perc = false;
-                }, false);
+                    CurrentNumber = string.Empty,
+                    Number1 = null,
+                    Number2 = null,
+                    CurrentOperation = string.Empty,
+                    Result = null,
+                    Perc = false,
+                });
             }
         };
 
 
         if (key == "back")
         {
-            if (State.CurrentNumber.Length > 0)
+            if (state.CurrentNumber.Length > 0)
             {
-                SetState(s => s.CurrentNumber = s.CurrentNumber.Substring(0, s.CurrentNumber.Length - 1), false);
+                setState(new MainPageState
+                {
+                    CurrentNumber = state.CurrentNumber.Substring(0, state.CurrentNumber.Length - 1),
+                    Number1 = state.Number1,
+                    Number2 = state.Number2,
+                    CurrentOperation = state.CurrentOperation,
+                    Result = state.Result,
+                    Perc = state.Perc,
+                });
             }
         }
         else if (key == ".")
         {
-            if (State.CurrentNumber.Length > 0 && !State.CurrentNumber.Contains("."))
+            if (state.CurrentNumber.Length > 0 && !state.CurrentNumber.Contains("."))
             {
-                SetState(s => s.CurrentNumber += key, false);
+                setState(new MainPageState
+                {
+                    CurrentNumber = state.CurrentNumber + key,
+                    Number1 = state.Number1,
+                    Number2 = state.Number2,
+                    CurrentOperation = state.CurrentOperation,
+                    Result = state.Result,
+                    Perc = state.Perc,
+                });
             }
         }
         else if (key == "0")
         {
-            if (State.CurrentNumber.Length > 0)
+            if (state.CurrentNumber.Length > 0)
             {
-                SetState(s => s.CurrentNumber += key, false);
+                setState(new MainPageState
+                {
+                    CurrentNumber = state.CurrentNumber + key,
+                    Number1 = state.Number1,
+                    Number2 = state.Number2,
+                    CurrentOperation = state.CurrentOperation,
+                    Result = state.Result,
+                    Perc = state.Perc,
+                });
             }
         }
         else if (key == "C")
         {
-            SetState(s => s.CurrentNumber = string.Empty);
+            setState(new MainPageState
+            {
+                CurrentNumber = string.Empty,
+                Number1 = state.Number1,
+                Number2 = state.Number2,
+                CurrentOperation = state.CurrentOperation,
+                Result = state.Result,
+                Perc = state.Perc,
+            });
         }
         else if (key == "=")
         {
-            if (State.CurrentOperation.Length > 0 && State.Number1 != null)
+            if (state.CurrentOperation.Length > 0 && state.Number1 != null)
             {
-                SetState(s =>
+                var number2 = state.CurrentNumber.Length > 0 ? double.Parse(state.CurrentNumber) : 0.0;
+                var result = state.CurrentOperation switch
                 {
-                    s.Number2 = State.CurrentNumber.Length > 0 ? double.Parse(State.CurrentNumber) : 0.0;
-                    switch (s.CurrentOperation)
-                    {
-                        case "÷":
-                            s.Result = s.Number1!.Value / s.Number2.Value;
-                            break;
-                        case "×":
-                            s.Result = s.Number1!.Value * s.Number2.Value;
-                            break;
-                        case "+":
-                            s.Result = s.Number1!.Value + s.Number2.Value;
-                            break;
-                        case "-":
-                            s.Result = s.Number1!.Value - s.Number2.Value;
-                            break;
-                    }
-                }, false);
+                    "÷" => state.Number1!.Value / number2,
+                    "×" => state.Number1!.Value * number2,
+                    "+" => state.Number1!.Value + number2,
+                    "-" => state.Number1!.Value - number2,
+                    _ => state.Result,
+                };
+                setState(new MainPageState
+                {
+                    CurrentNumber = state.CurrentNumber,
+                    Number1 = state.Number1,
+                    Number2 = number2,
+                    CurrentOperation = state.CurrentOperation,
+                    Result = result,
+                    Perc = state.Perc,
+                });
             }
         }
         else if (key == "%")
         {
-            if (State.CurrentOperation.Length > 0 && State.Number1 != null)
+            if (state.CurrentOperation.Length > 0 && state.Number1 != null)
             {
-                SetState(s =>
+                var number2 = state.CurrentNumber.Length > 0 ? double.Parse(state.CurrentNumber) : 0.0;
+                var result = state.CurrentOperation switch
                 {
-                    s.Number2 = State.CurrentNumber.Length > 0 ? double.Parse(State.CurrentNumber) : 0.0;
-                    s.Perc = true;
-                    switch (s.CurrentOperation)
-                    {
-                        case "÷":
-                            s.Result = s.Number1!.Value / (s.Number2.Value / 100.0) * s.Number1!.Value;
-                            break;
-                        case "×":
-                            s.Result = s.Number1!.Value * (s.Number2.Value / 100.0) * s.Number1!.Value;
-                            break;
-                        case "+":
-                            s.Result = s.Number1!.Value + (s.Number2.Value / 100.0) * s.Number1!.Value;
-                            break;
-                        case "-":
-                            s.Result = s.Number1!.Value - (s.Number2.Value / 100.0) * s.Number1!.Value;
-                            break;
-                    }
-                }, false);
+                    "÷" => state.Number1!.Value / (number2 / 100.0) * state.Number1!.Value,
+                    "×" => state.Number1!.Value * (number2 / 100.0) * state.Number1!.Value,
+                    "+" => state.Number1!.Value + (number2 / 100.0) * state.Number1!.Value,
+                    "-" => state.Number1!.Value - (number2 / 100.0) * state.Number1!.Value,
+                    _ => state.Result,
+                };
+                setState(new MainPageState
+                {
+                    CurrentNumber = state.CurrentNumber,
+                    Number1 = state.Number1,
+                    Number2 = number2,
+                    CurrentOperation = state.CurrentOperation,
+                    Result = result,
+                    Perc = state.Perc,
+                });
             }
         }
         else if (key == "+-")
         {
-            if (State.CurrentNumber.Length > 0)
+            if (state.CurrentNumber.Length > 0)
             {
-                SetState(s => s.CurrentNumber = s.CurrentNumber.StartsWith("-") ? s.CurrentNumber = s.CurrentNumber.Substring(1) : "-" + s.CurrentNumber, false);
+                var currentNumber = state.CurrentNumber.StartsWith('-') ?
+                    state.CurrentNumber[1..] :
+                    "-" + state.CurrentNumber;
+                setState(new MainPageState
+                {
+                    CurrentNumber = currentNumber,
+                    Number1 = state.Number1,
+                    Number2 = state.Number2,
+                    CurrentOperation = state.CurrentOperation,
+                    Result = state.Result,
+                    Perc = state.Perc,
+                });
             }
         }
         else if (key == "÷" || key == "×" || key == "+" || key == "-")
         {
-            if (State.CurrentOperation.Length == 0 && State.CurrentNumber.Length > 0)
+            if (state.CurrentOperation.Length == 0 && state.CurrentNumber.Length > 0)
             {
-                SetState(s =>
+                setState(new MainPageState
                 {
-                    s.CurrentOperation = key;
-                    s.Number1 = double.Parse(s.CurrentNumber);
-                    s.CurrentNumber = string.Empty;
-                }, false);
+                    CurrentNumber = string.Empty,
+                    Number1 = double.Parse(state.CurrentNumber),
+                    Number2 = state.Number2,
+                    CurrentOperation = key,
+                    Result = state.Result,
+                    Perc = state.Perc,
+                });
             }
         }
         else
         {
-            SetState(s =>
+            setState(new MainPageState
             {
-                s.CurrentNumber += key;
-            }, false);
+                CurrentNumber = state.CurrentNumber + key,
+                Number1 = state.Number1,
+                Number2 = state.Number2,
+                CurrentOperation = state.CurrentOperation,
+                Result = state.Result,
+                Perc = state.Perc,
+            });
         }
     }
 }
