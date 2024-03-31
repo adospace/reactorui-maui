@@ -1,4 +1,5 @@
 ﻿using MauiReactor;
+using Rearch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,20 @@ static class AppTheme
 {
     public static bool IsDarkTheme => MauiControls.Application.Current?.UserAppTheme == Microsoft.Maui.ApplicationModel.AppTheme.Dark;
 
-    public static void ToggleCurrentAppTheme()
+    public static (bool IsDarkTheme, Action ToggleCurrentAppTheme) ThemeCapsule(ICapsuleHandle use)
     {
-        if (MauiControls.Application.Current != null)
+        var (isDarkTheme, setIsDarkTheme) = use.State(IsDarkTheme);
+        use.Effect(() =>
         {
-            MauiControls.Application.Current.UserAppTheme = IsDarkTheme ? Microsoft.Maui.ApplicationModel.AppTheme.Light : Microsoft.Maui.ApplicationModel.AppTheme.Dark;
-        }
+            if (MauiControls.Application.Current != null)
+            {
+                MauiControls.Application.Current.UserAppTheme = isDarkTheme ? Microsoft.Maui.ApplicationModel.AppTheme.Dark : Microsoft.Maui.ApplicationModel.AppTheme.Light;
+            }
+
+            return () => { };
+        }, [MauiControls.Application.Current, isDarkTheme]);
+
+        return (isDarkTheme, () => setIsDarkTheme(!isDarkTheme));
     }
 
     public static Color DarkBackground { get; } = Color.FromArgb("#FF17171C");

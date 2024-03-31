@@ -209,8 +209,7 @@ public class ThemeToggle : CapsuleConsumer
 {
     public override VisualNode Render(ICapsuleHandle use)
     {
-        var (isDarkTheme, setIsDarkTheme) = use.State(AppTheme.IsDarkTheme);
-        use.Effect(() => AppTheme.ToggleCurrentAppTheme, [isDarkTheme]);
+        var (isDarkTheme, toggleCurrentAppTheme) = use.Invoke(AppTheme.ThemeCapsule);
 
         return new CanvasView
         {
@@ -246,7 +245,7 @@ public class ThemeToggle : CapsuleConsumer
             .BackgroundColor(AppTheme.ButtonLowEmphasisBackground)
             .CornerRadius(16)
         }
-        .OnTapped(() => setIsDarkTheme(!isDarkTheme))
+        .OnTapped(toggleCurrentAppTheme)
         .Margin(16)
         .VCenter()
         .HCenter()
