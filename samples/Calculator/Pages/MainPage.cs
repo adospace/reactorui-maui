@@ -205,10 +205,13 @@ class MainPage : CapsuleConsumer
     }
 }
 
-public class ThemeToggle : Component
+public class ThemeToggle : CapsuleConsumer
 {
-    public override VisualNode Render()
+    public override VisualNode Render(ICapsuleHandle use)
     {
+        var (isDarkTheme, setIsDarkTheme) = use.State(AppTheme.IsDarkTheme);
+        use.Effect(() => AppTheme.ToggleCurrentAppTheme, [isDarkTheme]);
+
         return new CanvasView
         {
             new Box
@@ -223,12 +226,12 @@ public class ThemeToggle : Component
                     .Height(24)
                     .Width(24)
                     .Margin(4)
-                    .HorizontalAlignment(AppTheme.IsDarkTheme ? Microsoft.Maui.Primitives.LayoutAlignment.Start : Microsoft.Maui.Primitives.LayoutAlignment.End)
+                    .HorizontalAlignment(isDarkTheme ? Microsoft.Maui.Primitives.LayoutAlignment.Start : Microsoft.Maui.Primitives.LayoutAlignment.End)
                     .VCenter(),
                 
                     new Align
                     {
-                        AppTheme.IsDarkTheme ?
+                        isDarkTheme ?
                         new Picture("Calculator.Resources.Images.moon.png")
                         :
                         new Picture("Calculator.Resources.Images.sun.png"),
@@ -236,14 +239,14 @@ public class ThemeToggle : Component
                     .Height(24)
                     .Width(24)
                     .Margin(8,4)
-                    .HorizontalAlignment(AppTheme.IsDarkTheme ? Microsoft.Maui.Primitives.LayoutAlignment.End : Microsoft.Maui.Primitives.LayoutAlignment.Start)
+                    .HorizontalAlignment(isDarkTheme ? Microsoft.Maui.Primitives.LayoutAlignment.End : Microsoft.Maui.Primitives.LayoutAlignment.Start)
                     .VCenter()
                 }
             }
             .BackgroundColor(AppTheme.ButtonLowEmphasisBackground)
             .CornerRadius(16)
         }
-        .OnTapped(AppTheme.ToggleCurrentAppTheme)
+        .OnTapped(() => setIsDarkTheme(!isDarkTheme))
         .Margin(16)
         .VCenter()
         .HCenter()
