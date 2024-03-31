@@ -4,13 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Calculator.Resources.Styles;
 
 static class AppTheme
 {
-    public static bool IsDarkTheme => MauiControls.Application.Current?.UserAppTheme == Microsoft.Maui.ApplicationModel.AppTheme.Dark;
+    private static bool IsDarkTheme => MauiControls.Application.Current?.UserAppTheme == Microsoft.Maui.ApplicationModel.AppTheme.Dark;
+
+    private static bool IsDarkThemeCapsule(ICapsuleHandle use)
+    {
+        var (isDarkTheme, _) = use.Invoke(ThemeCapsule);
+        return isDarkTheme;
+    }
 
     public static (bool IsDarkTheme, Action ToggleCurrentAppTheme) ThemeCapsule(ICapsuleHandle use)
     {
@@ -46,6 +53,21 @@ static class AppTheme
     public static Color ButtonHighEmphasisBackground => IsDarkTheme ? DarkButtonHighEmphasis : LightButtonHighEmphasis;
     public static Color ButtonMediumEmphasisBackground => IsDarkTheme ? DarkButtonMediumEmphasis : LightButtonMediumEmphasis;
     public static Color ButtonLowEmphasisBackground => IsDarkTheme ? DarkButtonLowEmphasis : LightButtonLowEmphasis;
+
+    public static Color BackgroundCapsule(ICapsuleHandle use) =>
+        use.Invoke(IsDarkThemeCapsule) ? DarkBackground : LightBackground;
+
+    public static Color TextCapsule(ICapsuleHandle use) =>
+        use.Invoke(IsDarkThemeCapsule) ? DarkText : LightText;
+
+    public static Color ButtonHighEmphasisBackgroundCapsule(ICapsuleHandle use) =>
+        use.Invoke (IsDarkThemeCapsule) ? DarkButtonHighEmphasis : LightButtonHighEmphasis;
+
+    public static Color ButtonMediumEmphasisBackgroundCapsule(ICapsuleHandle use) =>
+        use.Invoke(IsDarkThemeCapsule) ? DarkButtonMediumEmphasis : LightButtonMediumEmphasis;
+
+    public static Color ButtonLowEmphasisBackgroundCapsule(ICapsuleHandle use) =>
+        use.Invoke(IsDarkThemeCapsule) ? DarkButtonLowEmphasis : LightButtonLowEmphasis;
 
 
     public static Label Label(string text)

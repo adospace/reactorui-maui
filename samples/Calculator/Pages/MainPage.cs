@@ -56,7 +56,7 @@ class MainPage : CapsuleConsumer
                     .GridRow(2),
             }
         }
-        .BackgroundColor(AppTheme.Background);
+        .BackgroundColor(use.Invoke(AppTheme.BackgroundCapsule));
     }
 
     VisualNode RenderDisplayPanel(MainPageState state)
@@ -256,7 +256,7 @@ public class ThemeToggle : CapsuleConsumer
 }
 
 
-public class KeyPad : Component
+public class KeyPad : CapsuleConsumer
 {
     private Action<string>? _keyPressedAction;
 
@@ -266,12 +266,14 @@ public class KeyPad : Component
         return this;
     }
 
-    public override VisualNode Render()
+    public override VisualNode Render(ICapsuleHandle use)
     {
+        var (isDarkTheme, _) = use.Invoke(AppTheme.ThemeCapsule);
+
         return new Grid()
         {
             RenderButtonMediumEmphasis("C", 0, 0),
-            RenderImageButtonMediumEmphasis(AppTheme.IsDarkTheme ? "plus_minus_white.png" : "plus_minus.png", "+-", 0, 1),
+            RenderImageButtonMediumEmphasis(isDarkTheme ? "plus_minus_white.png" : "plus_minus.png", "+-", 0, 1),
             RenderButtonMediumEmphasis("%", 0, 2),
             RenderButtonHighEmphasis("÷", 0, 3),
 
@@ -292,7 +294,7 @@ public class KeyPad : Component
 
             RenderButtonLowEmphasis(".", 4, 0),
             RenderButtonLowEmphasis("0", 4, 1),
-            RenderImageButtonLowEmphasis(AppTheme.IsDarkTheme ? "back_white.png" : "back.png", "back", 4, 2),
+            RenderImageButtonLowEmphasis(isDarkTheme ? "back_white.png" : "back.png", "back", 4, 2),
             RenderButtonHighEmphasis("=", 4, 3),
 
         }
