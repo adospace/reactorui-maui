@@ -30,7 +30,7 @@ static class AppTheme
         return (isDarkTheme, () => setIsDarkTheme(!isDarkTheme));
     }
 
-    private static bool IsDarkTheme(ICapsuleHandle use)
+    public static bool IsDarkTheme(ICapsuleHandle use)
     {
         var (isDarkTheme, _) = use.Invoke(ThemeCapsule);
         return isDarkTheme;

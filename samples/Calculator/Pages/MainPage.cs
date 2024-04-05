@@ -274,7 +274,7 @@ public class KeyPad : CapsuleConsumer
 
     public override VisualNode Render(ICapsuleHandle use)
     {
-        var (isDarkTheme, _) = use.Invoke(AppTheme.ThemeCapsule);
+        var isDarkTheme = use.Invoke(AppTheme.IsDarkTheme);
 
         return new Grid()
         {
