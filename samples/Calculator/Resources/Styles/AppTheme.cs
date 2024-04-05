@@ -11,28 +11,29 @@ namespace Calculator.Resources.Styles;
 
 static class AppTheme
 {
-    private static bool IsDarkTheme => MauiControls.Application.Current?.UserAppTheme == Microsoft.Maui.ApplicationModel.AppTheme.Dark;
-
-    private static bool IsDarkThemeCapsule(ICapsuleHandle use)
-    {
-        var (isDarkTheme, _) = use.Invoke(ThemeCapsule);
-        return isDarkTheme;
-    }
-
     public static (bool IsDarkTheme, Action ToggleCurrentAppTheme) ThemeCapsule(ICapsuleHandle use)
     {
-        var (isDarkTheme, setIsDarkTheme) = use.State(IsDarkTheme);
+        var (isDarkTheme, setIsDarkTheme) = use.State(false);
+
         use.Effect(() =>
         {
             if (MauiControls.Application.Current != null)
             {
-                MauiControls.Application.Current.UserAppTheme = isDarkTheme ? Microsoft.Maui.ApplicationModel.AppTheme.Dark : Microsoft.Maui.ApplicationModel.AppTheme.Light;
+                MauiControls.Application.Current.UserAppTheme = isDarkTheme ?
+                    Microsoft.Maui.ApplicationModel.AppTheme.Dark :
+                    Microsoft.Maui.ApplicationModel.AppTheme.Light;
             }
 
             return () => { };
         }, [MauiControls.Application.Current, isDarkTheme]);
 
         return (isDarkTheme, () => setIsDarkTheme(!isDarkTheme));
+    }
+
+    private static bool IsDarkTheme(ICapsuleHandle use)
+    {
+        var (isDarkTheme, _) = use.Invoke(ThemeCapsule);
+        return isDarkTheme;
     }
 
     public static Color DarkBackground { get; } = Color.FromArgb("#FF17171C");
@@ -48,42 +49,36 @@ static class AppTheme
     public static Color GeneralWhite { get; } = Color.FromArgb("#FFFFFFFF");
 
 
-    public static Color Background => IsDarkTheme ? DarkBackground : LightBackground;
-    public static Color Text => IsDarkTheme ? DarkText : LightText;
-    public static Color ButtonHighEmphasisBackground => IsDarkTheme ? DarkButtonHighEmphasis : LightButtonHighEmphasis;
-    public static Color ButtonMediumEmphasisBackground => IsDarkTheme ? DarkButtonMediumEmphasis : LightButtonMediumEmphasis;
-    public static Color ButtonLowEmphasisBackground => IsDarkTheme ? DarkButtonLowEmphasis : LightButtonLowEmphasis;
+    public static Color Background(ICapsuleHandle use) =>
+        IsDarkTheme(use) ? DarkBackground : LightBackground;
 
-    public static Color BackgroundCapsule(ICapsuleHandle use) =>
-        use.Invoke(IsDarkThemeCapsule) ? DarkBackground : LightBackground;
+    public static Color Text(ICapsuleHandle use) =>
+        IsDarkTheme(use) ? DarkText : LightText;
 
-    public static Color TextCapsule(ICapsuleHandle use) =>
-        use.Invoke(IsDarkThemeCapsule) ? DarkText : LightText;
+    public static Color ButtonHighEmphasisBackground(ICapsuleHandle use) =>
+        IsDarkTheme(use) ? DarkButtonHighEmphasis : LightButtonHighEmphasis;
 
-    public static Color ButtonHighEmphasisBackgroundCapsule(ICapsuleHandle use) =>
-        use.Invoke (IsDarkThemeCapsule) ? DarkButtonHighEmphasis : LightButtonHighEmphasis;
+    public static Color ButtonMediumEmphasisBackground(ICapsuleHandle use) =>
+        IsDarkTheme(use) ? DarkButtonMediumEmphasis : LightButtonMediumEmphasis;
 
-    public static Color ButtonMediumEmphasisBackgroundCapsule(ICapsuleHandle use) =>
-        use.Invoke(IsDarkThemeCapsule) ? DarkButtonMediumEmphasis : LightButtonMediumEmphasis;
-
-    public static Color ButtonLowEmphasisBackgroundCapsule(ICapsuleHandle use) =>
-        use.Invoke(IsDarkThemeCapsule) ? DarkButtonLowEmphasis : LightButtonLowEmphasis;
+    public static Color ButtonLowEmphasisBackground(ICapsuleHandle use) =>
+        IsDarkTheme(use) ? DarkButtonLowEmphasis : LightButtonLowEmphasis;
 
 
-    public static Label Label(string text)
+    public static Label Label(ICapsuleHandle use, string text)
         => new Label(text)
-            .TextColor(Text)
+            .TextColor(Text(use))
             .FontFamily("WorkSansLight");
 
-    public static Label Label(Func<string> textStateAction)
-        => new Label(textStateAction)
-            .TextColor(Text)
+    public static Label Label(ICapsuleHandle use, Func<string> textStateAction)
+    => new Label(textStateAction)
+            .TextColor(Text(use))
             .FontFamily("WorkSansLight");
 
-    public static Button Button(string text)
+    public static Button Button(ICapsuleHandle use, string text)
         => new Button(text)
             .FontFamily("WorkSansRegular")
-            .TextColor(Text)
+            .TextColor(Text(use))
             .CornerRadius(24)
             .FontSize(32);
 
@@ -103,26 +98,29 @@ static class AppTheme
                 .OnTapped(clickAction)
         };
 
-    public static Button ButtonHighEmphasis(string text)
-        => Button(text)
+    public static Button ButtonHighEmphasis(ICapsuleHandle use, string text)
+        => Button(use, text)
             .TextColor(GeneralWhite)
-            .BackgroundColor(ButtonHighEmphasisBackground);
+            .BackgroundColor(ButtonHighEmphasisBackground(use));
 
-    public static Button ButtonMediumEmphasis(string text)
-        => Button(text)
-            .BackgroundColor(ButtonMediumEmphasisBackground);
+    public static Button ButtonMediumEmphasis(ICapsuleHandle use, string text)
+        => Button(use, text)
+            .BackgroundColor(ButtonMediumEmphasisBackground(use));
 
-    public static Button ButtonLowEmphasis(string text)
-        => Button(text)
-            .BackgroundColor(ButtonLowEmphasisBackground);
+    public static Button ButtonLowEmphasis(ICapsuleHandle use, string text)
+        => Button(use, text)
+            .BackgroundColor(ButtonLowEmphasisBackground(use));
 
-    public static Grid ImageButtonHighEmphasis(string imageSource, Action? clickAction)
-        => ImageButton(imageSource, ButtonHighEmphasisBackground, clickAction);
+    public static Grid ImageButtonHighEmphasis(
+        ICapsuleHandle use, string imageSource, Action? clickAction)
+        => ImageButton(imageSource, ButtonHighEmphasisBackground(use), clickAction);
 
-    public static Grid ImageButtonMediumEmphasis(string imageSource, Action? clickAction)
-        => ImageButton(imageSource, ButtonMediumEmphasisBackground, clickAction);
+    public static Grid ImageButtonMediumEmphasis(
+        ICapsuleHandle use, string imageSource, Action? clickAction)
+        => ImageButton(imageSource, ButtonMediumEmphasisBackground(use), clickAction);
 
-    public static Grid ImageButtonLowEmphasis(string imageSource, Action? clickAction)
-        => ImageButton(imageSource, ButtonLowEmphasisBackground, clickAction);
+    public static Grid ImageButtonLowEmphasis(
+        ICapsuleHandle use, string imageSource, Action? clickAction)
+        => ImageButton(imageSource, ButtonLowEmphasisBackground(use), clickAction);
 
 }
