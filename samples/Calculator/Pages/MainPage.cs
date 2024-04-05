@@ -49,7 +49,7 @@ class MainPage : CapsuleConsumer
             {
                 new ThemeToggle(),
                 
-                RenderDisplayPanel(use, state),
+                RenderDisplayPanel(state),
 
                 new KeyPad()
                     .OnKeyPressed(key => OnKeyPressed(state, setState, key))
@@ -59,23 +59,29 @@ class MainPage : CapsuleConsumer
         .BackgroundColor(AppTheme.Background(use));
     }
 
-    VisualNode RenderDisplayPanel(ICapsuleHandle use, MainPageState state)
-    {
-        return new VStack(spacing: 0)
-        {
-            AppTheme.Label(use, ()=> $"{state.Number1} {state.CurrentOperation} {state.Number2}{(state.Perc ? "%" : string.Empty)}{(state.Result != null ? " =" : string.Empty)}")
-                .FontSize(40)
-                .TextColor(AppTheme.Text(use).WithAlpha(0.4f))
-                .HorizontalTextAlignment(TextAlignment.End),
+    DisplayPanel RenderDisplayPanel(MainPageState state) =>
+        new DisplayPanel(state);
 
-            AppTheme.Label(use, ()=> state.Result != null ? state.Result.Value.ToString() : state.CurrentNumber.Length > 0 ? state.CurrentNumber : "0")
-                .FontSize(63)
-                .HorizontalTextAlignment(TextAlignment.End)
+    private sealed class DisplayPanel(MainPageState state) : CapsuleConsumer
+    {
+        public override VisualNode Render(ICapsuleHandle use)
+        {
+            return new VStack(spacing: 0)
+            {
+                AppTheme.Label(use, ()=> $"{state.Number1} {state.CurrentOperation} {state.Number2}{(state.Perc ? "%" : string.Empty)}{(state.Result != null ? " =" : string.Empty)}")
+                    .FontSize(40)
+                    .TextColor(AppTheme.Text(use).WithAlpha(0.4f))
+                    .HorizontalTextAlignment(TextAlignment.End),
+
+                AppTheme.Label(use, ()=> state.Result != null ? state.Result.Value.ToString() : state.CurrentNumber.Length > 0 ? state.CurrentNumber : "0")
+                    .FontSize(63)
+                    .HorizontalTextAlignment(TextAlignment.End)
+            }
+            .Margin(20,0)
+            .GridRow(1)
+            .HFill()
+            .VEnd();
         }
-        .Margin(20,0)
-        .GridRow(1)
-        .HFill()
-        .VEnd();
     }
 
     void OnKeyPressed(MainPageState state, Action<MainPageState> setState, string key)
@@ -272,30 +278,30 @@ public class KeyPad : CapsuleConsumer
 
         return new Grid()
         {
-            RenderButtonMediumEmphasis(use, "C", 0, 0),
-            RenderImageButtonMediumEmphasis(use, isDarkTheme ? "plus_minus_white.png" : "plus_minus.png", "+-", 0, 1),
-            RenderButtonMediumEmphasis(use, "%", 0, 2),
-            RenderButtonHighEmphasis(use, "÷", 0, 3),
+            RenderButtonMediumEmphasis("C", 0, 0),
+            RenderImageButtonMediumEmphasis(isDarkTheme ? "plus_minus_white.png" : "plus_minus.png", "+-", 0, 1),
+            RenderButtonMediumEmphasis("%", 0, 2),
+            RenderButtonHighEmphasis("÷", 0, 3),
 
-            RenderButtonLowEmphasis(use, "7", 1, 0),
-            RenderButtonLowEmphasis(use, "8", 1, 1),
-            RenderButtonLowEmphasis(use, "9", 1, 2),
-            RenderButtonHighEmphasis(use, "×", 1, 3),
+            RenderButtonLowEmphasis("7", 1, 0),
+            RenderButtonLowEmphasis("8", 1, 1),
+            RenderButtonLowEmphasis("9", 1, 2),
+            RenderButtonHighEmphasis("×", 1, 3),
 
-            RenderButtonLowEmphasis(use, "4", 2, 0),
-            RenderButtonLowEmphasis(use, "5", 2, 1),
-            RenderButtonLowEmphasis(use, "6", 2, 2),
-            RenderButtonHighEmphasis(use, "-", 2, 3),
+            RenderButtonLowEmphasis("4", 2, 0),
+            RenderButtonLowEmphasis("5", 2, 1),
+            RenderButtonLowEmphasis("6", 2, 2),
+            RenderButtonHighEmphasis("-", 2, 3),
 
-            RenderButtonLowEmphasis(use, "1", 3, 0),
-            RenderButtonLowEmphasis(use, "2", 3, 1),
-            RenderButtonLowEmphasis(use, "3", 3, 2),
-            RenderButtonHighEmphasis(use, "+", 3, 3),
+            RenderButtonLowEmphasis("1", 3, 0),
+            RenderButtonLowEmphasis("2", 3, 1),
+            RenderButtonLowEmphasis("3", 3, 2),
+            RenderButtonHighEmphasis("+", 3, 3),
 
-            RenderButtonLowEmphasis(use, ".", 4, 0),
-            RenderButtonLowEmphasis(use, "0", 4, 1),
-            RenderImageButtonLowEmphasis(use, isDarkTheme ? "back_white.png" : "back.png", "back", 4, 2),
-            RenderButtonHighEmphasis(use, "=", 4, 3),
+            RenderButtonLowEmphasis(".", 4, 0),
+            RenderButtonLowEmphasis("0", 4, 1),
+            RenderImageButtonLowEmphasis(isDarkTheme ? "back_white.png" : "back.png", "back", 4, 2),
+            RenderButtonHighEmphasis("=", 4, 3),
 
         }
         .Rows("* * * * *")
@@ -307,32 +313,70 @@ public class KeyPad : CapsuleConsumer
         .HeightRequest(400);
     }
 
-    Button RenderButtonLowEmphasis(ICapsuleHandle use, string text, int row, int column)
+    ButtonLowEmphasis RenderButtonLowEmphasis(string text, int row, int column) =>
+        new ButtonLowEmphasis(text, row, column, _keyPressedAction);
+
+    private sealed class ButtonLowEmphasis(
+        string text, int row, int column, Action<string>? keyPressedAction) : CapsuleConsumer
+    { 
+        public override VisualNode Render(ICapsuleHandle use)
         => AppTheme.ButtonLowEmphasis(use, text)
         .GridRow(row)
         .GridColumn(column)
-        .OnClicked(() => _keyPressedAction?.Invoke(text));
+        .OnClicked(() => keyPressedAction?.Invoke(text));
+    }
 
-    Button RenderButtonMediumEmphasis(ICapsuleHandle use, string text, int row, int column)
+    ButtonMediumEmphasis RenderButtonMediumEmphasis(string text, int row, int column) =>
+        new ButtonMediumEmphasis(text, row, column, _keyPressedAction);
+
+    private sealed class ButtonMediumEmphasis(
+        string text, int row, int column, Action<string>? keyPressedAction) : CapsuleConsumer
+    {
+        public override VisualNode Render(ICapsuleHandle use)
         => AppTheme.ButtonMediumEmphasis(use, text)
         .GridRow(row)
         .GridColumn(column)
-        .OnClicked(() => _keyPressedAction?.Invoke(text));
+        .OnClicked(() => keyPressedAction?.Invoke(text));
+    }
 
-    Grid RenderImageButtonMediumEmphasis(ICapsuleHandle use, string imageSource, string text, int row, int column)
-        => AppTheme.ImageButtonMediumEmphasis(use, imageSource, () => _keyPressedAction?.Invoke(text))        
+    ImageButtonMediumEmphasis RenderImageButtonMediumEmphasis(
+        string imageSource, string text, int row, int column) =>
+        new ImageButtonMediumEmphasis(imageSource, text, row, column, _keyPressedAction);
+
+    private sealed class ImageButtonMediumEmphasis(
+        string imageSource, string text, int row, int column, Action<string>? keyPressedAction) : CapsuleConsumer
+    {
+        public override VisualNode Render(ICapsuleHandle use)
+        => AppTheme.ImageButtonMediumEmphasis(use, imageSource, () => keyPressedAction?.Invoke(text))
         .GridRow(row)
         .GridColumn(column);
+    }
 
-    Grid RenderImageButtonLowEmphasis(ICapsuleHandle use, string imageSource, string text, int row, int column)
-        => AppTheme.ImageButtonLowEmphasis(use, imageSource, () => _keyPressedAction?.Invoke(text))
+    ImageButtonLowEmphasis RenderImageButtonLowEmphasis(
+        string imageSource, string text, int row, int column) =>
+        new ImageButtonLowEmphasis(imageSource, text, row, column, _keyPressedAction);
+
+    private sealed class ImageButtonLowEmphasis(
+        string imageSource, string text, int row, int column, Action<string>? keyPressedAction) : CapsuleConsumer
+    {
+        public override VisualNode Render(ICapsuleHandle use)
+        => AppTheme.ImageButtonLowEmphasis(use, imageSource, () => keyPressedAction?.Invoke(text))
         .GridRow(row)
         .GridColumn(column);
+    }
 
-    Button RenderButtonHighEmphasis(ICapsuleHandle use, string text, int row, int column)
+    ButtonHighEmphasis RenderButtonHighEmphasis(
+        string text, int row, int column) =>
+        new ButtonHighEmphasis(text, row, column, _keyPressedAction);
+
+    private sealed class ButtonHighEmphasis(
+        string text, int row, int column, Action<string>? keyPressedAction) : CapsuleConsumer
+    {
+        public override VisualNode Render(ICapsuleHandle use)
         => AppTheme.ButtonHighEmphasis(use, text)
         .GridRow(row)
         .GridColumn(column)
-        .OnClicked(() => _keyPressedAction?.Invoke(text));
+        .OnClicked(() => keyPressedAction?.Invoke(text));
+    }
 
 }
