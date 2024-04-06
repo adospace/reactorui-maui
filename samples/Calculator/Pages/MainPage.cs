@@ -29,16 +29,6 @@ class MainPageState
 
 class MainPage : CapsuleConsumer
 {
-    protected override void OnMounted()
-    {
-        if (MauiControls.Application.Current != null)
-        {
-            MauiControls.Application.Current.RequestedThemeChanged += (sender, args) => Invalidate();
-        }
-        
-        base.OnMounted();
-    }
-
     public override VisualNode Render(ICapsuleHandle use)
     {
         var (state, setState) = use.State(new MainPageState());
