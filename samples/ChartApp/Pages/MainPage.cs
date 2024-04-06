@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using MauiReactor;
+using Rearch;
+using Rearch.Reactor.Components;
 
 namespace ChartApp.Pages;
 
@@ -26,12 +28,14 @@ class ChartPageState
 }
 
 
-class ChartPage : Component<ChartPageState>
+class ChartPage : CapsuleConsumer
 {
     static readonly Random _rnd = new();
 
-    public override VisualNode Render()
+    public override VisualNode Render(ICapsuleHandle use)
     {
+        var (values, setValues) = use.State<double[]>([2, 1, 2, 3, 2, 3, 3]);
+
         return new ContentPage("Chart Sample")
         {
             new Grid("* * Auto", "*")
@@ -41,7 +45,7 @@ class ChartPage : Component<ChartPageState>
                     {
                         new PolarLineSeries<double>
                         {
-                            Values = State.Values,
+                            Values = values,
                             Fill = null,
                             IsClosed = false
                         }
@@ -52,7 +56,7 @@ class ChartPage : Component<ChartPageState>
                     {
                         new LineSeries<double>
                         {
-                            Values = State.Values,
+                            Values = values,
                             Fill = null
                         }
                     })
@@ -64,13 +68,13 @@ class ChartPage : Component<ChartPageState>
                     .Minimum(2)
                     .Maximum(10)
                     .Margin(5)
-                    .Value(()=>State.Values.Length)
+                    .Value(()=>values.Length)
                     .OnValueChanged((s, args)=>
                     {
-                        SetState(s => s.Values =
+                        setValues(
                             Enumerable.Range(1, (int)args.NewValue)
                             .Select(_=>_rnd.NextDouble()*20.0)
-                            .ToArray(), false);
+                            .ToArray());
                     })
 
 
