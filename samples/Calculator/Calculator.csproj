@@ -43,12 +43,10 @@
     <EmbeddedResource Include="Resources\Images\sun.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MauiReactor.Canvas\MauiReactor.Canvas.csproj" />
-    <ProjectReference Include="..\..\src\MauiReactor\MauiReactor.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+    <PackageReference Include="Reactor.Maui.Canvas" Version="2.0.27" />
+    <PackageReference Include="Rearch.Reactor" Version="0.0.0-dev.4" />
   </ItemGroup>
 
 </Project>

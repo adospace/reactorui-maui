@@ -1,6 +1,6 @@
 ﻿using MauiReactor;
 using Calculator.Pages;
-
+using Rearch.Reactor.Components;
 
 namespace Calculator;
 
@@ -10,7 +10,7 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UseMauiReactorApp<MainPage>()
+            .UseRearchReactorApp<MainPage>()
 #if DEBUG
             .EnableMauiReactorHotReload()
 #endif

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Calculator.Resources.Styles;
 using MauiReactor;
 using MauiReactor.Canvas;
+using Rearch;
+using Rearch.Reactor.Components;
 
 namespace Calculator.Pages;
 
@@ -25,192 +27,186 @@ class MainPageState
     
 }
 
-class MainPage : Component<MainPageState>
+class MainPage : CapsuleConsumer
 {
-    protected override void OnMounted()
+    public override VisualNode Render(ICapsuleHandle use)
     {
-        if (MauiControls.Application.Current != null)
-        {
-            MauiControls.Application.Current.RequestedThemeChanged += (sender, args) => Invalidate();
-        }
-        
-        base.OnMounted();
-    }
+        var (state, setState) = use.State(new MainPageState());
 
-    public override VisualNode Render()
-    {
         return new ContentPage
         {
             new Grid("48 * 420", "*")
             {
                 new ThemeToggle(),
                 
-                RenderDisplayPanel(),
+                RenderDisplayPanel(state),
 
                 new KeyPad()
-                    .OnKeyPressed(OnKeyPressed)
+                    .OnKeyPressed(key => OnKeyPressed(state, setState, key))
                     .GridRow(2),
             }
         }
-        .BackgroundColor(AppTheme.Background);
+        .BackgroundColor(AppTheme.Background(use));
     }
 
-    VisualNode RenderDisplayPanel()
+    DisplayPanel RenderDisplayPanel(MainPageState state) =>
+        new DisplayPanel(state);
+
+    private sealed class DisplayPanel(MainPageState state) : CapsuleConsumer
     {
-        return new VStack(spacing: 0)
+        public override VisualNode Render(ICapsuleHandle use)
         {
-            AppTheme.Label(()=> $"{State.Number1} {State.CurrentOperation} {State.Number2}{(State.Perc ? "%" : string.Empty)}{(State.Result != null ? " =" : string.Empty)}")
-                .FontSize(40)
-                .TextColor(AppTheme.Text.WithAlpha(0.4f))
-                .HorizontalTextAlignment(TextAlignment.End),
+            return new VStack(spacing: 0)
+            {
+                AppTheme.Label(use, ()=> $"{state.Number1} {state.CurrentOperation} {state.Number2}{(state.Perc ? "%" : string.Empty)}{(state.Result != null ? " =" : string.Empty)}")
+                    .FontSize(40)
+                    .TextColor(AppTheme.Text(use).WithAlpha(0.4f))
+                    .HorizontalTextAlignment(TextAlignment.End),
 
-            AppTheme.Label(()=> State.Result != null ? State.Result.Value.ToString() : State.CurrentNumber.Length > 0 ? State.CurrentNumber : "0")
-                .FontSize(63)
-                .HorizontalTextAlignment(TextAlignment.End)
+                AppTheme.Label(use, ()=> state.Result != null ? state.Result.Value.ToString() : state.CurrentNumber.Length > 0 ? state.CurrentNumber : "0")
+                    .FontSize(63)
+                    .HorizontalTextAlignment(TextAlignment.End)
+            }
+            .Margin(20,0)
+            .GridRow(1)
+            .HFill()
+            .VEnd();
         }
-        .Margin(20,0)
-        .GridRow(1)
-        .HFill()
-        .VEnd();
     }
 
-    void OnKeyPressed(string key)
+    void OnKeyPressed(MainPageState state, Action<MainPageState> setState, string key)
     {
-        if (State.Result != null)
+        var newState = new MainPageState
+        {
+            CurrentNumber = state.CurrentNumber,
+            Number1 = state.Number1,
+            Number2 = state.Number2,
+            CurrentOperation = state.CurrentOperation,
+            Result = state.Result,
+            Perc = state.Perc,
+        };
+
+        if (newState.Result != null)
         {
             if (key == "÷" || key == "×" || key == "+" || key == "-")
             {
-                SetState(s =>
-                {
-                    s.Number1 = s.Result;
-                    s.Number2 = s.Result = null;
-                    s.CurrentOperation = key;
-                    s.CurrentNumber = string.Empty;
-                    s.Perc = false;
-                }, false);
+                newState.Number1 = newState.Result;
+                newState.Number2 = newState.Result = null;
+                newState.CurrentOperation = key;
+                newState.CurrentNumber = string.Empty;
+                newState.Perc = false;
             }
             else
             {
-                SetState(s =>
-                {
-                    s.Number1 = s.Number2 = s.Result = null;
-                    s.CurrentOperation = string.Empty;
-                    s.CurrentNumber = string.Empty;
-                    s.Perc = false;
-                }, false);
+                newState.Number1 = newState.Number2 = newState.Result = null;
+                newState.CurrentOperation = string.Empty;
+                newState.CurrentNumber = string.Empty;
+                newState.Perc = false;
             }
         };
 
 
         if (key == "back")
         {
-            if (State.CurrentNumber.Length > 0)
+            if (newState.CurrentNumber.Length > 0)
             {
-                SetState(s => s.CurrentNumber = s.CurrentNumber.Substring(0, s.CurrentNumber.Length - 1), false);
+                newState.CurrentNumber = newState.CurrentNumber.Substring(0, newState.CurrentNumber.Length - 1);
             }
         }
         else if (key == ".")
         {
-            if (State.CurrentNumber.Length > 0 && !State.CurrentNumber.Contains("."))
+            if (newState.CurrentNumber.Length > 0 && !newState.CurrentNumber.Contains("."))
             {
-                SetState(s => s.CurrentNumber += key, false);
+                newState.CurrentNumber += key;
             }
         }
         else if (key == "0")
         {
-            if (State.CurrentNumber.Length > 0)
+            if (newState.CurrentNumber.Length > 0)
             {
-                SetState(s => s.CurrentNumber += key, false);
+                newState.CurrentNumber += key;
             }
         }
         else if (key == "C")
         {
-            SetState(s => s.CurrentNumber = string.Empty);
+            newState.CurrentNumber = string.Empty;
         }
         else if (key == "=")
         {
-            if (State.CurrentOperation.Length > 0 && State.Number1 != null)
+            if (newState.CurrentOperation.Length > 0 && newState.Number1 != null)
             {
-                SetState(s =>
+                newState.Number2 = newState.CurrentNumber.Length > 0 ? double.Parse(newState.CurrentNumber) : 0.0;
+                switch (newState.CurrentOperation)
                 {
-                    s.Number2 = State.CurrentNumber.Length > 0 ? double.Parse(State.CurrentNumber) : 0.0;
-                    switch (s.CurrentOperation)
-                    {
-                        case "÷":
-                            s.Result = s.Number1!.Value / s.Number2.Value;
-                            break;
-                        case "×":
-                            s.Result = s.Number1!.Value * s.Number2.Value;
-                            break;
-                        case "+":
-                            s.Result = s.Number1!.Value + s.Number2.Value;
-                            break;
-                        case "-":
-                            s.Result = s.Number1!.Value - s.Number2.Value;
-                            break;
-                    }
-                }, false);
+                    case "÷":
+                        newState.Result = newState.Number1!.Value / newState.Number2.Value;
+                        break;
+                    case "×":
+                        newState.Result = newState.Number1!.Value * newState.Number2.Value;
+                        break;
+                    case "+":
+                        newState.Result = newState.Number1!.Value + newState.Number2.Value;
+                        break;
+                    case "-":
+                        newState.Result = newState.Number1!.Value - newState.Number2.Value;
+                        break;
+                }
             }
         }
         else if (key == "%")
         {
-            if (State.CurrentOperation.Length > 0 && State.Number1 != null)
+            if (newState.CurrentOperation.Length > 0 && newState.Number1 != null)
             {
-                SetState(s =>
+                newState.Number2 = newState.CurrentNumber.Length > 0 ? double.Parse(newState.CurrentNumber) : 0.0;
+                newState.Perc = true;
+                switch (newState.CurrentOperation)
                 {
-                    s.Number2 = State.CurrentNumber.Length > 0 ? double.Parse(State.CurrentNumber) : 0.0;
-                    s.Perc = true;
-                    switch (s.CurrentOperation)
-                    {
-                        case "÷":
-                            s.Result = s.Number1!.Value / (s.Number2.Value / 100.0) * s.Number1!.Value;
-                            break;
-                        case "×":
-                            s.Result = s.Number1!.Value * (s.Number2.Value / 100.0) * s.Number1!.Value;
-                            break;
-                        case "+":
-                            s.Result = s.Number1!.Value + (s.Number2.Value / 100.0) * s.Number1!.Value;
-                            break;
-                        case "-":
-                            s.Result = s.Number1!.Value - (s.Number2.Value / 100.0) * s.Number1!.Value;
-                            break;
-                    }
-                }, false);
+                    case "÷":
+                        newState.Result = newState.Number1!.Value / (newState.Number2.Value / 100.0) * newState.Number1!.Value;
+                        break;
+                    case "×":
+                        newState.Result = newState.Number1!.Value * (newState.Number2.Value / 100.0) * newState.Number1!.Value;
+                        break;
+                    case "+":
+                        newState.Result = newState.Number1!.Value + (newState.Number2.Value / 100.0) * newState.Number1!.Value;
+                        break;
+                    case "-":
+                        newState.Result = newState.Number1!.Value - (newState.Number2.Value / 100.0) * newState.Number1!.Value;
+                        break;
+                }
             }
         }
         else if (key == "+-")
         {
-            if (State.CurrentNumber.Length > 0)
+            if (newState.CurrentNumber.Length > 0)
             {
-                SetState(s => s.CurrentNumber = s.CurrentNumber.StartsWith("-") ? s.CurrentNumber = s.CurrentNumber.Substring(1) : "-" + s.CurrentNumber, false);
+                newState.CurrentNumber = newState.CurrentNumber.StartsWith("-") ? newState.CurrentNumber = newState.CurrentNumber.Substring(1) : "-" + newState.CurrentNumber;
             }
         }
         else if (key == "÷" || key == "×" || key == "+" || key == "-")
         {
-            if (State.CurrentOperation.Length == 0 && State.CurrentNumber.Length > 0)
+            if (newState.CurrentOperation.Length == 0 && newState.CurrentNumber.Length > 0)
             {
-                SetState(s =>
-                {
-                    s.CurrentOperation = key;
-                    s.Number1 = double.Parse(s.CurrentNumber);
-                    s.CurrentNumber = string.Empty;
-                }, false);
+                newState.CurrentOperation = key;
+                newState.Number1 = double.Parse(newState.CurrentNumber);
+                newState.CurrentNumber = string.Empty;
             }
         }
         else
         {
-            SetState(s =>
-            {
-                s.CurrentNumber += key;
-            }, false);
+            newState.CurrentNumber += key;
         }
+
+        setState(newState);
     }
 }
 
-public class ThemeToggle : Component
+public class ThemeToggle : CapsuleConsumer
 {
-    public override VisualNode Render()
+    public override VisualNode Render(ICapsuleHandle use)
     {
+        var (isDarkTheme, toggleCurrentAppTheme) = use.Invoke(AppTheme.ThemeCapsule);
+
         return new CanvasView
         {
             new Box
@@ -220,17 +216,17 @@ public class ThemeToggle : Component
                     new Align
                     {
                         new Ellipse()
-                            .FillColor(AppTheme.ButtonMediumEmphasisBackground)
+                            .FillColor(AppTheme.ButtonMediumEmphasisBackground(use))
                     }
                     .Height(24)
                     .Width(24)
                     .Margin(4)
-                    .HorizontalAlignment(AppTheme.IsDarkTheme ? Microsoft.Maui.Primitives.LayoutAlignment.Start : Microsoft.Maui.Primitives.LayoutAlignment.End)
+                    .HorizontalAlignment(isDarkTheme ? Microsoft.Maui.Primitives.LayoutAlignment.Start : Microsoft.Maui.Primitives.LayoutAlignment.End)
                     .VCenter(),
                 
                     new Align
                     {
-                        AppTheme.IsDarkTheme ?
+                        isDarkTheme ?
                         new Picture("Calculator.Resources.Images.moon.png")
                         :
                         new Picture("Calculator.Resources.Images.sun.png"),
@@ -238,14 +234,14 @@ public class ThemeToggle : Component
                     .Height(24)
                     .Width(24)
                     .Margin(8,4)
-                    .HorizontalAlignment(AppTheme.IsDarkTheme ? Microsoft.Maui.Primitives.LayoutAlignment.End : Microsoft.Maui.Primitives.LayoutAlignment.Start)
+                    .HorizontalAlignment(isDarkTheme ? Microsoft.Maui.Primitives.LayoutAlignment.End : Microsoft.Maui.Primitives.LayoutAlignment.Start)
                     .VCenter()
                 }
             }
-            .BackgroundColor(AppTheme.ButtonLowEmphasisBackground)
+            .BackgroundColor(AppTheme.ButtonLowEmphasisBackground(use))
             .CornerRadius(16)
         }
-        .OnTapped(AppTheme.ToggleCurrentAppTheme)
+        .OnTapped(toggleCurrentAppTheme)
         .Margin(16)
         .VCenter()
         .HCenter()
@@ -256,7 +252,7 @@ public class ThemeToggle : Component
 }
 
 
-public class KeyPad : Component
+public class KeyPad : CapsuleConsumer
 {
     private Action<string>? _keyPressedAction;
 
@@ -266,12 +262,14 @@ public class KeyPad : Component
         return this;
     }
 
-    public override VisualNode Render()
+    public override VisualNode Render(ICapsuleHandle use)
     {
+        var isDarkTheme = use.Invoke(AppTheme.IsDarkTheme);
+
         return new Grid()
         {
             RenderButtonMediumEmphasis("C", 0, 0),
-            RenderImageButtonMediumEmphasis(AppTheme.IsDarkTheme ? "plus_minus_white.png" : "plus_minus.png", "+-", 0, 1),
+            RenderImageButtonMediumEmphasis(isDarkTheme ? "plus_minus_white.png" : "plus_minus.png", "+-", 0, 1),
             RenderButtonMediumEmphasis("%", 0, 2),
             RenderButtonHighEmphasis("÷", 0, 3),
 
@@ -292,7 +290,7 @@ public class KeyPad : Component
 
             RenderButtonLowEmphasis(".", 4, 0),
             RenderButtonLowEmphasis("0", 4, 1),
-            RenderImageButtonLowEmphasis(AppTheme.IsDarkTheme ? "back_white.png" : "back.png", "back", 4, 2),
+            RenderImageButtonLowEmphasis(isDarkTheme ? "back_white.png" : "back.png", "back", 4, 2),
             RenderButtonHighEmphasis("=", 4, 3),
 
         }
@@ -305,32 +303,70 @@ public class KeyPad : Component
         .HeightRequest(400);
     }
 
-    Button RenderButtonLowEmphasis(string text, int row, int column)
-        => AppTheme.ButtonLowEmphasis(text)
+    ButtonLowEmphasis RenderButtonLowEmphasis(string text, int row, int column) =>
+        new ButtonLowEmphasis(text, row, column, _keyPressedAction);
+
+    private sealed class ButtonLowEmphasis(
+        string text, int row, int column, Action<string>? keyPressedAction) : CapsuleConsumer
+    { 
+        public override VisualNode Render(ICapsuleHandle use)
+        => AppTheme.ButtonLowEmphasis(use, text)
         .GridRow(row)
         .GridColumn(column)
-        .OnClicked(() => _keyPressedAction?.Invoke(text));
+        .OnClicked(() => keyPressedAction?.Invoke(text));
+    }
 
-    Button RenderButtonMediumEmphasis(string text, int row, int column)
-        => AppTheme.ButtonMediumEmphasis(text)
+    ButtonMediumEmphasis RenderButtonMediumEmphasis(string text, int row, int column) =>
+        new ButtonMediumEmphasis(text, row, column, _keyPressedAction);
+
+    private sealed class ButtonMediumEmphasis(
+        string text, int row, int column, Action<string>? keyPressedAction) : CapsuleConsumer
+    {
+        public override VisualNode Render(ICapsuleHandle use)
+        => AppTheme.ButtonMediumEmphasis(use, text)
         .GridRow(row)
         .GridColumn(column)
-        .OnClicked(() => _keyPressedAction?.Invoke(text));
+        .OnClicked(() => keyPressedAction?.Invoke(text));
+    }
 
-    Grid RenderImageButtonMediumEmphasis(string imageSource, string text, int row, int column)
-        => AppTheme.ImageButtonMediumEmphasis(imageSource, () => _keyPressedAction?.Invoke(text))        
+    ImageButtonMediumEmphasis RenderImageButtonMediumEmphasis(
+        string imageSource, string text, int row, int column) =>
+        new ImageButtonMediumEmphasis(imageSource, text, row, column, _keyPressedAction);
+
+    private sealed class ImageButtonMediumEmphasis(
+        string imageSource, string text, int row, int column, Action<string>? keyPressedAction) : CapsuleConsumer
+    {
+        public override VisualNode Render(ICapsuleHandle use)
+        => AppTheme.ImageButtonMediumEmphasis(use, imageSource, () => keyPressedAction?.Invoke(text))
         .GridRow(row)
         .GridColumn(column);
+    }
 
-    Grid RenderImageButtonLowEmphasis(string imageSource, string text, int row, int column)
-        => AppTheme.ImageButtonLowEmphasis(imageSource, () => _keyPressedAction?.Invoke(text))
+    ImageButtonLowEmphasis RenderImageButtonLowEmphasis(
+        string imageSource, string text, int row, int column) =>
+        new ImageButtonLowEmphasis(imageSource, text, row, column, _keyPressedAction);
+
+    private sealed class ImageButtonLowEmphasis(
+        string imageSource, string text, int row, int column, Action<string>? keyPressedAction) : CapsuleConsumer
+    {
+        public override VisualNode Render(ICapsuleHandle use)
+        => AppTheme.ImageButtonLowEmphasis(use, imageSource, () => keyPressedAction?.Invoke(text))
         .GridRow(row)
         .GridColumn(column);
+    }
 
-    Button RenderButtonHighEmphasis(string text, int row, int column)
-        => AppTheme.ButtonHighEmphasis(text)
+    ButtonHighEmphasis RenderButtonHighEmphasis(
+        string text, int row, int column) =>
+        new ButtonHighEmphasis(text, row, column, _keyPressedAction);
+
+    private sealed class ButtonHighEmphasis(
+        string text, int row, int column, Action<string>? keyPressedAction) : CapsuleConsumer
+    {
+        public override VisualNode Render(ICapsuleHandle use)
+        => AppTheme.ButtonHighEmphasis(use, text)
         .GridRow(row)
         .GridColumn(column)
-        .OnClicked(() => _keyPressedAction?.Invoke(text));
+        .OnClicked(() => keyPressedAction?.Invoke(text));
+    }
 
 }
