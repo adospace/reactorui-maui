@@ -29,8 +29,8 @@ class CarouselTestPage : Component
                 .HCenter()
                 .VCenter()
                 .IndicatorTemplate(() => new Label("Test"))
-                .VisualState("CommonStates", "Normal", MauiControls.Label.TextColorProperty, Colors.Black)
-                .VisualState("CommonStates", "Selected", MauiControls.Label.TextColorProperty, Colors.White)
+                .IndicatorVisualState("CommonStates", "Normal", MauiControls.Label.TextColorProperty, Colors.Black)
+                .IndicatorVisualState("CommonStates", "Selected", MauiControls.Label.TextColorProperty, Colors.White)
                 .GridRow(1),
             }
         }

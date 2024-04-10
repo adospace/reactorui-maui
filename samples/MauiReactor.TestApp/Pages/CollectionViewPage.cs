@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.Maui.Controls.VisualStateManager;
 
 namespace MauiReactor.TestApp.Pages
 {
@@ -23,7 +24,10 @@ namespace MauiReactor.TestApp.Pages
             {
                 new CollectionView()
                     .AutomationId("list") //AutomationId used for test
+                    .SelectionMode(MauiControls.SelectionMode.Single)
                     .ItemsSource(ItemsSource, RenderItem)
+                    .ItemVisualState(nameof(CommonStates), CommonStates.Normal, MauiControls.VisualElement.BackgroundColorProperty, Colors.Transparent)
+                    .ItemVisualState(nameof(CommonStates), CommonStates.Selected, MauiControls.VisualElement.BackgroundColorProperty, Colors.LightCoral)
             };
         }
 
@@ -32,6 +36,7 @@ namespace MauiReactor.TestApp.Pages
                 VStack(spacing: 5,
                     Label(item.Item1).AutomationId(item.Item1), //AutomationId used for test
                     Label(item.Item2)
+
                 ).AutomationId($"Container_{item.Item1}")
                )
                .RightItems([

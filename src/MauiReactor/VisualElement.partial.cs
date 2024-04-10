@@ -157,26 +157,13 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T VisualState<T>(this T itemsview, string groupName, string stateName, BindableProperty property, object? value, string? targetName = null) where T : IVisualElement
+    public static T VisualState<T>(this T visualElement, string groupName, string stateName, BindableProperty? property = null, object? value = null, string? targetName = null) where T : IVisualElement
     {
-        itemsview.VisualStateGroups ??= [];
+        visualElement.VisualStateGroups ??= [];
 
-        itemsview.VisualStateGroups.TryGetValue(groupName, out var group);
+        visualElement.VisualStateGroups.Set(groupName, stateName, property, value, targetName);
 
-        if (group == null)
-        {
-            itemsview.VisualStateGroups.Add(groupName, group = []);
-        }
-
-        group.TryGetValue(stateName, out var state);
-        if (state == null)
-        {
-            group.Add(stateName, state = []);
-        }
-
-        state.Add(new VisualStatePropertySetter(property, value, targetName));
-
-        return itemsview;
+        return visualElement;
     }
 
     public static T VisualState<T>(this T itemsview, VisualStateGroupList visualState) where T : IVisualElement
@@ -201,15 +188,8 @@ public static class VisualElementNativeExtensions
     }
 }
 
-//public class VisualStateNamedGroup
-//{
-//    public const string Common = "CommonStates";
-//}
-
 public class VisualStateGroupList : Dictionary<string, VisualStateGroup>
 {
-    private static Microsoft.Maui.Controls.VisualStateGroupList? _cachedNativeGroupList;
-
     private Microsoft.Maui.Controls.VisualStateGroupList CreateNativeGroupList()
     {
         var groupList = new Microsoft.Maui.Controls.VisualStateGroupList();
@@ -218,14 +198,17 @@ public class VisualStateGroupList : Dictionary<string, VisualStateGroup>
         {
             var group = new Microsoft.Maui.Controls.VisualStateGroup() { Name = groupEntry.Key };
 
-            foreach (var stateEntry in group.States)
+            foreach (var stateEntry in groupEntry.Value)
             {
-                var state = new Microsoft.Maui.Controls.VisualState() { Name = stateEntry.Name };
+                var state = new Microsoft.Maui.Controls.VisualState() { Name = stateEntry.Key };
 
-                foreach (var setterEntry in state.Setters)
+                foreach (var setterEntry in stateEntry.Value)
                 {
-                    var setter = new Setter { Property = setterEntry.Property, Value = setterEntry.Value, TargetName = setterEntry.TargetName };
-                    state.Setters.Add(setter);
+                    if (setterEntry.Property != null)
+                    {
+                        var setter = new Setter { Property = setterEntry.Property, Value = setterEntry.Value, TargetName = setterEntry.TargetName };
+                        state.Setters.Add(setter);
+                    }
                 }
 
                 group.States.Add(state);
@@ -237,11 +220,6 @@ public class VisualStateGroupList : Dictionary<string, VisualStateGroup>
         return groupList;
     }
 
-    private Microsoft.Maui.Controls.VisualStateGroupList ToNativeVisualStateGroupList()
-    {
-        return _cachedNativeGroupList ??= CreateNativeGroupList();
-    }
-
     internal void SetToVisualElement(VisualElement? visualElement)
     {
         if (visualElement == null)
@@ -249,14 +227,35 @@ public class VisualStateGroupList : Dictionary<string, VisualStateGroup>
             return;
         }
 
+        //NOTE: Visual state groups can't be cached
+
         var existingVisualStateGroups = VisualStateManager.GetVisualStateGroups(visualElement);
-        if (existingVisualStateGroups == null ||
-            _cachedNativeGroupList == null ||
-            existingVisualStateGroups != _cachedNativeGroupList)
+        if (existingVisualStateGroups?.Count == 0)
         {
-            VisualStateManager.SetVisualStateGroups(visualElement, ToNativeVisualStateGroupList());
+            VisualStateManager.SetVisualStateGroups(visualElement, CreateNativeGroupList());
         }
     }
+
+    internal VisualStateGroupList Set(string groupName, string stateName, BindableProperty? property = null, object? value = null, string? targetName = null)
+    {
+        TryGetValue(groupName, out var group);
+
+        if (group == null)
+        {
+            Add(groupName, group = []);
+        }
+
+        group.TryGetValue(stateName, out var state);
+        if (state == null)
+        {
+            group.Add(stateName, state = []);
+        }
+
+        state.Add(new VisualStatePropertySetter(property, value, targetName));
+
+        return this;
+    }
+
 }
 
 public class VisualStateGroup : Dictionary<string, VisualState>
@@ -269,9 +268,9 @@ public class VisualState : List<VisualStatePropertySetter>
 
 }
 
-public class VisualStatePropertySetter(BindableProperty property, object? value, string? targetName)
+public class VisualStatePropertySetter(BindableProperty? property, object? value, string? targetName)
 {
-    public BindableProperty Property { get; set; } = property;
+    public BindableProperty? Property { get; set; } = property;
     public object? Value { get; set; } = value;
     public string? TargetName { get; set; } = targetName;
 }

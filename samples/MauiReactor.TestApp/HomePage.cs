@@ -140,6 +140,10 @@ class HomePage : Component
             {
                 new PickerPage()
             },
+            new FlyoutItem("Visual State Test  Page")
+            {
+                new VisualStateTestPage()
+            },
         }
         .ItemTemplate(RenderItemTemplate);
     }

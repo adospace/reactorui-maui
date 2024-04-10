@@ -31,7 +31,7 @@ namespace MauiReactor.Scaffold
                 "Boolean" => "bool",
                 "Decimal" => "decimal",
                 "String" => "string",
-                "Object" => "object",
+                "Object" => "object?",
                 _ => typename,
             };
         }
@@ -54,7 +54,7 @@ namespace MauiReactor.Scaffold
                 "System.Boolean" => "bool",
                 "System.Decimal" => "decimal",
                 "System.String" => "string",
-                "System.Object" => "object",
+                "System.Object" => "object?",
                 _ => fulltypename.Replace('+', '.'),
             };
         }

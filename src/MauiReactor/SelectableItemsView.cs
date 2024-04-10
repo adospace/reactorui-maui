@@ -139,17 +139,17 @@ public static partial class SelectableItemsViewExtensions
         return selectableItemsView;
     }
 
-    public static T SelectedItem<T>(this T selectableItemsView, object selectedItem)
+    public static T SelectedItem<T>(this T selectableItemsView, object? selectedItem)
         where T : ISelectableItemsView
     {
         selectableItemsView.SelectedItem = selectedItem;
         return selectableItemsView;
     }
 
-    public static T SelectedItem<T>(this T selectableItemsView, Func<object> selectedItemFunc)
+    public static T SelectedItem<T>(this T selectableItemsView, Func<object?> selectedItemFunc)
         where T : ISelectableItemsView
     {
-        selectableItemsView.SelectedItem = new PropertyValue<object>(selectedItemFunc);
+        selectableItemsView.SelectedItem = new PropertyValue<object?>(selectedItemFunc);
         return selectableItemsView;
     }
 
