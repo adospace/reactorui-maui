@@ -249,24 +249,11 @@ public static partial class ItemsViewExtensions
         return itemsView;
     }
 
-    public static T ItemVisualState<T>(this T itemsView, string groupName, string stateName, BindableProperty property, object? value, string? targetName = null) where T : IItemsView
+    public static T ItemVisualState<T>(this T itemsView, string groupName, string stateName, BindableProperty? property = null, object? value = null, string? targetName = null) where T : IItemsView
     {
         itemsView.ItemVisualStateGroups ??= [];
 
-        itemsView.ItemVisualStateGroups.TryGetValue(groupName, out var group);
-
-        if (group == null)
-        {
-            itemsView.ItemVisualStateGroups.Add(groupName, group = []);
-        }
-
-        group.TryGetValue(stateName, out var state);
-        if (state == null)
-        {
-            group.Add(stateName, state = []);
-        }
-
-        state.Add(new VisualStatePropertySetter(property, value, targetName));
+        itemsView.ItemVisualStateGroups.Set(groupName, stateName, property, value, targetName);
 
         return itemsView;
     }

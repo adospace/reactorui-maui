@@ -31,7 +31,7 @@ internal static class StringExtensions
             "Boolean" => "bool",
             "Decimal" => "decimal",
             "String" => "string",
-            "Object" => "object",
+            "Object" => "object?",
             _ => typeName,
         };
     }
@@ -54,7 +54,7 @@ internal static class StringExtensions
             "System.Boolean" => "bool",
             "System.Decimal" => "decimal",
             "System.String" => "string",
-            "System.Object" => "object",
+            "System.Object" => "object?",
             _ => fullTypeName.Replace('+', '.'),
         };
     }

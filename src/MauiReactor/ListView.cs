@@ -328,17 +328,17 @@ public static partial class ListViewExtensions
         return listView;
     }
 
-    public static T SelectedItem<T>(this T listView, object selectedItem)
+    public static T SelectedItem<T>(this T listView, object? selectedItem)
         where T : IListView
     {
         listView.SelectedItem = selectedItem;
         return listView;
     }
 
-    public static T SelectedItem<T>(this T listView, Func<object> selectedItemFunc)
+    public static T SelectedItem<T>(this T listView, Func<object?> selectedItemFunc)
         where T : IListView
     {
-        listView.SelectedItem = new PropertyValue<object>(selectedItemFunc);
+        listView.SelectedItem = new PropertyValue<object?>(selectedItemFunc);
         return listView;
     }
 

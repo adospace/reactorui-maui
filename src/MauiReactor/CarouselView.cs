@@ -283,17 +283,17 @@ public static partial class CarouselViewExtensions
         return carouselView;
     }
 
-    public static T CurrentItem<T>(this T carouselView, object currentItem)
+    public static T CurrentItem<T>(this T carouselView, object? currentItem)
         where T : ICarouselView
     {
         carouselView.CurrentItem = currentItem;
         return carouselView;
     }
 
-    public static T CurrentItem<T>(this T carouselView, Func<object> currentItemFunc)
+    public static T CurrentItem<T>(this T carouselView, Func<object?> currentItemFunc)
         where T : ICarouselView
     {
-        carouselView.CurrentItem = new PropertyValue<object>(currentItemFunc);
+        carouselView.CurrentItem = new PropertyValue<object?>(currentItemFunc);
         return carouselView;
     }
 

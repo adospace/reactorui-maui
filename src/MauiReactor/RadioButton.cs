@@ -205,17 +205,17 @@ public static partial class RadioButtonExtensions
     static void SetCharacterSpacing(object radioButton, RxAnimation animation) => ((IRadioButton)radioButton).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
     static void SetFontSize(object radioButton, RxAnimation animation) => ((IRadioButton)radioButton).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
     static void SetBorderWidth(object radioButton, RxAnimation animation) => ((IRadioButton)radioButton).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
-    public static T Value<T>(this T radioButton, object value)
+    public static T Value<T>(this T radioButton, object? value)
         where T : IRadioButton
     {
         radioButton.Value = value;
         return radioButton;
     }
 
-    public static T Value<T>(this T radioButton, Func<object> valueFunc)
+    public static T Value<T>(this T radioButton, Func<object?> valueFunc)
         where T : IRadioButton
     {
-        radioButton.Value = new PropertyValue<object>(valueFunc);
+        radioButton.Value = new PropertyValue<object?>(valueFunc);
         return radioButton;
     }
 
