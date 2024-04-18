@@ -33,7 +33,11 @@ namespace <#= Namespace #>
     <# } #>
 
     <# foreach (var property in Properties) { #>
+        <# if (Helper.IsNewModifierUsed(property)) { #>
+        new object? <#= property.Name #> { get; set; }
+        <# } else { #>
         object? <#= property.Name #> { get; set; }
+        <# } #>
     <# } #>
 
     <# foreach (var ev in Events) { 
