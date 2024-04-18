@@ -102,4 +102,70 @@ static class Helper
         }
     }
 
+    public static bool IsNewModifierUsed(this IFieldSymbol fieldSymbol)
+    {
+        //if (fieldSymbol.IsStatic)
+        //{
+        //    // Static members do not participate in inheritance
+        //    return false;
+        //}
+
+        var containingType = fieldSymbol.ContainingType;
+        if (containingType.BaseType == null)
+        {
+            // No base type, so no member can be hidden
+            return false;
+        }
+
+        var baseTypeMembers = containingType.BaseType.GetMembers(fieldSymbol.Name);
+        foreach (var member in baseTypeMembers)
+        {
+            if (member.Kind == SymbolKind.Field)
+            {
+                var baseField = (IFieldSymbol)member;
+                if (baseField.Type.Equals(fieldSymbol.Type, SymbolEqualityComparer.Default))
+                {
+                    // Found a field with the same name and type in the base type, so `new` is used.
+                    return true;
+                }
+            }
+        }
+
+        // No matching field found in the base type
+        return false;
+    }
+    public static bool IsNewModifierUsed(this IPropertySymbol propertySymbol)
+    {
+        var containingType = propertySymbol.ContainingType;
+        if (containingType.BaseType == null)
+        {
+            // No base type, so no member can be hidden
+            return false;
+        }
+
+        INamedTypeSymbol? currentBaseType = containingType.BaseType;
+        while (currentBaseType != null)
+        {
+            // This loop traverses up the inheritance chain, which might be necessary
+            // for correctly assessing hiding across multiple levels of inheritance
+            foreach (var member in currentBaseType.GetMembers(propertySymbol.Name))
+            {
+                if (member.Kind == SymbolKind.Property)
+                {
+                    var baseProperty = (IPropertySymbol)member;
+                    // You could refine this comparison based on your requirements
+                    // For a more accurate match, you might want to compare parameters for indexers, etc.
+                    if (SymbolEqualityComparer.Default.Equals(baseProperty.Type, propertySymbol.Type))
+                    {
+                        // Found a property with the same name and type in the base type, so `new` is used.
+                        return true;
+                    }
+                }
+            }
+            currentBaseType = currentBaseType.BaseType;
+        }
+
+        // No matching property found in the base type or any ancestor type
+        return false;
+    }
 }

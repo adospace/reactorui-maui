@@ -192,6 +192,7 @@ public partial class ScaffoldTypeGenerator
         {
             return baseType.Name
                 .Replace("PlatformBehavior", "Behavior")
+                .Replace("BaseBehavior", "Behavior")
                 .Replace("`1", string.Empty);
         }
 
