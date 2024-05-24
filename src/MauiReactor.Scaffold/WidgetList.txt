@@ -129,4 +129,4 @@ Microsoft.Maui.Controls.Window
 Microsoft.Maui.Controls.Behavior
 Microsoft.Maui.Controls.Behavior`1
 
-Microsoft.Maui.Controls.PlatformBehavior`1
+//Microsoft.Maui.Controls.PlatformBehavior`1

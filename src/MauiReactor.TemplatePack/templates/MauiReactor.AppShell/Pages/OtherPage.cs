@@ -10,7 +10,7 @@ class OtherPage : Component
                 VStack(
                     Label("Other Page")
                         .FontSize(32)
-                        .HCenter(),
+                        .HCenter()
                 )
                 .VCenter()
                 .Spacing(25)
