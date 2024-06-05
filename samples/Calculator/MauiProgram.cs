@@ -1,5 +1,6 @@
 ﻿using MauiReactor;
 using Calculator.Pages;
+using Calculator.Resources.Styles;
 
 
 namespace Calculator;
@@ -10,7 +11,10 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UseMauiReactorApp<MainPage>()
+            .UseMauiReactorApp<MainPage>(app =>
+             {
+                 app.UseTheme<AppTheme>();
+             })
 #if DEBUG
             .EnableMauiReactorHotReload()
 #endif

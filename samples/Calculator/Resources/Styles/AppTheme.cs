@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Calculator.Resources.Styles;
 
-static class AppTheme
+class AppTheme : Theme
 {
-    public static bool IsDarkTheme => MauiControls.Application.Current?.UserAppTheme == Microsoft.Maui.ApplicationModel.AppTheme.Dark;
+    //public static bool IsDarkTheme => MauiControls.Application.Current?.UserAppTheme == Microsoft.Maui.ApplicationModel.AppTheme.Dark;
 
     public static void ToggleCurrentAppTheme()
     {
@@ -38,16 +38,12 @@ static class AppTheme
     public static Color ButtonMediumEmphasisBackground => IsDarkTheme ? DarkButtonMediumEmphasis : LightButtonMediumEmphasis;
     public static Color ButtonLowEmphasisBackground => IsDarkTheme ? DarkButtonLowEmphasis : LightButtonLowEmphasis;
 
-
-    public static Label Label(string text)
-        => new Label(text)
-            .TextColor(Text)
-            .FontFamily("WorkSansLight");
-
-    public static Label Label(Func<string> textStateAction)
-        => new Label(textStateAction)
-            .TextColor(Text)
-            .FontFamily("WorkSansLight");
+    public static class Selector
+    {
+        public const string HighEmphasis = nameof(HighEmphasis);
+        public const string MediumEmphasis = nameof(MediumEmphasis);
+        public const string LowEmphasis = nameof(LowEmphasis);
+    }
 
     public static Button Button(string text)
         => new Button(text)
@@ -57,8 +53,8 @@ static class AppTheme
             .FontSize(32);
 
     public static Grid ImageButton(string imageSource, Color backgroundColor, Action? clickAction)
-        => new()
-        {
+        =>
+        [
             new Button()
                 .CornerRadius(24)
                 .BackgroundColor(backgroundColor)
@@ -70,20 +66,7 @@ static class AppTheme
                 .VCenter()
                 .Aspect(Aspect.Center) 
                 .OnTapped(clickAction)
-        };
-
-    public static Button ButtonHighEmphasis(string text)
-        => Button(text)
-            .TextColor(GeneralWhite)
-            .BackgroundColor(ButtonHighEmphasisBackground);
-
-    public static Button ButtonMediumEmphasis(string text)
-        => Button(text)
-            .BackgroundColor(ButtonMediumEmphasisBackground);
-
-    public static Button ButtonLowEmphasis(string text)
-        => Button(text)
-            .BackgroundColor(ButtonLowEmphasisBackground);
+        ];
 
     public static Grid ImageButtonHighEmphasis(string imageSource, Action? clickAction)
         => ImageButton(imageSource, ButtonHighEmphasisBackground, clickAction);
@@ -94,4 +77,26 @@ static class AppTheme
     public static Grid ImageButtonLowEmphasis(string imageSource, Action? clickAction)
         => ImageButton(imageSource, ButtonLowEmphasisBackground, clickAction);
 
+    protected override void OnApply()
+    {
+        LabelStyles.Default = _ => _
+            .FontFamily("WorkSansLight")
+            .TextColor(Text);
+
+        ButtonStyles.Default = _ => _
+            .FontFamily("WorkSansRegular")
+            .TextColor(Text)
+            .CornerRadius(24)
+            .FontSize(32);
+
+        ButtonStyles.Themes[Selector.HighEmphasis] = _ => _
+            .TextColor(GeneralWhite)
+            .BackgroundColor(ButtonHighEmphasisBackground);
+
+        ButtonStyles.Themes[Selector.MediumEmphasis] = _ => _
+            .BackgroundColor(ButtonMediumEmphasisBackground);
+
+        ButtonStyles.Themes[Selector.LowEmphasis] = _ => _
+            .BackgroundColor(ButtonLowEmphasisBackground);
+    }
 }
