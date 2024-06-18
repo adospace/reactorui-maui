@@ -277,7 +277,7 @@ namespace MauiReactor
             {
                 if (_props != null)
                 {
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException("Unable to set props on new component: Has Props been accessed from constructor?");
                 }
 
                 _props = (P)value;
@@ -346,7 +346,7 @@ namespace MauiReactor
             {
                 if (_state != null)
                 {
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException("Unable to set State on new component: Has State been accessed from constructor?");
                 }
                 _state = (S)value;
             }

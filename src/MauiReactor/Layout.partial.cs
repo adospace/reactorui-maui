@@ -10,7 +10,20 @@ public abstract partial class Layout<T>
 
         if (childControl is Microsoft.Maui.IView control)
         {
-            NativeControl.Children.Insert(widget.ChildIndex, control);
+            //NOTE: Even if not advisable a component author could decide to returns
+            //      null in the OnRender() overload.
+            //      In that case the number of children in the NativeControl couldn't
+            //      match the list of children in the visual tree.
+            //      Let's tolerate it just appending the controls at the end of the list.
+            //      OnRemoveChild() belowe soens't use the ChildIndex so no problem
+            if (widget.ChildIndex < NativeControl.Children.Count)
+            {
+                NativeControl.Children.Insert(widget.ChildIndex, control);
+            }
+            else
+            {
+                NativeControl.Children.Add(control);
+            }
         }
 
         base.OnAddChild(widget, childControl);
