@@ -1,4 +1,5 @@
 ﻿using MauiReactor.Internals;
+using Microsoft.Maui.Platform;
 using System.Collections;
 
 namespace MauiReactor;
@@ -78,7 +79,7 @@ public partial class Shell<T> : IEnumerable
 
         private VisualNode _root;
 
-        private VisualNode Root
+        internal VisualNode Root
         {
             get => _root;
             set
@@ -98,6 +99,7 @@ public partial class Shell<T> : IEnumerable
         {
             return ((IVisualNode)_owner).GetPageHost();
         }
+
         protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
         {
             Validate.EnsureNotNull(_presenter);
@@ -124,6 +126,12 @@ public partial class Shell<T> : IEnumerable
             Layout();
             base.OnLayoutCycleRequested();
         }
+
+        internal void UpdateLayout()
+        {
+            Invalidate();
+        }
+
     }
 
     private class ItemTemplatePresenter : Microsoft.Maui.Controls.ContentView
@@ -140,26 +148,40 @@ public partial class Shell<T> : IEnumerable
 
         protected override void OnBindingContextChanged()
         {
-            if (BindingContext != null)
+            UpdateLayout();
+            base.OnBindingContextChanged();
+        }
+
+        internal void UpdateLayout()
+        {
+            var item = BindingContext;
+
+            if (item == null)
             {
-                var item = BindingContext;
-
-                var owner = _template.Owner;
-                var ownerAsIShell = (IShell)owner;
-                var newRoot = _useMenuItemTemplate ? 
-                    //unfortunately seems there is not other way to get the underlying MenuItem, anyway shouldn't be a problem for performance as menu items are generally not so many
-                    ownerAsIShell.MenuItemTemplate?.Invoke((Microsoft.Maui.Controls.MenuItem)(item.GetType().GetProperty("MenuItem").EnsureNotNull().GetValue(item).EnsureNotNull()))
-                    :
-                    ownerAsIShell.ItemTemplate?.Invoke((Microsoft.Maui.Controls.BaseShellItem)item);
-
-                if (newRoot != null)
-                {
-                    _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template.Owner);
-                    _itemTemplateNode.Layout();
-                }                
+                return;
             }
 
-            base.OnBindingContextChanged();
+            var owner = _template.Owner;
+            var ownerAsIShell = (IShell)owner;
+            var newRoot = _useMenuItemTemplate ?
+                //unfortunately seems there is not other way to get the underlying MenuItem, anyway shouldn't be a problem for performance as menu items are generally not so many
+                ownerAsIShell.MenuItemTemplate?.Invoke((Microsoft.Maui.Controls.MenuItem)(item.GetType().GetProperty("MenuItem").EnsureNotNull().GetValue(item).EnsureNotNull()))
+                :
+                ownerAsIShell.ItemTemplate?.Invoke((Microsoft.Maui.Controls.BaseShellItem)item);
+
+            if (newRoot != null)
+            {
+                if (_itemTemplateNode == null)
+                {
+                    _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template.Owner);
+                }
+                else
+                {
+                    _itemTemplateNode.Root = newRoot;
+                }
+
+                _itemTemplateNode.Layout();
+            }
         }
     }
 
@@ -168,12 +190,27 @@ public partial class Shell<T> : IEnumerable
         public DataTemplate DataTemplate { get; }
         public Shell<T> Owner { get; set; }
 
+        public List<ItemTemplatePresenter> ItemTemplatePresenters { get; } = [];
+
         public CustomDataTemplate(Shell<T> owner, bool useMenuItemTemplate)
         {
             Owner = owner;
-            DataTemplate = new DataTemplate(() => new ItemTemplatePresenter(this, useMenuItemTemplate));
+            DataTemplate = new DataTemplate(() =>
+            {
+                var presenter = new ItemTemplatePresenter(this, useMenuItemTemplate);
+                ItemTemplatePresenters.Add(presenter);
+                return presenter;
+            });
         }
-    }        
+
+        internal void UpdateLayout()
+        {
+            foreach (var presenter in ItemTemplatePresenters)
+            {
+                presenter.UpdateLayout();
+            }
+        }
+    }
 
     partial void OnBeginUpdate()
     {
@@ -182,14 +219,28 @@ public partial class Shell<T> : IEnumerable
 
         if (thisAsIShell.ItemTemplate != null)
         {
-            _customDataTemplate = new CustomDataTemplate(this, false);
-            NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
+            if (NativeControl.ItemTemplate == null || _customDataTemplate == null)
+            {
+                _customDataTemplate = new CustomDataTemplate(this, false);
+                NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
+            }
+            else
+            {
+                _customDataTemplate.UpdateLayout();
+            }
         }
 
         if (thisAsIShell.MenuItemTemplate != null)
         {
-            _customMenuItemDataTemplate = new CustomDataTemplate(this, true);
-            NativeControl.MenuItemTemplate = _customMenuItemDataTemplate.DataTemplate;
+            if (NativeControl.MenuItemTemplate == null || _customMenuItemDataTemplate == null)
+            {
+                _customMenuItemDataTemplate = new CustomDataTemplate(this, false);
+                NativeControl.MenuItemTemplate = _customMenuItemDataTemplate.DataTemplate;
+            }
+            else
+            {
+                _customMenuItemDataTemplate.UpdateLayout();
+            }
         }
     }
 
