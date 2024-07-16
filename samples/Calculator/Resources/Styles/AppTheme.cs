@@ -9,8 +9,6 @@ namespace Calculator.Resources.Styles;
 
 class AppTheme : Theme
 {
-    //public static bool IsDarkTheme => MauiControls.Application.Current?.UserAppTheme == Microsoft.Maui.ApplicationModel.AppTheme.Dark;
-
     public static void ToggleCurrentAppTheme()
     {
         if (MauiControls.Application.Current != null)

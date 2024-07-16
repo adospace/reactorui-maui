@@ -293,8 +293,19 @@ namespace MauiReactor.HotReloadConsole
 
             var serverPort = IsAndroidTargetFramework() ? 45820 : 45821;
 
-            Console.Write($"Connecting to Hot-Reload server (Port: {serverPort})...");
-            await tcpClient.ConnectAsync(IPAddress.Loopback, serverPort, cancellationToken);
+
+            var hostAddress = IPAddress.Loopback;
+            if (!string.IsNullOrWhiteSpace(_options.Host))
+            {
+                if (!IPAddress.TryParse(_options.Host, out hostAddress))
+                {
+                    throw new InvalidOperationException($"Invalid host ip: {_options.Host}");
+                }    
+            }
+
+            Console.Write($"Connecting to Hot-Reload server ({hostAddress}:{serverPort})...");
+
+            await tcpClient.ConnectAsync(hostAddress, serverPort, cancellationToken);
 
             Console.WriteLine($"connected.");
 

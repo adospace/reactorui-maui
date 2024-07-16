@@ -1,5 +1,8 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using CommandLine;
+using System.ComponentModel;
+using System.Globalization;
+using System.Net;
 
 namespace MauiReactor.HotReloadConsole
 {
@@ -17,6 +20,9 @@ namespace MauiReactor.HotReloadConsole
         [Option('m', "mode", HelpText = "Slim(default) or Full")]
         public CompilationMode CompilationMode { get; set; }
 
+        [Option('h', "host", HelpText = "Identify the remote host running the emulator")]
+        public string? Host { get; set; }
+
     }
 
     public enum CompilationMode
@@ -26,5 +32,30 @@ namespace MauiReactor.HotReloadConsole
         Full,
 
         //Auto TODO
+    }
+
+    class IPAddressConverter : TypeConverter
+    {
+        public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
+        {
+            if (sourceType == typeof(string))
+            {
+                return true;
+            }
+            return base.CanConvertFrom(context, sourceType);
+        }
+
+        public override object? ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object value)
+        {
+            if (value is string stringValue)
+            {
+                if (IPAddress.TryParse(stringValue, out var address))
+                {
+                    return address;
+                }
+                throw new FormatException($"{stringValue} is not a valid IP address");
+            }
+            return base.ConvertFrom(context, culture, value);
+        }
     }
 }

@@ -12,15 +12,18 @@ public interface ITemplateHost
     BindableObject? NativeElement { get; }
 }
 
-public class TemplateHost : VisualNode, ITemplateHost
+public class TemplateHost : VisualNode, ITemplateHost, IVisualNode, IHostElement
 {
     private readonly VisualNode _root;
-    
+    private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
+    private bool _layoutCallEnqueued;
+    private bool _started;
+
     public TemplateHost(VisualNode root)
     {
         _root = root;
 
-        Layout();
+        Run();
     }
 
     public static ITemplateHost Create(VisualNode root)
@@ -40,17 +43,10 @@ public class TemplateHost : VisualNode, ITemplateHost
     internal static void FireLayoutCycleExecuted(object? sender)
         => LayoutCycleExecuted?.Invoke(sender, EventArgs.Empty);
 
-    //event EventHandler? ITemplateHost.LayoutCycleExecuted
-    //{
-    //    add
-    //    {
-    //        _layoutCycleExecuted += value;
-    //    }
-    //    remove
-    //    {
-    //        _layoutCycleExecuted -= value;
-    //    }
-    //}
+    IHostElement? IVisualNode.GetPageHost()
+    {
+        return this;
+    }
 
     protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
     {
@@ -68,10 +64,114 @@ public class TemplateHost : VisualNode, ITemplateHost
 
     protected internal override void OnLayoutCycleRequested()
     {
-        Layout();
-        FireLayoutCycleExecuted(this);
+        if (_started && Application.Current != null)
+        {
+            if (_layoutCallEnqueued)
+            {
+                System.Diagnostics.Debug.WriteLine("_layoutCallEnqueued");
+            }
+            else
+            {
+                _layoutCallEnqueued = true;
+                Application.Current.Dispatcher.Dispatch(OnLayout);
+            }
+        }
+
         base.OnLayoutCycleRequested();
     }
+
+    private void OnLayout()
+    {
+        _layoutCallEnqueued = false;
+
+        if (!_started)
+        {
+            return;
+        }
+
+        try
+        {
+            Layout();
+
+            if (_listOfVisualsToAnimate.Count > 0)
+            {
+                AnimationCallback();
+            }
+
+            FireLayoutCycleExecuted(this);
+        }
+        catch (Exception ex)
+        {
+            ReactorApplicationHost.FireUnhandledExceptionEvent(ex);
+            System.Diagnostics.Debug.WriteLine(ex);
+        }
+    }
+
+    public IHostElement Run()
+    {
+        _started = true;
+
+        OnLayout();
+
+
+        return this;
+    }
+
+    public void Stop()
+    {
+        _started = false;
+    }
+
+    public void RequestAnimationFrame(VisualNode visualNode)
+    {
+        _listOfVisualsToAnimate.AddFirst(visualNode);
+    }
+
+    private void AnimationCallback()
+    {
+        DateTime now = DateTime.Now;
+        if (Application.Current != null && AnimateVisuals())
+        {
+            //System.Diagnostics.Debug.WriteLine($"{(DateTime.Now - now).TotalMilliseconds}");
+            var elapsedMilliseconds = (DateTime.Now - now).TotalMilliseconds;
+            if (elapsedMilliseconds > 16)
+            {
+                System.Diagnostics.Debug.WriteLine("[MauiReactor] FPS WARNING");
+                Application.Current.Dispatcher.Dispatch(AnimationCallback);
+            }
+            else
+            {
+                Application.Current.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(16 - elapsedMilliseconds), AnimationCallback);
+            }
+        }
+    }
+
+    private bool AnimateVisuals()
+    {
+        if (_listOfVisualsToAnimate.Count == 0)
+            return false;
+
+        bool animated = false;
+        LinkedListNode<VisualNode>? nodeToAnimate = _listOfVisualsToAnimate.First;
+        while (nodeToAnimate != null)
+        {
+            var nextNode = nodeToAnimate.Next;
+
+            if (nodeToAnimate.Value.Animate())
+            {
+                animated = true;
+            }
+            else
+            {
+                _listOfVisualsToAnimate.Remove(nodeToAnimate);
+            }
+
+            nodeToAnimate = nextNode;
+        }
+
+        return animated;
+    }
+
 }
 
 public static class TemplateHostExtensions

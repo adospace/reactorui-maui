@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using CommandLine;
+using System.ComponentModel;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
