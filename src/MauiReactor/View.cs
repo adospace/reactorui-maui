@@ -130,7 +130,7 @@ public static partial class ViewExtensions
         return view;
     }
 
-    public static T Margin<T>(this T view, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
+    public static T Margin<T>(this T view, double leftRight = 0, double topBottom = 0, RxThicknessAnimation? customAnimation = null)
         where T : IView
     {
         view.Margin = new Thickness(leftRight, topBottom);
@@ -146,7 +146,7 @@ public static partial class ViewExtensions
         return view;
     }
 
-    public static T Margin<T>(this T view, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
+    public static T Margin<T>(this T view, double left = 0, double top = 0, double right = 0, double bottom = 0, RxThicknessAnimation? customAnimation = null)
         where T : IView
     {
         view.Margin = new Thickness(left, top, right, bottom);
