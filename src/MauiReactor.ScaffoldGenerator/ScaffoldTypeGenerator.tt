@@ -175,7 +175,14 @@ namespace <#= Namespace #>
         {
             Validate.EnsureNotNull(NativeControl);
 
-            var itemsSource = NativeControl.ItemsSource.Cast<object>().ToArray();
+            var nativeControlItemsSource = NativeControl.ItemsSource as IEnumerable;
+
+            if (nativeControlItemsSource == null)
+            {
+                return;
+            }
+
+            var itemsSource = nativeControlItemsSource.Cast<object>().ToArray();
 
             _loadedForciblyChildren = new();
 
