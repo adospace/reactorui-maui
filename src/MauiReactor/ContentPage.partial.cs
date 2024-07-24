@@ -9,20 +9,6 @@ public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : M
     {
 
     }
-}
-
-public partial class ContentPage
-{
-    public ContentPage(string title)
-        : base(title)
-    {
-
-    }
-
-    public ContentPage(VisualNode content)
-    {
-        _internalChildren.Add(content);
-    }
 
     protected override void OnAddChild(VisualNode widget, BindableObject childControl)
     {
@@ -47,6 +33,21 @@ public partial class ContentPage
 
         base.OnRemoveChild(widget, childControl);
     }
+}
+
+public partial class ContentPage
+{
+    public ContentPage(string title)
+        : base(title)
+    {
+
+    }
+
+    public ContentPage(VisualNode content)
+    {
+        _internalChildren.Add(content);
+    }
+
 }
 
 public partial class Component
