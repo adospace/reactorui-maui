@@ -94,6 +94,40 @@ public static partial class PictureExtensions
         return node;
     }
 
+    public static T Source<T>(this T node, Stream stream) where T : IPicture
+    {
+#if WINDOWS
+        var service = new Microsoft.Maui.Graphics.Win2D.W2DImageLoadingService();
+        Microsoft.Maui.Graphics.IImage? image = service.FromStream(stream);
+#else
+        Microsoft.Maui.Graphics.IImage? image = Microsoft.Maui.Graphics.Platform.PlatformImage.FromStream(stream);
+#endif
+
+        node.Source = new PropertyValue<Microsoft.Maui.Graphics.IImage?>(image);
+        return node;
+    }
+
+    public static T Source<T>(this T node, Func<Stream?> valueFunc) where T : IPicture
+    {
+        node.Source = new PropertyValue<Microsoft.Maui.Graphics.IImage?>(()=>
+        { 
+            var stream = valueFunc.Invoke();
+            if (stream == null)
+            {
+                return null;
+            }
+
+    #if WINDOWS
+            var service = new Microsoft.Maui.Graphics.Win2D.W2DImageLoadingService();
+            return  service.FromStream(stream);
+    #else
+            return Microsoft.Maui.Graphics.Platform.PlatformImage.FromStream(stream);
+    #endif
+            
+        });
+        return node;
+    }
+
     private static Microsoft.Maui.Graphics.IImage? LoadImage(string? imageSource, bool cacheImage, Assembly resourceAssembly)
     {
         if (imageSource == null)
@@ -177,15 +211,4 @@ public static partial class PictureExtensions
         return appBuilder;
     }
 
-    //public static T Aspect<T>(this T node, Aspect value) where T : IPicture
-    //{
-    //    node.Aspect = new PropertyValue<Aspect>(value);
-    //    return node;
-    //}
-
-    //public static T Aspect<T>(this T node, Func<Aspect> valueFunc) where T : IPicture
-    //{
-    //    node.Aspect = new PropertyValue<Aspect>(valueFunc);
-    //    return node;
-    //}
 }

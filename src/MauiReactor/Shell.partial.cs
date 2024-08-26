@@ -460,8 +460,8 @@ public static class MauiControlsShellExtensions
                 else
                 {
                     var convertedProps = new P();
-                    CopyObjectExtensions.CopyProperties(props, convertedProps);
                     propsInitializer(convertedProps);
+                    CopyObjectExtensions.CopyProperties(convertedProps, props);
                 }
             }), shell));
             await shell.GoToAsync(typeof(T).FullName);

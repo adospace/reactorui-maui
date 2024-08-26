@@ -71,6 +71,7 @@ public partial class ScaffoldTypeGenerator
         Events = typeToScaffold.GetMembers()
             .Where(_ => _.Kind == SymbolKind.Event)
             .Cast<IEventSymbol>()
+            .Where(_ => _.Type.Name != "Func")
             .Where(_ => !_.Name.Contains('.'))
             .Where(_ => (_.ContainingType is INamedTypeSymbol namedTypeSymbol) && namedTypeSymbol.GetFullyQualifiedName() == typeToScaffold.GetFullyQualifiedName())
             .Where(_ => !_.GetAttributes().Any(_ => _.AttributeClass.EnsureNotNull().Equals(editorBrowsableAttribute, SymbolEqualityComparer.Default)))
@@ -230,10 +231,10 @@ public partial class ScaffoldTypeGenerator
         var invokeMember = (IMethodSymbol)ev.Type.GetMembers().First(_ => _.Name == "Invoke");
         if (invokeMember.Parameters.Length == 1)
         {
-            return $"private void NativeControl_{ev.Name}({invokeMember.Parameters[0].Type.GetFullyQualifiedName()} sender)";
+            return $"private void NativeControl_{ev.Name}(global::{invokeMember.Parameters[0].Type.GetFullyQualifiedName()} sender)";
         }
 
-        return $"private void NativeControl_{ev.Name}({invokeMember.Parameters[0].Type.GetFullyQualifiedName()} sender, {invokeMember.Parameters[1].Type.GetFullyQualifiedName()} e)";
+        return $"private void NativeControl_{ev.Name}({invokeMember.Parameters[0].Type.GetFullyQualifiedName()} sender, global::{invokeMember.Parameters[1].Type.GetFullyQualifiedName()} e)";
     }
 
     private string GetDelegateInvokeDescriptor(IEventSymbol ev)
@@ -262,10 +263,10 @@ public partial class ScaffoldTypeGenerator
         var invokeMember = (IMethodSymbol)ev.Type.GetMembers().First(_ => _.Name == "Invoke");
         if (invokeMember.Parameters.Length == 1)
         {
-            return $"{invokeMember.Parameters[0].Type.GetFullyQualifiedName()}";
+            return $"global::{invokeMember.Parameters[0].Type.GetFullyQualifiedName()}";
         }
 
-        return $"{invokeMember.Parameters[0].Type.GetFullyQualifiedName()}, {invokeMember.Parameters[1].Type.GetFullyQualifiedName()}";
+        return $"{invokeMember.Parameters[0].Type.GetFullyQualifiedName()}, global::{invokeMember.Parameters[1].Type.GetFullyQualifiedName()}";
 
     }
 

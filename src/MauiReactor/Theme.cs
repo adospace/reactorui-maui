@@ -12,7 +12,18 @@ public abstract class Theme
 
     public static AppTheme RequestedTheme => Application.Current?.RequestedTheme ?? AppTheme.Unspecified;
 
-    public static AppTheme UserTheme => Application.Current?.UserAppTheme ?? AppTheme.Unspecified;
+    public static AppTheme UserTheme
+    {
+        get => Application.Current?.UserAppTheme ?? AppTheme.Unspecified;
+        set
+        {
+            var currentApplication = Application.Current;
+            if (currentApplication != null)
+            {
+                currentApplication.UserAppTheme = value;
+            }
+        }
+    }
 
     public static bool IsDarkTheme => CurrentAppTheme == AppTheme.Dark;
     public static bool IsLightTheme => CurrentAppTheme == AppTheme.Light;

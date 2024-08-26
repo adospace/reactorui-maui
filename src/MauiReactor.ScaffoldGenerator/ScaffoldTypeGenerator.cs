@@ -241,7 +241,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" where T : ");
+            this.Write(" where T : global::");
             
             #line 53 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -311,7 +311,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" where T : ");
+            this.Write(" where T : global::");
             
             #line 66 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -451,7 +451,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" where T : ");
+            this.Write(" where T : global::");
             
             #line 90 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -522,7 +522,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(" where T : ");
+            this.Write(" where T : global::");
             
             #line 103 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -1599,7 +1599,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("<");
+            this.Write("<global::");
             
             #line 420 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -1620,7 +1620,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("(Action<");
+            this.Write("(Action<global::");
             
             #line 427 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
@@ -1670,7 +1670,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("(Action<");
+            this.Write("(Action<global::");
             
             #line 443 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));

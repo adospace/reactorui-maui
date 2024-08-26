@@ -50,7 +50,7 @@ namespace <#= Namespace #>
     }
 
     <# if (IsBaseGenericType) { #>
-    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T, <#= GenericArgumentBaseFullBaseTypeName #>>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #> where T : <#= FullTypeName #>, new()
+    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T, <#= GenericArgumentBaseFullBaseTypeName #>>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #> where T : global::<#= FullTypeName #>, new()
     {
         public <#= TypeName #>()
         { 
@@ -63,7 +63,7 @@ namespace <#= Namespace #>
             <#= TypeName #>Styles.Default?.Invoke(this);
         }
     <# } else if (IsGenericType) { #>
-    public abstract partial class <#= TypeName #><T, TChild> : <#= BaseTypeName() #><T>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner" : string.Empty #> where T : <#= FullTypeName #><TChild>, new() where TChild : <#= GenericArgumentBaseFullTypeName #>
+    public abstract partial class <#= TypeName #><T, TChild> : <#= BaseTypeName() #><T>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner" : string.Empty #> where T : global::<#= FullTypeName #><TChild>, new() where TChild : <#= GenericArgumentBaseFullTypeName #>
     {
         public <#= TypeName #>()
         { 
@@ -87,7 +87,7 @@ namespace <#= Namespace #>
             <#= TypeName #>Styles.Default?.Invoke(this);
         }
     <# } else if (IsTypeNotAbstractWithEmptyConstructor) { #>
-    public partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #> where T : <#= FullTypeName #>, new()
+    public partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #> where T : global::<#= FullTypeName #>, new()
     {
         public <#= TypeName #>()
         { 
@@ -100,7 +100,7 @@ namespace <#= Namespace #>
             <#= TypeName #>Styles.Default?.Invoke(this);
         }
     <# } else { #>
-    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #> <#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #> where T : <#= FullTypeName #>, new()
+    public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #> <#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #> where T : global::<#= FullTypeName #>, new()
     {
         protected <#= TypeName #>()
         { 
@@ -417,14 +417,14 @@ namespace <#= Namespace #>
     }
 
     <# if (IsTypeNotAbstractWithEmptyConstructor && !IsTypeSealed) { #>
-    public partial class <#= TypeName #> : <#= TypeName #><<#= FullTypeName #>>
+    public partial class <#= TypeName #> : <#= TypeName #><global::<#= FullTypeName #>>
     {
         public <#= TypeName #>()
         { 
         
         }
 
-        public <#= TypeName #>(Action<<#= FullTypeName #>?> componentRefAction)
+        public <#= TypeName #>(Action<global::<#= FullTypeName #>?> componentRefAction)
             : base(componentRefAction)
         {
 
@@ -440,7 +440,7 @@ namespace <#= Namespace #>
         
         }
 
-        public <#= GeneratorType.Name #>(Action<<#= FullTypeName #>?> componentRefAction)
+        public <#= GeneratorType.Name #>(Action<global::<#= FullTypeName #>?> componentRefAction)
             : base(componentRefAction)
         {
 
