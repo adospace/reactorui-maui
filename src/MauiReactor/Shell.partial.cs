@@ -422,7 +422,7 @@ public static class MauiControlsShellExtensions
 
     internal static Stack<Microsoft.Maui.Controls.Shell> _shellStack = [];
 
-    public static async Task GoToAsync<P>(this Microsoft.Maui.Controls.Shell shell, string route, Action<P> propsInitializer) where P : new()
+    public static async Task GoToAsync<P>(this Microsoft.Maui.Controls.Shell shell, string route, Action<P> propsInitializer, bool? animate = null) where P : new()
     {
         try
         {
@@ -439,7 +439,15 @@ public static class MauiControlsShellExtensions
                     propsInitializer(convertedProps);
                 }
             }), shell));
-            await shell.GoToAsync(route);
+
+            if (animate == null)
+            {
+                await shell.GoToAsync(route);
+            }
+            else
+            {
+                await shell.GoToAsync(route, animate.Value);
+            }
         }
         finally
         {
@@ -447,7 +455,7 @@ public static class MauiControlsShellExtensions
         }
     }
     
-    public static async Task GoToAsync<T, P>(this Microsoft.Maui.Controls.Shell shell, Action<P> propsInitializer) where P : new()
+    public static async Task GoToAsync<T, P>(this Microsoft.Maui.Controls.Shell shell, Action<P> propsInitializer, bool? animate = null) where P : new()
     {
         try
         {
@@ -464,7 +472,15 @@ public static class MauiControlsShellExtensions
                     CopyObjectExtensions.CopyProperties(convertedProps, props);
                 }
             }), shell));
-            await shell.GoToAsync(typeof(T).FullName);
+
+            if (animate == null)
+            {
+                await shell.GoToAsync(typeof(T).FullName);
+            }
+            else
+            {
+                await shell.GoToAsync(typeof(T).FullName, animate.Value);
+            }
         }
         finally
         {
@@ -472,12 +488,20 @@ public static class MauiControlsShellExtensions
         }
     }
 
-    public static async Task GoToAsync<T>(this Microsoft.Maui.Controls.Shell shell, string? route = null) where T : Component, new()
+    public static async Task GoToAsync<T>(this Microsoft.Maui.Controls.Shell shell, string? route = null, bool? animate = null) where T : Component, new()
     {
         try
         {
             _shellStack.Push(shell);
-            await shell.GoToAsync(route ?? typeof(T).FullName);
+
+            if (animate == null)
+            {
+                await shell.GoToAsync(route ?? typeof(T).FullName);
+            }
+            else
+            {
+                await shell.GoToAsync(route ?? typeof(T).FullName, animate.Value);
+            }
         }
         finally
         {
