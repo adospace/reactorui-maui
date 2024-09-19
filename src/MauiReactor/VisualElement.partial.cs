@@ -44,10 +44,8 @@ public abstract partial class VisualElement<T>
         base.OnChildAdd(node);
     }
 
-    protected override void OnMount()
+    partial void OnEndUpdate()
     {
-        base.OnMount();
-
         var thisAsIVisualElement = (IVisualElement)this;
 
         if (thisAsIVisualElement.VisualStateGroups != null)
@@ -56,6 +54,20 @@ public abstract partial class VisualElement<T>
 
             thisAsIVisualElement.VisualStateGroups.SetToVisualElement(NativeControl);
         }
+    }
+
+    protected override void OnMount()
+    {
+        base.OnMount();
+
+        //var thisAsIVisualElement = (IVisualElement)this;
+
+        //if (thisAsIVisualElement.VisualStateGroups != null)
+        //{
+        //    Validate.EnsureNotNull(NativeControl);
+
+        //    thisAsIVisualElement.VisualStateGroups.SetToVisualElement(NativeControl);
+        //}
     }
 
     protected override IEnumerable<VisualNode> RenderChildren()
@@ -229,11 +241,11 @@ public class VisualStateGroupList : Dictionary<string, VisualStateGroup>
 
         //NOTE: Visual state groups can't be cached
 
-        var existingVisualStateGroups = VisualStateManager.GetVisualStateGroups(visualElement);
-        if (existingVisualStateGroups?.Count == 0)
-        {
+        //var existingVisualStateGroups = VisualStateManager.GetVisualStateGroups(visualElement);
+        //if (existingVisualStateGroups?.Count == 0)
+        //{
             VisualStateManager.SetVisualStateGroups(visualElement, CreateNativeGroupList());
-        }
+        //}
     }
 
     internal VisualStateGroupList Set(string groupName, string stateName, BindableProperty? property = null, object? value = null, string? targetName = null)
