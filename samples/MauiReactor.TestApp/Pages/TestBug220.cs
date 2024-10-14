@@ -45,7 +45,7 @@ public partial class ListPage : Component<ListPage.PageState>
             async () =>
             {
                 await Task.Delay(TimeSpan.FromSeconds(2));
-                SetState(s => s.Items = new[] { new Model("m1", "model name 1") });
+                SetState(s => s.Items = [new Model("m1", "model name 1")]);
             });
         base.OnMounted();
     }

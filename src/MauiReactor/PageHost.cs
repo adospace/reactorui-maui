@@ -39,7 +39,7 @@ namespace MauiReactor
                     return;
                 }
 
-                if (_containerPage?.TryGetTarget(out var page) == true)
+                if (_containerPage?.TryGetTarget(out var _) == true)
                 {
                     throw new InvalidOperationException();
                 }

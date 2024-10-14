@@ -23,6 +23,9 @@ namespace MauiReactor.HotReloadConsole
         [Option('h', "host", HelpText = "Identify the remote host running the emulator")]
         public string? Host { get; set; }
 
+        [Option('r', "register-defaults", HelpText = "Register default MsBuild locations using MSBuildLocator.RegisterDefaults()")]
+        public bool MsBuildLocatorRegisterDefaults { get; set; }
+
     }
 
     public enum CompilationMode

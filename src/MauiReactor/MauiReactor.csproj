@@ -29,11 +29,12 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageId>Reactor.Maui</PackageId>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>RS1036,NU1903,NU1902,NU1901</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.21" />
-    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.21" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.91" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.91" />
   </ItemGroup>
 
   <ItemGroup>

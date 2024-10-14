@@ -65,7 +65,7 @@ public class TestAppTests
 
         // Move hover on the image
         mainPageNode.Find<PointInteractionHandler>("NorwayImage")
-            .MoveHover(new[] { new Microsoft.Maui.Graphics.PointF(10, 10) });
+            .MoveHover([new Microsoft.Maui.Graphics.PointF(10, 10)]);
 
         // Check that the label is "Mouse hovering"
         mainPageNode.Find<Text>("NorwayLabel")

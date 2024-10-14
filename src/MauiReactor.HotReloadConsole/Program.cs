@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using CommandLine;
+using Microsoft.Build.Locator;
 using System.ComponentModel;
 using System.Net;
 using System.Net.Sockets;
@@ -25,6 +26,11 @@ namespace MauiReactor.HotReloadConsole
 
         private static async Task RunMonitorAndConnectionClient(Options options)
         {
+            if (options.MsBuildLocatorRegisterDefaults)
+            {
+                MSBuildLocator.RegisterDefaults();
+            }
+
             IHotReloadClient hotReloadClient = options.CompilationMode == CompilationMode.Slim ?
                 new HotReloadClientEmit(options)
                 :

@@ -10,6 +10,7 @@
     <Nullable>enable</Nullable>
     <PublishReadyToRun>false</PublishReadyToRun>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>RS1036,NU1903,NU1902,NU1901</NoWarn>
 
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
@@ -39,8 +40,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.21" />
-    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.21" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.91" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.91" />
   </ItemGroup>
 
 </Project>

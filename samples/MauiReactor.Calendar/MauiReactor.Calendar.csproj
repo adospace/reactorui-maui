@@ -43,8 +43,8 @@
     <ProjectReference Include="..\..\src\MauiReactor\MauiReactor.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.21" />
-    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.21" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.91" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.91" />
   </ItemGroup>
 
 </Project>

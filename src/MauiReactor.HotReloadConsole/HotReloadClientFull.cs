@@ -12,15 +12,16 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using CliWrap;
 
 namespace MauiReactor.HotReloadConsole
 {
     internal class HotReloadClientFull : HotReloadClient
     {
-        static HotReloadClientFull()
-        {
-            MSBuildLocator.RegisterDefaults();
-        }
+        //static HotReloadClientFull()
+        //{
+        //    MSBuildLocator.RegisterDefaults();
+        //}
 
         public HotReloadClientFull(Options options) : base(options)
         {
@@ -29,21 +30,40 @@ namespace MauiReactor.HotReloadConsole
 
         protected override async Task<bool> CompileProject(Stream stream, Stream pdbStream, CancellationToken cancellationToken)
         {
-            var diagnosticEntries = new Dictionary<string, List<Diagnostic>>();
+            //var diagnosticEntries = new Dictionary<string, List<Diagnostic>>();
 
-            var exitCode = PlatformSupport.ExecuteShellCommand("dotnet", $"build \"{Path.Combine(_workingDirectory, $"{_projFileName}.csproj")}\" -f {_options.Framework} --no-restore --no-dependencies", (s, e) =>
-            {
-                Console.WriteLine(e.Data);
-            }, (s, e) =>
-            {
-                if (e.Data != null)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine(e.Data);
-                }
-            },
-            false, _workingDirectory, false);
+            //var exitCode = PlatformSupport.ExecuteShellCommand("dotnet", $"build \"{Path.Combine(_workingDirectory, $"{_projFileName}.csproj")}\" -f {_options.Framework} --no-restore --no-dependencies", (s, e) =>
+            //{
+            //    Console.WriteLine(e.Data);
+            //}, (s, e) =>
+            //{
+            //    if (e.Data != null)
+            //    {
+            //        Console.WriteLine();
+            //        Console.WriteLine(e.Data);
+            //    }
+            //},
+            //resolveExecutable: false,
+            //workingDirectory: _workingDirectory,
+            //executeInShell: false);
 
+            await using var stdOut = Console.OpenStandardOutput();
+            await using var stdErr = Console.OpenStandardError();
+
+            var result = await Cli.Wrap("dotnet")
+                .WithArguments([$"build", Path.Combine(_workingDirectory, $"{_projFileName}.csproj"), "-f", _options.Framework ?? throw new InvalidOperationException(), "--no-restore", "--no-dependencies"])
+                .WithWorkingDirectory(_workingDirectory)
+                .WithStandardOutputPipe(PipeTarget.ToStream(stdOut))
+                .WithStandardErrorPipe(PipeTarget.ToStream(stdErr))
+                .WithValidation(CommandResultValidation.None)
+                .ExecuteAsync();
+
+
+            if (result.ExitCode != 0)
+            {
+                Console.WriteLine("Build failed.");
+                return false;
+            }   
 
             if (_project?.OutputFilePath == null)
             {
@@ -97,302 +117,328 @@ namespace MauiReactor.HotReloadConsole
 
     }
 
-    public enum ShellExecutorType
-    {
-        Generic,
-        Windows,
-        Unix
-    }
-    public struct ShellExecuteResult
-    {
-        public int ExitCode { get; set; }
-        public string Output { get; set; }
-        public string ErrorOutput { get; set; }
-    }
+    //public enum ShellExecutorType
+    //{
+    //    Generic,
+    //    Windows,
+    //    Unix
+    //}
+    //public struct ShellExecuteResult
+    //{
+    //    public int ExitCode { get; set; }
+    //    public string Output { get; set; }
+    //    public string ErrorOutput { get; set; }
+    //}
 
-    public static class PlatformSupport
-    {
-        private static readonly ShellExecutorType _executorType = System.Runtime.InteropServices.RuntimeInformation
-                                               .IsOSPlatform(OSPlatform.Windows) ? ShellExecutorType.Windows : ShellExecutorType.Unix;
-
-
-        public static ShellExecuteResult ExecuteShellCommand(string commandName, string args)
-        {
-            var outputBuilder = new StringBuilder();
-            var errorBuilder = new StringBuilder();
-
-            var exitCode = ExecuteShellCommand(commandName, args,
-            (s, e) =>
-            {
-                outputBuilder.AppendLine(e.Data);
-            },
-            (s, e) =>
-            {
-                errorBuilder = new StringBuilder();
-            },
-            false, "");
-
-            return new ShellExecuteResult()
-            {
-                ExitCode = exitCode,
-                Output = outputBuilder.ToString().Trim(),
-                ErrorOutput = errorBuilder.ToString().Trim()
-            };
-        }
-
-        public static void LaunchShell(string workingDirectory, params string[] paths)
-        {
-            var startInfo = new ProcessStartInfo
-            {
-                WorkingDirectory = workingDirectory,
-            };
-
-            foreach (var extraPath in paths)
-            {
-                if (extraPath != null)
-                {
-                    var envPath = startInfo.Environment["PATH"];
-                    if (envPath != null)
-                    {
-                        startInfo.Environment["PATH"] = Path.Combine(envPath, extraPath);
-                    }
-                    else
-                    {
-                        startInfo.Environment["PATH"] = extraPath;
-                    }
-                }
-            }
-
-            if (_executorType == ShellExecutorType.Windows)
-            {
-                startInfo.FileName = ResolveFullExecutablePath("cmd.exe");
-                startInfo.Arguments = $"/c start {startInfo.FileName}";
-            }
-            else //Unix
-            {
-                startInfo.FileName = "sh";
-            }
-
-            Process.Start(startInfo);
-        }
-
-        public static Process LaunchShellCommand(string commandName, string args, Action<object, DataReceivedEventArgs>
-           outputReceivedCallback, Action<object, DataReceivedEventArgs>? errorReceivedCallback = null, bool resolveExecutable = true,
-           string workingDirectory = "", bool executeInShell = true, bool includeSystemPaths = true, params string[] extraPaths)
-        {
-            var shellProc = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    WorkingDirectory = workingDirectory,
-                }
-            };
-
-            if (!includeSystemPaths)
-            {
-                shellProc.StartInfo.Environment["PATH"] = "";
-            }
+    //public static class PlatformSupport
+    //{
+    //    private static readonly ShellExecutorType _executorType = System.Runtime.InteropServices.RuntimeInformation
+    //                                           .IsOSPlatform(OSPlatform.Windows) ? ShellExecutorType.Windows : ShellExecutorType.Unix;
 
 
-            foreach (var extraPath in extraPaths)
-            {
-                if (extraPath != null)
-                {
-                    var envPath = shellProc.StartInfo.Environment["PATH"];
-                    if (envPath != null)
-                    {
-                        shellProc.StartInfo.Environment["PATH"] = Path.Combine(envPath, extraPath);
-                    }
-                    else
-                    {
-                        shellProc.StartInfo.Environment["PATH"] = extraPath;
-                    }
-                }
-            }
+    //    //public static ShellExecuteResult ExecuteShellCommand(string commandName, string args)
+    //    //{
+    //    //    var outputBuilder = new StringBuilder();
+    //    //    var errorBuilder = new StringBuilder();
 
-            if (executeInShell)
-            {
-                if (_executorType == ShellExecutorType.Windows)
-                {
-                    shellProc.StartInfo.FileName = ResolveFullExecutablePath("cmd.exe");
-                    shellProc.StartInfo.Arguments = $"/C {(resolveExecutable ? ResolveFullExecutablePath(commandName, true, extraPaths) : commandName)} {args}";
-                    shellProc.StartInfo.CreateNoWindow = true;
-                }
-                else //Unix
-                {
-                    shellProc.StartInfo.FileName = "sh";
-                    shellProc.StartInfo.Arguments = $"-c \"{(resolveExecutable ? ResolveFullExecutablePath(commandName) : commandName)} {args}\"";
-                    shellProc.StartInfo.CreateNoWindow = true;
-                }
-            }
-            else
-            {
-                shellProc.StartInfo.FileName = (resolveExecutable ? ResolveFullExecutablePath(commandName, true, extraPaths) : commandName);
-                shellProc.StartInfo.Arguments = args;
-                shellProc.StartInfo.CreateNoWindow = true;
-            }
+    //    //    var exitCode = ExecuteShellCommand(commandName, args,
+    //    //    (s, e) =>
+    //    //    {
+    //    //        outputBuilder.AppendLine(e.Data);
+    //    //    },
+    //    //    (s, e) =>
+    //    //    {
+    //    //        errorBuilder = new StringBuilder();
+    //    //    },
+    //    //    false, "");
 
-            shellProc.OutputDataReceived += (s, a) => outputReceivedCallback(s, a);
+    //    //    return new ShellExecuteResult()
+    //    //    {
+    //    //        ExitCode = exitCode,
+    //    //        Output = outputBuilder.ToString().Trim(),
+    //    //        ErrorOutput = errorBuilder.ToString().Trim()
+    //    //    };
+    //    //}
 
-            if (errorReceivedCallback != null)
-            {
-                shellProc.ErrorDataReceived += (s, a) => errorReceivedCallback(s, a);
-            }
+    //    //public static void LaunchShell(string workingDirectory, params string[] paths)
+    //    //{
+    //    //    var startInfo = new ProcessStartInfo
+    //    //    {
+    //    //        WorkingDirectory = workingDirectory,
+    //    //    };
 
-            shellProc.EnableRaisingEvents = true;
+    //    //    foreach (var extraPath in paths)
+    //    //    {
+    //    //        if (extraPath != null)
+    //    //        {
+    //    //            var envPath = startInfo.Environment["PATH"];
+    //    //            if (envPath != null)
+    //    //            {
+    //    //                startInfo.Environment["PATH"] = Path.Combine(envPath, extraPath);
+    //    //            }
+    //    //            else
+    //    //            {
+    //    //                startInfo.Environment["PATH"] = extraPath;
+    //    //            }
+    //    //        }
+    //    //    }
 
-            try
-            {
-                shellProc.Start();
+    //    //    if (_executorType == ShellExecutorType.Windows)
+    //    //    {
+    //    //        startInfo.FileName = ResolveFullExecutablePath("cmd.exe");
+    //    //        startInfo.Arguments = $"/c start {startInfo.FileName}";
+    //    //    }
+    //    //    else //Unix
+    //    //    {
+    //    //        startInfo.FileName = "sh";
+    //    //    }
 
-                shellProc.BeginOutputReadLine();
-                shellProc.BeginErrorReadLine();
-            }
-            catch { }
+    //    //    Process.Start(startInfo);
+    //    //}
 
-            return shellProc;
-        }
+    //    //public static Process LaunchShellCommand(string commandName, string args, Action<object, DataReceivedEventArgs>
+    //    //   outputReceivedCallback, Action<object, DataReceivedEventArgs>? errorReceivedCallback = null, bool resolveExecutable = true,
+    //    //   string workingDirectory = "", bool executeInShell = true, bool includeSystemPaths = true, params string[] extraPaths)
+    //    //{
+    //    //    var shellProc = new Process
+    //    //    {
+    //    //        StartInfo = new ProcessStartInfo
+    //    //        {
+    //    //            RedirectStandardOutput = true,
+    //    //            RedirectStandardError = true,
+    //    //            UseShellExecute = false,
+    //    //            WorkingDirectory = workingDirectory,
+    //    //        }
+    //    //    };
 
-        public static string[] GetSystemPaths()
-        {
-            var result = ExecuteShellCommand("/bin/bash", "-l -c 'echo $PATH'");
-
-            return result.Output.Split(':');
-        }
+    //    //    if (!includeSystemPaths)
+    //    //    {
+    //    //        shellProc.StartInfo.Environment["PATH"] = "";
+    //    //    }
 
 
-        public static int ExecuteShellCommand(string commandName, string args, Action<object, DataReceivedEventArgs>
-            outputReceivedCallback, Action<object, DataReceivedEventArgs>? errorReceivedCallback = null, bool resolveExecutable = true,
-            string workingDirectory = "", bool executeInShell = true, bool includeSystemPaths = true, params string[] extraPaths)
-        {
-            using (var shellProc = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    WorkingDirectory = workingDirectory
-                }
-            })
+    //    //    foreach (var extraPath in extraPaths)
+    //    //    {
+    //    //        if (extraPath != null)
+    //    //        {
+    //    //            var envPath = shellProc.StartInfo.Environment["PATH"];
+    //    //            if (envPath != null)
+    //    //            {
+    //    //                shellProc.StartInfo.Environment["PATH"] = Path.Combine(envPath, extraPath);
+    //    //            }
+    //    //            else
+    //    //            {
+    //    //                shellProc.StartInfo.Environment["PATH"] = extraPath;
+    //    //            }
+    //    //        }
+    //    //    }
 
-            {
-                if (!includeSystemPaths)
-                {
-                    shellProc.StartInfo.Environment["PATH"] = "";
-                }
-                foreach (var extraPath in extraPaths)
-                {
-                    if (extraPath != null)
-                    {
-                        var envPath = shellProc.StartInfo.Environment["PATH"];
-                        if (envPath != null)
-                        {
-                            shellProc.StartInfo.Environment["PATH"] = Path.Combine(envPath, extraPath);
-                        }
-                        else
-                        {
-                            shellProc.StartInfo.Environment["PATH"] = extraPath;
-                        }
-                    }
-                }
+    //    //    if (executeInShell)
+    //    //    {
+    //    //        if (_executorType == ShellExecutorType.Windows)
+    //    //        {
+    //    //            shellProc.StartInfo.FileName = ResolveFullExecutablePath("cmd.exe");
+    //    //            shellProc.StartInfo.Arguments = $"/C {(resolveExecutable ? ResolveFullExecutablePath(commandName, true, extraPaths) : commandName)} {args}";
+    //    //            shellProc.StartInfo.CreateNoWindow = true;
+    //    //        }
+    //    //        else //Unix
+    //    //        {
+    //    //            shellProc.StartInfo.FileName = "sh";
+    //    //            shellProc.StartInfo.Arguments = $"-c \"{(resolveExecutable ? ResolveFullExecutablePath(commandName) : commandName)} {args}\"";
+    //    //            shellProc.StartInfo.CreateNoWindow = true;
+    //    //        }
+    //    //    }
+    //    //    else
+    //    //    {
+    //    //        shellProc.StartInfo.FileName = (resolveExecutable ? ResolveFullExecutablePath(commandName, true, extraPaths) : commandName);
+    //    //        shellProc.StartInfo.Arguments = args;
+    //    //        shellProc.StartInfo.CreateNoWindow = true;
+    //    //    }
 
-                if (executeInShell)
-                {
-                    if (_executorType == ShellExecutorType.Windows)
-                    {
-                        shellProc.StartInfo.FileName = ResolveFullExecutablePath("cmd.exe");
-                        shellProc.StartInfo.Arguments = $"/C {(resolveExecutable ? ResolveFullExecutablePath(commandName, true, extraPaths) : commandName)} {args}";
-                        shellProc.StartInfo.CreateNoWindow = true;
-                    }
-                    else //Unix
-                    {
-                        shellProc.StartInfo.FileName = "sh";
-                        shellProc.StartInfo.Arguments = $"-c \"{(resolveExecutable ? ResolveFullExecutablePath(commandName) : commandName)} {args}\"";
-                        shellProc.StartInfo.CreateNoWindow = true;
-                    }
-                }
-                else
-                {
-                    shellProc.StartInfo.FileName = (resolveExecutable ? ResolveFullExecutablePath(commandName, true, extraPaths) : commandName);
-                    shellProc.StartInfo.Arguments = args;
-                    shellProc.StartInfo.CreateNoWindow = true;
-                }
+    //    //    shellProc.OutputDataReceived += (s, a) => outputReceivedCallback(s, a);
 
-                shellProc.OutputDataReceived += (s, a) => outputReceivedCallback(s, a);
+    //    //    if (errorReceivedCallback != null)
+    //    //    {
+    //    //        shellProc.ErrorDataReceived += (s, a) => errorReceivedCallback(s, a);
+    //    //    }
 
-                if (errorReceivedCallback != null)
-                {
-                    shellProc.ErrorDataReceived += (s, a) => errorReceivedCallback(s, a);
-                }
+    //    //    shellProc.EnableRaisingEvents = true;
 
-                shellProc.Start();
+    //    //    try
+    //    //    {
+    //    //        Console.WriteLine($"Executing command: {shellProc.StartInfo.FileName} {shellProc.StartInfo.Arguments}");
 
-                shellProc.BeginOutputReadLine();
-                shellProc.BeginErrorReadLine();
+    //    //        shellProc.Start();
 
-                shellProc.WaitForExit();
+    //    //        shellProc.BeginOutputReadLine();
+    //    //        shellProc.BeginErrorReadLine();
+    //    //    }
+    //    //    catch { }
 
-                return shellProc.ExitCode;
-            }
-        }
+    //    //    return shellProc;
+    //    //}
 
-        /// <summary>
-        /// Checks whether a script executable is available in the user's shell
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        public static bool CheckExecutableAvailability(string fileName, params string[] extraPaths)
-        {
-            return ResolveFullExecutablePath(fileName, true, extraPaths) != null;
-        }
+    //    //public static string[] GetSystemPaths()
+    //    //{
+    //    //    var result = ExecuteShellCommand("/bin/bash", "-l -c 'echo $PATH'");
 
-        /// <summary>
-        /// Attempts to locate the full path to a script
-        /// </summary>
-        /// <param name="fileName"></param>
-        /// <returns></returns>
-        public static string? ResolveFullExecutablePath(string fileName, bool returnNullOnFailure = true, params string[] extraPaths)
-        {
-            if (File.Exists(fileName))
-                return Path.GetFullPath(fileName);
+    //    //    return result.Output.Split(':');
+    //    //}
 
-            if (_executorType == ShellExecutorType.Windows)
-            {
-                var values = new List<string>(extraPaths);
-                var envPath = Environment.GetEnvironmentVariable("PATH");
-                if (envPath != null && !string.IsNullOrWhiteSpace(envPath))
-                {
-                    values.AddRange(new List<string>(envPath.Split(';')));
-                }
 
-                foreach (var path in values)
-                {
-                    var fullPath = Path.Combine(path, fileName);
-                    if (File.Exists(fullPath))
-                        return fullPath;
-                }
-            }
-            else
-            {
-                //Use the which command
-                var outputBuilder = new StringBuilder();
-                ExecuteShellCommand("which", $"\"{fileName}\"", (s, e) =>
-                {
-                    outputBuilder.AppendLine(e.Data);
-                }, (s, e) => { }, false);
-                var procOutput = outputBuilder.ToString();
-                if (string.IsNullOrWhiteSpace(procOutput))
-                {
-                    return returnNullOnFailure ? null : fileName;
-                }
-                return procOutput.Trim();
-            }
-            return returnNullOnFailure ? null : fileName;
-        }
-    }
+    //    public static async Task<int> ExecuteShellCommand(
+    //        string commandName, 
+    //        string[] args,
+    //        string workingDirectory//,
+
+    //        //Action<object, DataReceivedEventArgs> outputReceivedCallback, 
+    //        //Action<object, DataReceivedEventArgs>? errorReceivedCallback = null, 
+    //        //bool resolveExecutable = true,
+    //        //bool executeInShell = true, 
+    //        //bool includeSystemPaths = true, 
+    //        //params string[] extraPaths
+    //        )
+    //    {
+    //        await using var stdOut = Console.OpenStandardOutput();
+    //        await using var stdErr = Console.OpenStandardError();
+
+    //        var result = await Cli.Wrap("dotnet")
+    //            .WithArguments(args)
+    //            .WithWorkingDirectory(workingDirectory)
+    //            .WithStandardOutputPipe(PipeTarget.ToStream(stdOut))
+    //            .WithStandardErrorPipe(PipeTarget.ToStream(stdErr))
+    //            .WithValidation(CommandResultValidation.None)
+    //            .ExecuteAsync();
+
+    //        return result.ExitCode;
+
+
+
+    //        //using var shellProc = new Process
+    //        //{
+    //        //    StartInfo = new ProcessStartInfo
+    //        //    {
+    //        //        RedirectStandardOutput = true,
+    //        //        RedirectStandardError = true,
+    //        //        UseShellExecute = false,
+    //        //        WorkingDirectory = workingDirectory
+    //        //    }
+    //        //};
+
+    //        //if (!includeSystemPaths)
+    //        //{
+    //        //    shellProc.StartInfo.Environment["PATH"] = "";
+    //        //}
+    //        //foreach (var extraPath in extraPaths)
+    //        //{
+    //        //    if (extraPath != null)
+    //        //    {
+    //        //        var envPath = shellProc.StartInfo.Environment["PATH"];
+    //        //        if (envPath != null)
+    //        //        {
+    //        //            shellProc.StartInfo.Environment["PATH"] = Path.Combine(envPath, extraPath);
+    //        //        }
+    //        //        else
+    //        //        {
+    //        //            shellProc.StartInfo.Environment["PATH"] = extraPath;
+    //        //        }
+    //        //    }
+    //        //}
+
+    //        //if (executeInShell)
+    //        //{
+    //        //    if (_executorType == ShellExecutorType.Windows)
+    //        //    {
+    //        //        shellProc.StartInfo.FileName = ResolveFullExecutablePath("cmd.exe");
+    //        //        shellProc.StartInfo.Arguments = $"/C {(resolveExecutable ? ResolveFullExecutablePath(commandName, true, extraPaths) : commandName)} {args}";
+    //        //        shellProc.StartInfo.CreateNoWindow = true;
+    //        //    }
+    //        //    else //Unix
+    //        //    {
+    //        //        shellProc.StartInfo.FileName = "sh";
+    //        //        shellProc.StartInfo.Arguments = $"-c \"{(resolveExecutable ? ResolveFullExecutablePath(commandName) : commandName)} {args}\"";
+    //        //        shellProc.StartInfo.CreateNoWindow = true;
+    //        //    }
+    //        //}
+    //        //else
+    //        //{
+    //        //    shellProc.StartInfo.FileName = (resolveExecutable ? ResolveFullExecutablePath(commandName, true, extraPaths) : commandName);
+    //        //    shellProc.StartInfo.Arguments = args;
+    //        //    shellProc.StartInfo.CreateNoWindow = true;
+    //        //}
+
+    //        //shellProc.OutputDataReceived += (s, a) => outputReceivedCallback(s, a);
+
+    //        //if (errorReceivedCallback != null)
+    //        //{
+    //        //    shellProc.ErrorDataReceived += (s, a) => errorReceivedCallback(s, a);
+    //        //}
+
+    //        //Console.WriteLine($"Executing command: {shellProc.StartInfo.FileName} {shellProc.StartInfo.Arguments}");
+
+    //        //shellProc.Start();
+
+    //        //shellProc.BeginOutputReadLine();
+    //        //shellProc.BeginErrorReadLine();
+
+    //        //shellProc.WaitForExit();
+
+    //        //return shellProc.ExitCode;
+    //    }
+
+    //    ///// <summary>
+    //    ///// Checks whether a script executable is available in the user's shell
+    //    ///// </summary>
+    //    ///// <param name="fileName"></param>
+    //    ///// <returns></returns>
+    //    //public static bool CheckExecutableAvailability(string fileName, params string[] extraPaths)
+    //    //{
+    //    //    return ResolveFullExecutablePath(fileName, true, extraPaths) != null;
+    //    //}
+
+    //    ///// <summary>
+    //    ///// Attempts to locate the full path to a script
+    //    ///// </summary>
+    //    ///// <param name="fileName"></param>
+    //    ///// <returns></returns>
+    //    //public static string? ResolveFullExecutablePath(string fileName, bool returnNullOnFailure = true, params string[] extraPaths)
+    //    //{
+    //    //    if (File.Exists(fileName))
+    //    //        return Path.GetFullPath(fileName);
+
+    //    //    if (_executorType == ShellExecutorType.Windows)
+    //    //    {
+    //    //        var values = new List<string>(extraPaths);
+    //    //        var envPath = Environment.GetEnvironmentVariable("PATH");
+    //    //        if (envPath != null && !string.IsNullOrWhiteSpace(envPath))
+    //    //        {
+    //    //            values.AddRange(new List<string>(envPath.Split(';')));
+    //    //        }
+
+    //    //        foreach (var path in values)
+    //    //        {
+    //    //            var fullPath = Path.Combine(path, fileName);
+    //    //            if (File.Exists(fullPath))
+    //    //                return fullPath;
+    //    //        }
+    //    //    }
+    //    //    else
+    //    //    {
+    //    //        //Use the which command
+    //    //        var outputBuilder = new StringBuilder();
+    //    //        ExecuteShellCommand("which", $"\"{fileName}\"", (s, e) =>
+    //    //        {
+    //    //            outputBuilder.AppendLine(e.Data);
+    //    //        }, (s, e) => { }, false);
+    //    //        var procOutput = outputBuilder.ToString();
+    //    //        if (string.IsNullOrWhiteSpace(procOutput))
+    //    //        {
+    //    //            return returnNullOnFailure ? null : fileName;
+    //    //        }
+    //    //        return procOutput.Trim();
+    //    //    }
+    //    //    return returnNullOnFailure ? null : fileName;
+    //    //}
+    //}
 
 }

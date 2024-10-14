@@ -22,10 +22,10 @@ namespace MauiReactor.HotReloadConsole
             "DEBUG"
         });
 
-        static HotReloadClientEmit()
-        {
-            MSBuildLocator.RegisterDefaults();
-        }
+        //static HotReloadClientEmit()
+        //{
+        //    MSBuildLocator.RegisterDefaults();
+        //}
 
         public HotReloadClientEmit(Options options) : base(options)
         {
