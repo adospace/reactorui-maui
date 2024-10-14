@@ -226,7 +226,7 @@ class EventsComponent : Component
 
     private async void OnEventSelected(EventModel eventModel, int index)
     {
-        if (_scrollViewRef != null && Navigation != null)
+        if (_scrollViewRef != null)
         {
             var scrollViewBounds = _scrollViewRef.BoundsToScreenSize();
             var scrollViewY = _scrollViewRef.ScrollY;
