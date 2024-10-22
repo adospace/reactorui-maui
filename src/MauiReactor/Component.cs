@@ -460,6 +460,16 @@ namespace MauiReactor
         {
             ArgumentNullException.ThrowIfNull(action);
 
+            var currentDispather = Application.Current?.Dispatcher;
+            if (currentDispather != null)
+            {
+                if (currentDispather.IsDispatchRequired)
+                {
+                    currentDispather.Dispatch(()=>SetState(action, invalidateComponent));
+                    return;
+                }
+            }
+
             action(State);
 
             if (TryForwardStateToNewComponent(invalidateComponent))
