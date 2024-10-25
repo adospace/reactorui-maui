@@ -64,7 +64,7 @@ public class TemplateHost : VisualNode, ITemplateHost, IVisualNode, IHostElement
 
     protected internal override void OnLayoutCycleRequested()
     {
-        if (_started && Application.Current != null)
+        if (_started)
         {
             if (_layoutCallEnqueued)
             {
@@ -73,7 +73,14 @@ public class TemplateHost : VisualNode, ITemplateHost, IVisualNode, IHostElement
             else
             {
                 _layoutCallEnqueued = true;
-                Application.Current.Dispatcher.Dispatch(OnLayout);
+                if (Application.Current != null)
+                {
+                    Application.Current.Dispatcher.Dispatch(OnLayout);
+                }
+                else
+                {
+                    OnLayout();
+                }                
             }
         }
 

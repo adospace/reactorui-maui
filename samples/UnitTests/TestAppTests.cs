@@ -6,6 +6,8 @@ using MauiReactor.TestApp.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace UnitTests;
 
@@ -46,6 +48,8 @@ public class TestAppTests
         // Click on the button
         mainPageNode.Find<MauiControls.Button>("Counter_Button")
             .SendClicked();
+
+        //await Task.Delay(100000);
 
         // Check that the counter is 1
         mainPageNode.Find<MauiControls.Label>("Counter_Label")

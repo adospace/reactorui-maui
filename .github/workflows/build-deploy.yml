@@ -14,8 +14,9 @@ jobs:
 
     env:
       Solution_Name: ./src/MauiReactor.Build.sln
+      Test_Project: ./samples/UnitTests/UnitTests.csproj
       TemplatePack_Name: ./src/MauiReactor.TemplatePack/MauiReactor.TemplatePack.csproj
-      Version: 2.0.51
+      Version: 2.0.52
 
     steps:
     - name: Checkout
@@ -34,7 +35,10 @@ jobs:
 
     - name: Clean output directory
       run: dotnet clean $env:Solution_Name -c Release
-      
+    
+    - name: Test the project
+      run: dotnet test $env:Test_Project
+    
     - name: Build the packages
       run: dotnet build $env:Solution_Name -c Release /p:Version=$env:Version
   

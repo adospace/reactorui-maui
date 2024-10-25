@@ -27,7 +27,7 @@ public class MapsDemoTests
         // Check that the map has one pin
         mainPageNode.Find<MauiControls.Maps.Map>("Map")
             .Pins[0]
-            .Location.ShouldBe(new Microsoft.Maui.Devices.Sensors.Location(100.0, 100.0));
+            .Location.ShouldBe(new Microsoft.Maui.Devices.Sensors.Location(42.6, 13.6));
     }    
 }
 
@@ -36,6 +36,6 @@ public static class MapExtensions
     public static void SendClicked(this MauiControls.Maps.Map map)
     {
         var mapController = (Microsoft.Maui.Maps.IMap)map;
-        mapController.Clicked(new Microsoft.Maui.Devices.Sensors.Location(100.0, 100.0));
+        mapController.Clicked(new Microsoft.Maui.Devices.Sensors.Location(42.6, 13.6));
     }
 }
