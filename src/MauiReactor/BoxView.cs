@@ -91,7 +91,7 @@ public partial class BoxView : BoxView<Microsoft.Maui.Controls.BoxView>
 
 public static partial class BoxViewExtensions
 {
-    static void SetCornerRadius(object boxView, RxAnimation animation) => ((IBoxView)boxView).CornerRadius = ((RxCornerRadiusAnimation)animation).CurrentValue();
+    static object? SetCornerRadius(object boxView, RxAnimation animation) => ((IBoxView)boxView).CornerRadius = ((RxCornerRadiusAnimation)animation).CurrentValue();
     public static T Color<T>(this T boxView, Microsoft.Maui.Graphics.Color color)
         where T : IBoxView
     {

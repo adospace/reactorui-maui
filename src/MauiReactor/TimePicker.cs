@@ -128,8 +128,8 @@ public partial class TimePicker : TimePicker<Microsoft.Maui.Controls.TimePicker>
 
 public static partial class TimePickerExtensions
 {
-    static void SetCharacterSpacing(object timePicker, RxAnimation animation) => ((ITimePicker)timePicker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetFontSize(object timePicker, RxAnimation animation) => ((ITimePicker)timePicker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetCharacterSpacing(object timePicker, RxAnimation animation) => ((ITimePicker)timePicker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetFontSize(object timePicker, RxAnimation animation) => ((ITimePicker)timePicker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Format<T>(this T timePicker, string format)
         where T : ITimePicker
     {

@@ -1190,7 +1190,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("\n\n    static void Set");
+            this.Write("\n\n    static object? Set");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
@@ -1232,7 +1232,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("\n\n    static void Set");
+            this.Write("\n\n    static object? Set");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
@@ -1274,7 +1274,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("\n    \n    static void Set");
+            this.Write("\n    \n    static object? Set");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
@@ -1316,7 +1316,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("\n        \n    static void Set");
+            this.Write("\n        \n    static object? Set");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
@@ -1358,7 +1358,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("\n        \n    static void Set");
+            this.Write("\n        \n    static object? Set");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
@@ -1400,7 +1400,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("\n        \n    static void Set");
+            this.Write("\n        \n    static object? Set");
             
             #line 1 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));

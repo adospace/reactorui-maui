@@ -184,10 +184,10 @@ public partial class Label : Label<Microsoft.Maui.Controls.Label>
 
 public static partial class LabelExtensions
 {
-    static void SetCharacterSpacing(object label, RxAnimation animation) => ((ILabel)label).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetFontSize(object label, RxAnimation animation) => ((ILabel)label).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetLineHeight(object label, RxAnimation animation) => ((ILabel)label).LineHeight = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetPadding(object label, RxAnimation animation) => ((ILabel)label).Padding = ((RxThicknessAnimation)animation).CurrentValue();
+    static object? SetCharacterSpacing(object label, RxAnimation animation) => ((ILabel)label).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetFontSize(object label, RxAnimation animation) => ((ILabel)label).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetLineHeight(object label, RxAnimation animation) => ((ILabel)label).LineHeight = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetPadding(object label, RxAnimation animation) => ((ILabel)label).Padding = ((RxThicknessAnimation)animation).CurrentValue();
     public static T HorizontalTextAlignment<T>(this T label, Microsoft.Maui.TextAlignment horizontalTextAlignment)
         where T : ILabel
     {

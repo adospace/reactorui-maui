@@ -92,8 +92,8 @@ public partial class LineGeometry : LineGeometry<Microsoft.Maui.Controls.Shapes.
 
 public static partial class LineGeometryExtensions
 {
-    static void SetStartPoint(object lineGeometry, RxAnimation animation) => ((ILineGeometry)lineGeometry).StartPoint = ((RxPointAnimation)animation).CurrentValue();
-    static void SetEndPoint(object lineGeometry, RxAnimation animation) => ((ILineGeometry)lineGeometry).EndPoint = ((RxPointAnimation)animation).CurrentValue();
+    static object? SetStartPoint(object lineGeometry, RxAnimation animation) => ((ILineGeometry)lineGeometry).StartPoint = ((RxPointAnimation)animation).CurrentValue();
+    static object? SetEndPoint(object lineGeometry, RxAnimation animation) => ((ILineGeometry)lineGeometry).EndPoint = ((RxPointAnimation)animation).CurrentValue();
     public static T StartPoint<T>(this T lineGeometry, Microsoft.Maui.Graphics.Point startPoint, RxPointAnimation? customAnimation = null)
         where T : ILineGeometry
     {

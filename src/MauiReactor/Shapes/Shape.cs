@@ -124,9 +124,9 @@ public abstract partial class Shape<T> : View<T>, IShape where T : Microsoft.Mau
 
 public static partial class ShapeExtensions
 {
-    static void SetStrokeThickness(object shape, RxAnimation animation) => ((IShape)shape).StrokeThickness = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetStrokeDashOffset(object shape, RxAnimation animation) => ((IShape)shape).StrokeDashOffset = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetStrokeMiterLimit(object shape, RxAnimation animation) => ((IShape)shape).StrokeMiterLimit = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetStrokeThickness(object shape, RxAnimation animation) => ((IShape)shape).StrokeThickness = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetStrokeDashOffset(object shape, RxAnimation animation) => ((IShape)shape).StrokeDashOffset = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetStrokeMiterLimit(object shape, RxAnimation animation) => ((IShape)shape).StrokeMiterLimit = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Fill<T>(this T shape, Microsoft.Maui.Controls.Brush fill)
         where T : IShape
     {

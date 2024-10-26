@@ -18,7 +18,7 @@ public partial class DropShadow { }
 
 public static partial class DropShadowExtensions
 {
-    static void SetSize(object DropShadow, RxAnimation animation) 
+    static object? SetSize(object DropShadow, RxAnimation animation) 
         => ((IDropShadow)DropShadow).Size = ((RxSizeFAnimation)animation).CurrentValue();
 
     public static T Size<T>(this T node, float x, float y, RxSizeFAnimation? customAnimation = null) where T : IDropShadow

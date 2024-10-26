@@ -6,6 +6,6 @@
 
         void Stop();
 
-        void RequestAnimationFrame(VisualNode visualNode);
+        void RequestAnimationFrame(IVisualNodeWithNativeControl visualNode);
     }
 }

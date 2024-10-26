@@ -92,8 +92,8 @@ public partial class Grid : Grid<Microsoft.Maui.Controls.Grid>
 
 public static partial class GridExtensions
 {
-    static void SetRowSpacing(object grid, RxAnimation animation) => ((IGrid)grid).RowSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetColumnSpacing(object grid, RxAnimation animation) => ((IGrid)grid).ColumnSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetRowSpacing(object grid, RxAnimation animation) => ((IGrid)grid).RowSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetColumnSpacing(object grid, RxAnimation animation) => ((IGrid)grid).ColumnSpacing = ((RxDoubleAnimation)animation).CurrentValue();
     public static T RowSpacing<T>(this T grid, double rowSpacing, RxDoubleAnimation? customAnimation = null)
         where T : IGrid
     {

@@ -15,7 +15,7 @@ public interface ITemplateHost
 public class TemplateHost : VisualNode, ITemplateHost, IVisualNode, IHostElement
 {
     private readonly VisualNode _root;
-    private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
+    private readonly LinkedList<IVisualNodeWithNativeControl> _listOfVisualsToAnimate = new();
     private bool _layoutCallEnqueued;
     private bool _started;
 
@@ -129,7 +129,7 @@ public class TemplateHost : VisualNode, ITemplateHost, IVisualNode, IHostElement
         _started = false;
     }
 
-    public void RequestAnimationFrame(VisualNode visualNode)
+    public void RequestAnimationFrame(IVisualNodeWithNativeControl visualNode)
     {
         _listOfVisualsToAnimate.AddFirst(visualNode);
     }
@@ -159,7 +159,7 @@ public class TemplateHost : VisualNode, ITemplateHost, IVisualNode, IHostElement
             return false;
 
         bool animated = false;
-        LinkedListNode<VisualNode>? nodeToAnimate = _listOfVisualsToAnimate.First;
+        LinkedListNode<IVisualNodeWithNativeControl>? nodeToAnimate = _listOfVisualsToAnimate.First;
         while (nodeToAnimate != null)
         {
             var nextNode = nodeToAnimate.Next;

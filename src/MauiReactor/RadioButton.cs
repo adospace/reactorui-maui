@@ -202,9 +202,9 @@ public partial class RadioButton : RadioButton<Microsoft.Maui.Controls.RadioButt
 
 public static partial class RadioButtonExtensions
 {
-    static void SetCharacterSpacing(object radioButton, RxAnimation animation) => ((IRadioButton)radioButton).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetFontSize(object radioButton, RxAnimation animation) => ((IRadioButton)radioButton).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetBorderWidth(object radioButton, RxAnimation animation) => ((IRadioButton)radioButton).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetCharacterSpacing(object radioButton, RxAnimation animation) => ((IRadioButton)radioButton).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetFontSize(object radioButton, RxAnimation animation) => ((IRadioButton)radioButton).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetBorderWidth(object radioButton, RxAnimation animation) => ((IRadioButton)radioButton).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Value<T>(this T radioButton, object? value)
         where T : IRadioButton
     {

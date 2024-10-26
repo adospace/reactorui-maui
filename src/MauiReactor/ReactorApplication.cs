@@ -34,7 +34,7 @@ internal abstract class ReactorApplicationHost : VisualNode, IHostElement, IVisu
     public virtual void OnAssemblyChanged()
     { }
 
-    public abstract void RequestAnimationFrame(VisualNode visualNode);
+    public abstract void RequestAnimationFrame(IVisualNodeWithNativeControl visualNode);
 
     public Microsoft.Maui.Controls.Page? ContainerPage => _application?.MainPage;
 
@@ -56,7 +56,7 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
     private bool _started = false;
     private bool _layoutCallEnqueued;
 
-    private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
+    private readonly LinkedList<IVisualNodeWithNativeControl> _listOfVisualsToAnimate = new();
 
     internal ReactorApplicationHost(ReactorApplication<T> application)
         : base(application)
@@ -221,7 +221,7 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
         yield return _rootComponent;
     }
 
-    public override void RequestAnimationFrame(VisualNode visualNode)
+    public override void RequestAnimationFrame(IVisualNodeWithNativeControl visualNode)
     {
         _listOfVisualsToAnimate.AddFirst(visualNode);
     }
@@ -256,7 +256,7 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
             return false;
 
         bool animated = false;
-        LinkedListNode<VisualNode>? nodeToAnimate = _listOfVisualsToAnimate.First;
+        LinkedListNode<IVisualNodeWithNativeControl>? nodeToAnimate = _listOfVisualsToAnimate.First;
         while (nodeToAnimate != null)
         {
             var nextNode = nodeToAnimate.Next;

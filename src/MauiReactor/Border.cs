@@ -130,10 +130,10 @@ public partial class Border : Border<Microsoft.Maui.Controls.Border>
 
 public static partial class BorderExtensions
 {
-    static void SetPadding(object border, RxAnimation animation) => ((IBorder)border).Padding = ((RxThicknessAnimation)animation).CurrentValue();
-    static void SetStrokeThickness(object border, RxAnimation animation) => ((IBorder)border).StrokeThickness = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetStrokeDashOffset(object border, RxAnimation animation) => ((IBorder)border).StrokeDashOffset = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetStrokeMiterLimit(object border, RxAnimation animation) => ((IBorder)border).StrokeMiterLimit = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetPadding(object border, RxAnimation animation) => ((IBorder)border).Padding = ((RxThicknessAnimation)animation).CurrentValue();
+    static object? SetStrokeThickness(object border, RxAnimation animation) => ((IBorder)border).StrokeThickness = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetStrokeDashOffset(object border, RxAnimation animation) => ((IBorder)border).StrokeDashOffset = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetStrokeMiterLimit(object border, RxAnimation animation) => ((IBorder)border).StrokeMiterLimit = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Padding<T>(this T border, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
         where T : IBorder
     {

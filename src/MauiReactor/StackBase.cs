@@ -74,7 +74,7 @@ public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Mic
 
 public static partial class StackBaseExtensions
 {
-    static void SetSpacing(object stackBase, RxAnimation animation) => ((IStackBase)stackBase).Spacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetSpacing(object stackBase, RxAnimation animation) => ((IStackBase)stackBase).Spacing = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Spacing<T>(this T stackBase, double spacing, RxDoubleAnimation? customAnimation = null)
         where T : IStackBase
     {

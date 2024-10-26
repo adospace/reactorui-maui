@@ -189,8 +189,8 @@ public partial class Picker : Picker<Microsoft.Maui.Controls.Picker>
 
 public static partial class PickerExtensions
 {
-    static void SetCharacterSpacing(object picker, RxAnimation animation) => ((IPicker)picker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetFontSize(object picker, RxAnimation animation) => ((IPicker)picker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetCharacterSpacing(object picker, RxAnimation animation) => ((IPicker)picker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetFontSize(object picker, RxAnimation animation) => ((IPicker)picker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
     public static T TextColor<T>(this T picker, Microsoft.Maui.Graphics.Color textColor)
         where T : IPicker
     {

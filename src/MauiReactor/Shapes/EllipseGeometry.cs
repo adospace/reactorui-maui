@@ -99,9 +99,9 @@ public partial class EllipseGeometry : EllipseGeometry<Microsoft.Maui.Controls.S
 
 public static partial class EllipseGeometryExtensions
 {
-    static void SetCenter(object ellipseGeometry, RxAnimation animation) => ((IEllipseGeometry)ellipseGeometry).Center = ((RxPointAnimation)animation).CurrentValue();
-    static void SetRadiusX(object ellipseGeometry, RxAnimation animation) => ((IEllipseGeometry)ellipseGeometry).RadiusX = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetRadiusY(object ellipseGeometry, RxAnimation animation) => ((IEllipseGeometry)ellipseGeometry).RadiusY = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetCenter(object ellipseGeometry, RxAnimation animation) => ((IEllipseGeometry)ellipseGeometry).Center = ((RxPointAnimation)animation).CurrentValue();
+    static object? SetRadiusX(object ellipseGeometry, RxAnimation animation) => ((IEllipseGeometry)ellipseGeometry).RadiusX = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetRadiusY(object ellipseGeometry, RxAnimation animation) => ((IEllipseGeometry)ellipseGeometry).RadiusY = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Center<T>(this T ellipseGeometry, Microsoft.Maui.Graphics.Point center, RxPointAnimation? customAnimation = null)
         where T : IEllipseGeometry
     {

@@ -415,23 +415,23 @@ public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualEle
 
 public static partial class VisualElementExtensions
 {
-    static void SetAnchorX(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).AnchorX = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetAnchorY(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).AnchorY = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetTranslationX(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).TranslationX = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetTranslationY(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).TranslationY = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetRotation(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).Rotation = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetRotationX(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).RotationX = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetRotationY(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).RotationY = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetScale(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).Scale = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetScaleX(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).ScaleX = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetScaleY(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).ScaleY = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetOpacity(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).Opacity = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetWidthRequest(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).WidthRequest = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetHeightRequest(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).HeightRequest = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetMinimumWidthRequest(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).MinimumWidthRequest = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetMinimumHeightRequest(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).MinimumHeightRequest = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetMaximumWidthRequest(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).MaximumWidthRequest = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetMaximumHeightRequest(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).MaximumHeightRequest = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetAnchorX(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).AnchorX = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetAnchorY(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).AnchorY = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetTranslationX(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).TranslationX = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetTranslationY(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).TranslationY = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetRotation(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).Rotation = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetRotationX(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).RotationX = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetRotationY(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).RotationY = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetScale(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).Scale = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetScaleX(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).ScaleX = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetScaleY(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).ScaleY = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetOpacity(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).Opacity = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetWidthRequest(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).WidthRequest = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetHeightRequest(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).HeightRequest = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMinimumWidthRequest(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).MinimumWidthRequest = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMinimumHeightRequest(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).MinimumHeightRequest = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMaximumWidthRequest(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).MaximumWidthRequest = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMaximumHeightRequest(object visualElement, RxAnimation animation) => ((IVisualElement)visualElement).MaximumHeightRequest = ((RxDoubleAnimation)animation).CurrentValue();
     public static T InputTransparent<T>(this T visualElement, bool inputTransparent)
         where T : IVisualElement
     {

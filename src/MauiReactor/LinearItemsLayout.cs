@@ -74,7 +74,7 @@ public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItem
 
 public static partial class LinearItemsLayoutExtensions
 {
-    static void SetItemSpacing(object linearItemsLayout, RxAnimation animation) => ((ILinearItemsLayout)linearItemsLayout).ItemSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetItemSpacing(object linearItemsLayout, RxAnimation animation) => ((ILinearItemsLayout)linearItemsLayout).ItemSpacing = ((RxDoubleAnimation)animation).CurrentValue();
     public static T ItemSpacing<T>(this T linearItemsLayout, double itemSpacing, RxDoubleAnimation? customAnimation = null)
         where T : ILinearItemsLayout
     {

@@ -81,8 +81,8 @@ public sealed partial class Rectangle : Shapes.Shape<Microsoft.Maui.Controls.Sha
 
 public static partial class RectangleExtensions
 {
-    static void SetRadiusX(object rectangle, RxAnimation animation) => ((IRectangle)rectangle).RadiusX = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetRadiusY(object rectangle, RxAnimation animation) => ((IRectangle)rectangle).RadiusY = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetRadiusX(object rectangle, RxAnimation animation) => ((IRectangle)rectangle).RadiusX = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetRadiusY(object rectangle, RxAnimation animation) => ((IRectangle)rectangle).RadiusY = ((RxDoubleAnimation)animation).CurrentValue();
     public static T RadiusX<T>(this T rectangle, double radiusX, RxDoubleAnimation? customAnimation = null)
         where T : IRectangle
     {

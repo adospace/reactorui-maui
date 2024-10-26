@@ -211,8 +211,8 @@ public partial class ImageButton : ImageButton<Microsoft.Maui.Controls.ImageButt
 
 public static partial class ImageButtonExtensions
 {
-    static void SetBorderWidth(object imageButton, RxAnimation animation) => ((IImageButton)imageButton).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetPadding(object imageButton, RxAnimation animation) => ((IImageButton)imageButton).Padding = ((RxThicknessAnimation)animation).CurrentValue();
+    static object? SetBorderWidth(object imageButton, RxAnimation animation) => ((IImageButton)imageButton).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetPadding(object imageButton, RxAnimation animation) => ((IImageButton)imageButton).Padding = ((RxThicknessAnimation)animation).CurrentValue();
     public static T CornerRadius<T>(this T imageButton, int cornerRadius)
         where T : IImageButton
     {

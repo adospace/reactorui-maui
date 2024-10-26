@@ -1784,7 +1784,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("\r\n        static void Set");
+            this.Write("\r\n        static object? Set");
             
             #line 473 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
@@ -1826,7 +1826,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("\r\n        static void Set");
+            this.Write("\r\n        static object? Set");
             
             #line 478 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
@@ -1868,7 +1868,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("\r\n        static void Set");
+            this.Write("\r\n        static object? Set");
             
             #line 483 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
@@ -1910,7 +1910,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("    \r\n        static void Set");
+            this.Write("    \r\n        static object? Set");
             
             #line 488 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
@@ -1952,7 +1952,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("        \r\n        static void Set");
+            this.Write("        \r\n        static object? Set");
             
             #line 493 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
@@ -1994,7 +1994,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("        \r\n        static void Set");
+            this.Write("        \r\n        static object? Set");
             
             #line 498 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
@@ -2036,7 +2036,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("        \r\n        static void Set");
+            this.Write("        \r\n        static object? Set");
             
             #line 503 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
@@ -2078,7 +2078,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("        \r\n        static void Set");
+            this.Write("        \r\n        static object? Set");
             
             #line 508 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
@@ -2120,7 +2120,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("        \r\n        static void Set");
+            this.Write("        \r\n        static object? Set");
             
             #line 513 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));

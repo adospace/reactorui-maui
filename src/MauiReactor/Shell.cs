@@ -218,8 +218,8 @@ public partial class Shell : Shell<Microsoft.Maui.Controls.Shell>
 
 public static partial class ShellExtensions
 {
-    static void SetFlyoutWidth(object shell, RxAnimation animation) => ((IShell)shell).FlyoutWidth = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetFlyoutHeight(object shell, RxAnimation animation) => ((IShell)shell).FlyoutHeight = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetFlyoutWidth(object shell, RxAnimation animation) => ((IShell)shell).FlyoutWidth = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetFlyoutHeight(object shell, RxAnimation animation) => ((IShell)shell).FlyoutHeight = ((RxDoubleAnimation)animation).CurrentValue();
     public static T FlyoutBehavior<T>(this T shell, Microsoft.Maui.FlyoutBehavior flyoutBehavior)
         where T : IShell
     {

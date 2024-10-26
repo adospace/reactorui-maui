@@ -149,10 +149,10 @@ public partial class Stepper : Stepper<Microsoft.Maui.Controls.Stepper>
 
 public static partial class StepperExtensions
 {
-    static void SetMaximum(object stepper, RxAnimation animation) => ((IStepper)stepper).Maximum = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetMinimum(object stepper, RxAnimation animation) => ((IStepper)stepper).Minimum = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetValue(object stepper, RxAnimation animation) => ((IStepper)stepper).Value = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetIncrement(object stepper, RxAnimation animation) => ((IStepper)stepper).Increment = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMaximum(object stepper, RxAnimation animation) => ((IStepper)stepper).Maximum = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMinimum(object stepper, RxAnimation animation) => ((IStepper)stepper).Minimum = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetValue(object stepper, RxAnimation animation) => ((IStepper)stepper).Value = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetIncrement(object stepper, RxAnimation animation) => ((IStepper)stepper).Increment = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Maximum<T>(this T stepper, double maximum, RxDoubleAnimation? customAnimation = null)
         where T : IStepper
     {

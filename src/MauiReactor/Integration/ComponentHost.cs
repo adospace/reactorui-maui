@@ -20,7 +20,7 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
 
         private Microsoft.Maui.Controls.Page? _containerPage;
 
-        private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
+        private readonly LinkedList<IVisualNodeWithNativeControl> _listOfVisualsToAnimate = new();
 
         public ComponentHostNode(ComponentHost host)
         {
@@ -121,7 +121,7 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
                 return false;
 
             bool animated = false;
-            LinkedListNode<VisualNode>? nodeToAnimate = _listOfVisualsToAnimate.First;
+            LinkedListNode<IVisualNodeWithNativeControl>? nodeToAnimate = _listOfVisualsToAnimate.First;
             while (nodeToAnimate != null)
             {
                 var nextNode = nodeToAnimate.Next;
@@ -180,7 +180,7 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
             _sleeping = true;
         }
 
-        void IHostElement.RequestAnimationFrame(VisualNode visualNode)
+        void IHostElement.RequestAnimationFrame(IVisualNodeWithNativeControl visualNode)
         {
             _listOfVisualsToAnimate.AddFirst(visualNode);
         }

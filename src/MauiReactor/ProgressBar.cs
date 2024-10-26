@@ -91,7 +91,7 @@ public partial class ProgressBar : ProgressBar<Microsoft.Maui.Controls.ProgressB
 
 public static partial class ProgressBarExtensions
 {
-    static void SetProgress(object progressBar, RxAnimation animation) => ((IProgressBar)progressBar).Progress = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetProgress(object progressBar, RxAnimation animation) => ((IProgressBar)progressBar).Progress = ((RxDoubleAnimation)animation).CurrentValue();
     public static T ProgressColor<T>(this T progressBar, Microsoft.Maui.Graphics.Color progressColor)
         where T : IProgressBar
     {

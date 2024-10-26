@@ -183,8 +183,8 @@ public partial class DatePicker : DatePicker<Microsoft.Maui.Controls.DatePicker>
 
 public static partial class DatePickerExtensions
 {
-    static void SetCharacterSpacing(object datePicker, RxAnimation animation) => ((IDatePicker)datePicker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetFontSize(object datePicker, RxAnimation animation) => ((IDatePicker)datePicker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetCharacterSpacing(object datePicker, RxAnimation animation) => ((IDatePicker)datePicker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetFontSize(object datePicker, RxAnimation animation) => ((IDatePicker)datePicker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Format<T>(this T datePicker, string format)
         where T : IDatePicker
     {

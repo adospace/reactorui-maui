@@ -187,7 +187,7 @@ public partial class CarouselView : CarouselView<Microsoft.Maui.Controls.Carouse
 
 public static partial class CarouselViewExtensions
 {
-    static void SetPeekAreaInsets(object carouselView, RxAnimation animation) => ((ICarouselView)carouselView).PeekAreaInsets = ((RxThicknessAnimation)animation).CurrentValue();
+    static object? SetPeekAreaInsets(object carouselView, RxAnimation animation) => ((ICarouselView)carouselView).PeekAreaInsets = ((RxThicknessAnimation)animation).CurrentValue();
     public static T Loop<T>(this T carouselView, bool loop)
         where T : ICarouselView
     {

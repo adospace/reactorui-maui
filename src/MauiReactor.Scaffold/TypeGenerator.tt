@@ -268,32 +268,32 @@ public static partial class <#= TypeName() #>Extensions
 
     <# if (property.PropertyType == typeof(double)) { #>
 
-    static void Set<#= property.Name #>(object <#= TypeName().ToLocalVariableName() #>, RxAnimation animation)
+    static object? Set<#= property.Name #>(object <#= TypeName().ToLocalVariableName() #>, RxAnimation animation)
         => ((<#= InterfaceName() #>)<#= TypeName().ToLocalVariableName() #>).<#= property.Name #> = ((RxDoubleAnimation)animation).CurrentValue();
 
     <# } else if (property.PropertyType == typeof(Rect)) { #>
 
-    static void Set<#= property.Name #>(object <#= TypeName().ToLocalVariableName() #>, RxAnimation animation)
+    static object? Set<#= property.Name #>(object <#= TypeName().ToLocalVariableName() #>, RxAnimation animation)
         => ((<#= InterfaceName() #>)<#= TypeName().ToLocalVariableName() #>).<#= property.Name #> = ((RxRectAnimation)animation).CurrentValue();
 
     <# } else if (property.PropertyType == typeof(Point)) { #>
     
-    static void Set<#= property.Name #>(object <#= TypeName().ToLocalVariableName() #>, RxAnimation animation)
+    static object? Set<#= property.Name #>(object <#= TypeName().ToLocalVariableName() #>, RxAnimation animation)
         => ((<#= InterfaceName() #>)<#= TypeName().ToLocalVariableName() #>).<#= property.Name #> = ((RxPointAnimation)animation).CurrentValue();
 
     <# } else if (property.PropertyType == typeof(CornerRadius)) { #>
         
-    static void Set<#= property.Name #>(object <#= TypeName().ToLocalVariableName() #>, RxAnimation animation)
+    static object? Set<#= property.Name #>(object <#= TypeName().ToLocalVariableName() #>, RxAnimation animation)
         => ((<#= InterfaceName() #>)<#= TypeName().ToLocalVariableName() #>).<#= property.Name #> = ((RxCornerRadiusAnimation)animation).CurrentValue();
 
     <# } else if (property.PropertyType.Name == "Thickness") { #>
         
-    static void Set<#= property.Name #>(object <#= TypeName().ToLocalVariableName() #>, RxAnimation animation)
+    static object? Set<#= property.Name #>(object <#= TypeName().ToLocalVariableName() #>, RxAnimation animation)
         => ((<#= InterfaceName() #>)<#= TypeName().ToLocalVariableName() #>).<#= property.Name #> = ((RxThicknessAnimation)animation).CurrentValue();
 
     <# } else if (property.PropertyType.Name == "CornerRadius") { #>
         
-    static void Set<#= property.Name #>(object <#= TypeName().ToLocalVariableName() #>, RxAnimation animation)
+    static object? Set<#= property.Name #>(object <#= TypeName().ToLocalVariableName() #>, RxAnimation animation)
         => ((<#= InterfaceName() #>)<#= TypeName().ToLocalVariableName() #>).<#= property.Name #> = ((RxCornerRadiusAnimation)animation).CurrentValue();
         
     <# } #>

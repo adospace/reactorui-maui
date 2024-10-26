@@ -488,14 +488,14 @@ public partial class Window : Window<Microsoft.Maui.Controls.Window>
 
 public static partial class WindowExtensions
 {
-    static void SetX(object window, RxAnimation animation) => ((IWindow)window).X = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetY(object window, RxAnimation animation) => ((IWindow)window).Y = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetWidth(object window, RxAnimation animation) => ((IWindow)window).Width = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetHeight(object window, RxAnimation animation) => ((IWindow)window).Height = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetMaximumWidth(object window, RxAnimation animation) => ((IWindow)window).MaximumWidth = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetMaximumHeight(object window, RxAnimation animation) => ((IWindow)window).MaximumHeight = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetMinimumWidth(object window, RxAnimation animation) => ((IWindow)window).MinimumWidth = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetMinimumHeight(object window, RxAnimation animation) => ((IWindow)window).MinimumHeight = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetX(object window, RxAnimation animation) => ((IWindow)window).X = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetY(object window, RxAnimation animation) => ((IWindow)window).Y = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetWidth(object window, RxAnimation animation) => ((IWindow)window).Width = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetHeight(object window, RxAnimation animation) => ((IWindow)window).Height = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMaximumWidth(object window, RxAnimation animation) => ((IWindow)window).MaximumWidth = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMaximumHeight(object window, RxAnimation animation) => ((IWindow)window).MaximumHeight = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMinimumWidth(object window, RxAnimation animation) => ((IWindow)window).MinimumWidth = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMinimumHeight(object window, RxAnimation animation) => ((IWindow)window).MinimumHeight = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Title<T>(this T window, string title)
         where T : IWindow
     {

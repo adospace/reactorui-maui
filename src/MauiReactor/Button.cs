@@ -261,10 +261,10 @@ public partial class Button : Button<Microsoft.Maui.Controls.Button>
 
 public static partial class ButtonExtensions
 {
-    static void SetCharacterSpacing(object button, RxAnimation animation) => ((IButton)button).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetFontSize(object button, RxAnimation animation) => ((IButton)button).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetBorderWidth(object button, RxAnimation animation) => ((IButton)button).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetPadding(object button, RxAnimation animation) => ((IButton)button).Padding = ((RxThicknessAnimation)animation).CurrentValue();
+    static object? SetCharacterSpacing(object button, RxAnimation animation) => ((IButton)button).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetFontSize(object button, RxAnimation animation) => ((IButton)button).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetBorderWidth(object button, RxAnimation animation) => ((IButton)button).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetPadding(object button, RxAnimation animation) => ((IButton)button).Padding = ((RxThicknessAnimation)animation).CurrentValue();
     public static T ContentLayout<T>(this T button, Microsoft.Maui.Controls.Button.ButtonContentLayout contentLayout)
         where T : IButton
     {

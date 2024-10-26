@@ -87,8 +87,8 @@ public abstract partial class GridItemsLayout<T> : ItemsLayout<T>, IGridItemsLay
 
 public static partial class GridItemsLayoutExtensions
 {
-    static void SetVerticalItemSpacing(object gridItemsLayout, RxAnimation animation) => ((IGridItemsLayout)gridItemsLayout).VerticalItemSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetHorizontalItemSpacing(object gridItemsLayout, RxAnimation animation) => ((IGridItemsLayout)gridItemsLayout).HorizontalItemSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetVerticalItemSpacing(object gridItemsLayout, RxAnimation animation) => ((IGridItemsLayout)gridItemsLayout).VerticalItemSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetHorizontalItemSpacing(object gridItemsLayout, RxAnimation animation) => ((IGridItemsLayout)gridItemsLayout).HorizontalItemSpacing = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Span<T>(this T gridItemsLayout, int span)
         where T : IGridItemsLayout
     {

@@ -7,14 +7,11 @@
         {
             Easing = easing;
             Duration = duration;
-            StartTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-            System.Diagnostics.Debug.Assert(StartTime > 0);
             InitialDelay = initialDelay;
         }
 
         public double? Duration { get; internal set; }
         public Easing? Easing { get; internal set; }
-        public long StartTime { get; protected set; }
         public double? InitialDelay { get; internal set; }
     }
 }

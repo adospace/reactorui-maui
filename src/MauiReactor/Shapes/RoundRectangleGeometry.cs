@@ -92,8 +92,8 @@ public partial class RoundRectangleGeometry : RoundRectangleGeometry<Microsoft.M
 
 public static partial class RoundRectangleGeometryExtensions
 {
-    static void SetRect(object roundRectangleGeometry, RxAnimation animation) => ((IRoundRectangleGeometry)roundRectangleGeometry).Rect = ((RxRectAnimation)animation).CurrentValue();
-    static void SetCornerRadius(object roundRectangleGeometry, RxAnimation animation) => ((IRoundRectangleGeometry)roundRectangleGeometry).CornerRadius = ((RxCornerRadiusAnimation)animation).CurrentValue();
+    static object? SetRect(object roundRectangleGeometry, RxAnimation animation) => ((IRoundRectangleGeometry)roundRectangleGeometry).Rect = ((RxRectAnimation)animation).CurrentValue();
+    static object? SetCornerRadius(object roundRectangleGeometry, RxAnimation animation) => ((IRoundRectangleGeometry)roundRectangleGeometry).CornerRadius = ((RxCornerRadiusAnimation)animation).CurrentValue();
     public static T Rect<T>(this T roundRectangleGeometry, Microsoft.Maui.Graphics.Rect rect, RxRectAnimation? customAnimation = null)
         where T : IRoundRectangleGeometry
     {

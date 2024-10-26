@@ -214,8 +214,8 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
 
 public static partial class InputViewExtensions
 {
-    static void SetCharacterSpacing(object inputView, RxAnimation animation) => ((IInputView)inputView).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetFontSize(object inputView, RxAnimation animation) => ((IInputView)inputView).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetCharacterSpacing(object inputView, RxAnimation animation) => ((IInputView)inputView).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetFontSize(object inputView, RxAnimation animation) => ((IInputView)inputView).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Text<T>(this T inputView, string text)
         where T : IInputView
     {
