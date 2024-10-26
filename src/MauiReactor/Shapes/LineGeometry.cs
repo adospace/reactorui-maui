@@ -54,16 +54,6 @@ public partial class LineGeometry<T> : Shapes.Geometry<T>, ILineGeometry where T
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsILineGeometry = (ILineGeometry)this;
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, thisAsILineGeometry.StartPoint);
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, thisAsILineGeometry.EndPoint);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

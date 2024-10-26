@@ -54,16 +54,6 @@ public sealed partial class Rectangle : Shapes.Shape<Microsoft.Maui.Controls.Sha
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIRectangle = (IRectangle)this;
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusXProperty, thisAsIRectangle.RadiusX);
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusYProperty, thisAsIRectangle.RadiusY);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

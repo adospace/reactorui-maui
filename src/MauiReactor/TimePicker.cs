@@ -90,16 +90,6 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsITimePicker = (ITimePicker)this;
-        AnimateProperty(Microsoft.Maui.Controls.TimePicker.CharacterSpacingProperty, thisAsITimePicker.CharacterSpacing);
-        AnimateProperty(Microsoft.Maui.Controls.TimePicker.FontSizeProperty, thisAsITimePicker.FontSize);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

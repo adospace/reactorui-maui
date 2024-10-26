@@ -48,15 +48,6 @@ public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Mic
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIStackBase = (IStackBase)this;
-        AnimateProperty(Microsoft.Maui.Controls.StackBase.SpacingProperty, thisAsIStackBase.Spacing);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

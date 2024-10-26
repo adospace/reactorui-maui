@@ -162,18 +162,6 @@ public partial class Button<T> : View<T>, IButton where T : Microsoft.Maui.Contr
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIButton = (IButton)this;
-        AnimateProperty(Microsoft.Maui.Controls.Button.CharacterSpacingProperty, thisAsIButton.CharacterSpacing);
-        AnimateProperty(Microsoft.Maui.Controls.Button.FontSizeProperty, thisAsIButton.FontSize);
-        AnimateProperty(Microsoft.Maui.Controls.Button.BorderWidthProperty, thisAsIButton.BorderWidth);
-        AnimateProperty(Microsoft.Maui.Controls.Button.PaddingProperty, thisAsIButton.Padding);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

@@ -90,15 +90,6 @@ public partial class IndicatorView<T> : TemplatedView<T>, IIndicatorView where T
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIIndicatorView = (IIndicatorView)this;
-        AnimateProperty(Microsoft.Maui.Controls.IndicatorView.IndicatorSizeProperty, thisAsIIndicatorView.IndicatorSize);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

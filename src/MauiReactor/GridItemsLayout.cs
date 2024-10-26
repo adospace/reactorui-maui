@@ -60,16 +60,6 @@ public abstract partial class GridItemsLayout<T> : ItemsLayout<T>, IGridItemsLay
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIGridItemsLayout = (IGridItemsLayout)this;
-        AnimateProperty(Microsoft.Maui.Controls.GridItemsLayout.VerticalItemSpacingProperty, thisAsIGridItemsLayout.VerticalItemSpacing);
-        AnimateProperty(Microsoft.Maui.Controls.GridItemsLayout.HorizontalItemSpacingProperty, thisAsIGridItemsLayout.HorizontalItemSpacing);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

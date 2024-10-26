@@ -9,7 +9,7 @@
         }
 
         public double TargetValue { get; }
-        public double? StartValue { get; /*private set;*/ }
+        public double? StartValue { get; private set; }
 
         private bool _isCompleted;
         public override bool IsCompleted() => _isCompleted || StartValue == null || StartValue.Value == TargetValue;
@@ -62,18 +62,18 @@
             //System.Diagnostics.Debug.Assert(previousAnimation != this);
             var previousDoubleAnimation = ((RxDoubleAnimation)previousAnimation);
 
-            //StartValue = previousDoubleAnimation.CurrentValue();
+            StartValue = previousDoubleAnimation.CurrentValue();
             //System.Diagnostics.Debug.WriteLine($"Migrate StartValue from {StartValue} to {((RxDoubleAnimation)previousAnimation).TargetValue} (TargetValue={TargetValue})");
 
-            if (!previousDoubleAnimation.IsCompleted())
-            {
-                var duration = Duration ?? DefaultDuration;
-                var previousCompletion = previousDoubleAnimation.Completion();
-                //StartTime -= (long)(duration * (previousCompletion));
-                //System.Diagnostics.Debug.WriteLine($"previousCompletion={previousDoubleAnimation.Completion()} -> completion={Completion()}");
-                //if (StartTime < 0)
-                    //System.Diagnostics.Debug.Assert(StartTime > 0);
-            }
+            //if (!previousDoubleAnimation.IsCompleted())
+            //{
+            //    var duration = Duration ?? DefaultDuration;
+            //    var previousCompletion = previousDoubleAnimation.Completion();
+            //    StartTime -= (long)(duration * (previousCompletion));
+            //    //System.Diagnostics.Debug.WriteLine($"previousCompletion={previousDoubleAnimation.Completion()} -> completion={Completion()}");
+            //    //if (StartTime < 0)
+            //        //System.Diagnostics.Debug.Assert(StartTime > 0);
+            //}
 
             base.OnMigrateFrom(previousAnimation);
         }

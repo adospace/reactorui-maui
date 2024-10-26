@@ -54,16 +54,6 @@ public partial class RoundRectangleGeometry<T> : Shapes.GeometryGroup<T>, IRound
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIRoundRectangleGeometry = (IRoundRectangleGeometry)this;
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry.RectProperty, thisAsIRoundRectangleGeometry.Rect);
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry.CornerRadiusProperty, thisAsIRoundRectangleGeometry.CornerRadius);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

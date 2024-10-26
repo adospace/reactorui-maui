@@ -157,27 +157,6 @@ public abstract partial class <#= TypeName() #><T> : <#= BaseTypeName() #><T>, <
         OnEndUpdate();
     }
 
-    <# if (AnimatableProperties.Any()) { #>
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-
-        var thisAs<#= InterfaceName() #> = (<#= InterfaceName() #>)this;
-
-        <# foreach (var property in AnimatableProperties) { #>
-        <# if (IsGenericType()) { #>
-        AnimateProperty(<#= FullTypeName() #><TChild>.<#= property.Name #>Property, thisAs<#= InterfaceName() #>.<#= property.Name #>);
-        <# } else { #>
-        AnimateProperty(<#= FullTypeName() #>.<#= property.Name #>Property, thisAs<#= InterfaceName() #>.<#= property.Name #>);
-        <# } #>
-        <# } #>
-
-        base.OnAnimate();
-
-        OnEndAnimate();
-    }
-    <# } #>
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
 

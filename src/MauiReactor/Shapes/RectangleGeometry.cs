@@ -48,15 +48,6 @@ public partial class RectangleGeometry<T> : Shapes.Geometry<T>, IRectangleGeomet
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIRectangleGeometry = (IRectangleGeometry)this;
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, thisAsIRectangleGeometry.Rect);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

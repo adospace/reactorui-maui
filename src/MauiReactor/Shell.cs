@@ -134,16 +134,6 @@ public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Control
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIShell = (IShell)this;
-        AnimateProperty(Microsoft.Maui.Controls.Shell.FlyoutWidthProperty, thisAsIShell.FlyoutWidth);
-        AnimateProperty(Microsoft.Maui.Controls.Shell.FlyoutHeightProperty, thisAsIShell.FlyoutHeight);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

@@ -54,16 +54,6 @@ public partial class Grid<T> : Layout<T>, IGrid where T : Microsoft.Maui.Control
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIGrid = (IGrid)this;
-        AnimateProperty(Microsoft.Maui.Controls.Grid.RowSpacingProperty, thisAsIGrid.RowSpacing);
-        AnimateProperty(Microsoft.Maui.Controls.Grid.ColumnSpacingProperty, thisAsIGrid.ColumnSpacing);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

@@ -76,18 +76,6 @@ public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Con
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIStepper = (IStepper)this;
-        AnimateProperty(Microsoft.Maui.Controls.Stepper.MaximumProperty, thisAsIStepper.Maximum);
-        AnimateProperty(Microsoft.Maui.Controls.Stepper.MinimumProperty, thisAsIStepper.Minimum);
-        AnimateProperty(Microsoft.Maui.Controls.Stepper.ValueProperty, thisAsIStepper.Value);
-        AnimateProperty(Microsoft.Maui.Controls.Stepper.IncrementProperty, thisAsIStepper.Increment);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

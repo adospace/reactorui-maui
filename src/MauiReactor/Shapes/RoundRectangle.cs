@@ -48,15 +48,6 @@ public sealed partial class RoundRectangle : Shapes.Shape<Microsoft.Maui.Control
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIRoundRectangle = (IRoundRectangle)this;
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.RoundRectangle.CornerRadiusProperty, thisAsIRoundRectangle.CornerRadius);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

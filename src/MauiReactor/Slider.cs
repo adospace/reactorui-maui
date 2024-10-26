@@ -114,17 +114,6 @@ public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Contr
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsISlider = (ISlider)this;
-        AnimateProperty(Microsoft.Maui.Controls.Slider.MinimumProperty, thisAsISlider.Minimum);
-        AnimateProperty(Microsoft.Maui.Controls.Slider.MaximumProperty, thisAsISlider.Maximum);
-        AnimateProperty(Microsoft.Maui.Controls.Slider.ValueProperty, thisAsISlider.Value);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

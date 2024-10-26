@@ -132,15 +132,6 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIPage = (IPage)this;
-        AnimateProperty(Microsoft.Maui.Controls.Page.PaddingProperty, thisAsIPage.Padding);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

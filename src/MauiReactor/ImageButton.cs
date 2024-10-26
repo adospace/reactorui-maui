@@ -114,16 +114,6 @@ public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIImageButton = (IImageButton)this;
-        AnimateProperty(Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, thisAsIImageButton.BorderWidth);
-        AnimateProperty(Microsoft.Maui.Controls.ImageButton.PaddingProperty, thisAsIImageButton.Padding);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

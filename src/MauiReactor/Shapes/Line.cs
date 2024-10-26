@@ -66,18 +66,6 @@ public sealed partial class Line : Shapes.Shape<Microsoft.Maui.Controls.Shapes.L
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsILine = (ILine)this;
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.Line.X1Property, thisAsILine.X1);
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.Line.Y1Property, thisAsILine.Y1);
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.Line.X2Property, thisAsILine.X2);
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.Line.Y2Property, thisAsILine.Y2);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

@@ -104,15 +104,6 @@ public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Mic
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsICarouselView = (ICarouselView)this;
-        AnimateProperty(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, thisAsICarouselView.PeekAreaInsets);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

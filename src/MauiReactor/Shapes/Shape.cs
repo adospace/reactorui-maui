@@ -96,17 +96,6 @@ public abstract partial class Shape<T> : View<T>, IShape where T : Microsoft.Mau
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIShape = (IShape)this;
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeThicknessProperty, thisAsIShape.StrokeThickness);
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashOffsetProperty, thisAsIShape.StrokeDashOffset);
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeMiterLimitProperty, thisAsIShape.StrokeMiterLimit);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

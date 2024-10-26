@@ -240,7 +240,7 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
             var elapsedMilliseconds = (DateTime.Now - now).TotalMilliseconds;
             if (elapsedMilliseconds > 16)
             {
-                System.Diagnostics.Debug.WriteLine("[MauiReactor] FPS WARNING");
+                System.Diagnostics.Debug.WriteLine($"[MauiReactor] FPS WARNING {elapsedMilliseconds}");
                 Application.Current.Dispatcher.Dispatch(AnimationCallback);
             }
             else

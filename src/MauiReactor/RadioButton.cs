@@ -130,17 +130,6 @@ public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : M
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIRadioButton = (IRadioButton)this;
-        AnimateProperty(Microsoft.Maui.Controls.RadioButton.CharacterSpacingProperty, thisAsIRadioButton.CharacterSpacing);
-        AnimateProperty(Microsoft.Maui.Controls.RadioButton.FontSizeProperty, thisAsIRadioButton.FontSize);
-        AnimateProperty(Microsoft.Maui.Controls.RadioButton.BorderWidthProperty, thisAsIRadioButton.BorderWidth);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

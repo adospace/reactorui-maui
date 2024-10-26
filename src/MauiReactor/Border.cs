@@ -90,18 +90,6 @@ public partial class Border<T> : View<T>, IBorder where T : Microsoft.Maui.Contr
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIBorder = (IBorder)this;
-        AnimateProperty(Microsoft.Maui.Controls.Border.PaddingProperty, thisAsIBorder.Padding);
-        AnimateProperty(Microsoft.Maui.Controls.Border.StrokeThicknessProperty, thisAsIBorder.StrokeThickness);
-        AnimateProperty(Microsoft.Maui.Controls.Border.StrokeDashOffsetProperty, thisAsIBorder.StrokeDashOffset);
-        AnimateProperty(Microsoft.Maui.Controls.Border.StrokeMiterLimitProperty, thisAsIBorder.StrokeMiterLimit);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

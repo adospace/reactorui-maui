@@ -242,22 +242,6 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIWindow = (IWindow)this;
-        AnimateProperty(Microsoft.Maui.Controls.Window.XProperty, thisAsIWindow.X);
-        AnimateProperty(Microsoft.Maui.Controls.Window.YProperty, thisAsIWindow.Y);
-        AnimateProperty(Microsoft.Maui.Controls.Window.WidthProperty, thisAsIWindow.Width);
-        AnimateProperty(Microsoft.Maui.Controls.Window.HeightProperty, thisAsIWindow.Height);
-        AnimateProperty(Microsoft.Maui.Controls.Window.MaximumWidthProperty, thisAsIWindow.MaximumWidth);
-        AnimateProperty(Microsoft.Maui.Controls.Window.MaximumHeightProperty, thisAsIWindow.MaximumHeight);
-        AnimateProperty(Microsoft.Maui.Controls.Window.MinimumWidthProperty, thisAsIWindow.MinimumWidth);
-        AnimateProperty(Microsoft.Maui.Controls.Window.MinimumHeightProperty, thisAsIWindow.MinimumHeight);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

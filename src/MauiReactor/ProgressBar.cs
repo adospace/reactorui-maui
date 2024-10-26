@@ -54,15 +54,6 @@ public partial class ProgressBar<T> : View<T>, IProgressBar where T : Microsoft.
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIProgressBar = (IProgressBar)this;
-        AnimateProperty(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, thisAsIProgressBar.Progress);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

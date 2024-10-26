@@ -48,15 +48,6 @@ public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItem
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsILinearItemsLayout = (ILinearItemsLayout)this;
-        AnimateProperty(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, thisAsILinearItemsLayout.ItemSpacing);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

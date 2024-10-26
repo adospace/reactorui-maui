@@ -112,16 +112,6 @@ public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Ma
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIDatePicker = (IDatePicker)this;
-        AnimateProperty(Microsoft.Maui.Controls.DatePicker.CharacterSpacingProperty, thisAsIDatePicker.CharacterSpacing);
-        AnimateProperty(Microsoft.Maui.Controls.DatePicker.FontSizeProperty, thisAsIDatePicker.FontSize);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

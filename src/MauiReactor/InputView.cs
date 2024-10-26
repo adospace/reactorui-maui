@@ -154,16 +154,6 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIInputView = (IInputView)this;
-        AnimateProperty(Microsoft.Maui.Controls.InputView.CharacterSpacingProperty, thisAsIInputView.CharacterSpacing);
-        AnimateProperty(Microsoft.Maui.Controls.InputView.FontSizeProperty, thisAsIInputView.FontSize);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

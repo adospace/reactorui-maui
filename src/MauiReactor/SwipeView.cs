@@ -78,15 +78,6 @@ public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microso
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsISwipeView = (ISwipeView)this;
-        AnimateProperty(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, thisAsISwipeView.Threshold);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();

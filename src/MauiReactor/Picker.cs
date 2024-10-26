@@ -118,16 +118,6 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIPicker = (IPicker)this;
-        AnimateProperty(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, thisAsIPicker.CharacterSpacing);
-        AnimateProperty(Microsoft.Maui.Controls.Picker.FontSizeProperty, thisAsIPicker.FontSize);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
