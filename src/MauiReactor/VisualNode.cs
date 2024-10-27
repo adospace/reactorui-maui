@@ -952,9 +952,9 @@ namespace MauiReactor
 
                             Validate.EnsureNotNull(NativeControl);
 
-                            //var oldValue = NativeControl.GetValue(property);
+                            var oldValue = NativeControl.GetValue(animatable.Key);
 
-                            //if (!CompareUtils.AreEquals(oldValue, newValue))
+                            if (!CompareUtils.AreEquals(oldValue, newValue))
                             {
                                 NativeControl.SetValue(animatable.Key, newValue);
                             }

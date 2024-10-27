@@ -228,19 +228,20 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
 
     private void AnimationCallback()
     {
-        if (!_started || _sleeping)
+        if (!_started || _sleeping || Application.Current == null)
         {
             return;
         }
 
         DateTime now = DateTime.Now;
-        if (Application.Current != null && AnimateVisuals())
+        if (AnimateVisuals())
         {
             //System.Diagnostics.Debug.WriteLine($"{(DateTime.Now - now).TotalMilliseconds}");
             var elapsedMilliseconds = (DateTime.Now - now).TotalMilliseconds;
+
             if (elapsedMilliseconds > 16)
             {
-                System.Diagnostics.Debug.WriteLine($"[MauiReactor] FPS WARNING {elapsedMilliseconds}");
+                System.Diagnostics.Debug.WriteLine($"[MauiReactor] FPS WARNING {elapsedMilliseconds}ms");
                 Application.Current.Dispatcher.Dispatch(AnimationCallback);
             }
             else
