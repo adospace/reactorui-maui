@@ -90,15 +90,6 @@ public partial class IndicatorView<T> : TemplatedView<T>, IIndicatorView where T
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIIndicatorView = (IIndicatorView)this;
-        AnimateProperty(Microsoft.Maui.Controls.IndicatorView.IndicatorSizeProperty, thisAsIIndicatorView.IndicatorSize);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -127,7 +118,7 @@ public partial class IndicatorView : IndicatorView<Microsoft.Maui.Controls.Indic
 
 public static partial class IndicatorViewExtensions
 {
-    static void SetIndicatorSize(object indicatorView, RxAnimation animation) => ((IIndicatorView)indicatorView).IndicatorSize = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetIndicatorSize(object indicatorView, RxAnimation animation) => ((IIndicatorView)indicatorView).IndicatorSize = ((RxDoubleAnimation)animation).CurrentValue();
     public static T IndicatorsShape<T>(this T indicatorView, Microsoft.Maui.Controls.IndicatorShape indicatorsShape)
         where T : IIndicatorView
     {

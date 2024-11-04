@@ -25,6 +25,12 @@
                 return true;
             }
 
+            if (left is double x &&
+                right is double y)
+            {
+                return AreDoublesClose(x, y);
+            }
+
             if (left is SolidColorBrush leftSolidColorBrush &&
                 right is SolidColorBrush rightSolidColorBrush)
             {
@@ -55,12 +61,6 @@
                 right is UrlWebViewSource rightUrlWebViewSource)
             {
                 return leftUrlWebViewSource.Url == rightUrlWebViewSource.Url;
-            }
-
-            if (left is double x &&
-                right is double y)
-            {
-                return AreDoublesClose(x, y);
             }
 
             return false;

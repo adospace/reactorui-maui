@@ -60,17 +60,6 @@ public partial class EllipseGeometry<T> : Shapes.Geometry<T>, IEllipseGeometry w
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIEllipseGeometry = (IEllipseGeometry)this;
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, thisAsIEllipseGeometry.Center);
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, thisAsIEllipseGeometry.RadiusX);
-        AnimateProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, thisAsIEllipseGeometry.RadiusY);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -99,9 +88,9 @@ public partial class EllipseGeometry : EllipseGeometry<Microsoft.Maui.Controls.S
 
 public static partial class EllipseGeometryExtensions
 {
-    static void SetCenter(object ellipseGeometry, RxAnimation animation) => ((IEllipseGeometry)ellipseGeometry).Center = ((RxPointAnimation)animation).CurrentValue();
-    static void SetRadiusX(object ellipseGeometry, RxAnimation animation) => ((IEllipseGeometry)ellipseGeometry).RadiusX = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetRadiusY(object ellipseGeometry, RxAnimation animation) => ((IEllipseGeometry)ellipseGeometry).RadiusY = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetCenter(object ellipseGeometry, RxAnimation animation) => ((IEllipseGeometry)ellipseGeometry).Center = ((RxPointAnimation)animation).CurrentValue();
+    static object? SetRadiusX(object ellipseGeometry, RxAnimation animation) => ((IEllipseGeometry)ellipseGeometry).RadiusX = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetRadiusY(object ellipseGeometry, RxAnimation animation) => ((IEllipseGeometry)ellipseGeometry).RadiusY = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Center<T>(this T ellipseGeometry, Microsoft.Maui.Graphics.Point center, RxPointAnimation? customAnimation = null)
         where T : IEllipseGeometry
     {

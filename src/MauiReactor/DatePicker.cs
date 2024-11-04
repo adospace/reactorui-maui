@@ -112,16 +112,6 @@ public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Ma
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIDatePicker = (IDatePicker)this;
-        AnimateProperty(Microsoft.Maui.Controls.DatePicker.CharacterSpacingProperty, thisAsIDatePicker.CharacterSpacing);
-        AnimateProperty(Microsoft.Maui.Controls.DatePicker.FontSizeProperty, thisAsIDatePicker.FontSize);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -183,8 +173,8 @@ public partial class DatePicker : DatePicker<Microsoft.Maui.Controls.DatePicker>
 
 public static partial class DatePickerExtensions
 {
-    static void SetCharacterSpacing(object datePicker, RxAnimation animation) => ((IDatePicker)datePicker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetFontSize(object datePicker, RxAnimation animation) => ((IDatePicker)datePicker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetCharacterSpacing(object datePicker, RxAnimation animation) => ((IDatePicker)datePicker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetFontSize(object datePicker, RxAnimation animation) => ((IDatePicker)datePicker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Format<T>(this T datePicker, string format)
         where T : IDatePicker
     {

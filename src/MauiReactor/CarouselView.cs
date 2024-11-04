@@ -104,15 +104,6 @@ public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Mic
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsICarouselView = (ICarouselView)this;
-        AnimateProperty(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, thisAsICarouselView.PeekAreaInsets);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -187,7 +178,7 @@ public partial class CarouselView : CarouselView<Microsoft.Maui.Controls.Carouse
 
 public static partial class CarouselViewExtensions
 {
-    static void SetPeekAreaInsets(object carouselView, RxAnimation animation) => ((ICarouselView)carouselView).PeekAreaInsets = ((RxThicknessAnimation)animation).CurrentValue();
+    static object? SetPeekAreaInsets(object carouselView, RxAnimation animation) => ((ICarouselView)carouselView).PeekAreaInsets = ((RxThicknessAnimation)animation).CurrentValue();
     public static T Loop<T>(this T carouselView, bool loop)
         where T : ICarouselView
     {

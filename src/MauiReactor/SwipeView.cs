@@ -78,15 +78,6 @@ public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microso
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsISwipeView = (ISwipeView)this;
-        AnimateProperty(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, thisAsISwipeView.Threshold);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -174,7 +165,7 @@ public partial class SwipeView : SwipeView<Microsoft.Maui.Controls.SwipeView>
 
 public static partial class SwipeViewExtensions
 {
-    static void SetThreshold(object swipeView, RxAnimation animation) => ((ISwipeView)swipeView).Threshold = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetThreshold(object swipeView, RxAnimation animation) => ((ISwipeView)swipeView).Threshold = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Threshold<T>(this T swipeView, double threshold, RxDoubleAnimation? customAnimation = null)
         where T : ISwipeView
     {

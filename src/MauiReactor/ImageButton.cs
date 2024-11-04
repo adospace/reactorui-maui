@@ -114,16 +114,6 @@ public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIImageButton = (IImageButton)this;
-        AnimateProperty(Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, thisAsIImageButton.BorderWidth);
-        AnimateProperty(Microsoft.Maui.Controls.ImageButton.PaddingProperty, thisAsIImageButton.Padding);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -211,8 +201,8 @@ public partial class ImageButton : ImageButton<Microsoft.Maui.Controls.ImageButt
 
 public static partial class ImageButtonExtensions
 {
-    static void SetBorderWidth(object imageButton, RxAnimation animation) => ((IImageButton)imageButton).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetPadding(object imageButton, RxAnimation animation) => ((IImageButton)imageButton).Padding = ((RxThicknessAnimation)animation).CurrentValue();
+    static object? SetBorderWidth(object imageButton, RxAnimation animation) => ((IImageButton)imageButton).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetPadding(object imageButton, RxAnimation animation) => ((IImageButton)imageButton).Padding = ((RxThicknessAnimation)animation).CurrentValue();
     public static T CornerRadius<T>(this T imageButton, int cornerRadius)
         where T : IImageButton
     {

@@ -70,15 +70,6 @@ public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.M
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsILayout = (ILayout)this;
-        AnimateProperty(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, thisAsILayout.Padding);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -129,7 +120,7 @@ public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.M
 
 public static partial class LayoutExtensions
 {
-    static void SetPadding(object layout, RxAnimation animation) => ((ILayout)layout).Padding = ((RxThicknessAnimation)animation).CurrentValue();
+    static object? SetPadding(object layout, RxAnimation animation) => ((ILayout)layout).Padding = ((RxThicknessAnimation)animation).CurrentValue();
     public static T IsClippedToBounds<T>(this T layout, bool isClippedToBounds)
         where T : ILayout
     {

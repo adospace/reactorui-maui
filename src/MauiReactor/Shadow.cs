@@ -66,15 +66,6 @@ public partial class Shadow<T> : Element<T>, IShadow where T : Microsoft.Maui.Co
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIShadow = (IShadow)this;
-        AnimateProperty(Microsoft.Maui.Controls.Shadow.OffsetProperty, thisAsIShadow.Offset);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -103,7 +94,7 @@ public partial class Shadow : Shadow<Microsoft.Maui.Controls.Shadow>
 
 public static partial class ShadowExtensions
 {
-    static void SetOffset(object shadow, RxAnimation animation) => ((IShadow)shadow).Offset = ((RxPointAnimation)animation).CurrentValue();
+    static object? SetOffset(object shadow, RxAnimation animation) => ((IShadow)shadow).Offset = ((RxPointAnimation)animation).CurrentValue();
     public static T Radius<T>(this T shadow, float radius)
         where T : IShadow
     {

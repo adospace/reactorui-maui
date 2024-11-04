@@ -127,7 +127,7 @@ namespace MauiReactor
 
         BindableObject? ITemplateHost.NativeElement => ContainerPage;
 
-        private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
+        private readonly LinkedList<IVisualNodeWithNativeControl> _listOfVisualsToAnimate = new();
 
         private readonly Action<object>? _propsInitializer;
 
@@ -294,7 +294,7 @@ namespace MauiReactor
                 return false;
 
             bool animated = false;
-            LinkedListNode<VisualNode>? nodeToAnimate = _listOfVisualsToAnimate.First;
+            LinkedListNode<IVisualNodeWithNativeControl>? nodeToAnimate = _listOfVisualsToAnimate.First;
             while (nodeToAnimate != null)
             {
                 var nextNode = nodeToAnimate.Next;
@@ -314,7 +314,7 @@ namespace MauiReactor
             return animated;
         }
 
-        public void RequestAnimationFrame(VisualNode visualNode)
+        public void RequestAnimationFrame(IVisualNodeWithNativeControl visualNode)
         {
             _listOfVisualsToAnimate.AddFirst(visualNode);
         }

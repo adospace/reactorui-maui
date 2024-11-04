@@ -54,15 +54,6 @@ public partial class BoxView<T> : View<T>, IBoxView where T : Microsoft.Maui.Con
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIBoxView = (IBoxView)this;
-        AnimateProperty(Microsoft.Maui.Controls.BoxView.CornerRadiusProperty, thisAsIBoxView.CornerRadius);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -91,7 +82,7 @@ public partial class BoxView : BoxView<Microsoft.Maui.Controls.BoxView>
 
 public static partial class BoxViewExtensions
 {
-    static void SetCornerRadius(object boxView, RxAnimation animation) => ((IBoxView)boxView).CornerRadius = ((RxCornerRadiusAnimation)animation).CurrentValue();
+    static object? SetCornerRadius(object boxView, RxAnimation animation) => ((IBoxView)boxView).CornerRadius = ((RxCornerRadiusAnimation)animation).CurrentValue();
     public static T Color<T>(this T boxView, Microsoft.Maui.Graphics.Color color)
         where T : IBoxView
     {

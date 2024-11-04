@@ -134,16 +134,6 @@ public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Control
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIShell = (IShell)this;
-        AnimateProperty(Microsoft.Maui.Controls.Shell.FlyoutWidthProperty, thisAsIShell.FlyoutWidth);
-        AnimateProperty(Microsoft.Maui.Controls.Shell.FlyoutHeightProperty, thisAsIShell.FlyoutHeight);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -218,8 +208,8 @@ public partial class Shell : Shell<Microsoft.Maui.Controls.Shell>
 
 public static partial class ShellExtensions
 {
-    static void SetFlyoutWidth(object shell, RxAnimation animation) => ((IShell)shell).FlyoutWidth = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetFlyoutHeight(object shell, RxAnimation animation) => ((IShell)shell).FlyoutHeight = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetFlyoutWidth(object shell, RxAnimation animation) => ((IShell)shell).FlyoutWidth = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetFlyoutHeight(object shell, RxAnimation animation) => ((IShell)shell).FlyoutHeight = ((RxDoubleAnimation)animation).CurrentValue();
     public static T FlyoutBehavior<T>(this T shell, Microsoft.Maui.FlyoutBehavior flyoutBehavior)
         where T : IShell
     {

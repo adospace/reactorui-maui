@@ -10,8 +10,12 @@ namespace MauiReactor
 {
     public static partial class AbsoluteLayoutExtensions
     {
-        static void SetAbsoluteLayoutBounds(object visualNodeWithAttachedProperties, RxAnimation animation) 
-            => ((IVisualNodeWithAttachedProperties)visualNodeWithAttachedProperties).SetAttachedProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, ((RxRectAnimation)animation).CurrentValue());
+        static object? SetAbsoluteLayoutBounds(object visualNodeWithAttachedProperties, RxAnimation animation) 
+        {
+            var valueToSet = ((RxRectAnimation)animation).CurrentValue();
+            ((IVisualNodeWithAttachedProperties)visualNodeWithAttachedProperties).SetAttachedProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, valueToSet);
+            return valueToSet;
+        } 
 
         public static T AbsoluteLayoutBounds<T>(this T visualNodeWithAttachedProperties, Rect value, RxRectAnimation? customAnimation = null) where T : IVisualNodeWithAttachedProperties
         {

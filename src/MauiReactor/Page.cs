@@ -132,15 +132,6 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIPage = (IPage)this;
-        AnimateProperty(Microsoft.Maui.Controls.Page.PaddingProperty, thisAsIPage.Padding);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -267,7 +258,7 @@ public partial class Page : Page<Microsoft.Maui.Controls.Page>
 
 public static partial class PageExtensions
 {
-    static void SetPadding(object page, RxAnimation animation) => ((IPage)page).Padding = ((RxThicknessAnimation)animation).CurrentValue();
+    static object? SetPadding(object page, RxAnimation animation) => ((IPage)page).Padding = ((RxThicknessAnimation)animation).CurrentValue();
     public static T BackgroundImageSource<T>(this T page, Microsoft.Maui.Controls.ImageSource backgroundImageSource)
         where T : IPage
     {

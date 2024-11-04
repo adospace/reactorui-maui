@@ -60,15 +60,6 @@ public abstract partial class View<T> : VisualElement<T>, IView where T : Micros
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIView = (IView)this;
-        AnimateProperty(Microsoft.Maui.Controls.View.MarginProperty, thisAsIView.Margin);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -86,7 +77,7 @@ public abstract partial class View<T> : VisualElement<T>, IView where T : Micros
 
 public static partial class ViewExtensions
 {
-    static void SetMargin(object view, RxAnimation animation) => ((IView)view).Margin = ((RxThicknessAnimation)animation).CurrentValue();
+    static object? SetMargin(object view, RxAnimation animation) => ((IView)view).Margin = ((RxThicknessAnimation)animation).CurrentValue();
     public static T VerticalOptions<T>(this T view, Microsoft.Maui.Controls.LayoutOptions verticalOptions)
         where T : IView
     {

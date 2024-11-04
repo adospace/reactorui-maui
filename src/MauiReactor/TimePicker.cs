@@ -90,16 +90,6 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsITimePicker = (ITimePicker)this;
-        AnimateProperty(Microsoft.Maui.Controls.TimePicker.CharacterSpacingProperty, thisAsITimePicker.CharacterSpacing);
-        AnimateProperty(Microsoft.Maui.Controls.TimePicker.FontSizeProperty, thisAsITimePicker.FontSize);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -128,8 +118,8 @@ public partial class TimePicker : TimePicker<Microsoft.Maui.Controls.TimePicker>
 
 public static partial class TimePickerExtensions
 {
-    static void SetCharacterSpacing(object timePicker, RxAnimation animation) => ((ITimePicker)timePicker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetFontSize(object timePicker, RxAnimation animation) => ((ITimePicker)timePicker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetCharacterSpacing(object timePicker, RxAnimation animation) => ((ITimePicker)timePicker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetFontSize(object timePicker, RxAnimation animation) => ((ITimePicker)timePicker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Format<T>(this T timePicker, string format)
         where T : ITimePicker
     {

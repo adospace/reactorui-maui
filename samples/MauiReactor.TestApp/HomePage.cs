@@ -156,6 +156,10 @@ class HomePage : Component
             {
                 new CollectionViewSelectionPage()
             },
+            new FlyoutItem("Animating Label Test Page")
+            {
+                new AnimatingLabelTestPage()
+            },
         }
         .ItemTemplate(RenderItemTemplate);
     }

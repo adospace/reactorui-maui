@@ -242,22 +242,6 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIWindow = (IWindow)this;
-        AnimateProperty(Microsoft.Maui.Controls.Window.XProperty, thisAsIWindow.X);
-        AnimateProperty(Microsoft.Maui.Controls.Window.YProperty, thisAsIWindow.Y);
-        AnimateProperty(Microsoft.Maui.Controls.Window.WidthProperty, thisAsIWindow.Width);
-        AnimateProperty(Microsoft.Maui.Controls.Window.HeightProperty, thisAsIWindow.Height);
-        AnimateProperty(Microsoft.Maui.Controls.Window.MaximumWidthProperty, thisAsIWindow.MaximumWidth);
-        AnimateProperty(Microsoft.Maui.Controls.Window.MaximumHeightProperty, thisAsIWindow.MaximumHeight);
-        AnimateProperty(Microsoft.Maui.Controls.Window.MinimumWidthProperty, thisAsIWindow.MinimumWidth);
-        AnimateProperty(Microsoft.Maui.Controls.Window.MinimumHeightProperty, thisAsIWindow.MinimumHeight);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -488,14 +472,14 @@ public partial class Window : Window<Microsoft.Maui.Controls.Window>
 
 public static partial class WindowExtensions
 {
-    static void SetX(object window, RxAnimation animation) => ((IWindow)window).X = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetY(object window, RxAnimation animation) => ((IWindow)window).Y = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetWidth(object window, RxAnimation animation) => ((IWindow)window).Width = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetHeight(object window, RxAnimation animation) => ((IWindow)window).Height = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetMaximumWidth(object window, RxAnimation animation) => ((IWindow)window).MaximumWidth = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetMaximumHeight(object window, RxAnimation animation) => ((IWindow)window).MaximumHeight = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetMinimumWidth(object window, RxAnimation animation) => ((IWindow)window).MinimumWidth = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetMinimumHeight(object window, RxAnimation animation) => ((IWindow)window).MinimumHeight = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetX(object window, RxAnimation animation) => ((IWindow)window).X = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetY(object window, RxAnimation animation) => ((IWindow)window).Y = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetWidth(object window, RxAnimation animation) => ((IWindow)window).Width = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetHeight(object window, RxAnimation animation) => ((IWindow)window).Height = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMaximumWidth(object window, RxAnimation animation) => ((IWindow)window).MaximumWidth = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMaximumHeight(object window, RxAnimation animation) => ((IWindow)window).MaximumHeight = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMinimumWidth(object window, RxAnimation animation) => ((IWindow)window).MinimumWidth = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMinimumHeight(object window, RxAnimation animation) => ((IWindow)window).MinimumHeight = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Title<T>(this T window, string title)
         where T : IWindow
     {

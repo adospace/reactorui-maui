@@ -118,16 +118,6 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIPicker = (IPicker)this;
-        AnimateProperty(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, thisAsIPicker.CharacterSpacing);
-        AnimateProperty(Microsoft.Maui.Controls.Picker.FontSizeProperty, thisAsIPicker.FontSize);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -189,8 +179,8 @@ public partial class Picker : Picker<Microsoft.Maui.Controls.Picker>
 
 public static partial class PickerExtensions
 {
-    static void SetCharacterSpacing(object picker, RxAnimation animation) => ((IPicker)picker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetFontSize(object picker, RxAnimation animation) => ((IPicker)picker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetCharacterSpacing(object picker, RxAnimation animation) => ((IPicker)picker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetFontSize(object picker, RxAnimation animation) => ((IPicker)picker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
     public static T TextColor<T>(this T picker, Microsoft.Maui.Graphics.Color textColor)
         where T : IPicker
     {

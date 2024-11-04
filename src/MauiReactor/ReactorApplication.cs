@@ -34,7 +34,7 @@ internal abstract class ReactorApplicationHost : VisualNode, IHostElement, IVisu
     public virtual void OnAssemblyChanged()
     { }
 
-    public abstract void RequestAnimationFrame(VisualNode visualNode);
+    public abstract void RequestAnimationFrame(IVisualNodeWithNativeControl visualNode);
 
     public Microsoft.Maui.Controls.Page? ContainerPage => _application?.MainPage;
 
@@ -56,7 +56,7 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
     private bool _started = false;
     private bool _layoutCallEnqueued;
 
-    private readonly LinkedList<VisualNode> _listOfVisualsToAnimate = new();
+    private readonly LinkedList<IVisualNodeWithNativeControl> _listOfVisualsToAnimate = new();
 
     internal ReactorApplicationHost(ReactorApplication<T> application)
         : base(application)
@@ -221,26 +221,27 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
         yield return _rootComponent;
     }
 
-    public override void RequestAnimationFrame(VisualNode visualNode)
+    public override void RequestAnimationFrame(IVisualNodeWithNativeControl visualNode)
     {
         _listOfVisualsToAnimate.AddFirst(visualNode);
     }
 
     private void AnimationCallback()
     {
-        if (!_started || _sleeping)
+        if (!_started || _sleeping || Application.Current == null)
         {
             return;
         }
 
         DateTime now = DateTime.Now;
-        if (Application.Current != null && AnimateVisuals())
+        if (AnimateVisuals())
         {
             //System.Diagnostics.Debug.WriteLine($"{(DateTime.Now - now).TotalMilliseconds}");
             var elapsedMilliseconds = (DateTime.Now - now).TotalMilliseconds;
+
             if (elapsedMilliseconds > 16)
             {
-                System.Diagnostics.Debug.WriteLine("[MauiReactor] FPS WARNING");
+                System.Diagnostics.Debug.WriteLine($"[MauiReactor] FPS WARNING {elapsedMilliseconds}ms");
                 Application.Current.Dispatcher.Dispatch(AnimationCallback);
             }
             else
@@ -256,7 +257,7 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
             return false;
 
         bool animated = false;
-        LinkedListNode<VisualNode>? nodeToAnimate = _listOfVisualsToAnimate.First;
+        LinkedListNode<IVisualNodeWithNativeControl>? nodeToAnimate = _listOfVisualsToAnimate.First;
         while (nodeToAnimate != null)
         {
             var nextNode = nodeToAnimate.Next;

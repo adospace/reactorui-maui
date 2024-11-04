@@ -76,18 +76,6 @@ public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Con
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsIStepper = (IStepper)this;
-        AnimateProperty(Microsoft.Maui.Controls.Stepper.MaximumProperty, thisAsIStepper.Maximum);
-        AnimateProperty(Microsoft.Maui.Controls.Stepper.MinimumProperty, thisAsIStepper.Minimum);
-        AnimateProperty(Microsoft.Maui.Controls.Stepper.ValueProperty, thisAsIStepper.Value);
-        AnimateProperty(Microsoft.Maui.Controls.Stepper.IncrementProperty, thisAsIStepper.Increment);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -149,10 +137,10 @@ public partial class Stepper : Stepper<Microsoft.Maui.Controls.Stepper>
 
 public static partial class StepperExtensions
 {
-    static void SetMaximum(object stepper, RxAnimation animation) => ((IStepper)stepper).Maximum = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetMinimum(object stepper, RxAnimation animation) => ((IStepper)stepper).Minimum = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetValue(object stepper, RxAnimation animation) => ((IStepper)stepper).Value = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetIncrement(object stepper, RxAnimation animation) => ((IStepper)stepper).Increment = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMaximum(object stepper, RxAnimation animation) => ((IStepper)stepper).Maximum = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMinimum(object stepper, RxAnimation animation) => ((IStepper)stepper).Minimum = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetValue(object stepper, RxAnimation animation) => ((IStepper)stepper).Value = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetIncrement(object stepper, RxAnimation animation) => ((IStepper)stepper).Increment = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Maximum<T>(this T stepper, double maximum, RxDoubleAnimation? customAnimation = null)
         where T : IStepper
     {

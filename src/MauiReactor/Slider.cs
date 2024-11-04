@@ -114,17 +114,6 @@ public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Contr
         OnEndUpdate();
     }
 
-    protected override void OnAnimate()
-    {
-        OnBeginAnimate();
-        var thisAsISlider = (ISlider)this;
-        AnimateProperty(Microsoft.Maui.Controls.Slider.MinimumProperty, thisAsISlider.Minimum);
-        AnimateProperty(Microsoft.Maui.Controls.Slider.MaximumProperty, thisAsISlider.Maximum);
-        AnimateProperty(Microsoft.Maui.Controls.Slider.ValueProperty, thisAsISlider.Value);
-        base.OnAnimate();
-        OnEndAnimate();
-    }
-
     partial void OnBeginUpdate();
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
@@ -212,9 +201,9 @@ public partial class Slider : Slider<Microsoft.Maui.Controls.Slider>
 
 public static partial class SliderExtensions
 {
-    static void SetMinimum(object slider, RxAnimation animation) => ((ISlider)slider).Minimum = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetMaximum(object slider, RxAnimation animation) => ((ISlider)slider).Maximum = ((RxDoubleAnimation)animation).CurrentValue();
-    static void SetValue(object slider, RxAnimation animation) => ((ISlider)slider).Value = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMinimum(object slider, RxAnimation animation) => ((ISlider)slider).Minimum = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetMaximum(object slider, RxAnimation animation) => ((ISlider)slider).Maximum = ((RxDoubleAnimation)animation).CurrentValue();
+    static object? SetValue(object slider, RxAnimation animation) => ((ISlider)slider).Value = ((RxDoubleAnimation)animation).CurrentValue();
     public static T Minimum<T>(this T slider, double minimum, RxDoubleAnimation? customAnimation = null)
         where T : ISlider
     {

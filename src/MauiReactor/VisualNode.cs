@@ -7,7 +7,7 @@ namespace MauiReactor
 {
     public interface IVisualNode
     {
-        void AppendAnimatable(BindableProperty key, RxAnimation animation, Action<IVisualNode, RxAnimation> action);
+        void AppendAnimatable(BindableProperty key, RxAnimation animation, Func<IVisualNode, RxAnimation, object?> action);
 
         Microsoft.Maui.Controls.Page? GetContainerPage();
 
@@ -245,7 +245,7 @@ namespace MauiReactor
             Parent = null;
         }
 
-        public void AppendAnimatable(BindableProperty key, RxAnimation animation, Action<IVisualNode, RxAnimation> action)
+        public void AppendAnimatable(BindableProperty key, RxAnimation animation, Func<IVisualNode, RxAnimation, object?> action)
         {
             var newAnimatableProperty = new Animatable(key, animation, action);
 
@@ -291,19 +291,19 @@ namespace MauiReactor
             OnAddChild(widget, childNativeControl);
         }
 
-        internal virtual bool Animate()
-        {
-            if (_isMounted)
-            {
-              var animated = AnimateThis();
+        //internal abstract bool Animate();
+        //{
+        //    if (_isMounted)
+        //    {
+        //      var animated = AnimateThis();
 
-              OnAnimate();
+        //      OnAnimate();
 
-              return animated;
-            }
+        //      return animated;
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
         internal void DisableCurrentAnimatableProperties()
         {
@@ -319,18 +319,26 @@ namespace MauiReactor
 
         internal void EnableCurrentAnimatableProperties(Easing? easing = null, double duration = 600, double initialDelay = 0)
         {
-            if (_animatables != null)
+            ArgumentOutOfRangeException.ThrowIfNegative(duration);
+            ArgumentOutOfRangeException.ThrowIfNegative(initialDelay);
+
+            if (_animatables != null/* && duration > 0*/)
             {
-                foreach (var animatable in _animatables
-                    .Where(_ => _.Value.IsEnabled.GetValueOrDefault(true))
-                    .Select(_ => _.Value))
+                foreach (var animatable in _animatables)
                 {
-                    if (animatable.Animation is RxTweenAnimation tweenAnimation)
+                    if (animatable.Value.IsEnabled.GetValueOrDefault(true))
                     {
-                        tweenAnimation.Easing ??= easing;
-                        tweenAnimation.Duration ??= duration;
-                        tweenAnimation.InitialDelay ??= initialDelay;
-                        animatable.IsEnabled = true;
+                        if (animatable.Value.Animation is RxTweenAnimation tweenAnimation)
+                        {
+                            tweenAnimation.Easing ??= easing;
+                            tweenAnimation.Duration ??= duration;
+                            tweenAnimation.InitialDelay ??= initialDelay;
+                            if (animatable.Value.IsEnabled.GetValueOrDefault() == false)
+                            {
+                                animatable.Value.Animation.Start();
+                            }
+                            animatable.Value.IsEnabled = true;
+                        }
                     }
                 };
             }
@@ -373,7 +381,7 @@ namespace MauiReactor
 
             CommitAnimations();
 
-            AnimateThis();
+            //AnimateThis();
 
             if (_isMounted && _stateChanged)
                 OnUpdate();
@@ -381,6 +389,8 @@ namespace MauiReactor
             foreach (var child in Children.Where(_ => _.IsLayoutCycleRequired))
                 child.Layout(containerComponent);
         }
+
+        internal virtual void CommitAnimations() { }
 
         internal virtual void MergeChildrenFrom(IReadOnlyList<VisualNode> oldChildren)
         {
@@ -507,23 +517,7 @@ namespace MauiReactor
         }
 
 
-        protected virtual void CommitAnimations()
-        {
-            if (_animatables?.Any(_ => _.Value.IsEnabled.GetValueOrDefault() && !_.Value.Animation.IsCompleted()) == true)
-            {
-                var pageHost = ((IVisualNode)this).GetPageHost();
-                if (pageHost != null)
-                {
-                    pageHost.RequestAnimationFrame(this);
-                }
-                else
-                {
-                    //under TemplateHost we don't have a page host so for now we disable animations
-                    //under test environments
-                    //throw new InvalidOperationException();
-                }
-            }
-        }
+
 
         protected virtual T? GetParent<T>() where T : VisualNode
         {
@@ -552,9 +546,9 @@ namespace MauiReactor
         {
         }
 
-        protected virtual void OnAnimate()
-        {
-        }
+        //protected virtual void OnAnimate()
+        //{
+        //}
 
         protected virtual void OnInvalidated()
         {
@@ -626,24 +620,24 @@ namespace MauiReactor
             yield break;
         }
 
-        private bool AnimateThis()
-        {
-            bool animated = false;
-            if (_animatables != null)
-            {
-                foreach (var animatable in _animatables)
-                {
-                    if (animatable.Value.IsEnabled.GetValueOrDefault() && 
-                        !animatable.Value.Animation.IsCompleted())
-                    {
-                        animatable.Value.Animate(this);
-                        animated = true;
-                    }
-                }
-            }
+        //private bool AnimateThis()
+        //{
+        //    bool animated = false;
+        //    if (_animatables != null)
+        //    {
+        //        foreach (var animatable in _animatables)
+        //        {
+        //            if (animatable.Value.IsEnabled.GetValueOrDefault() && 
+        //                !animatable.Value.Animation.IsCompleted())
+        //            {
+        //                animatable.Value.Animate(this);
+        //                animated = true;
+        //            }
+        //        }
+        //    }
 
-            return animated;
-        }
+        //    return animated;
+        //}
 
         private void RequireLayoutCycle()
         {
@@ -721,6 +715,8 @@ namespace MauiReactor
         TResult? GetNativeControl<TResult>() where TResult : BindableObject;
 
         void Attach(BindableObject nativeControl);
+
+        bool Animate();
     }
 
     public interface IVisualNodeWithAttachedProperties : IVisualNode
@@ -932,44 +928,98 @@ namespace MauiReactor
             _nativeControl = nativeControl;
         }
 
-        protected override void OnAnimate()
+        bool IVisualNodeWithNativeControl.Animate()
         {
-            Validate.EnsureNotNull(NativeControl);
-            foreach (var attachedProperty in _attachedProperties)
+            if (_isMounted)
             {
-                NativeControl.SetPropertyValue(attachedProperty.Key, attachedProperty.Value);
-            }
-
-            base.OnAnimate();
-        }
-
-        protected void AnimateProperty(BindableProperty property, object? propertyValueAsObject)
-        {
-            if (propertyValueAsObject == null ||
-                _animatables == null)
-            {
-                return;
-            }
-
-            if (_animatables.TryGetValue(property, out var animatableProperty) && 
-                animatableProperty.IsEnabled == true)
-            {
-                var newValue = propertyValueAsObject;
-                if (propertyValueAsObject is IPropertyValue propertyValue)
+                //var animated = AnimateThis();
+                bool animated = false;
+                if (_animatables != null)
                 {
-                    newValue = propertyValue.GetValue();
+                    foreach (var animatable in _animatables)
+                    {
+                        if (animatable.Value.IsEnabled.GetValueOrDefault() &&
+                            !animatable.Value.Animation.IsCompleted())
+                        {
+                            var newValue = animatable.Value.Animate(this);
+
+                            Validate.EnsureNotNull(NativeControl);
+
+                            if (newValue is IPropertyValue propertyValue)
+                            {
+                                newValue = propertyValue.GetValue();
+                            }
+
+                            Validate.EnsureNotNull(NativeControl);
+
+                            var oldValue = NativeControl.GetValue(animatable.Key);
+
+                            if (!CompareUtils.AreEquals(oldValue, newValue))
+                            {
+                                NativeControl.SetValue(animatable.Key, newValue);
+                            }
+                            animated = true;
+                        }
+                    }
                 }
 
-                Validate.EnsureNotNull(NativeControl);
+                //OnAnimate();
 
-                var oldValue = NativeControl.GetValue(property);
+                return animated;
+            }
 
-                if (!CompareUtils.AreEquals(oldValue, newValue))
-                {
-                    NativeControl.SetValue(property, newValue);
-                }
+            return false;
+        }
+
+        internal override void CommitAnimations()
+        {
+            if (_animatables?.Any(_ => _.Value.IsEnabled.GetValueOrDefault() && !_.Value.Animation.IsCompleted()) == true)
+            {
+                var pageHost = ((IVisualNode)this).GetPageHost();
+                pageHost?.RequestAnimationFrame(this);
+
+                ((IVisualNodeWithNativeControl)this).Animate();
             }
         }
+
+        //protected override void OnAnimate()
+        //{
+        //    Validate.EnsureNotNull(NativeControl);
+        //    foreach (var attachedProperty in _attachedProperties)
+        //    {
+        //        NativeControl.SetPropertyValue(attachedProperty.Key, attachedProperty.Value);
+        //    }
+
+        //    base.OnAnimate();
+        //}
+
+        //protected void AnimateProperty(BindableProperty property, object? propertyValueAsObject)
+        //{
+        //    if (propertyValueAsObject == null ||
+        //        _animatables == null)
+        //    {
+        //        return;
+        //    }
+
+        //    if (_animatables.TryGetValue(property, out var animatableProperty) && 
+        //        animatableProperty.IsEnabled == true)
+        //    {
+        //        var newValue = propertyValueAsObject;
+        //        if (propertyValueAsObject is IPropertyValue propertyValue)
+        //        {
+        //            newValue = propertyValue.GetValue();
+        //        }
+
+        //        Validate.EnsureNotNull(NativeControl);
+
+        //        //var oldValue = NativeControl.GetValue(property);
+
+        //        //if (!CompareUtils.AreEquals(oldValue, newValue))
+        //        {
+        //            NativeControl.SetValue(property, newValue);
+        //        }
+        //    }
+        //}
 
         Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
         {
