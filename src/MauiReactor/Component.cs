@@ -103,10 +103,10 @@ namespace MauiReactor
             base.OnUpdate();
         }
 
-        protected sealed override void OnAnimate()
-        {
-            base.OnAnimate();
-        }
+        //protected sealed override void OnAnimate()
+        //{
+        //    base.OnAnimate();
+        //}
 
         protected override void MergeWith(VisualNode newNode)
         {

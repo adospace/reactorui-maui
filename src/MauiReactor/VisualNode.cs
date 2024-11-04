@@ -546,9 +546,9 @@ namespace MauiReactor
         {
         }
 
-        protected virtual void OnAnimate()
-        {
-        }
+        //protected virtual void OnAnimate()
+        //{
+        //}
 
         protected virtual void OnInvalidated()
         {
@@ -963,7 +963,7 @@ namespace MauiReactor
                     }
                 }
 
-                OnAnimate();
+                //OnAnimate();
 
                 return animated;
             }
