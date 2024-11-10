@@ -19,12 +19,12 @@ class AnimatingLabelTestPage : Component<AnimatingLabelTestPageState>
         => ContentPage(
                 ScrollView(
                     VStack(
-                        new AnimatingLabel()
-                            .Text($"Clicked {State.Counter} times!"),
-                        new AnimatingLabel()
-                            .Text($"Clicked {State.Counter} times!"),
-                        new AnimatingLabel()
-                            .Text($"Clicked {State.Counter} times!"),
+                        //new AnimatingLabel()
+                        //    .Text($"Clicked {State.Counter} times!"),
+                        //new AnimatingLabel()
+                        //    .Text($"Clicked {State.Counter} times!"),
+                        //new AnimatingLabel()
+                        //    .Text($"Clicked {State.Counter} times!"),
                         new AnimatingLabel()
                             .Text($"Clicked {State.Counter} times!"),
 
@@ -44,11 +44,13 @@ class AnimatingLabelTestPage : Component<AnimatingLabelTestPageState>
 
 class AnimatinLabelState
 {
-    public bool Show { get; set; } = true;
+    public bool AnimationCompleted { get; set; } = true;
 
     public double Height { get; set; }
 
     public string CurrentText = string.Empty;
+
+    public string NewText = string.Empty;
 }
 
 partial class AnimatingLabel : Component<AnimatinLabelState>
@@ -58,13 +60,15 @@ partial class AnimatingLabel : Component<AnimatinLabelState>
 
     protected override void OnMountedOrPropsChanged()
     {
-        if (State.Show && _text != State.CurrentText)
+        State.NewText = _text;
+
+        if (State.AnimationCompleted && State.NewText != State.CurrentText)
         {
-            State.Show = false;
+            State.AnimationCompleted = false;
             SetState(s =>
             {
-                s.Show = true;
-                s.CurrentText = _text;
+                s.AnimationCompleted = true;
+                s.CurrentText = s.NewText;
             }, 2400);
         }
 
@@ -78,7 +82,7 @@ partial class AnimatingLabel : Component<AnimatinLabelState>
                 State.CurrentText.Select(RenderCharToTop).ToArray()
             ),
             HStack(
-                _text.Select(RenderCharFromBottom).ToArray()
+                State.NewText.Select(RenderCharFromBottom).ToArray()
             ),
 
             Grid()
@@ -96,11 +100,11 @@ partial class AnimatingLabel : Component<AnimatinLabelState>
     {
         return Label($"{character}")
             .FontSize(24)
-            .TranslationY(State.Show ? 0.0 : -15)
-            .Opacity(State.Show ? 1.0 : 0.0)
-            .ScaleY(State.Show ? 1.0 : 0.0)
+            .TranslationY(State.AnimationCompleted ? 0.0 : -15)
+            .Opacity(State.AnimationCompleted ? 1.0 : 0.0)
+            .ScaleY(State.AnimationCompleted ? 1.0 : 0.0)
             .WithAnimation(
-                duration: State.Show ? 0 : 700,
+                duration: State.AnimationCompleted ? 0 : 700,
                 easing: ExtendedEasing.OutQuint,
                 initialDelay: Math.Sin((index / (double)_text.Length) * Math.PI / 2) * 1000);
     }
@@ -109,11 +113,11 @@ partial class AnimatingLabel : Component<AnimatinLabelState>
     {
         return Label($"{character}")
             .FontSize(24)
-            .TranslationY(State.Show ? 15 : 0.0)
-            .Opacity(State.Show ? 0.0 : 1.0)
-            .ScaleY(State.Show ? 0.0 : 1.0)
+            .TranslationY(State.AnimationCompleted ? 15 : 0.0)
+            .Opacity(State.AnimationCompleted ? 0.0 : 1.0)
+            .ScaleY(State.AnimationCompleted ? 0.0 : 1.0)
             .WithAnimation(
-                duration: State.Show ? 0 : 700,
+                duration: State.AnimationCompleted ? 0 : 700,
                 easing: ExtendedEasing.OutQuint,
                 initialDelay: Math.Sin((index / (double)_text.Length) * Math.PI / 2) * 1000);
     }

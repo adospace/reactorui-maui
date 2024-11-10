@@ -26,6 +26,19 @@ public partial class Page<T>
         thisAsIPage.BackButtonBehavior = null;
     }
 
+    protected override void OnMount()
+    {
+        var pageHost = GetParent<PageHost>();
+        var containerPage = ((IVisualNode)this).GetContainerPage();
+
+        if (pageHost != null && containerPage != null && containerPage is T nativeContainerPage)
+        {
+            _nativeControl = nativeContainerPage;
+        }
+
+        base.OnMount();
+    }
+
     protected override void OnAddChild(VisualNode widget, BindableObject childControl)
     {
         Validate.EnsureNotNull(NativeControl);
