@@ -48,31 +48,43 @@ namespace MauiReactor
             }
         }
 
-        private void CheckUnloading()
-        {
-            var containerPage = ContainerPage;
-            if (containerPage == null ||
-                (!_navigation.NavigationStack.Contains(containerPage) && 
-                !_navigation.ModalStack.Contains(containerPage)))
-            {
-                if (!_unloading)
-                {
-                    _unloading = true;
-                    Invalidate();
-                }
-            }
-            else if (containerPage != null &&
-                (
-                _navigation.NavigationStack.Count > 0 && _navigation.NavigationStack[_navigation.NavigationStack.Count - 1] == containerPage ||
-                _navigation.ModalStack.Count > 0 && _navigation.ModalStack[_navigation.ModalStack.Count - 1] == containerPage
-                ))
-            {
-                Application.Current?.Dispatcher.Dispatch(CheckUnloading);
-            }
-        }
+        //private void CheckUnloading()
+        //{
+        //    var containerPage = ContainerPage;
+        //    if (containerPage == null ||
+        //        (!_navigation.NavigationStack.Contains(containerPage) && 
+        //        !_navigation.ModalStack.Contains(containerPage)))
+        //    {
+        //        if (!_unloading)
+        //        {
+        //            _unloading = true;
+        //            Invalidate();
+        //        }
+        //    }
+        //    else if (containerPage != null &&
+        //        (
+        //        _navigation.NavigationStack.Count > 0 && _navigation.NavigationStack[_navigation.NavigationStack.Count - 1] == containerPage ||
+        //        _navigation.ModalStack.Count > 0 && _navigation.ModalStack[_navigation.ModalStack.Count - 1] == containerPage
+        //        ))
+        //    {
+        //        Application.Current?.Dispatcher.Dispatch(CheckUnloading);
+        //    }
+        //}
 
         protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
         {
+            if (ContainerPage != null)
+            {
+#if DEBUG
+                if (ContainerPage != nativeControl)
+                {
+                    throw new InvalidOperationException("PageHost can only host one page");
+                }
+#endif
+
+                return;
+            }
+
             if (nativeControl is Microsoft.Maui.Controls.Page page)
             {
                 ContainerPage = page;
@@ -89,37 +101,49 @@ namespace MauiReactor
         private void ContainerPage_Disappearing(object? sender, EventArgs e)
         {
             System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Disappearing");
-            Application.Current?.Dispatcher.Dispatch(CheckUnloading);
+            //Application.Current?.Dispatcher.Dispatch(CheckUnloading);
+            _unloading = true;
+            Invalidate();
         }
 
         private void ComponentPage_Appearing(object? sender, EventArgs e)
         {
             System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Appearing");
-            _sleeping = false;
-            OnLayoutCycleRequested();
+            if (_unloading)
+            {
+                _unloading = false;
+                IsLayoutCycleRequired = true;
+                Application.Current?.Dispatcher.Dispatch(OnRecyclingPage);
+            }
+            else
+            {
+                _sleeping = false;
+                OnLayoutCycleRequested();
+            }
         }
 
         protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
         {
-            var containerPage = ContainerPage;
-            if (containerPage != null)
-            {
-                System.Diagnostics.Debug.WriteLine($"{containerPage.Title} OnRemoveChild");
+            //var containerPage = ContainerPage;
+            //if (containerPage != null)
+            //{
+            //    System.Diagnostics.Debug.WriteLine($"{containerPage.Title} OnRemoveChild");
 
-                containerPage.SetValue(MauiReactorPageHostBagKey, null);
+            //    containerPage.SetValue(MauiReactorPageHostBagKey, null);
 
-                containerPage.Appearing -= ComponentPage_Appearing;
-                containerPage.Disappearing -= ContainerPage_Disappearing;
-            }
+            //    containerPage.Appearing -= ComponentPage_Appearing;
+            //    containerPage.Disappearing -= ContainerPage_Disappearing;
+            //}
 
-            ContainerPage = null;
+            //ContainerPage = null;
         }
+
+        protected abstract void OnRecyclingPage();
 
 
         internal static BindablePropertyKey MauiReactorPageHostBagKey = BindableProperty.CreateAttachedReadOnly(nameof(MauiReactorPageHostBagKey),
             typeof(ITemplateHost), typeof(PageHost), null);
     }
-
 
     internal class PageHost<T> : PageHost, IVisualNode, IHostElement, ITemplateHost, ITypeLoaderEventConsumer where T : Component, new()
     {
@@ -147,7 +171,6 @@ namespace MauiReactor
             return this;
         }
 
-
         public static Microsoft.Maui.Controls.Page CreatePage(INavigation nagivation, Action<object>? propsInitializer = null)
         {
             var host = new PageHost<T>(nagivation, propsInitializer);
@@ -172,6 +195,7 @@ namespace MauiReactor
 
         public IHostElement Run()
         {
+            _sleeping = false;
             _component ??= InitializeComponent(TypeLoader.Instance.LoadObject<Component>(typeof(T)));
 
             TypeLoader.Instance.Run();
@@ -187,6 +211,12 @@ namespace MauiReactor
             _isMounted = true;
 
             return this;
+        }
+
+        protected override void OnRecyclingPage()
+        {
+            Reset();
+            Run();
         }
 
         public void OnAssemblyChanged()
@@ -216,6 +246,7 @@ namespace MauiReactor
         public void Stop()
         {
             TypeLoader.Instance.AssemblyChangedEvent?.RemoveListener(this);
+            _component = null;
             _sleeping = true;
         }
 
@@ -247,7 +278,7 @@ namespace MauiReactor
 
                 if (_unloading)
                 {
-                    _sleeping = true;
+                    Stop();
                 }
             }
             catch (Exception ex)
@@ -345,6 +376,5 @@ namespace MauiReactor
             _propsInitializer.Invoke(componentWithProps.Props);
             return component;
         }
-
     }
 }
