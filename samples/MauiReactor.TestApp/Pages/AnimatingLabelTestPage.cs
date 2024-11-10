@@ -19,12 +19,6 @@ class AnimatingLabelTestPage : Component<AnimatingLabelTestPageState>
         => ContentPage(
                 ScrollView(
                     VStack(
-                        //new AnimatingLabel()
-                        //    .Text($"Clicked {State.Counter} times!"),
-                        //new AnimatingLabel()
-                        //    .Text($"Clicked {State.Counter} times!"),
-                        //new AnimatingLabel()
-                        //    .Text($"Clicked {State.Counter} times!"),
                         new AnimatingLabel()
                             .Text($"Clicked {State.Counter} times!"),
 

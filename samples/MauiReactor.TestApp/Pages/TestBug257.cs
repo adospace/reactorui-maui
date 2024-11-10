@@ -15,7 +15,7 @@ class TestBug257 : Component
     }
 
     public override VisualNode Render()
-        => //Window(
+        => Window(
             Shell(
                 TabBar(
                     ShellContent("Home")
@@ -30,8 +30,7 @@ class TestBug257 : Component
                         .RenderContent(() => new TestBug257_Page5())
                 )
                 .Route("mainpage")
-    //)
-    );
+    ));
 }
 
 class TestBug257_HomePage : Component
@@ -55,7 +54,7 @@ class TestBug257_HomePage : Component
             Button("To Page 6")
                 .Center()
                 .OnClicked(async () => await MauiControls.Shell.Current.GoToAsync("page-6"))
-            //.OnClicked(async () => await Navigation.PushAsync<TestBug257_Page6>())
+                //.OnClicked(async () => await Navigation.PushAsync<TestBug257_Page6>())
 
             );
     }
