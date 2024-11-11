@@ -33,6 +33,9 @@ public partial class Page<T>
 
         if (pageHost != null && containerPage != null && containerPage is T nativeContainerPage)
         {
+            nativeContainerPage.MenuBarItems.Clear();
+            nativeContainerPage.ToolbarItems.Clear();
+
             _nativeControl = nativeContainerPage;
         }
 

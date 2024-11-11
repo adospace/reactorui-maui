@@ -11,7 +11,7 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UseMauiReactorApp<HomePage>(app =>
+            .UseMauiReactorApp<TestBug257>(app =>
             {
                 //we can mix styles from xaml dictionary with...
                 app.AddResource("Resources/Styles/DefaultTheme.xaml");
