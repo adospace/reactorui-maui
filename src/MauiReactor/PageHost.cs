@@ -12,6 +12,7 @@ namespace MauiReactor
         private readonly INavigation _navigation;
         protected bool _sleeping;
         protected bool _unloading;
+        protected bool _checkingUnloading;
 
         public PageHost(INavigation navigation)
         {
@@ -48,28 +49,33 @@ namespace MauiReactor
             }
         }
 
-        //private void CheckUnloading()
-        //{
-        //    var containerPage = ContainerPage;
-        //    if (containerPage == null ||
-        //        (!_navigation.NavigationStack.Contains(containerPage) && 
-        //        !_navigation.ModalStack.Contains(containerPage)))
-        //    {
-        //        if (!_unloading)
-        //        {
-        //            _unloading = true;
-        //            Invalidate();
-        //        }
-        //    }
-        //    else if (containerPage != null &&
-        //        (
-        //        _navigation.NavigationStack.Count > 0 && _navigation.NavigationStack[_navigation.NavigationStack.Count - 1] == containerPage ||
-        //        _navigation.ModalStack.Count > 0 && _navigation.ModalStack[_navigation.ModalStack.Count - 1] == containerPage
-        //        ))
-        //    {
-        //        Application.Current?.Dispatcher.Dispatch(CheckUnloading);
-        //    }
-        //}
+        private void CheckUnloading()
+        {
+            if (!_checkingUnloading)
+            {
+                return;
+            }
+
+            _checkingUnloading = false;
+
+            var containerPage = ContainerPage;
+            if (containerPage == null ||
+                (!_navigation.NavigationStack.Contains(containerPage) &&
+                !_navigation.ModalStack.Contains(containerPage)))
+            {
+                if (!_unloading)
+                {
+                    System.Diagnostics.Debug.WriteLine($"{containerPage?.Title} Unmounting");
+                    _checkingUnloading = false;
+                    _unloading = true;
+                    Invalidate();
+                }
+            }
+            else
+            {
+                Application.Current?.Dispatcher.Dispatch(CheckUnloading);
+            }
+        }
 
         protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
         {
@@ -91,6 +97,10 @@ namespace MauiReactor
                 page.SetValue(MauiReactorPageHostBagKey, this);
                 page.Appearing += ComponentPage_Appearing;
                 page.Disappearing += ContainerPage_Disappearing;
+                //page.NavigatedFrom += ContainerPagePage_NavigatedFrom;
+                //page.Loaded += ContainerPage_Loaded;
+                //page.Unloaded += ContainerPage_Unloaded;
+                //page.HandlerChanged += ContainerPage_HandlerChanged;
             }
             else
             {
@@ -98,29 +108,73 @@ namespace MauiReactor
             }
         }
 
+        //private void ContainerPagePage_NavigatedFrom(object? sender, NavigatedFromEventArgs e)
+        //{
+        //    System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} NavigatedFrom()");
+        //}
+
+        //private void ContainerPage_HandlerChanged(object? sender, EventArgs e)
+        //{
+        //    System.Diagnostics.Debug.WriteLine($"IsHandlerValid({ContainerPage?.Handler != null})");
+        //}
+
         private void ContainerPage_Disappearing(object? sender, EventArgs e)
         {
             System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Disappearing");
-            //Application.Current?.Dispatcher.Dispatch(CheckUnloading);
-            _unloading = true;
-            Invalidate();
+
+            if (_checkingUnloading)
+            {
+                return;
+            }
+
+            _checkingUnloading = true;
+            Application.Current?.Dispatcher.Dispatch(CheckUnloading);
+
+            //var containerPage = ContainerPage;
+
+            //if (containerPage != null &&
+            //    (
+            //    _navigation.NavigationStack.Contains(containerPage) ||
+            //    _navigation.ModalStack.Contains(containerPage)
+            //    ))
+            //{
+            //    System.Diagnostics.Debug.WriteLine($"{containerPage?.Title} Disappearing");
+            //    return;
+            //}
+
+            //System.Diagnostics.Debug.WriteLine($"{containerPage?.Title} Unmounting");
+            //_unloading = true;
+            //Invalidate();
         }
 
         private void ComponentPage_Appearing(object? sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Appearing");
+            _checkingUnloading = false;
+
             if (_unloading)
             {
+                System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Mounting");
                 _unloading = false;
                 IsLayoutCycleRequired = true;
                 Application.Current?.Dispatcher.Dispatch(OnRecyclingPage);
             }
             else
             {
+                System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Appearing");
                 _sleeping = false;
                 OnLayoutCycleRequested();
             }
         }
+
+
+        //private void ContainerPage_Loaded(object? sender, EventArgs e)
+        //{
+        //    System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Loaded");
+        //}
+        //private void ContainerPage_Unloaded(object? sender, EventArgs e)
+        //{
+        //    System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Unloaded");
+        //}
 
         protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
         {
