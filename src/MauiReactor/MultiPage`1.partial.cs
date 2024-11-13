@@ -12,6 +12,14 @@ namespace MauiReactor;
 public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage where T : Microsoft.Maui.Controls.MultiPage<TChild>, new()
     where TChild : Microsoft.Maui.Controls.Page
 {
+    protected override void OnMount()
+    {
+        base.OnMount();
+
+        Validate.EnsureNotNull(NativeControl);
+        NativeControl.Children.Clear();
+    }
+
     protected override void OnAddChild(VisualNode widget, BindableObject childControl)
     {
         Validate.EnsureNotNull(NativeControl);

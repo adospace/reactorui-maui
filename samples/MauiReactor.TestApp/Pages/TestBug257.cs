@@ -153,6 +153,9 @@ class TestBug257_Page6 : Component
     {
         return ContentPage("Page6",
 
+            ToolbarItem("Menu Item 1")
+                .OnClicked(() => System.Diagnostics.Debug.WriteLine("Menu Item 1 Clicked")),
+
             Button("Click me!")
                 .Center()
                 .OnClicked(async () => await ContainerPage.DisplayAlert("Message", "Hello!", "OK"))
