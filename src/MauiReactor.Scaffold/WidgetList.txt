@@ -12,6 +12,7 @@ Microsoft.Maui.Controls.TemplatedPage
 Microsoft.Maui.Controls.ContentPage
 Microsoft.Maui.Controls.NavigationPage
 Microsoft.Maui.Controls.FlyoutPage
+Microsoft.Maui.Controls.StyleableElement
 
 Microsoft.Maui.Controls.View
 Microsoft.Maui.Controls.Button

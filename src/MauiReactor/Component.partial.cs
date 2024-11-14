@@ -1777,6 +1777,7 @@ public partial class Component
         return @frame;
     }
 
+    [Obsolete("Frame is obsolete as of .NET 9. Please use Border instead.")]
     public static Frame Frame(Action<Microsoft.Maui.Controls.Frame?> componentRefAction)
     {
         var @frame = new Frame();
@@ -1784,6 +1785,7 @@ public partial class Component
         return @frame;
     }
 
+    [Obsolete("Frame is obsolete as of .NET 9. Please use Border instead.")]
     public static Frame Frame(Action<Microsoft.Maui.Controls.Frame?> componentRefAction, params VisualNode? []? children)
     {
         var @frame = new Frame();

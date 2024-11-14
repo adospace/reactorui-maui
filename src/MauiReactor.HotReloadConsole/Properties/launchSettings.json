@@ -2,7 +2,7 @@
   "profiles": {
     "MauiReactor.HotReloadConsole": {
       "commandName": "Project",
-      "commandLineArgs": "--dir \"C:\\Source\\rtr\\mdc-fins\\MdcFins.MobileApp\" -f \"net8.0-android\""
+      "commandLineArgs": "--dir \"C:\\Source\\rtr\\mdc-fins\\MdcFins.MobileApp\" -f \"net9.0-android\""
     }
   }
 }

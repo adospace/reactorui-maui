@@ -27,6 +27,10 @@ public partial interface ITimePicker : IView
     object? FontAttributes { get; set; }
 
     object? FontAutoScalingEnabled { get; set; }
+
+    Action? TimeSelectedAction { get; set; }
+
+    Action<object?, TimeChangedEventArgs>? TimeSelectedActionWithArgs { get; set; }
 }
 
 public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Maui.Controls.TimePicker, new()
@@ -57,6 +61,10 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
 
     object? ITimePicker.FontAutoScalingEnabled { get; set; }
 
+    Action? ITimePicker.TimeSelectedAction { get; set; }
+
+    Action<object?, TimeChangedEventArgs>? ITimePicker.TimeSelectedActionWithArgs { get; set; }
+
     internal override void Reset()
     {
         base.Reset();
@@ -69,6 +77,8 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
         thisAsITimePicker.FontSize = null;
         thisAsITimePicker.FontAttributes = null;
         thisAsITimePicker.FontAutoScalingEnabled = null;
+        thisAsITimePicker.TimeSelectedAction = null;
+        thisAsITimePicker.TimeSelectedActionWithArgs = null;
         OnReset();
     }
 
@@ -102,6 +112,39 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
         }
 
         base.OnThemeChanged();
+    }
+
+    partial void OnAttachingNativeEvents();
+    partial void OnDetachingNativeEvents();
+    protected override void OnAttachNativeEvents()
+    {
+        Validate.EnsureNotNull(NativeControl);
+        var thisAsITimePicker = (ITimePicker)this;
+        if (thisAsITimePicker.TimeSelectedAction != null || thisAsITimePicker.TimeSelectedActionWithArgs != null)
+        {
+            NativeControl.TimeSelected += NativeControl_TimeSelected;
+        }
+
+        OnAttachingNativeEvents();
+        base.OnAttachNativeEvents();
+    }
+
+    private void NativeControl_TimeSelected(object? sender, TimeChangedEventArgs e)
+    {
+        var thisAsITimePicker = (ITimePicker)this;
+        thisAsITimePicker.TimeSelectedAction?.Invoke();
+        thisAsITimePicker.TimeSelectedActionWithArgs?.Invoke(sender, e);
+    }
+
+    protected override void OnDetachNativeEvents()
+    {
+        if (NativeControl != null)
+        {
+            NativeControl.TimeSelected -= NativeControl_TimeSelected;
+        }
+
+        OnDetachingNativeEvents();
+        base.OnDetachNativeEvents();
     }
 }
 
@@ -231,6 +274,20 @@ public static partial class TimePickerExtensions
         where T : ITimePicker
     {
         timePicker.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
+        return timePicker;
+    }
+
+    public static T OnTimeSelected<T>(this T timePicker, Action? timeSelectedAction)
+        where T : ITimePicker
+    {
+        timePicker.TimeSelectedAction = timeSelectedAction;
+        return timePicker;
+    }
+
+    public static T OnTimeSelected<T>(this T timePicker, Action<object?, TimeChangedEventArgs>? timeSelectedActionWithArgs)
+        where T : ITimePicker
+    {
+        timePicker.TimeSelectedActionWithArgs = timeSelectedActionWithArgs;
         return timePicker;
     }
 }

@@ -10,12 +10,11 @@ using MauiReactor.Internals;
 
 #nullable enable
 namespace MauiReactor;
-public partial interface INavigableElement : IElement
+public partial interface INavigableElement : IStyleableElement
 {
-    object? Style { get; set; }
 }
 
-public abstract partial class NavigableElement<T> : Element<T>, INavigableElement where T : Microsoft.Maui.Controls.NavigableElement, new()
+public abstract partial class NavigableElement<T> : StyleableElement<T>, INavigableElement where T : Microsoft.Maui.Controls.NavigableElement, new()
 {
     protected NavigableElement()
     {
@@ -27,13 +26,9 @@ public abstract partial class NavigableElement<T> : Element<T>, INavigableElemen
         NavigableElementStyles.Default?.Invoke(this);
     }
 
-    object? INavigableElement.Style { get; set; }
-
     internal override void Reset()
     {
         base.Reset();
-        var thisAsINavigableElement = (INavigableElement)this;
-        thisAsINavigableElement.Style = null;
         OnReset();
     }
 
@@ -41,9 +36,6 @@ public abstract partial class NavigableElement<T> : Element<T>, INavigableElemen
     protected override void OnUpdate()
     {
         OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsINavigableElement = (INavigableElement)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.NavigableElement.StyleProperty, thisAsINavigableElement.Style);
         base.OnUpdate();
         OnEndUpdate();
     }
@@ -65,19 +57,6 @@ public abstract partial class NavigableElement<T> : Element<T>, INavigableElemen
 
 public static partial class NavigableElementExtensions
 {
-    public static T Style<T>(this T navigableElement, Microsoft.Maui.Controls.Style style)
-        where T : INavigableElement
-    {
-        navigableElement.Style = style;
-        return navigableElement;
-    }
-
-    public static T Style<T>(this T navigableElement, Func<Microsoft.Maui.Controls.Style> styleFunc)
-        where T : INavigableElement
-    {
-        navigableElement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc);
-        return navigableElement;
-    }
 }
 
 public static partial class NavigableElementStyles

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.TestApp;
 
-class HomePage : Component
+public class HomePage : Component
 {
     public override VisualNode Render()
     {

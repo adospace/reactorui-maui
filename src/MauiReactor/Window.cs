@@ -32,6 +32,8 @@ public partial interface IWindow : INavigableElement
 
     object? MinimumHeight { get; set; }
 
+    object? TitleBar { get; set; }
+
     Action? SizeChangedAction { get; set; }
 
     Action<object?, EventArgs>? SizeChangedActionWithArgs { get; set; }
@@ -121,6 +123,8 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
 
     object? IWindow.MinimumHeight { get; set; }
 
+    object? IWindow.TitleBar { get; set; }
+
     Action? IWindow.SizeChangedAction { get; set; }
 
     Action<object?, EventArgs>? IWindow.SizeChangedActionWithArgs { get; set; }
@@ -191,6 +195,7 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
         thisAsIWindow.MaximumHeight = null;
         thisAsIWindow.MinimumWidth = null;
         thisAsIWindow.MinimumHeight = null;
+        thisAsIWindow.TitleBar = null;
         thisAsIWindow.SizeChangedAction = null;
         thisAsIWindow.SizeChangedActionWithArgs = null;
         thisAsIWindow.ModalPoppedAction = null;
@@ -238,6 +243,7 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
         SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Window.MaximumHeightProperty, thisAsIWindow.MaximumHeight);
         SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Window.MinimumWidthProperty, thisAsIWindow.MinimumWidth);
         SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Window.MinimumHeightProperty, thisAsIWindow.MinimumHeight);
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Window.TitleBarProperty, thisAsIWindow.TitleBar);
         base.OnUpdate();
         OnEndUpdate();
     }
@@ -625,6 +631,20 @@ public static partial class WindowExtensions
         where T : IWindow
     {
         window.MinimumHeight = new PropertyValue<double>(minimumHeightFunc);
+        return window;
+    }
+
+    public static T TitleBar<T>(this T window, Microsoft.Maui.ITitleBar titleBar)
+        where T : IWindow
+    {
+        window.TitleBar = titleBar;
+        return window;
+    }
+
+    public static T TitleBar<T>(this T window, Func<Microsoft.Maui.ITitleBar> titleBarFunc)
+        where T : IWindow
+    {
+        window.TitleBar = new PropertyValue<Microsoft.Maui.ITitleBar>(titleBarFunc);
         return window;
     }
 

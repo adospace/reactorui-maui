@@ -22,6 +22,8 @@ public partial interface IBaseShellItem : INavigableElement
 
     object? IsVisible { get; set; }
 
+    object? FlyoutItemIsVisible { get; set; }
+
     Action? AppearingAction { get; set; }
 
     Action<object?, EventArgs>? AppearingActionWithArgs { get; set; }
@@ -53,6 +55,8 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
 
     object? IBaseShellItem.IsVisible { get; set; }
 
+    object? IBaseShellItem.FlyoutItemIsVisible { get; set; }
+
     Action? IBaseShellItem.AppearingAction { get; set; }
 
     Action<object?, EventArgs>? IBaseShellItem.AppearingActionWithArgs { get; set; }
@@ -70,6 +74,7 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
         thisAsIBaseShellItem.IsEnabled = null;
         thisAsIBaseShellItem.Title = null;
         thisAsIBaseShellItem.IsVisible = null;
+        thisAsIBaseShellItem.FlyoutItemIsVisible = null;
         thisAsIBaseShellItem.AppearingAction = null;
         thisAsIBaseShellItem.AppearingActionWithArgs = null;
         thisAsIBaseShellItem.DisappearingAction = null;
@@ -88,6 +93,7 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
         SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BaseShellItem.IsEnabledProperty, thisAsIBaseShellItem.IsEnabled);
         SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BaseShellItem.TitleProperty, thisAsIBaseShellItem.Title);
         SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BaseShellItem.IsVisibleProperty, thisAsIBaseShellItem.IsVisible);
+        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BaseShellItem.FlyoutItemIsVisibleProperty, thisAsIBaseShellItem.FlyoutItemIsVisible);
         base.OnUpdate();
         OnEndUpdate();
     }
@@ -327,6 +333,20 @@ public static partial class BaseShellItemExtensions
         where T : IBaseShellItem
     {
         baseShellItem.IsVisible = new PropertyValue<bool>(isVisibleFunc);
+        return baseShellItem;
+    }
+
+    public static T FlyoutItemIsVisible<T>(this T baseShellItem, bool flyoutItemIsVisible)
+        where T : IBaseShellItem
+    {
+        baseShellItem.FlyoutItemIsVisible = flyoutItemIsVisible;
+        return baseShellItem;
+    }
+
+    public static T FlyoutItemIsVisible<T>(this T baseShellItem, Func<bool> flyoutItemIsVisibleFunc)
+        where T : IBaseShellItem
+    {
+        baseShellItem.FlyoutItemIsVisible = new PropertyValue<bool>(flyoutItemIsVisibleFunc);
         return baseShellItem;
     }
 

@@ -36,7 +36,7 @@ internal abstract class ReactorApplicationHost : VisualNode, IHostElement, IVisu
 
     public abstract void RequestAnimationFrame(IVisualNodeWithNativeControl visualNode);
 
-    public Microsoft.Maui.Controls.Page? ContainerPage => _application?.MainPage;
+    public Microsoft.Maui.Controls.Page? ContainerPage { get; protected set; } //=> _application?.MainPage;
 
     IHostElement? IVisualNode.GetPageHost()
     {
@@ -77,7 +77,8 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
     {
         if (nativeControl is Microsoft.Maui.Controls.Page page)
         {
-            _application.MainPage = page;
+            //_application.MainPage = page;
+            ContainerPage = page;
 
             if (page.Parent is Microsoft.Maui.Controls.Window mainWindow)
             {
@@ -294,6 +295,7 @@ public abstract class ReactorApplication : Application
 
         base.OnAppLinkRequestReceived(uri);
     }
+
 }
 
 public class ReactorApplication<T> : ReactorApplication where T : Component, new()
@@ -313,6 +315,12 @@ public class ReactorApplication<T> : ReactorApplication where T : Component, new
         {
             return _host.MainWindow;
         }
+
+        if (_host.ContainerPage != null)
+        {
+            return new Microsoft.Maui.Controls.Window(_host.ContainerPage);
+        }
+
 
         return base.CreateWindow(activationState);
     }
@@ -384,11 +392,29 @@ public static class ApplicationExtensions
     public static Application AddResource(this Application application, string resourceName, Assembly? containerAssembly = null)
     {
         var resourceDictionary = new ResourceDictionary();
-        resourceDictionary.SetAndLoadSource(
-            new Uri(resourceName, UriKind.Relative),
-            resourceName,
-            containerAssembly ?? Assembly.GetCallingAssembly(),
-            null);
+        //resourceDictionary.SetAndCreateSource(new Uri(resourceName, UriKind.Relative));
+
+        //var methodInfo = typeof(ResourceDictionary).GetMethod("SetAndLoadSource", BindingFlags.NonPublic | BindingFlags.Instance);
+        //if (methodInfo != null)
+        //{
+        //    var parameters = new object?[]
+        //    {
+        //        new Uri(resourceName, UriKind.Relative),
+        //        resourceName,
+        //        containerAssembly ?? Assembly.GetCallingAssembly(),
+        //        null
+        //    };
+        //    methodInfo.Invoke(resourceDictionary, parameters);
+        //}
+        //else
+        //{
+        //    throw new InvalidOperationException("Method 'SetAndLoadSource' not found.");
+        //}
+        //resourceDictionary.SetAndLoadSource(
+        //    new Uri(resourceName, UriKind.Relative),
+        //    resourceName,
+        //    containerAssembly ?? Assembly.GetCallingAssembly(),
+        //    null);
 
         application.Resources.MergedDictionaries.Add(resourceDictionary);
 

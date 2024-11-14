@@ -25,6 +25,10 @@ public partial interface IWebView : IView
     Action? NavigatingAction { get; set; }
 
     Action<object?, WebNavigatingEventArgs>? NavigatingActionWithArgs { get; set; }
+
+    Action? ProcessTerminatedAction { get; set; }
+
+    Action<object?, WebViewProcessTerminatedEventArgs>? ProcessTerminatedActionWithArgs { get; set; }
 }
 
 public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Controls.WebView, new()
@@ -53,6 +57,10 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
 
     Action<object?, WebNavigatingEventArgs>? IWebView.NavigatingActionWithArgs { get; set; }
 
+    Action? IWebView.ProcessTerminatedAction { get; set; }
+
+    Action<object?, WebViewProcessTerminatedEventArgs>? IWebView.ProcessTerminatedActionWithArgs { get; set; }
+
     internal override void Reset()
     {
         base.Reset();
@@ -64,6 +72,8 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
         thisAsIWebView.NavigatedActionWithArgs = null;
         thisAsIWebView.NavigatingAction = null;
         thisAsIWebView.NavigatingActionWithArgs = null;
+        thisAsIWebView.ProcessTerminatedAction = null;
+        thisAsIWebView.ProcessTerminatedActionWithArgs = null;
         OnReset();
     }
 
@@ -110,6 +120,11 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
             NativeControl.Navigating += NativeControl_Navigating;
         }
 
+        if (thisAsIWebView.ProcessTerminatedAction != null || thisAsIWebView.ProcessTerminatedActionWithArgs != null)
+        {
+            NativeControl.ProcessTerminated += NativeControl_ProcessTerminated;
+        }
+
         OnAttachingNativeEvents();
         base.OnAttachNativeEvents();
     }
@@ -128,12 +143,20 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
         thisAsIWebView.NavigatingActionWithArgs?.Invoke(sender, e);
     }
 
+    private void NativeControl_ProcessTerminated(object? sender, WebViewProcessTerminatedEventArgs e)
+    {
+        var thisAsIWebView = (IWebView)this;
+        thisAsIWebView.ProcessTerminatedAction?.Invoke();
+        thisAsIWebView.ProcessTerminatedActionWithArgs?.Invoke(sender, e);
+    }
+
     protected override void OnDetachNativeEvents()
     {
         if (NativeControl != null)
         {
             NativeControl.Navigated -= NativeControl_Navigated;
             NativeControl.Navigating -= NativeControl_Navigating;
+            NativeControl.ProcessTerminated -= NativeControl_ProcessTerminated;
         }
 
         OnDetachingNativeEvents();
@@ -221,6 +244,20 @@ public static partial class WebViewExtensions
         where T : IWebView
     {
         webView.NavigatingActionWithArgs = navigatingActionWithArgs;
+        return webView;
+    }
+
+    public static T OnProcessTerminated<T>(this T webView, Action? processTerminatedAction)
+        where T : IWebView
+    {
+        webView.ProcessTerminatedAction = processTerminatedAction;
+        return webView;
+    }
+
+    public static T OnProcessTerminated<T>(this T webView, Action<object?, WebViewProcessTerminatedEventArgs>? processTerminatedActionWithArgs)
+        where T : IWebView
+    {
+        webView.ProcessTerminatedActionWithArgs = processTerminatedActionWithArgs;
         return webView;
     }
 }

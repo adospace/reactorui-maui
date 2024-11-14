@@ -26,7 +26,7 @@ public partial class NavigableElement<T>
 //#if DEBUG
 //                System.Diagnostics.Debug.WriteLine($"[{this}] Update 'StyleClass' to {(thisAsINavigableElement.Class == null ? "null" : string.Join(",", thisAsINavigableElement.Class))}");
 //#endif
-            NativeControl.StyleClass = thisAsINavigableElement.Class;
+            NativeControl.StyleClass = thisAsINavigableElement.Class ?? [];
         }
 
     }

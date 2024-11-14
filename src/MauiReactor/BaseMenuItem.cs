@@ -10,11 +10,11 @@ using MauiReactor.Internals;
 
 #nullable enable
 namespace MauiReactor;
-public partial interface IBaseMenuItem : IElement
+public partial interface IBaseMenuItem : IStyleableElement
 {
 }
 
-public abstract partial class BaseMenuItem<T> : Element<T>, IBaseMenuItem where T : Microsoft.Maui.Controls.BaseMenuItem, new()
+public abstract partial class BaseMenuItem<T> : StyleableElement<T>, IBaseMenuItem where T : Microsoft.Maui.Controls.BaseMenuItem, new()
 {
     protected BaseMenuItem()
     {

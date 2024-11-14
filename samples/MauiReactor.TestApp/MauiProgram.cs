@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using MauiReactor.TestApp.Pages;
 using MauiReactor.TestApp.Resources.Styles;
+using Microsoft.Maui.Controls.Hosting;
 
 namespace MauiReactor.TestApp;
 
@@ -11,16 +12,17 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UseMauiReactorApp<HomePage>(app =>
-            {
-                //we can mix styles from xaml dictionary with...
-                app.AddResource("Resources/Styles/DefaultTheme.xaml");
+            .UseMauiApp<App>()
+            //.UseMauiReactorApp<HomePage>(app =>
+            //{
+            //    //we can mix styles from xaml dictionary with...
+            //    app.AddResource("Resources/Styles/DefaultTheme.xaml");
 
-                app.SetWindowsSpecificAssetsDirectory("Assets");
+            //    app.SetWindowsSpecificAssetsDirectory("Assets");
 
-                //... the MauiReactor theming, but often it's easier to just manage styles in either XAML or c#
-                app.UseTheme<AppTheme>();
-            })
+            //    //... the MauiReactor theming, but often it's easier to just manage styles in either XAML or c#
+            //    app.UseTheme<AppTheme>();
+            //})
 #if DEBUG
             .EnableMauiReactorHotReload()
             //This will enable the FrameRateIndicator widget
