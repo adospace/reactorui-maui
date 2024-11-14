@@ -1,4 +1,4 @@
-﻿namespace MauiReactorTemplate.Startup
+﻿namespace MauiReactorTemplate.StartupXaml
 {
     public partial class MainPage : ContentPage
     {

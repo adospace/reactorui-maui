@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace MauiReactor.Startup
+namespace MauiReactorTemplate.Startup
 {
     public class Program
     {

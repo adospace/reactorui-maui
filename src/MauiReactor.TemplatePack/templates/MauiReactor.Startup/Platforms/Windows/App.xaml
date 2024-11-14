@@ -1,8 +1,8 @@
 ﻿<maui:MauiWinUIApplication
-    x:Class="MauiReactor.Startup.WinUI.App"
+    x:Class="MauiReactorTemplate.Startup.WinUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:maui="using:Microsoft.Maui"
-    xmlns:local="using:MauiReactor.Startup.WinUI">
+    xmlns:local="using:MauiReactorTemplate.Startup.WinUI">
 
 </maui:MauiWinUIApplication>

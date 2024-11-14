@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MauiReactor;
+﻿namespace MauiReactorTemplate.Startup.Components;
 
-namespace MauiReactor.Startup.Pages;
-
-class MainPageState
+class HomePageState
 {
     public int Counter { get; set; }
 }
 
-class MainPage : Component<MainPageState>
+partial class HomePage : Component<HomePageState>
 {
     public override VisualNode Render()
         => ContentPage(
@@ -21,7 +14,7 @@ class MainPage : Component<MainPageState>
                         Image("dotnet_bot.png")
                             .HeightRequest(200)
                             .HCenter()
-                            .Set(MauiControls.SemanticProperties.DescriptionProperty, "Cute dot net bot waving hi to you!"),
+                            .Set(SemanticProperties.DescriptionProperty, "Cute dot net bot waving hi to you!"),
 
                         Label("Hello, World!")
                             .FontSize(32)
@@ -32,8 +25,8 @@ class MainPage : Component<MainPageState>
                             .HCenter(),
 
                         Button(State.Counter == 0 ? "Click me" : $"Clicked {State.Counter} times!")
-                            .OnClicked(()=>SetState(s => s.Counter ++))
-                            .HCenter()                    
+                            .OnClicked(() => SetState(s => s.Counter++))
+                            .HCenter()
                 )
                 .VCenter()
                 .Spacing(25)

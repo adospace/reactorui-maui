@@ -1,38 +1,28 @@
 ﻿using MauiReactor;
+using MauiReactorTemplate.Startup.Components;
 using Microsoft.Extensions.Logging;
-using MauiReactor.Startup.Pages;
+using Microsoft.Maui.Hosting;
 
-
-namespace MauiReactor.Startup;
-
-public static class MauiProgram
+namespace MauiReactorTemplate.Startup
 {
-    public static MauiApp CreateMauiApp()
+    public static class MauiProgram
     {
-        var builder = MauiApp.CreateBuilder();
-        builder
-            .UseMauiReactorApp<MainPage>(app =>
-            {
-                app.AddResource("Resources/Styles/Colors.xaml");
-                app.AddResource("Resources/Styles/Styles.xaml");
-            })
-//-:cnd:noEmit
-#if DEBUG
-            .EnableMauiReactorHotReload()
-#endif
-//+:cnd:noEmit
-            .ConfigureFonts(fonts =>
-            {
-                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                fonts.AddFont("OpenSans-SemiBold.ttf", "OpenSansSemiBold");
-            });
+        public static MauiApp CreateMauiApp()
+        {
+            var builder = MauiApp.CreateBuilder();
+            builder
+                .UseMauiReactorApp<HomePage>()
+                .ConfigureFonts(fonts =>
+                {
+                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                });
 
-//-:cnd:noEmit
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
-//-:cnd:noEmit
 
-        return builder.Build();
+            return builder.Build();
+        }
     }
 }

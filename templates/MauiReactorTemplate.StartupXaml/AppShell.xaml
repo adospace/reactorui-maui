@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="MauiReactorTemplate.Startup.AppShell"
+    x:Class="MauiReactorTemplate.StartupXaml.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:MauiReactorTemplate.Startup"
+    xmlns:local="clr-namespace:MauiReactorTemplate.StartupXaml"
     Shell.FlyoutBehavior="Disabled"
-    Title="MauiReactorTemplate.Startup">
+    Title="MauiReactorTemplate.StartupXaml">
 
     <ShellContent
         Title="Home"

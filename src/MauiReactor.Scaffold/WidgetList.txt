@@ -133,3 +133,7 @@ Microsoft.Maui.Controls.Behavior
 Microsoft.Maui.Controls.Behavior`1
 
 Microsoft.Maui.Controls.HybridWebView
+
+Microsoft.Maui.Controls.GestureElement
+Microsoft.Maui.Controls.Span
+Microsoft.Maui.Controls.SearchHandler

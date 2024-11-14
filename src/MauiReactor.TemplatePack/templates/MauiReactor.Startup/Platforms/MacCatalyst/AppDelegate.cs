@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace MauiReactor.Startup
+namespace MauiReactorTemplate.Startup
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

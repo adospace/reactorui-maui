@@ -6,10 +6,17 @@
   "name": "MauiReactor based app",
   "description": "A project for creating a .NET MAUI application based on the MauiReactor library",
   "shortName": "maui-reactor-startup",
-  "sourceName": "MauiReactor.Startup",
+  "sourceName": "MauiReactorTemplate.Startup",
   "preferNameDirectory": true,
   "tags": {
     "language": "C#",
     "type": "project"
+  },
+  "symbols": {
+    "namespace": {
+      "type": "parameter",
+      "datatype": "string",
+      "replaces": "MauiReactor.Startup"
+    }
   }
 }

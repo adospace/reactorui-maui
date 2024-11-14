@@ -24,37 +24,16 @@
     <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
     <Compile Remove="**\*" />
   </ItemGroup>
-
+  
   <ItemGroup>
-    <None Remove="templates\MauiReactor.AppShell\Platforms\Android\AndroidManifest.xml" />
-    <None Remove="templates\MauiReactor.AppShell\Platforms\Android\Resources\values\colors.xml" />
-    <None Remove="templates\MauiReactor.AppShell\Platforms\iOS\Info.plist" />
-    <None Remove="templates\MauiReactor.AppShell\Platforms\MacCatalyst\Info.plist" />
-    <None Remove="templates\MauiReactor.AppShell\Platforms\Tizen\tizen-manifest.xml" />
-    <None Remove="templates\MauiReactor.AppShell\Platforms\Windows\app.manifest" />
-    <None Remove="templates\MauiReactor.AppShell\Platforms\Windows\App.xaml" />
-    <None Remove="templates\MauiReactor.AppShell\Platforms\Windows\Package.appxmanifest" />
-    <None Remove="templates\MauiReactor.AppShell\Properties\launchSettings.json" />
-    <None Remove="templates\MauiReactor.AppShell\Resources\AppIcon\appicon.svg" />
-    <None Remove="templates\MauiReactor.AppShell\Resources\AppIcon\appiconfg.svg" />
-    <None Remove="templates\MauiReactor.AppShell\Resources\Fonts\OpenSans-Regular.ttf" />
-    <None Remove="templates\MauiReactor.AppShell\Resources\Fonts\OpenSans-Semibold.ttf" />
-    <None Remove="templates\MauiReactor.AppShell\Resources\Raw\AboutAssets.txt" />
-    <None Remove="templates\MauiReactor.AppShell\Resources\Splash\splash.svg" />
-    <None Remove="templates\MauiReactor.AppShell\Resources\Styles\Colors.xaml" />
-    <None Remove="templates\MauiReactor.AppShell\Resources\Styles\Styles.xaml" />
+    <TemplateFiles Include="..\..\Templates\MauiReactorTemplate.Startup\**\*"
+                   Exclude="..\..\Templates\MauiReactorTemplate.Startup\**\bin\**;..\..\Templates\MauiReactorTemplate.Startup\**\obj\**;..\..\Templates\MauiReactorTemplate.Startup\**\*.user">
+      <Link>templates\MauiReactor.Startup\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </TemplateFiles>
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="templates\MauiReactor.AppShell\Platforms\Windows\App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Content>
-    <Content Update="templates\MauiReactor.AppShell\Resources\Styles\Colors.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Content>
-    <Content Update="templates\MauiReactor.AppShell\Resources\Styles\Styles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Content>
-  </ItemGroup>
-
+  <Target Name="CopyTemplates" BeforeTargets="Build">
+    <Copy SourceFiles="@(TemplateFiles)" DestinationFiles="@(TemplateFiles->'$(MSBuildThisFileDirectory)templates\MauiReactor.Startup\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+  
 </Project>

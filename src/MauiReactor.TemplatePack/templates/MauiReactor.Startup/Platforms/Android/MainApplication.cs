@@ -1,8 +1,10 @@
 ﻿using Android.App;
 using Android.Runtime;
+using Microsoft.Maui;
+using Microsoft.Maui.Hosting;
 using System;
 
-namespace MauiReactor.Startup
+namespace MauiReactorTemplate.Startup
 {
     [Application]
     public class MainApplication : MauiApplication
