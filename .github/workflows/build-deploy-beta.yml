@@ -1,0 +1,51 @@
+
+name: MauiReactor
+
+on:
+  push:
+    branches: [ "beta-3-net9-1" ]
+
+jobs:
+
+  build:
+
+    runs-on: windows-latest  # For a list of available runner types, refer to
+                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+
+    env:
+      Solution_Name: ./src/MauiReactor.Build.sln
+      Test_Project: ./samples/UnitTests/UnitTests.csproj
+      TemplatePack_Name: ./src/MauiReactor.TemplatePack/MauiReactor.TemplatePack.csproj
+      Version: 3.0.0-beta
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        
+    # Install the .NET Core workload
+    - name: Install .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 9.0.100
+
+    - name: Install MAUI workload
+      run: dotnet workload install maui
+
+    - name: Clean output directory
+      run: dotnet clean $env:Solution_Name -c Release
+    
+    - name: Test the project
+      run: dotnet test $env:Test_Project
+    
+    - name: Build the packages
+      run: dotnet build $env:Solution_Name -c Release /p:Version=$env:Version
+  
+    - name: Build the MauiReactor.TemplatePack package
+      run: dotnet pack --no-build $env:TemplatePack_Name -c Release /p:PackageVersion=$env:Version
+
+    - name: Push Package to NuGet.org
+      run: dotnet nuget push **/*.nupkg -k ${{ secrets.NUGETAPIKEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
+
+      
