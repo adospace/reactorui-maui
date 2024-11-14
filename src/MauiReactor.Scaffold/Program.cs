@@ -2,7 +2,10 @@
 using MauiReactor.Scaffold;
 using System.Reflection;
 
-var outputPath = args != null && args.Length > 0 ? args[0] : Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException(), "gen");
+var outputPath = args != null && args.Length > 0 ? 
+    args[0] 
+    : 
+    Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? throw new InvalidOperationException(), "gen");
 Directory.CreateDirectory(outputPath);
 
 Console.WriteLine($"Generating MauiReactor wrappers...");
@@ -29,7 +32,7 @@ foreach (var classNameToGenerate in File
     scaffoldedTypes.Add(typeToScaffold);
 }
 
-GenerateComponentPartial(scaffoldedTypes, outputPath);
+//GenerateComponentPartial(scaffoldedTypes, outputPath);
 
 Console.WriteLine("Done");
 

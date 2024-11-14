@@ -2108,6 +2108,37 @@ public partial class Component
         return @swipeitems;
     }
 
+    public static TitleBar TitleBar() => new TitleBar();
+    public static TitleBar TitleBar(params VisualNode? []? children)
+    {
+        var @titlebar = new TitleBar();
+        if (children != null)
+        {
+            @titlebar.AddChildren(children);
+        }
+
+        return @titlebar;
+    }
+
+    public static TitleBar TitleBar(Action<Microsoft.Maui.Controls.TitleBar?> componentRefAction)
+    {
+        var @titlebar = new TitleBar();
+        @titlebar.ComponentRefAction = componentRefAction;
+        return @titlebar;
+    }
+
+    public static TitleBar TitleBar(Action<Microsoft.Maui.Controls.TitleBar?> componentRefAction, params VisualNode? []? children)
+    {
+        var @titlebar = new TitleBar();
+        @titlebar.ComponentRefAction = componentRefAction;
+        if (children != null)
+        {
+            @titlebar.AddChildren(children);
+        }
+
+        return @titlebar;
+    }
+
     public static CheckBox CheckBox() => new CheckBox();
     public static CheckBox CheckBox(params VisualNode? []? children)
     {
@@ -2819,5 +2850,36 @@ public partial class Component
         }
 
         return @window;
+    }
+
+    public static HybridWebView HybridWebView() => new HybridWebView();
+    public static HybridWebView HybridWebView(params VisualNode? []? children)
+    {
+        var @hybridwebview = new HybridWebView();
+        if (children != null)
+        {
+            @hybridwebview.AddChildren(children);
+        }
+
+        return @hybridwebview;
+    }
+
+    public static HybridWebView HybridWebView(Action<Microsoft.Maui.Controls.HybridWebView?> componentRefAction)
+    {
+        var @hybridwebview = new HybridWebView();
+        @hybridwebview.ComponentRefAction = componentRefAction;
+        return @hybridwebview;
+    }
+
+    public static HybridWebView HybridWebView(Action<Microsoft.Maui.Controls.HybridWebView?> componentRefAction, params VisualNode? []? children)
+    {
+        var @hybridwebview = new HybridWebView();
+        @hybridwebview.ComponentRefAction = componentRefAction;
+        if (children != null)
+        {
+            @hybridwebview.AddChildren(children);
+        }
+
+        return @hybridwebview;
     }
 }
