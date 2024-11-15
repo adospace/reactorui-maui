@@ -17,12 +17,12 @@ class FormattedTextTestPage : Component
                     {
                         //of course FomattedText here, being static, can be created as a static variable and passed to Label().FormattedText(myStaticFormattedText)
                         FormattedString formattedString = new();
-                        formattedString.Spans.Add(new Span { Text = "Red bold, ", TextColor = Colors.Red, FontAttributes = FontAttributes.Bold });
+                        formattedString.Spans.Add(new MauiControls.Span { Text = "Red bold, ", TextColor = Colors.Red, FontAttributes = FontAttributes.Bold });
 
-                        Span span = new() { Text = "default, " };
+                        MauiControls.Span span = new() { Text = "default, " };
                         span.GestureRecognizers.Add(new MauiControls.TapGestureRecognizer { Command = new Command(async () => await ContainerPage!.DisplayAlert("Tapped", "This is a tapped Span.", "OK")) });
                         formattedString.Spans.Add(span);
-                        formattedString.Spans.Add(new Span { Text = "italic small.", FontAttributes = FontAttributes.Italic, FontSize = 14 });
+                        formattedString.Spans.Add(new MauiControls.Span { Text = "italic small.", FontAttributes = FontAttributes.Italic, FontSize = 14 });
 
                         return formattedString;
                     })
