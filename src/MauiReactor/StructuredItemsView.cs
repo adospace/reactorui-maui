@@ -29,15 +29,6 @@ public partial class StructuredItemsView<T> : ItemsView<T>, IStructuredItemsView
 
     object? IStructuredItemsView.ItemSizingStrategy { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIStructuredItemsView = (IStructuredItemsView)this;
-        thisAsIStructuredItemsView.ItemSizingStrategy = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

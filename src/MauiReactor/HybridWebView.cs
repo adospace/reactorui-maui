@@ -41,18 +41,6 @@ public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Micros
 
     Action<object?, HybridWebViewRawMessageReceivedEventArgs>? IHybridWebView.RawMessageReceivedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIHybridWebView = (IHybridWebView)this;
-        thisAsIHybridWebView.DefaultFile = null;
-        thisAsIHybridWebView.HybridRoot = null;
-        thisAsIHybridWebView.RawMessageReceivedAction = null;
-        thisAsIHybridWebView.RawMessageReceivedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

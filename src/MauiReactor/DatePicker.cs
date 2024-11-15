@@ -73,26 +73,6 @@ public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Ma
 
     Action<object?, DateChangedEventArgs>? IDatePicker.DateSelectedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIDatePicker = (IDatePicker)this;
-        thisAsIDatePicker.Format = null;
-        thisAsIDatePicker.Date = null;
-        thisAsIDatePicker.MinimumDate = null;
-        thisAsIDatePicker.MaximumDate = null;
-        thisAsIDatePicker.TextColor = null;
-        thisAsIDatePicker.CharacterSpacing = null;
-        thisAsIDatePicker.FontFamily = null;
-        thisAsIDatePicker.FontSize = null;
-        thisAsIDatePicker.FontAttributes = null;
-        thisAsIDatePicker.FontAutoScalingEnabled = null;
-        thisAsIDatePicker.DateSelectedAction = null;
-        thisAsIDatePicker.DateSelectedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

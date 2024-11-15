@@ -25,13 +25,6 @@ public abstract partial class Behavior<T, TChild> : Behavior<T>, IGenericBehavio
     {
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

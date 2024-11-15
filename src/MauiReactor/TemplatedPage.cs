@@ -26,13 +26,6 @@ public partial class TemplatedPage<T> : Page<T>, ITemplatedPage where T : Micros
         TemplatedPageStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

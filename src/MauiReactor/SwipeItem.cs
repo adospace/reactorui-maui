@@ -41,18 +41,6 @@ public partial class SwipeItem<T> : MenuItem<T>, ISwipeItem where T : Microsoft.
 
     Action<object?, EventArgs>? ISwipeItem.InvokedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsISwipeItem = (ISwipeItem)this;
-        thisAsISwipeItem.BackgroundColor = null;
-        thisAsISwipeItem.IsVisible = null;
-        thisAsISwipeItem.InvokedAction = null;
-        thisAsISwipeItem.InvokedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

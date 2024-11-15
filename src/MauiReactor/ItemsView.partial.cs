@@ -33,19 +33,6 @@ public partial class ItemsView<T> : ICustomDataTemplateOwner, IAutomationItemCon
 
     object? IItemsView.EmptyView { get; set; }
 
-    partial void OnReset()
-    {
-        _loadedForciblyChildren = null;
-        _customDataTemplate = null;
-
-        var thisAsIItemsView = (IItemsView)this;
-        thisAsIItemsView.ItemsSource = null;
-        thisAsIItemsView.ItemTemplate = null;
-        thisAsIItemsView.ItemTemplateWithNativeView = null;
-        thisAsIItemsView.ItemVisualStateGroups = null;
-        thisAsIItemsView.EmptyView = null;
-    }
-
     VisualNode? ICustomDataTemplateOwner.GetVisualNodeForItem(object item)
     {
         var thisAsIItemsView = (IItemsView)this;

@@ -109,35 +109,6 @@ public partial class Button<T> : View<T>, IButton where T : Microsoft.Maui.Contr
 
     Action<object?, EventArgs>? IButton.ReleasedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIButton = (IButton)this;
-        thisAsIButton.ContentLayout = null;
-        thisAsIButton.Text = null;
-        thisAsIButton.TextColor = null;
-        thisAsIButton.CharacterSpacing = null;
-        thisAsIButton.FontFamily = null;
-        thisAsIButton.FontSize = null;
-        thisAsIButton.TextTransform = null;
-        thisAsIButton.FontAttributes = null;
-        thisAsIButton.FontAutoScalingEnabled = null;
-        thisAsIButton.BorderWidth = null;
-        thisAsIButton.BorderColor = null;
-        thisAsIButton.CornerRadius = null;
-        thisAsIButton.ImageSource = null;
-        thisAsIButton.Padding = null;
-        thisAsIButton.LineBreakMode = null;
-        thisAsIButton.ClickedAction = null;
-        thisAsIButton.ClickedActionWithArgs = null;
-        thisAsIButton.PressedAction = null;
-        thisAsIButton.PressedActionWithArgs = null;
-        thisAsIButton.ReleasedAction = null;
-        thisAsIButton.ReleasedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

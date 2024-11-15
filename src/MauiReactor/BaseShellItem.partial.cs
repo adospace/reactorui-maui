@@ -15,13 +15,6 @@ public partial class BaseShellItem<T>
 
     string? IBaseShellItem.Route { get; set; }
 
-    partial void OnReset()
-    {
-        var thisAsIBaseShellItem = (IBaseShellItem)this;
-        //thisAsIBaseShellItem.FlyoutItemIsVisible = null;
-        thisAsIBaseShellItem.Route = null;
-    }
-
     partial void OnBeginUpdate()
     {
         Validate.EnsureNotNull(NativeControl);

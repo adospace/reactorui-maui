@@ -53,21 +53,6 @@ public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestu
 
     Action<object?, DropEventArgs>? IDropGestureRecognizer.DropActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIDropGestureRecognizer = (IDropGestureRecognizer)this;
-        thisAsIDropGestureRecognizer.AllowDrop = null;
-        thisAsIDropGestureRecognizer.DragLeaveAction = null;
-        thisAsIDropGestureRecognizer.DragLeaveActionWithArgs = null;
-        thisAsIDropGestureRecognizer.DragOverAction = null;
-        thisAsIDropGestureRecognizer.DragOverActionWithArgs = null;
-        thisAsIDropGestureRecognizer.DropAction = null;
-        thisAsIDropGestureRecognizer.DropActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

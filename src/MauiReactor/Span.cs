@@ -73,26 +73,6 @@ public partial class Span<T> : GestureElement<T>, ISpan where T : Microsoft.Maui
 
     object? ISpan.LineHeight { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsISpan = (ISpan)this;
-        thisAsISpan.Style = null;
-        thisAsISpan.TextDecorations = null;
-        thisAsISpan.TextTransform = null;
-        thisAsISpan.BackgroundColor = null;
-        thisAsISpan.TextColor = null;
-        thisAsISpan.CharacterSpacing = null;
-        thisAsISpan.Text = null;
-        thisAsISpan.FontFamily = null;
-        thisAsISpan.FontSize = null;
-        thisAsISpan.FontAttributes = null;
-        thisAsISpan.FontAutoScalingEnabled = null;
-        thisAsISpan.LineHeight = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

@@ -26,13 +26,6 @@ public sealed partial class Ellipse : Shapes.Shape<Microsoft.Maui.Controls.Shape
         EllipseStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

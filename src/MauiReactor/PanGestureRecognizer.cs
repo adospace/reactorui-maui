@@ -37,17 +37,6 @@ public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGesture
 
     Action<object?, PanUpdatedEventArgs>? IPanGestureRecognizer.PanUpdatedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIPanGestureRecognizer = (IPanGestureRecognizer)this;
-        thisAsIPanGestureRecognizer.TouchPoints = null;
-        thisAsIPanGestureRecognizer.PanUpdatedAction = null;
-        thisAsIPanGestureRecognizer.PanUpdatedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

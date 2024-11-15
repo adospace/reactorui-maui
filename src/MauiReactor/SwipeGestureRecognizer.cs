@@ -41,18 +41,6 @@ public sealed partial class SwipeGestureRecognizer : GestureRecognizer<Microsoft
 
     Action<object?, SwipedEventArgs>? ISwipeGestureRecognizer.SwipedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsISwipeGestureRecognizer = (ISwipeGestureRecognizer)this;
-        thisAsISwipeGestureRecognizer.Direction = null;
-        thisAsISwipeGestureRecognizer.Threshold = null;
-        thisAsISwipeGestureRecognizer.SwipedAction = null;
-        thisAsISwipeGestureRecognizer.SwipedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

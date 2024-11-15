@@ -33,16 +33,6 @@ public sealed partial class Polyline : Shapes.Shape<Microsoft.Maui.Controls.Shap
 
     object? IPolyline.FillRule { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIPolyline = (IPolyline)this;
-        thisAsIPolyline.Points = null;
-        thisAsIPolyline.FillRule = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

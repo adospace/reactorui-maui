@@ -25,13 +25,6 @@ public abstract partial class ItemsView<T, TChild> : View<T>, IGenericItemsView 
     {
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

@@ -26,13 +26,6 @@ public partial class AbsoluteLayout<T> : Layout<T>, IAbsoluteLayout where T : Mi
         AbsoluteLayoutStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

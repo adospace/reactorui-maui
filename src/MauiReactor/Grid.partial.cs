@@ -31,14 +31,6 @@ public partial class Grid<T>
     ColumnDefinitionCollection IGrid.ColumnDefinitions { get; set; } = [];
     RowDefinitionCollection IGrid.RowDefinitions { get; set; } = [];
 
-    partial void OnReset()
-    {
-        var thisAsIGrid = (IGrid)this;
-        //NOTE: Do no use .Clear(), definitions must be recreated
-        thisAsIGrid.RowDefinitions = [];
-        thisAsIGrid.ColumnDefinitions = [];
-    }
-
     partial void OnBeginUpdate()
     {
         Validate.EnsureNotNull(NativeControl);

@@ -181,53 +181,6 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
 
     Action<object?, DisplayDensityChangedEventArgs>? IWindow.DisplayDensityChangedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIWindow = (IWindow)this;
-        thisAsIWindow.Title = null;
-        thisAsIWindow.FlowDirection = null;
-        thisAsIWindow.X = null;
-        thisAsIWindow.Y = null;
-        thisAsIWindow.Width = null;
-        thisAsIWindow.Height = null;
-        thisAsIWindow.MaximumWidth = null;
-        thisAsIWindow.MaximumHeight = null;
-        thisAsIWindow.MinimumWidth = null;
-        thisAsIWindow.MinimumHeight = null;
-        thisAsIWindow.TitleBar = null;
-        thisAsIWindow.SizeChangedAction = null;
-        thisAsIWindow.SizeChangedActionWithArgs = null;
-        thisAsIWindow.ModalPoppedAction = null;
-        thisAsIWindow.ModalPoppedActionWithArgs = null;
-        thisAsIWindow.ModalPoppingAction = null;
-        thisAsIWindow.ModalPoppingActionWithArgs = null;
-        thisAsIWindow.ModalPushedAction = null;
-        thisAsIWindow.ModalPushedActionWithArgs = null;
-        thisAsIWindow.ModalPushingAction = null;
-        thisAsIWindow.ModalPushingActionWithArgs = null;
-        thisAsIWindow.PopCanceledAction = null;
-        thisAsIWindow.PopCanceledActionWithArgs = null;
-        thisAsIWindow.CreatedAction = null;
-        thisAsIWindow.CreatedActionWithArgs = null;
-        thisAsIWindow.ResumedAction = null;
-        thisAsIWindow.ResumedActionWithArgs = null;
-        thisAsIWindow.ActivatedAction = null;
-        thisAsIWindow.ActivatedActionWithArgs = null;
-        thisAsIWindow.DeactivatedAction = null;
-        thisAsIWindow.DeactivatedActionWithArgs = null;
-        thisAsIWindow.StoppedAction = null;
-        thisAsIWindow.StoppedActionWithArgs = null;
-        thisAsIWindow.DestroyingAction = null;
-        thisAsIWindow.DestroyingActionWithArgs = null;
-        thisAsIWindow.BackgroundingAction = null;
-        thisAsIWindow.BackgroundingActionWithArgs = null;
-        thisAsIWindow.DisplayDensityChangedAction = null;
-        thisAsIWindow.DisplayDensityChangedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

@@ -29,15 +29,6 @@ public abstract partial class StyleableElement<T> : Element<T>, IStyleableElemen
 
     object? IStyleableElement.Style { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIStyleableElement = (IStyleableElement)this;
-        thisAsIStyleableElement.Style = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

@@ -33,16 +33,6 @@ public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft
 
     Action<object?, PinchGestureUpdatedEventArgs>? IPinchGestureRecognizer.PinchUpdatedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIPinchGestureRecognizer = (IPinchGestureRecognizer)this;
-        thisAsIPinchGestureRecognizer.PinchUpdatedAction = null;
-        thisAsIPinchGestureRecognizer.PinchUpdatedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

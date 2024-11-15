@@ -33,16 +33,6 @@ public partial class MenuBarItem<T> : BaseMenuItem<T>, IMenuBarItem where T : Mi
 
     object? IMenuBarItem.IsEnabled { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIMenuBarItem = (IMenuBarItem)this;
-        thisAsIMenuBarItem.Text = null;
-        thisAsIMenuBarItem.IsEnabled = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

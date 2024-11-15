@@ -61,23 +61,6 @@ public partial class EntryCell<T> : Cell<T>, IEntryCell where T : Microsoft.Maui
 
     Action<object?, EventArgs>? IEntryCell.CompletedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIEntryCell = (IEntryCell)this;
-        thisAsIEntryCell.Text = null;
-        thisAsIEntryCell.Label = null;
-        thisAsIEntryCell.Placeholder = null;
-        thisAsIEntryCell.LabelColor = null;
-        thisAsIEntryCell.Keyboard = null;
-        thisAsIEntryCell.HorizontalTextAlignment = null;
-        thisAsIEntryCell.VerticalTextAlignment = null;
-        thisAsIEntryCell.CompletedAction = null;
-        thisAsIEntryCell.CompletedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

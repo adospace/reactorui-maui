@@ -29,15 +29,6 @@ public partial class ImageCell<T> : TextCell<T>, IImageCell where T : Microsoft.
 
     object? IImageCell.ImageSource { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIImageCell = (IImageCell)this;
-        thisAsIImageCell.ImageSource = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

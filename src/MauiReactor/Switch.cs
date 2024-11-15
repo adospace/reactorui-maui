@@ -45,19 +45,6 @@ public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Contr
 
     Action<object?, ToggledEventArgs>? ISwitch.ToggledActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsISwitch = (ISwitch)this;
-        thisAsISwitch.IsToggled = null;
-        thisAsISwitch.OnColor = null;
-        thisAsISwitch.ThumbColor = null;
-        thisAsISwitch.ToggledAction = null;
-        thisAsISwitch.ToggledActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

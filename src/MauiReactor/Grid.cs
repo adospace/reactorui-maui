@@ -33,16 +33,6 @@ public partial class Grid<T> : Layout<T>, IGrid where T : Microsoft.Maui.Control
 
     object? IGrid.ColumnSpacing { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIGrid = (IGrid)this;
-        thisAsIGrid.RowSpacing = null;
-        thisAsIGrid.ColumnSpacing = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

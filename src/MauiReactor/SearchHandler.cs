@@ -161,48 +161,6 @@ public partial class SearchHandler<T> : VisualNode<T>, ISearchHandler where T : 
 
     Action<object?, EventArgs>? ISearchHandler.UnfocusedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsISearchHandler = (ISearchHandler)this;
-        thisAsISearchHandler.Keyboard = null;
-        thisAsISearchHandler.HorizontalTextAlignment = null;
-        thisAsISearchHandler.VerticalTextAlignment = null;
-        thisAsISearchHandler.TextColor = null;
-        thisAsISearchHandler.CharacterSpacing = null;
-        thisAsISearchHandler.CancelButtonColor = null;
-        thisAsISearchHandler.FontFamily = null;
-        thisAsISearchHandler.FontSize = null;
-        thisAsISearchHandler.FontAttributes = null;
-        thisAsISearchHandler.FontAutoScalingEnabled = null;
-        thisAsISearchHandler.Placeholder = null;
-        thisAsISearchHandler.PlaceholderColor = null;
-        thisAsISearchHandler.TextTransform = null;
-        thisAsISearchHandler.BackgroundColor = null;
-        thisAsISearchHandler.AutomationId = null;
-        thisAsISearchHandler.ClearIconHelpText = null;
-        thisAsISearchHandler.ClearIconName = null;
-        thisAsISearchHandler.ClearIcon = null;
-        thisAsISearchHandler.ClearPlaceholderEnabled = null;
-        thisAsISearchHandler.ClearPlaceholderHelpText = null;
-        thisAsISearchHandler.ClearPlaceholderIcon = null;
-        thisAsISearchHandler.ClearPlaceholderName = null;
-        thisAsISearchHandler.DisplayMemberName = null;
-        thisAsISearchHandler.IsSearchEnabled = null;
-        thisAsISearchHandler.QueryIconHelpText = null;
-        thisAsISearchHandler.QueryIconName = null;
-        thisAsISearchHandler.QueryIcon = null;
-        thisAsISearchHandler.Query = null;
-        thisAsISearchHandler.SearchBoxVisibility = null;
-        thisAsISearchHandler.ShowsResults = null;
-        thisAsISearchHandler.FocusedAction = null;
-        thisAsISearchHandler.FocusedActionWithArgs = null;
-        thisAsISearchHandler.UnfocusedAction = null;
-        thisAsISearchHandler.UnfocusedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

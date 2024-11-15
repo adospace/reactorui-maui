@@ -77,27 +77,6 @@ public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Contr
 
     Action<object?, EventArgs>? ISlider.DragCompletedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsISlider = (ISlider)this;
-        thisAsISlider.Minimum = null;
-        thisAsISlider.Maximum = null;
-        thisAsISlider.Value = null;
-        thisAsISlider.MinimumTrackColor = null;
-        thisAsISlider.MaximumTrackColor = null;
-        thisAsISlider.ThumbColor = null;
-        thisAsISlider.ThumbImageSource = null;
-        thisAsISlider.ValueChangedAction = null;
-        thisAsISlider.ValueChangedActionWithArgs = null;
-        thisAsISlider.DragStartedAction = null;
-        thisAsISlider.DragStartedActionWithArgs = null;
-        thisAsISlider.DragCompletedAction = null;
-        thisAsISlider.DragCompletedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

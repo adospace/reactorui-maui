@@ -26,13 +26,6 @@ public abstract partial class FlyoutBase<T> : Element<T>, IFlyoutBase where T : 
         FlyoutBaseStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

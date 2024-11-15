@@ -49,20 +49,6 @@ public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Con
 
     Action<object?, ValueChangedEventArgs>? IStepper.ValueChangedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIStepper = (IStepper)this;
-        thisAsIStepper.Maximum = null;
-        thisAsIStepper.Minimum = null;
-        thisAsIStepper.Value = null;
-        thisAsIStepper.Increment = null;
-        thisAsIStepper.ValueChangedAction = null;
-        thisAsIStepper.ValueChangedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

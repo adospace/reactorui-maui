@@ -101,33 +101,6 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
 
     Action<object?, TextChangedEventArgs>? IInputView.TextChangedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIInputView = (IInputView)this;
-        thisAsIInputView.Text = null;
-        thisAsIInputView.Keyboard = null;
-        thisAsIInputView.IsSpellCheckEnabled = null;
-        thisAsIInputView.IsTextPredictionEnabled = null;
-        thisAsIInputView.MaxLength = null;
-        thisAsIInputView.IsReadOnly = null;
-        thisAsIInputView.Placeholder = null;
-        thisAsIInputView.PlaceholderColor = null;
-        thisAsIInputView.TextColor = null;
-        thisAsIInputView.CharacterSpacing = null;
-        thisAsIInputView.TextTransform = null;
-        thisAsIInputView.CursorPosition = null;
-        thisAsIInputView.SelectionLength = null;
-        thisAsIInputView.FontFamily = null;
-        thisAsIInputView.FontSize = null;
-        thisAsIInputView.FontAttributes = null;
-        thisAsIInputView.FontAutoScalingEnabled = null;
-        thisAsIInputView.TextChangedAction = null;
-        thisAsIInputView.TextChangedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

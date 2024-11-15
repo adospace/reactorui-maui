@@ -32,12 +32,6 @@ public partial class GraphicsView<T>
 {
     Action<ICanvas, RectF>? IGraphicsView.DrawAction { get; set; }
 
-    partial void OnReset()
-    {
-        var thisAsIGraphicsView = (IGraphicsView)this;
-        thisAsIGraphicsView.DrawAction = null;
-    }
-
     partial void OnEndUpdate()
     {
         Validate.EnsureNotNull(NativeControl);

@@ -33,16 +33,6 @@ public partial class ProgressBar<T> : View<T>, IProgressBar where T : Microsoft.
 
     object? IProgressBar.Progress { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIProgressBar = (IProgressBar)this;
-        thisAsIProgressBar.ProgressColor = null;
-        thisAsIProgressBar.Progress = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

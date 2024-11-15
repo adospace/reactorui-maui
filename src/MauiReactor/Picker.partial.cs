@@ -16,12 +16,6 @@ public partial class Picker<T>
 {
     IReadOnlyList<string>? IPicker.ItemsSource { get; set; }
 
-    partial void OnReset()
-    {
-        var thisAsIPicker = (IPicker)this;
-        thisAsIPicker.ItemsSource = null;
-    }
-
     partial void OnBeginUpdate()
     {
         Validate.EnsureNotNull(NativeControl);

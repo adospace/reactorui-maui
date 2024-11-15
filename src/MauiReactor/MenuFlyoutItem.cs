@@ -26,13 +26,6 @@ public partial class MenuFlyoutItem<T> : MenuItem<T>, IMenuFlyoutItem where T : 
         MenuFlyoutItemStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

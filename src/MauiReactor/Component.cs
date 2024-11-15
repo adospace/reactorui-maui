@@ -13,15 +13,6 @@ namespace MauiReactor
 
         private readonly Dictionary<BindableProperty, object> _attachedProperties = [];
 
-        internal override void Reset()
-        {
-            base.Reset();
-
-            _nativeControl = null;
-            _children.Clear();
-            _attachedProperties.Clear();
-        }
-
         public abstract VisualNode Render();
 
         public void SetAttachedProperty(BindableProperty property, object value)
@@ -257,14 +248,6 @@ namespace MauiReactor
         private bool _derivedProps = props != null;
         private P? _props = props;
 
-        internal override void Reset()
-        {
-            base.Reset();
-
-            _derivedProps = false;
-            _props = null;
-        }
-
         public P Props
         {
             get => _props ??= new P();
@@ -322,16 +305,6 @@ namespace MauiReactor
         {
             _state = state;
             _derivedState = state != null;
-        }
-
-        internal override void Reset()
-        {
-            base.Reset();
-
-            _newComponent = null;
-            _actionsRegisteredOnStateChange?.Clear();
-            _derivedState = false;
-            _state = null;
         }
 
         public S State 

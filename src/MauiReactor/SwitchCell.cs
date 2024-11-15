@@ -45,19 +45,6 @@ public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Ma
 
     Action<object?, ToggledEventArgs>? ISwitchCell.OnChangedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsISwitchCell = (ISwitchCell)this;
-        thisAsISwitchCell.On = null;
-        thisAsISwitchCell.Text = null;
-        thisAsISwitchCell.OnColor = null;
-        thisAsISwitchCell.OnChangedAction = null;
-        thisAsISwitchCell.OnChangedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

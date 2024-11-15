@@ -29,15 +29,6 @@ public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : M
 
     object? IContentPage.HideSoftInputOnTapped { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIContentPage = (IContentPage)this;
-        thisAsIContentPage.HideSoftInputOnTapped = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

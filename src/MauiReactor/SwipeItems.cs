@@ -41,18 +41,6 @@ public partial class SwipeItems<T> : Element<T>, ISwipeItems where T : Microsoft
 
     Action<object?, EventArgs>? ISwipeItems.CollectionChangedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsISwipeItems = (ISwipeItems)this;
-        thisAsISwipeItems.Mode = null;
-        thisAsISwipeItems.SwipeBehaviorOnInvoked = null;
-        thisAsISwipeItems.CollectionChangedAction = null;
-        thisAsISwipeItems.CollectionChangedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

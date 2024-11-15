@@ -41,18 +41,6 @@ public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Mic
 
     Action<object?, EventArgs>? IRefreshView.RefreshingActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIRefreshView = (IRefreshView)this;
-        thisAsIRefreshView.IsRefreshing = null;
-        thisAsIRefreshView.RefreshColor = null;
-        thisAsIRefreshView.RefreshingAction = null;
-        thisAsIRefreshView.RefreshingActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

@@ -49,20 +49,6 @@ public partial class FlexLayout<T> : Layout<T>, IFlexLayout where T : Microsoft.
 
     object? IFlexLayout.Wrap { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIFlexLayout = (IFlexLayout)this;
-        thisAsIFlexLayout.Direction = null;
-        thisAsIFlexLayout.JustifyContent = null;
-        thisAsIFlexLayout.AlignContent = null;
-        thisAsIFlexLayout.AlignItems = null;
-        thisAsIFlexLayout.Position = null;
-        thisAsIFlexLayout.Wrap = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

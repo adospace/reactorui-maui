@@ -33,16 +33,6 @@ public sealed partial class PathGeometry : Shapes.Geometry<Microsoft.Maui.Contro
 
     object? IPathGeometry.FillRule { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIPathGeometry = (IPathGeometry)this;
-        thisAsIPathGeometry.Figures = null;
-        thisAsIPathGeometry.FillRule = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

@@ -12,12 +12,6 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>
 {
     object? ISelectableItemsView.SelectedItems { get; set; }
 
-    partial void OnReset()
-    {
-        var thisAsISelectableItemsView = (ISelectableItemsView)this;
-        thisAsISelectableItemsView.SelectedItems = null;
-    }
-
 
     partial void OnEndUpdate()
     {

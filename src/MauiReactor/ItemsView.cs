@@ -65,24 +65,6 @@ public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Micro
 
     Action<object?, EventArgs>? IItemsView.RemainingItemsThresholdReachedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIItemsView = (IItemsView)this;
-        thisAsIItemsView.HorizontalScrollBarVisibility = null;
-        thisAsIItemsView.VerticalScrollBarVisibility = null;
-        thisAsIItemsView.RemainingItemsThreshold = null;
-        thisAsIItemsView.ItemsUpdatingScrollMode = null;
-        thisAsIItemsView.ScrollToRequestedAction = null;
-        thisAsIItemsView.ScrollToRequestedActionWithArgs = null;
-        thisAsIItemsView.ScrolledAction = null;
-        thisAsIItemsView.ScrolledActionWithArgs = null;
-        thisAsIItemsView.RemainingItemsThresholdReachedAction = null;
-        thisAsIItemsView.RemainingItemsThresholdReachedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

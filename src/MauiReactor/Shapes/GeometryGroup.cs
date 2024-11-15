@@ -41,18 +41,6 @@ public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where
 
     Action<object?, EventArgs>? IGeometryGroup.InvalidateGeometryRequestedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIGeometryGroup = (IGeometryGroup)this;
-        thisAsIGeometryGroup.Children = null;
-        thisAsIGeometryGroup.FillRule = null;
-        thisAsIGeometryGroup.InvalidateGeometryRequestedAction = null;
-        thisAsIGeometryGroup.InvalidateGeometryRequestedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

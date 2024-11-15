@@ -65,24 +65,6 @@ public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microso
 
     Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerReleasedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
-        thisAsIPointerGestureRecognizer.PointerEnteredAction = null;
-        thisAsIPointerGestureRecognizer.PointerEnteredActionWithArgs = null;
-        thisAsIPointerGestureRecognizer.PointerExitedAction = null;
-        thisAsIPointerGestureRecognizer.PointerExitedActionWithArgs = null;
-        thisAsIPointerGestureRecognizer.PointerMovedAction = null;
-        thisAsIPointerGestureRecognizer.PointerMovedActionWithArgs = null;
-        thisAsIPointerGestureRecognizer.PointerPressedAction = null;
-        thisAsIPointerGestureRecognizer.PointerPressedActionWithArgs = null;
-        thisAsIPointerGestureRecognizer.PointerReleasedAction = null;
-        thisAsIPointerGestureRecognizer.PointerReleasedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

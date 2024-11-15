@@ -29,15 +29,6 @@ public partial class RectangleGeometry<T> : Shapes.Geometry<T>, IRectangleGeomet
 
     object? IRectangleGeometry.Rect { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIRectangleGeometry = (IRectangleGeometry)this;
-        thisAsIRectangleGeometry.Rect = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

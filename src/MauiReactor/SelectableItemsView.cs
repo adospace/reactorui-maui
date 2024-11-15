@@ -41,18 +41,6 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectabl
 
     Action<object?, SelectionChangedEventArgs>? ISelectableItemsView.SelectionChangedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsISelectableItemsView = (ISelectableItemsView)this;
-        thisAsISelectableItemsView.SelectionMode = null;
-        thisAsISelectableItemsView.SelectedItem = null;
-        thisAsISelectableItemsView.SelectionChangedAction = null;
-        thisAsISelectableItemsView.SelectionChangedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

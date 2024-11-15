@@ -26,13 +26,6 @@ public partial class ToolbarItem<T> : MenuItem<T>, IToolbarItem where T : Micros
         ToolbarItemStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

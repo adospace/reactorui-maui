@@ -26,13 +26,6 @@ public partial class FlyoutItem<T> : ShellItem<T>, IFlyoutItem where T : Microso
         FlyoutItemStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

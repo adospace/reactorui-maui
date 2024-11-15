@@ -37,17 +37,6 @@ public abstract partial class View<T> : VisualElement<T>, IView where T : Micros
 
     object? IView.Margin { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIView = (IView)this;
-        thisAsIView.VerticalOptions = null;
-        thisAsIView.HorizontalOptions = null;
-        thisAsIView.Margin = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

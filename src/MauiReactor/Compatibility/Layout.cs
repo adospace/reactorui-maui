@@ -48,18 +48,6 @@ public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.M
 
     Action<object?, EventArgs>? ILayout.LayoutChangedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsILayout = (ILayout)this;
-        thisAsILayout.IsClippedToBounds = null;
-        thisAsILayout.CascadeInputTransparent = null;
-        thisAsILayout.Padding = null;
-        thisAsILayout.LayoutChangedAction = null;
-        thisAsILayout.LayoutChangedActionWithArgs = null;
-        OnReset();
-    }
-
     partial void OnReset();
     protected override void OnUpdate()
     {

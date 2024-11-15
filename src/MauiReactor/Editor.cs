@@ -45,19 +45,6 @@ public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.
 
     Action<object?, EventArgs>? IEditor.CompletedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIEditor = (IEditor)this;
-        thisAsIEditor.AutoSize = null;
-        thisAsIEditor.HorizontalTextAlignment = null;
-        thisAsIEditor.VerticalTextAlignment = null;
-        thisAsIEditor.CompletedAction = null;
-        thisAsIEditor.CompletedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

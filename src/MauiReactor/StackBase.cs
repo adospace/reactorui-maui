@@ -29,15 +29,6 @@ public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Mic
 
     object? IStackBase.Spacing { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIStackBase = (IStackBase)this;
-        thisAsIStackBase.Spacing = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

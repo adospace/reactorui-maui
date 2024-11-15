@@ -90,6 +90,7 @@ Microsoft.Maui.Controls.RadioButton
 Microsoft.Maui.Controls.WebView
 Microsoft.Maui.Controls.RefreshView
 Microsoft.Maui.Controls.SearchBar
+Microsoft.Maui.Controls.SearchHandler
 Microsoft.Maui.Controls.SwipeView
 Microsoft.Maui.Controls.SwipeItem
 Microsoft.Maui.Controls.SwipeItemView

@@ -37,17 +37,6 @@ public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.M
 
     object? ILayout.CascadeInputTransparent { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsILayout = (ILayout)this;
-        thisAsILayout.IsClippedToBounds = null;
-        thisAsILayout.Padding = null;
-        thisAsILayout.CascadeInputTransparent = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

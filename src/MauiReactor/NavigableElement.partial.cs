@@ -11,11 +11,6 @@ public partial class NavigableElement<T>
 {
     List<string>? INavigableElement.Class { get; set; }
 
-    partial void OnReset()
-    {
-        var thisAsINavigableElement = (INavigableElement)this;
-        thisAsINavigableElement.Class = null;
-    }
 
     partial void OnBeginUpdate()
     {

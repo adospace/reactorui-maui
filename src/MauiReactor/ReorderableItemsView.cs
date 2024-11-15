@@ -41,18 +41,6 @@ public partial class ReorderableItemsView<T> : GroupableItemsView<T>, IReorderab
 
     Action<object?, EventArgs>? IReorderableItemsView.ReorderCompletedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIReorderableItemsView = (IReorderableItemsView)this;
-        thisAsIReorderableItemsView.CanMixGroups = null;
-        thisAsIReorderableItemsView.CanReorderItems = null;
-        thisAsIReorderableItemsView.ReorderCompletedAction = null;
-        thisAsIReorderableItemsView.ReorderCompletedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

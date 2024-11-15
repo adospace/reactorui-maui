@@ -26,13 +26,6 @@ public abstract partial class NavigableElement<T> : StyleableElement<T>, INaviga
         NavigableElementStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

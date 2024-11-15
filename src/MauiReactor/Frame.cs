@@ -38,17 +38,6 @@ public partial class Frame<T> : ContentView<T>, IFrame where T : Microsoft.Maui.
 
     object? IFrame.CornerRadius { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIFrame = (IFrame)this;
-        thisAsIFrame.BorderColor = null;
-        thisAsIFrame.HasShadow = null;
-        thisAsIFrame.CornerRadius = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

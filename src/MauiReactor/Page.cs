@@ -93,31 +93,6 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
 
     Action<object?, NavigatedFromEventArgs>? IPage.NavigatedFromActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIPage = (IPage)this;
-        thisAsIPage.BackgroundImageSource = null;
-        thisAsIPage.IsBusy = null;
-        thisAsIPage.Padding = null;
-        thisAsIPage.Title = null;
-        thisAsIPage.IconImageSource = null;
-        thisAsIPage.LayoutChangedAction = null;
-        thisAsIPage.LayoutChangedActionWithArgs = null;
-        thisAsIPage.AppearingAction = null;
-        thisAsIPage.AppearingActionWithArgs = null;
-        thisAsIPage.DisappearingAction = null;
-        thisAsIPage.DisappearingActionWithArgs = null;
-        thisAsIPage.NavigatedToAction = null;
-        thisAsIPage.NavigatedToActionWithArgs = null;
-        thisAsIPage.NavigatingFromAction = null;
-        thisAsIPage.NavigatingFromActionWithArgs = null;
-        thisAsIPage.NavigatedFromAction = null;
-        thisAsIPage.NavigatedFromActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

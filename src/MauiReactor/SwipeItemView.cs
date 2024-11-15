@@ -33,16 +33,6 @@ public partial class SwipeItemView<T> : ContentView<T>, ISwipeItemView where T :
 
     Action<object?, EventArgs>? ISwipeItemView.InvokedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsISwipeItemView = (ISwipeItemView)this;
-        thisAsISwipeItemView.InvokedAction = null;
-        thisAsISwipeItemView.InvokedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

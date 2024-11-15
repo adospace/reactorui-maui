@@ -45,19 +45,6 @@ public abstract partial class TabbedPage<T> : MultiPage<T, Microsoft.Maui.Contro
 
     object? ITabbedPage.SelectedTabColor { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsITabbedPage = (ITabbedPage)this;
-        thisAsITabbedPage.BarBackgroundColor = null;
-        thisAsITabbedPage.BarBackground = null;
-        thisAsITabbedPage.BarTextColor = null;
-        thisAsITabbedPage.UnselectedTabColor = null;
-        thisAsITabbedPage.SelectedTabColor = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

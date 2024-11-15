@@ -121,38 +121,6 @@ public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls
 
     Action<object?, EventArgs>? IListView.RefreshingActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIListView = (IListView)this;
-        thisAsIListView.IsPullToRefreshEnabled = null;
-        thisAsIListView.IsRefreshing = null;
-        thisAsIListView.SelectedItem = null;
-        thisAsIListView.SelectionMode = null;
-        thisAsIListView.HasUnevenRows = null;
-        thisAsIListView.RowHeight = null;
-        thisAsIListView.IsGroupingEnabled = null;
-        thisAsIListView.SeparatorVisibility = null;
-        thisAsIListView.SeparatorColor = null;
-        thisAsIListView.RefreshControlColor = null;
-        thisAsIListView.HorizontalScrollBarVisibility = null;
-        thisAsIListView.VerticalScrollBarVisibility = null;
-        thisAsIListView.ItemAppearingAction = null;
-        thisAsIListView.ItemAppearingActionWithArgs = null;
-        thisAsIListView.ItemDisappearingAction = null;
-        thisAsIListView.ItemDisappearingActionWithArgs = null;
-        thisAsIListView.ItemSelectedAction = null;
-        thisAsIListView.ItemSelectedActionWithArgs = null;
-        thisAsIListView.ItemTappedAction = null;
-        thisAsIListView.ItemTappedActionWithArgs = null;
-        thisAsIListView.ScrolledAction = null;
-        thisAsIListView.ScrolledActionWithArgs = null;
-        thisAsIListView.RefreshingAction = null;
-        thisAsIListView.RefreshingActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

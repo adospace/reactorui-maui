@@ -41,18 +41,6 @@ public partial class Shadow<T> : Element<T>, IShadow where T : Microsoft.Maui.Co
 
     object? IShadow.Offset { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIShadow = (IShadow)this;
-        thisAsIShadow.Radius = null;
-        thisAsIShadow.Opacity = null;
-        thisAsIShadow.Brush = null;
-        thisAsIShadow.Offset = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

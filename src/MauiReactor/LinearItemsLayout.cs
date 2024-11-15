@@ -29,15 +29,6 @@ public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItem
 
     object? ILinearItemsLayout.ItemSpacing { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsILinearItemsLayout = (ILinearItemsLayout)this;
-        thisAsILinearItemsLayout.ItemSpacing = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

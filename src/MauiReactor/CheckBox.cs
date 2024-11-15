@@ -41,18 +41,6 @@ public partial class CheckBox<T> : View<T>, ICheckBox where T : Microsoft.Maui.C
 
     Action<object?, CheckedChangedEventArgs>? ICheckBox.CheckedChangedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsICheckBox = (ICheckBox)this;
-        thisAsICheckBox.IsChecked = null;
-        thisAsICheckBox.Color = null;
-        thisAsICheckBox.CheckedChangedAction = null;
-        thisAsICheckBox.CheckedChangedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

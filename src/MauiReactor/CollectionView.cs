@@ -26,13 +26,6 @@ public partial class CollectionView<T> : ReorderableItemsView<T>, ICollectionVie
         CollectionViewStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

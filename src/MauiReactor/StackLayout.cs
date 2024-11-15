@@ -29,15 +29,6 @@ public partial class StackLayout<T> : StackBase<T>, IStackLayout where T : Micro
 
     object? IStackLayout.Orientation { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIStackLayout = (IStackLayout)this;
-        thisAsIStackLayout.Orientation = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

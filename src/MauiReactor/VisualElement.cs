@@ -181,53 +181,6 @@ public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualEle
 
     Action<object?, EventArgs>? IVisualElement.UnloadedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIVisualElement = (IVisualElement)this;
-        thisAsIVisualElement.InputTransparent = null;
-        thisAsIVisualElement.IsEnabled = null;
-        thisAsIVisualElement.AnchorX = null;
-        thisAsIVisualElement.AnchorY = null;
-        thisAsIVisualElement.TranslationX = null;
-        thisAsIVisualElement.TranslationY = null;
-        thisAsIVisualElement.Rotation = null;
-        thisAsIVisualElement.RotationX = null;
-        thisAsIVisualElement.RotationY = null;
-        thisAsIVisualElement.Scale = null;
-        thisAsIVisualElement.ScaleX = null;
-        thisAsIVisualElement.ScaleY = null;
-        thisAsIVisualElement.Visual = null;
-        thisAsIVisualElement.IsVisible = null;
-        thisAsIVisualElement.Opacity = null;
-        thisAsIVisualElement.BackgroundColor = null;
-        thisAsIVisualElement.Background = null;
-        thisAsIVisualElement.WidthRequest = null;
-        thisAsIVisualElement.HeightRequest = null;
-        thisAsIVisualElement.MinimumWidthRequest = null;
-        thisAsIVisualElement.MinimumHeightRequest = null;
-        thisAsIVisualElement.MaximumWidthRequest = null;
-        thisAsIVisualElement.MaximumHeightRequest = null;
-        thisAsIVisualElement.FlowDirection = null;
-        thisAsIVisualElement.ZIndex = null;
-        thisAsIVisualElement.ChildrenReorderedAction = null;
-        thisAsIVisualElement.ChildrenReorderedActionWithArgs = null;
-        thisAsIVisualElement.FocusedAction = null;
-        thisAsIVisualElement.FocusedActionWithArgs = null;
-        thisAsIVisualElement.MeasureInvalidatedAction = null;
-        thisAsIVisualElement.MeasureInvalidatedActionWithArgs = null;
-        thisAsIVisualElement.SizeChangedAction = null;
-        thisAsIVisualElement.SizeChangedActionWithArgs = null;
-        thisAsIVisualElement.UnfocusedAction = null;
-        thisAsIVisualElement.UnfocusedActionWithArgs = null;
-        thisAsIVisualElement.LoadedAction = null;
-        thisAsIVisualElement.LoadedActionWithArgs = null;
-        thisAsIVisualElement.UnloadedAction = null;
-        thisAsIVisualElement.UnloadedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

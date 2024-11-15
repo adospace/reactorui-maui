@@ -33,16 +33,6 @@ public partial class ActivityIndicator<T> : View<T>, IActivityIndicator where T 
 
     object? IActivityIndicator.Color { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIActivityIndicator = (IActivityIndicator)this;
-        thisAsIActivityIndicator.IsRunning = null;
-        thisAsIActivityIndicator.Color = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

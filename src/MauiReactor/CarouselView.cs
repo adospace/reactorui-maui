@@ -69,25 +69,6 @@ public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Mic
 
     Action<object?, PositionChangedEventArgs>? ICarouselView.PositionChangedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsICarouselView = (ICarouselView)this;
-        thisAsICarouselView.Loop = null;
-        thisAsICarouselView.PeekAreaInsets = null;
-        thisAsICarouselView.IsBounceEnabled = null;
-        thisAsICarouselView.IsSwipeEnabled = null;
-        thisAsICarouselView.IsScrollAnimated = null;
-        thisAsICarouselView.CurrentItem = null;
-        thisAsICarouselView.Position = null;
-        thisAsICarouselView.CurrentItemChangedAction = null;
-        thisAsICarouselView.CurrentItemChangedActionWithArgs = null;
-        thisAsICarouselView.PositionChangedAction = null;
-        thisAsICarouselView.PositionChangedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

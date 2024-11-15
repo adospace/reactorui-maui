@@ -33,16 +33,6 @@ public sealed partial class Polygon : Shapes.Shape<Microsoft.Maui.Controls.Shape
 
     object? IPolygon.FillRule { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIPolygon = (IPolygon)this;
-        thisAsIPolygon.Points = null;
-        thisAsIPolygon.FillRule = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

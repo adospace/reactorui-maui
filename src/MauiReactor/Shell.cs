@@ -89,30 +89,6 @@ public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Control
 
     Action<object?, ShellNavigatingEventArgs>? IShell.NavigatingActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIShell = (IShell)this;
-        thisAsIShell.FlyoutBehavior = null;
-        thisAsIShell.FlyoutBackdrop = null;
-        thisAsIShell.FlyoutWidth = null;
-        thisAsIShell.FlyoutHeight = null;
-        thisAsIShell.FlyoutBackgroundImage = null;
-        thisAsIShell.FlyoutBackgroundImageAspect = null;
-        thisAsIShell.FlyoutBackgroundColor = null;
-        thisAsIShell.FlyoutBackground = null;
-        thisAsIShell.FlyoutHeaderBehavior = null;
-        thisAsIShell.FlyoutIsPresented = null;
-        thisAsIShell.FlyoutIcon = null;
-        thisAsIShell.FlyoutVerticalScrollMode = null;
-        thisAsIShell.NavigatedAction = null;
-        thisAsIShell.NavigatedActionWithArgs = null;
-        thisAsIShell.NavigatingAction = null;
-        thisAsIShell.NavigatingActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

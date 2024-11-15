@@ -22,15 +22,6 @@ public abstract partial class VisualElement<T>
 
     List<IBehavior>? IVisualElement.Behaviors { get; set; }
 
-    partial void OnReset()
-    {
-        var thisAsIVisualElement = (IVisualElement)this;
-        thisAsIVisualElement.Clip = null;
-        thisAsIVisualElement.Shadow = null;
-        thisAsIVisualElement.VisualStateGroups = null;
-        thisAsIVisualElement.Behaviors = null;
-    }
-
     protected override void OnChildAdd(VisualNode node)
     {
         if (node is IBehavior behavior)

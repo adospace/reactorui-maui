@@ -14,12 +14,6 @@ public partial class ToolbarItem<T> : IToolbarItem
     ToolbarItemOrder? IToolbarItem.Order { get; set; }
     int? IToolbarItem.Priority { get; set; }
 
-    partial void OnReset()
-    {
-        var thisAsIToolbarItem = (IToolbarItem)this;
-        thisAsIToolbarItem.Order = null;
-        thisAsIToolbarItem.Priority = null;
-    }
 
     partial void OnBeginUpdate()
     {

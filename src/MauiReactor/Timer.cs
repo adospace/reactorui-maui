@@ -33,17 +33,6 @@ namespace MauiReactor
         Action? ITimer.TickAction { get; set; }
         Action<EventArgs>? ITimer.TickActionWithArgs { get; set; }
 
-        internal override void Reset()
-        {
-            base.Reset();
-            var thisAsITimer = (ITimer)this;
-            thisAsITimer.IsEnabled = null;
-            thisAsITimer.Interval = null;
-            thisAsITimer.DueTime = null;
-            thisAsITimer.TickAction = null;
-            thisAsITimer.TickActionWithArgs = null;
-        }
-
         protected override bool SupportChildIndexing => false;
         protected override void OnUpdate()
         {

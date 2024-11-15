@@ -26,13 +26,6 @@ public partial class ShellContent<T> : BaseShellItem<T>, IShellContent where T :
         ShellContentStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

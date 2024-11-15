@@ -751,16 +751,6 @@ namespace MauiReactor
             _componentRefAction = componentRefAction;
         }
 
-        internal override void Reset()
-        {
-            base.Reset();
-
-            Validate.EnsureNull(_nativeControl);
-
-            _attachedProperties.Clear();
-            _componentRefAction = null;
-        }
-
         protected T? NativeControl { get => (T?)_nativeControl; }
 
         public void SetAttachedProperty(BindableProperty property, object? value)

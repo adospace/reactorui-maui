@@ -14,11 +14,6 @@ namespace MauiReactor
 
         protected readonly List<VisualNode> _internalChildren = [];
 
-        partial void OnReset()
-        {
-            _internalChildren.Clear();
-        }
-
         protected override IEnumerable<VisualNode> RenderChildren()
         {
             return _internalChildren;

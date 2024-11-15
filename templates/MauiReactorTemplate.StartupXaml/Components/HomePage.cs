@@ -1,11 +1,11 @@
-﻿namespace MauiReactorTemplate.StartupXaml.Components;
+﻿namespace MauiReactorTemplate.Startup.Components;
 
-class HomePageState
+public class HomePageState
 {
     public int Counter { get; set; }
 }
 
-partial class HomePage : Component<HomePageState>
+public partial class HomePage : Component<HomePageState>
 {
     public override VisualNode Render()
         => ContentPage(

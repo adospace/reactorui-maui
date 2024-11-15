@@ -45,19 +45,6 @@ public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsof
 
     Action<object?, EventArgs>? IMenuItem.ClickedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIMenuItem = (IMenuItem)this;
-        thisAsIMenuItem.IsDestructive = null;
-        thisAsIMenuItem.IconImageSource = null;
-        thisAsIMenuItem.Text = null;
-        thisAsIMenuItem.ClickedAction = null;
-        thisAsIMenuItem.ClickedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

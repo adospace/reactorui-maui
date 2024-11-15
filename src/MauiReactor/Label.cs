@@ -93,31 +93,6 @@ public partial class Label<T> : View<T>, ILabel where T : Microsoft.Maui.Control
 
     object? ILabel.TextType { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsILabel = (ILabel)this;
-        thisAsILabel.HorizontalTextAlignment = null;
-        thisAsILabel.VerticalTextAlignment = null;
-        thisAsILabel.TextColor = null;
-        thisAsILabel.CharacterSpacing = null;
-        thisAsILabel.Text = null;
-        thisAsILabel.FontFamily = null;
-        thisAsILabel.FontSize = null;
-        thisAsILabel.FontAttributes = null;
-        thisAsILabel.FontAutoScalingEnabled = null;
-        thisAsILabel.TextTransform = null;
-        thisAsILabel.TextDecorations = null;
-        thisAsILabel.FormattedText = null;
-        thisAsILabel.LineBreakMode = null;
-        thisAsILabel.LineHeight = null;
-        thisAsILabel.MaxLines = null;
-        thisAsILabel.Padding = null;
-        thisAsILabel.TextType = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

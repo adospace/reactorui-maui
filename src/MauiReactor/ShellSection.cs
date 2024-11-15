@@ -26,13 +26,6 @@ public partial class ShellSection<T> : ShellGroupItem<T>, IShellSection where T 
         ShellSectionStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

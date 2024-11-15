@@ -33,16 +33,6 @@ public abstract partial class ItemsLayout<T> : VisualNode<T>, IItemsLayout where
 
     object? IItemsLayout.SnapPointsType { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIItemsLayout = (IItemsLayout)this;
-        thisAsIItemsLayout.SnapPointsAlignment = null;
-        thisAsIItemsLayout.SnapPointsType = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

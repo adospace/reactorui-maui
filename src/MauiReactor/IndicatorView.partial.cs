@@ -26,13 +26,6 @@ partial class IndicatorView<T>
     VisualStateGroupList IIndicatorView.IndicatorVisualStateGroups { get; set; } = [];
 
 
-    partial void OnReset()
-    {
-        var thisAsIIndicatorView = (IIndicatorView)this;
-        thisAsIIndicatorView.ItemsSource = null;
-        thisAsIIndicatorView.IndicatorTemplate = null;
-        thisAsIIndicatorView.IndicatorVisualStateGroups.Clear();
-    }
 
     partial void OnBeginUpdate()
     {

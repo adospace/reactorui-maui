@@ -29,15 +29,6 @@ public sealed partial class RoundRectangle : Shapes.Shape<Microsoft.Maui.Control
 
     object? IRoundRectangle.CornerRadius { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIRoundRectangle = (IRoundRectangle)this;
-        thisAsIRoundRectangle.CornerRadius = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

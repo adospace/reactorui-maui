@@ -17,14 +17,6 @@ public partial class StructuredItemsView<T>
     VisualNode? IStructuredItemsView.Header { get; set; }
     VisualNode? IStructuredItemsView.Footer { get; set; }
 
-    partial void OnReset()
-    {
-        var thisAsIVisualElement = (IStructuredItemsView)this;
-        thisAsIVisualElement.ItemsLayout = null;
-        thisAsIVisualElement.Header = null;
-        thisAsIVisualElement.Footer = null;
-    }
-
     protected override IEnumerable<VisualNode> RenderChildren()
     {
         var thisAsIVisualElement = (IStructuredItemsView)this;

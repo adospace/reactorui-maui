@@ -61,23 +61,6 @@ public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Micr
 
     Action<object?, NavigationEventArgs>? INavigationPage.PushedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsINavigationPage = (INavigationPage)this;
-        thisAsINavigationPage.BarBackgroundColor = null;
-        thisAsINavigationPage.BarBackground = null;
-        thisAsINavigationPage.BarTextColor = null;
-        thisAsINavigationPage.PoppedAction = null;
-        thisAsINavigationPage.PoppedActionWithArgs = null;
-        thisAsINavigationPage.PoppedToRootAction = null;
-        thisAsINavigationPage.PoppedToRootActionWithArgs = null;
-        thisAsINavigationPage.PushedAction = null;
-        thisAsINavigationPage.PushedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

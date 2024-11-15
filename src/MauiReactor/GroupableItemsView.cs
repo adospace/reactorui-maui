@@ -29,15 +29,6 @@ public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableI
 
     object? IGroupableItemsView.IsGrouped { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIGroupableItemsView = (IGroupableItemsView)this;
-        thisAsIGroupableItemsView.IsGrouped = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

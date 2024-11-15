@@ -37,17 +37,6 @@ public partial class EllipseGeometry<T> : Shapes.Geometry<T>, IEllipseGeometry w
 
     object? IEllipseGeometry.RadiusY { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIEllipseGeometry = (IEllipseGeometry)this;
-        thisAsIEllipseGeometry.Center = null;
-        thisAsIEllipseGeometry.RadiusX = null;
-        thisAsIEllipseGeometry.RadiusY = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

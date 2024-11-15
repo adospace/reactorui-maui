@@ -61,23 +61,6 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
 
     Action<object?, WebViewProcessTerminatedEventArgs>? IWebView.ProcessTerminatedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIWebView = (IWebView)this;
-        thisAsIWebView.Source = null;
-        thisAsIWebView.UserAgent = null;
-        thisAsIWebView.Cookies = null;
-        thisAsIWebView.NavigatedAction = null;
-        thisAsIWebView.NavigatedActionWithArgs = null;
-        thisAsIWebView.NavigatingAction = null;
-        thisAsIWebView.NavigatingActionWithArgs = null;
-        thisAsIWebView.ProcessTerminatedAction = null;
-        thisAsIWebView.ProcessTerminatedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

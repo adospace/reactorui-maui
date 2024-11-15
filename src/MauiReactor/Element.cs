@@ -97,32 +97,6 @@ public abstract partial class Element<T> : VisualNode<T>, IElement where T : Mic
 
     Action<object?, EventArgs>? IElement.HandlerChangedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIElement = (IElement)this;
-        thisAsIElement.AutomationId = null;
-        thisAsIElement.ClassId = null;
-        thisAsIElement.ChildAddedAction = null;
-        thisAsIElement.ChildAddedActionWithArgs = null;
-        thisAsIElement.ChildRemovedAction = null;
-        thisAsIElement.ChildRemovedActionWithArgs = null;
-        thisAsIElement.DescendantAddedAction = null;
-        thisAsIElement.DescendantAddedActionWithArgs = null;
-        thisAsIElement.DescendantRemovedAction = null;
-        thisAsIElement.DescendantRemovedActionWithArgs = null;
-        thisAsIElement.ParentChangingAction = null;
-        thisAsIElement.ParentChangingActionWithArgs = null;
-        thisAsIElement.ParentChangedAction = null;
-        thisAsIElement.ParentChangedActionWithArgs = null;
-        thisAsIElement.HandlerChangingAction = null;
-        thisAsIElement.HandlerChangingActionWithArgs = null;
-        thisAsIElement.HandlerChangedAction = null;
-        thisAsIElement.HandlerChangedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

@@ -112,28 +112,6 @@ public abstract partial class <#= TypeName() #><T> : <#= BaseTypeName() #><T>, <
     Action<object?, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>>? <#= InterfaceName() #>.<#= ev.Name #>ActionWithArgs { get; set; }
     <# } #>
 
-    internal override void Reset()
-    {
-        base.Reset();
-        
-        <# if (Properties.Length > 0 || Events.Length > 0) { #>
-        var thisAs<#= InterfaceName() #> = (<#= InterfaceName() #>)this;
-        <# foreach (var property in Properties) { #>
-        thisAs<#= InterfaceName() #>.<#= property.Name #> = null;
-        <# } #>
-        <# foreach (var ev in Events) {
-        var genericArgs = ev.EventHandlerType.GetGenericArguments(); #>
-        thisAs<#= InterfaceName() #>.<#= ev.Name #>Action = null;
-        thisAs<#= InterfaceName() #>.<#= ev.Name #>ActionWithArgs = null;
-        <# } #>
-
-        <# } #>
-
-        OnReset();
-    }
-
-    partial void OnReset();
-
 
     protected override void OnUpdate()
     {

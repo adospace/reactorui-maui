@@ -26,13 +26,6 @@ public partial class TemplatedView<T> : Compatibility.Layout<T>, ITemplatedView 
         TemplatedViewStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

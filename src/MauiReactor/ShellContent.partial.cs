@@ -106,13 +106,6 @@ public partial class ShellContent<T> : IAutomationItemContainer
         return base.RenderChildren();
     }
 
-    partial void OnReset()
-    {
-        _contentTemplate = null;
-
-        var thisAsShellContent = (IShellContent)this;
-        thisAsShellContent.ContentTemplate = null;
-    }
 
     partial void OnBeginUpdate()
     {

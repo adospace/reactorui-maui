@@ -77,27 +77,6 @@ public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.
 
     Action<object?, EventArgs>? IImageButton.ReleasedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIImageButton = (IImageButton)this;
-        thisAsIImageButton.CornerRadius = null;
-        thisAsIImageButton.BorderWidth = null;
-        thisAsIImageButton.BorderColor = null;
-        thisAsIImageButton.Source = null;
-        thisAsIImageButton.Aspect = null;
-        thisAsIImageButton.IsOpaque = null;
-        thisAsIImageButton.Padding = null;
-        thisAsIImageButton.ClickedAction = null;
-        thisAsIImageButton.ClickedActionWithArgs = null;
-        thisAsIImageButton.PressedAction = null;
-        thisAsIImageButton.PressedActionWithArgs = null;
-        thisAsIImageButton.ReleasedAction = null;
-        thisAsIImageButton.ReleasedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

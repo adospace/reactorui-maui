@@ -45,19 +45,6 @@ public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestu
 
     Action<object?, DragStartingEventArgs>? IDragGestureRecognizer.DragStartingActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIDragGestureRecognizer = (IDragGestureRecognizer)this;
-        thisAsIDragGestureRecognizer.CanDrag = null;
-        thisAsIDragGestureRecognizer.DropCompletedAction = null;
-        thisAsIDragGestureRecognizer.DropCompletedActionWithArgs = null;
-        thisAsIDragGestureRecognizer.DragStartingAction = null;
-        thisAsIDragGestureRecognizer.DragStartingActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

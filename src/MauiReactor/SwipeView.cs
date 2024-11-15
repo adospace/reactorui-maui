@@ -53,21 +53,6 @@ public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microso
 
     Action<object?, SwipeEndedEventArgs>? ISwipeView.SwipeEndedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsISwipeView = (ISwipeView)this;
-        thisAsISwipeView.Threshold = null;
-        thisAsISwipeView.SwipeStartedAction = null;
-        thisAsISwipeView.SwipeStartedActionWithArgs = null;
-        thisAsISwipeView.SwipeChangingAction = null;
-        thisAsISwipeView.SwipeChangingActionWithArgs = null;
-        thisAsISwipeView.SwipeEndedAction = null;
-        thisAsISwipeView.SwipeEndedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

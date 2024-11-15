@@ -57,22 +57,6 @@ public partial class IndicatorView<T> : TemplatedView<T>, IIndicatorView where T
 
     object? IIndicatorView.IndicatorSize { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIIndicatorView = (IIndicatorView)this;
-        thisAsIIndicatorView.IndicatorsShape = null;
-        thisAsIIndicatorView.Position = null;
-        thisAsIIndicatorView.Count = null;
-        thisAsIIndicatorView.MaximumVisible = null;
-        thisAsIIndicatorView.HideSingle = null;
-        thisAsIIndicatorView.IndicatorColor = null;
-        thisAsIIndicatorView.SelectedIndicatorColor = null;
-        thisAsIIndicatorView.IndicatorSize = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

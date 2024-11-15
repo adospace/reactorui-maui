@@ -41,18 +41,6 @@ public sealed partial class Line : Shapes.Shape<Microsoft.Maui.Controls.Shapes.L
 
     object? ILine.Y2 { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsILine = (ILine)this;
-        thisAsILine.X1 = null;
-        thisAsILine.Y1 = null;
-        thisAsILine.X2 = null;
-        thisAsILine.Y2 = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

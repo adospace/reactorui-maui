@@ -29,17 +29,6 @@ public partial class Shell<T> : IEnumerable
     Func<Microsoft.Maui.Controls.BaseShellItem, VisualNode>? IShell.ItemTemplate { get; set; }
     Func<Microsoft.Maui.Controls.MenuItem, VisualNode>? IShell.MenuItemTemplate { get; set; }
 
-    partial void OnReset()
-    {
-        _customDataTemplate = null;
-        _customMenuItemDataTemplate = null;
-        var thisAsIShell = (IShell)this;
-        thisAsIShell.FlyoutHeader = null;
-        thisAsIShell.FlyoutFooter = null;
-        thisAsIShell.FlyoutContent = null;
-        thisAsIShell.ItemTemplate = null;
-        thisAsIShell.MenuItemTemplate = null;
-    }
 
     protected override IEnumerable<VisualNode> RenderChildren()
     {

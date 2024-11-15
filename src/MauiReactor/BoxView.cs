@@ -33,16 +33,6 @@ public partial class BoxView<T> : View<T>, IBoxView where T : Microsoft.Maui.Con
 
     object? IBoxView.CornerRadius { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIBoxView = (IBoxView)this;
-        thisAsIBoxView.Color = null;
-        thisAsIBoxView.CornerRadius = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

@@ -41,18 +41,6 @@ public partial class Image<T> : View<T>, IImage where T : Microsoft.Maui.Control
 
     object? IImage.IsAnimationPlaying { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIImage = (IImage)this;
-        thisAsIImage.Source = null;
-        thisAsIImage.Aspect = null;
-        thisAsIImage.IsOpaque = null;
-        thisAsIImage.IsAnimationPlaying = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

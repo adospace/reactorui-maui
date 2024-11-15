@@ -26,13 +26,6 @@ public abstract partial class Geometry<T> : VisualNode<T>, IGeometry where T : M
         GeometryStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

@@ -26,13 +26,6 @@ public partial class ShellItem<T> : ShellGroupItem<T>, IShellItem where T : Micr
         ShellItemStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

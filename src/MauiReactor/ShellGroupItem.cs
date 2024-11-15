@@ -29,15 +29,6 @@ public partial class ShellGroupItem<T> : BaseShellItem<T>, IShellGroupItem where
 
     object? IShellGroupItem.FlyoutDisplayOptions { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIShellGroupItem = (IShellGroupItem)this;
-        thisAsIShellGroupItem.FlyoutDisplayOptions = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

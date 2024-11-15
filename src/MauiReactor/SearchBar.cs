@@ -45,19 +45,6 @@ public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft
 
     Action<object?, EventArgs>? ISearchBar.SearchButtonPressedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsISearchBar = (ISearchBar)this;
-        thisAsISearchBar.CancelButtonColor = null;
-        thisAsISearchBar.HorizontalTextAlignment = null;
-        thisAsISearchBar.VerticalTextAlignment = null;
-        thisAsISearchBar.SearchButtonPressedAction = null;
-        thisAsISearchBar.SearchButtonPressedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

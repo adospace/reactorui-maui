@@ -33,16 +33,6 @@ public partial class TableView<T> : View<T>, ITableView where T : Microsoft.Maui
 
     object? ITableView.HasUnevenRows { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsITableView = (ITableView)this;
-        thisAsITableView.RowHeight = null;
-        thisAsITableView.HasUnevenRows = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

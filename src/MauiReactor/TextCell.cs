@@ -41,18 +41,6 @@ public partial class TextCell<T> : Cell<T>, ITextCell where T : Microsoft.Maui.C
 
     object? ITextCell.DetailColor { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsITextCell = (ITextCell)this;
-        thisAsITextCell.Text = null;
-        thisAsITextCell.Detail = null;
-        thisAsITextCell.TextColor = null;
-        thisAsITextCell.DetailColor = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

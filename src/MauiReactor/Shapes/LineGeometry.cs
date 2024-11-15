@@ -33,16 +33,6 @@ public partial class LineGeometry<T> : Shapes.Geometry<T>, ILineGeometry where T
 
     object? ILineGeometry.EndPoint { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsILineGeometry = (ILineGeometry)this;
-        thisAsILineGeometry.StartPoint = null;
-        thisAsILineGeometry.EndPoint = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

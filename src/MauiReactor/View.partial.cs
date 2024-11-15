@@ -11,12 +11,7 @@ public abstract partial class View<T>
 {
     List<IGestureRecognizer>? IView.GestureRecognizers { get; set; }
 
-    partial void OnReset()
-    {
-        var thisAsIView = (IView)this;
-        thisAsIView.GestureRecognizers = null;
-    }
-
+ 
     protected override void OnChildAdd(VisualNode node)
     {
         if (node is IGestureRecognizer gestureRecognizer)

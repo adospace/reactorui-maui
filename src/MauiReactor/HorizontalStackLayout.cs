@@ -26,13 +26,6 @@ public partial class HorizontalStackLayout<T> : StackBase<T>, IHorizontalStackLa
         HorizontalStackLayoutStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

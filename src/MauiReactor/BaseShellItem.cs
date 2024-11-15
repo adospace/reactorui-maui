@@ -65,24 +65,6 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
 
     Action<object?, EventArgs>? IBaseShellItem.DisappearingActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIBaseShellItem = (IBaseShellItem)this;
-        thisAsIBaseShellItem.FlyoutIcon = null;
-        thisAsIBaseShellItem.Icon = null;
-        thisAsIBaseShellItem.IsEnabled = null;
-        thisAsIBaseShellItem.Title = null;
-        thisAsIBaseShellItem.IsVisible = null;
-        thisAsIBaseShellItem.FlyoutItemIsVisible = null;
-        thisAsIBaseShellItem.AppearingAction = null;
-        thisAsIBaseShellItem.AppearingActionWithArgs = null;
-        thisAsIBaseShellItem.DisappearingAction = null;
-        thisAsIBaseShellItem.DisappearingActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

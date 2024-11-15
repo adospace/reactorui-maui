@@ -26,13 +26,6 @@ public partial class ContentView<T> : TemplatedView<T>, IContentView where T : M
         ContentViewStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

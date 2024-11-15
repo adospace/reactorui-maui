@@ -26,13 +26,6 @@ public partial class TabBar<T> : ShellItem<T>, ITabBar where T : Microsoft.Maui.
         TabBarStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

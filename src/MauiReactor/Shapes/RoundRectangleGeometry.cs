@@ -33,16 +33,6 @@ public partial class RoundRectangleGeometry<T> : Shapes.GeometryGroup<T>, IRound
 
     object? IRoundRectangleGeometry.CornerRadius { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIRoundRectangleGeometry = (IRoundRectangleGeometry)this;
-        thisAsIRoundRectangleGeometry.Rect = null;
-        thisAsIRoundRectangleGeometry.CornerRadius = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

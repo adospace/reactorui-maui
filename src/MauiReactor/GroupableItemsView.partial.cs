@@ -19,12 +19,6 @@ public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableI
     Func<object, VisualNode>? IGroupableItemsView.GroupHeaderTemplate { get; set; }
     Func<object, VisualNode>? IGroupableItemsView.GroupFooterTemplate { get; set; }
 
-    partial void OnReset()
-    {
-        var thisAsIItemsView = (IGroupableItemsView)this;
-        thisAsIItemsView.GroupHeaderTemplate = null;
-        thisAsIItemsView.GroupFooterTemplate = null;
-    }
 
     private class HeaderDataTemplate : CustomDataTemplate
     {

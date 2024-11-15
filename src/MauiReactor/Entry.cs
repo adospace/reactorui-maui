@@ -53,21 +53,6 @@ public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Co
 
     Action<object?, EventArgs>? IEntry.CompletedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIEntry = (IEntry)this;
-        thisAsIEntry.ReturnType = null;
-        thisAsIEntry.IsPassword = null;
-        thisAsIEntry.HorizontalTextAlignment = null;
-        thisAsIEntry.VerticalTextAlignment = null;
-        thisAsIEntry.ClearButtonVisibility = null;
-        thisAsIEntry.CompletedAction = null;
-        thisAsIEntry.CompletedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

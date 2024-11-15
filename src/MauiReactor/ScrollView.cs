@@ -45,19 +45,6 @@ public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where 
 
     Action<object?, ScrolledEventArgs>? IScrollView.ScrolledActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIScrollView = (IScrollView)this;
-        thisAsIScrollView.Orientation = null;
-        thisAsIScrollView.HorizontalScrollBarVisibility = null;
-        thisAsIScrollView.VerticalScrollBarVisibility = null;
-        thisAsIScrollView.ScrolledAction = null;
-        thisAsIScrollView.ScrolledActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

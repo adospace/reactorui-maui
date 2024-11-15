@@ -1,15 +1,22 @@
-﻿namespace MauiReactorTemplate.StartupXaml
-{
-    public partial class App : Application
-    {
-        public App()
-        {
-            InitializeComponent();
-        }
+﻿using MauiReactor;
+using MauiReactorTemplate.Startup.Components;
+using MauiReactorTemplate.Startup.Resources.Styles;
 
-        protected override Window CreateWindow(IActivationState? activationState)
-        {
-            return new Window(new AppShell());
-        }
+namespace MauiReactorTemplate.StartupXaml;
+
+public partial class App : MauiReactorApplication
+{
+    public App()
+    {
+        InitializeComponent();
+    }
+}
+
+
+public abstract class MauiReactorApplication : ReactorApplication<HomePage>
+{
+    public MauiReactorApplication()
+    {
+        this.UseTheme<ApplicationTheme>();
     }
 }

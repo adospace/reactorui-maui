@@ -33,16 +33,6 @@ public sealed partial class Rectangle : Shapes.Shape<Microsoft.Maui.Controls.Sha
 
     object? IRectangle.RadiusY { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIRectangle = (IRectangle)this;
-        thisAsIRectangle.RadiusX = null;
-        thisAsIRectangle.RadiusY = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

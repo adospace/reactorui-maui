@@ -26,13 +26,6 @@ public partial class ViewCell<T> : Cell<T>, IViewCell where T : Microsoft.Maui.C
         ViewCellStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

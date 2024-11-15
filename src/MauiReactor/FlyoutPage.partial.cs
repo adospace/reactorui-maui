@@ -17,12 +17,6 @@ public partial class FlyoutPage<T> : IEnumerable
 {
     VisualNode? IFlyoutPage.Flyout { get; set; }
 
-    partial void OnReset()
-    {
-        var thisAsIFlyoutPage = (IFlyoutPage)this;
-        thisAsIFlyoutPage.Flyout = null;
-    }
-
     protected override IEnumerable<VisualNode> RenderChildren()
     {
         var thisAsIFlyoutPage = (IFlyoutPage)this;

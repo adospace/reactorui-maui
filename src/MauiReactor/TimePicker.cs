@@ -65,24 +65,6 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
 
     Action<object?, TimeChangedEventArgs>? ITimePicker.TimeSelectedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsITimePicker = (ITimePicker)this;
-        thisAsITimePicker.Format = null;
-        thisAsITimePicker.TextColor = null;
-        thisAsITimePicker.CharacterSpacing = null;
-        thisAsITimePicker.Time = null;
-        thisAsITimePicker.FontFamily = null;
-        thisAsITimePicker.FontSize = null;
-        thisAsITimePicker.FontAttributes = null;
-        thisAsITimePicker.FontAutoScalingEnabled = null;
-        thisAsITimePicker.TimeSelectedAction = null;
-        thisAsITimePicker.TimeSelectedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

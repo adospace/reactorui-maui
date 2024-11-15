@@ -29,15 +29,6 @@ public sealed partial class Path : Shapes.Shape<Microsoft.Maui.Controls.Shapes.P
 
     object? IPath.RenderTransform { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIPath = (IPath)this;
-        thisAsIPath.RenderTransform = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

@@ -61,23 +61,6 @@ public abstract partial class Shape<T> : View<T>, IShape where T : Microsoft.Mau
 
     object? IShape.Aspect { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIShape = (IShape)this;
-        thisAsIShape.Fill = null;
-        thisAsIShape.Stroke = null;
-        thisAsIShape.StrokeThickness = null;
-        thisAsIShape.StrokeDashArray = null;
-        thisAsIShape.StrokeDashOffset = null;
-        thisAsIShape.StrokeLineCap = null;
-        thisAsIShape.StrokeLineJoin = null;
-        thisAsIShape.StrokeMiterLimit = null;
-        thisAsIShape.Aspect = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

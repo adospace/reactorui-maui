@@ -26,13 +26,6 @@ public partial class GestureRecognizer<T> : Element<T>, IGestureRecognizer where
         GestureRecognizerStyles.Default?.Invoke(this);
     }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

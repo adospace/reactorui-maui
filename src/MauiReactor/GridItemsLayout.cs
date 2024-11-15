@@ -37,17 +37,6 @@ public abstract partial class GridItemsLayout<T> : ItemsLayout<T>, IGridItemsLay
 
     object? IGridItemsLayout.HorizontalItemSpacing { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIGridItemsLayout = (IGridItemsLayout)this;
-        thisAsIGridItemsLayout.Span = null;
-        thisAsIGridItemsLayout.VerticalItemSpacing = null;
-        thisAsIGridItemsLayout.HorizontalItemSpacing = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

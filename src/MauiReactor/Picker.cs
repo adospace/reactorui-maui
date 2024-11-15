@@ -77,27 +77,6 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
 
     Action<object?, EventArgs>? IPicker.SelectedIndexChangedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIPicker = (IPicker)this;
-        thisAsIPicker.TextColor = null;
-        thisAsIPicker.CharacterSpacing = null;
-        thisAsIPicker.Title = null;
-        thisAsIPicker.TitleColor = null;
-        thisAsIPicker.SelectedIndex = null;
-        thisAsIPicker.FontFamily = null;
-        thisAsIPicker.FontSize = null;
-        thisAsIPicker.FontAttributes = null;
-        thisAsIPicker.FontAutoScalingEnabled = null;
-        thisAsIPicker.HorizontalTextAlignment = null;
-        thisAsIPicker.VerticalTextAlignment = null;
-        thisAsIPicker.SelectedIndexChangedAction = null;
-        thisAsIPicker.SelectedIndexChangedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

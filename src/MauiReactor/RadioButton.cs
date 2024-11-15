@@ -85,29 +85,6 @@ public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : M
 
     Action<object?, CheckedChangedEventArgs>? IRadioButton.CheckedChangedActionWithArgs { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIRadioButton = (IRadioButton)this;
-        thisAsIRadioButton.Value = null;
-        thisAsIRadioButton.IsChecked = null;
-        thisAsIRadioButton.GroupName = null;
-        thisAsIRadioButton.TextColor = null;
-        thisAsIRadioButton.CharacterSpacing = null;
-        thisAsIRadioButton.TextTransform = null;
-        thisAsIRadioButton.FontAttributes = null;
-        thisAsIRadioButton.FontFamily = null;
-        thisAsIRadioButton.FontSize = null;
-        thisAsIRadioButton.FontAutoScalingEnabled = null;
-        thisAsIRadioButton.BorderColor = null;
-        thisAsIRadioButton.CornerRadius = null;
-        thisAsIRadioButton.BorderWidth = null;
-        thisAsIRadioButton.CheckedChangedAction = null;
-        thisAsIRadioButton.CheckedChangedActionWithArgs = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

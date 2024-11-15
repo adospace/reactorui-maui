@@ -41,18 +41,6 @@ public partial class TitleBar<T> : TemplatedView<T>, ITitleBar where T : Microso
 
     object? ITitleBar.ForegroundColor { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsITitleBar = (ITitleBar)this;
-        thisAsITitleBar.Icon = null;
-        thisAsITitleBar.Title = null;
-        thisAsITitleBar.Subtitle = null;
-        thisAsITitleBar.ForegroundColor = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();

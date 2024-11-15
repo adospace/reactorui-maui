@@ -57,22 +57,6 @@ public partial class Border<T> : View<T>, IBorder where T : Microsoft.Maui.Contr
 
     object? IBorder.StrokeMiterLimit { get; set; }
 
-    internal override void Reset()
-    {
-        base.Reset();
-        var thisAsIBorder = (IBorder)this;
-        thisAsIBorder.Padding = null;
-        thisAsIBorder.Stroke = null;
-        thisAsIBorder.StrokeThickness = null;
-        thisAsIBorder.StrokeDashArray = null;
-        thisAsIBorder.StrokeDashOffset = null;
-        thisAsIBorder.StrokeLineCap = null;
-        thisAsIBorder.StrokeLineJoin = null;
-        thisAsIBorder.StrokeMiterLimit = null;
-        OnReset();
-    }
-
-    partial void OnReset();
     protected override void OnUpdate()
     {
         OnBeginUpdate();
