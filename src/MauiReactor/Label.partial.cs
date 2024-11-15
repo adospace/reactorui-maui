@@ -16,7 +16,7 @@ public partial class Label<T>
     {
         Validate.EnsureNotNull(NativeControl);
 
-        if (childControl is FormattedString formattedString)
+        if (childControl is Microsoft.Maui.Controls.FormattedString formattedString)
         {
             NativeControl.FormattedText = formattedString;
         }
@@ -28,7 +28,7 @@ public partial class Label<T>
     {
         Validate.EnsureNotNull(NativeControl);
 
-        if (childControl is FormattedString formattedString &&
+        if (childControl is Microsoft.Maui.Controls.FormattedString formattedString &&
             NativeControl.FormattedText == formattedString)
         {
             NativeControl.FormattedText = null;

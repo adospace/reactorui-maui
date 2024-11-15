@@ -137,5 +137,4 @@ Microsoft.Maui.Controls.HybridWebView
 Microsoft.Maui.Controls.GestureElement
 Microsoft.Maui.Controls.Span
 Microsoft.Maui.Controls.FormattedString
-Microsoft.Maui.Controls.TapGestureRecognizer
 

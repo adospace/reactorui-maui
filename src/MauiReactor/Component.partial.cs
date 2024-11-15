@@ -2882,4 +2882,97 @@ public partial class Component
 
         return @hybridwebview;
     }
+
+    public static GestureElement GestureElement() => new GestureElement();
+    public static GestureElement GestureElement(params VisualNode? []? children)
+    {
+        var @gestureelement = new GestureElement();
+        if (children != null)
+        {
+            @gestureelement.AddChildren(children);
+        }
+
+        return @gestureelement;
+    }
+
+    public static GestureElement GestureElement(Action<Microsoft.Maui.Controls.GestureElement?> componentRefAction)
+    {
+        var @gestureelement = new GestureElement();
+        @gestureelement.ComponentRefAction = componentRefAction;
+        return @gestureelement;
+    }
+
+    public static GestureElement GestureElement(Action<Microsoft.Maui.Controls.GestureElement?> componentRefAction, params VisualNode? []? children)
+    {
+        var @gestureelement = new GestureElement();
+        @gestureelement.ComponentRefAction = componentRefAction;
+        if (children != null)
+        {
+            @gestureelement.AddChildren(children);
+        }
+
+        return @gestureelement;
+    }
+
+    public static Span Span() => new Span();
+    public static Span Span(params VisualNode? []? children)
+    {
+        var @span = new Span();
+        if (children != null)
+        {
+            @span.AddChildren(children);
+        }
+
+        return @span;
+    }
+
+    public static Span Span(Action<Microsoft.Maui.Controls.Span?> componentRefAction)
+    {
+        var @span = new Span();
+        @span.ComponentRefAction = componentRefAction;
+        return @span;
+    }
+
+    public static Span Span(Action<Microsoft.Maui.Controls.Span?> componentRefAction, params VisualNode? []? children)
+    {
+        var @span = new Span();
+        @span.ComponentRefAction = componentRefAction;
+        if (children != null)
+        {
+            @span.AddChildren(children);
+        }
+
+        return @span;
+    }
+
+    public static FormattedString FormattedString() => new FormattedString();
+    public static FormattedString FormattedString(params VisualNode? []? children)
+    {
+        var @formattedstring = new FormattedString();
+        if (children != null)
+        {
+            @formattedstring.AddChildren(children);
+        }
+
+        return @formattedstring;
+    }
+
+    public static FormattedString FormattedString(Action<Microsoft.Maui.Controls.FormattedString?> componentRefAction)
+    {
+        var @formattedstring = new FormattedString();
+        @formattedstring.ComponentRefAction = componentRefAction;
+        return @formattedstring;
+    }
+
+    public static FormattedString FormattedString(Action<Microsoft.Maui.Controls.FormattedString?> componentRefAction, params VisualNode? []? children)
+    {
+        var @formattedstring = new FormattedString();
+        @formattedstring.ComponentRefAction = componentRefAction;
+        if (children != null)
+        {
+            @formattedstring.AddChildren(children);
+        }
+
+        return @formattedstring;
+    }
 }
