@@ -1,10 +1,12 @@
 ﻿using MauiReactor.TestApp.Resources.Styles;
+using System;
 
 namespace MauiReactor.TestApp;
 
 public partial class App : MauiReactorApplication
 {
-    public App()
+    public App(IServiceProvider serviceProvider)
+        :base(serviceProvider)
     {
         InitializeComponent();
     }
@@ -13,7 +15,8 @@ public partial class App : MauiReactorApplication
 
 public abstract class MauiReactorApplication : ReactorApplication<HomePage>
 {
-    public MauiReactorApplication()
+    public MauiReactorApplication(IServiceProvider serviceProvider)
+        :base(serviceProvider)
     {
         this.UseTheme<AppTheme>();
     }

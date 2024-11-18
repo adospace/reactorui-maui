@@ -24,6 +24,10 @@ namespace MauiReactorTemplate.Startup
 
 #if DEBUG
             builder.EnableMauiReactorHotReload();
+            builder.OnMauiReactorUnhandledException((e) =>
+            {
+                System.Diagnostics.Debug.WriteLine(e.ExceptionObject);
+            });
             builder.Logging.AddDebug();
 #endif
 

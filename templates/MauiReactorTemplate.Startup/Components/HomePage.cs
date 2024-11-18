@@ -1,4 +1,4 @@
-﻿namespace MauiReactorTemplate.StartupXaml.Components;
+﻿namespace MauiReactorTemplate.Startup.Components;
 
 class HomePageState
 {

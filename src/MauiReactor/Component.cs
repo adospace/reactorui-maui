@@ -172,7 +172,7 @@ namespace MauiReactor
         }
 
         public static IServiceProvider Services
-            => ServiceCollectionProvider.ServiceProvider; //ReactorApplicationHost.Instance.Services;
+            => ServiceCollectionProvider.ServiceProvider;
 
         internal void InvalidateComponent() => Invalidate();
 

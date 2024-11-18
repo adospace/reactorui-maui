@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
@@ -26,14 +26,20 @@
   </ItemGroup>
   
   <ItemGroup>
-    <TemplateFiles Include="..\..\Templates\MauiReactorTemplate.Startup\**\*"
-                   Exclude="..\..\Templates\MauiReactorTemplate.Startup\**\bin\**;..\..\Templates\MauiReactorTemplate.Startup\**\obj\**;..\..\Templates\MauiReactorTemplate.Startup\**\*.user">
+    <TemplateFiles Include="..\..\Templates\MauiReactorTemplate.Startup\**\*" Exclude="..\..\Templates\MauiReactorTemplate.Startup\**\bin\**;..\..\Templates\MauiReactorTemplate.Startup\**\obj\**;..\..\Templates\MauiReactorTemplate.Startup\**\*.user">
       <Link>templates\MauiReactor.Startup\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </TemplateFiles>
+    <TemplateFiles Include="..\..\Templates\MauiReactorTemplate.StartupXaml\**\*" Exclude="..\..\Templates\MauiReactorTemplate.StartupXaml\**\bin\**;..\..\Templates\MauiReactorTemplate.StartupXaml\**\obj\**;..\..\Templates\MauiReactorTemplate.StartupXaml\**\*.user">
+      <Link>templates\MauiReactor.StartupXaml\%(RecursiveDir)%(Filename)%(Extension)</Link>
     </TemplateFiles>
   </ItemGroup>
 
   <Target Name="CopyTemplates" BeforeTargets="Build">
     <Copy SourceFiles="@(TemplateFiles)" DestinationFiles="@(TemplateFiles->'$(MSBuildThisFileDirectory)templates\MauiReactor.Startup\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+  
+  <Target Name="CopyTemplates" BeforeTargets="Build">
+    <Copy SourceFiles="@(TemplateFiles)" DestinationFiles="@(TemplateFiles->'$(MSBuildThisFileDirectory)templates\MauiReactor.StartupXaml\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
   
 </Project>

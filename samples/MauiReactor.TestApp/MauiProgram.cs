@@ -25,6 +25,10 @@ public static class MauiProgram
             //})
 #if DEBUG
             .EnableMauiReactorHotReload()
+            .OnMauiReactorUnhandledException((e) =>
+            {
+                System.Diagnostics.Debug.WriteLine(e.ExceptionObject);
+            })
             //This will enable the FrameRateIndicator widget
             //Disable before publishing the app
             .EnableFrameRateIndicator()

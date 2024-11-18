@@ -281,8 +281,9 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
 
 public abstract class ReactorApplication : Application
 {
-    protected ReactorApplication()
+    protected ReactorApplication(IServiceProvider serviceProvider)
     {
+        ServiceCollectionProvider.ServiceProvider = serviceProvider;
     }
 
     public Action<Uri>? AppLinkRequestReceived { get; set; }
@@ -303,7 +304,8 @@ public class ReactorApplication<T> : ReactorApplication where T : Component, new
 
     private ReactorApplicationHost<T>? _host;
 
-    public ReactorApplication()
+    public ReactorApplication(IServiceProvider serviceProvider)
+        :base(serviceProvider)
     { }
 
     protected override Microsoft.Maui.Controls.Window CreateWindow(IActivationState? activationState)
@@ -320,7 +322,6 @@ public class ReactorApplication<T> : ReactorApplication where T : Component, new
         {
             return new Microsoft.Maui.Controls.Window(_host.ContainerPage);
         }
-
 
         return base.CreateWindow(activationState);
     }
@@ -360,8 +361,7 @@ public static class MauiAppBuilderExtensions
     public static MauiAppBuilder UseMauiReactorApp<TComponent>(this MauiAppBuilder appBuilder, Action<ReactorApplication>? configureApplication = null) where TComponent : Component, new()
         => appBuilder.UseMauiApp(sp =>
         {
-            ServiceCollectionProvider.ServiceProvider = sp;
-            var app = new ReactorApplication<TComponent>();
+            var app = new ReactorApplication<TComponent>(sp);
             configureApplication?.Invoke(app);
             return app;
         });
