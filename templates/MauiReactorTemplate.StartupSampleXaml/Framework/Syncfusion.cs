@@ -1,9 +1,4 @@
 ﻿using MauiReactor.Internals;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MauiReactorTemplate.StartupSampleXaml.Framework;
 
@@ -61,44 +56,53 @@ partial class SfShimmer
 {
     
 }
-//partial interface ISfShimmer
-//{
-//    public VisualNode CustomView { get; set; }
-//}
 
+partial interface ISfShimmer
+{
+    public VisualNode? CustomView { get; set; }
+}
 
-//partial class SfShimmer<T>
-//{
-//    VisualNode ISfShimmer.CustomView { get; set; }
+partial class SfShimmer<T>
+{
+    VisualNode? ISfShimmer.CustomView { get; set; }
 
-//    protected override IEnumerable<VisualNode> RenderChildren()
-//    {
-//        var thisAsISfShimmer = (ISfShimmer)this;
+    protected override IEnumerable<VisualNode> RenderChildren()
+    {
+        var thisAsISfShimmer = (ISfShimmer)this;
 
-//        var children = base.RenderChildren();
+        var children = base.RenderChildren();
 
-//        if (thisAsISfShimmer.CustomView != null)
-//        {
-//            children = children.Concat(new[] { thisAsISfShimmer.CustomView });
-//        }
+        if (thisAsISfShimmer.CustomView != null)
+        {
+            children = children.Concat([thisAsISfShimmer.CustomView]);
+        }
 
-//        return children;
-//    }
+        return children;
+    }
 
-//    protected override void OnAddChild(VisualNode widget, BindableObject childControl)
-//    {
-//        Validate.EnsureNotNull(NativeControl);
+    protected override void OnAddChild(VisualNode widget, BindableObject childControl)
+    {
+        Validate.EnsureNotNull(NativeControl);
 
-//        var thisAsISfShimmer = (ISfShimmer)this;
+        var thisAsISfShimmer = (ISfShimmer)this;
 
-//        if (widget == thisAsISfShimmer.CustomView)
-//        {
-//            NativeControl.CustomView = (View)childControl;
-//        }
+        if (widget == thisAsISfShimmer.CustomView)
+        {
+            NativeControl.CustomView = (View)childControl;
+        }
 
-//        base.OnAddChild(widget, childControl);
-//    }
-//}
+        base.OnAddChild(widget, childControl);
+    }
+}
+
+partial class SfShimmerExtensions
+{
+    public static T CustomView<T>(this T shimmer, VisualNode? customView) where T : ISfShimmer
+    {
+        shimmer.CustomView = customView;
+        return shimmer;
+    }
+}
 
 [Scaffold(typeof(Syncfusion.Maui.Toolkit.Shimmer.ShimmerView))]
 partial class ShimmerView
@@ -111,7 +115,6 @@ partial class SfEffectsView
 {
 
 }
-
 
 [Scaffold(typeof(Syncfusion.Maui.Toolkit.SegmentedControl.SfSegmentedControl))]
 partial class SfSegmentedControl
