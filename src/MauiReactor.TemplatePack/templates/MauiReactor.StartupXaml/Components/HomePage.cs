@@ -16,7 +16,7 @@ public partial class HomePage : Component<HomePageState>
                             .HCenter()
                             .Set(SemanticProperties.DescriptionProperty, "Cute dot net bot waving hi to you!"),
 
-                        Label("Hello, World!")
+                        Label("Hello, World!!!!")
                             .FontSize(32)
                             .HCenter(),
 

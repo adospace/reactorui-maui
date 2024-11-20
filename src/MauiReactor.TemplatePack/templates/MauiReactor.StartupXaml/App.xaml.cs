@@ -6,7 +6,8 @@ namespace MauiReactorTemplate.StartupXaml;
 
 public partial class App : MauiReactorApplication
 {
-    public App()
+    public App(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
         InitializeComponent();
     }
@@ -15,7 +16,8 @@ public partial class App : MauiReactorApplication
 
 public abstract class MauiReactorApplication : ReactorApplication<HomePage>
 {
-    public MauiReactorApplication()
+    public MauiReactorApplication(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
         this.UseTheme<ApplicationTheme>();
     }

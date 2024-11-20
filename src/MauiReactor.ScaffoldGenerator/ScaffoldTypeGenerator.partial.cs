@@ -43,7 +43,7 @@ public partial class ScaffoldTypeGenerator
             .Where(_ => propertiesMap.ContainsKey(_))
             .Select(_ => propertiesMap[_])
 
-            //.Where(_ => _.Type.GetFullyQualifiedName() != "Microsoft.Maui.Controls.LayoutOptions")
+            .Where(_ => _.Type.GetFullyQualifiedName() != "Microsoft.Maui.Controls.View")
             .Where(_ => _.Type.GetFullyQualifiedName() != "Microsoft.Maui.Controls.ColumnDefinitionCollection")
             .Where(_ => _.Type.GetFullyQualifiedName() != "Microsoft.Maui.Controls.RowDefinitionCollection")
             .Where(_ => !(declaringTypeFullName == "Microsoft.Maui.Controls.Shell" && _.Name == "CurrentItem"))

@@ -62,7 +62,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
-		<PackageReference Include="Reactor.Maui" Version="3.0.1-beta" />
+		<PackageReference Include="Reactor.Maui" Version="3.0.3-beta" />
 	</ItemGroup>
 
 </Project>

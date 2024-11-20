@@ -1,8 +1,9 @@
 ﻿using MauiReactor;
-using MauiReactorTemplate.StartupXaml.Components;
-using MauiReactorTemplate.StartupXaml.Resources.Styles;
+using MauiReactorTemplate.StartupSampleXaml.Components;
+using MauiReactorTemplate.StartupSampleXaml.Resources.Styles;
+using System;
 
-namespace MauiReactorTemplate.StartupXaml;
+namespace MauiReactorTemplate.StartupSampleXaml;
 
 public partial class App : MauiReactorApplication
 {

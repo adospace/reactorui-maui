@@ -61,6 +61,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiReactorTemplate.Startup
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiReactorTemplate.StartupXaml", "..\templates\MauiReactorTemplate.StartupXaml\MauiReactorTemplate.StartupXaml.csproj", "{4150DAE6-3A9D-48F9-9EAE-62AE7C0B279C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiReactorTemplate.StartupSampleXaml", "..\templates\MauiReactorTemplate.StartupSampleXaml\MauiReactorTemplate.StartupSampleXaml.csproj", "{8057F9B6-EFC4-4E96-B219-58E64DE2009C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -187,6 +189,12 @@ Global
 		{4150DAE6-3A9D-48F9-9EAE-62AE7C0B279C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{4150DAE6-3A9D-48F9-9EAE-62AE7C0B279C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4150DAE6-3A9D-48F9-9EAE-62AE7C0B279C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8057F9B6-EFC4-4E96-B219-58E64DE2009C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8057F9B6-EFC4-4E96-B219-58E64DE2009C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8057F9B6-EFC4-4E96-B219-58E64DE2009C}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{8057F9B6-EFC4-4E96-B219-58E64DE2009C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8057F9B6-EFC4-4E96-B219-58E64DE2009C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8057F9B6-EFC4-4E96-B219-58E64DE2009C}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -205,6 +213,7 @@ Global
 		{ADF0270D-89D6-400C-9E7C-2E29BA87A170} = {FF33D69E-8D8E-4604-9800-EEF2EE776B35}
 		{050BF448-18E6-4FC0-B23F-0254E58F9D12} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{4150DAE6-3A9D-48F9-9EAE-62AE7C0B279C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{8057F9B6-EFC4-4E96-B219-58E64DE2009C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {52AD377B-6F53-46B0-A934-D9607EF7A143}
