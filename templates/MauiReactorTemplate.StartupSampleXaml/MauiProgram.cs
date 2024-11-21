@@ -30,6 +30,10 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
         builder.Services.AddLogging(configure => configure.AddDebug());
+        builder.OnMauiReactorUnhandledException(ex =>
+        {
+            System.Diagnostics.Debug.WriteLine(ex);
+        });
 #endif
 
         builder.Services.AddSingleton<ProjectRepository>();
