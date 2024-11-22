@@ -46,9 +46,7 @@ public partial interface IInputView : IView
 
     object? FontAutoScalingEnabled { get; set; }
 
-    Action? TextChangedAction { get; set; }
-
-    Action<object?, TextChangedEventArgs>? TextChangedActionWithArgs { get; set; }
+    EventCommand<TextChangedEventArgs>? TextChangedEvent { get; set; }
 }
 
 public abstract partial class InputView<T> : View<T>, IInputView where T : Microsoft.Maui.Controls.InputView, new()
@@ -97,9 +95,7 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
 
     object? IInputView.FontAutoScalingEnabled { get; set; }
 
-    Action? IInputView.TextChangedAction { get; set; }
-
-    Action<object?, TextChangedEventArgs>? IInputView.TextChangedActionWithArgs { get; set; }
+    EventCommand<TextChangedEventArgs>? IInputView.TextChangedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -143,11 +139,12 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<TextChangedEventArgs>? _executingTextChangedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIInputView = (IInputView)this;
-        if (thisAsIInputView.TextChangedAction != null || thisAsIInputView.TextChangedActionWithArgs != null)
+        if (thisAsIInputView.TextChangedEvent != null)
         {
             NativeControl.TextChanged += NativeControl_TextChanged;
         }
@@ -159,8 +156,11 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
     private void NativeControl_TextChanged(object? sender, TextChangedEventArgs e)
     {
         var thisAsIInputView = (IInputView)this;
-        thisAsIInputView.TextChangedAction?.Invoke();
-        thisAsIInputView.TextChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingTextChangedEvent == null || _executingTextChangedEvent.IsCompleted)
+        {
+            _executingTextChangedEvent = thisAsIInputView.TextChangedEvent;
+            _executingTextChangedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -172,6 +172,21 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is InputView<T> @inputview)
+        {
+            if (_executingTextChangedEvent != null && !_executingTextChangedEvent.IsCompleted)
+            {
+                @inputview._executingTextChangedEvent = _executingTextChangedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -422,14 +437,42 @@ public static partial class InputViewExtensions
     public static T OnTextChanged<T>(this T inputView, Action? textChangedAction)
         where T : IInputView
     {
-        inputView.TextChangedAction = textChangedAction;
+        inputView.TextChangedEvent = new SyncEventCommand<TextChangedEventArgs>(execute: textChangedAction);
         return inputView;
     }
 
-    public static T OnTextChanged<T>(this T inputView, Action<object?, TextChangedEventArgs>? textChangedActionWithArgs)
+    public static T OnTextChanged<T>(this T inputView, Action<TextChangedEventArgs>? textChangedAction)
         where T : IInputView
     {
-        inputView.TextChangedActionWithArgs = textChangedActionWithArgs;
+        inputView.TextChangedEvent = new SyncEventCommand<TextChangedEventArgs>(executeWithArgs: textChangedAction);
+        return inputView;
+    }
+
+    public static T OnTextChanged<T>(this T inputView, Action<object?, TextChangedEventArgs>? textChangedAction)
+        where T : IInputView
+    {
+        inputView.TextChangedEvent = new SyncEventCommand<TextChangedEventArgs>(executeWithFullArgs: textChangedAction);
+        return inputView;
+    }
+
+    public static T OnTextChanged<T>(this T inputView, Func<Task>? textChangedAction)
+        where T : IInputView
+    {
+        inputView.TextChangedEvent = new AsyncEventCommand<TextChangedEventArgs>(execute: textChangedAction);
+        return inputView;
+    }
+
+    public static T OnTextChanged<T>(this T inputView, Func<TextChangedEventArgs, Task>? textChangedAction)
+        where T : IInputView
+    {
+        inputView.TextChangedEvent = new AsyncEventCommand<TextChangedEventArgs>(executeWithArgs: textChangedAction);
+        return inputView;
+    }
+
+    public static T OnTextChanged<T>(this T inputView, Func<object?, TextChangedEventArgs, Task>? textChangedAction)
+        where T : IInputView
+    {
+        inputView.TextChangedEvent = new AsyncEventCommand<TextChangedEventArgs>(executeWithFullArgs: textChangedAction);
         return inputView;
     }
 }

@@ -42,17 +42,11 @@ public partial interface IButton : IView
 
     object? LineBreakMode { get; set; }
 
-    Action? ClickedAction { get; set; }
+    EventCommand<EventArgs>? ClickedEvent { get; set; }
 
-    Action<object?, EventArgs>? ClickedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? PressedEvent { get; set; }
 
-    Action? PressedAction { get; set; }
-
-    Action<object?, EventArgs>? PressedActionWithArgs { get; set; }
-
-    Action? ReleasedAction { get; set; }
-
-    Action<object?, EventArgs>? ReleasedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? ReleasedEvent { get; set; }
 }
 
 public partial class Button<T> : View<T>, IButton where T : Microsoft.Maui.Controls.Button, new()
@@ -97,17 +91,11 @@ public partial class Button<T> : View<T>, IButton where T : Microsoft.Maui.Contr
 
     object? IButton.LineBreakMode { get; set; }
 
-    Action? IButton.ClickedAction { get; set; }
+    EventCommand<EventArgs>? IButton.ClickedEvent { get; set; }
 
-    Action<object?, EventArgs>? IButton.ClickedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IButton.PressedEvent { get; set; }
 
-    Action? IButton.PressedAction { get; set; }
-
-    Action<object?, EventArgs>? IButton.PressedActionWithArgs { get; set; }
-
-    Action? IButton.ReleasedAction { get; set; }
-
-    Action<object?, EventArgs>? IButton.ReleasedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IButton.ReleasedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -149,21 +137,24 @@ public partial class Button<T> : View<T>, IButton where T : Microsoft.Maui.Contr
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingClickedEvent;
+    private EventCommand<EventArgs>? _executingPressedEvent;
+    private EventCommand<EventArgs>? _executingReleasedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIButton = (IButton)this;
-        if (thisAsIButton.ClickedAction != null || thisAsIButton.ClickedActionWithArgs != null)
+        if (thisAsIButton.ClickedEvent != null)
         {
             NativeControl.Clicked += NativeControl_Clicked;
         }
 
-        if (thisAsIButton.PressedAction != null || thisAsIButton.PressedActionWithArgs != null)
+        if (thisAsIButton.PressedEvent != null)
         {
             NativeControl.Pressed += NativeControl_Pressed;
         }
 
-        if (thisAsIButton.ReleasedAction != null || thisAsIButton.ReleasedActionWithArgs != null)
+        if (thisAsIButton.ReleasedEvent != null)
         {
             NativeControl.Released += NativeControl_Released;
         }
@@ -175,22 +166,31 @@ public partial class Button<T> : View<T>, IButton where T : Microsoft.Maui.Contr
     private void NativeControl_Clicked(object? sender, EventArgs e)
     {
         var thisAsIButton = (IButton)this;
-        thisAsIButton.ClickedAction?.Invoke();
-        thisAsIButton.ClickedActionWithArgs?.Invoke(sender, e);
+        if (_executingClickedEvent == null || _executingClickedEvent.IsCompleted)
+        {
+            _executingClickedEvent = thisAsIButton.ClickedEvent;
+            _executingClickedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Pressed(object? sender, EventArgs e)
     {
         var thisAsIButton = (IButton)this;
-        thisAsIButton.PressedAction?.Invoke();
-        thisAsIButton.PressedActionWithArgs?.Invoke(sender, e);
+        if (_executingPressedEvent == null || _executingPressedEvent.IsCompleted)
+        {
+            _executingPressedEvent = thisAsIButton.PressedEvent;
+            _executingPressedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Released(object? sender, EventArgs e)
     {
         var thisAsIButton = (IButton)this;
-        thisAsIButton.ReleasedAction?.Invoke();
-        thisAsIButton.ReleasedActionWithArgs?.Invoke(sender, e);
+        if (_executingReleasedEvent == null || _executingReleasedEvent.IsCompleted)
+        {
+            _executingReleasedEvent = thisAsIButton.ReleasedEvent;
+            _executingReleasedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -204,6 +204,31 @@ public partial class Button<T> : View<T>, IButton where T : Microsoft.Maui.Contr
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is Button<T> @button)
+        {
+            if (_executingClickedEvent != null && !_executingClickedEvent.IsCompleted)
+            {
+                @button._executingClickedEvent = _executingClickedEvent;
+            }
+
+            if (_executingPressedEvent != null && !_executingPressedEvent.IsCompleted)
+            {
+                @button._executingPressedEvent = _executingPressedEvent;
+            }
+
+            if (_executingReleasedEvent != null && !_executingReleasedEvent.IsCompleted)
+            {
+                @button._executingReleasedEvent = _executingReleasedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -512,42 +537,126 @@ public static partial class ButtonExtensions
     public static T OnClicked<T>(this T button, Action? clickedAction)
         where T : IButton
     {
-        button.ClickedAction = clickedAction;
+        button.ClickedEvent = new SyncEventCommand<EventArgs>(execute: clickedAction);
         return button;
     }
 
-    public static T OnClicked<T>(this T button, Action<object?, EventArgs>? clickedActionWithArgs)
+    public static T OnClicked<T>(this T button, Action<EventArgs>? clickedAction)
         where T : IButton
     {
-        button.ClickedActionWithArgs = clickedActionWithArgs;
+        button.ClickedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: clickedAction);
+        return button;
+    }
+
+    public static T OnClicked<T>(this T button, Action<object?, EventArgs>? clickedAction)
+        where T : IButton
+    {
+        button.ClickedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: clickedAction);
+        return button;
+    }
+
+    public static T OnClicked<T>(this T button, Func<Task>? clickedAction)
+        where T : IButton
+    {
+        button.ClickedEvent = new AsyncEventCommand<EventArgs>(execute: clickedAction);
+        return button;
+    }
+
+    public static T OnClicked<T>(this T button, Func<EventArgs, Task>? clickedAction)
+        where T : IButton
+    {
+        button.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: clickedAction);
+        return button;
+    }
+
+    public static T OnClicked<T>(this T button, Func<object?, EventArgs, Task>? clickedAction)
+        where T : IButton
+    {
+        button.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: clickedAction);
         return button;
     }
 
     public static T OnPressed<T>(this T button, Action? pressedAction)
         where T : IButton
     {
-        button.PressedAction = pressedAction;
+        button.PressedEvent = new SyncEventCommand<EventArgs>(execute: pressedAction);
         return button;
     }
 
-    public static T OnPressed<T>(this T button, Action<object?, EventArgs>? pressedActionWithArgs)
+    public static T OnPressed<T>(this T button, Action<EventArgs>? pressedAction)
         where T : IButton
     {
-        button.PressedActionWithArgs = pressedActionWithArgs;
+        button.PressedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: pressedAction);
+        return button;
+    }
+
+    public static T OnPressed<T>(this T button, Action<object?, EventArgs>? pressedAction)
+        where T : IButton
+    {
+        button.PressedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: pressedAction);
+        return button;
+    }
+
+    public static T OnPressed<T>(this T button, Func<Task>? pressedAction)
+        where T : IButton
+    {
+        button.PressedEvent = new AsyncEventCommand<EventArgs>(execute: pressedAction);
+        return button;
+    }
+
+    public static T OnPressed<T>(this T button, Func<EventArgs, Task>? pressedAction)
+        where T : IButton
+    {
+        button.PressedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: pressedAction);
+        return button;
+    }
+
+    public static T OnPressed<T>(this T button, Func<object?, EventArgs, Task>? pressedAction)
+        where T : IButton
+    {
+        button.PressedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: pressedAction);
         return button;
     }
 
     public static T OnReleased<T>(this T button, Action? releasedAction)
         where T : IButton
     {
-        button.ReleasedAction = releasedAction;
+        button.ReleasedEvent = new SyncEventCommand<EventArgs>(execute: releasedAction);
         return button;
     }
 
-    public static T OnReleased<T>(this T button, Action<object?, EventArgs>? releasedActionWithArgs)
+    public static T OnReleased<T>(this T button, Action<EventArgs>? releasedAction)
         where T : IButton
     {
-        button.ReleasedActionWithArgs = releasedActionWithArgs;
+        button.ReleasedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: releasedAction);
+        return button;
+    }
+
+    public static T OnReleased<T>(this T button, Action<object?, EventArgs>? releasedAction)
+        where T : IButton
+    {
+        button.ReleasedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: releasedAction);
+        return button;
+    }
+
+    public static T OnReleased<T>(this T button, Func<Task>? releasedAction)
+        where T : IButton
+    {
+        button.ReleasedEvent = new AsyncEventCommand<EventArgs>(execute: releasedAction);
+        return button;
+    }
+
+    public static T OnReleased<T>(this T button, Func<EventArgs, Task>? releasedAction)
+        where T : IButton
+    {
+        button.ReleasedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: releasedAction);
+        return button;
+    }
+
+    public static T OnReleased<T>(this T button, Func<object?, EventArgs, Task>? releasedAction)
+        where T : IButton
+    {
+        button.ReleasedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: releasedAction);
         return button;
     }
 }

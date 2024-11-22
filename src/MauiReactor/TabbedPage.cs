@@ -72,6 +72,13 @@ public abstract partial class TabbedPage<T> : MultiPage<T, Microsoft.Maui.Contro
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class TabbedPage : TabbedPage<Microsoft.Maui.Controls.TabbedPage>

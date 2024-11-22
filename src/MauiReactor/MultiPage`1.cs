@@ -14,13 +14,9 @@ public partial interface IGenericMultiPage : IPage
 {
     object? SelectedItem { get; set; }
 
-    Action? CurrentPageChangedAction { get; set; }
+    EventCommand<EventArgs>? CurrentPageChangedEvent { get; set; }
 
-    Action<object?, EventArgs>? CurrentPageChangedActionWithArgs { get; set; }
-
-    Action? PagesChangedAction { get; set; }
-
-    Action<object?, EventArgs>? PagesChangedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? PagesChangedEvent { get; set; }
 }
 
 public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage where T : Microsoft.Maui.Controls.MultiPage<TChild>, new()
@@ -36,13 +32,9 @@ public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage 
 
     object? IGenericMultiPage.SelectedItem { get; set; }
 
-    Action? IGenericMultiPage.CurrentPageChangedAction { get; set; }
+    EventCommand<EventArgs>? IGenericMultiPage.CurrentPageChangedEvent { get; set; }
 
-    Action<object?, EventArgs>? IGenericMultiPage.CurrentPageChangedActionWithArgs { get; set; }
-
-    Action? IGenericMultiPage.PagesChangedAction { get; set; }
-
-    Action<object?, EventArgs>? IGenericMultiPage.PagesChangedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IGenericMultiPage.PagesChangedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -60,16 +52,18 @@ public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage 
     partial void OnEndAnimate();
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingCurrentPageChangedEvent;
+    private EventCommand<EventArgs>? _executingPagesChangedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIGenericMultiPage = (IGenericMultiPage)this;
-        if (thisAsIGenericMultiPage.CurrentPageChangedAction != null || thisAsIGenericMultiPage.CurrentPageChangedActionWithArgs != null)
+        if (thisAsIGenericMultiPage.CurrentPageChangedEvent != null)
         {
             NativeControl.CurrentPageChanged += NativeControl_CurrentPageChanged;
         }
 
-        if (thisAsIGenericMultiPage.PagesChangedAction != null || thisAsIGenericMultiPage.PagesChangedActionWithArgs != null)
+        if (thisAsIGenericMultiPage.PagesChangedEvent != null)
         {
             NativeControl.PagesChanged += NativeControl_PagesChanged;
         }
@@ -81,15 +75,21 @@ public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage 
     private void NativeControl_CurrentPageChanged(object? sender, EventArgs e)
     {
         var thisAsIGenericMultiPage = (IGenericMultiPage)this;
-        thisAsIGenericMultiPage.CurrentPageChangedAction?.Invoke();
-        thisAsIGenericMultiPage.CurrentPageChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingCurrentPageChangedEvent == null || _executingCurrentPageChangedEvent.IsCompleted)
+        {
+            _executingCurrentPageChangedEvent = thisAsIGenericMultiPage.CurrentPageChangedEvent;
+            _executingCurrentPageChangedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_PagesChanged(object? sender, EventArgs e)
     {
         var thisAsIGenericMultiPage = (IGenericMultiPage)this;
-        thisAsIGenericMultiPage.PagesChangedAction?.Invoke();
-        thisAsIGenericMultiPage.PagesChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingPagesChangedEvent == null || _executingPagesChangedEvent.IsCompleted)
+        {
+            _executingPagesChangedEvent = thisAsIGenericMultiPage.PagesChangedEvent;
+            _executingPagesChangedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -102,6 +102,26 @@ public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage 
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is MultiPage<T, TChild> @multipage)
+        {
+            if (_executingCurrentPageChangedEvent != null && !_executingCurrentPageChangedEvent.IsCompleted)
+            {
+                @multipage._executingCurrentPageChangedEvent = _executingCurrentPageChangedEvent;
+            }
+
+            if (_executingPagesChangedEvent != null && !_executingPagesChangedEvent.IsCompleted)
+            {
+                @multipage._executingPagesChangedEvent = _executingPagesChangedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -124,28 +144,84 @@ public static partial class MultiPageExtensions
     public static T OnCurrentPageChanged<T>(this T multiPage, Action? currentPageChangedAction)
         where T : IGenericMultiPage
     {
-        multiPage.CurrentPageChangedAction = currentPageChangedAction;
+        multiPage.CurrentPageChangedEvent = new SyncEventCommand<EventArgs>(execute: currentPageChangedAction);
         return multiPage;
     }
 
-    public static T OnCurrentPageChanged<T>(this T multiPage, Action<object?, EventArgs>? currentPageChangedActionWithArgs)
+    public static T OnCurrentPageChanged<T>(this T multiPage, Action<EventArgs>? currentPageChangedAction)
         where T : IGenericMultiPage
     {
-        multiPage.CurrentPageChangedActionWithArgs = currentPageChangedActionWithArgs;
+        multiPage.CurrentPageChangedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: currentPageChangedAction);
+        return multiPage;
+    }
+
+    public static T OnCurrentPageChanged<T>(this T multiPage, Action<object?, EventArgs>? currentPageChangedAction)
+        where T : IGenericMultiPage
+    {
+        multiPage.CurrentPageChangedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: currentPageChangedAction);
+        return multiPage;
+    }
+
+    public static T OnCurrentPageChanged<T>(this T multiPage, Func<Task>? currentPageChangedAction)
+        where T : IGenericMultiPage
+    {
+        multiPage.CurrentPageChangedEvent = new AsyncEventCommand<EventArgs>(execute: currentPageChangedAction);
+        return multiPage;
+    }
+
+    public static T OnCurrentPageChanged<T>(this T multiPage, Func<EventArgs, Task>? currentPageChangedAction)
+        where T : IGenericMultiPage
+    {
+        multiPage.CurrentPageChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: currentPageChangedAction);
+        return multiPage;
+    }
+
+    public static T OnCurrentPageChanged<T>(this T multiPage, Func<object?, EventArgs, Task>? currentPageChangedAction)
+        where T : IGenericMultiPage
+    {
+        multiPage.CurrentPageChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: currentPageChangedAction);
         return multiPage;
     }
 
     public static T OnPagesChanged<T>(this T multiPage, Action? pagesChangedAction)
         where T : IGenericMultiPage
     {
-        multiPage.PagesChangedAction = pagesChangedAction;
+        multiPage.PagesChangedEvent = new SyncEventCommand<EventArgs>(execute: pagesChangedAction);
         return multiPage;
     }
 
-    public static T OnPagesChanged<T>(this T multiPage, Action<object?, EventArgs>? pagesChangedActionWithArgs)
+    public static T OnPagesChanged<T>(this T multiPage, Action<EventArgs>? pagesChangedAction)
         where T : IGenericMultiPage
     {
-        multiPage.PagesChangedActionWithArgs = pagesChangedActionWithArgs;
+        multiPage.PagesChangedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: pagesChangedAction);
+        return multiPage;
+    }
+
+    public static T OnPagesChanged<T>(this T multiPage, Action<object?, EventArgs>? pagesChangedAction)
+        where T : IGenericMultiPage
+    {
+        multiPage.PagesChangedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: pagesChangedAction);
+        return multiPage;
+    }
+
+    public static T OnPagesChanged<T>(this T multiPage, Func<Task>? pagesChangedAction)
+        where T : IGenericMultiPage
+    {
+        multiPage.PagesChangedEvent = new AsyncEventCommand<EventArgs>(execute: pagesChangedAction);
+        return multiPage;
+    }
+
+    public static T OnPagesChanged<T>(this T multiPage, Func<EventArgs, Task>? pagesChangedAction)
+        where T : IGenericMultiPage
+    {
+        multiPage.PagesChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: pagesChangedAction);
+        return multiPage;
+    }
+
+    public static T OnPagesChanged<T>(this T multiPage, Func<object?, EventArgs, Task>? pagesChangedAction)
+        where T : IGenericMultiPage
+    {
+        multiPage.PagesChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: pagesChangedAction);
         return multiPage;
     }
 }

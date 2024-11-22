@@ -16,9 +16,7 @@ public partial interface ISwipeItems : IElement
 
     object? SwipeBehaviorOnInvoked { get; set; }
 
-    Action? CollectionChangedAction { get; set; }
-
-    Action<object?, EventArgs>? CollectionChangedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? CollectionChangedEvent { get; set; }
 }
 
 public partial class SwipeItems<T> : Element<T>, ISwipeItems where T : Microsoft.Maui.Controls.SwipeItems, new()
@@ -37,9 +35,7 @@ public partial class SwipeItems<T> : Element<T>, ISwipeItems where T : Microsoft
 
     object? ISwipeItems.SwipeBehaviorOnInvoked { get; set; }
 
-    Action? ISwipeItems.CollectionChangedAction { get; set; }
-
-    Action<object?, EventArgs>? ISwipeItems.CollectionChangedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? ISwipeItems.CollectionChangedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -68,11 +64,12 @@ public partial class SwipeItems<T> : Element<T>, ISwipeItems where T : Microsoft
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingCollectionChangedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsISwipeItems = (ISwipeItems)this;
-        if (thisAsISwipeItems.CollectionChangedAction != null || thisAsISwipeItems.CollectionChangedActionWithArgs != null)
+        if (thisAsISwipeItems.CollectionChangedEvent != null)
         {
             NativeControl.CollectionChanged += NativeControl_CollectionChanged;
         }
@@ -84,8 +81,11 @@ public partial class SwipeItems<T> : Element<T>, ISwipeItems where T : Microsoft
     private void NativeControl_CollectionChanged(object? sender, EventArgs e)
     {
         var thisAsISwipeItems = (ISwipeItems)this;
-        thisAsISwipeItems.CollectionChangedAction?.Invoke();
-        thisAsISwipeItems.CollectionChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingCollectionChangedEvent == null || _executingCollectionChangedEvent.IsCompleted)
+        {
+            _executingCollectionChangedEvent = thisAsISwipeItems.CollectionChangedEvent;
+            _executingCollectionChangedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -97,6 +97,21 @@ public partial class SwipeItems<T> : Element<T>, ISwipeItems where T : Microsoft
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is SwipeItems<T> @swipeitems)
+        {
+            if (_executingCollectionChangedEvent != null && !_executingCollectionChangedEvent.IsCompleted)
+            {
+                @swipeitems._executingCollectionChangedEvent = _executingCollectionChangedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -144,14 +159,42 @@ public static partial class SwipeItemsExtensions
     public static T OnCollectionChanged<T>(this T swipeItems, Action? collectionChangedAction)
         where T : ISwipeItems
     {
-        swipeItems.CollectionChangedAction = collectionChangedAction;
+        swipeItems.CollectionChangedEvent = new SyncEventCommand<EventArgs>(execute: collectionChangedAction);
         return swipeItems;
     }
 
-    public static T OnCollectionChanged<T>(this T swipeItems, Action<object?, EventArgs>? collectionChangedActionWithArgs)
+    public static T OnCollectionChanged<T>(this T swipeItems, Action<EventArgs>? collectionChangedAction)
         where T : ISwipeItems
     {
-        swipeItems.CollectionChangedActionWithArgs = collectionChangedActionWithArgs;
+        swipeItems.CollectionChangedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: collectionChangedAction);
+        return swipeItems;
+    }
+
+    public static T OnCollectionChanged<T>(this T swipeItems, Action<object?, EventArgs>? collectionChangedAction)
+        where T : ISwipeItems
+    {
+        swipeItems.CollectionChangedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: collectionChangedAction);
+        return swipeItems;
+    }
+
+    public static T OnCollectionChanged<T>(this T swipeItems, Func<Task>? collectionChangedAction)
+        where T : ISwipeItems
+    {
+        swipeItems.CollectionChangedEvent = new AsyncEventCommand<EventArgs>(execute: collectionChangedAction);
+        return swipeItems;
+    }
+
+    public static T OnCollectionChanged<T>(this T swipeItems, Func<EventArgs, Task>? collectionChangedAction)
+        where T : ISwipeItems
+    {
+        swipeItems.CollectionChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: collectionChangedAction);
+        return swipeItems;
+    }
+
+    public static T OnCollectionChanged<T>(this T swipeItems, Func<object?, EventArgs, Task>? collectionChangedAction)
+        where T : ISwipeItems
+    {
+        swipeItems.CollectionChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: collectionChangedAction);
         return swipeItems;
     }
 }

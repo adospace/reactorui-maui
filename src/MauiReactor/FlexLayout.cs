@@ -77,6 +77,13 @@ public partial class FlexLayout<T> : Layout<T>, IFlexLayout where T : Microsoft.
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class FlexLayout : FlexLayout<Microsoft.Maui.Controls.FlexLayout>

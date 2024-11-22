@@ -46,6 +46,13 @@ public abstract partial class Geometry<T> : VisualNode<T>, IGeometry where T : M
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public static partial class GeometryExtensions

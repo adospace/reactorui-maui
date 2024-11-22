@@ -36,29 +36,17 @@ public partial interface IListView : IGenericItemsView
 
     object? VerticalScrollBarVisibility { get; set; }
 
-    Action? ItemAppearingAction { get; set; }
+    EventCommand<ItemVisibilityEventArgs>? ItemAppearingEvent { get; set; }
 
-    Action<object?, ItemVisibilityEventArgs>? ItemAppearingActionWithArgs { get; set; }
+    EventCommand<ItemVisibilityEventArgs>? ItemDisappearingEvent { get; set; }
 
-    Action? ItemDisappearingAction { get; set; }
+    EventCommand<SelectedItemChangedEventArgs>? ItemSelectedEvent { get; set; }
 
-    Action<object?, ItemVisibilityEventArgs>? ItemDisappearingActionWithArgs { get; set; }
+    EventCommand<ItemTappedEventArgs>? ItemTappedEvent { get; set; }
 
-    Action? ItemSelectedAction { get; set; }
+    EventCommand<ScrolledEventArgs>? ScrolledEvent { get; set; }
 
-    Action<object?, SelectedItemChangedEventArgs>? ItemSelectedActionWithArgs { get; set; }
-
-    Action? ItemTappedAction { get; set; }
-
-    Action<object?, ItemTappedEventArgs>? ItemTappedActionWithArgs { get; set; }
-
-    Action? ScrolledAction { get; set; }
-
-    Action<object?, ScrolledEventArgs>? ScrolledActionWithArgs { get; set; }
-
-    Action? RefreshingAction { get; set; }
-
-    Action<object?, EventArgs>? RefreshingActionWithArgs { get; set; }
+    EventCommand<EventArgs>? RefreshingEvent { get; set; }
 }
 
 public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls.Cell>, IListView where T : Microsoft.Maui.Controls.ListView, new()
@@ -97,29 +85,17 @@ public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls
 
     object? IListView.VerticalScrollBarVisibility { get; set; }
 
-    Action? IListView.ItemAppearingAction { get; set; }
+    EventCommand<ItemVisibilityEventArgs>? IListView.ItemAppearingEvent { get; set; }
 
-    Action<object?, ItemVisibilityEventArgs>? IListView.ItemAppearingActionWithArgs { get; set; }
+    EventCommand<ItemVisibilityEventArgs>? IListView.ItemDisappearingEvent { get; set; }
 
-    Action? IListView.ItemDisappearingAction { get; set; }
+    EventCommand<SelectedItemChangedEventArgs>? IListView.ItemSelectedEvent { get; set; }
 
-    Action<object?, ItemVisibilityEventArgs>? IListView.ItemDisappearingActionWithArgs { get; set; }
+    EventCommand<ItemTappedEventArgs>? IListView.ItemTappedEvent { get; set; }
 
-    Action? IListView.ItemSelectedAction { get; set; }
+    EventCommand<ScrolledEventArgs>? IListView.ScrolledEvent { get; set; }
 
-    Action<object?, SelectedItemChangedEventArgs>? IListView.ItemSelectedActionWithArgs { get; set; }
-
-    Action? IListView.ItemTappedAction { get; set; }
-
-    Action<object?, ItemTappedEventArgs>? IListView.ItemTappedActionWithArgs { get; set; }
-
-    Action? IListView.ScrolledAction { get; set; }
-
-    Action<object?, ScrolledEventArgs>? IListView.ScrolledActionWithArgs { get; set; }
-
-    Action? IListView.RefreshingAction { get; set; }
-
-    Action<object?, EventArgs>? IListView.RefreshingActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IListView.RefreshingEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -158,36 +134,42 @@ public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<ItemVisibilityEventArgs>? _executingItemAppearingEvent;
+    private EventCommand<ItemVisibilityEventArgs>? _executingItemDisappearingEvent;
+    private EventCommand<SelectedItemChangedEventArgs>? _executingItemSelectedEvent;
+    private EventCommand<ItemTappedEventArgs>? _executingItemTappedEvent;
+    private EventCommand<ScrolledEventArgs>? _executingScrolledEvent;
+    private EventCommand<EventArgs>? _executingRefreshingEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIListView = (IListView)this;
-        if (thisAsIListView.ItemAppearingAction != null || thisAsIListView.ItemAppearingActionWithArgs != null)
+        if (thisAsIListView.ItemAppearingEvent != null)
         {
             NativeControl.ItemAppearing += NativeControl_ItemAppearing;
         }
 
-        if (thisAsIListView.ItemDisappearingAction != null || thisAsIListView.ItemDisappearingActionWithArgs != null)
+        if (thisAsIListView.ItemDisappearingEvent != null)
         {
             NativeControl.ItemDisappearing += NativeControl_ItemDisappearing;
         }
 
-        if (thisAsIListView.ItemSelectedAction != null || thisAsIListView.ItemSelectedActionWithArgs != null)
+        if (thisAsIListView.ItemSelectedEvent != null)
         {
             NativeControl.ItemSelected += NativeControl_ItemSelected;
         }
 
-        if (thisAsIListView.ItemTappedAction != null || thisAsIListView.ItemTappedActionWithArgs != null)
+        if (thisAsIListView.ItemTappedEvent != null)
         {
             NativeControl.ItemTapped += NativeControl_ItemTapped;
         }
 
-        if (thisAsIListView.ScrolledAction != null || thisAsIListView.ScrolledActionWithArgs != null)
+        if (thisAsIListView.ScrolledEvent != null)
         {
             NativeControl.Scrolled += NativeControl_Scrolled;
         }
 
-        if (thisAsIListView.RefreshingAction != null || thisAsIListView.RefreshingActionWithArgs != null)
+        if (thisAsIListView.RefreshingEvent != null)
         {
             NativeControl.Refreshing += NativeControl_Refreshing;
         }
@@ -199,43 +181,61 @@ public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls
     private void NativeControl_ItemAppearing(object? sender, ItemVisibilityEventArgs e)
     {
         var thisAsIListView = (IListView)this;
-        thisAsIListView.ItemAppearingAction?.Invoke();
-        thisAsIListView.ItemAppearingActionWithArgs?.Invoke(sender, e);
+        if (_executingItemAppearingEvent == null || _executingItemAppearingEvent.IsCompleted)
+        {
+            _executingItemAppearingEvent = thisAsIListView.ItemAppearingEvent;
+            _executingItemAppearingEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_ItemDisappearing(object? sender, ItemVisibilityEventArgs e)
     {
         var thisAsIListView = (IListView)this;
-        thisAsIListView.ItemDisappearingAction?.Invoke();
-        thisAsIListView.ItemDisappearingActionWithArgs?.Invoke(sender, e);
+        if (_executingItemDisappearingEvent == null || _executingItemDisappearingEvent.IsCompleted)
+        {
+            _executingItemDisappearingEvent = thisAsIListView.ItemDisappearingEvent;
+            _executingItemDisappearingEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_ItemSelected(object? sender, SelectedItemChangedEventArgs e)
     {
         var thisAsIListView = (IListView)this;
-        thisAsIListView.ItemSelectedAction?.Invoke();
-        thisAsIListView.ItemSelectedActionWithArgs?.Invoke(sender, e);
+        if (_executingItemSelectedEvent == null || _executingItemSelectedEvent.IsCompleted)
+        {
+            _executingItemSelectedEvent = thisAsIListView.ItemSelectedEvent;
+            _executingItemSelectedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_ItemTapped(object? sender, ItemTappedEventArgs e)
     {
         var thisAsIListView = (IListView)this;
-        thisAsIListView.ItemTappedAction?.Invoke();
-        thisAsIListView.ItemTappedActionWithArgs?.Invoke(sender, e);
+        if (_executingItemTappedEvent == null || _executingItemTappedEvent.IsCompleted)
+        {
+            _executingItemTappedEvent = thisAsIListView.ItemTappedEvent;
+            _executingItemTappedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Scrolled(object? sender, ScrolledEventArgs e)
     {
         var thisAsIListView = (IListView)this;
-        thisAsIListView.ScrolledAction?.Invoke();
-        thisAsIListView.ScrolledActionWithArgs?.Invoke(sender, e);
+        if (_executingScrolledEvent == null || _executingScrolledEvent.IsCompleted)
+        {
+            _executingScrolledEvent = thisAsIListView.ScrolledEvent;
+            _executingScrolledEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Refreshing(object? sender, EventArgs e)
     {
         var thisAsIListView = (IListView)this;
-        thisAsIListView.RefreshingAction?.Invoke();
-        thisAsIListView.RefreshingActionWithArgs?.Invoke(sender, e);
+        if (_executingRefreshingEvent == null || _executingRefreshingEvent.IsCompleted)
+        {
+            _executingRefreshingEvent = thisAsIListView.RefreshingEvent;
+            _executingRefreshingEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -252,6 +252,46 @@ public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is ListView<T> @listview)
+        {
+            if (_executingItemAppearingEvent != null && !_executingItemAppearingEvent.IsCompleted)
+            {
+                @listview._executingItemAppearingEvent = _executingItemAppearingEvent;
+            }
+
+            if (_executingItemDisappearingEvent != null && !_executingItemDisappearingEvent.IsCompleted)
+            {
+                @listview._executingItemDisappearingEvent = _executingItemDisappearingEvent;
+            }
+
+            if (_executingItemSelectedEvent != null && !_executingItemSelectedEvent.IsCompleted)
+            {
+                @listview._executingItemSelectedEvent = _executingItemSelectedEvent;
+            }
+
+            if (_executingItemTappedEvent != null && !_executingItemTappedEvent.IsCompleted)
+            {
+                @listview._executingItemTappedEvent = _executingItemTappedEvent;
+            }
+
+            if (_executingScrolledEvent != null && !_executingScrolledEvent.IsCompleted)
+            {
+                @listview._executingScrolledEvent = _executingScrolledEvent;
+            }
+
+            if (_executingRefreshingEvent != null && !_executingRefreshingEvent.IsCompleted)
+            {
+                @listview._executingRefreshingEvent = _executingRefreshingEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -439,84 +479,252 @@ public static partial class ListViewExtensions
     public static T OnItemAppearing<T>(this T listView, Action? itemAppearingAction)
         where T : IListView
     {
-        listView.ItemAppearingAction = itemAppearingAction;
+        listView.ItemAppearingEvent = new SyncEventCommand<ItemVisibilityEventArgs>(execute: itemAppearingAction);
         return listView;
     }
 
-    public static T OnItemAppearing<T>(this T listView, Action<object?, ItemVisibilityEventArgs>? itemAppearingActionWithArgs)
+    public static T OnItemAppearing<T>(this T listView, Action<ItemVisibilityEventArgs>? itemAppearingAction)
         where T : IListView
     {
-        listView.ItemAppearingActionWithArgs = itemAppearingActionWithArgs;
+        listView.ItemAppearingEvent = new SyncEventCommand<ItemVisibilityEventArgs>(executeWithArgs: itemAppearingAction);
+        return listView;
+    }
+
+    public static T OnItemAppearing<T>(this T listView, Action<object?, ItemVisibilityEventArgs>? itemAppearingAction)
+        where T : IListView
+    {
+        listView.ItemAppearingEvent = new SyncEventCommand<ItemVisibilityEventArgs>(executeWithFullArgs: itemAppearingAction);
+        return listView;
+    }
+
+    public static T OnItemAppearing<T>(this T listView, Func<Task>? itemAppearingAction)
+        where T : IListView
+    {
+        listView.ItemAppearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(execute: itemAppearingAction);
+        return listView;
+    }
+
+    public static T OnItemAppearing<T>(this T listView, Func<ItemVisibilityEventArgs, Task>? itemAppearingAction)
+        where T : IListView
+    {
+        listView.ItemAppearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(executeWithArgs: itemAppearingAction);
+        return listView;
+    }
+
+    public static T OnItemAppearing<T>(this T listView, Func<object?, ItemVisibilityEventArgs, Task>? itemAppearingAction)
+        where T : IListView
+    {
+        listView.ItemAppearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(executeWithFullArgs: itemAppearingAction);
         return listView;
     }
 
     public static T OnItemDisappearing<T>(this T listView, Action? itemDisappearingAction)
         where T : IListView
     {
-        listView.ItemDisappearingAction = itemDisappearingAction;
+        listView.ItemDisappearingEvent = new SyncEventCommand<ItemVisibilityEventArgs>(execute: itemDisappearingAction);
         return listView;
     }
 
-    public static T OnItemDisappearing<T>(this T listView, Action<object?, ItemVisibilityEventArgs>? itemDisappearingActionWithArgs)
+    public static T OnItemDisappearing<T>(this T listView, Action<ItemVisibilityEventArgs>? itemDisappearingAction)
         where T : IListView
     {
-        listView.ItemDisappearingActionWithArgs = itemDisappearingActionWithArgs;
+        listView.ItemDisappearingEvent = new SyncEventCommand<ItemVisibilityEventArgs>(executeWithArgs: itemDisappearingAction);
+        return listView;
+    }
+
+    public static T OnItemDisappearing<T>(this T listView, Action<object?, ItemVisibilityEventArgs>? itemDisappearingAction)
+        where T : IListView
+    {
+        listView.ItemDisappearingEvent = new SyncEventCommand<ItemVisibilityEventArgs>(executeWithFullArgs: itemDisappearingAction);
+        return listView;
+    }
+
+    public static T OnItemDisappearing<T>(this T listView, Func<Task>? itemDisappearingAction)
+        where T : IListView
+    {
+        listView.ItemDisappearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(execute: itemDisappearingAction);
+        return listView;
+    }
+
+    public static T OnItemDisappearing<T>(this T listView, Func<ItemVisibilityEventArgs, Task>? itemDisappearingAction)
+        where T : IListView
+    {
+        listView.ItemDisappearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(executeWithArgs: itemDisappearingAction);
+        return listView;
+    }
+
+    public static T OnItemDisappearing<T>(this T listView, Func<object?, ItemVisibilityEventArgs, Task>? itemDisappearingAction)
+        where T : IListView
+    {
+        listView.ItemDisappearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(executeWithFullArgs: itemDisappearingAction);
         return listView;
     }
 
     public static T OnItemSelected<T>(this T listView, Action? itemSelectedAction)
         where T : IListView
     {
-        listView.ItemSelectedAction = itemSelectedAction;
+        listView.ItemSelectedEvent = new SyncEventCommand<SelectedItemChangedEventArgs>(execute: itemSelectedAction);
         return listView;
     }
 
-    public static T OnItemSelected<T>(this T listView, Action<object?, SelectedItemChangedEventArgs>? itemSelectedActionWithArgs)
+    public static T OnItemSelected<T>(this T listView, Action<SelectedItemChangedEventArgs>? itemSelectedAction)
         where T : IListView
     {
-        listView.ItemSelectedActionWithArgs = itemSelectedActionWithArgs;
+        listView.ItemSelectedEvent = new SyncEventCommand<SelectedItemChangedEventArgs>(executeWithArgs: itemSelectedAction);
+        return listView;
+    }
+
+    public static T OnItemSelected<T>(this T listView, Action<object?, SelectedItemChangedEventArgs>? itemSelectedAction)
+        where T : IListView
+    {
+        listView.ItemSelectedEvent = new SyncEventCommand<SelectedItemChangedEventArgs>(executeWithFullArgs: itemSelectedAction);
+        return listView;
+    }
+
+    public static T OnItemSelected<T>(this T listView, Func<Task>? itemSelectedAction)
+        where T : IListView
+    {
+        listView.ItemSelectedEvent = new AsyncEventCommand<SelectedItemChangedEventArgs>(execute: itemSelectedAction);
+        return listView;
+    }
+
+    public static T OnItemSelected<T>(this T listView, Func<SelectedItemChangedEventArgs, Task>? itemSelectedAction)
+        where T : IListView
+    {
+        listView.ItemSelectedEvent = new AsyncEventCommand<SelectedItemChangedEventArgs>(executeWithArgs: itemSelectedAction);
+        return listView;
+    }
+
+    public static T OnItemSelected<T>(this T listView, Func<object?, SelectedItemChangedEventArgs, Task>? itemSelectedAction)
+        where T : IListView
+    {
+        listView.ItemSelectedEvent = new AsyncEventCommand<SelectedItemChangedEventArgs>(executeWithFullArgs: itemSelectedAction);
         return listView;
     }
 
     public static T OnItemTapped<T>(this T listView, Action? itemTappedAction)
         where T : IListView
     {
-        listView.ItemTappedAction = itemTappedAction;
+        listView.ItemTappedEvent = new SyncEventCommand<ItemTappedEventArgs>(execute: itemTappedAction);
         return listView;
     }
 
-    public static T OnItemTapped<T>(this T listView, Action<object?, ItemTappedEventArgs>? itemTappedActionWithArgs)
+    public static T OnItemTapped<T>(this T listView, Action<ItemTappedEventArgs>? itemTappedAction)
         where T : IListView
     {
-        listView.ItemTappedActionWithArgs = itemTappedActionWithArgs;
+        listView.ItemTappedEvent = new SyncEventCommand<ItemTappedEventArgs>(executeWithArgs: itemTappedAction);
+        return listView;
+    }
+
+    public static T OnItemTapped<T>(this T listView, Action<object?, ItemTappedEventArgs>? itemTappedAction)
+        where T : IListView
+    {
+        listView.ItemTappedEvent = new SyncEventCommand<ItemTappedEventArgs>(executeWithFullArgs: itemTappedAction);
+        return listView;
+    }
+
+    public static T OnItemTapped<T>(this T listView, Func<Task>? itemTappedAction)
+        where T : IListView
+    {
+        listView.ItemTappedEvent = new AsyncEventCommand<ItemTappedEventArgs>(execute: itemTappedAction);
+        return listView;
+    }
+
+    public static T OnItemTapped<T>(this T listView, Func<ItemTappedEventArgs, Task>? itemTappedAction)
+        where T : IListView
+    {
+        listView.ItemTappedEvent = new AsyncEventCommand<ItemTappedEventArgs>(executeWithArgs: itemTappedAction);
+        return listView;
+    }
+
+    public static T OnItemTapped<T>(this T listView, Func<object?, ItemTappedEventArgs, Task>? itemTappedAction)
+        where T : IListView
+    {
+        listView.ItemTappedEvent = new AsyncEventCommand<ItemTappedEventArgs>(executeWithFullArgs: itemTappedAction);
         return listView;
     }
 
     public static T OnScrolled<T>(this T listView, Action? scrolledAction)
         where T : IListView
     {
-        listView.ScrolledAction = scrolledAction;
+        listView.ScrolledEvent = new SyncEventCommand<ScrolledEventArgs>(execute: scrolledAction);
         return listView;
     }
 
-    public static T OnScrolled<T>(this T listView, Action<object?, ScrolledEventArgs>? scrolledActionWithArgs)
+    public static T OnScrolled<T>(this T listView, Action<ScrolledEventArgs>? scrolledAction)
         where T : IListView
     {
-        listView.ScrolledActionWithArgs = scrolledActionWithArgs;
+        listView.ScrolledEvent = new SyncEventCommand<ScrolledEventArgs>(executeWithArgs: scrolledAction);
+        return listView;
+    }
+
+    public static T OnScrolled<T>(this T listView, Action<object?, ScrolledEventArgs>? scrolledAction)
+        where T : IListView
+    {
+        listView.ScrolledEvent = new SyncEventCommand<ScrolledEventArgs>(executeWithFullArgs: scrolledAction);
+        return listView;
+    }
+
+    public static T OnScrolled<T>(this T listView, Func<Task>? scrolledAction)
+        where T : IListView
+    {
+        listView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(execute: scrolledAction);
+        return listView;
+    }
+
+    public static T OnScrolled<T>(this T listView, Func<ScrolledEventArgs, Task>? scrolledAction)
+        where T : IListView
+    {
+        listView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(executeWithArgs: scrolledAction);
+        return listView;
+    }
+
+    public static T OnScrolled<T>(this T listView, Func<object?, ScrolledEventArgs, Task>? scrolledAction)
+        where T : IListView
+    {
+        listView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(executeWithFullArgs: scrolledAction);
         return listView;
     }
 
     public static T OnRefreshing<T>(this T listView, Action? refreshingAction)
         where T : IListView
     {
-        listView.RefreshingAction = refreshingAction;
+        listView.RefreshingEvent = new SyncEventCommand<EventArgs>(execute: refreshingAction);
         return listView;
     }
 
-    public static T OnRefreshing<T>(this T listView, Action<object?, EventArgs>? refreshingActionWithArgs)
+    public static T OnRefreshing<T>(this T listView, Action<EventArgs>? refreshingAction)
         where T : IListView
     {
-        listView.RefreshingActionWithArgs = refreshingActionWithArgs;
+        listView.RefreshingEvent = new SyncEventCommand<EventArgs>(executeWithArgs: refreshingAction);
+        return listView;
+    }
+
+    public static T OnRefreshing<T>(this T listView, Action<object?, EventArgs>? refreshingAction)
+        where T : IListView
+    {
+        listView.RefreshingEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: refreshingAction);
+        return listView;
+    }
+
+    public static T OnRefreshing<T>(this T listView, Func<Task>? refreshingAction)
+        where T : IListView
+    {
+        listView.RefreshingEvent = new AsyncEventCommand<EventArgs>(execute: refreshingAction);
+        return listView;
+    }
+
+    public static T OnRefreshing<T>(this T listView, Func<EventArgs, Task>? refreshingAction)
+        where T : IListView
+    {
+        listView.RefreshingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: refreshingAction);
+        return listView;
+    }
+
+    public static T OnRefreshing<T>(this T listView, Func<object?, EventArgs, Task>? refreshingAction)
+        where T : IListView
+    {
+        listView.RefreshingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: refreshingAction);
         return listView;
     }
 }

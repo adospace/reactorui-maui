@@ -67,6 +67,13 @@ public partial class TextCell<T> : Cell<T>, ITextCell where T : Microsoft.Maui.C
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class TextCell : TextCell<Microsoft.Maui.Controls.TextCell>

@@ -34,61 +34,33 @@ public partial interface IWindow : INavigableElement
 
     object? TitleBar { get; set; }
 
-    Action? SizeChangedAction { get; set; }
+    EventCommand<EventArgs>? SizeChangedEvent { get; set; }
 
-    Action<object?, EventArgs>? SizeChangedActionWithArgs { get; set; }
+    EventCommand<ModalPoppedEventArgs>? ModalPoppedEvent { get; set; }
 
-    Action? ModalPoppedAction { get; set; }
+    EventCommand<ModalPoppingEventArgs>? ModalPoppingEvent { get; set; }
 
-    Action<object?, ModalPoppedEventArgs>? ModalPoppedActionWithArgs { get; set; }
+    EventCommand<ModalPushedEventArgs>? ModalPushedEvent { get; set; }
 
-    Action? ModalPoppingAction { get; set; }
+    EventCommand<ModalPushingEventArgs>? ModalPushingEvent { get; set; }
 
-    Action<object?, ModalPoppingEventArgs>? ModalPoppingActionWithArgs { get; set; }
+    EventCommand<EventArgs>? PopCanceledEvent { get; set; }
 
-    Action? ModalPushedAction { get; set; }
+    EventCommand<EventArgs>? CreatedEvent { get; set; }
 
-    Action<object?, ModalPushedEventArgs>? ModalPushedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? ResumedEvent { get; set; }
 
-    Action? ModalPushingAction { get; set; }
+    EventCommand<EventArgs>? ActivatedEvent { get; set; }
 
-    Action<object?, ModalPushingEventArgs>? ModalPushingActionWithArgs { get; set; }
+    EventCommand<EventArgs>? DeactivatedEvent { get; set; }
 
-    Action? PopCanceledAction { get; set; }
+    EventCommand<EventArgs>? StoppedEvent { get; set; }
 
-    Action<object?, EventArgs>? PopCanceledActionWithArgs { get; set; }
+    EventCommand<EventArgs>? DestroyingEvent { get; set; }
 
-    Action? CreatedAction { get; set; }
+    EventCommand<BackgroundingEventArgs>? BackgroundingEvent { get; set; }
 
-    Action<object?, EventArgs>? CreatedActionWithArgs { get; set; }
-
-    Action? ResumedAction { get; set; }
-
-    Action<object?, EventArgs>? ResumedActionWithArgs { get; set; }
-
-    Action? ActivatedAction { get; set; }
-
-    Action<object?, EventArgs>? ActivatedActionWithArgs { get; set; }
-
-    Action? DeactivatedAction { get; set; }
-
-    Action<object?, EventArgs>? DeactivatedActionWithArgs { get; set; }
-
-    Action? StoppedAction { get; set; }
-
-    Action<object?, EventArgs>? StoppedActionWithArgs { get; set; }
-
-    Action? DestroyingAction { get; set; }
-
-    Action<object?, EventArgs>? DestroyingActionWithArgs { get; set; }
-
-    Action? BackgroundingAction { get; set; }
-
-    Action<object?, BackgroundingEventArgs>? BackgroundingActionWithArgs { get; set; }
-
-    Action? DisplayDensityChangedAction { get; set; }
-
-    Action<object?, DisplayDensityChangedEventArgs>? DisplayDensityChangedActionWithArgs { get; set; }
+    EventCommand<DisplayDensityChangedEventArgs>? DisplayDensityChangedEvent { get; set; }
 }
 
 public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsoft.Maui.Controls.Window, new()
@@ -125,61 +97,33 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
 
     object? IWindow.TitleBar { get; set; }
 
-    Action? IWindow.SizeChangedAction { get; set; }
+    EventCommand<EventArgs>? IWindow.SizeChangedEvent { get; set; }
 
-    Action<object?, EventArgs>? IWindow.SizeChangedActionWithArgs { get; set; }
+    EventCommand<ModalPoppedEventArgs>? IWindow.ModalPoppedEvent { get; set; }
 
-    Action? IWindow.ModalPoppedAction { get; set; }
+    EventCommand<ModalPoppingEventArgs>? IWindow.ModalPoppingEvent { get; set; }
 
-    Action<object?, ModalPoppedEventArgs>? IWindow.ModalPoppedActionWithArgs { get; set; }
+    EventCommand<ModalPushedEventArgs>? IWindow.ModalPushedEvent { get; set; }
 
-    Action? IWindow.ModalPoppingAction { get; set; }
+    EventCommand<ModalPushingEventArgs>? IWindow.ModalPushingEvent { get; set; }
 
-    Action<object?, ModalPoppingEventArgs>? IWindow.ModalPoppingActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IWindow.PopCanceledEvent { get; set; }
 
-    Action? IWindow.ModalPushedAction { get; set; }
+    EventCommand<EventArgs>? IWindow.CreatedEvent { get; set; }
 
-    Action<object?, ModalPushedEventArgs>? IWindow.ModalPushedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IWindow.ResumedEvent { get; set; }
 
-    Action? IWindow.ModalPushingAction { get; set; }
+    EventCommand<EventArgs>? IWindow.ActivatedEvent { get; set; }
 
-    Action<object?, ModalPushingEventArgs>? IWindow.ModalPushingActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IWindow.DeactivatedEvent { get; set; }
 
-    Action? IWindow.PopCanceledAction { get; set; }
+    EventCommand<EventArgs>? IWindow.StoppedEvent { get; set; }
 
-    Action<object?, EventArgs>? IWindow.PopCanceledActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IWindow.DestroyingEvent { get; set; }
 
-    Action? IWindow.CreatedAction { get; set; }
+    EventCommand<BackgroundingEventArgs>? IWindow.BackgroundingEvent { get; set; }
 
-    Action<object?, EventArgs>? IWindow.CreatedActionWithArgs { get; set; }
-
-    Action? IWindow.ResumedAction { get; set; }
-
-    Action<object?, EventArgs>? IWindow.ResumedActionWithArgs { get; set; }
-
-    Action? IWindow.ActivatedAction { get; set; }
-
-    Action<object?, EventArgs>? IWindow.ActivatedActionWithArgs { get; set; }
-
-    Action? IWindow.DeactivatedAction { get; set; }
-
-    Action<object?, EventArgs>? IWindow.DeactivatedActionWithArgs { get; set; }
-
-    Action? IWindow.StoppedAction { get; set; }
-
-    Action<object?, EventArgs>? IWindow.StoppedActionWithArgs { get; set; }
-
-    Action? IWindow.DestroyingAction { get; set; }
-
-    Action<object?, EventArgs>? IWindow.DestroyingActionWithArgs { get; set; }
-
-    Action? IWindow.BackgroundingAction { get; set; }
-
-    Action<object?, BackgroundingEventArgs>? IWindow.BackgroundingActionWithArgs { get; set; }
-
-    Action? IWindow.DisplayDensityChangedAction { get; set; }
-
-    Action<object?, DisplayDensityChangedEventArgs>? IWindow.DisplayDensityChangedActionWithArgs { get; set; }
+    EventCommand<DisplayDensityChangedEventArgs>? IWindow.DisplayDensityChangedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -217,76 +161,90 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingSizeChangedEvent;
+    private EventCommand<ModalPoppedEventArgs>? _executingModalPoppedEvent;
+    private EventCommand<ModalPoppingEventArgs>? _executingModalPoppingEvent;
+    private EventCommand<ModalPushedEventArgs>? _executingModalPushedEvent;
+    private EventCommand<ModalPushingEventArgs>? _executingModalPushingEvent;
+    private EventCommand<EventArgs>? _executingPopCanceledEvent;
+    private EventCommand<EventArgs>? _executingCreatedEvent;
+    private EventCommand<EventArgs>? _executingResumedEvent;
+    private EventCommand<EventArgs>? _executingActivatedEvent;
+    private EventCommand<EventArgs>? _executingDeactivatedEvent;
+    private EventCommand<EventArgs>? _executingStoppedEvent;
+    private EventCommand<EventArgs>? _executingDestroyingEvent;
+    private EventCommand<BackgroundingEventArgs>? _executingBackgroundingEvent;
+    private EventCommand<DisplayDensityChangedEventArgs>? _executingDisplayDensityChangedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIWindow = (IWindow)this;
-        if (thisAsIWindow.SizeChangedAction != null || thisAsIWindow.SizeChangedActionWithArgs != null)
+        if (thisAsIWindow.SizeChangedEvent != null)
         {
             NativeControl.SizeChanged += NativeControl_SizeChanged;
         }
 
-        if (thisAsIWindow.ModalPoppedAction != null || thisAsIWindow.ModalPoppedActionWithArgs != null)
+        if (thisAsIWindow.ModalPoppedEvent != null)
         {
             NativeControl.ModalPopped += NativeControl_ModalPopped;
         }
 
-        if (thisAsIWindow.ModalPoppingAction != null || thisAsIWindow.ModalPoppingActionWithArgs != null)
+        if (thisAsIWindow.ModalPoppingEvent != null)
         {
             NativeControl.ModalPopping += NativeControl_ModalPopping;
         }
 
-        if (thisAsIWindow.ModalPushedAction != null || thisAsIWindow.ModalPushedActionWithArgs != null)
+        if (thisAsIWindow.ModalPushedEvent != null)
         {
             NativeControl.ModalPushed += NativeControl_ModalPushed;
         }
 
-        if (thisAsIWindow.ModalPushingAction != null || thisAsIWindow.ModalPushingActionWithArgs != null)
+        if (thisAsIWindow.ModalPushingEvent != null)
         {
             NativeControl.ModalPushing += NativeControl_ModalPushing;
         }
 
-        if (thisAsIWindow.PopCanceledAction != null || thisAsIWindow.PopCanceledActionWithArgs != null)
+        if (thisAsIWindow.PopCanceledEvent != null)
         {
             NativeControl.PopCanceled += NativeControl_PopCanceled;
         }
 
-        if (thisAsIWindow.CreatedAction != null || thisAsIWindow.CreatedActionWithArgs != null)
+        if (thisAsIWindow.CreatedEvent != null)
         {
             NativeControl.Created += NativeControl_Created;
         }
 
-        if (thisAsIWindow.ResumedAction != null || thisAsIWindow.ResumedActionWithArgs != null)
+        if (thisAsIWindow.ResumedEvent != null)
         {
             NativeControl.Resumed += NativeControl_Resumed;
         }
 
-        if (thisAsIWindow.ActivatedAction != null || thisAsIWindow.ActivatedActionWithArgs != null)
+        if (thisAsIWindow.ActivatedEvent != null)
         {
             NativeControl.Activated += NativeControl_Activated;
         }
 
-        if (thisAsIWindow.DeactivatedAction != null || thisAsIWindow.DeactivatedActionWithArgs != null)
+        if (thisAsIWindow.DeactivatedEvent != null)
         {
             NativeControl.Deactivated += NativeControl_Deactivated;
         }
 
-        if (thisAsIWindow.StoppedAction != null || thisAsIWindow.StoppedActionWithArgs != null)
+        if (thisAsIWindow.StoppedEvent != null)
         {
             NativeControl.Stopped += NativeControl_Stopped;
         }
 
-        if (thisAsIWindow.DestroyingAction != null || thisAsIWindow.DestroyingActionWithArgs != null)
+        if (thisAsIWindow.DestroyingEvent != null)
         {
             NativeControl.Destroying += NativeControl_Destroying;
         }
 
-        if (thisAsIWindow.BackgroundingAction != null || thisAsIWindow.BackgroundingActionWithArgs != null)
+        if (thisAsIWindow.BackgroundingEvent != null)
         {
             NativeControl.Backgrounding += NativeControl_Backgrounding;
         }
 
-        if (thisAsIWindow.DisplayDensityChangedAction != null || thisAsIWindow.DisplayDensityChangedActionWithArgs != null)
+        if (thisAsIWindow.DisplayDensityChangedEvent != null)
         {
             NativeControl.DisplayDensityChanged += NativeControl_DisplayDensityChanged;
         }
@@ -298,99 +256,141 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
     private void NativeControl_SizeChanged(object? sender, EventArgs e)
     {
         var thisAsIWindow = (IWindow)this;
-        thisAsIWindow.SizeChangedAction?.Invoke();
-        thisAsIWindow.SizeChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingSizeChangedEvent == null || _executingSizeChangedEvent.IsCompleted)
+        {
+            _executingSizeChangedEvent = thisAsIWindow.SizeChangedEvent;
+            _executingSizeChangedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_ModalPopped(object? sender, ModalPoppedEventArgs e)
     {
         var thisAsIWindow = (IWindow)this;
-        thisAsIWindow.ModalPoppedAction?.Invoke();
-        thisAsIWindow.ModalPoppedActionWithArgs?.Invoke(sender, e);
+        if (_executingModalPoppedEvent == null || _executingModalPoppedEvent.IsCompleted)
+        {
+            _executingModalPoppedEvent = thisAsIWindow.ModalPoppedEvent;
+            _executingModalPoppedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_ModalPopping(object? sender, ModalPoppingEventArgs e)
     {
         var thisAsIWindow = (IWindow)this;
-        thisAsIWindow.ModalPoppingAction?.Invoke();
-        thisAsIWindow.ModalPoppingActionWithArgs?.Invoke(sender, e);
+        if (_executingModalPoppingEvent == null || _executingModalPoppingEvent.IsCompleted)
+        {
+            _executingModalPoppingEvent = thisAsIWindow.ModalPoppingEvent;
+            _executingModalPoppingEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_ModalPushed(object? sender, ModalPushedEventArgs e)
     {
         var thisAsIWindow = (IWindow)this;
-        thisAsIWindow.ModalPushedAction?.Invoke();
-        thisAsIWindow.ModalPushedActionWithArgs?.Invoke(sender, e);
+        if (_executingModalPushedEvent == null || _executingModalPushedEvent.IsCompleted)
+        {
+            _executingModalPushedEvent = thisAsIWindow.ModalPushedEvent;
+            _executingModalPushedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_ModalPushing(object? sender, ModalPushingEventArgs e)
     {
         var thisAsIWindow = (IWindow)this;
-        thisAsIWindow.ModalPushingAction?.Invoke();
-        thisAsIWindow.ModalPushingActionWithArgs?.Invoke(sender, e);
+        if (_executingModalPushingEvent == null || _executingModalPushingEvent.IsCompleted)
+        {
+            _executingModalPushingEvent = thisAsIWindow.ModalPushingEvent;
+            _executingModalPushingEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_PopCanceled(object? sender, EventArgs e)
     {
         var thisAsIWindow = (IWindow)this;
-        thisAsIWindow.PopCanceledAction?.Invoke();
-        thisAsIWindow.PopCanceledActionWithArgs?.Invoke(sender, e);
+        if (_executingPopCanceledEvent == null || _executingPopCanceledEvent.IsCompleted)
+        {
+            _executingPopCanceledEvent = thisAsIWindow.PopCanceledEvent;
+            _executingPopCanceledEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Created(object? sender, EventArgs e)
     {
         var thisAsIWindow = (IWindow)this;
-        thisAsIWindow.CreatedAction?.Invoke();
-        thisAsIWindow.CreatedActionWithArgs?.Invoke(sender, e);
+        if (_executingCreatedEvent == null || _executingCreatedEvent.IsCompleted)
+        {
+            _executingCreatedEvent = thisAsIWindow.CreatedEvent;
+            _executingCreatedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Resumed(object? sender, EventArgs e)
     {
         var thisAsIWindow = (IWindow)this;
-        thisAsIWindow.ResumedAction?.Invoke();
-        thisAsIWindow.ResumedActionWithArgs?.Invoke(sender, e);
+        if (_executingResumedEvent == null || _executingResumedEvent.IsCompleted)
+        {
+            _executingResumedEvent = thisAsIWindow.ResumedEvent;
+            _executingResumedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Activated(object? sender, EventArgs e)
     {
         var thisAsIWindow = (IWindow)this;
-        thisAsIWindow.ActivatedAction?.Invoke();
-        thisAsIWindow.ActivatedActionWithArgs?.Invoke(sender, e);
+        if (_executingActivatedEvent == null || _executingActivatedEvent.IsCompleted)
+        {
+            _executingActivatedEvent = thisAsIWindow.ActivatedEvent;
+            _executingActivatedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Deactivated(object? sender, EventArgs e)
     {
         var thisAsIWindow = (IWindow)this;
-        thisAsIWindow.DeactivatedAction?.Invoke();
-        thisAsIWindow.DeactivatedActionWithArgs?.Invoke(sender, e);
+        if (_executingDeactivatedEvent == null || _executingDeactivatedEvent.IsCompleted)
+        {
+            _executingDeactivatedEvent = thisAsIWindow.DeactivatedEvent;
+            _executingDeactivatedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Stopped(object? sender, EventArgs e)
     {
         var thisAsIWindow = (IWindow)this;
-        thisAsIWindow.StoppedAction?.Invoke();
-        thisAsIWindow.StoppedActionWithArgs?.Invoke(sender, e);
+        if (_executingStoppedEvent == null || _executingStoppedEvent.IsCompleted)
+        {
+            _executingStoppedEvent = thisAsIWindow.StoppedEvent;
+            _executingStoppedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Destroying(object? sender, EventArgs e)
     {
         var thisAsIWindow = (IWindow)this;
-        thisAsIWindow.DestroyingAction?.Invoke();
-        thisAsIWindow.DestroyingActionWithArgs?.Invoke(sender, e);
+        if (_executingDestroyingEvent == null || _executingDestroyingEvent.IsCompleted)
+        {
+            _executingDestroyingEvent = thisAsIWindow.DestroyingEvent;
+            _executingDestroyingEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Backgrounding(object? sender, BackgroundingEventArgs e)
     {
         var thisAsIWindow = (IWindow)this;
-        thisAsIWindow.BackgroundingAction?.Invoke();
-        thisAsIWindow.BackgroundingActionWithArgs?.Invoke(sender, e);
+        if (_executingBackgroundingEvent == null || _executingBackgroundingEvent.IsCompleted)
+        {
+            _executingBackgroundingEvent = thisAsIWindow.BackgroundingEvent;
+            _executingBackgroundingEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_DisplayDensityChanged(object? sender, DisplayDensityChangedEventArgs e)
     {
         var thisAsIWindow = (IWindow)this;
-        thisAsIWindow.DisplayDensityChangedAction?.Invoke();
-        thisAsIWindow.DisplayDensityChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingDisplayDensityChangedEvent == null || _executingDisplayDensityChangedEvent.IsCompleted)
+        {
+            _executingDisplayDensityChangedEvent = thisAsIWindow.DisplayDensityChangedEvent;
+            _executingDisplayDensityChangedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -415,6 +415,86 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is Window<T> @window)
+        {
+            if (_executingSizeChangedEvent != null && !_executingSizeChangedEvent.IsCompleted)
+            {
+                @window._executingSizeChangedEvent = _executingSizeChangedEvent;
+            }
+
+            if (_executingModalPoppedEvent != null && !_executingModalPoppedEvent.IsCompleted)
+            {
+                @window._executingModalPoppedEvent = _executingModalPoppedEvent;
+            }
+
+            if (_executingModalPoppingEvent != null && !_executingModalPoppingEvent.IsCompleted)
+            {
+                @window._executingModalPoppingEvent = _executingModalPoppingEvent;
+            }
+
+            if (_executingModalPushedEvent != null && !_executingModalPushedEvent.IsCompleted)
+            {
+                @window._executingModalPushedEvent = _executingModalPushedEvent;
+            }
+
+            if (_executingModalPushingEvent != null && !_executingModalPushingEvent.IsCompleted)
+            {
+                @window._executingModalPushingEvent = _executingModalPushingEvent;
+            }
+
+            if (_executingPopCanceledEvent != null && !_executingPopCanceledEvent.IsCompleted)
+            {
+                @window._executingPopCanceledEvent = _executingPopCanceledEvent;
+            }
+
+            if (_executingCreatedEvent != null && !_executingCreatedEvent.IsCompleted)
+            {
+                @window._executingCreatedEvent = _executingCreatedEvent;
+            }
+
+            if (_executingResumedEvent != null && !_executingResumedEvent.IsCompleted)
+            {
+                @window._executingResumedEvent = _executingResumedEvent;
+            }
+
+            if (_executingActivatedEvent != null && !_executingActivatedEvent.IsCompleted)
+            {
+                @window._executingActivatedEvent = _executingActivatedEvent;
+            }
+
+            if (_executingDeactivatedEvent != null && !_executingDeactivatedEvent.IsCompleted)
+            {
+                @window._executingDeactivatedEvent = _executingDeactivatedEvent;
+            }
+
+            if (_executingStoppedEvent != null && !_executingStoppedEvent.IsCompleted)
+            {
+                @window._executingStoppedEvent = _executingStoppedEvent;
+            }
+
+            if (_executingDestroyingEvent != null && !_executingDestroyingEvent.IsCompleted)
+            {
+                @window._executingDestroyingEvent = _executingDestroyingEvent;
+            }
+
+            if (_executingBackgroundingEvent != null && !_executingBackgroundingEvent.IsCompleted)
+            {
+                @window._executingBackgroundingEvent = _executingBackgroundingEvent;
+            }
+
+            if (_executingDisplayDensityChangedEvent != null && !_executingDisplayDensityChangedEvent.IsCompleted)
+            {
+                @window._executingDisplayDensityChangedEvent = _executingDisplayDensityChangedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -604,196 +684,588 @@ public static partial class WindowExtensions
     public static T OnSizeChanged<T>(this T window, Action? sizeChangedAction)
         where T : IWindow
     {
-        window.SizeChangedAction = sizeChangedAction;
+        window.SizeChangedEvent = new SyncEventCommand<EventArgs>(execute: sizeChangedAction);
         return window;
     }
 
-    public static T OnSizeChanged<T>(this T window, Action<object?, EventArgs>? sizeChangedActionWithArgs)
+    public static T OnSizeChanged<T>(this T window, Action<EventArgs>? sizeChangedAction)
         where T : IWindow
     {
-        window.SizeChangedActionWithArgs = sizeChangedActionWithArgs;
+        window.SizeChangedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: sizeChangedAction);
+        return window;
+    }
+
+    public static T OnSizeChanged<T>(this T window, Action<object?, EventArgs>? sizeChangedAction)
+        where T : IWindow
+    {
+        window.SizeChangedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: sizeChangedAction);
+        return window;
+    }
+
+    public static T OnSizeChanged<T>(this T window, Func<Task>? sizeChangedAction)
+        where T : IWindow
+    {
+        window.SizeChangedEvent = new AsyncEventCommand<EventArgs>(execute: sizeChangedAction);
+        return window;
+    }
+
+    public static T OnSizeChanged<T>(this T window, Func<EventArgs, Task>? sizeChangedAction)
+        where T : IWindow
+    {
+        window.SizeChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: sizeChangedAction);
+        return window;
+    }
+
+    public static T OnSizeChanged<T>(this T window, Func<object?, EventArgs, Task>? sizeChangedAction)
+        where T : IWindow
+    {
+        window.SizeChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: sizeChangedAction);
         return window;
     }
 
     public static T OnModalPopped<T>(this T window, Action? modalPoppedAction)
         where T : IWindow
     {
-        window.ModalPoppedAction = modalPoppedAction;
+        window.ModalPoppedEvent = new SyncEventCommand<ModalPoppedEventArgs>(execute: modalPoppedAction);
         return window;
     }
 
-    public static T OnModalPopped<T>(this T window, Action<object?, ModalPoppedEventArgs>? modalPoppedActionWithArgs)
+    public static T OnModalPopped<T>(this T window, Action<ModalPoppedEventArgs>? modalPoppedAction)
         where T : IWindow
     {
-        window.ModalPoppedActionWithArgs = modalPoppedActionWithArgs;
+        window.ModalPoppedEvent = new SyncEventCommand<ModalPoppedEventArgs>(executeWithArgs: modalPoppedAction);
+        return window;
+    }
+
+    public static T OnModalPopped<T>(this T window, Action<object?, ModalPoppedEventArgs>? modalPoppedAction)
+        where T : IWindow
+    {
+        window.ModalPoppedEvent = new SyncEventCommand<ModalPoppedEventArgs>(executeWithFullArgs: modalPoppedAction);
+        return window;
+    }
+
+    public static T OnModalPopped<T>(this T window, Func<Task>? modalPoppedAction)
+        where T : IWindow
+    {
+        window.ModalPoppedEvent = new AsyncEventCommand<ModalPoppedEventArgs>(execute: modalPoppedAction);
+        return window;
+    }
+
+    public static T OnModalPopped<T>(this T window, Func<ModalPoppedEventArgs, Task>? modalPoppedAction)
+        where T : IWindow
+    {
+        window.ModalPoppedEvent = new AsyncEventCommand<ModalPoppedEventArgs>(executeWithArgs: modalPoppedAction);
+        return window;
+    }
+
+    public static T OnModalPopped<T>(this T window, Func<object?, ModalPoppedEventArgs, Task>? modalPoppedAction)
+        where T : IWindow
+    {
+        window.ModalPoppedEvent = new AsyncEventCommand<ModalPoppedEventArgs>(executeWithFullArgs: modalPoppedAction);
         return window;
     }
 
     public static T OnModalPopping<T>(this T window, Action? modalPoppingAction)
         where T : IWindow
     {
-        window.ModalPoppingAction = modalPoppingAction;
+        window.ModalPoppingEvent = new SyncEventCommand<ModalPoppingEventArgs>(execute: modalPoppingAction);
         return window;
     }
 
-    public static T OnModalPopping<T>(this T window, Action<object?, ModalPoppingEventArgs>? modalPoppingActionWithArgs)
+    public static T OnModalPopping<T>(this T window, Action<ModalPoppingEventArgs>? modalPoppingAction)
         where T : IWindow
     {
-        window.ModalPoppingActionWithArgs = modalPoppingActionWithArgs;
+        window.ModalPoppingEvent = new SyncEventCommand<ModalPoppingEventArgs>(executeWithArgs: modalPoppingAction);
+        return window;
+    }
+
+    public static T OnModalPopping<T>(this T window, Action<object?, ModalPoppingEventArgs>? modalPoppingAction)
+        where T : IWindow
+    {
+        window.ModalPoppingEvent = new SyncEventCommand<ModalPoppingEventArgs>(executeWithFullArgs: modalPoppingAction);
+        return window;
+    }
+
+    public static T OnModalPopping<T>(this T window, Func<Task>? modalPoppingAction)
+        where T : IWindow
+    {
+        window.ModalPoppingEvent = new AsyncEventCommand<ModalPoppingEventArgs>(execute: modalPoppingAction);
+        return window;
+    }
+
+    public static T OnModalPopping<T>(this T window, Func<ModalPoppingEventArgs, Task>? modalPoppingAction)
+        where T : IWindow
+    {
+        window.ModalPoppingEvent = new AsyncEventCommand<ModalPoppingEventArgs>(executeWithArgs: modalPoppingAction);
+        return window;
+    }
+
+    public static T OnModalPopping<T>(this T window, Func<object?, ModalPoppingEventArgs, Task>? modalPoppingAction)
+        where T : IWindow
+    {
+        window.ModalPoppingEvent = new AsyncEventCommand<ModalPoppingEventArgs>(executeWithFullArgs: modalPoppingAction);
         return window;
     }
 
     public static T OnModalPushed<T>(this T window, Action? modalPushedAction)
         where T : IWindow
     {
-        window.ModalPushedAction = modalPushedAction;
+        window.ModalPushedEvent = new SyncEventCommand<ModalPushedEventArgs>(execute: modalPushedAction);
         return window;
     }
 
-    public static T OnModalPushed<T>(this T window, Action<object?, ModalPushedEventArgs>? modalPushedActionWithArgs)
+    public static T OnModalPushed<T>(this T window, Action<ModalPushedEventArgs>? modalPushedAction)
         where T : IWindow
     {
-        window.ModalPushedActionWithArgs = modalPushedActionWithArgs;
+        window.ModalPushedEvent = new SyncEventCommand<ModalPushedEventArgs>(executeWithArgs: modalPushedAction);
+        return window;
+    }
+
+    public static T OnModalPushed<T>(this T window, Action<object?, ModalPushedEventArgs>? modalPushedAction)
+        where T : IWindow
+    {
+        window.ModalPushedEvent = new SyncEventCommand<ModalPushedEventArgs>(executeWithFullArgs: modalPushedAction);
+        return window;
+    }
+
+    public static T OnModalPushed<T>(this T window, Func<Task>? modalPushedAction)
+        where T : IWindow
+    {
+        window.ModalPushedEvent = new AsyncEventCommand<ModalPushedEventArgs>(execute: modalPushedAction);
+        return window;
+    }
+
+    public static T OnModalPushed<T>(this T window, Func<ModalPushedEventArgs, Task>? modalPushedAction)
+        where T : IWindow
+    {
+        window.ModalPushedEvent = new AsyncEventCommand<ModalPushedEventArgs>(executeWithArgs: modalPushedAction);
+        return window;
+    }
+
+    public static T OnModalPushed<T>(this T window, Func<object?, ModalPushedEventArgs, Task>? modalPushedAction)
+        where T : IWindow
+    {
+        window.ModalPushedEvent = new AsyncEventCommand<ModalPushedEventArgs>(executeWithFullArgs: modalPushedAction);
         return window;
     }
 
     public static T OnModalPushing<T>(this T window, Action? modalPushingAction)
         where T : IWindow
     {
-        window.ModalPushingAction = modalPushingAction;
+        window.ModalPushingEvent = new SyncEventCommand<ModalPushingEventArgs>(execute: modalPushingAction);
         return window;
     }
 
-    public static T OnModalPushing<T>(this T window, Action<object?, ModalPushingEventArgs>? modalPushingActionWithArgs)
+    public static T OnModalPushing<T>(this T window, Action<ModalPushingEventArgs>? modalPushingAction)
         where T : IWindow
     {
-        window.ModalPushingActionWithArgs = modalPushingActionWithArgs;
+        window.ModalPushingEvent = new SyncEventCommand<ModalPushingEventArgs>(executeWithArgs: modalPushingAction);
+        return window;
+    }
+
+    public static T OnModalPushing<T>(this T window, Action<object?, ModalPushingEventArgs>? modalPushingAction)
+        where T : IWindow
+    {
+        window.ModalPushingEvent = new SyncEventCommand<ModalPushingEventArgs>(executeWithFullArgs: modalPushingAction);
+        return window;
+    }
+
+    public static T OnModalPushing<T>(this T window, Func<Task>? modalPushingAction)
+        where T : IWindow
+    {
+        window.ModalPushingEvent = new AsyncEventCommand<ModalPushingEventArgs>(execute: modalPushingAction);
+        return window;
+    }
+
+    public static T OnModalPushing<T>(this T window, Func<ModalPushingEventArgs, Task>? modalPushingAction)
+        where T : IWindow
+    {
+        window.ModalPushingEvent = new AsyncEventCommand<ModalPushingEventArgs>(executeWithArgs: modalPushingAction);
+        return window;
+    }
+
+    public static T OnModalPushing<T>(this T window, Func<object?, ModalPushingEventArgs, Task>? modalPushingAction)
+        where T : IWindow
+    {
+        window.ModalPushingEvent = new AsyncEventCommand<ModalPushingEventArgs>(executeWithFullArgs: modalPushingAction);
         return window;
     }
 
     public static T OnPopCanceled<T>(this T window, Action? popCanceledAction)
         where T : IWindow
     {
-        window.PopCanceledAction = popCanceledAction;
+        window.PopCanceledEvent = new SyncEventCommand<EventArgs>(execute: popCanceledAction);
         return window;
     }
 
-    public static T OnPopCanceled<T>(this T window, Action<object?, EventArgs>? popCanceledActionWithArgs)
+    public static T OnPopCanceled<T>(this T window, Action<EventArgs>? popCanceledAction)
         where T : IWindow
     {
-        window.PopCanceledActionWithArgs = popCanceledActionWithArgs;
+        window.PopCanceledEvent = new SyncEventCommand<EventArgs>(executeWithArgs: popCanceledAction);
+        return window;
+    }
+
+    public static T OnPopCanceled<T>(this T window, Action<object?, EventArgs>? popCanceledAction)
+        where T : IWindow
+    {
+        window.PopCanceledEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: popCanceledAction);
+        return window;
+    }
+
+    public static T OnPopCanceled<T>(this T window, Func<Task>? popCanceledAction)
+        where T : IWindow
+    {
+        window.PopCanceledEvent = new AsyncEventCommand<EventArgs>(execute: popCanceledAction);
+        return window;
+    }
+
+    public static T OnPopCanceled<T>(this T window, Func<EventArgs, Task>? popCanceledAction)
+        where T : IWindow
+    {
+        window.PopCanceledEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: popCanceledAction);
+        return window;
+    }
+
+    public static T OnPopCanceled<T>(this T window, Func<object?, EventArgs, Task>? popCanceledAction)
+        where T : IWindow
+    {
+        window.PopCanceledEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: popCanceledAction);
         return window;
     }
 
     public static T OnCreated<T>(this T window, Action? createdAction)
         where T : IWindow
     {
-        window.CreatedAction = createdAction;
+        window.CreatedEvent = new SyncEventCommand<EventArgs>(execute: createdAction);
         return window;
     }
 
-    public static T OnCreated<T>(this T window, Action<object?, EventArgs>? createdActionWithArgs)
+    public static T OnCreated<T>(this T window, Action<EventArgs>? createdAction)
         where T : IWindow
     {
-        window.CreatedActionWithArgs = createdActionWithArgs;
+        window.CreatedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: createdAction);
+        return window;
+    }
+
+    public static T OnCreated<T>(this T window, Action<object?, EventArgs>? createdAction)
+        where T : IWindow
+    {
+        window.CreatedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: createdAction);
+        return window;
+    }
+
+    public static T OnCreated<T>(this T window, Func<Task>? createdAction)
+        where T : IWindow
+    {
+        window.CreatedEvent = new AsyncEventCommand<EventArgs>(execute: createdAction);
+        return window;
+    }
+
+    public static T OnCreated<T>(this T window, Func<EventArgs, Task>? createdAction)
+        where T : IWindow
+    {
+        window.CreatedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: createdAction);
+        return window;
+    }
+
+    public static T OnCreated<T>(this T window, Func<object?, EventArgs, Task>? createdAction)
+        where T : IWindow
+    {
+        window.CreatedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: createdAction);
         return window;
     }
 
     public static T OnResumed<T>(this T window, Action? resumedAction)
         where T : IWindow
     {
-        window.ResumedAction = resumedAction;
+        window.ResumedEvent = new SyncEventCommand<EventArgs>(execute: resumedAction);
         return window;
     }
 
-    public static T OnResumed<T>(this T window, Action<object?, EventArgs>? resumedActionWithArgs)
+    public static T OnResumed<T>(this T window, Action<EventArgs>? resumedAction)
         where T : IWindow
     {
-        window.ResumedActionWithArgs = resumedActionWithArgs;
+        window.ResumedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: resumedAction);
+        return window;
+    }
+
+    public static T OnResumed<T>(this T window, Action<object?, EventArgs>? resumedAction)
+        where T : IWindow
+    {
+        window.ResumedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: resumedAction);
+        return window;
+    }
+
+    public static T OnResumed<T>(this T window, Func<Task>? resumedAction)
+        where T : IWindow
+    {
+        window.ResumedEvent = new AsyncEventCommand<EventArgs>(execute: resumedAction);
+        return window;
+    }
+
+    public static T OnResumed<T>(this T window, Func<EventArgs, Task>? resumedAction)
+        where T : IWindow
+    {
+        window.ResumedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: resumedAction);
+        return window;
+    }
+
+    public static T OnResumed<T>(this T window, Func<object?, EventArgs, Task>? resumedAction)
+        where T : IWindow
+    {
+        window.ResumedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: resumedAction);
         return window;
     }
 
     public static T OnActivated<T>(this T window, Action? activatedAction)
         where T : IWindow
     {
-        window.ActivatedAction = activatedAction;
+        window.ActivatedEvent = new SyncEventCommand<EventArgs>(execute: activatedAction);
         return window;
     }
 
-    public static T OnActivated<T>(this T window, Action<object?, EventArgs>? activatedActionWithArgs)
+    public static T OnActivated<T>(this T window, Action<EventArgs>? activatedAction)
         where T : IWindow
     {
-        window.ActivatedActionWithArgs = activatedActionWithArgs;
+        window.ActivatedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: activatedAction);
+        return window;
+    }
+
+    public static T OnActivated<T>(this T window, Action<object?, EventArgs>? activatedAction)
+        where T : IWindow
+    {
+        window.ActivatedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: activatedAction);
+        return window;
+    }
+
+    public static T OnActivated<T>(this T window, Func<Task>? activatedAction)
+        where T : IWindow
+    {
+        window.ActivatedEvent = new AsyncEventCommand<EventArgs>(execute: activatedAction);
+        return window;
+    }
+
+    public static T OnActivated<T>(this T window, Func<EventArgs, Task>? activatedAction)
+        where T : IWindow
+    {
+        window.ActivatedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: activatedAction);
+        return window;
+    }
+
+    public static T OnActivated<T>(this T window, Func<object?, EventArgs, Task>? activatedAction)
+        where T : IWindow
+    {
+        window.ActivatedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: activatedAction);
         return window;
     }
 
     public static T OnDeactivated<T>(this T window, Action? deactivatedAction)
         where T : IWindow
     {
-        window.DeactivatedAction = deactivatedAction;
+        window.DeactivatedEvent = new SyncEventCommand<EventArgs>(execute: deactivatedAction);
         return window;
     }
 
-    public static T OnDeactivated<T>(this T window, Action<object?, EventArgs>? deactivatedActionWithArgs)
+    public static T OnDeactivated<T>(this T window, Action<EventArgs>? deactivatedAction)
         where T : IWindow
     {
-        window.DeactivatedActionWithArgs = deactivatedActionWithArgs;
+        window.DeactivatedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: deactivatedAction);
+        return window;
+    }
+
+    public static T OnDeactivated<T>(this T window, Action<object?, EventArgs>? deactivatedAction)
+        where T : IWindow
+    {
+        window.DeactivatedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: deactivatedAction);
+        return window;
+    }
+
+    public static T OnDeactivated<T>(this T window, Func<Task>? deactivatedAction)
+        where T : IWindow
+    {
+        window.DeactivatedEvent = new AsyncEventCommand<EventArgs>(execute: deactivatedAction);
+        return window;
+    }
+
+    public static T OnDeactivated<T>(this T window, Func<EventArgs, Task>? deactivatedAction)
+        where T : IWindow
+    {
+        window.DeactivatedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: deactivatedAction);
+        return window;
+    }
+
+    public static T OnDeactivated<T>(this T window, Func<object?, EventArgs, Task>? deactivatedAction)
+        where T : IWindow
+    {
+        window.DeactivatedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: deactivatedAction);
         return window;
     }
 
     public static T OnStopped<T>(this T window, Action? stoppedAction)
         where T : IWindow
     {
-        window.StoppedAction = stoppedAction;
+        window.StoppedEvent = new SyncEventCommand<EventArgs>(execute: stoppedAction);
         return window;
     }
 
-    public static T OnStopped<T>(this T window, Action<object?, EventArgs>? stoppedActionWithArgs)
+    public static T OnStopped<T>(this T window, Action<EventArgs>? stoppedAction)
         where T : IWindow
     {
-        window.StoppedActionWithArgs = stoppedActionWithArgs;
+        window.StoppedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: stoppedAction);
+        return window;
+    }
+
+    public static T OnStopped<T>(this T window, Action<object?, EventArgs>? stoppedAction)
+        where T : IWindow
+    {
+        window.StoppedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: stoppedAction);
+        return window;
+    }
+
+    public static T OnStopped<T>(this T window, Func<Task>? stoppedAction)
+        where T : IWindow
+    {
+        window.StoppedEvent = new AsyncEventCommand<EventArgs>(execute: stoppedAction);
+        return window;
+    }
+
+    public static T OnStopped<T>(this T window, Func<EventArgs, Task>? stoppedAction)
+        where T : IWindow
+    {
+        window.StoppedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: stoppedAction);
+        return window;
+    }
+
+    public static T OnStopped<T>(this T window, Func<object?, EventArgs, Task>? stoppedAction)
+        where T : IWindow
+    {
+        window.StoppedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: stoppedAction);
         return window;
     }
 
     public static T OnDestroying<T>(this T window, Action? destroyingAction)
         where T : IWindow
     {
-        window.DestroyingAction = destroyingAction;
+        window.DestroyingEvent = new SyncEventCommand<EventArgs>(execute: destroyingAction);
         return window;
     }
 
-    public static T OnDestroying<T>(this T window, Action<object?, EventArgs>? destroyingActionWithArgs)
+    public static T OnDestroying<T>(this T window, Action<EventArgs>? destroyingAction)
         where T : IWindow
     {
-        window.DestroyingActionWithArgs = destroyingActionWithArgs;
+        window.DestroyingEvent = new SyncEventCommand<EventArgs>(executeWithArgs: destroyingAction);
+        return window;
+    }
+
+    public static T OnDestroying<T>(this T window, Action<object?, EventArgs>? destroyingAction)
+        where T : IWindow
+    {
+        window.DestroyingEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: destroyingAction);
+        return window;
+    }
+
+    public static T OnDestroying<T>(this T window, Func<Task>? destroyingAction)
+        where T : IWindow
+    {
+        window.DestroyingEvent = new AsyncEventCommand<EventArgs>(execute: destroyingAction);
+        return window;
+    }
+
+    public static T OnDestroying<T>(this T window, Func<EventArgs, Task>? destroyingAction)
+        where T : IWindow
+    {
+        window.DestroyingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: destroyingAction);
+        return window;
+    }
+
+    public static T OnDestroying<T>(this T window, Func<object?, EventArgs, Task>? destroyingAction)
+        where T : IWindow
+    {
+        window.DestroyingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: destroyingAction);
         return window;
     }
 
     public static T OnBackgrounding<T>(this T window, Action? backgroundingAction)
         where T : IWindow
     {
-        window.BackgroundingAction = backgroundingAction;
+        window.BackgroundingEvent = new SyncEventCommand<BackgroundingEventArgs>(execute: backgroundingAction);
         return window;
     }
 
-    public static T OnBackgrounding<T>(this T window, Action<object?, BackgroundingEventArgs>? backgroundingActionWithArgs)
+    public static T OnBackgrounding<T>(this T window, Action<BackgroundingEventArgs>? backgroundingAction)
         where T : IWindow
     {
-        window.BackgroundingActionWithArgs = backgroundingActionWithArgs;
+        window.BackgroundingEvent = new SyncEventCommand<BackgroundingEventArgs>(executeWithArgs: backgroundingAction);
+        return window;
+    }
+
+    public static T OnBackgrounding<T>(this T window, Action<object?, BackgroundingEventArgs>? backgroundingAction)
+        where T : IWindow
+    {
+        window.BackgroundingEvent = new SyncEventCommand<BackgroundingEventArgs>(executeWithFullArgs: backgroundingAction);
+        return window;
+    }
+
+    public static T OnBackgrounding<T>(this T window, Func<Task>? backgroundingAction)
+        where T : IWindow
+    {
+        window.BackgroundingEvent = new AsyncEventCommand<BackgroundingEventArgs>(execute: backgroundingAction);
+        return window;
+    }
+
+    public static T OnBackgrounding<T>(this T window, Func<BackgroundingEventArgs, Task>? backgroundingAction)
+        where T : IWindow
+    {
+        window.BackgroundingEvent = new AsyncEventCommand<BackgroundingEventArgs>(executeWithArgs: backgroundingAction);
+        return window;
+    }
+
+    public static T OnBackgrounding<T>(this T window, Func<object?, BackgroundingEventArgs, Task>? backgroundingAction)
+        where T : IWindow
+    {
+        window.BackgroundingEvent = new AsyncEventCommand<BackgroundingEventArgs>(executeWithFullArgs: backgroundingAction);
         return window;
     }
 
     public static T OnDisplayDensityChanged<T>(this T window, Action? displayDensityChangedAction)
         where T : IWindow
     {
-        window.DisplayDensityChangedAction = displayDensityChangedAction;
+        window.DisplayDensityChangedEvent = new SyncEventCommand<DisplayDensityChangedEventArgs>(execute: displayDensityChangedAction);
         return window;
     }
 
-    public static T OnDisplayDensityChanged<T>(this T window, Action<object?, DisplayDensityChangedEventArgs>? displayDensityChangedActionWithArgs)
+    public static T OnDisplayDensityChanged<T>(this T window, Action<DisplayDensityChangedEventArgs>? displayDensityChangedAction)
         where T : IWindow
     {
-        window.DisplayDensityChangedActionWithArgs = displayDensityChangedActionWithArgs;
+        window.DisplayDensityChangedEvent = new SyncEventCommand<DisplayDensityChangedEventArgs>(executeWithArgs: displayDensityChangedAction);
+        return window;
+    }
+
+    public static T OnDisplayDensityChanged<T>(this T window, Action<object?, DisplayDensityChangedEventArgs>? displayDensityChangedAction)
+        where T : IWindow
+    {
+        window.DisplayDensityChangedEvent = new SyncEventCommand<DisplayDensityChangedEventArgs>(executeWithFullArgs: displayDensityChangedAction);
+        return window;
+    }
+
+    public static T OnDisplayDensityChanged<T>(this T window, Func<Task>? displayDensityChangedAction)
+        where T : IWindow
+    {
+        window.DisplayDensityChangedEvent = new AsyncEventCommand<DisplayDensityChangedEventArgs>(execute: displayDensityChangedAction);
+        return window;
+    }
+
+    public static T OnDisplayDensityChanged<T>(this T window, Func<DisplayDensityChangedEventArgs, Task>? displayDensityChangedAction)
+        where T : IWindow
+    {
+        window.DisplayDensityChangedEvent = new AsyncEventCommand<DisplayDensityChangedEventArgs>(executeWithArgs: displayDensityChangedAction);
+        return window;
+    }
+
+    public static T OnDisplayDensityChanged<T>(this T window, Func<object?, DisplayDensityChangedEventArgs, Task>? displayDensityChangedAction)
+        where T : IWindow
+    {
+        window.DisplayDensityChangedEvent = new AsyncEventCommand<DisplayDensityChangedEventArgs>(executeWithFullArgs: displayDensityChangedAction);
         return window;
     }
 }

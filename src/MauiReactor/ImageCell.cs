@@ -52,6 +52,13 @@ public partial class ImageCell<T> : TextCell<T>, IImageCell where T : Microsoft.
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class ImageCell : ImageCell<Microsoft.Maui.Controls.ImageCell>

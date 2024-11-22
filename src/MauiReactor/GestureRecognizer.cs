@@ -46,6 +46,13 @@ public partial class GestureRecognizer<T> : Element<T>, IGestureRecognizer where
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class GestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.GestureRecognizer>

@@ -72,13 +72,9 @@ public partial interface ISearchHandler : IVisualNode
 
     object? ShowsResults { get; set; }
 
-    Action? FocusedAction { get; set; }
+    EventCommand<EventArgs>? FocusedEvent { get; set; }
 
-    Action<object?, EventArgs>? FocusedActionWithArgs { get; set; }
-
-    Action? UnfocusedAction { get; set; }
-
-    Action<object?, EventArgs>? UnfocusedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? UnfocusedEvent { get; set; }
 }
 
 public partial class SearchHandler<T> : VisualNode<T>, ISearchHandler where T : Microsoft.Maui.Controls.SearchHandler, new()
@@ -153,13 +149,9 @@ public partial class SearchHandler<T> : VisualNode<T>, ISearchHandler where T : 
 
     object? ISearchHandler.ShowsResults { get; set; }
 
-    Action? ISearchHandler.FocusedAction { get; set; }
+    EventCommand<EventArgs>? ISearchHandler.FocusedEvent { get; set; }
 
-    Action<object?, EventArgs>? ISearchHandler.FocusedActionWithArgs { get; set; }
-
-    Action? ISearchHandler.UnfocusedAction { get; set; }
-
-    Action<object?, EventArgs>? ISearchHandler.UnfocusedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? ISearchHandler.UnfocusedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -216,16 +208,18 @@ public partial class SearchHandler<T> : VisualNode<T>, ISearchHandler where T : 
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingFocusedEvent;
+    private EventCommand<EventArgs>? _executingUnfocusedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsISearchHandler = (ISearchHandler)this;
-        if (thisAsISearchHandler.FocusedAction != null || thisAsISearchHandler.FocusedActionWithArgs != null)
+        if (thisAsISearchHandler.FocusedEvent != null)
         {
             NativeControl.Focused += NativeControl_Focused;
         }
 
-        if (thisAsISearchHandler.UnfocusedAction != null || thisAsISearchHandler.UnfocusedActionWithArgs != null)
+        if (thisAsISearchHandler.UnfocusedEvent != null)
         {
             NativeControl.Unfocused += NativeControl_Unfocused;
         }
@@ -237,15 +231,21 @@ public partial class SearchHandler<T> : VisualNode<T>, ISearchHandler where T : 
     private void NativeControl_Focused(object? sender, EventArgs e)
     {
         var thisAsISearchHandler = (ISearchHandler)this;
-        thisAsISearchHandler.FocusedAction?.Invoke();
-        thisAsISearchHandler.FocusedActionWithArgs?.Invoke(sender, e);
+        if (_executingFocusedEvent == null || _executingFocusedEvent.IsCompleted)
+        {
+            _executingFocusedEvent = thisAsISearchHandler.FocusedEvent;
+            _executingFocusedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Unfocused(object? sender, EventArgs e)
     {
         var thisAsISearchHandler = (ISearchHandler)this;
-        thisAsISearchHandler.UnfocusedAction?.Invoke();
-        thisAsISearchHandler.UnfocusedActionWithArgs?.Invoke(sender, e);
+        if (_executingUnfocusedEvent == null || _executingUnfocusedEvent.IsCompleted)
+        {
+            _executingUnfocusedEvent = thisAsISearchHandler.UnfocusedEvent;
+            _executingUnfocusedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -258,6 +258,26 @@ public partial class SearchHandler<T> : VisualNode<T>, ISearchHandler where T : 
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is SearchHandler<T> @searchhandler)
+        {
+            if (_executingFocusedEvent != null && !_executingFocusedEvent.IsCompleted)
+            {
+                @searchhandler._executingFocusedEvent = _executingFocusedEvent;
+            }
+
+            if (_executingUnfocusedEvent != null && !_executingUnfocusedEvent.IsCompleted)
+            {
+                @searchhandler._executingUnfocusedEvent = _executingUnfocusedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -842,28 +862,84 @@ public static partial class SearchHandlerExtensions
     public static T OnFocused<T>(this T searchHandler, Action? focusedAction)
         where T : ISearchHandler
     {
-        searchHandler.FocusedAction = focusedAction;
+        searchHandler.FocusedEvent = new SyncEventCommand<EventArgs>(execute: focusedAction);
         return searchHandler;
     }
 
-    public static T OnFocused<T>(this T searchHandler, Action<object?, EventArgs>? focusedActionWithArgs)
+    public static T OnFocused<T>(this T searchHandler, Action<EventArgs>? focusedAction)
         where T : ISearchHandler
     {
-        searchHandler.FocusedActionWithArgs = focusedActionWithArgs;
+        searchHandler.FocusedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: focusedAction);
+        return searchHandler;
+    }
+
+    public static T OnFocused<T>(this T searchHandler, Action<object?, EventArgs>? focusedAction)
+        where T : ISearchHandler
+    {
+        searchHandler.FocusedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: focusedAction);
+        return searchHandler;
+    }
+
+    public static T OnFocused<T>(this T searchHandler, Func<Task>? focusedAction)
+        where T : ISearchHandler
+    {
+        searchHandler.FocusedEvent = new AsyncEventCommand<EventArgs>(execute: focusedAction);
+        return searchHandler;
+    }
+
+    public static T OnFocused<T>(this T searchHandler, Func<EventArgs, Task>? focusedAction)
+        where T : ISearchHandler
+    {
+        searchHandler.FocusedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: focusedAction);
+        return searchHandler;
+    }
+
+    public static T OnFocused<T>(this T searchHandler, Func<object?, EventArgs, Task>? focusedAction)
+        where T : ISearchHandler
+    {
+        searchHandler.FocusedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: focusedAction);
         return searchHandler;
     }
 
     public static T OnUnfocused<T>(this T searchHandler, Action? unfocusedAction)
         where T : ISearchHandler
     {
-        searchHandler.UnfocusedAction = unfocusedAction;
+        searchHandler.UnfocusedEvent = new SyncEventCommand<EventArgs>(execute: unfocusedAction);
         return searchHandler;
     }
 
-    public static T OnUnfocused<T>(this T searchHandler, Action<object?, EventArgs>? unfocusedActionWithArgs)
+    public static T OnUnfocused<T>(this T searchHandler, Action<EventArgs>? unfocusedAction)
         where T : ISearchHandler
     {
-        searchHandler.UnfocusedActionWithArgs = unfocusedActionWithArgs;
+        searchHandler.UnfocusedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: unfocusedAction);
+        return searchHandler;
+    }
+
+    public static T OnUnfocused<T>(this T searchHandler, Action<object?, EventArgs>? unfocusedAction)
+        where T : ISearchHandler
+    {
+        searchHandler.UnfocusedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: unfocusedAction);
+        return searchHandler;
+    }
+
+    public static T OnUnfocused<T>(this T searchHandler, Func<Task>? unfocusedAction)
+        where T : ISearchHandler
+    {
+        searchHandler.UnfocusedEvent = new AsyncEventCommand<EventArgs>(execute: unfocusedAction);
+        return searchHandler;
+    }
+
+    public static T OnUnfocused<T>(this T searchHandler, Func<EventArgs, Task>? unfocusedAction)
+        where T : ISearchHandler
+    {
+        searchHandler.UnfocusedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: unfocusedAction);
+        return searchHandler;
+    }
+
+    public static T OnUnfocused<T>(this T searchHandler, Func<object?, EventArgs, Task>? unfocusedAction)
+        where T : ISearchHandler
+    {
+        searchHandler.UnfocusedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: unfocusedAction);
         return searchHandler;
     }
 }

@@ -54,7 +54,15 @@ public partial class InputViewExtensions
     {
         if (textChangedActionWithText != null)
         {
-            inputView.TextChangedActionWithArgs = (sender, args) => textChangedActionWithText?.Invoke(args.NewTextValue);
+            inputView.TextChangedEvent = new SyncEventCommand<TextChangedEventArgs>((sender, args) => textChangedActionWithText?.Invoke(args.NewTextValue));
+        }
+        return inputView;
+    }
+    public static T OnTextChanged<T>(this T inputView, Func<string, Task>? textChangedActionWithText) where T : IInputView
+    {
+        if (textChangedActionWithText != null)
+        {
+            inputView.TextChangedEvent = new AsyncEventCommand<TextChangedEventArgs>((sender, args) => textChangedActionWithText.Invoke(args.NewTextValue));
         }
         return inputView;
     }

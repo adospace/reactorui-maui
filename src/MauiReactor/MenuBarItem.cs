@@ -57,6 +57,13 @@ public partial class MenuBarItem<T> : BaseMenuItem<T>, IMenuBarItem where T : Mi
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class MenuBarItem : MenuBarItem<Microsoft.Maui.Controls.MenuBarItem>

@@ -34,9 +34,7 @@ public partial interface IPicker : IView
 
     object? VerticalTextAlignment { get; set; }
 
-    Action? SelectedIndexChangedAction { get; set; }
-
-    Action<object?, EventArgs>? SelectedIndexChangedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? SelectedIndexChangedEvent { get; set; }
 }
 
 public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Controls.Picker, new()
@@ -73,9 +71,7 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
 
     object? IPicker.VerticalTextAlignment { get; set; }
 
-    Action? IPicker.SelectedIndexChangedAction { get; set; }
-
-    Action<object?, EventArgs>? IPicker.SelectedIndexChangedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IPicker.SelectedIndexChangedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -113,11 +109,12 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingSelectedIndexChangedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIPicker = (IPicker)this;
-        if (thisAsIPicker.SelectedIndexChangedAction != null || thisAsIPicker.SelectedIndexChangedActionWithArgs != null)
+        if (thisAsIPicker.SelectedIndexChangedEvent != null)
         {
             NativeControl.SelectedIndexChanged += NativeControl_SelectedIndexChanged;
         }
@@ -129,8 +126,11 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
     private void NativeControl_SelectedIndexChanged(object? sender, EventArgs e)
     {
         var thisAsIPicker = (IPicker)this;
-        thisAsIPicker.SelectedIndexChangedAction?.Invoke();
-        thisAsIPicker.SelectedIndexChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingSelectedIndexChangedEvent == null || _executingSelectedIndexChangedEvent.IsCompleted)
+        {
+            _executingSelectedIndexChangedEvent = thisAsIPicker.SelectedIndexChangedEvent;
+            _executingSelectedIndexChangedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -142,6 +142,21 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is Picker<T> @picker)
+        {
+            if (_executingSelectedIndexChangedEvent != null && !_executingSelectedIndexChangedEvent.IsCompleted)
+            {
+                @picker._executingSelectedIndexChangedEvent = _executingSelectedIndexChangedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -319,14 +334,42 @@ public static partial class PickerExtensions
     public static T OnSelectedIndexChanged<T>(this T picker, Action? selectedIndexChangedAction)
         where T : IPicker
     {
-        picker.SelectedIndexChangedAction = selectedIndexChangedAction;
+        picker.SelectedIndexChangedEvent = new SyncEventCommand<EventArgs>(execute: selectedIndexChangedAction);
         return picker;
     }
 
-    public static T OnSelectedIndexChanged<T>(this T picker, Action<object?, EventArgs>? selectedIndexChangedActionWithArgs)
+    public static T OnSelectedIndexChanged<T>(this T picker, Action<EventArgs>? selectedIndexChangedAction)
         where T : IPicker
     {
-        picker.SelectedIndexChangedActionWithArgs = selectedIndexChangedActionWithArgs;
+        picker.SelectedIndexChangedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: selectedIndexChangedAction);
+        return picker;
+    }
+
+    public static T OnSelectedIndexChanged<T>(this T picker, Action<object?, EventArgs>? selectedIndexChangedAction)
+        where T : IPicker
+    {
+        picker.SelectedIndexChangedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: selectedIndexChangedAction);
+        return picker;
+    }
+
+    public static T OnSelectedIndexChanged<T>(this T picker, Func<Task>? selectedIndexChangedAction)
+        where T : IPicker
+    {
+        picker.SelectedIndexChangedEvent = new AsyncEventCommand<EventArgs>(execute: selectedIndexChangedAction);
+        return picker;
+    }
+
+    public static T OnSelectedIndexChanged<T>(this T picker, Func<EventArgs, Task>? selectedIndexChangedAction)
+        where T : IPicker
+    {
+        picker.SelectedIndexChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: selectedIndexChangedAction);
+        return picker;
+    }
+
+    public static T OnSelectedIndexChanged<T>(this T picker, Func<object?, EventArgs, Task>? selectedIndexChangedAction)
+        where T : IPicker
+    {
+        picker.SelectedIndexChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: selectedIndexChangedAction);
         return picker;
     }
 }

@@ -46,6 +46,13 @@ public partial class TemplatedPage<T> : Page<T>, ITemplatedPage where T : Micros
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class TemplatedPage : TemplatedPage<Microsoft.Maui.Controls.TemplatedPage>

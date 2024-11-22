@@ -46,6 +46,13 @@ public partial class MenuFlyout<T> : FlyoutBase<T>, IMenuFlyout where T : Micros
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class MenuFlyout : MenuFlyout<Microsoft.Maui.Controls.MenuFlyout>

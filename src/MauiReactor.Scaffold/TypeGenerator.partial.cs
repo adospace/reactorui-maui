@@ -73,6 +73,30 @@ namespace MauiReactor.Scaffold
 
         public string TypeName() => _typeToScaffold.Name.Replace("`1", string.Empty);
 
+        public string TypeNameWithGenericArguments()
+        {
+            if (IsBaseGenericType())
+            {
+                return $"{TypeName()}<T>";
+            }
+            else if (IsGenericType())
+            {
+                return $"{TypeName()}<T, TChild>";
+            }
+            else if (IsTypeSealed())
+            {
+                return $"{TypeName()}";
+            }
+            else if (IsTypeNotAbstractWithEmptyConstructor())
+            {
+                return $"{TypeName()}<T>";
+            }
+            else
+            {
+                return $"{TypeName()}<T>";
+            }    
+        }
+
         public string FullTypeName() => Validate.EnsureNotNull(_typeToScaffold.FullName)
             .Replace('+', '.').Replace("`1", string.Empty);
 

@@ -57,6 +57,13 @@ public partial class ProgressBar<T> : View<T>, IProgressBar where T : Microsoft.
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class ProgressBar : ProgressBar<Microsoft.Maui.Controls.ProgressBar>

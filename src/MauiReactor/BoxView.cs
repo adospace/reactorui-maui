@@ -57,6 +57,13 @@ public partial class BoxView<T> : View<T>, IBoxView where T : Microsoft.Maui.Con
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class BoxView : BoxView<Microsoft.Maui.Controls.BoxView>

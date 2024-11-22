@@ -18,9 +18,7 @@ public partial interface IEditor : IInputView
 
     object? VerticalTextAlignment { get; set; }
 
-    Action? CompletedAction { get; set; }
-
-    Action<object?, EventArgs>? CompletedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? CompletedEvent { get; set; }
 }
 
 public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.Controls.Editor, new()
@@ -41,9 +39,7 @@ public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.
 
     object? IEditor.VerticalTextAlignment { get; set; }
 
-    Action? IEditor.CompletedAction { get; set; }
-
-    Action<object?, EventArgs>? IEditor.CompletedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IEditor.CompletedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -73,11 +69,12 @@ public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingCompletedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIEditor = (IEditor)this;
-        if (thisAsIEditor.CompletedAction != null || thisAsIEditor.CompletedActionWithArgs != null)
+        if (thisAsIEditor.CompletedEvent != null)
         {
             NativeControl.Completed += NativeControl_Completed;
         }
@@ -89,8 +86,11 @@ public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.
     private void NativeControl_Completed(object? sender, EventArgs e)
     {
         var thisAsIEditor = (IEditor)this;
-        thisAsIEditor.CompletedAction?.Invoke();
-        thisAsIEditor.CompletedActionWithArgs?.Invoke(sender, e);
+        if (_executingCompletedEvent == null || _executingCompletedEvent.IsCompleted)
+        {
+            _executingCompletedEvent = thisAsIEditor.CompletedEvent;
+            _executingCompletedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -102,6 +102,21 @@ public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is Editor<T> @editor)
+        {
+            if (_executingCompletedEvent != null && !_executingCompletedEvent.IsCompleted)
+            {
+                @editor._executingCompletedEvent = _executingCompletedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -163,14 +178,42 @@ public static partial class EditorExtensions
     public static T OnCompleted<T>(this T editor, Action? completedAction)
         where T : IEditor
     {
-        editor.CompletedAction = completedAction;
+        editor.CompletedEvent = new SyncEventCommand<EventArgs>(execute: completedAction);
         return editor;
     }
 
-    public static T OnCompleted<T>(this T editor, Action<object?, EventArgs>? completedActionWithArgs)
+    public static T OnCompleted<T>(this T editor, Action<EventArgs>? completedAction)
         where T : IEditor
     {
-        editor.CompletedActionWithArgs = completedActionWithArgs;
+        editor.CompletedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: completedAction);
+        return editor;
+    }
+
+    public static T OnCompleted<T>(this T editor, Action<object?, EventArgs>? completedAction)
+        where T : IEditor
+    {
+        editor.CompletedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: completedAction);
+        return editor;
+    }
+
+    public static T OnCompleted<T>(this T editor, Func<Task>? completedAction)
+        where T : IEditor
+    {
+        editor.CompletedEvent = new AsyncEventCommand<EventArgs>(execute: completedAction);
+        return editor;
+    }
+
+    public static T OnCompleted<T>(this T editor, Func<EventArgs, Task>? completedAction)
+        where T : IEditor
+    {
+        editor.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: completedAction);
+        return editor;
+    }
+
+    public static T OnCompleted<T>(this T editor, Func<object?, EventArgs, Task>? completedAction)
+        where T : IEditor
+    {
+        editor.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: completedAction);
         return editor;
     }
 }

@@ -21,13 +21,13 @@ class CounterPage : Component<CounterPageState>
                 Label($"Counter: {State.Counter}")
                     .AutomationId("Counter_Label"),
 
-                Button("Click To Increment", () => SetState(s => s.Counter++))
+                Button("Click To Increment")
+                    .OnClicked(() => SetState(s => s.Counter++))
                     .AutomationId("Counter_Button")
             )
             .Spacing(10)
             .Center()
         );
-    
 }
 
 partial class CounterWithServicePage : Component<CounterPageState>
@@ -49,4 +49,29 @@ partial class CounterWithServicePage : Component<CounterPageState>
             .VCenter()
             .HCenter()
         );
+}
+
+
+partial class CounterWithTaskAwaiting : Component<CounterPageState>
+{
+    public override VisualNode Render()
+        => ContentPage("Counter Sample",
+            VStack(
+                Label($"Counter: {State.Counter}")
+                    .AutomationId("Counter_Label"),
+                Button("Click To Increment")
+                    .OnClicked(IncrementCounter)
+                    .AutomationId("Counter_Button")
+            )
+            .Spacing(10)
+            .Center()
+        );
+    async Task IncrementCounter()
+    {
+        SetState(s => s.Counter++);
+
+        //by default MauiReactor 3 doesnt allow reentrant calls to IncrementCounter
+        //that is the IncrementCounter() is not called again while the previous call is still running
+        await Task.Delay(10000);
+    }
 }

@@ -67,6 +67,13 @@ public partial class TitleBar<T> : TemplatedView<T>, ITitleBar where T : Microso
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class TitleBar : TitleBar<Microsoft.Maui.Controls.TitleBar>

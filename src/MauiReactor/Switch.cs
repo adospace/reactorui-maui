@@ -18,9 +18,7 @@ public partial interface ISwitch : IView
 
     object? ThumbColor { get; set; }
 
-    Action? ToggledAction { get; set; }
-
-    Action<object?, ToggledEventArgs>? ToggledActionWithArgs { get; set; }
+    EventCommand<ToggledEventArgs>? ToggledEvent { get; set; }
 }
 
 public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Controls.Switch, new()
@@ -41,9 +39,7 @@ public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Contr
 
     object? ISwitch.ThumbColor { get; set; }
 
-    Action? ISwitch.ToggledAction { get; set; }
-
-    Action<object?, ToggledEventArgs>? ISwitch.ToggledActionWithArgs { get; set; }
+    EventCommand<ToggledEventArgs>? ISwitch.ToggledEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -73,11 +69,12 @@ public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Contr
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<ToggledEventArgs>? _executingToggledEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsISwitch = (ISwitch)this;
-        if (thisAsISwitch.ToggledAction != null || thisAsISwitch.ToggledActionWithArgs != null)
+        if (thisAsISwitch.ToggledEvent != null)
         {
             NativeControl.Toggled += NativeControl_Toggled;
         }
@@ -89,8 +86,11 @@ public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Contr
     private void NativeControl_Toggled(object? sender, ToggledEventArgs e)
     {
         var thisAsISwitch = (ISwitch)this;
-        thisAsISwitch.ToggledAction?.Invoke();
-        thisAsISwitch.ToggledActionWithArgs?.Invoke(sender, e);
+        if (_executingToggledEvent == null || _executingToggledEvent.IsCompleted)
+        {
+            _executingToggledEvent = thisAsISwitch.ToggledEvent;
+            _executingToggledEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -102,6 +102,21 @@ public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Contr
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is Switch<T> @switch)
+        {
+            if (_executingToggledEvent != null && !_executingToggledEvent.IsCompleted)
+            {
+                @switch._executingToggledEvent = _executingToggledEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -163,14 +178,42 @@ public static partial class SwitchExtensions
     public static T OnToggled<T>(this T @switch, Action? toggledAction)
         where T : ISwitch
     {
-        @switch.ToggledAction = toggledAction;
+        @switch.ToggledEvent = new SyncEventCommand<ToggledEventArgs>(execute: toggledAction);
         return @switch;
     }
 
-    public static T OnToggled<T>(this T @switch, Action<object?, ToggledEventArgs>? toggledActionWithArgs)
+    public static T OnToggled<T>(this T @switch, Action<ToggledEventArgs>? toggledAction)
         where T : ISwitch
     {
-        @switch.ToggledActionWithArgs = toggledActionWithArgs;
+        @switch.ToggledEvent = new SyncEventCommand<ToggledEventArgs>(executeWithArgs: toggledAction);
+        return @switch;
+    }
+
+    public static T OnToggled<T>(this T @switch, Action<object?, ToggledEventArgs>? toggledAction)
+        where T : ISwitch
+    {
+        @switch.ToggledEvent = new SyncEventCommand<ToggledEventArgs>(executeWithFullArgs: toggledAction);
+        return @switch;
+    }
+
+    public static T OnToggled<T>(this T @switch, Func<Task>? toggledAction)
+        where T : ISwitch
+    {
+        @switch.ToggledEvent = new AsyncEventCommand<ToggledEventArgs>(execute: toggledAction);
+        return @switch;
+    }
+
+    public static T OnToggled<T>(this T @switch, Func<ToggledEventArgs, Task>? toggledAction)
+        where T : ISwitch
+    {
+        @switch.ToggledEvent = new AsyncEventCommand<ToggledEventArgs>(executeWithArgs: toggledAction);
+        return @switch;
+    }
+
+    public static T OnToggled<T>(this T @switch, Func<object?, ToggledEventArgs, Task>? toggledAction)
+        where T : ISwitch
+    {
+        @switch.ToggledEvent = new AsyncEventCommand<ToggledEventArgs>(executeWithFullArgs: toggledAction);
         return @switch;
     }
 }

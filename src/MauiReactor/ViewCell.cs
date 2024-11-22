@@ -46,6 +46,13 @@ public partial class ViewCell<T> : Cell<T>, IViewCell where T : Microsoft.Maui.C
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class ViewCell : ViewCell<Microsoft.Maui.Controls.ViewCell>

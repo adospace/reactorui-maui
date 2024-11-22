@@ -52,6 +52,13 @@ public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Mic
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public static partial class StackBaseExtensions

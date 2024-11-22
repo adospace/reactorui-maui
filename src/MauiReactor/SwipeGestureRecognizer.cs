@@ -16,9 +16,7 @@ public partial interface ISwipeGestureRecognizer : IGestureRecognizer
 
     object? Threshold { get; set; }
 
-    Action? SwipedAction { get; set; }
-
-    Action<object?, SwipedEventArgs>? SwipedActionWithArgs { get; set; }
+    EventCommand<SwipedEventArgs>? SwipedEvent { get; set; }
 }
 
 public sealed partial class SwipeGestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.SwipeGestureRecognizer>, ISwipeGestureRecognizer
@@ -37,9 +35,7 @@ public sealed partial class SwipeGestureRecognizer : GestureRecognizer<Microsoft
 
     object? ISwipeGestureRecognizer.Threshold { get; set; }
 
-    Action? ISwipeGestureRecognizer.SwipedAction { get; set; }
-
-    Action<object?, SwipedEventArgs>? ISwipeGestureRecognizer.SwipedActionWithArgs { get; set; }
+    EventCommand<SwipedEventArgs>? ISwipeGestureRecognizer.SwipedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -68,11 +64,12 @@ public sealed partial class SwipeGestureRecognizer : GestureRecognizer<Microsoft
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<SwipedEventArgs>? _executingSwipedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsISwipeGestureRecognizer = (ISwipeGestureRecognizer)this;
-        if (thisAsISwipeGestureRecognizer.SwipedAction != null || thisAsISwipeGestureRecognizer.SwipedActionWithArgs != null)
+        if (thisAsISwipeGestureRecognizer.SwipedEvent != null)
         {
             NativeControl.Swiped += NativeControl_Swiped;
         }
@@ -84,8 +81,11 @@ public sealed partial class SwipeGestureRecognizer : GestureRecognizer<Microsoft
     private void NativeControl_Swiped(object? sender, SwipedEventArgs e)
     {
         var thisAsISwipeGestureRecognizer = (ISwipeGestureRecognizer)this;
-        thisAsISwipeGestureRecognizer.SwipedAction?.Invoke();
-        thisAsISwipeGestureRecognizer.SwipedActionWithArgs?.Invoke(sender, e);
+        if (_executingSwipedEvent == null || _executingSwipedEvent.IsCompleted)
+        {
+            _executingSwipedEvent = thisAsISwipeGestureRecognizer.SwipedEvent;
+            _executingSwipedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -97,6 +97,21 @@ public sealed partial class SwipeGestureRecognizer : GestureRecognizer<Microsoft
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is SwipeGestureRecognizer @swipegesturerecognizer)
+        {
+            if (_executingSwipedEvent != null && !_executingSwipedEvent.IsCompleted)
+            {
+                @swipegesturerecognizer._executingSwipedEvent = _executingSwipedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -133,14 +148,42 @@ public static partial class SwipeGestureRecognizerExtensions
     public static T OnSwiped<T>(this T swipeGestureRecognizer, Action? swipedAction)
         where T : ISwipeGestureRecognizer
     {
-        swipeGestureRecognizer.SwipedAction = swipedAction;
+        swipeGestureRecognizer.SwipedEvent = new SyncEventCommand<SwipedEventArgs>(execute: swipedAction);
         return swipeGestureRecognizer;
     }
 
-    public static T OnSwiped<T>(this T swipeGestureRecognizer, Action<object?, SwipedEventArgs>? swipedActionWithArgs)
+    public static T OnSwiped<T>(this T swipeGestureRecognizer, Action<SwipedEventArgs>? swipedAction)
         where T : ISwipeGestureRecognizer
     {
-        swipeGestureRecognizer.SwipedActionWithArgs = swipedActionWithArgs;
+        swipeGestureRecognizer.SwipedEvent = new SyncEventCommand<SwipedEventArgs>(executeWithArgs: swipedAction);
+        return swipeGestureRecognizer;
+    }
+
+    public static T OnSwiped<T>(this T swipeGestureRecognizer, Action<object?, SwipedEventArgs>? swipedAction)
+        where T : ISwipeGestureRecognizer
+    {
+        swipeGestureRecognizer.SwipedEvent = new SyncEventCommand<SwipedEventArgs>(executeWithFullArgs: swipedAction);
+        return swipeGestureRecognizer;
+    }
+
+    public static T OnSwiped<T>(this T swipeGestureRecognizer, Func<Task>? swipedAction)
+        where T : ISwipeGestureRecognizer
+    {
+        swipeGestureRecognizer.SwipedEvent = new AsyncEventCommand<SwipedEventArgs>(execute: swipedAction);
+        return swipeGestureRecognizer;
+    }
+
+    public static T OnSwiped<T>(this T swipeGestureRecognizer, Func<SwipedEventArgs, Task>? swipedAction)
+        where T : ISwipeGestureRecognizer
+    {
+        swipeGestureRecognizer.SwipedEvent = new AsyncEventCommand<SwipedEventArgs>(executeWithArgs: swipedAction);
+        return swipeGestureRecognizer;
+    }
+
+    public static T OnSwiped<T>(this T swipeGestureRecognizer, Func<object?, SwipedEventArgs, Task>? swipedAction)
+        where T : ISwipeGestureRecognizer
+    {
+        swipeGestureRecognizer.SwipedEvent = new AsyncEventCommand<SwipedEventArgs>(executeWithFullArgs: swipedAction);
         return swipeGestureRecognizer;
     }
 }

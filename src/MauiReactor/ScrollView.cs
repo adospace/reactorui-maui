@@ -18,9 +18,7 @@ public partial interface IScrollView : Compatibility.ILayout
 
     object? VerticalScrollBarVisibility { get; set; }
 
-    Action? ScrolledAction { get; set; }
-
-    Action<object?, ScrolledEventArgs>? ScrolledActionWithArgs { get; set; }
+    EventCommand<ScrolledEventArgs>? ScrolledEvent { get; set; }
 }
 
 public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where T : Microsoft.Maui.Controls.ScrollView, new()
@@ -41,9 +39,7 @@ public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where 
 
     object? IScrollView.VerticalScrollBarVisibility { get; set; }
 
-    Action? IScrollView.ScrolledAction { get; set; }
-
-    Action<object?, ScrolledEventArgs>? IScrollView.ScrolledActionWithArgs { get; set; }
+    EventCommand<ScrolledEventArgs>? IScrollView.ScrolledEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -73,11 +69,12 @@ public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where 
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<ScrolledEventArgs>? _executingScrolledEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIScrollView = (IScrollView)this;
-        if (thisAsIScrollView.ScrolledAction != null || thisAsIScrollView.ScrolledActionWithArgs != null)
+        if (thisAsIScrollView.ScrolledEvent != null)
         {
             NativeControl.Scrolled += NativeControl_Scrolled;
         }
@@ -89,8 +86,11 @@ public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where 
     private void NativeControl_Scrolled(object? sender, ScrolledEventArgs e)
     {
         var thisAsIScrollView = (IScrollView)this;
-        thisAsIScrollView.ScrolledAction?.Invoke();
-        thisAsIScrollView.ScrolledActionWithArgs?.Invoke(sender, e);
+        if (_executingScrolledEvent == null || _executingScrolledEvent.IsCompleted)
+        {
+            _executingScrolledEvent = thisAsIScrollView.ScrolledEvent;
+            _executingScrolledEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -102,6 +102,21 @@ public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where 
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is ScrollView<T> @scrollview)
+        {
+            if (_executingScrolledEvent != null && !_executingScrolledEvent.IsCompleted)
+            {
+                @scrollview._executingScrolledEvent = _executingScrolledEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -163,14 +178,42 @@ public static partial class ScrollViewExtensions
     public static T OnScrolled<T>(this T scrollView, Action? scrolledAction)
         where T : IScrollView
     {
-        scrollView.ScrolledAction = scrolledAction;
+        scrollView.ScrolledEvent = new SyncEventCommand<ScrolledEventArgs>(execute: scrolledAction);
         return scrollView;
     }
 
-    public static T OnScrolled<T>(this T scrollView, Action<object?, ScrolledEventArgs>? scrolledActionWithArgs)
+    public static T OnScrolled<T>(this T scrollView, Action<ScrolledEventArgs>? scrolledAction)
         where T : IScrollView
     {
-        scrollView.ScrolledActionWithArgs = scrolledActionWithArgs;
+        scrollView.ScrolledEvent = new SyncEventCommand<ScrolledEventArgs>(executeWithArgs: scrolledAction);
+        return scrollView;
+    }
+
+    public static T OnScrolled<T>(this T scrollView, Action<object?, ScrolledEventArgs>? scrolledAction)
+        where T : IScrollView
+    {
+        scrollView.ScrolledEvent = new SyncEventCommand<ScrolledEventArgs>(executeWithFullArgs: scrolledAction);
+        return scrollView;
+    }
+
+    public static T OnScrolled<T>(this T scrollView, Func<Task>? scrolledAction)
+        where T : IScrollView
+    {
+        scrollView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(execute: scrolledAction);
+        return scrollView;
+    }
+
+    public static T OnScrolled<T>(this T scrollView, Func<ScrolledEventArgs, Task>? scrolledAction)
+        where T : IScrollView
+    {
+        scrollView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(executeWithArgs: scrolledAction);
+        return scrollView;
+    }
+
+    public static T OnScrolled<T>(this T scrollView, Func<object?, ScrolledEventArgs, Task>? scrolledAction)
+        where T : IScrollView
+    {
+        scrollView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(executeWithFullArgs: scrolledAction);
         return scrollView;
     }
 }

@@ -24,13 +24,9 @@ public partial interface IBaseShellItem : INavigableElement
 
     object? FlyoutItemIsVisible { get; set; }
 
-    Action? AppearingAction { get; set; }
+    EventCommand<EventArgs>? AppearingEvent { get; set; }
 
-    Action<object?, EventArgs>? AppearingActionWithArgs { get; set; }
-
-    Action? DisappearingAction { get; set; }
-
-    Action<object?, EventArgs>? DisappearingActionWithArgs { get; set; }
+    EventCommand<EventArgs>? DisappearingEvent { get; set; }
 }
 
 public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem where T : Microsoft.Maui.Controls.BaseShellItem, new()
@@ -57,13 +53,9 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
 
     object? IBaseShellItem.FlyoutItemIsVisible { get; set; }
 
-    Action? IBaseShellItem.AppearingAction { get; set; }
+    EventCommand<EventArgs>? IBaseShellItem.AppearingEvent { get; set; }
 
-    Action<object?, EventArgs>? IBaseShellItem.AppearingActionWithArgs { get; set; }
-
-    Action? IBaseShellItem.DisappearingAction { get; set; }
-
-    Action<object?, EventArgs>? IBaseShellItem.DisappearingActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IBaseShellItem.DisappearingEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -96,16 +88,18 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingAppearingEvent;
+    private EventCommand<EventArgs>? _executingDisappearingEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIBaseShellItem = (IBaseShellItem)this;
-        if (thisAsIBaseShellItem.AppearingAction != null || thisAsIBaseShellItem.AppearingActionWithArgs != null)
+        if (thisAsIBaseShellItem.AppearingEvent != null)
         {
             NativeControl.Appearing += NativeControl_Appearing;
         }
 
-        if (thisAsIBaseShellItem.DisappearingAction != null || thisAsIBaseShellItem.DisappearingActionWithArgs != null)
+        if (thisAsIBaseShellItem.DisappearingEvent != null)
         {
             NativeControl.Disappearing += NativeControl_Disappearing;
         }
@@ -117,15 +111,21 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
     private void NativeControl_Appearing(object? sender, EventArgs e)
     {
         var thisAsIBaseShellItem = (IBaseShellItem)this;
-        thisAsIBaseShellItem.AppearingAction?.Invoke();
-        thisAsIBaseShellItem.AppearingActionWithArgs?.Invoke(sender, e);
+        if (_executingAppearingEvent == null || _executingAppearingEvent.IsCompleted)
+        {
+            _executingAppearingEvent = thisAsIBaseShellItem.AppearingEvent;
+            _executingAppearingEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Disappearing(object? sender, EventArgs e)
     {
         var thisAsIBaseShellItem = (IBaseShellItem)this;
-        thisAsIBaseShellItem.DisappearingAction?.Invoke();
-        thisAsIBaseShellItem.DisappearingActionWithArgs?.Invoke(sender, e);
+        if (_executingDisappearingEvent == null || _executingDisappearingEvent.IsCompleted)
+        {
+            _executingDisappearingEvent = thisAsIBaseShellItem.DisappearingEvent;
+            _executingDisappearingEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -138,6 +138,26 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is BaseShellItem<T> @baseshellitem)
+        {
+            if (_executingAppearingEvent != null && !_executingAppearingEvent.IsCompleted)
+            {
+                @baseshellitem._executingAppearingEvent = _executingAppearingEvent;
+            }
+
+            if (_executingDisappearingEvent != null && !_executingDisappearingEvent.IsCompleted)
+            {
+                @baseshellitem._executingDisappearingEvent = _executingDisappearingEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -335,28 +355,84 @@ public static partial class BaseShellItemExtensions
     public static T OnAppearing<T>(this T baseShellItem, Action? appearingAction)
         where T : IBaseShellItem
     {
-        baseShellItem.AppearingAction = appearingAction;
+        baseShellItem.AppearingEvent = new SyncEventCommand<EventArgs>(execute: appearingAction);
         return baseShellItem;
     }
 
-    public static T OnAppearing<T>(this T baseShellItem, Action<object?, EventArgs>? appearingActionWithArgs)
+    public static T OnAppearing<T>(this T baseShellItem, Action<EventArgs>? appearingAction)
         where T : IBaseShellItem
     {
-        baseShellItem.AppearingActionWithArgs = appearingActionWithArgs;
+        baseShellItem.AppearingEvent = new SyncEventCommand<EventArgs>(executeWithArgs: appearingAction);
+        return baseShellItem;
+    }
+
+    public static T OnAppearing<T>(this T baseShellItem, Action<object?, EventArgs>? appearingAction)
+        where T : IBaseShellItem
+    {
+        baseShellItem.AppearingEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: appearingAction);
+        return baseShellItem;
+    }
+
+    public static T OnAppearing<T>(this T baseShellItem, Func<Task>? appearingAction)
+        where T : IBaseShellItem
+    {
+        baseShellItem.AppearingEvent = new AsyncEventCommand<EventArgs>(execute: appearingAction);
+        return baseShellItem;
+    }
+
+    public static T OnAppearing<T>(this T baseShellItem, Func<EventArgs, Task>? appearingAction)
+        where T : IBaseShellItem
+    {
+        baseShellItem.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: appearingAction);
+        return baseShellItem;
+    }
+
+    public static T OnAppearing<T>(this T baseShellItem, Func<object?, EventArgs, Task>? appearingAction)
+        where T : IBaseShellItem
+    {
+        baseShellItem.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: appearingAction);
         return baseShellItem;
     }
 
     public static T OnDisappearing<T>(this T baseShellItem, Action? disappearingAction)
         where T : IBaseShellItem
     {
-        baseShellItem.DisappearingAction = disappearingAction;
+        baseShellItem.DisappearingEvent = new SyncEventCommand<EventArgs>(execute: disappearingAction);
         return baseShellItem;
     }
 
-    public static T OnDisappearing<T>(this T baseShellItem, Action<object?, EventArgs>? disappearingActionWithArgs)
+    public static T OnDisappearing<T>(this T baseShellItem, Action<EventArgs>? disappearingAction)
         where T : IBaseShellItem
     {
-        baseShellItem.DisappearingActionWithArgs = disappearingActionWithArgs;
+        baseShellItem.DisappearingEvent = new SyncEventCommand<EventArgs>(executeWithArgs: disappearingAction);
+        return baseShellItem;
+    }
+
+    public static T OnDisappearing<T>(this T baseShellItem, Action<object?, EventArgs>? disappearingAction)
+        where T : IBaseShellItem
+    {
+        baseShellItem.DisappearingEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: disappearingAction);
+        return baseShellItem;
+    }
+
+    public static T OnDisappearing<T>(this T baseShellItem, Func<Task>? disappearingAction)
+        where T : IBaseShellItem
+    {
+        baseShellItem.DisappearingEvent = new AsyncEventCommand<EventArgs>(execute: disappearingAction);
+        return baseShellItem;
+    }
+
+    public static T OnDisappearing<T>(this T baseShellItem, Func<EventArgs, Task>? disappearingAction)
+        where T : IBaseShellItem
+    {
+        baseShellItem.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: disappearingAction);
+        return baseShellItem;
+    }
+
+    public static T OnDisappearing<T>(this T baseShellItem, Func<object?, EventArgs, Task>? disappearingAction)
+        where T : IBaseShellItem
+    {
+        baseShellItem.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: disappearingAction);
         return baseShellItem;
     }
 }

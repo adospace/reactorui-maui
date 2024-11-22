@@ -46,6 +46,13 @@ public partial class VerticalStackLayout<T> : StackBase<T>, IVerticalStackLayout
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class VerticalStackLayout : VerticalStackLayout<Microsoft.Maui.Controls.VerticalStackLayout>

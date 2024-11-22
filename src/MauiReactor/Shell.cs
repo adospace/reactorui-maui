@@ -36,13 +36,9 @@ public partial interface IShell : IPage
 
     object? FlyoutVerticalScrollMode { get; set; }
 
-    Action? NavigatedAction { get; set; }
+    EventCommand<ShellNavigatedEventArgs>? NavigatedEvent { get; set; }
 
-    Action<object?, ShellNavigatedEventArgs>? NavigatedActionWithArgs { get; set; }
-
-    Action? NavigatingAction { get; set; }
-
-    Action<object?, ShellNavigatingEventArgs>? NavigatingActionWithArgs { get; set; }
+    EventCommand<ShellNavigatingEventArgs>? NavigatingEvent { get; set; }
 }
 
 public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Controls.Shell, new()
@@ -81,13 +77,9 @@ public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Control
 
     object? IShell.FlyoutVerticalScrollMode { get; set; }
 
-    Action? IShell.NavigatedAction { get; set; }
+    EventCommand<ShellNavigatedEventArgs>? IShell.NavigatedEvent { get; set; }
 
-    Action<object?, ShellNavigatedEventArgs>? IShell.NavigatedActionWithArgs { get; set; }
-
-    Action? IShell.NavigatingAction { get; set; }
-
-    Action<object?, ShellNavigatingEventArgs>? IShell.NavigatingActionWithArgs { get; set; }
+    EventCommand<ShellNavigatingEventArgs>? IShell.NavigatingEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -126,16 +118,18 @@ public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Control
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<ShellNavigatedEventArgs>? _executingNavigatedEvent;
+    private EventCommand<ShellNavigatingEventArgs>? _executingNavigatingEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIShell = (IShell)this;
-        if (thisAsIShell.NavigatedAction != null || thisAsIShell.NavigatedActionWithArgs != null)
+        if (thisAsIShell.NavigatedEvent != null)
         {
             NativeControl.Navigated += NativeControl_Navigated;
         }
 
-        if (thisAsIShell.NavigatingAction != null || thisAsIShell.NavigatingActionWithArgs != null)
+        if (thisAsIShell.NavigatingEvent != null)
         {
             NativeControl.Navigating += NativeControl_Navigating;
         }
@@ -147,15 +141,21 @@ public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Control
     private void NativeControl_Navigated(object? sender, ShellNavigatedEventArgs e)
     {
         var thisAsIShell = (IShell)this;
-        thisAsIShell.NavigatedAction?.Invoke();
-        thisAsIShell.NavigatedActionWithArgs?.Invoke(sender, e);
+        if (_executingNavigatedEvent == null || _executingNavigatedEvent.IsCompleted)
+        {
+            _executingNavigatedEvent = thisAsIShell.NavigatedEvent;
+            _executingNavigatedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Navigating(object? sender, ShellNavigatingEventArgs e)
     {
         var thisAsIShell = (IShell)this;
-        thisAsIShell.NavigatingAction?.Invoke();
-        thisAsIShell.NavigatingActionWithArgs?.Invoke(sender, e);
+        if (_executingNavigatingEvent == null || _executingNavigatingEvent.IsCompleted)
+        {
+            _executingNavigatingEvent = thisAsIShell.NavigatingEvent;
+            _executingNavigatingEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -168,6 +168,26 @@ public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Control
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is Shell<T> @shell)
+        {
+            if (_executingNavigatedEvent != null && !_executingNavigatedEvent.IsCompleted)
+            {
+                @shell._executingNavigatedEvent = _executingNavigatedEvent;
+            }
+
+            if (_executingNavigatingEvent != null && !_executingNavigatingEvent.IsCompleted)
+            {
+                @shell._executingNavigatingEvent = _executingNavigatingEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -453,28 +473,84 @@ public static partial class ShellExtensions
     public static T OnNavigated<T>(this T shell, Action? navigatedAction)
         where T : IShell
     {
-        shell.NavigatedAction = navigatedAction;
+        shell.NavigatedEvent = new SyncEventCommand<ShellNavigatedEventArgs>(execute: navigatedAction);
         return shell;
     }
 
-    public static T OnNavigated<T>(this T shell, Action<object?, ShellNavigatedEventArgs>? navigatedActionWithArgs)
+    public static T OnNavigated<T>(this T shell, Action<ShellNavigatedEventArgs>? navigatedAction)
         where T : IShell
     {
-        shell.NavigatedActionWithArgs = navigatedActionWithArgs;
+        shell.NavigatedEvent = new SyncEventCommand<ShellNavigatedEventArgs>(executeWithArgs: navigatedAction);
+        return shell;
+    }
+
+    public static T OnNavigated<T>(this T shell, Action<object?, ShellNavigatedEventArgs>? navigatedAction)
+        where T : IShell
+    {
+        shell.NavigatedEvent = new SyncEventCommand<ShellNavigatedEventArgs>(executeWithFullArgs: navigatedAction);
+        return shell;
+    }
+
+    public static T OnNavigated<T>(this T shell, Func<Task>? navigatedAction)
+        where T : IShell
+    {
+        shell.NavigatedEvent = new AsyncEventCommand<ShellNavigatedEventArgs>(execute: navigatedAction);
+        return shell;
+    }
+
+    public static T OnNavigated<T>(this T shell, Func<ShellNavigatedEventArgs, Task>? navigatedAction)
+        where T : IShell
+    {
+        shell.NavigatedEvent = new AsyncEventCommand<ShellNavigatedEventArgs>(executeWithArgs: navigatedAction);
+        return shell;
+    }
+
+    public static T OnNavigated<T>(this T shell, Func<object?, ShellNavigatedEventArgs, Task>? navigatedAction)
+        where T : IShell
+    {
+        shell.NavigatedEvent = new AsyncEventCommand<ShellNavigatedEventArgs>(executeWithFullArgs: navigatedAction);
         return shell;
     }
 
     public static T OnNavigating<T>(this T shell, Action? navigatingAction)
         where T : IShell
     {
-        shell.NavigatingAction = navigatingAction;
+        shell.NavigatingEvent = new SyncEventCommand<ShellNavigatingEventArgs>(execute: navigatingAction);
         return shell;
     }
 
-    public static T OnNavigating<T>(this T shell, Action<object?, ShellNavigatingEventArgs>? navigatingActionWithArgs)
+    public static T OnNavigating<T>(this T shell, Action<ShellNavigatingEventArgs>? navigatingAction)
         where T : IShell
     {
-        shell.NavigatingActionWithArgs = navigatingActionWithArgs;
+        shell.NavigatingEvent = new SyncEventCommand<ShellNavigatingEventArgs>(executeWithArgs: navigatingAction);
+        return shell;
+    }
+
+    public static T OnNavigating<T>(this T shell, Action<object?, ShellNavigatingEventArgs>? navigatingAction)
+        where T : IShell
+    {
+        shell.NavigatingEvent = new SyncEventCommand<ShellNavigatingEventArgs>(executeWithFullArgs: navigatingAction);
+        return shell;
+    }
+
+    public static T OnNavigating<T>(this T shell, Func<Task>? navigatingAction)
+        where T : IShell
+    {
+        shell.NavigatingEvent = new AsyncEventCommand<ShellNavigatingEventArgs>(execute: navigatingAction);
+        return shell;
+    }
+
+    public static T OnNavigating<T>(this T shell, Func<ShellNavigatingEventArgs, Task>? navigatingAction)
+        where T : IShell
+    {
+        shell.NavigatingEvent = new AsyncEventCommand<ShellNavigatingEventArgs>(executeWithArgs: navigatingAction);
+        return shell;
+    }
+
+    public static T OnNavigating<T>(this T shell, Func<object?, ShellNavigatingEventArgs, Task>? navigatingAction)
+        where T : IShell
+    {
+        shell.NavigatingEvent = new AsyncEventCommand<ShellNavigatingEventArgs>(executeWithFullArgs: navigatingAction);
         return shell;
     }
 }

@@ -87,6 +87,13 @@ public partial class IndicatorView<T> : TemplatedView<T>, IIndicatorView where T
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class IndicatorView : IndicatorView<Microsoft.Maui.Controls.IndicatorView>

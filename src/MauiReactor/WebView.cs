@@ -18,17 +18,11 @@ public partial interface IWebView : IView
 
     object? Cookies { get; set; }
 
-    Action? NavigatedAction { get; set; }
+    EventCommand<WebNavigatedEventArgs>? NavigatedEvent { get; set; }
 
-    Action<object?, WebNavigatedEventArgs>? NavigatedActionWithArgs { get; set; }
+    EventCommand<WebNavigatingEventArgs>? NavigatingEvent { get; set; }
 
-    Action? NavigatingAction { get; set; }
-
-    Action<object?, WebNavigatingEventArgs>? NavigatingActionWithArgs { get; set; }
-
-    Action? ProcessTerminatedAction { get; set; }
-
-    Action<object?, WebViewProcessTerminatedEventArgs>? ProcessTerminatedActionWithArgs { get; set; }
+    EventCommand<WebViewProcessTerminatedEventArgs>? ProcessTerminatedEvent { get; set; }
 }
 
 public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Controls.WebView, new()
@@ -49,17 +43,11 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
 
     object? IWebView.Cookies { get; set; }
 
-    Action? IWebView.NavigatedAction { get; set; }
+    EventCommand<WebNavigatedEventArgs>? IWebView.NavigatedEvent { get; set; }
 
-    Action<object?, WebNavigatedEventArgs>? IWebView.NavigatedActionWithArgs { get; set; }
+    EventCommand<WebNavigatingEventArgs>? IWebView.NavigatingEvent { get; set; }
 
-    Action? IWebView.NavigatingAction { get; set; }
-
-    Action<object?, WebNavigatingEventArgs>? IWebView.NavigatingActionWithArgs { get; set; }
-
-    Action? IWebView.ProcessTerminatedAction { get; set; }
-
-    Action<object?, WebViewProcessTerminatedEventArgs>? IWebView.ProcessTerminatedActionWithArgs { get; set; }
+    EventCommand<WebViewProcessTerminatedEventArgs>? IWebView.ProcessTerminatedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -89,21 +77,24 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<WebNavigatedEventArgs>? _executingNavigatedEvent;
+    private EventCommand<WebNavigatingEventArgs>? _executingNavigatingEvent;
+    private EventCommand<WebViewProcessTerminatedEventArgs>? _executingProcessTerminatedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIWebView = (IWebView)this;
-        if (thisAsIWebView.NavigatedAction != null || thisAsIWebView.NavigatedActionWithArgs != null)
+        if (thisAsIWebView.NavigatedEvent != null)
         {
             NativeControl.Navigated += NativeControl_Navigated;
         }
 
-        if (thisAsIWebView.NavigatingAction != null || thisAsIWebView.NavigatingActionWithArgs != null)
+        if (thisAsIWebView.NavigatingEvent != null)
         {
             NativeControl.Navigating += NativeControl_Navigating;
         }
 
-        if (thisAsIWebView.ProcessTerminatedAction != null || thisAsIWebView.ProcessTerminatedActionWithArgs != null)
+        if (thisAsIWebView.ProcessTerminatedEvent != null)
         {
             NativeControl.ProcessTerminated += NativeControl_ProcessTerminated;
         }
@@ -115,22 +106,31 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
     private void NativeControl_Navigated(object? sender, WebNavigatedEventArgs e)
     {
         var thisAsIWebView = (IWebView)this;
-        thisAsIWebView.NavigatedAction?.Invoke();
-        thisAsIWebView.NavigatedActionWithArgs?.Invoke(sender, e);
+        if (_executingNavigatedEvent == null || _executingNavigatedEvent.IsCompleted)
+        {
+            _executingNavigatedEvent = thisAsIWebView.NavigatedEvent;
+            _executingNavigatedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Navigating(object? sender, WebNavigatingEventArgs e)
     {
         var thisAsIWebView = (IWebView)this;
-        thisAsIWebView.NavigatingAction?.Invoke();
-        thisAsIWebView.NavigatingActionWithArgs?.Invoke(sender, e);
+        if (_executingNavigatingEvent == null || _executingNavigatingEvent.IsCompleted)
+        {
+            _executingNavigatingEvent = thisAsIWebView.NavigatingEvent;
+            _executingNavigatingEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_ProcessTerminated(object? sender, WebViewProcessTerminatedEventArgs e)
     {
         var thisAsIWebView = (IWebView)this;
-        thisAsIWebView.ProcessTerminatedAction?.Invoke();
-        thisAsIWebView.ProcessTerminatedActionWithArgs?.Invoke(sender, e);
+        if (_executingProcessTerminatedEvent == null || _executingProcessTerminatedEvent.IsCompleted)
+        {
+            _executingProcessTerminatedEvent = thisAsIWebView.ProcessTerminatedEvent;
+            _executingProcessTerminatedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -144,6 +144,31 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is WebView<T> @webview)
+        {
+            if (_executingNavigatedEvent != null && !_executingNavigatedEvent.IsCompleted)
+            {
+                @webview._executingNavigatedEvent = _executingNavigatedEvent;
+            }
+
+            if (_executingNavigatingEvent != null && !_executingNavigatingEvent.IsCompleted)
+            {
+                @webview._executingNavigatingEvent = _executingNavigatingEvent;
+            }
+
+            if (_executingProcessTerminatedEvent != null && !_executingProcessTerminatedEvent.IsCompleted)
+            {
+                @webview._executingProcessTerminatedEvent = _executingProcessTerminatedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -205,42 +230,126 @@ public static partial class WebViewExtensions
     public static T OnNavigated<T>(this T webView, Action? navigatedAction)
         where T : IWebView
     {
-        webView.NavigatedAction = navigatedAction;
+        webView.NavigatedEvent = new SyncEventCommand<WebNavigatedEventArgs>(execute: navigatedAction);
         return webView;
     }
 
-    public static T OnNavigated<T>(this T webView, Action<object?, WebNavigatedEventArgs>? navigatedActionWithArgs)
+    public static T OnNavigated<T>(this T webView, Action<WebNavigatedEventArgs>? navigatedAction)
         where T : IWebView
     {
-        webView.NavigatedActionWithArgs = navigatedActionWithArgs;
+        webView.NavigatedEvent = new SyncEventCommand<WebNavigatedEventArgs>(executeWithArgs: navigatedAction);
+        return webView;
+    }
+
+    public static T OnNavigated<T>(this T webView, Action<object?, WebNavigatedEventArgs>? navigatedAction)
+        where T : IWebView
+    {
+        webView.NavigatedEvent = new SyncEventCommand<WebNavigatedEventArgs>(executeWithFullArgs: navigatedAction);
+        return webView;
+    }
+
+    public static T OnNavigated<T>(this T webView, Func<Task>? navigatedAction)
+        where T : IWebView
+    {
+        webView.NavigatedEvent = new AsyncEventCommand<WebNavigatedEventArgs>(execute: navigatedAction);
+        return webView;
+    }
+
+    public static T OnNavigated<T>(this T webView, Func<WebNavigatedEventArgs, Task>? navigatedAction)
+        where T : IWebView
+    {
+        webView.NavigatedEvent = new AsyncEventCommand<WebNavigatedEventArgs>(executeWithArgs: navigatedAction);
+        return webView;
+    }
+
+    public static T OnNavigated<T>(this T webView, Func<object?, WebNavigatedEventArgs, Task>? navigatedAction)
+        where T : IWebView
+    {
+        webView.NavigatedEvent = new AsyncEventCommand<WebNavigatedEventArgs>(executeWithFullArgs: navigatedAction);
         return webView;
     }
 
     public static T OnNavigating<T>(this T webView, Action? navigatingAction)
         where T : IWebView
     {
-        webView.NavigatingAction = navigatingAction;
+        webView.NavigatingEvent = new SyncEventCommand<WebNavigatingEventArgs>(execute: navigatingAction);
         return webView;
     }
 
-    public static T OnNavigating<T>(this T webView, Action<object?, WebNavigatingEventArgs>? navigatingActionWithArgs)
+    public static T OnNavigating<T>(this T webView, Action<WebNavigatingEventArgs>? navigatingAction)
         where T : IWebView
     {
-        webView.NavigatingActionWithArgs = navigatingActionWithArgs;
+        webView.NavigatingEvent = new SyncEventCommand<WebNavigatingEventArgs>(executeWithArgs: navigatingAction);
+        return webView;
+    }
+
+    public static T OnNavigating<T>(this T webView, Action<object?, WebNavigatingEventArgs>? navigatingAction)
+        where T : IWebView
+    {
+        webView.NavigatingEvent = new SyncEventCommand<WebNavigatingEventArgs>(executeWithFullArgs: navigatingAction);
+        return webView;
+    }
+
+    public static T OnNavigating<T>(this T webView, Func<Task>? navigatingAction)
+        where T : IWebView
+    {
+        webView.NavigatingEvent = new AsyncEventCommand<WebNavigatingEventArgs>(execute: navigatingAction);
+        return webView;
+    }
+
+    public static T OnNavigating<T>(this T webView, Func<WebNavigatingEventArgs, Task>? navigatingAction)
+        where T : IWebView
+    {
+        webView.NavigatingEvent = new AsyncEventCommand<WebNavigatingEventArgs>(executeWithArgs: navigatingAction);
+        return webView;
+    }
+
+    public static T OnNavigating<T>(this T webView, Func<object?, WebNavigatingEventArgs, Task>? navigatingAction)
+        where T : IWebView
+    {
+        webView.NavigatingEvent = new AsyncEventCommand<WebNavigatingEventArgs>(executeWithFullArgs: navigatingAction);
         return webView;
     }
 
     public static T OnProcessTerminated<T>(this T webView, Action? processTerminatedAction)
         where T : IWebView
     {
-        webView.ProcessTerminatedAction = processTerminatedAction;
+        webView.ProcessTerminatedEvent = new SyncEventCommand<WebViewProcessTerminatedEventArgs>(execute: processTerminatedAction);
         return webView;
     }
 
-    public static T OnProcessTerminated<T>(this T webView, Action<object?, WebViewProcessTerminatedEventArgs>? processTerminatedActionWithArgs)
+    public static T OnProcessTerminated<T>(this T webView, Action<WebViewProcessTerminatedEventArgs>? processTerminatedAction)
         where T : IWebView
     {
-        webView.ProcessTerminatedActionWithArgs = processTerminatedActionWithArgs;
+        webView.ProcessTerminatedEvent = new SyncEventCommand<WebViewProcessTerminatedEventArgs>(executeWithArgs: processTerminatedAction);
+        return webView;
+    }
+
+    public static T OnProcessTerminated<T>(this T webView, Action<object?, WebViewProcessTerminatedEventArgs>? processTerminatedAction)
+        where T : IWebView
+    {
+        webView.ProcessTerminatedEvent = new SyncEventCommand<WebViewProcessTerminatedEventArgs>(executeWithFullArgs: processTerminatedAction);
+        return webView;
+    }
+
+    public static T OnProcessTerminated<T>(this T webView, Func<Task>? processTerminatedAction)
+        where T : IWebView
+    {
+        webView.ProcessTerminatedEvent = new AsyncEventCommand<WebViewProcessTerminatedEventArgs>(execute: processTerminatedAction);
+        return webView;
+    }
+
+    public static T OnProcessTerminated<T>(this T webView, Func<WebViewProcessTerminatedEventArgs, Task>? processTerminatedAction)
+        where T : IWebView
+    {
+        webView.ProcessTerminatedEvent = new AsyncEventCommand<WebViewProcessTerminatedEventArgs>(executeWithArgs: processTerminatedAction);
+        return webView;
+    }
+
+    public static T OnProcessTerminated<T>(this T webView, Func<object?, WebViewProcessTerminatedEventArgs, Task>? processTerminatedAction)
+        where T : IWebView
+    {
+        webView.ProcessTerminatedEvent = new AsyncEventCommand<WebViewProcessTerminatedEventArgs>(executeWithFullArgs: processTerminatedAction);
         return webView;
     }
 }

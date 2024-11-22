@@ -62,6 +62,13 @@ public partial class EllipseGeometry<T> : Shapes.Geometry<T>, IEllipseGeometry w
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class EllipseGeometry : EllipseGeometry<Microsoft.Maui.Controls.Shapes.EllipseGeometry>

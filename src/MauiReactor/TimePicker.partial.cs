@@ -60,7 +60,7 @@ public partial class TimePickerExtensions
 {
     public static T OnTimeSelected<T>(this T inputView, Action<TimeSpan>? action) where T : ITimePicker
     {
-        inputView.TimeSelectedActionWithArgs = (s, args) => action?.Invoke(args.NewTime);
+        inputView.TimeSelectedEvent = new SyncEventCommand<TimeChangedEventArgs>((s, args) => action?.Invoke(args.NewTime));
         return inputView;
     }
 }

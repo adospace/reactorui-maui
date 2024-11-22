@@ -57,6 +57,13 @@ public sealed partial class Rectangle : Shapes.Shape<Microsoft.Maui.Controls.Sha
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public static partial class RectangleExtensions

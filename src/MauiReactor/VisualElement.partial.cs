@@ -150,13 +150,13 @@ public static partial class VisualElementExtensions
 
     public static T OnSizeChanged<T>(this T visualElement, Action<Size>? sizeChangedAction) where T : IVisualElement
     {
-        visualElement.SizeChangedActionWithArgs = (sender, args)=>
+        visualElement.SizeChangedEvent = new SyncEventCommand<EventArgs>((sender, args)=>
         {
             if (sender is VisualElement element)
             {
                 sizeChangedAction?.Invoke(new Size(element.Width, element.Height));
             }
-        };
+        });
         return visualElement;
     }
 

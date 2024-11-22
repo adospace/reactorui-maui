@@ -14,17 +14,11 @@ public partial interface ISwipeView : IContentView
 {
     object? Threshold { get; set; }
 
-    Action? SwipeStartedAction { get; set; }
+    EventCommand<SwipeStartedEventArgs>? SwipeStartedEvent { get; set; }
 
-    Action<object?, SwipeStartedEventArgs>? SwipeStartedActionWithArgs { get; set; }
+    EventCommand<SwipeChangingEventArgs>? SwipeChangingEvent { get; set; }
 
-    Action? SwipeChangingAction { get; set; }
-
-    Action<object?, SwipeChangingEventArgs>? SwipeChangingActionWithArgs { get; set; }
-
-    Action? SwipeEndedAction { get; set; }
-
-    Action<object?, SwipeEndedEventArgs>? SwipeEndedActionWithArgs { get; set; }
+    EventCommand<SwipeEndedEventArgs>? SwipeEndedEvent { get; set; }
 }
 
 public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microsoft.Maui.Controls.SwipeView, new()
@@ -41,17 +35,11 @@ public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microso
 
     object? ISwipeView.Threshold { get; set; }
 
-    Action? ISwipeView.SwipeStartedAction { get; set; }
+    EventCommand<SwipeStartedEventArgs>? ISwipeView.SwipeStartedEvent { get; set; }
 
-    Action<object?, SwipeStartedEventArgs>? ISwipeView.SwipeStartedActionWithArgs { get; set; }
+    EventCommand<SwipeChangingEventArgs>? ISwipeView.SwipeChangingEvent { get; set; }
 
-    Action? ISwipeView.SwipeChangingAction { get; set; }
-
-    Action<object?, SwipeChangingEventArgs>? ISwipeView.SwipeChangingActionWithArgs { get; set; }
-
-    Action? ISwipeView.SwipeEndedAction { get; set; }
-
-    Action<object?, SwipeEndedEventArgs>? ISwipeView.SwipeEndedActionWithArgs { get; set; }
+    EventCommand<SwipeEndedEventArgs>? ISwipeView.SwipeEndedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -79,21 +67,24 @@ public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microso
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<SwipeStartedEventArgs>? _executingSwipeStartedEvent;
+    private EventCommand<SwipeChangingEventArgs>? _executingSwipeChangingEvent;
+    private EventCommand<SwipeEndedEventArgs>? _executingSwipeEndedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsISwipeView = (ISwipeView)this;
-        if (thisAsISwipeView.SwipeStartedAction != null || thisAsISwipeView.SwipeStartedActionWithArgs != null)
+        if (thisAsISwipeView.SwipeStartedEvent != null)
         {
             NativeControl.SwipeStarted += NativeControl_SwipeStarted;
         }
 
-        if (thisAsISwipeView.SwipeChangingAction != null || thisAsISwipeView.SwipeChangingActionWithArgs != null)
+        if (thisAsISwipeView.SwipeChangingEvent != null)
         {
             NativeControl.SwipeChanging += NativeControl_SwipeChanging;
         }
 
-        if (thisAsISwipeView.SwipeEndedAction != null || thisAsISwipeView.SwipeEndedActionWithArgs != null)
+        if (thisAsISwipeView.SwipeEndedEvent != null)
         {
             NativeControl.SwipeEnded += NativeControl_SwipeEnded;
         }
@@ -105,22 +96,31 @@ public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microso
     private void NativeControl_SwipeStarted(object? sender, SwipeStartedEventArgs e)
     {
         var thisAsISwipeView = (ISwipeView)this;
-        thisAsISwipeView.SwipeStartedAction?.Invoke();
-        thisAsISwipeView.SwipeStartedActionWithArgs?.Invoke(sender, e);
+        if (_executingSwipeStartedEvent == null || _executingSwipeStartedEvent.IsCompleted)
+        {
+            _executingSwipeStartedEvent = thisAsISwipeView.SwipeStartedEvent;
+            _executingSwipeStartedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_SwipeChanging(object? sender, SwipeChangingEventArgs e)
     {
         var thisAsISwipeView = (ISwipeView)this;
-        thisAsISwipeView.SwipeChangingAction?.Invoke();
-        thisAsISwipeView.SwipeChangingActionWithArgs?.Invoke(sender, e);
+        if (_executingSwipeChangingEvent == null || _executingSwipeChangingEvent.IsCompleted)
+        {
+            _executingSwipeChangingEvent = thisAsISwipeView.SwipeChangingEvent;
+            _executingSwipeChangingEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_SwipeEnded(object? sender, SwipeEndedEventArgs e)
     {
         var thisAsISwipeView = (ISwipeView)this;
-        thisAsISwipeView.SwipeEndedAction?.Invoke();
-        thisAsISwipeView.SwipeEndedActionWithArgs?.Invoke(sender, e);
+        if (_executingSwipeEndedEvent == null || _executingSwipeEndedEvent.IsCompleted)
+        {
+            _executingSwipeEndedEvent = thisAsISwipeView.SwipeEndedEvent;
+            _executingSwipeEndedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -134,6 +134,31 @@ public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microso
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is SwipeView<T> @swipeview)
+        {
+            if (_executingSwipeStartedEvent != null && !_executingSwipeStartedEvent.IsCompleted)
+            {
+                @swipeview._executingSwipeStartedEvent = _executingSwipeStartedEvent;
+            }
+
+            if (_executingSwipeChangingEvent != null && !_executingSwipeChangingEvent.IsCompleted)
+            {
+                @swipeview._executingSwipeChangingEvent = _executingSwipeChangingEvent;
+            }
+
+            if (_executingSwipeEndedEvent != null && !_executingSwipeEndedEvent.IsCompleted)
+            {
+                @swipeview._executingSwipeEndedEvent = _executingSwipeEndedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -169,42 +194,126 @@ public static partial class SwipeViewExtensions
     public static T OnSwipeStarted<T>(this T swipeView, Action? swipeStartedAction)
         where T : ISwipeView
     {
-        swipeView.SwipeStartedAction = swipeStartedAction;
+        swipeView.SwipeStartedEvent = new SyncEventCommand<SwipeStartedEventArgs>(execute: swipeStartedAction);
         return swipeView;
     }
 
-    public static T OnSwipeStarted<T>(this T swipeView, Action<object?, SwipeStartedEventArgs>? swipeStartedActionWithArgs)
+    public static T OnSwipeStarted<T>(this T swipeView, Action<SwipeStartedEventArgs>? swipeStartedAction)
         where T : ISwipeView
     {
-        swipeView.SwipeStartedActionWithArgs = swipeStartedActionWithArgs;
+        swipeView.SwipeStartedEvent = new SyncEventCommand<SwipeStartedEventArgs>(executeWithArgs: swipeStartedAction);
+        return swipeView;
+    }
+
+    public static T OnSwipeStarted<T>(this T swipeView, Action<object?, SwipeStartedEventArgs>? swipeStartedAction)
+        where T : ISwipeView
+    {
+        swipeView.SwipeStartedEvent = new SyncEventCommand<SwipeStartedEventArgs>(executeWithFullArgs: swipeStartedAction);
+        return swipeView;
+    }
+
+    public static T OnSwipeStarted<T>(this T swipeView, Func<Task>? swipeStartedAction)
+        where T : ISwipeView
+    {
+        swipeView.SwipeStartedEvent = new AsyncEventCommand<SwipeStartedEventArgs>(execute: swipeStartedAction);
+        return swipeView;
+    }
+
+    public static T OnSwipeStarted<T>(this T swipeView, Func<SwipeStartedEventArgs, Task>? swipeStartedAction)
+        where T : ISwipeView
+    {
+        swipeView.SwipeStartedEvent = new AsyncEventCommand<SwipeStartedEventArgs>(executeWithArgs: swipeStartedAction);
+        return swipeView;
+    }
+
+    public static T OnSwipeStarted<T>(this T swipeView, Func<object?, SwipeStartedEventArgs, Task>? swipeStartedAction)
+        where T : ISwipeView
+    {
+        swipeView.SwipeStartedEvent = new AsyncEventCommand<SwipeStartedEventArgs>(executeWithFullArgs: swipeStartedAction);
         return swipeView;
     }
 
     public static T OnSwipeChanging<T>(this T swipeView, Action? swipeChangingAction)
         where T : ISwipeView
     {
-        swipeView.SwipeChangingAction = swipeChangingAction;
+        swipeView.SwipeChangingEvent = new SyncEventCommand<SwipeChangingEventArgs>(execute: swipeChangingAction);
         return swipeView;
     }
 
-    public static T OnSwipeChanging<T>(this T swipeView, Action<object?, SwipeChangingEventArgs>? swipeChangingActionWithArgs)
+    public static T OnSwipeChanging<T>(this T swipeView, Action<SwipeChangingEventArgs>? swipeChangingAction)
         where T : ISwipeView
     {
-        swipeView.SwipeChangingActionWithArgs = swipeChangingActionWithArgs;
+        swipeView.SwipeChangingEvent = new SyncEventCommand<SwipeChangingEventArgs>(executeWithArgs: swipeChangingAction);
+        return swipeView;
+    }
+
+    public static T OnSwipeChanging<T>(this T swipeView, Action<object?, SwipeChangingEventArgs>? swipeChangingAction)
+        where T : ISwipeView
+    {
+        swipeView.SwipeChangingEvent = new SyncEventCommand<SwipeChangingEventArgs>(executeWithFullArgs: swipeChangingAction);
+        return swipeView;
+    }
+
+    public static T OnSwipeChanging<T>(this T swipeView, Func<Task>? swipeChangingAction)
+        where T : ISwipeView
+    {
+        swipeView.SwipeChangingEvent = new AsyncEventCommand<SwipeChangingEventArgs>(execute: swipeChangingAction);
+        return swipeView;
+    }
+
+    public static T OnSwipeChanging<T>(this T swipeView, Func<SwipeChangingEventArgs, Task>? swipeChangingAction)
+        where T : ISwipeView
+    {
+        swipeView.SwipeChangingEvent = new AsyncEventCommand<SwipeChangingEventArgs>(executeWithArgs: swipeChangingAction);
+        return swipeView;
+    }
+
+    public static T OnSwipeChanging<T>(this T swipeView, Func<object?, SwipeChangingEventArgs, Task>? swipeChangingAction)
+        where T : ISwipeView
+    {
+        swipeView.SwipeChangingEvent = new AsyncEventCommand<SwipeChangingEventArgs>(executeWithFullArgs: swipeChangingAction);
         return swipeView;
     }
 
     public static T OnSwipeEnded<T>(this T swipeView, Action? swipeEndedAction)
         where T : ISwipeView
     {
-        swipeView.SwipeEndedAction = swipeEndedAction;
+        swipeView.SwipeEndedEvent = new SyncEventCommand<SwipeEndedEventArgs>(execute: swipeEndedAction);
         return swipeView;
     }
 
-    public static T OnSwipeEnded<T>(this T swipeView, Action<object?, SwipeEndedEventArgs>? swipeEndedActionWithArgs)
+    public static T OnSwipeEnded<T>(this T swipeView, Action<SwipeEndedEventArgs>? swipeEndedAction)
         where T : ISwipeView
     {
-        swipeView.SwipeEndedActionWithArgs = swipeEndedActionWithArgs;
+        swipeView.SwipeEndedEvent = new SyncEventCommand<SwipeEndedEventArgs>(executeWithArgs: swipeEndedAction);
+        return swipeView;
+    }
+
+    public static T OnSwipeEnded<T>(this T swipeView, Action<object?, SwipeEndedEventArgs>? swipeEndedAction)
+        where T : ISwipeView
+    {
+        swipeView.SwipeEndedEvent = new SyncEventCommand<SwipeEndedEventArgs>(executeWithFullArgs: swipeEndedAction);
+        return swipeView;
+    }
+
+    public static T OnSwipeEnded<T>(this T swipeView, Func<Task>? swipeEndedAction)
+        where T : ISwipeView
+    {
+        swipeView.SwipeEndedEvent = new AsyncEventCommand<SwipeEndedEventArgs>(execute: swipeEndedAction);
+        return swipeView;
+    }
+
+    public static T OnSwipeEnded<T>(this T swipeView, Func<SwipeEndedEventArgs, Task>? swipeEndedAction)
+        where T : ISwipeView
+    {
+        swipeView.SwipeEndedEvent = new AsyncEventCommand<SwipeEndedEventArgs>(executeWithArgs: swipeEndedAction);
+        return swipeView;
+    }
+
+    public static T OnSwipeEnded<T>(this T swipeView, Func<object?, SwipeEndedEventArgs, Task>? swipeEndedAction)
+        where T : ISwipeView
+    {
+        swipeView.SwipeEndedEvent = new AsyncEventCommand<SwipeEndedEventArgs>(executeWithFullArgs: swipeEndedAction);
         return swipeView;
     }
 }

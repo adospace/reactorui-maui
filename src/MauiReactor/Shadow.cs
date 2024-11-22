@@ -67,6 +67,13 @@ public partial class Shadow<T> : Element<T>, IShadow where T : Microsoft.Maui.Co
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class Shadow : Shadow<Microsoft.Maui.Controls.Shadow>

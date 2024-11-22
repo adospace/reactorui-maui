@@ -16,9 +16,7 @@ public partial interface IReorderableItemsView : IGroupableItemsView
 
     object? CanReorderItems { get; set; }
 
-    Action? ReorderCompletedAction { get; set; }
-
-    Action<object?, EventArgs>? ReorderCompletedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? ReorderCompletedEvent { get; set; }
 }
 
 public partial class ReorderableItemsView<T> : GroupableItemsView<T>, IReorderableItemsView where T : Microsoft.Maui.Controls.ReorderableItemsView, new()
@@ -37,9 +35,7 @@ public partial class ReorderableItemsView<T> : GroupableItemsView<T>, IReorderab
 
     object? IReorderableItemsView.CanReorderItems { get; set; }
 
-    Action? IReorderableItemsView.ReorderCompletedAction { get; set; }
-
-    Action<object?, EventArgs>? IReorderableItemsView.ReorderCompletedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IReorderableItemsView.ReorderCompletedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -68,11 +64,12 @@ public partial class ReorderableItemsView<T> : GroupableItemsView<T>, IReorderab
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingReorderCompletedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIReorderableItemsView = (IReorderableItemsView)this;
-        if (thisAsIReorderableItemsView.ReorderCompletedAction != null || thisAsIReorderableItemsView.ReorderCompletedActionWithArgs != null)
+        if (thisAsIReorderableItemsView.ReorderCompletedEvent != null)
         {
             NativeControl.ReorderCompleted += NativeControl_ReorderCompleted;
         }
@@ -84,8 +81,11 @@ public partial class ReorderableItemsView<T> : GroupableItemsView<T>, IReorderab
     private void NativeControl_ReorderCompleted(object? sender, EventArgs e)
     {
         var thisAsIReorderableItemsView = (IReorderableItemsView)this;
-        thisAsIReorderableItemsView.ReorderCompletedAction?.Invoke();
-        thisAsIReorderableItemsView.ReorderCompletedActionWithArgs?.Invoke(sender, e);
+        if (_executingReorderCompletedEvent == null || _executingReorderCompletedEvent.IsCompleted)
+        {
+            _executingReorderCompletedEvent = thisAsIReorderableItemsView.ReorderCompletedEvent;
+            _executingReorderCompletedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -97,6 +97,21 @@ public partial class ReorderableItemsView<T> : GroupableItemsView<T>, IReorderab
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is ReorderableItemsView<T> @reorderableitemsview)
+        {
+            if (_executingReorderCompletedEvent != null && !_executingReorderCompletedEvent.IsCompleted)
+            {
+                @reorderableitemsview._executingReorderCompletedEvent = _executingReorderCompletedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -144,14 +159,42 @@ public static partial class ReorderableItemsViewExtensions
     public static T OnReorderCompleted<T>(this T reorderableItemsView, Action? reorderCompletedAction)
         where T : IReorderableItemsView
     {
-        reorderableItemsView.ReorderCompletedAction = reorderCompletedAction;
+        reorderableItemsView.ReorderCompletedEvent = new SyncEventCommand<EventArgs>(execute: reorderCompletedAction);
         return reorderableItemsView;
     }
 
-    public static T OnReorderCompleted<T>(this T reorderableItemsView, Action<object?, EventArgs>? reorderCompletedActionWithArgs)
+    public static T OnReorderCompleted<T>(this T reorderableItemsView, Action<EventArgs>? reorderCompletedAction)
         where T : IReorderableItemsView
     {
-        reorderableItemsView.ReorderCompletedActionWithArgs = reorderCompletedActionWithArgs;
+        reorderableItemsView.ReorderCompletedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: reorderCompletedAction);
+        return reorderableItemsView;
+    }
+
+    public static T OnReorderCompleted<T>(this T reorderableItemsView, Action<object?, EventArgs>? reorderCompletedAction)
+        where T : IReorderableItemsView
+    {
+        reorderableItemsView.ReorderCompletedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: reorderCompletedAction);
+        return reorderableItemsView;
+    }
+
+    public static T OnReorderCompleted<T>(this T reorderableItemsView, Func<Task>? reorderCompletedAction)
+        where T : IReorderableItemsView
+    {
+        reorderableItemsView.ReorderCompletedEvent = new AsyncEventCommand<EventArgs>(execute: reorderCompletedAction);
+        return reorderableItemsView;
+    }
+
+    public static T OnReorderCompleted<T>(this T reorderableItemsView, Func<EventArgs, Task>? reorderCompletedAction)
+        where T : IReorderableItemsView
+    {
+        reorderableItemsView.ReorderCompletedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: reorderCompletedAction);
+        return reorderableItemsView;
+    }
+
+    public static T OnReorderCompleted<T>(this T reorderableItemsView, Func<object?, EventArgs, Task>? reorderCompletedAction)
+        where T : IReorderableItemsView
+    {
+        reorderableItemsView.ReorderCompletedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: reorderCompletedAction);
         return reorderableItemsView;
     }
 }

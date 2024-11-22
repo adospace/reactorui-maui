@@ -46,6 +46,13 @@ public sealed partial class Ellipse : Shapes.Shape<Microsoft.Maui.Controls.Shape
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public static partial class EllipseExtensions

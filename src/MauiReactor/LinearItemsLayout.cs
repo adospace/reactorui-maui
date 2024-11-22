@@ -52,6 +52,13 @@ public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItem
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public static partial class LinearItemsLayoutExtensions

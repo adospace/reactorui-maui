@@ -57,6 +57,13 @@ public partial class TableView<T> : View<T>, ITableView where T : Microsoft.Maui
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class TableView : TableView<Microsoft.Maui.Controls.TableView>

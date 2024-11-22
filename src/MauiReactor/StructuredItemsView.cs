@@ -52,6 +52,13 @@ public partial class StructuredItemsView<T> : ItemsView<T>, IStructuredItemsView
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class StructuredItemsView : StructuredItemsView<Microsoft.Maui.Controls.StructuredItemsView>

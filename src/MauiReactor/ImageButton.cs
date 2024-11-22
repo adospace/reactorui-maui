@@ -26,17 +26,11 @@ public partial interface IImageButton : IView
 
     object? Padding { get; set; }
 
-    Action? ClickedAction { get; set; }
+    EventCommand<EventArgs>? ClickedEvent { get; set; }
 
-    Action<object?, EventArgs>? ClickedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? PressedEvent { get; set; }
 
-    Action? PressedAction { get; set; }
-
-    Action<object?, EventArgs>? PressedActionWithArgs { get; set; }
-
-    Action? ReleasedAction { get; set; }
-
-    Action<object?, EventArgs>? ReleasedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? ReleasedEvent { get; set; }
 }
 
 public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.Maui.Controls.ImageButton, new()
@@ -65,17 +59,11 @@ public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.
 
     object? IImageButton.Padding { get; set; }
 
-    Action? IImageButton.ClickedAction { get; set; }
+    EventCommand<EventArgs>? IImageButton.ClickedEvent { get; set; }
 
-    Action<object?, EventArgs>? IImageButton.ClickedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IImageButton.PressedEvent { get; set; }
 
-    Action? IImageButton.PressedAction { get; set; }
-
-    Action<object?, EventArgs>? IImageButton.PressedActionWithArgs { get; set; }
-
-    Action? IImageButton.ReleasedAction { get; set; }
-
-    Action<object?, EventArgs>? IImageButton.ReleasedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IImageButton.ReleasedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -109,21 +97,24 @@ public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingClickedEvent;
+    private EventCommand<EventArgs>? _executingPressedEvent;
+    private EventCommand<EventArgs>? _executingReleasedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIImageButton = (IImageButton)this;
-        if (thisAsIImageButton.ClickedAction != null || thisAsIImageButton.ClickedActionWithArgs != null)
+        if (thisAsIImageButton.ClickedEvent != null)
         {
             NativeControl.Clicked += NativeControl_Clicked;
         }
 
-        if (thisAsIImageButton.PressedAction != null || thisAsIImageButton.PressedActionWithArgs != null)
+        if (thisAsIImageButton.PressedEvent != null)
         {
             NativeControl.Pressed += NativeControl_Pressed;
         }
 
-        if (thisAsIImageButton.ReleasedAction != null || thisAsIImageButton.ReleasedActionWithArgs != null)
+        if (thisAsIImageButton.ReleasedEvent != null)
         {
             NativeControl.Released += NativeControl_Released;
         }
@@ -135,22 +126,31 @@ public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.
     private void NativeControl_Clicked(object? sender, EventArgs e)
     {
         var thisAsIImageButton = (IImageButton)this;
-        thisAsIImageButton.ClickedAction?.Invoke();
-        thisAsIImageButton.ClickedActionWithArgs?.Invoke(sender, e);
+        if (_executingClickedEvent == null || _executingClickedEvent.IsCompleted)
+        {
+            _executingClickedEvent = thisAsIImageButton.ClickedEvent;
+            _executingClickedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Pressed(object? sender, EventArgs e)
     {
         var thisAsIImageButton = (IImageButton)this;
-        thisAsIImageButton.PressedAction?.Invoke();
-        thisAsIImageButton.PressedActionWithArgs?.Invoke(sender, e);
+        if (_executingPressedEvent == null || _executingPressedEvent.IsCompleted)
+        {
+            _executingPressedEvent = thisAsIImageButton.PressedEvent;
+            _executingPressedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Released(object? sender, EventArgs e)
     {
         var thisAsIImageButton = (IImageButton)this;
-        thisAsIImageButton.ReleasedAction?.Invoke();
-        thisAsIImageButton.ReleasedActionWithArgs?.Invoke(sender, e);
+        if (_executingReleasedEvent == null || _executingReleasedEvent.IsCompleted)
+        {
+            _executingReleasedEvent = thisAsIImageButton.ReleasedEvent;
+            _executingReleasedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -164,6 +164,31 @@ public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is ImageButton<T> @imagebutton)
+        {
+            if (_executingClickedEvent != null && !_executingClickedEvent.IsCompleted)
+            {
+                @imagebutton._executingClickedEvent = _executingClickedEvent;
+            }
+
+            if (_executingPressedEvent != null && !_executingPressedEvent.IsCompleted)
+            {
+                @imagebutton._executingPressedEvent = _executingPressedEvent;
+            }
+
+            if (_executingReleasedEvent != null && !_executingReleasedEvent.IsCompleted)
+            {
+                @imagebutton._executingReleasedEvent = _executingReleasedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -356,42 +381,126 @@ public static partial class ImageButtonExtensions
     public static T OnClicked<T>(this T imageButton, Action? clickedAction)
         where T : IImageButton
     {
-        imageButton.ClickedAction = clickedAction;
+        imageButton.ClickedEvent = new SyncEventCommand<EventArgs>(execute: clickedAction);
         return imageButton;
     }
 
-    public static T OnClicked<T>(this T imageButton, Action<object?, EventArgs>? clickedActionWithArgs)
+    public static T OnClicked<T>(this T imageButton, Action<EventArgs>? clickedAction)
         where T : IImageButton
     {
-        imageButton.ClickedActionWithArgs = clickedActionWithArgs;
+        imageButton.ClickedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: clickedAction);
+        return imageButton;
+    }
+
+    public static T OnClicked<T>(this T imageButton, Action<object?, EventArgs>? clickedAction)
+        where T : IImageButton
+    {
+        imageButton.ClickedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: clickedAction);
+        return imageButton;
+    }
+
+    public static T OnClicked<T>(this T imageButton, Func<Task>? clickedAction)
+        where T : IImageButton
+    {
+        imageButton.ClickedEvent = new AsyncEventCommand<EventArgs>(execute: clickedAction);
+        return imageButton;
+    }
+
+    public static T OnClicked<T>(this T imageButton, Func<EventArgs, Task>? clickedAction)
+        where T : IImageButton
+    {
+        imageButton.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: clickedAction);
+        return imageButton;
+    }
+
+    public static T OnClicked<T>(this T imageButton, Func<object?, EventArgs, Task>? clickedAction)
+        where T : IImageButton
+    {
+        imageButton.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: clickedAction);
         return imageButton;
     }
 
     public static T OnPressed<T>(this T imageButton, Action? pressedAction)
         where T : IImageButton
     {
-        imageButton.PressedAction = pressedAction;
+        imageButton.PressedEvent = new SyncEventCommand<EventArgs>(execute: pressedAction);
         return imageButton;
     }
 
-    public static T OnPressed<T>(this T imageButton, Action<object?, EventArgs>? pressedActionWithArgs)
+    public static T OnPressed<T>(this T imageButton, Action<EventArgs>? pressedAction)
         where T : IImageButton
     {
-        imageButton.PressedActionWithArgs = pressedActionWithArgs;
+        imageButton.PressedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: pressedAction);
+        return imageButton;
+    }
+
+    public static T OnPressed<T>(this T imageButton, Action<object?, EventArgs>? pressedAction)
+        where T : IImageButton
+    {
+        imageButton.PressedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: pressedAction);
+        return imageButton;
+    }
+
+    public static T OnPressed<T>(this T imageButton, Func<Task>? pressedAction)
+        where T : IImageButton
+    {
+        imageButton.PressedEvent = new AsyncEventCommand<EventArgs>(execute: pressedAction);
+        return imageButton;
+    }
+
+    public static T OnPressed<T>(this T imageButton, Func<EventArgs, Task>? pressedAction)
+        where T : IImageButton
+    {
+        imageButton.PressedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: pressedAction);
+        return imageButton;
+    }
+
+    public static T OnPressed<T>(this T imageButton, Func<object?, EventArgs, Task>? pressedAction)
+        where T : IImageButton
+    {
+        imageButton.PressedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: pressedAction);
         return imageButton;
     }
 
     public static T OnReleased<T>(this T imageButton, Action? releasedAction)
         where T : IImageButton
     {
-        imageButton.ReleasedAction = releasedAction;
+        imageButton.ReleasedEvent = new SyncEventCommand<EventArgs>(execute: releasedAction);
         return imageButton;
     }
 
-    public static T OnReleased<T>(this T imageButton, Action<object?, EventArgs>? releasedActionWithArgs)
+    public static T OnReleased<T>(this T imageButton, Action<EventArgs>? releasedAction)
         where T : IImageButton
     {
-        imageButton.ReleasedActionWithArgs = releasedActionWithArgs;
+        imageButton.ReleasedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: releasedAction);
+        return imageButton;
+    }
+
+    public static T OnReleased<T>(this T imageButton, Action<object?, EventArgs>? releasedAction)
+        where T : IImageButton
+    {
+        imageButton.ReleasedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: releasedAction);
+        return imageButton;
+    }
+
+    public static T OnReleased<T>(this T imageButton, Func<Task>? releasedAction)
+        where T : IImageButton
+    {
+        imageButton.ReleasedEvent = new AsyncEventCommand<EventArgs>(execute: releasedAction);
+        return imageButton;
+    }
+
+    public static T OnReleased<T>(this T imageButton, Func<EventArgs, Task>? releasedAction)
+        where T : IImageButton
+    {
+        imageButton.ReleasedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: releasedAction);
+        return imageButton;
+    }
+
+    public static T OnReleased<T>(this T imageButton, Func<object?, EventArgs, Task>? releasedAction)
+        where T : IImageButton
+    {
+        imageButton.ReleasedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: releasedAction);
         return imageButton;
     }
 }

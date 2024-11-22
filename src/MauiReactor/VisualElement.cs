@@ -62,33 +62,19 @@ public partial interface IVisualElement : INavigableElement
 
     object? ZIndex { get; set; }
 
-    Action? ChildrenReorderedAction { get; set; }
+    EventCommand<EventArgs>? ChildrenReorderedEvent { get; set; }
 
-    Action<object?, EventArgs>? ChildrenReorderedActionWithArgs { get; set; }
+    EventCommand<FocusEventArgs>? FocusedEvent { get; set; }
 
-    Action? FocusedAction { get; set; }
+    EventCommand<EventArgs>? MeasureInvalidatedEvent { get; set; }
 
-    Action<object?, FocusEventArgs>? FocusedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? SizeChangedEvent { get; set; }
 
-    Action? MeasureInvalidatedAction { get; set; }
+    EventCommand<FocusEventArgs>? UnfocusedEvent { get; set; }
 
-    Action<object?, EventArgs>? MeasureInvalidatedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? LoadedEvent { get; set; }
 
-    Action? SizeChangedAction { get; set; }
-
-    Action<object?, EventArgs>? SizeChangedActionWithArgs { get; set; }
-
-    Action? UnfocusedAction { get; set; }
-
-    Action<object?, FocusEventArgs>? UnfocusedActionWithArgs { get; set; }
-
-    Action? LoadedAction { get; set; }
-
-    Action<object?, EventArgs>? LoadedActionWithArgs { get; set; }
-
-    Action? UnloadedAction { get; set; }
-
-    Action<object?, EventArgs>? UnloadedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? UnloadedEvent { get; set; }
 }
 
 public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualElement where T : Microsoft.Maui.Controls.VisualElement, new()
@@ -153,33 +139,19 @@ public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualEle
 
     object? IVisualElement.ZIndex { get; set; }
 
-    Action? IVisualElement.ChildrenReorderedAction { get; set; }
+    EventCommand<EventArgs>? IVisualElement.ChildrenReorderedEvent { get; set; }
 
-    Action<object?, EventArgs>? IVisualElement.ChildrenReorderedActionWithArgs { get; set; }
+    EventCommand<FocusEventArgs>? IVisualElement.FocusedEvent { get; set; }
 
-    Action? IVisualElement.FocusedAction { get; set; }
+    EventCommand<EventArgs>? IVisualElement.MeasureInvalidatedEvent { get; set; }
 
-    Action<object?, FocusEventArgs>? IVisualElement.FocusedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IVisualElement.SizeChangedEvent { get; set; }
 
-    Action? IVisualElement.MeasureInvalidatedAction { get; set; }
+    EventCommand<FocusEventArgs>? IVisualElement.UnfocusedEvent { get; set; }
 
-    Action<object?, EventArgs>? IVisualElement.MeasureInvalidatedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IVisualElement.LoadedEvent { get; set; }
 
-    Action? IVisualElement.SizeChangedAction { get; set; }
-
-    Action<object?, EventArgs>? IVisualElement.SizeChangedActionWithArgs { get; set; }
-
-    Action? IVisualElement.UnfocusedAction { get; set; }
-
-    Action<object?, FocusEventArgs>? IVisualElement.UnfocusedActionWithArgs { get; set; }
-
-    Action? IVisualElement.LoadedAction { get; set; }
-
-    Action<object?, EventArgs>? IVisualElement.LoadedActionWithArgs { get; set; }
-
-    Action? IVisualElement.UnloadedAction { get; set; }
-
-    Action<object?, EventArgs>? IVisualElement.UnloadedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IVisualElement.UnloadedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -231,41 +203,48 @@ public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualEle
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingChildrenReorderedEvent;
+    private EventCommand<FocusEventArgs>? _executingFocusedEvent;
+    private EventCommand<EventArgs>? _executingMeasureInvalidatedEvent;
+    private EventCommand<EventArgs>? _executingSizeChangedEvent;
+    private EventCommand<FocusEventArgs>? _executingUnfocusedEvent;
+    private EventCommand<EventArgs>? _executingLoadedEvent;
+    private EventCommand<EventArgs>? _executingUnloadedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIVisualElement = (IVisualElement)this;
-        if (thisAsIVisualElement.ChildrenReorderedAction != null || thisAsIVisualElement.ChildrenReorderedActionWithArgs != null)
+        if (thisAsIVisualElement.ChildrenReorderedEvent != null)
         {
             NativeControl.ChildrenReordered += NativeControl_ChildrenReordered;
         }
 
-        if (thisAsIVisualElement.FocusedAction != null || thisAsIVisualElement.FocusedActionWithArgs != null)
+        if (thisAsIVisualElement.FocusedEvent != null)
         {
             NativeControl.Focused += NativeControl_Focused;
         }
 
-        if (thisAsIVisualElement.MeasureInvalidatedAction != null || thisAsIVisualElement.MeasureInvalidatedActionWithArgs != null)
+        if (thisAsIVisualElement.MeasureInvalidatedEvent != null)
         {
             NativeControl.MeasureInvalidated += NativeControl_MeasureInvalidated;
         }
 
-        if (thisAsIVisualElement.SizeChangedAction != null || thisAsIVisualElement.SizeChangedActionWithArgs != null)
+        if (thisAsIVisualElement.SizeChangedEvent != null)
         {
             NativeControl.SizeChanged += NativeControl_SizeChanged;
         }
 
-        if (thisAsIVisualElement.UnfocusedAction != null || thisAsIVisualElement.UnfocusedActionWithArgs != null)
+        if (thisAsIVisualElement.UnfocusedEvent != null)
         {
             NativeControl.Unfocused += NativeControl_Unfocused;
         }
 
-        if (thisAsIVisualElement.LoadedAction != null || thisAsIVisualElement.LoadedActionWithArgs != null)
+        if (thisAsIVisualElement.LoadedEvent != null)
         {
             NativeControl.Loaded += NativeControl_Loaded;
         }
 
-        if (thisAsIVisualElement.UnloadedAction != null || thisAsIVisualElement.UnloadedActionWithArgs != null)
+        if (thisAsIVisualElement.UnloadedEvent != null)
         {
             NativeControl.Unloaded += NativeControl_Unloaded;
         }
@@ -277,50 +256,71 @@ public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualEle
     private void NativeControl_ChildrenReordered(object? sender, EventArgs e)
     {
         var thisAsIVisualElement = (IVisualElement)this;
-        thisAsIVisualElement.ChildrenReorderedAction?.Invoke();
-        thisAsIVisualElement.ChildrenReorderedActionWithArgs?.Invoke(sender, e);
+        if (_executingChildrenReorderedEvent == null || _executingChildrenReorderedEvent.IsCompleted)
+        {
+            _executingChildrenReorderedEvent = thisAsIVisualElement.ChildrenReorderedEvent;
+            _executingChildrenReorderedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Focused(object? sender, FocusEventArgs e)
     {
         var thisAsIVisualElement = (IVisualElement)this;
-        thisAsIVisualElement.FocusedAction?.Invoke();
-        thisAsIVisualElement.FocusedActionWithArgs?.Invoke(sender, e);
+        if (_executingFocusedEvent == null || _executingFocusedEvent.IsCompleted)
+        {
+            _executingFocusedEvent = thisAsIVisualElement.FocusedEvent;
+            _executingFocusedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_MeasureInvalidated(object? sender, EventArgs e)
     {
         var thisAsIVisualElement = (IVisualElement)this;
-        thisAsIVisualElement.MeasureInvalidatedAction?.Invoke();
-        thisAsIVisualElement.MeasureInvalidatedActionWithArgs?.Invoke(sender, e);
+        if (_executingMeasureInvalidatedEvent == null || _executingMeasureInvalidatedEvent.IsCompleted)
+        {
+            _executingMeasureInvalidatedEvent = thisAsIVisualElement.MeasureInvalidatedEvent;
+            _executingMeasureInvalidatedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_SizeChanged(object? sender, EventArgs e)
     {
         var thisAsIVisualElement = (IVisualElement)this;
-        thisAsIVisualElement.SizeChangedAction?.Invoke();
-        thisAsIVisualElement.SizeChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingSizeChangedEvent == null || _executingSizeChangedEvent.IsCompleted)
+        {
+            _executingSizeChangedEvent = thisAsIVisualElement.SizeChangedEvent;
+            _executingSizeChangedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Unfocused(object? sender, FocusEventArgs e)
     {
         var thisAsIVisualElement = (IVisualElement)this;
-        thisAsIVisualElement.UnfocusedAction?.Invoke();
-        thisAsIVisualElement.UnfocusedActionWithArgs?.Invoke(sender, e);
+        if (_executingUnfocusedEvent == null || _executingUnfocusedEvent.IsCompleted)
+        {
+            _executingUnfocusedEvent = thisAsIVisualElement.UnfocusedEvent;
+            _executingUnfocusedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Loaded(object? sender, EventArgs e)
     {
         var thisAsIVisualElement = (IVisualElement)this;
-        thisAsIVisualElement.LoadedAction?.Invoke();
-        thisAsIVisualElement.LoadedActionWithArgs?.Invoke(sender, e);
+        if (_executingLoadedEvent == null || _executingLoadedEvent.IsCompleted)
+        {
+            _executingLoadedEvent = thisAsIVisualElement.LoadedEvent;
+            _executingLoadedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Unloaded(object? sender, EventArgs e)
     {
         var thisAsIVisualElement = (IVisualElement)this;
-        thisAsIVisualElement.UnloadedAction?.Invoke();
-        thisAsIVisualElement.UnloadedActionWithArgs?.Invoke(sender, e);
+        if (_executingUnloadedEvent == null || _executingUnloadedEvent.IsCompleted)
+        {
+            _executingUnloadedEvent = thisAsIVisualElement.UnloadedEvent;
+            _executingUnloadedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -338,6 +338,51 @@ public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualEle
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is VisualElement<T> @visualelement)
+        {
+            if (_executingChildrenReorderedEvent != null && !_executingChildrenReorderedEvent.IsCompleted)
+            {
+                @visualelement._executingChildrenReorderedEvent = _executingChildrenReorderedEvent;
+            }
+
+            if (_executingFocusedEvent != null && !_executingFocusedEvent.IsCompleted)
+            {
+                @visualelement._executingFocusedEvent = _executingFocusedEvent;
+            }
+
+            if (_executingMeasureInvalidatedEvent != null && !_executingMeasureInvalidatedEvent.IsCompleted)
+            {
+                @visualelement._executingMeasureInvalidatedEvent = _executingMeasureInvalidatedEvent;
+            }
+
+            if (_executingSizeChangedEvent != null && !_executingSizeChangedEvent.IsCompleted)
+            {
+                @visualelement._executingSizeChangedEvent = _executingSizeChangedEvent;
+            }
+
+            if (_executingUnfocusedEvent != null && !_executingUnfocusedEvent.IsCompleted)
+            {
+                @visualelement._executingUnfocusedEvent = _executingUnfocusedEvent;
+            }
+
+            if (_executingLoadedEvent != null && !_executingLoadedEvent.IsCompleted)
+            {
+                @visualelement._executingLoadedEvent = _executingLoadedEvent;
+            }
+
+            if (_executingUnloadedEvent != null && !_executingUnloadedEvent.IsCompleted)
+            {
+                @visualelement._executingUnloadedEvent = _executingUnloadedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -730,98 +775,294 @@ public static partial class VisualElementExtensions
     public static T OnChildrenReordered<T>(this T visualElement, Action? childrenReorderedAction)
         where T : IVisualElement
     {
-        visualElement.ChildrenReorderedAction = childrenReorderedAction;
+        visualElement.ChildrenReorderedEvent = new SyncEventCommand<EventArgs>(execute: childrenReorderedAction);
         return visualElement;
     }
 
-    public static T OnChildrenReordered<T>(this T visualElement, Action<object?, EventArgs>? childrenReorderedActionWithArgs)
+    public static T OnChildrenReordered<T>(this T visualElement, Action<EventArgs>? childrenReorderedAction)
         where T : IVisualElement
     {
-        visualElement.ChildrenReorderedActionWithArgs = childrenReorderedActionWithArgs;
+        visualElement.ChildrenReorderedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: childrenReorderedAction);
+        return visualElement;
+    }
+
+    public static T OnChildrenReordered<T>(this T visualElement, Action<object?, EventArgs>? childrenReorderedAction)
+        where T : IVisualElement
+    {
+        visualElement.ChildrenReorderedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: childrenReorderedAction);
+        return visualElement;
+    }
+
+    public static T OnChildrenReordered<T>(this T visualElement, Func<Task>? childrenReorderedAction)
+        where T : IVisualElement
+    {
+        visualElement.ChildrenReorderedEvent = new AsyncEventCommand<EventArgs>(execute: childrenReorderedAction);
+        return visualElement;
+    }
+
+    public static T OnChildrenReordered<T>(this T visualElement, Func<EventArgs, Task>? childrenReorderedAction)
+        where T : IVisualElement
+    {
+        visualElement.ChildrenReorderedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: childrenReorderedAction);
+        return visualElement;
+    }
+
+    public static T OnChildrenReordered<T>(this T visualElement, Func<object?, EventArgs, Task>? childrenReorderedAction)
+        where T : IVisualElement
+    {
+        visualElement.ChildrenReorderedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: childrenReorderedAction);
         return visualElement;
     }
 
     public static T OnFocused<T>(this T visualElement, Action? focusedAction)
         where T : IVisualElement
     {
-        visualElement.FocusedAction = focusedAction;
+        visualElement.FocusedEvent = new SyncEventCommand<FocusEventArgs>(execute: focusedAction);
         return visualElement;
     }
 
-    public static T OnFocused<T>(this T visualElement, Action<object?, FocusEventArgs>? focusedActionWithArgs)
+    public static T OnFocused<T>(this T visualElement, Action<FocusEventArgs>? focusedAction)
         where T : IVisualElement
     {
-        visualElement.FocusedActionWithArgs = focusedActionWithArgs;
+        visualElement.FocusedEvent = new SyncEventCommand<FocusEventArgs>(executeWithArgs: focusedAction);
+        return visualElement;
+    }
+
+    public static T OnFocused<T>(this T visualElement, Action<object?, FocusEventArgs>? focusedAction)
+        where T : IVisualElement
+    {
+        visualElement.FocusedEvent = new SyncEventCommand<FocusEventArgs>(executeWithFullArgs: focusedAction);
+        return visualElement;
+    }
+
+    public static T OnFocused<T>(this T visualElement, Func<Task>? focusedAction)
+        where T : IVisualElement
+    {
+        visualElement.FocusedEvent = new AsyncEventCommand<FocusEventArgs>(execute: focusedAction);
+        return visualElement;
+    }
+
+    public static T OnFocused<T>(this T visualElement, Func<FocusEventArgs, Task>? focusedAction)
+        where T : IVisualElement
+    {
+        visualElement.FocusedEvent = new AsyncEventCommand<FocusEventArgs>(executeWithArgs: focusedAction);
+        return visualElement;
+    }
+
+    public static T OnFocused<T>(this T visualElement, Func<object?, FocusEventArgs, Task>? focusedAction)
+        where T : IVisualElement
+    {
+        visualElement.FocusedEvent = new AsyncEventCommand<FocusEventArgs>(executeWithFullArgs: focusedAction);
         return visualElement;
     }
 
     public static T OnMeasureInvalidated<T>(this T visualElement, Action? measureInvalidatedAction)
         where T : IVisualElement
     {
-        visualElement.MeasureInvalidatedAction = measureInvalidatedAction;
+        visualElement.MeasureInvalidatedEvent = new SyncEventCommand<EventArgs>(execute: measureInvalidatedAction);
         return visualElement;
     }
 
-    public static T OnMeasureInvalidated<T>(this T visualElement, Action<object?, EventArgs>? measureInvalidatedActionWithArgs)
+    public static T OnMeasureInvalidated<T>(this T visualElement, Action<EventArgs>? measureInvalidatedAction)
         where T : IVisualElement
     {
-        visualElement.MeasureInvalidatedActionWithArgs = measureInvalidatedActionWithArgs;
+        visualElement.MeasureInvalidatedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: measureInvalidatedAction);
+        return visualElement;
+    }
+
+    public static T OnMeasureInvalidated<T>(this T visualElement, Action<object?, EventArgs>? measureInvalidatedAction)
+        where T : IVisualElement
+    {
+        visualElement.MeasureInvalidatedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: measureInvalidatedAction);
+        return visualElement;
+    }
+
+    public static T OnMeasureInvalidated<T>(this T visualElement, Func<Task>? measureInvalidatedAction)
+        where T : IVisualElement
+    {
+        visualElement.MeasureInvalidatedEvent = new AsyncEventCommand<EventArgs>(execute: measureInvalidatedAction);
+        return visualElement;
+    }
+
+    public static T OnMeasureInvalidated<T>(this T visualElement, Func<EventArgs, Task>? measureInvalidatedAction)
+        where T : IVisualElement
+    {
+        visualElement.MeasureInvalidatedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: measureInvalidatedAction);
+        return visualElement;
+    }
+
+    public static T OnMeasureInvalidated<T>(this T visualElement, Func<object?, EventArgs, Task>? measureInvalidatedAction)
+        where T : IVisualElement
+    {
+        visualElement.MeasureInvalidatedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: measureInvalidatedAction);
         return visualElement;
     }
 
     public static T OnSizeChanged<T>(this T visualElement, Action? sizeChangedAction)
         where T : IVisualElement
     {
-        visualElement.SizeChangedAction = sizeChangedAction;
+        visualElement.SizeChangedEvent = new SyncEventCommand<EventArgs>(execute: sizeChangedAction);
         return visualElement;
     }
 
-    public static T OnSizeChanged<T>(this T visualElement, Action<object?, EventArgs>? sizeChangedActionWithArgs)
+    public static T OnSizeChanged<T>(this T visualElement, Action<EventArgs>? sizeChangedAction)
         where T : IVisualElement
     {
-        visualElement.SizeChangedActionWithArgs = sizeChangedActionWithArgs;
+        visualElement.SizeChangedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: sizeChangedAction);
+        return visualElement;
+    }
+
+    public static T OnSizeChanged<T>(this T visualElement, Action<object?, EventArgs>? sizeChangedAction)
+        where T : IVisualElement
+    {
+        visualElement.SizeChangedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: sizeChangedAction);
+        return visualElement;
+    }
+
+    public static T OnSizeChanged<T>(this T visualElement, Func<Task>? sizeChangedAction)
+        where T : IVisualElement
+    {
+        visualElement.SizeChangedEvent = new AsyncEventCommand<EventArgs>(execute: sizeChangedAction);
+        return visualElement;
+    }
+
+    public static T OnSizeChanged<T>(this T visualElement, Func<EventArgs, Task>? sizeChangedAction)
+        where T : IVisualElement
+    {
+        visualElement.SizeChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: sizeChangedAction);
+        return visualElement;
+    }
+
+    public static T OnSizeChanged<T>(this T visualElement, Func<object?, EventArgs, Task>? sizeChangedAction)
+        where T : IVisualElement
+    {
+        visualElement.SizeChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: sizeChangedAction);
         return visualElement;
     }
 
     public static T OnUnfocused<T>(this T visualElement, Action? unfocusedAction)
         where T : IVisualElement
     {
-        visualElement.UnfocusedAction = unfocusedAction;
+        visualElement.UnfocusedEvent = new SyncEventCommand<FocusEventArgs>(execute: unfocusedAction);
         return visualElement;
     }
 
-    public static T OnUnfocused<T>(this T visualElement, Action<object?, FocusEventArgs>? unfocusedActionWithArgs)
+    public static T OnUnfocused<T>(this T visualElement, Action<FocusEventArgs>? unfocusedAction)
         where T : IVisualElement
     {
-        visualElement.UnfocusedActionWithArgs = unfocusedActionWithArgs;
+        visualElement.UnfocusedEvent = new SyncEventCommand<FocusEventArgs>(executeWithArgs: unfocusedAction);
+        return visualElement;
+    }
+
+    public static T OnUnfocused<T>(this T visualElement, Action<object?, FocusEventArgs>? unfocusedAction)
+        where T : IVisualElement
+    {
+        visualElement.UnfocusedEvent = new SyncEventCommand<FocusEventArgs>(executeWithFullArgs: unfocusedAction);
+        return visualElement;
+    }
+
+    public static T OnUnfocused<T>(this T visualElement, Func<Task>? unfocusedAction)
+        where T : IVisualElement
+    {
+        visualElement.UnfocusedEvent = new AsyncEventCommand<FocusEventArgs>(execute: unfocusedAction);
+        return visualElement;
+    }
+
+    public static T OnUnfocused<T>(this T visualElement, Func<FocusEventArgs, Task>? unfocusedAction)
+        where T : IVisualElement
+    {
+        visualElement.UnfocusedEvent = new AsyncEventCommand<FocusEventArgs>(executeWithArgs: unfocusedAction);
+        return visualElement;
+    }
+
+    public static T OnUnfocused<T>(this T visualElement, Func<object?, FocusEventArgs, Task>? unfocusedAction)
+        where T : IVisualElement
+    {
+        visualElement.UnfocusedEvent = new AsyncEventCommand<FocusEventArgs>(executeWithFullArgs: unfocusedAction);
         return visualElement;
     }
 
     public static T OnLoaded<T>(this T visualElement, Action? loadedAction)
         where T : IVisualElement
     {
-        visualElement.LoadedAction = loadedAction;
+        visualElement.LoadedEvent = new SyncEventCommand<EventArgs>(execute: loadedAction);
         return visualElement;
     }
 
-    public static T OnLoaded<T>(this T visualElement, Action<object?, EventArgs>? loadedActionWithArgs)
+    public static T OnLoaded<T>(this T visualElement, Action<EventArgs>? loadedAction)
         where T : IVisualElement
     {
-        visualElement.LoadedActionWithArgs = loadedActionWithArgs;
+        visualElement.LoadedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: loadedAction);
+        return visualElement;
+    }
+
+    public static T OnLoaded<T>(this T visualElement, Action<object?, EventArgs>? loadedAction)
+        where T : IVisualElement
+    {
+        visualElement.LoadedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: loadedAction);
+        return visualElement;
+    }
+
+    public static T OnLoaded<T>(this T visualElement, Func<Task>? loadedAction)
+        where T : IVisualElement
+    {
+        visualElement.LoadedEvent = new AsyncEventCommand<EventArgs>(execute: loadedAction);
+        return visualElement;
+    }
+
+    public static T OnLoaded<T>(this T visualElement, Func<EventArgs, Task>? loadedAction)
+        where T : IVisualElement
+    {
+        visualElement.LoadedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: loadedAction);
+        return visualElement;
+    }
+
+    public static T OnLoaded<T>(this T visualElement, Func<object?, EventArgs, Task>? loadedAction)
+        where T : IVisualElement
+    {
+        visualElement.LoadedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: loadedAction);
         return visualElement;
     }
 
     public static T OnUnloaded<T>(this T visualElement, Action? unloadedAction)
         where T : IVisualElement
     {
-        visualElement.UnloadedAction = unloadedAction;
+        visualElement.UnloadedEvent = new SyncEventCommand<EventArgs>(execute: unloadedAction);
         return visualElement;
     }
 
-    public static T OnUnloaded<T>(this T visualElement, Action<object?, EventArgs>? unloadedActionWithArgs)
+    public static T OnUnloaded<T>(this T visualElement, Action<EventArgs>? unloadedAction)
         where T : IVisualElement
     {
-        visualElement.UnloadedActionWithArgs = unloadedActionWithArgs;
+        visualElement.UnloadedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: unloadedAction);
+        return visualElement;
+    }
+
+    public static T OnUnloaded<T>(this T visualElement, Action<object?, EventArgs>? unloadedAction)
+        where T : IVisualElement
+    {
+        visualElement.UnloadedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: unloadedAction);
+        return visualElement;
+    }
+
+    public static T OnUnloaded<T>(this T visualElement, Func<Task>? unloadedAction)
+        where T : IVisualElement
+    {
+        visualElement.UnloadedEvent = new AsyncEventCommand<EventArgs>(execute: unloadedAction);
+        return visualElement;
+    }
+
+    public static T OnUnloaded<T>(this T visualElement, Func<EventArgs, Task>? unloadedAction)
+        where T : IVisualElement
+    {
+        visualElement.UnloadedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: unloadedAction);
+        return visualElement;
+    }
+
+    public static T OnUnloaded<T>(this T visualElement, Func<object?, EventArgs, Task>? unloadedAction)
+        where T : IVisualElement
+    {
+        visualElement.UnloadedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: unloadedAction);
         return visualElement;
     }
 }

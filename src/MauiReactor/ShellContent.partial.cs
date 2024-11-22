@@ -131,7 +131,7 @@ public partial class ShellContent<T> : IAutomationItemContainer
         }
     }
 
-    protected override void OnMigrated(VisualNode newNode)
+    partial void Migrated(VisualNode newNode)
     {
         var newShellContent = ((ShellContent<T>)newNode);
         newShellContent._contentTemplate = _contentTemplate;
@@ -139,8 +139,6 @@ public partial class ShellContent<T> : IAutomationItemContainer
         {
             newShellContent._contentTemplate.Owner = newShellContent;
         }
-
-        base.OnMigrated(newNode);
     }
 
     protected override void OnAddChild(VisualNode widget, BindableObject childControl)

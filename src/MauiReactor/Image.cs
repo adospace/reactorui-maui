@@ -67,6 +67,13 @@ public partial class Image<T> : View<T>, IImage where T : Microsoft.Maui.Control
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class Image : Image<Microsoft.Maui.Controls.Image>

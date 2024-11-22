@@ -107,6 +107,13 @@ public partial class Span<T> : GestureElement<T>, ISpan where T : Microsoft.Maui
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class Span : Span<Microsoft.Maui.Controls.Span>

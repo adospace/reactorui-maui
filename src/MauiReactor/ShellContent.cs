@@ -46,6 +46,13 @@ public partial class ShellContent<T> : BaseShellItem<T>, IShellContent where T :
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class ShellContent : ShellContent<Microsoft.Maui.Controls.ShellContent>

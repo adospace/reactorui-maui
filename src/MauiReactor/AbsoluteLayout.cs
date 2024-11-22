@@ -46,6 +46,13 @@ public partial class AbsoluteLayout<T> : Layout<T>, IAbsoluteLayout where T : Mi
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class AbsoluteLayout : AbsoluteLayout<Microsoft.Maui.Controls.AbsoluteLayout>

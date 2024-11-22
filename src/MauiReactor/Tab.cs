@@ -46,6 +46,13 @@ public partial class Tab<T> : ShellSection<T>, ITab where T : Microsoft.Maui.Con
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class Tab : Tab<Microsoft.Maui.Controls.Tab>

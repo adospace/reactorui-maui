@@ -26,17 +26,11 @@ public partial interface ISlider : IView
 
     object? ThumbImageSource { get; set; }
 
-    Action? ValueChangedAction { get; set; }
+    EventCommand<ValueChangedEventArgs>? ValueChangedEvent { get; set; }
 
-    Action<object?, ValueChangedEventArgs>? ValueChangedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? DragStartedEvent { get; set; }
 
-    Action? DragStartedAction { get; set; }
-
-    Action<object?, EventArgs>? DragStartedActionWithArgs { get; set; }
-
-    Action? DragCompletedAction { get; set; }
-
-    Action<object?, EventArgs>? DragCompletedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? DragCompletedEvent { get; set; }
 }
 
 public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Controls.Slider, new()
@@ -65,17 +59,11 @@ public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Contr
 
     object? ISlider.ThumbImageSource { get; set; }
 
-    Action? ISlider.ValueChangedAction { get; set; }
+    EventCommand<ValueChangedEventArgs>? ISlider.ValueChangedEvent { get; set; }
 
-    Action<object?, ValueChangedEventArgs>? ISlider.ValueChangedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? ISlider.DragStartedEvent { get; set; }
 
-    Action? ISlider.DragStartedAction { get; set; }
-
-    Action<object?, EventArgs>? ISlider.DragStartedActionWithArgs { get; set; }
-
-    Action? ISlider.DragCompletedAction { get; set; }
-
-    Action<object?, EventArgs>? ISlider.DragCompletedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? ISlider.DragCompletedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -109,21 +97,24 @@ public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Contr
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<ValueChangedEventArgs>? _executingValueChangedEvent;
+    private EventCommand<EventArgs>? _executingDragStartedEvent;
+    private EventCommand<EventArgs>? _executingDragCompletedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsISlider = (ISlider)this;
-        if (thisAsISlider.ValueChangedAction != null || thisAsISlider.ValueChangedActionWithArgs != null)
+        if (thisAsISlider.ValueChangedEvent != null)
         {
             NativeControl.ValueChanged += NativeControl_ValueChanged;
         }
 
-        if (thisAsISlider.DragStartedAction != null || thisAsISlider.DragStartedActionWithArgs != null)
+        if (thisAsISlider.DragStartedEvent != null)
         {
             NativeControl.DragStarted += NativeControl_DragStarted;
         }
 
-        if (thisAsISlider.DragCompletedAction != null || thisAsISlider.DragCompletedActionWithArgs != null)
+        if (thisAsISlider.DragCompletedEvent != null)
         {
             NativeControl.DragCompleted += NativeControl_DragCompleted;
         }
@@ -135,22 +126,31 @@ public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Contr
     private void NativeControl_ValueChanged(object? sender, ValueChangedEventArgs e)
     {
         var thisAsISlider = (ISlider)this;
-        thisAsISlider.ValueChangedAction?.Invoke();
-        thisAsISlider.ValueChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingValueChangedEvent == null || _executingValueChangedEvent.IsCompleted)
+        {
+            _executingValueChangedEvent = thisAsISlider.ValueChangedEvent;
+            _executingValueChangedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_DragStarted(object? sender, EventArgs e)
     {
         var thisAsISlider = (ISlider)this;
-        thisAsISlider.DragStartedAction?.Invoke();
-        thisAsISlider.DragStartedActionWithArgs?.Invoke(sender, e);
+        if (_executingDragStartedEvent == null || _executingDragStartedEvent.IsCompleted)
+        {
+            _executingDragStartedEvent = thisAsISlider.DragStartedEvent;
+            _executingDragStartedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_DragCompleted(object? sender, EventArgs e)
     {
         var thisAsISlider = (ISlider)this;
-        thisAsISlider.DragCompletedAction?.Invoke();
-        thisAsISlider.DragCompletedActionWithArgs?.Invoke(sender, e);
+        if (_executingDragCompletedEvent == null || _executingDragCompletedEvent.IsCompleted)
+        {
+            _executingDragCompletedEvent = thisAsISlider.DragCompletedEvent;
+            _executingDragCompletedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -164,6 +164,31 @@ public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Contr
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is Slider<T> @slider)
+        {
+            if (_executingValueChangedEvent != null && !_executingValueChangedEvent.IsCompleted)
+            {
+                @slider._executingValueChangedEvent = _executingValueChangedEvent;
+            }
+
+            if (_executingDragStartedEvent != null && !_executingDragStartedEvent.IsCompleted)
+            {
+                @slider._executingDragStartedEvent = _executingDragStartedEvent;
+            }
+
+            if (_executingDragCompletedEvent != null && !_executingDragCompletedEvent.IsCompleted)
+            {
+                @slider._executingDragCompletedEvent = _executingDragCompletedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -334,42 +359,126 @@ public static partial class SliderExtensions
     public static T OnValueChanged<T>(this T slider, Action? valueChangedAction)
         where T : ISlider
     {
-        slider.ValueChangedAction = valueChangedAction;
+        slider.ValueChangedEvent = new SyncEventCommand<ValueChangedEventArgs>(execute: valueChangedAction);
         return slider;
     }
 
-    public static T OnValueChanged<T>(this T slider, Action<object?, ValueChangedEventArgs>? valueChangedActionWithArgs)
+    public static T OnValueChanged<T>(this T slider, Action<ValueChangedEventArgs>? valueChangedAction)
         where T : ISlider
     {
-        slider.ValueChangedActionWithArgs = valueChangedActionWithArgs;
+        slider.ValueChangedEvent = new SyncEventCommand<ValueChangedEventArgs>(executeWithArgs: valueChangedAction);
+        return slider;
+    }
+
+    public static T OnValueChanged<T>(this T slider, Action<object?, ValueChangedEventArgs>? valueChangedAction)
+        where T : ISlider
+    {
+        slider.ValueChangedEvent = new SyncEventCommand<ValueChangedEventArgs>(executeWithFullArgs: valueChangedAction);
+        return slider;
+    }
+
+    public static T OnValueChanged<T>(this T slider, Func<Task>? valueChangedAction)
+        where T : ISlider
+    {
+        slider.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(execute: valueChangedAction);
+        return slider;
+    }
+
+    public static T OnValueChanged<T>(this T slider, Func<ValueChangedEventArgs, Task>? valueChangedAction)
+        where T : ISlider
+    {
+        slider.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(executeWithArgs: valueChangedAction);
+        return slider;
+    }
+
+    public static T OnValueChanged<T>(this T slider, Func<object?, ValueChangedEventArgs, Task>? valueChangedAction)
+        where T : ISlider
+    {
+        slider.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(executeWithFullArgs: valueChangedAction);
         return slider;
     }
 
     public static T OnDragStarted<T>(this T slider, Action? dragStartedAction)
         where T : ISlider
     {
-        slider.DragStartedAction = dragStartedAction;
+        slider.DragStartedEvent = new SyncEventCommand<EventArgs>(execute: dragStartedAction);
         return slider;
     }
 
-    public static T OnDragStarted<T>(this T slider, Action<object?, EventArgs>? dragStartedActionWithArgs)
+    public static T OnDragStarted<T>(this T slider, Action<EventArgs>? dragStartedAction)
         where T : ISlider
     {
-        slider.DragStartedActionWithArgs = dragStartedActionWithArgs;
+        slider.DragStartedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: dragStartedAction);
+        return slider;
+    }
+
+    public static T OnDragStarted<T>(this T slider, Action<object?, EventArgs>? dragStartedAction)
+        where T : ISlider
+    {
+        slider.DragStartedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: dragStartedAction);
+        return slider;
+    }
+
+    public static T OnDragStarted<T>(this T slider, Func<Task>? dragStartedAction)
+        where T : ISlider
+    {
+        slider.DragStartedEvent = new AsyncEventCommand<EventArgs>(execute: dragStartedAction);
+        return slider;
+    }
+
+    public static T OnDragStarted<T>(this T slider, Func<EventArgs, Task>? dragStartedAction)
+        where T : ISlider
+    {
+        slider.DragStartedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: dragStartedAction);
+        return slider;
+    }
+
+    public static T OnDragStarted<T>(this T slider, Func<object?, EventArgs, Task>? dragStartedAction)
+        where T : ISlider
+    {
+        slider.DragStartedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: dragStartedAction);
         return slider;
     }
 
     public static T OnDragCompleted<T>(this T slider, Action? dragCompletedAction)
         where T : ISlider
     {
-        slider.DragCompletedAction = dragCompletedAction;
+        slider.DragCompletedEvent = new SyncEventCommand<EventArgs>(execute: dragCompletedAction);
         return slider;
     }
 
-    public static T OnDragCompleted<T>(this T slider, Action<object?, EventArgs>? dragCompletedActionWithArgs)
+    public static T OnDragCompleted<T>(this T slider, Action<EventArgs>? dragCompletedAction)
         where T : ISlider
     {
-        slider.DragCompletedActionWithArgs = dragCompletedActionWithArgs;
+        slider.DragCompletedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: dragCompletedAction);
+        return slider;
+    }
+
+    public static T OnDragCompleted<T>(this T slider, Action<object?, EventArgs>? dragCompletedAction)
+        where T : ISlider
+    {
+        slider.DragCompletedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: dragCompletedAction);
+        return slider;
+    }
+
+    public static T OnDragCompleted<T>(this T slider, Func<Task>? dragCompletedAction)
+        where T : ISlider
+    {
+        slider.DragCompletedEvent = new AsyncEventCommand<EventArgs>(execute: dragCompletedAction);
+        return slider;
+    }
+
+    public static T OnDragCompleted<T>(this T slider, Func<EventArgs, Task>? dragCompletedAction)
+        where T : ISlider
+    {
+        slider.DragCompletedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: dragCompletedAction);
+        return slider;
+    }
+
+    public static T OnDragCompleted<T>(this T slider, Func<object?, EventArgs, Task>? dragCompletedAction)
+        where T : ISlider
+    {
+        slider.DragCompletedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: dragCompletedAction);
         return slider;
     }
 }

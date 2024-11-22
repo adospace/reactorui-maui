@@ -318,7 +318,7 @@ public partial class Shell<T> : IEnumerable
         base.OnRemoveChild(widget, childControl);
     }
 
-    protected override void OnMigrated(VisualNode newNode)
+    partial void Migrated(VisualNode newNode)
     {
         var newNodeAsShell = ((Shell<T>)newNode);
 
@@ -333,10 +333,7 @@ public partial class Shell<T> : IEnumerable
         {
             newNodeAsShell._customMenuItemDataTemplate.Owner = this;
         }
-
-        base.OnMigrated(newNode);
     }
-
 }
 
 public partial class ShellExtensions

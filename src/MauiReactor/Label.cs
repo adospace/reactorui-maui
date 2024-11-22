@@ -132,6 +132,13 @@ public partial class Label<T> : View<T>, ILabel where T : Microsoft.Maui.Control
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class Label : Label<Microsoft.Maui.Controls.Label>

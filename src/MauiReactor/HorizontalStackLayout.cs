@@ -46,6 +46,13 @@ public partial class HorizontalStackLayout<T> : StackBase<T>, IHorizontalStackLa
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class HorizontalStackLayout : HorizontalStackLayout<Microsoft.Maui.Controls.HorizontalStackLayout>

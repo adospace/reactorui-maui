@@ -46,6 +46,13 @@ public abstract partial class FlyoutBase<T> : Element<T>, IFlyoutBase where T : 
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public static partial class FlyoutBaseExtensions

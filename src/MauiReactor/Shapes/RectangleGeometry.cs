@@ -52,6 +52,13 @@ public partial class RectangleGeometry<T> : Shapes.Geometry<T>, IRectangleGeomet
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class RectangleGeometry : RectangleGeometry<Microsoft.Maui.Controls.Shapes.RectangleGeometry>

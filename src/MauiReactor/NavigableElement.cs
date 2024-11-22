@@ -46,6 +46,13 @@ public abstract partial class NavigableElement<T> : StyleableElement<T>, INaviga
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public static partial class NavigableElementExtensions

@@ -14,17 +14,11 @@ public partial interface IDropGestureRecognizer : IGestureRecognizer
 {
     object? AllowDrop { get; set; }
 
-    Action? DragLeaveAction { get; set; }
+    EventCommand<DragEventArgs>? DragLeaveEvent { get; set; }
 
-    Action<object?, DragEventArgs>? DragLeaveActionWithArgs { get; set; }
+    EventCommand<DragEventArgs>? DragOverEvent { get; set; }
 
-    Action? DragOverAction { get; set; }
-
-    Action<object?, DragEventArgs>? DragOverActionWithArgs { get; set; }
-
-    Action? DropAction { get; set; }
-
-    Action<object?, DropEventArgs>? DropActionWithArgs { get; set; }
+    EventCommand<DropEventArgs>? DropEvent { get; set; }
 }
 
 public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestureRecognizer where T : Microsoft.Maui.Controls.DropGestureRecognizer, new()
@@ -41,17 +35,11 @@ public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestu
 
     object? IDropGestureRecognizer.AllowDrop { get; set; }
 
-    Action? IDropGestureRecognizer.DragLeaveAction { get; set; }
+    EventCommand<DragEventArgs>? IDropGestureRecognizer.DragLeaveEvent { get; set; }
 
-    Action<object?, DragEventArgs>? IDropGestureRecognizer.DragLeaveActionWithArgs { get; set; }
+    EventCommand<DragEventArgs>? IDropGestureRecognizer.DragOverEvent { get; set; }
 
-    Action? IDropGestureRecognizer.DragOverAction { get; set; }
-
-    Action<object?, DragEventArgs>? IDropGestureRecognizer.DragOverActionWithArgs { get; set; }
-
-    Action? IDropGestureRecognizer.DropAction { get; set; }
-
-    Action<object?, DropEventArgs>? IDropGestureRecognizer.DropActionWithArgs { get; set; }
+    EventCommand<DropEventArgs>? IDropGestureRecognizer.DropEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -79,21 +67,24 @@ public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestu
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<DragEventArgs>? _executingDragLeaveEvent;
+    private EventCommand<DragEventArgs>? _executingDragOverEvent;
+    private EventCommand<DropEventArgs>? _executingDropEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIDropGestureRecognizer = (IDropGestureRecognizer)this;
-        if (thisAsIDropGestureRecognizer.DragLeaveAction != null || thisAsIDropGestureRecognizer.DragLeaveActionWithArgs != null)
+        if (thisAsIDropGestureRecognizer.DragLeaveEvent != null)
         {
             NativeControl.DragLeave += NativeControl_DragLeave;
         }
 
-        if (thisAsIDropGestureRecognizer.DragOverAction != null || thisAsIDropGestureRecognizer.DragOverActionWithArgs != null)
+        if (thisAsIDropGestureRecognizer.DragOverEvent != null)
         {
             NativeControl.DragOver += NativeControl_DragOver;
         }
 
-        if (thisAsIDropGestureRecognizer.DropAction != null || thisAsIDropGestureRecognizer.DropActionWithArgs != null)
+        if (thisAsIDropGestureRecognizer.DropEvent != null)
         {
             NativeControl.Drop += NativeControl_Drop;
         }
@@ -105,22 +96,31 @@ public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestu
     private void NativeControl_DragLeave(object? sender, DragEventArgs e)
     {
         var thisAsIDropGestureRecognizer = (IDropGestureRecognizer)this;
-        thisAsIDropGestureRecognizer.DragLeaveAction?.Invoke();
-        thisAsIDropGestureRecognizer.DragLeaveActionWithArgs?.Invoke(sender, e);
+        if (_executingDragLeaveEvent == null || _executingDragLeaveEvent.IsCompleted)
+        {
+            _executingDragLeaveEvent = thisAsIDropGestureRecognizer.DragLeaveEvent;
+            _executingDragLeaveEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_DragOver(object? sender, DragEventArgs e)
     {
         var thisAsIDropGestureRecognizer = (IDropGestureRecognizer)this;
-        thisAsIDropGestureRecognizer.DragOverAction?.Invoke();
-        thisAsIDropGestureRecognizer.DragOverActionWithArgs?.Invoke(sender, e);
+        if (_executingDragOverEvent == null || _executingDragOverEvent.IsCompleted)
+        {
+            _executingDragOverEvent = thisAsIDropGestureRecognizer.DragOverEvent;
+            _executingDragOverEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Drop(object? sender, DropEventArgs e)
     {
         var thisAsIDropGestureRecognizer = (IDropGestureRecognizer)this;
-        thisAsIDropGestureRecognizer.DropAction?.Invoke();
-        thisAsIDropGestureRecognizer.DropActionWithArgs?.Invoke(sender, e);
+        if (_executingDropEvent == null || _executingDropEvent.IsCompleted)
+        {
+            _executingDropEvent = thisAsIDropGestureRecognizer.DropEvent;
+            _executingDropEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -134,6 +134,31 @@ public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestu
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is DropGestureRecognizer<T> @dropgesturerecognizer)
+        {
+            if (_executingDragLeaveEvent != null && !_executingDragLeaveEvent.IsCompleted)
+            {
+                @dropgesturerecognizer._executingDragLeaveEvent = _executingDragLeaveEvent;
+            }
+
+            if (_executingDragOverEvent != null && !_executingDragOverEvent.IsCompleted)
+            {
+                @dropgesturerecognizer._executingDragOverEvent = _executingDragOverEvent;
+            }
+
+            if (_executingDropEvent != null && !_executingDropEvent.IsCompleted)
+            {
+                @dropgesturerecognizer._executingDropEvent = _executingDropEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -167,42 +192,126 @@ public static partial class DropGestureRecognizerExtensions
     public static T OnDragLeave<T>(this T dropGestureRecognizer, Action? dragLeaveAction)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.DragLeaveAction = dragLeaveAction;
+        dropGestureRecognizer.DragLeaveEvent = new SyncEventCommand<DragEventArgs>(execute: dragLeaveAction);
         return dropGestureRecognizer;
     }
 
-    public static T OnDragLeave<T>(this T dropGestureRecognizer, Action<object?, DragEventArgs>? dragLeaveActionWithArgs)
+    public static T OnDragLeave<T>(this T dropGestureRecognizer, Action<DragEventArgs>? dragLeaveAction)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.DragLeaveActionWithArgs = dragLeaveActionWithArgs;
+        dropGestureRecognizer.DragLeaveEvent = new SyncEventCommand<DragEventArgs>(executeWithArgs: dragLeaveAction);
+        return dropGestureRecognizer;
+    }
+
+    public static T OnDragLeave<T>(this T dropGestureRecognizer, Action<object?, DragEventArgs>? dragLeaveAction)
+        where T : IDropGestureRecognizer
+    {
+        dropGestureRecognizer.DragLeaveEvent = new SyncEventCommand<DragEventArgs>(executeWithFullArgs: dragLeaveAction);
+        return dropGestureRecognizer;
+    }
+
+    public static T OnDragLeave<T>(this T dropGestureRecognizer, Func<Task>? dragLeaveAction)
+        where T : IDropGestureRecognizer
+    {
+        dropGestureRecognizer.DragLeaveEvent = new AsyncEventCommand<DragEventArgs>(execute: dragLeaveAction);
+        return dropGestureRecognizer;
+    }
+
+    public static T OnDragLeave<T>(this T dropGestureRecognizer, Func<DragEventArgs, Task>? dragLeaveAction)
+        where T : IDropGestureRecognizer
+    {
+        dropGestureRecognizer.DragLeaveEvent = new AsyncEventCommand<DragEventArgs>(executeWithArgs: dragLeaveAction);
+        return dropGestureRecognizer;
+    }
+
+    public static T OnDragLeave<T>(this T dropGestureRecognizer, Func<object?, DragEventArgs, Task>? dragLeaveAction)
+        where T : IDropGestureRecognizer
+    {
+        dropGestureRecognizer.DragLeaveEvent = new AsyncEventCommand<DragEventArgs>(executeWithFullArgs: dragLeaveAction);
         return dropGestureRecognizer;
     }
 
     public static T OnDragOver<T>(this T dropGestureRecognizer, Action? dragOverAction)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.DragOverAction = dragOverAction;
+        dropGestureRecognizer.DragOverEvent = new SyncEventCommand<DragEventArgs>(execute: dragOverAction);
         return dropGestureRecognizer;
     }
 
-    public static T OnDragOver<T>(this T dropGestureRecognizer, Action<object?, DragEventArgs>? dragOverActionWithArgs)
+    public static T OnDragOver<T>(this T dropGestureRecognizer, Action<DragEventArgs>? dragOverAction)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.DragOverActionWithArgs = dragOverActionWithArgs;
+        dropGestureRecognizer.DragOverEvent = new SyncEventCommand<DragEventArgs>(executeWithArgs: dragOverAction);
+        return dropGestureRecognizer;
+    }
+
+    public static T OnDragOver<T>(this T dropGestureRecognizer, Action<object?, DragEventArgs>? dragOverAction)
+        where T : IDropGestureRecognizer
+    {
+        dropGestureRecognizer.DragOverEvent = new SyncEventCommand<DragEventArgs>(executeWithFullArgs: dragOverAction);
+        return dropGestureRecognizer;
+    }
+
+    public static T OnDragOver<T>(this T dropGestureRecognizer, Func<Task>? dragOverAction)
+        where T : IDropGestureRecognizer
+    {
+        dropGestureRecognizer.DragOverEvent = new AsyncEventCommand<DragEventArgs>(execute: dragOverAction);
+        return dropGestureRecognizer;
+    }
+
+    public static T OnDragOver<T>(this T dropGestureRecognizer, Func<DragEventArgs, Task>? dragOverAction)
+        where T : IDropGestureRecognizer
+    {
+        dropGestureRecognizer.DragOverEvent = new AsyncEventCommand<DragEventArgs>(executeWithArgs: dragOverAction);
+        return dropGestureRecognizer;
+    }
+
+    public static T OnDragOver<T>(this T dropGestureRecognizer, Func<object?, DragEventArgs, Task>? dragOverAction)
+        where T : IDropGestureRecognizer
+    {
+        dropGestureRecognizer.DragOverEvent = new AsyncEventCommand<DragEventArgs>(executeWithFullArgs: dragOverAction);
         return dropGestureRecognizer;
     }
 
     public static T OnDrop<T>(this T dropGestureRecognizer, Action? dropAction)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.DropAction = dropAction;
+        dropGestureRecognizer.DropEvent = new SyncEventCommand<DropEventArgs>(execute: dropAction);
         return dropGestureRecognizer;
     }
 
-    public static T OnDrop<T>(this T dropGestureRecognizer, Action<object?, DropEventArgs>? dropActionWithArgs)
+    public static T OnDrop<T>(this T dropGestureRecognizer, Action<DropEventArgs>? dropAction)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.DropActionWithArgs = dropActionWithArgs;
+        dropGestureRecognizer.DropEvent = new SyncEventCommand<DropEventArgs>(executeWithArgs: dropAction);
+        return dropGestureRecognizer;
+    }
+
+    public static T OnDrop<T>(this T dropGestureRecognizer, Action<object?, DropEventArgs>? dropAction)
+        where T : IDropGestureRecognizer
+    {
+        dropGestureRecognizer.DropEvent = new SyncEventCommand<DropEventArgs>(executeWithFullArgs: dropAction);
+        return dropGestureRecognizer;
+    }
+
+    public static T OnDrop<T>(this T dropGestureRecognizer, Func<Task>? dropAction)
+        where T : IDropGestureRecognizer
+    {
+        dropGestureRecognizer.DropEvent = new AsyncEventCommand<DropEventArgs>(execute: dropAction);
+        return dropGestureRecognizer;
+    }
+
+    public static T OnDrop<T>(this T dropGestureRecognizer, Func<DropEventArgs, Task>? dropAction)
+        where T : IDropGestureRecognizer
+    {
+        dropGestureRecognizer.DropEvent = new AsyncEventCommand<DropEventArgs>(executeWithArgs: dropAction);
+        return dropGestureRecognizer;
+    }
+
+    public static T OnDrop<T>(this T dropGestureRecognizer, Func<object?, DropEventArgs, Task>? dropAction)
+        where T : IDropGestureRecognizer
+    {
+        dropGestureRecognizer.DropEvent = new AsyncEventCommand<DropEventArgs>(executeWithFullArgs: dropAction);
         return dropGestureRecognizer;
     }
 }

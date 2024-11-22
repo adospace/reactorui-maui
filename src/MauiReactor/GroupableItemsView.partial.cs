@@ -99,7 +99,7 @@ public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableI
         }
     }
 
-    protected override void OnMigrated(VisualNode newNode)
+    partial void Migrated(VisualNode newNode)
     {
         var newItemsView = ((GroupableItemsView<T>)newNode);
         newItemsView._headerDataTemplate = _headerDataTemplate;
@@ -113,8 +113,6 @@ public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableI
         {
             newItemsView._footerDataTemplate.Owner = ((GroupableItemsView<T>)newNode);
         }
-
-        base.OnMigrated(newNode);
     }
 
     protected override void OnUnmount()

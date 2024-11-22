@@ -13,7 +13,8 @@ public static partial class HybridWebViewExtensions
     public static T OnRawMessageReceived<T>(this T hybridWebView, Action<string?>? rawMessageReceivedAction)
         where T : IHybridWebView
     {
-        hybridWebView.RawMessageReceivedActionWithArgs = (s, args) => rawMessageReceivedAction?.Invoke(args.Message);
+        hybridWebView.RawMessageReceivedEvent = new SyncEventCommand<HybridWebViewRawMessageReceivedEventArgs>(
+            (s, args) => rawMessageReceivedAction?.Invoke(args.Message));
         return hybridWebView;
     }
 }

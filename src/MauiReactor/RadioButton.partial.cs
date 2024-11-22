@@ -71,7 +71,7 @@ public static partial class RadioButtonExtensions
     public static T OnCheckedChanged<T>(this T radioButton, Action? checkedAction = null, Action? uncheckedAction = null)
         where T : IRadioButton
     {
-        radioButton.CheckedChangedActionWithArgs = new Action<object?, CheckedChangedEventArgs>((sender, args) =>
+        radioButton.CheckedChangedEvent = new SyncEventCommand<CheckedChangedEventArgs>((sender, args) =>
         {
             if (args.Value)
             {

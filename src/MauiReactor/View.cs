@@ -62,6 +62,13 @@ public abstract partial class View<T> : VisualElement<T>, IView where T : Micros
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public static partial class ViewExtensions

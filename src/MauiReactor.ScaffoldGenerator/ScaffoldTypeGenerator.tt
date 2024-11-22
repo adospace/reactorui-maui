@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Threading.Tasks;
 
 using MauiReactor;
 using MauiReactor.Animations;
@@ -43,8 +44,7 @@ namespace <#= Namespace #>
     <# foreach (var ev in Events) { 
     var genericArgs = ((INamedTypeSymbol)ev.Type).TypeArguments;
     #>
-        Action? <#= ev.Name #>Action { get; set; }
-        Action<<#= GetActionWithArgsParameters(ev) #>>? <#= ev.Name #>ActionWithArgs { get; set; }
+        EventCommand<<#= GetActionWithArgsParameters(ev) #>>? <#= ev.Name #>Event { get; set; }
     <# } #>
 
     }
@@ -204,8 +204,7 @@ namespace <#= Namespace #>
         <# foreach (var ev in Events) {
         var genericArgs = ((INamedTypeSymbol)ev.Type).TypeArguments;
         #>
-        Action? <#= InterfaceName #>.<#= ev.Name #>Action { get; set; }
-        Action<<#= GetActionWithArgsParameters(ev) #>>? <#= InterfaceName #>.<#= ev.Name #>ActionWithArgs { get; set; }
+        EventCommand<<#= GetActionWithArgsParameters(ev) #>>? <#= InterfaceName #>.<#= ev.Name #>Event { get; set; }
         <# } #>
 
         <# if (_childrenTypes.Length > 0) { #>
@@ -328,13 +327,18 @@ namespace <#= Namespace #>
         partial void OnAttachingNativeEvents();
         partial void OnDetachingNativeEvents();
 
+        <# foreach (var ev in Events) { 
+        var genericArgs = ((INamedTypeSymbol)ev.Type).TypeArguments; #>
+        private EventCommand<<#= GetActionWithArgsParameters(ev) #>>? _executing<#= ev.Name #>Event;
+        <# } #>
+
         protected override void OnAttachNativeEvents()
         {
             Validate.EnsureNotNull(NativeControl);
 
             var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
             <# foreach (var ev in Events) { #>
-            if (thisAs<#= InterfaceName #>.<#= ev.Name #>Action != null || thisAs<#= InterfaceName #>.<#= ev.Name #>ActionWithArgs != null)
+            if (thisAs<#= InterfaceName #>.<#= ev.Name #>Event != null)
             {
                 NativeControl.<#= ev.Name #> += NativeControl_<#= ev.Name #>;
             }
@@ -351,7 +355,7 @@ namespace <#= Namespace #>
         <#= GetDelegateParametersDescriptor(ev) #>
         {
             var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
-            thisAs<#= InterfaceName #>.<#= ev.Name #>Action?.Invoke();
+            _executing<#= ev.Name #>Event = thisAs<#= InterfaceName #>.<#= ev.Name #>Event;
             <#= GetDelegateInvokeDescriptor(ev) #>
         }
         <# } #>
@@ -370,20 +374,43 @@ namespace <#= Namespace #>
             base.OnDetachNativeEvents();
         }
         <# } #>
-        
-        <# if (SupportItemTemplate) { #>
+
+
+        partial void Migrated(VisualNode newNode);
+
         protected override void OnMigrated(VisualNode newNode)
         {
+            <# if (Events.Any()) { #>
+            if (newNode is <#= TypeNameWithGenericArguments() #> @<#= TypeName.ToLower() #>)
+            {
+                <# foreach (var ev in Events) { #>
+                if (_executing<#= ev.Name #>Event != null &&
+                    !_executing<#= ev.Name #>Event.IsCompleted)
+                {
+                    @<#= TypeName.ToLower() #>._executing<#= ev.Name #>Event = _executing<#= ev.Name #>Event;
+                }
+                <# } #>        
+            }
+            <# } #>
+
+            <# if (SupportItemTemplate) { #>
+
             var new<#= TypeName #> = ((<#= TypeName #><T>)newNode);
             new<#= TypeName #>._customDataTemplate = _customDataTemplate;
             if (new<#= TypeName #>._customDataTemplate != null)
             {
                 new<#= TypeName #>._customDataTemplate.Owner = new<#= TypeName #>;
-            }            
+            }      
+            
+            <# } #>
+
+            Migrated(newNode);
 
             base.OnMigrated(newNode);
         }
 
+
+        <# if (SupportItemTemplate) { #>
         protected override void OnUnmount()
         {
             Validate.EnsureNotNull(NativeControl);
@@ -391,7 +418,6 @@ namespace <#= Namespace #>
             NativeControl.ClearValue(global::<#= FullTypeName #>.ItemTemplateProperty);
             base.OnUnmount();
         }
-
         <# } #>
     }
 
@@ -708,17 +734,44 @@ namespace <#= Namespace #>
         <# foreach (var ev in Events) {
         var genericArgs = ((INamedTypeSymbol)ev.Type).TypeArguments;
         #>
-        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Action? <#= ev.Name.ToLocalVariableName() #>Action) where T : <#= InterfaceName #>
+        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Action? action) where T : <#= InterfaceName #>
         {
-            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>Action = <#= ev.Name.ToLocalVariableName() #>Action;
+            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>Event = new SyncEventCommand<<#= GetActionWithArgsParameters(ev) #>>(action);
             return <#= TypeName.ToLocalVariableName() #>;
         }
 
-        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Action<<#= GetActionWithArgsParameters(ev) #>>? <#= ev.Name.ToLocalVariableName() #>ActionWithArgs) where T : <#= InterfaceName #>
+        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Action<<#= GetActionWithArgsParameters(ev) #>>? action) where T : <#= InterfaceName #>
         {
-            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>ActionWithArgs = <#= ev.Name.ToLocalVariableName() #>ActionWithArgs;
+            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>Event = new SyncEventCommand<<#= GetActionWithArgsParameters(ev) #>>(action);
             return <#= TypeName.ToLocalVariableName() #>;
         }
+
+        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Action<object?, <#= GetActionWithArgsParameters(ev) #>>? action) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>Event = new SyncEventCommand<<#= GetActionWithArgsParameters(ev) #>>(action);
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+        
+        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<Task>? action) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>Event = new AsyncEventCommand<<#= GetActionWithArgsParameters(ev) #>>(action);
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+
+        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<<#= GetActionWithArgsParameters(ev) #>, Task>? action) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>Event = new AsyncEventCommand<<#= GetActionWithArgsParameters(ev) #>>(action);
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+
+        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<object?, <#= GetActionWithArgsParameters(ev) #>, Task>? action) where T : <#= InterfaceName #>
+        {
+            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>Event = new AsyncEventCommand<<#= GetActionWithArgsParameters(ev) #>>(action);
+            return <#= TypeName.ToLocalVariableName() #>;
+        }
+
+
+
         <# } #>
     }
 

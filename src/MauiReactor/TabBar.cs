@@ -46,6 +46,13 @@ public partial class TabBar<T> : ShellItem<T>, ITabBar where T : Microsoft.Maui.
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class TabBar : TabBar<Microsoft.Maui.Controls.TabBar>

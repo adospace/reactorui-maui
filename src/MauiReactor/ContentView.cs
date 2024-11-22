@@ -46,6 +46,13 @@ public partial class ContentView<T> : TemplatedView<T>, IContentView where T : M
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class ContentView : ContentView<Microsoft.Maui.Controls.ContentView>

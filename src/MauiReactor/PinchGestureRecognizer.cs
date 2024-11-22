@@ -12,9 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IPinchGestureRecognizer : IGestureRecognizer
 {
-    Action? PinchUpdatedAction { get; set; }
-
-    Action<object?, PinchGestureUpdatedEventArgs>? PinchUpdatedActionWithArgs { get; set; }
+    EventCommand<PinchGestureUpdatedEventArgs>? PinchUpdatedEvent { get; set; }
 }
 
 public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.PinchGestureRecognizer>, IPinchGestureRecognizer
@@ -29,9 +27,7 @@ public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft
         PinchGestureRecognizerStyles.Default?.Invoke(this);
     }
 
-    Action? IPinchGestureRecognizer.PinchUpdatedAction { get; set; }
-
-    Action<object?, PinchGestureUpdatedEventArgs>? IPinchGestureRecognizer.PinchUpdatedActionWithArgs { get; set; }
+    EventCommand<PinchGestureUpdatedEventArgs>? IPinchGestureRecognizer.PinchUpdatedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -56,11 +52,12 @@ public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<PinchGestureUpdatedEventArgs>? _executingPinchUpdatedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIPinchGestureRecognizer = (IPinchGestureRecognizer)this;
-        if (thisAsIPinchGestureRecognizer.PinchUpdatedAction != null || thisAsIPinchGestureRecognizer.PinchUpdatedActionWithArgs != null)
+        if (thisAsIPinchGestureRecognizer.PinchUpdatedEvent != null)
         {
             NativeControl.PinchUpdated += NativeControl_PinchUpdated;
         }
@@ -72,8 +69,11 @@ public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft
     private void NativeControl_PinchUpdated(object? sender, PinchGestureUpdatedEventArgs e)
     {
         var thisAsIPinchGestureRecognizer = (IPinchGestureRecognizer)this;
-        thisAsIPinchGestureRecognizer.PinchUpdatedAction?.Invoke();
-        thisAsIPinchGestureRecognizer.PinchUpdatedActionWithArgs?.Invoke(sender, e);
+        if (_executingPinchUpdatedEvent == null || _executingPinchUpdatedEvent.IsCompleted)
+        {
+            _executingPinchUpdatedEvent = thisAsIPinchGestureRecognizer.PinchUpdatedEvent;
+            _executingPinchUpdatedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -86,6 +86,21 @@ public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is PinchGestureRecognizer @pinchgesturerecognizer)
+        {
+            if (_executingPinchUpdatedEvent != null && !_executingPinchUpdatedEvent.IsCompleted)
+            {
+                @pinchgesturerecognizer._executingPinchUpdatedEvent = _executingPinchUpdatedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public static partial class PinchGestureRecognizerExtensions
@@ -93,14 +108,42 @@ public static partial class PinchGestureRecognizerExtensions
     public static T OnPinchUpdated<T>(this T pinchGestureRecognizer, Action? pinchUpdatedAction)
         where T : IPinchGestureRecognizer
     {
-        pinchGestureRecognizer.PinchUpdatedAction = pinchUpdatedAction;
+        pinchGestureRecognizer.PinchUpdatedEvent = new SyncEventCommand<PinchGestureUpdatedEventArgs>(execute: pinchUpdatedAction);
         return pinchGestureRecognizer;
     }
 
-    public static T OnPinchUpdated<T>(this T pinchGestureRecognizer, Action<object?, PinchGestureUpdatedEventArgs>? pinchUpdatedActionWithArgs)
+    public static T OnPinchUpdated<T>(this T pinchGestureRecognizer, Action<PinchGestureUpdatedEventArgs>? pinchUpdatedAction)
         where T : IPinchGestureRecognizer
     {
-        pinchGestureRecognizer.PinchUpdatedActionWithArgs = pinchUpdatedActionWithArgs;
+        pinchGestureRecognizer.PinchUpdatedEvent = new SyncEventCommand<PinchGestureUpdatedEventArgs>(executeWithArgs: pinchUpdatedAction);
+        return pinchGestureRecognizer;
+    }
+
+    public static T OnPinchUpdated<T>(this T pinchGestureRecognizer, Action<object?, PinchGestureUpdatedEventArgs>? pinchUpdatedAction)
+        where T : IPinchGestureRecognizer
+    {
+        pinchGestureRecognizer.PinchUpdatedEvent = new SyncEventCommand<PinchGestureUpdatedEventArgs>(executeWithFullArgs: pinchUpdatedAction);
+        return pinchGestureRecognizer;
+    }
+
+    public static T OnPinchUpdated<T>(this T pinchGestureRecognizer, Func<Task>? pinchUpdatedAction)
+        where T : IPinchGestureRecognizer
+    {
+        pinchGestureRecognizer.PinchUpdatedEvent = new AsyncEventCommand<PinchGestureUpdatedEventArgs>(execute: pinchUpdatedAction);
+        return pinchGestureRecognizer;
+    }
+
+    public static T OnPinchUpdated<T>(this T pinchGestureRecognizer, Func<PinchGestureUpdatedEventArgs, Task>? pinchUpdatedAction)
+        where T : IPinchGestureRecognizer
+    {
+        pinchGestureRecognizer.PinchUpdatedEvent = new AsyncEventCommand<PinchGestureUpdatedEventArgs>(executeWithArgs: pinchUpdatedAction);
+        return pinchGestureRecognizer;
+    }
+
+    public static T OnPinchUpdated<T>(this T pinchGestureRecognizer, Func<object?, PinchGestureUpdatedEventArgs, Task>? pinchUpdatedAction)
+        where T : IPinchGestureRecognizer
+    {
+        pinchGestureRecognizer.PinchUpdatedEvent = new AsyncEventCommand<PinchGestureUpdatedEventArgs>(executeWithFullArgs: pinchUpdatedAction);
         return pinchGestureRecognizer;
     }
 }

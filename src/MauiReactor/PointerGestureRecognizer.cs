@@ -12,25 +12,15 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IPointerGestureRecognizer : IGestureRecognizer
 {
-    Action? PointerEnteredAction { get; set; }
+    EventCommand<PointerEventArgs>? PointerEnteredEvent { get; set; }
 
-    Action<object?, PointerEventArgs>? PointerEnteredActionWithArgs { get; set; }
+    EventCommand<PointerEventArgs>? PointerExitedEvent { get; set; }
 
-    Action? PointerExitedAction { get; set; }
+    EventCommand<PointerEventArgs>? PointerMovedEvent { get; set; }
 
-    Action<object?, PointerEventArgs>? PointerExitedActionWithArgs { get; set; }
+    EventCommand<PointerEventArgs>? PointerPressedEvent { get; set; }
 
-    Action? PointerMovedAction { get; set; }
-
-    Action<object?, PointerEventArgs>? PointerMovedActionWithArgs { get; set; }
-
-    Action? PointerPressedAction { get; set; }
-
-    Action<object?, PointerEventArgs>? PointerPressedActionWithArgs { get; set; }
-
-    Action? PointerReleasedAction { get; set; }
-
-    Action<object?, PointerEventArgs>? PointerReleasedActionWithArgs { get; set; }
+    EventCommand<PointerEventArgs>? PointerReleasedEvent { get; set; }
 }
 
 public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.PointerGestureRecognizer>, IPointerGestureRecognizer
@@ -45,25 +35,15 @@ public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microso
         PointerGestureRecognizerStyles.Default?.Invoke(this);
     }
 
-    Action? IPointerGestureRecognizer.PointerEnteredAction { get; set; }
+    EventCommand<PointerEventArgs>? IPointerGestureRecognizer.PointerEnteredEvent { get; set; }
 
-    Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerEnteredActionWithArgs { get; set; }
+    EventCommand<PointerEventArgs>? IPointerGestureRecognizer.PointerExitedEvent { get; set; }
 
-    Action? IPointerGestureRecognizer.PointerExitedAction { get; set; }
+    EventCommand<PointerEventArgs>? IPointerGestureRecognizer.PointerMovedEvent { get; set; }
 
-    Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerExitedActionWithArgs { get; set; }
+    EventCommand<PointerEventArgs>? IPointerGestureRecognizer.PointerPressedEvent { get; set; }
 
-    Action? IPointerGestureRecognizer.PointerMovedAction { get; set; }
-
-    Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerMovedActionWithArgs { get; set; }
-
-    Action? IPointerGestureRecognizer.PointerPressedAction { get; set; }
-
-    Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerPressedActionWithArgs { get; set; }
-
-    Action? IPointerGestureRecognizer.PointerReleasedAction { get; set; }
-
-    Action<object?, PointerEventArgs>? IPointerGestureRecognizer.PointerReleasedActionWithArgs { get; set; }
+    EventCommand<PointerEventArgs>? IPointerGestureRecognizer.PointerReleasedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -88,31 +68,36 @@ public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microso
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<PointerEventArgs>? _executingPointerEnteredEvent;
+    private EventCommand<PointerEventArgs>? _executingPointerExitedEvent;
+    private EventCommand<PointerEventArgs>? _executingPointerMovedEvent;
+    private EventCommand<PointerEventArgs>? _executingPointerPressedEvent;
+    private EventCommand<PointerEventArgs>? _executingPointerReleasedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
-        if (thisAsIPointerGestureRecognizer.PointerEnteredAction != null || thisAsIPointerGestureRecognizer.PointerEnteredActionWithArgs != null)
+        if (thisAsIPointerGestureRecognizer.PointerEnteredEvent != null)
         {
             NativeControl.PointerEntered += NativeControl_PointerEntered;
         }
 
-        if (thisAsIPointerGestureRecognizer.PointerExitedAction != null || thisAsIPointerGestureRecognizer.PointerExitedActionWithArgs != null)
+        if (thisAsIPointerGestureRecognizer.PointerExitedEvent != null)
         {
             NativeControl.PointerExited += NativeControl_PointerExited;
         }
 
-        if (thisAsIPointerGestureRecognizer.PointerMovedAction != null || thisAsIPointerGestureRecognizer.PointerMovedActionWithArgs != null)
+        if (thisAsIPointerGestureRecognizer.PointerMovedEvent != null)
         {
             NativeControl.PointerMoved += NativeControl_PointerMoved;
         }
 
-        if (thisAsIPointerGestureRecognizer.PointerPressedAction != null || thisAsIPointerGestureRecognizer.PointerPressedActionWithArgs != null)
+        if (thisAsIPointerGestureRecognizer.PointerPressedEvent != null)
         {
             NativeControl.PointerPressed += NativeControl_PointerPressed;
         }
 
-        if (thisAsIPointerGestureRecognizer.PointerReleasedAction != null || thisAsIPointerGestureRecognizer.PointerReleasedActionWithArgs != null)
+        if (thisAsIPointerGestureRecognizer.PointerReleasedEvent != null)
         {
             NativeControl.PointerReleased += NativeControl_PointerReleased;
         }
@@ -124,36 +109,51 @@ public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microso
     private void NativeControl_PointerEntered(object? sender, PointerEventArgs e)
     {
         var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
-        thisAsIPointerGestureRecognizer.PointerEnteredAction?.Invoke();
-        thisAsIPointerGestureRecognizer.PointerEnteredActionWithArgs?.Invoke(sender, e);
+        if (_executingPointerEnteredEvent == null || _executingPointerEnteredEvent.IsCompleted)
+        {
+            _executingPointerEnteredEvent = thisAsIPointerGestureRecognizer.PointerEnteredEvent;
+            _executingPointerEnteredEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_PointerExited(object? sender, PointerEventArgs e)
     {
         var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
-        thisAsIPointerGestureRecognizer.PointerExitedAction?.Invoke();
-        thisAsIPointerGestureRecognizer.PointerExitedActionWithArgs?.Invoke(sender, e);
+        if (_executingPointerExitedEvent == null || _executingPointerExitedEvent.IsCompleted)
+        {
+            _executingPointerExitedEvent = thisAsIPointerGestureRecognizer.PointerExitedEvent;
+            _executingPointerExitedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_PointerMoved(object? sender, PointerEventArgs e)
     {
         var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
-        thisAsIPointerGestureRecognizer.PointerMovedAction?.Invoke();
-        thisAsIPointerGestureRecognizer.PointerMovedActionWithArgs?.Invoke(sender, e);
+        if (_executingPointerMovedEvent == null || _executingPointerMovedEvent.IsCompleted)
+        {
+            _executingPointerMovedEvent = thisAsIPointerGestureRecognizer.PointerMovedEvent;
+            _executingPointerMovedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_PointerPressed(object? sender, PointerEventArgs e)
     {
         var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
-        thisAsIPointerGestureRecognizer.PointerPressedAction?.Invoke();
-        thisAsIPointerGestureRecognizer.PointerPressedActionWithArgs?.Invoke(sender, e);
+        if (_executingPointerPressedEvent == null || _executingPointerPressedEvent.IsCompleted)
+        {
+            _executingPointerPressedEvent = thisAsIPointerGestureRecognizer.PointerPressedEvent;
+            _executingPointerPressedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_PointerReleased(object? sender, PointerEventArgs e)
     {
         var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
-        thisAsIPointerGestureRecognizer.PointerReleasedAction?.Invoke();
-        thisAsIPointerGestureRecognizer.PointerReleasedActionWithArgs?.Invoke(sender, e);
+        if (_executingPointerReleasedEvent == null || _executingPointerReleasedEvent.IsCompleted)
+        {
+            _executingPointerReleasedEvent = thisAsIPointerGestureRecognizer.PointerReleasedEvent;
+            _executingPointerReleasedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -170,6 +170,41 @@ public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microso
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is PointerGestureRecognizer @pointergesturerecognizer)
+        {
+            if (_executingPointerEnteredEvent != null && !_executingPointerEnteredEvent.IsCompleted)
+            {
+                @pointergesturerecognizer._executingPointerEnteredEvent = _executingPointerEnteredEvent;
+            }
+
+            if (_executingPointerExitedEvent != null && !_executingPointerExitedEvent.IsCompleted)
+            {
+                @pointergesturerecognizer._executingPointerExitedEvent = _executingPointerExitedEvent;
+            }
+
+            if (_executingPointerMovedEvent != null && !_executingPointerMovedEvent.IsCompleted)
+            {
+                @pointergesturerecognizer._executingPointerMovedEvent = _executingPointerMovedEvent;
+            }
+
+            if (_executingPointerPressedEvent != null && !_executingPointerPressedEvent.IsCompleted)
+            {
+                @pointergesturerecognizer._executingPointerPressedEvent = _executingPointerPressedEvent;
+            }
+
+            if (_executingPointerReleasedEvent != null && !_executingPointerReleasedEvent.IsCompleted)
+            {
+                @pointergesturerecognizer._executingPointerReleasedEvent = _executingPointerReleasedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public static partial class PointerGestureRecognizerExtensions
@@ -177,70 +212,210 @@ public static partial class PointerGestureRecognizerExtensions
     public static T OnPointerEntered<T>(this T pointerGestureRecognizer, Action? pointerEnteredAction)
         where T : IPointerGestureRecognizer
     {
-        pointerGestureRecognizer.PointerEnteredAction = pointerEnteredAction;
+        pointerGestureRecognizer.PointerEnteredEvent = new SyncEventCommand<PointerEventArgs>(execute: pointerEnteredAction);
         return pointerGestureRecognizer;
     }
 
-    public static T OnPointerEntered<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerEnteredActionWithArgs)
+    public static T OnPointerEntered<T>(this T pointerGestureRecognizer, Action<PointerEventArgs>? pointerEnteredAction)
         where T : IPointerGestureRecognizer
     {
-        pointerGestureRecognizer.PointerEnteredActionWithArgs = pointerEnteredActionWithArgs;
+        pointerGestureRecognizer.PointerEnteredEvent = new SyncEventCommand<PointerEventArgs>(executeWithArgs: pointerEnteredAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerEntered<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerEnteredAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerEnteredEvent = new SyncEventCommand<PointerEventArgs>(executeWithFullArgs: pointerEnteredAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerEntered<T>(this T pointerGestureRecognizer, Func<Task>? pointerEnteredAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerEnteredEvent = new AsyncEventCommand<PointerEventArgs>(execute: pointerEnteredAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerEntered<T>(this T pointerGestureRecognizer, Func<PointerEventArgs, Task>? pointerEnteredAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerEnteredEvent = new AsyncEventCommand<PointerEventArgs>(executeWithArgs: pointerEnteredAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerEntered<T>(this T pointerGestureRecognizer, Func<object?, PointerEventArgs, Task>? pointerEnteredAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerEnteredEvent = new AsyncEventCommand<PointerEventArgs>(executeWithFullArgs: pointerEnteredAction);
         return pointerGestureRecognizer;
     }
 
     public static T OnPointerExited<T>(this T pointerGestureRecognizer, Action? pointerExitedAction)
         where T : IPointerGestureRecognizer
     {
-        pointerGestureRecognizer.PointerExitedAction = pointerExitedAction;
+        pointerGestureRecognizer.PointerExitedEvent = new SyncEventCommand<PointerEventArgs>(execute: pointerExitedAction);
         return pointerGestureRecognizer;
     }
 
-    public static T OnPointerExited<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerExitedActionWithArgs)
+    public static T OnPointerExited<T>(this T pointerGestureRecognizer, Action<PointerEventArgs>? pointerExitedAction)
         where T : IPointerGestureRecognizer
     {
-        pointerGestureRecognizer.PointerExitedActionWithArgs = pointerExitedActionWithArgs;
+        pointerGestureRecognizer.PointerExitedEvent = new SyncEventCommand<PointerEventArgs>(executeWithArgs: pointerExitedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerExited<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerExitedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerExitedEvent = new SyncEventCommand<PointerEventArgs>(executeWithFullArgs: pointerExitedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerExited<T>(this T pointerGestureRecognizer, Func<Task>? pointerExitedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerExitedEvent = new AsyncEventCommand<PointerEventArgs>(execute: pointerExitedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerExited<T>(this T pointerGestureRecognizer, Func<PointerEventArgs, Task>? pointerExitedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerExitedEvent = new AsyncEventCommand<PointerEventArgs>(executeWithArgs: pointerExitedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerExited<T>(this T pointerGestureRecognizer, Func<object?, PointerEventArgs, Task>? pointerExitedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerExitedEvent = new AsyncEventCommand<PointerEventArgs>(executeWithFullArgs: pointerExitedAction);
         return pointerGestureRecognizer;
     }
 
     public static T OnPointerMoved<T>(this T pointerGestureRecognizer, Action? pointerMovedAction)
         where T : IPointerGestureRecognizer
     {
-        pointerGestureRecognizer.PointerMovedAction = pointerMovedAction;
+        pointerGestureRecognizer.PointerMovedEvent = new SyncEventCommand<PointerEventArgs>(execute: pointerMovedAction);
         return pointerGestureRecognizer;
     }
 
-    public static T OnPointerMoved<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerMovedActionWithArgs)
+    public static T OnPointerMoved<T>(this T pointerGestureRecognizer, Action<PointerEventArgs>? pointerMovedAction)
         where T : IPointerGestureRecognizer
     {
-        pointerGestureRecognizer.PointerMovedActionWithArgs = pointerMovedActionWithArgs;
+        pointerGestureRecognizer.PointerMovedEvent = new SyncEventCommand<PointerEventArgs>(executeWithArgs: pointerMovedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerMoved<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerMovedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerMovedEvent = new SyncEventCommand<PointerEventArgs>(executeWithFullArgs: pointerMovedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerMoved<T>(this T pointerGestureRecognizer, Func<Task>? pointerMovedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerMovedEvent = new AsyncEventCommand<PointerEventArgs>(execute: pointerMovedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerMoved<T>(this T pointerGestureRecognizer, Func<PointerEventArgs, Task>? pointerMovedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerMovedEvent = new AsyncEventCommand<PointerEventArgs>(executeWithArgs: pointerMovedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerMoved<T>(this T pointerGestureRecognizer, Func<object?, PointerEventArgs, Task>? pointerMovedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerMovedEvent = new AsyncEventCommand<PointerEventArgs>(executeWithFullArgs: pointerMovedAction);
         return pointerGestureRecognizer;
     }
 
     public static T OnPointerPressed<T>(this T pointerGestureRecognizer, Action? pointerPressedAction)
         where T : IPointerGestureRecognizer
     {
-        pointerGestureRecognizer.PointerPressedAction = pointerPressedAction;
+        pointerGestureRecognizer.PointerPressedEvent = new SyncEventCommand<PointerEventArgs>(execute: pointerPressedAction);
         return pointerGestureRecognizer;
     }
 
-    public static T OnPointerPressed<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerPressedActionWithArgs)
+    public static T OnPointerPressed<T>(this T pointerGestureRecognizer, Action<PointerEventArgs>? pointerPressedAction)
         where T : IPointerGestureRecognizer
     {
-        pointerGestureRecognizer.PointerPressedActionWithArgs = pointerPressedActionWithArgs;
+        pointerGestureRecognizer.PointerPressedEvent = new SyncEventCommand<PointerEventArgs>(executeWithArgs: pointerPressedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerPressed<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerPressedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerPressedEvent = new SyncEventCommand<PointerEventArgs>(executeWithFullArgs: pointerPressedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerPressed<T>(this T pointerGestureRecognizer, Func<Task>? pointerPressedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerPressedEvent = new AsyncEventCommand<PointerEventArgs>(execute: pointerPressedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerPressed<T>(this T pointerGestureRecognizer, Func<PointerEventArgs, Task>? pointerPressedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerPressedEvent = new AsyncEventCommand<PointerEventArgs>(executeWithArgs: pointerPressedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerPressed<T>(this T pointerGestureRecognizer, Func<object?, PointerEventArgs, Task>? pointerPressedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerPressedEvent = new AsyncEventCommand<PointerEventArgs>(executeWithFullArgs: pointerPressedAction);
         return pointerGestureRecognizer;
     }
 
     public static T OnPointerReleased<T>(this T pointerGestureRecognizer, Action? pointerReleasedAction)
         where T : IPointerGestureRecognizer
     {
-        pointerGestureRecognizer.PointerReleasedAction = pointerReleasedAction;
+        pointerGestureRecognizer.PointerReleasedEvent = new SyncEventCommand<PointerEventArgs>(execute: pointerReleasedAction);
         return pointerGestureRecognizer;
     }
 
-    public static T OnPointerReleased<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerReleasedActionWithArgs)
+    public static T OnPointerReleased<T>(this T pointerGestureRecognizer, Action<PointerEventArgs>? pointerReleasedAction)
         where T : IPointerGestureRecognizer
     {
-        pointerGestureRecognizer.PointerReleasedActionWithArgs = pointerReleasedActionWithArgs;
+        pointerGestureRecognizer.PointerReleasedEvent = new SyncEventCommand<PointerEventArgs>(executeWithArgs: pointerReleasedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerReleased<T>(this T pointerGestureRecognizer, Action<object?, PointerEventArgs>? pointerReleasedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerReleasedEvent = new SyncEventCommand<PointerEventArgs>(executeWithFullArgs: pointerReleasedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerReleased<T>(this T pointerGestureRecognizer, Func<Task>? pointerReleasedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerReleasedEvent = new AsyncEventCommand<PointerEventArgs>(execute: pointerReleasedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerReleased<T>(this T pointerGestureRecognizer, Func<PointerEventArgs, Task>? pointerReleasedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerReleasedEvent = new AsyncEventCommand<PointerEventArgs>(executeWithArgs: pointerReleasedAction);
+        return pointerGestureRecognizer;
+    }
+
+    public static T OnPointerReleased<T>(this T pointerGestureRecognizer, Func<object?, PointerEventArgs, Task>? pointerReleasedAction)
+        where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.PointerReleasedEvent = new AsyncEventCommand<PointerEventArgs>(executeWithFullArgs: pointerReleasedAction);
         return pointerGestureRecognizer;
     }
 }

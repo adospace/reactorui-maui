@@ -18,9 +18,7 @@ public partial interface ISwitchCell : ICell
 
     object? OnColor { get; set; }
 
-    Action? OnChangedAction { get; set; }
-
-    Action<object?, ToggledEventArgs>? OnChangedActionWithArgs { get; set; }
+    EventCommand<ToggledEventArgs>? OnChangedEvent { get; set; }
 }
 
 public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Maui.Controls.SwitchCell, new()
@@ -41,9 +39,7 @@ public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Ma
 
     object? ISwitchCell.OnColor { get; set; }
 
-    Action? ISwitchCell.OnChangedAction { get; set; }
-
-    Action<object?, ToggledEventArgs>? ISwitchCell.OnChangedActionWithArgs { get; set; }
+    EventCommand<ToggledEventArgs>? ISwitchCell.OnChangedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -73,11 +69,12 @@ public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Ma
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<ToggledEventArgs>? _executingOnChangedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsISwitchCell = (ISwitchCell)this;
-        if (thisAsISwitchCell.OnChangedAction != null || thisAsISwitchCell.OnChangedActionWithArgs != null)
+        if (thisAsISwitchCell.OnChangedEvent != null)
         {
             NativeControl.OnChanged += NativeControl_OnChanged;
         }
@@ -89,8 +86,11 @@ public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Ma
     private void NativeControl_OnChanged(object? sender, ToggledEventArgs e)
     {
         var thisAsISwitchCell = (ISwitchCell)this;
-        thisAsISwitchCell.OnChangedAction?.Invoke();
-        thisAsISwitchCell.OnChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingOnChangedEvent == null || _executingOnChangedEvent.IsCompleted)
+        {
+            _executingOnChangedEvent = thisAsISwitchCell.OnChangedEvent;
+            _executingOnChangedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -102,6 +102,21 @@ public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Ma
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is SwitchCell<T> @switchcell)
+        {
+            if (_executingOnChangedEvent != null && !_executingOnChangedEvent.IsCompleted)
+            {
+                @switchcell._executingOnChangedEvent = _executingOnChangedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -163,14 +178,42 @@ public static partial class SwitchCellExtensions
     public static T OnOnChanged<T>(this T switchCell, Action? onChangedAction)
         where T : ISwitchCell
     {
-        switchCell.OnChangedAction = onChangedAction;
+        switchCell.OnChangedEvent = new SyncEventCommand<ToggledEventArgs>(execute: onChangedAction);
         return switchCell;
     }
 
-    public static T OnOnChanged<T>(this T switchCell, Action<object?, ToggledEventArgs>? onChangedActionWithArgs)
+    public static T OnOnChanged<T>(this T switchCell, Action<ToggledEventArgs>? onChangedAction)
         where T : ISwitchCell
     {
-        switchCell.OnChangedActionWithArgs = onChangedActionWithArgs;
+        switchCell.OnChangedEvent = new SyncEventCommand<ToggledEventArgs>(executeWithArgs: onChangedAction);
+        return switchCell;
+    }
+
+    public static T OnOnChanged<T>(this T switchCell, Action<object?, ToggledEventArgs>? onChangedAction)
+        where T : ISwitchCell
+    {
+        switchCell.OnChangedEvent = new SyncEventCommand<ToggledEventArgs>(executeWithFullArgs: onChangedAction);
+        return switchCell;
+    }
+
+    public static T OnOnChanged<T>(this T switchCell, Func<Task>? onChangedAction)
+        where T : ISwitchCell
+    {
+        switchCell.OnChangedEvent = new AsyncEventCommand<ToggledEventArgs>(execute: onChangedAction);
+        return switchCell;
+    }
+
+    public static T OnOnChanged<T>(this T switchCell, Func<ToggledEventArgs, Task>? onChangedAction)
+        where T : ISwitchCell
+    {
+        switchCell.OnChangedEvent = new AsyncEventCommand<ToggledEventArgs>(executeWithArgs: onChangedAction);
+        return switchCell;
+    }
+
+    public static T OnOnChanged<T>(this T switchCell, Func<object?, ToggledEventArgs, Task>? onChangedAction)
+        where T : ISwitchCell
+    {
+        switchCell.OnChangedEvent = new AsyncEventCommand<ToggledEventArgs>(executeWithFullArgs: onChangedAction);
         return switchCell;
     }
 }

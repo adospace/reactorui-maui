@@ -8,10 +8,10 @@ namespace MauiReactor;
 
 public static partial class PanGestureRecognizerExtensions
 {
-    public static T OnPanUpdated<T>(this T panGestureRecognizer, Action<PanUpdatedEventArgs>? panUpdatedActionWithArgs)
-        where T : IPanGestureRecognizer
-    {
-        panGestureRecognizer.PanUpdatedActionWithArgs = (sender, args) => panUpdatedActionWithArgs?.Invoke(args);
-        return panGestureRecognizer;
-    }
+    //public static T OnPanUpdated<T>(this T panGestureRecognizer, Action<PanUpdatedEventArgs>? panUpdatedActionWithArgs)
+    //    where T : IPanGestureRecognizer
+    //{
+    //    panGestureRecognizer.PanUpdatedActionWithArgs = (sender, args) => panUpdatedActionWithArgs?.Invoke(args);
+    //    return panGestureRecognizer;
+    //}
 }

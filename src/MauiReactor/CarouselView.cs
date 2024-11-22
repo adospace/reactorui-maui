@@ -26,13 +26,9 @@ public partial interface ICarouselView : IItemsView
 
     object? Position { get; set; }
 
-    Action? CurrentItemChangedAction { get; set; }
+    EventCommand<CurrentItemChangedEventArgs>? CurrentItemChangedEvent { get; set; }
 
-    Action<object?, CurrentItemChangedEventArgs>? CurrentItemChangedActionWithArgs { get; set; }
-
-    Action? PositionChangedAction { get; set; }
-
-    Action<object?, PositionChangedEventArgs>? PositionChangedActionWithArgs { get; set; }
+    EventCommand<PositionChangedEventArgs>? PositionChangedEvent { get; set; }
 }
 
 public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Microsoft.Maui.Controls.CarouselView, new()
@@ -61,13 +57,9 @@ public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Mic
 
     object? ICarouselView.Position { get; set; }
 
-    Action? ICarouselView.CurrentItemChangedAction { get; set; }
+    EventCommand<CurrentItemChangedEventArgs>? ICarouselView.CurrentItemChangedEvent { get; set; }
 
-    Action<object?, CurrentItemChangedEventArgs>? ICarouselView.CurrentItemChangedActionWithArgs { get; set; }
-
-    Action? ICarouselView.PositionChangedAction { get; set; }
-
-    Action<object?, PositionChangedEventArgs>? ICarouselView.PositionChangedActionWithArgs { get; set; }
+    EventCommand<PositionChangedEventArgs>? ICarouselView.PositionChangedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -101,16 +93,18 @@ public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Mic
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<CurrentItemChangedEventArgs>? _executingCurrentItemChangedEvent;
+    private EventCommand<PositionChangedEventArgs>? _executingPositionChangedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsICarouselView = (ICarouselView)this;
-        if (thisAsICarouselView.CurrentItemChangedAction != null || thisAsICarouselView.CurrentItemChangedActionWithArgs != null)
+        if (thisAsICarouselView.CurrentItemChangedEvent != null)
         {
             NativeControl.CurrentItemChanged += NativeControl_CurrentItemChanged;
         }
 
-        if (thisAsICarouselView.PositionChangedAction != null || thisAsICarouselView.PositionChangedActionWithArgs != null)
+        if (thisAsICarouselView.PositionChangedEvent != null)
         {
             NativeControl.PositionChanged += NativeControl_PositionChanged;
         }
@@ -122,15 +116,21 @@ public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Mic
     private void NativeControl_CurrentItemChanged(object? sender, CurrentItemChangedEventArgs e)
     {
         var thisAsICarouselView = (ICarouselView)this;
-        thisAsICarouselView.CurrentItemChangedAction?.Invoke();
-        thisAsICarouselView.CurrentItemChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingCurrentItemChangedEvent == null || _executingCurrentItemChangedEvent.IsCompleted)
+        {
+            _executingCurrentItemChangedEvent = thisAsICarouselView.CurrentItemChangedEvent;
+            _executingCurrentItemChangedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_PositionChanged(object? sender, PositionChangedEventArgs e)
     {
         var thisAsICarouselView = (ICarouselView)this;
-        thisAsICarouselView.PositionChangedAction?.Invoke();
-        thisAsICarouselView.PositionChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingPositionChangedEvent == null || _executingPositionChangedEvent.IsCompleted)
+        {
+            _executingPositionChangedEvent = thisAsICarouselView.PositionChangedEvent;
+            _executingPositionChangedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -143,6 +143,26 @@ public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Mic
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is CarouselView<T> @carouselview)
+        {
+            if (_executingCurrentItemChangedEvent != null && !_executingCurrentItemChangedEvent.IsCompleted)
+            {
+                @carouselview._executingCurrentItemChangedEvent = _executingCurrentItemChangedEvent;
+            }
+
+            if (_executingPositionChangedEvent != null && !_executingPositionChangedEvent.IsCompleted)
+            {
+                @carouselview._executingPositionChangedEvent = _executingPositionChangedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -286,28 +306,84 @@ public static partial class CarouselViewExtensions
     public static T OnCurrentItemChanged<T>(this T carouselView, Action? currentItemChangedAction)
         where T : ICarouselView
     {
-        carouselView.CurrentItemChangedAction = currentItemChangedAction;
+        carouselView.CurrentItemChangedEvent = new SyncEventCommand<CurrentItemChangedEventArgs>(execute: currentItemChangedAction);
         return carouselView;
     }
 
-    public static T OnCurrentItemChanged<T>(this T carouselView, Action<object?, CurrentItemChangedEventArgs>? currentItemChangedActionWithArgs)
+    public static T OnCurrentItemChanged<T>(this T carouselView, Action<CurrentItemChangedEventArgs>? currentItemChangedAction)
         where T : ICarouselView
     {
-        carouselView.CurrentItemChangedActionWithArgs = currentItemChangedActionWithArgs;
+        carouselView.CurrentItemChangedEvent = new SyncEventCommand<CurrentItemChangedEventArgs>(executeWithArgs: currentItemChangedAction);
+        return carouselView;
+    }
+
+    public static T OnCurrentItemChanged<T>(this T carouselView, Action<object?, CurrentItemChangedEventArgs>? currentItemChangedAction)
+        where T : ICarouselView
+    {
+        carouselView.CurrentItemChangedEvent = new SyncEventCommand<CurrentItemChangedEventArgs>(executeWithFullArgs: currentItemChangedAction);
+        return carouselView;
+    }
+
+    public static T OnCurrentItemChanged<T>(this T carouselView, Func<Task>? currentItemChangedAction)
+        where T : ICarouselView
+    {
+        carouselView.CurrentItemChangedEvent = new AsyncEventCommand<CurrentItemChangedEventArgs>(execute: currentItemChangedAction);
+        return carouselView;
+    }
+
+    public static T OnCurrentItemChanged<T>(this T carouselView, Func<CurrentItemChangedEventArgs, Task>? currentItemChangedAction)
+        where T : ICarouselView
+    {
+        carouselView.CurrentItemChangedEvent = new AsyncEventCommand<CurrentItemChangedEventArgs>(executeWithArgs: currentItemChangedAction);
+        return carouselView;
+    }
+
+    public static T OnCurrentItemChanged<T>(this T carouselView, Func<object?, CurrentItemChangedEventArgs, Task>? currentItemChangedAction)
+        where T : ICarouselView
+    {
+        carouselView.CurrentItemChangedEvent = new AsyncEventCommand<CurrentItemChangedEventArgs>(executeWithFullArgs: currentItemChangedAction);
         return carouselView;
     }
 
     public static T OnPositionChanged<T>(this T carouselView, Action? positionChangedAction)
         where T : ICarouselView
     {
-        carouselView.PositionChangedAction = positionChangedAction;
+        carouselView.PositionChangedEvent = new SyncEventCommand<PositionChangedEventArgs>(execute: positionChangedAction);
         return carouselView;
     }
 
-    public static T OnPositionChanged<T>(this T carouselView, Action<object?, PositionChangedEventArgs>? positionChangedActionWithArgs)
+    public static T OnPositionChanged<T>(this T carouselView, Action<PositionChangedEventArgs>? positionChangedAction)
         where T : ICarouselView
     {
-        carouselView.PositionChangedActionWithArgs = positionChangedActionWithArgs;
+        carouselView.PositionChangedEvent = new SyncEventCommand<PositionChangedEventArgs>(executeWithArgs: positionChangedAction);
+        return carouselView;
+    }
+
+    public static T OnPositionChanged<T>(this T carouselView, Action<object?, PositionChangedEventArgs>? positionChangedAction)
+        where T : ICarouselView
+    {
+        carouselView.PositionChangedEvent = new SyncEventCommand<PositionChangedEventArgs>(executeWithFullArgs: positionChangedAction);
+        return carouselView;
+    }
+
+    public static T OnPositionChanged<T>(this T carouselView, Func<Task>? positionChangedAction)
+        where T : ICarouselView
+    {
+        carouselView.PositionChangedEvent = new AsyncEventCommand<PositionChangedEventArgs>(execute: positionChangedAction);
+        return carouselView;
+    }
+
+    public static T OnPositionChanged<T>(this T carouselView, Func<PositionChangedEventArgs, Task>? positionChangedAction)
+        where T : ICarouselView
+    {
+        carouselView.PositionChangedEvent = new AsyncEventCommand<PositionChangedEventArgs>(executeWithArgs: positionChangedAction);
+        return carouselView;
+    }
+
+    public static T OnPositionChanged<T>(this T carouselView, Func<object?, PositionChangedEventArgs, Task>? positionChangedAction)
+        where T : ICarouselView
+    {
+        carouselView.PositionChangedEvent = new AsyncEventCommand<PositionChangedEventArgs>(executeWithFullArgs: positionChangedAction);
         return carouselView;
     }
 }

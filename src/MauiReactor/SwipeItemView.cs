@@ -12,9 +12,7 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ISwipeItemView : IContentView
 {
-    Action? InvokedAction { get; set; }
-
-    Action<object?, EventArgs>? InvokedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? InvokedEvent { get; set; }
 }
 
 public partial class SwipeItemView<T> : ContentView<T>, ISwipeItemView where T : Microsoft.Maui.Controls.SwipeItemView, new()
@@ -29,9 +27,7 @@ public partial class SwipeItemView<T> : ContentView<T>, ISwipeItemView where T :
         SwipeItemViewStyles.Default?.Invoke(this);
     }
 
-    Action? ISwipeItemView.InvokedAction { get; set; }
-
-    Action<object?, EventArgs>? ISwipeItemView.InvokedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? ISwipeItemView.InvokedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -56,11 +52,12 @@ public partial class SwipeItemView<T> : ContentView<T>, ISwipeItemView where T :
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingInvokedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsISwipeItemView = (ISwipeItemView)this;
-        if (thisAsISwipeItemView.InvokedAction != null || thisAsISwipeItemView.InvokedActionWithArgs != null)
+        if (thisAsISwipeItemView.InvokedEvent != null)
         {
             NativeControl.Invoked += NativeControl_Invoked;
         }
@@ -72,8 +69,11 @@ public partial class SwipeItemView<T> : ContentView<T>, ISwipeItemView where T :
     private void NativeControl_Invoked(object? sender, EventArgs e)
     {
         var thisAsISwipeItemView = (ISwipeItemView)this;
-        thisAsISwipeItemView.InvokedAction?.Invoke();
-        thisAsISwipeItemView.InvokedActionWithArgs?.Invoke(sender, e);
+        if (_executingInvokedEvent == null || _executingInvokedEvent.IsCompleted)
+        {
+            _executingInvokedEvent = thisAsISwipeItemView.InvokedEvent;
+            _executingInvokedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -85,6 +85,21 @@ public partial class SwipeItemView<T> : ContentView<T>, ISwipeItemView where T :
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is SwipeItemView<T> @swipeitemview)
+        {
+            if (_executingInvokedEvent != null && !_executingInvokedEvent.IsCompleted)
+            {
+                @swipeitemview._executingInvokedEvent = _executingInvokedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -104,14 +119,42 @@ public static partial class SwipeItemViewExtensions
     public static T OnInvoked<T>(this T swipeItemView, Action? invokedAction)
         where T : ISwipeItemView
     {
-        swipeItemView.InvokedAction = invokedAction;
+        swipeItemView.InvokedEvent = new SyncEventCommand<EventArgs>(execute: invokedAction);
         return swipeItemView;
     }
 
-    public static T OnInvoked<T>(this T swipeItemView, Action<object?, EventArgs>? invokedActionWithArgs)
+    public static T OnInvoked<T>(this T swipeItemView, Action<EventArgs>? invokedAction)
         where T : ISwipeItemView
     {
-        swipeItemView.InvokedActionWithArgs = invokedActionWithArgs;
+        swipeItemView.InvokedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: invokedAction);
+        return swipeItemView;
+    }
+
+    public static T OnInvoked<T>(this T swipeItemView, Action<object?, EventArgs>? invokedAction)
+        where T : ISwipeItemView
+    {
+        swipeItemView.InvokedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: invokedAction);
+        return swipeItemView;
+    }
+
+    public static T OnInvoked<T>(this T swipeItemView, Func<Task>? invokedAction)
+        where T : ISwipeItemView
+    {
+        swipeItemView.InvokedEvent = new AsyncEventCommand<EventArgs>(execute: invokedAction);
+        return swipeItemView;
+    }
+
+    public static T OnInvoked<T>(this T swipeItemView, Func<EventArgs, Task>? invokedAction)
+        where T : ISwipeItemView
+    {
+        swipeItemView.InvokedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: invokedAction);
+        return swipeItemView;
+    }
+
+    public static T OnInvoked<T>(this T swipeItemView, Func<object?, EventArgs, Task>? invokedAction)
+        where T : ISwipeItemView
+    {
+        swipeItemView.InvokedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: invokedAction);
         return swipeItemView;
     }
 }

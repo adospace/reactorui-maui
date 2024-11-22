@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MauiReactor.Internals;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ public static partial class CheckBoxExtensions
     {
         if (checkedChangedAction != null)
         {
-            checkBox.CheckedChangedActionWithArgs = (s, e) => checkedChangedAction?.Invoke(e.Value);
+            checkBox.CheckedChangedEvent = new SyncEventCommand<CheckedChangedEventArgs>(executeWithArgs: (e) => checkedChangedAction?.Invoke(e.Value));
         }
         return checkBox;
     }

@@ -159,6 +159,30 @@ public partial class ScaffoldTypeGenerator
     private string InterfaceName
         => IsGenericType ? $"IGeneric{TypeName}" : $"I{TypeName}";
 
+    public string TypeNameWithGenericArguments()
+    {
+        if (IsBaseGenericType)
+        {
+            return $"{TypeName}<T>";
+        }
+        else if (IsGenericType)
+        {
+            return $"{TypeName}<T, TChild>";
+        }
+        else if (IsTypeSealed)
+        {
+            return $"{TypeName}";
+        }
+        else if (IsTypeNotAbstractWithEmptyConstructor)
+        {
+            return $"{TypeName}<T>";
+        }
+        else
+        {
+            return $"{TypeName}<T>";
+        }
+    }
+
     private string GenericArgumentBaseFullTypeName
         => TypeToScaffold
         .TypeArguments[0]
@@ -248,13 +272,24 @@ public partial class ScaffoldTypeGenerator
     }             
          */
 
+        //var invokeMember = (IMethodSymbol)ev.Type.GetMembers().First(_ => _.Name == "Invoke");
+        //if (invokeMember.Parameters.Length == 1)
+        //{
+        //    return $"thisAs{InterfaceName}.{ev.Name}ActionWithArgs?.Invoke(sender);";
+        //}
+
+        //return $"thisAs{InterfaceName}.{ev.Name}ActionWithArgs?.Invoke(sender, e);";
+
         var invokeMember = (IMethodSymbol)ev.Type.GetMembers().First(_ => _.Name == "Invoke");
         if (invokeMember.Parameters.Length == 1)
         {
-            return $"thisAs{InterfaceName}.{ev.Name}ActionWithArgs?.Invoke(sender);";
+            //_executing<#= ev.Name #>Event?.Execute(sender, e);
+
+            return $"_executing{ev.Name}Event?.Execute(null, sender);";
         }
 
-        return $"thisAs{InterfaceName}.{ev.Name}ActionWithArgs?.Invoke(sender, e);";
+        return $"_executing{ev.Name}Event?.Execute(sender, e);";
+
     }
 
     private string GetActionWithArgsParameters(IEventSymbol ev)
@@ -266,7 +301,8 @@ public partial class ScaffoldTypeGenerator
             return $"global::{invokeMember.Parameters[0].Type.GetFullyQualifiedName()}";
         }
 
-        return $"{invokeMember.Parameters[0].Type.GetFullyQualifiedName()}, global::{invokeMember.Parameters[1].Type.GetFullyQualifiedName()}";
+        //return $"{invokeMember.Parameters[0].Type.GetFullyQualifiedName()}, global::{invokeMember.Parameters[1].Type.GetFullyQualifiedName()}";
+        return $"global::{invokeMember.Parameters[1].Type.GetFullyQualifiedName()}";
 
     }
 

@@ -77,7 +77,7 @@ public partial class ItemsView<T> : ICustomDataTemplateOwner, IAutomationItemCon
         }
     }
 
-    protected override void OnMigrated(VisualNode newNode)
+    partial void Migrated(VisualNode newNode)
     {
         var newItemsView = ((ItemsView<T>)newNode);
         newItemsView._customDataTemplate = _customDataTemplate;
@@ -85,9 +85,6 @@ public partial class ItemsView<T> : ICustomDataTemplateOwner, IAutomationItemCon
         {
             newItemsView._customDataTemplate.Owner = newItemsView;
         }
-
-
-        base.OnMigrated(newNode);
     }
 
     protected override void OnUnmount()

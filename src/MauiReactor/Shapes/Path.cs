@@ -52,6 +52,13 @@ public sealed partial class Path : Shapes.Shape<Microsoft.Maui.Controls.Shapes.P
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public static partial class PathExtensions

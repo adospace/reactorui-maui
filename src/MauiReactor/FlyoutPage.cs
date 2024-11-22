@@ -18,9 +18,7 @@ public partial interface IFlyoutPage : IPage
 
     object? FlyoutLayoutBehavior { get; set; }
 
-    Action? IsPresentedChangedAction { get; set; }
-
-    Action<object?, EventArgs>? IsPresentedChangedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IsPresentedChangedEvent { get; set; }
 }
 
 public partial class FlyoutPage<T> : Page<T>, IFlyoutPage where T : Microsoft.Maui.Controls.FlyoutPage, new()
@@ -41,9 +39,7 @@ public partial class FlyoutPage<T> : Page<T>, IFlyoutPage where T : Microsoft.Ma
 
     object? IFlyoutPage.FlyoutLayoutBehavior { get; set; }
 
-    Action? IFlyoutPage.IsPresentedChangedAction { get; set; }
-
-    Action<object?, EventArgs>? IFlyoutPage.IsPresentedChangedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IFlyoutPage.IsPresentedChangedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -73,11 +69,12 @@ public partial class FlyoutPage<T> : Page<T>, IFlyoutPage where T : Microsoft.Ma
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingIsPresentedChangedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIFlyoutPage = (IFlyoutPage)this;
-        if (thisAsIFlyoutPage.IsPresentedChangedAction != null || thisAsIFlyoutPage.IsPresentedChangedActionWithArgs != null)
+        if (thisAsIFlyoutPage.IsPresentedChangedEvent != null)
         {
             NativeControl.IsPresentedChanged += NativeControl_IsPresentedChanged;
         }
@@ -89,8 +86,11 @@ public partial class FlyoutPage<T> : Page<T>, IFlyoutPage where T : Microsoft.Ma
     private void NativeControl_IsPresentedChanged(object? sender, EventArgs e)
     {
         var thisAsIFlyoutPage = (IFlyoutPage)this;
-        thisAsIFlyoutPage.IsPresentedChangedAction?.Invoke();
-        thisAsIFlyoutPage.IsPresentedChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingIsPresentedChangedEvent == null || _executingIsPresentedChangedEvent.IsCompleted)
+        {
+            _executingIsPresentedChangedEvent = thisAsIFlyoutPage.IsPresentedChangedEvent;
+            _executingIsPresentedChangedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -102,6 +102,21 @@ public partial class FlyoutPage<T> : Page<T>, IFlyoutPage where T : Microsoft.Ma
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is FlyoutPage<T> @flyoutpage)
+        {
+            if (_executingIsPresentedChangedEvent != null && !_executingIsPresentedChangedEvent.IsCompleted)
+            {
+                @flyoutpage._executingIsPresentedChangedEvent = _executingIsPresentedChangedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -163,14 +178,42 @@ public static partial class FlyoutPageExtensions
     public static T OnIsPresentedChanged<T>(this T flyoutPage, Action? isPresentedChangedAction)
         where T : IFlyoutPage
     {
-        flyoutPage.IsPresentedChangedAction = isPresentedChangedAction;
+        flyoutPage.IsPresentedChangedEvent = new SyncEventCommand<EventArgs>(execute: isPresentedChangedAction);
         return flyoutPage;
     }
 
-    public static T OnIsPresentedChanged<T>(this T flyoutPage, Action<object?, EventArgs>? isPresentedChangedActionWithArgs)
+    public static T OnIsPresentedChanged<T>(this T flyoutPage, Action<EventArgs>? isPresentedChangedAction)
         where T : IFlyoutPage
     {
-        flyoutPage.IsPresentedChangedActionWithArgs = isPresentedChangedActionWithArgs;
+        flyoutPage.IsPresentedChangedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: isPresentedChangedAction);
+        return flyoutPage;
+    }
+
+    public static T OnIsPresentedChanged<T>(this T flyoutPage, Action<object?, EventArgs>? isPresentedChangedAction)
+        where T : IFlyoutPage
+    {
+        flyoutPage.IsPresentedChangedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: isPresentedChangedAction);
+        return flyoutPage;
+    }
+
+    public static T OnIsPresentedChanged<T>(this T flyoutPage, Func<Task>? isPresentedChangedAction)
+        where T : IFlyoutPage
+    {
+        flyoutPage.IsPresentedChangedEvent = new AsyncEventCommand<EventArgs>(execute: isPresentedChangedAction);
+        return flyoutPage;
+    }
+
+    public static T OnIsPresentedChanged<T>(this T flyoutPage, Func<EventArgs, Task>? isPresentedChangedAction)
+        where T : IFlyoutPage
+    {
+        flyoutPage.IsPresentedChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: isPresentedChangedAction);
+        return flyoutPage;
+    }
+
+    public static T OnIsPresentedChanged<T>(this T flyoutPage, Func<object?, EventArgs, Task>? isPresentedChangedAction)
+        where T : IFlyoutPage
+    {
+        flyoutPage.IsPresentedChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: isPresentedChangedAction);
         return flyoutPage;
     }
 }

@@ -16,37 +16,21 @@ public partial interface IElement : IVisualNode
 
     object? ClassId { get; set; }
 
-    Action? ChildAddedAction { get; set; }
+    EventCommand<ElementEventArgs>? ChildAddedEvent { get; set; }
 
-    Action<object?, ElementEventArgs>? ChildAddedActionWithArgs { get; set; }
+    EventCommand<ElementEventArgs>? ChildRemovedEvent { get; set; }
 
-    Action? ChildRemovedAction { get; set; }
+    EventCommand<ElementEventArgs>? DescendantAddedEvent { get; set; }
 
-    Action<object?, ElementEventArgs>? ChildRemovedActionWithArgs { get; set; }
+    EventCommand<ElementEventArgs>? DescendantRemovedEvent { get; set; }
 
-    Action? DescendantAddedAction { get; set; }
+    EventCommand<ParentChangingEventArgs>? ParentChangingEvent { get; set; }
 
-    Action<object?, ElementEventArgs>? DescendantAddedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? ParentChangedEvent { get; set; }
 
-    Action? DescendantRemovedAction { get; set; }
+    EventCommand<HandlerChangingEventArgs>? HandlerChangingEvent { get; set; }
 
-    Action<object?, ElementEventArgs>? DescendantRemovedActionWithArgs { get; set; }
-
-    Action? ParentChangingAction { get; set; }
-
-    Action<object?, ParentChangingEventArgs>? ParentChangingActionWithArgs { get; set; }
-
-    Action? ParentChangedAction { get; set; }
-
-    Action<object?, EventArgs>? ParentChangedActionWithArgs { get; set; }
-
-    Action? HandlerChangingAction { get; set; }
-
-    Action<object?, HandlerChangingEventArgs>? HandlerChangingActionWithArgs { get; set; }
-
-    Action? HandlerChangedAction { get; set; }
-
-    Action<object?, EventArgs>? HandlerChangedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? HandlerChangedEvent { get; set; }
 }
 
 public abstract partial class Element<T> : VisualNode<T>, IElement where T : Microsoft.Maui.Controls.Element, new()
@@ -65,37 +49,21 @@ public abstract partial class Element<T> : VisualNode<T>, IElement where T : Mic
 
     object? IElement.ClassId { get; set; }
 
-    Action? IElement.ChildAddedAction { get; set; }
+    EventCommand<ElementEventArgs>? IElement.ChildAddedEvent { get; set; }
 
-    Action<object?, ElementEventArgs>? IElement.ChildAddedActionWithArgs { get; set; }
+    EventCommand<ElementEventArgs>? IElement.ChildRemovedEvent { get; set; }
 
-    Action? IElement.ChildRemovedAction { get; set; }
+    EventCommand<ElementEventArgs>? IElement.DescendantAddedEvent { get; set; }
 
-    Action<object?, ElementEventArgs>? IElement.ChildRemovedActionWithArgs { get; set; }
+    EventCommand<ElementEventArgs>? IElement.DescendantRemovedEvent { get; set; }
 
-    Action? IElement.DescendantAddedAction { get; set; }
+    EventCommand<ParentChangingEventArgs>? IElement.ParentChangingEvent { get; set; }
 
-    Action<object?, ElementEventArgs>? IElement.DescendantAddedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IElement.ParentChangedEvent { get; set; }
 
-    Action? IElement.DescendantRemovedAction { get; set; }
+    EventCommand<HandlerChangingEventArgs>? IElement.HandlerChangingEvent { get; set; }
 
-    Action<object?, ElementEventArgs>? IElement.DescendantRemovedActionWithArgs { get; set; }
-
-    Action? IElement.ParentChangingAction { get; set; }
-
-    Action<object?, ParentChangingEventArgs>? IElement.ParentChangingActionWithArgs { get; set; }
-
-    Action? IElement.ParentChangedAction { get; set; }
-
-    Action<object?, EventArgs>? IElement.ParentChangedActionWithArgs { get; set; }
-
-    Action? IElement.HandlerChangingAction { get; set; }
-
-    Action<object?, HandlerChangingEventArgs>? IElement.HandlerChangingActionWithArgs { get; set; }
-
-    Action? IElement.HandlerChangedAction { get; set; }
-
-    Action<object?, EventArgs>? IElement.HandlerChangedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IElement.HandlerChangedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -124,46 +92,54 @@ public abstract partial class Element<T> : VisualNode<T>, IElement where T : Mic
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<ElementEventArgs>? _executingChildAddedEvent;
+    private EventCommand<ElementEventArgs>? _executingChildRemovedEvent;
+    private EventCommand<ElementEventArgs>? _executingDescendantAddedEvent;
+    private EventCommand<ElementEventArgs>? _executingDescendantRemovedEvent;
+    private EventCommand<ParentChangingEventArgs>? _executingParentChangingEvent;
+    private EventCommand<EventArgs>? _executingParentChangedEvent;
+    private EventCommand<HandlerChangingEventArgs>? _executingHandlerChangingEvent;
+    private EventCommand<EventArgs>? _executingHandlerChangedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIElement = (IElement)this;
-        if (thisAsIElement.ChildAddedAction != null || thisAsIElement.ChildAddedActionWithArgs != null)
+        if (thisAsIElement.ChildAddedEvent != null)
         {
             NativeControl.ChildAdded += NativeControl_ChildAdded;
         }
 
-        if (thisAsIElement.ChildRemovedAction != null || thisAsIElement.ChildRemovedActionWithArgs != null)
+        if (thisAsIElement.ChildRemovedEvent != null)
         {
             NativeControl.ChildRemoved += NativeControl_ChildRemoved;
         }
 
-        if (thisAsIElement.DescendantAddedAction != null || thisAsIElement.DescendantAddedActionWithArgs != null)
+        if (thisAsIElement.DescendantAddedEvent != null)
         {
             NativeControl.DescendantAdded += NativeControl_DescendantAdded;
         }
 
-        if (thisAsIElement.DescendantRemovedAction != null || thisAsIElement.DescendantRemovedActionWithArgs != null)
+        if (thisAsIElement.DescendantRemovedEvent != null)
         {
             NativeControl.DescendantRemoved += NativeControl_DescendantRemoved;
         }
 
-        if (thisAsIElement.ParentChangingAction != null || thisAsIElement.ParentChangingActionWithArgs != null)
+        if (thisAsIElement.ParentChangingEvent != null)
         {
             NativeControl.ParentChanging += NativeControl_ParentChanging;
         }
 
-        if (thisAsIElement.ParentChangedAction != null || thisAsIElement.ParentChangedActionWithArgs != null)
+        if (thisAsIElement.ParentChangedEvent != null)
         {
             NativeControl.ParentChanged += NativeControl_ParentChanged;
         }
 
-        if (thisAsIElement.HandlerChangingAction != null || thisAsIElement.HandlerChangingActionWithArgs != null)
+        if (thisAsIElement.HandlerChangingEvent != null)
         {
             NativeControl.HandlerChanging += NativeControl_HandlerChanging;
         }
 
-        if (thisAsIElement.HandlerChangedAction != null || thisAsIElement.HandlerChangedActionWithArgs != null)
+        if (thisAsIElement.HandlerChangedEvent != null)
         {
             NativeControl.HandlerChanged += NativeControl_HandlerChanged;
         }
@@ -175,57 +151,81 @@ public abstract partial class Element<T> : VisualNode<T>, IElement where T : Mic
     private void NativeControl_ChildAdded(object? sender, ElementEventArgs e)
     {
         var thisAsIElement = (IElement)this;
-        thisAsIElement.ChildAddedAction?.Invoke();
-        thisAsIElement.ChildAddedActionWithArgs?.Invoke(sender, e);
+        if (_executingChildAddedEvent == null || _executingChildAddedEvent.IsCompleted)
+        {
+            _executingChildAddedEvent = thisAsIElement.ChildAddedEvent;
+            _executingChildAddedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_ChildRemoved(object? sender, ElementEventArgs e)
     {
         var thisAsIElement = (IElement)this;
-        thisAsIElement.ChildRemovedAction?.Invoke();
-        thisAsIElement.ChildRemovedActionWithArgs?.Invoke(sender, e);
+        if (_executingChildRemovedEvent == null || _executingChildRemovedEvent.IsCompleted)
+        {
+            _executingChildRemovedEvent = thisAsIElement.ChildRemovedEvent;
+            _executingChildRemovedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_DescendantAdded(object? sender, ElementEventArgs e)
     {
         var thisAsIElement = (IElement)this;
-        thisAsIElement.DescendantAddedAction?.Invoke();
-        thisAsIElement.DescendantAddedActionWithArgs?.Invoke(sender, e);
+        if (_executingDescendantAddedEvent == null || _executingDescendantAddedEvent.IsCompleted)
+        {
+            _executingDescendantAddedEvent = thisAsIElement.DescendantAddedEvent;
+            _executingDescendantAddedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_DescendantRemoved(object? sender, ElementEventArgs e)
     {
         var thisAsIElement = (IElement)this;
-        thisAsIElement.DescendantRemovedAction?.Invoke();
-        thisAsIElement.DescendantRemovedActionWithArgs?.Invoke(sender, e);
+        if (_executingDescendantRemovedEvent == null || _executingDescendantRemovedEvent.IsCompleted)
+        {
+            _executingDescendantRemovedEvent = thisAsIElement.DescendantRemovedEvent;
+            _executingDescendantRemovedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_ParentChanging(object? sender, ParentChangingEventArgs e)
     {
         var thisAsIElement = (IElement)this;
-        thisAsIElement.ParentChangingAction?.Invoke();
-        thisAsIElement.ParentChangingActionWithArgs?.Invoke(sender, e);
+        if (_executingParentChangingEvent == null || _executingParentChangingEvent.IsCompleted)
+        {
+            _executingParentChangingEvent = thisAsIElement.ParentChangingEvent;
+            _executingParentChangingEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_ParentChanged(object? sender, EventArgs e)
     {
         var thisAsIElement = (IElement)this;
-        thisAsIElement.ParentChangedAction?.Invoke();
-        thisAsIElement.ParentChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingParentChangedEvent == null || _executingParentChangedEvent.IsCompleted)
+        {
+            _executingParentChangedEvent = thisAsIElement.ParentChangedEvent;
+            _executingParentChangedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_HandlerChanging(object? sender, HandlerChangingEventArgs e)
     {
         var thisAsIElement = (IElement)this;
-        thisAsIElement.HandlerChangingAction?.Invoke();
-        thisAsIElement.HandlerChangingActionWithArgs?.Invoke(sender, e);
+        if (_executingHandlerChangingEvent == null || _executingHandlerChangingEvent.IsCompleted)
+        {
+            _executingHandlerChangingEvent = thisAsIElement.HandlerChangingEvent;
+            _executingHandlerChangingEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_HandlerChanged(object? sender, EventArgs e)
     {
         var thisAsIElement = (IElement)this;
-        thisAsIElement.HandlerChangedAction?.Invoke();
-        thisAsIElement.HandlerChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingHandlerChangedEvent == null || _executingHandlerChangedEvent.IsCompleted)
+        {
+            _executingHandlerChangedEvent = thisAsIElement.HandlerChangedEvent;
+            _executingHandlerChangedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -244,6 +244,56 @@ public abstract partial class Element<T> : VisualNode<T>, IElement where T : Mic
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is Element<T> @element)
+        {
+            if (_executingChildAddedEvent != null && !_executingChildAddedEvent.IsCompleted)
+            {
+                @element._executingChildAddedEvent = _executingChildAddedEvent;
+            }
+
+            if (_executingChildRemovedEvent != null && !_executingChildRemovedEvent.IsCompleted)
+            {
+                @element._executingChildRemovedEvent = _executingChildRemovedEvent;
+            }
+
+            if (_executingDescendantAddedEvent != null && !_executingDescendantAddedEvent.IsCompleted)
+            {
+                @element._executingDescendantAddedEvent = _executingDescendantAddedEvent;
+            }
+
+            if (_executingDescendantRemovedEvent != null && !_executingDescendantRemovedEvent.IsCompleted)
+            {
+                @element._executingDescendantRemovedEvent = _executingDescendantRemovedEvent;
+            }
+
+            if (_executingParentChangingEvent != null && !_executingParentChangingEvent.IsCompleted)
+            {
+                @element._executingParentChangingEvent = _executingParentChangingEvent;
+            }
+
+            if (_executingParentChangedEvent != null && !_executingParentChangedEvent.IsCompleted)
+            {
+                @element._executingParentChangedEvent = _executingParentChangedEvent;
+            }
+
+            if (_executingHandlerChangingEvent != null && !_executingHandlerChangingEvent.IsCompleted)
+            {
+                @element._executingHandlerChangingEvent = _executingHandlerChangingEvent;
+            }
+
+            if (_executingHandlerChangedEvent != null && !_executingHandlerChangedEvent.IsCompleted)
+            {
+                @element._executingHandlerChangedEvent = _executingHandlerChangedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -280,112 +330,336 @@ public static partial class ElementExtensions
     public static T OnChildAdded<T>(this T element, Action? childAddedAction)
         where T : IElement
     {
-        element.ChildAddedAction = childAddedAction;
+        element.ChildAddedEvent = new SyncEventCommand<ElementEventArgs>(execute: childAddedAction);
         return element;
     }
 
-    public static T OnChildAdded<T>(this T element, Action<object?, ElementEventArgs>? childAddedActionWithArgs)
+    public static T OnChildAdded<T>(this T element, Action<ElementEventArgs>? childAddedAction)
         where T : IElement
     {
-        element.ChildAddedActionWithArgs = childAddedActionWithArgs;
+        element.ChildAddedEvent = new SyncEventCommand<ElementEventArgs>(executeWithArgs: childAddedAction);
+        return element;
+    }
+
+    public static T OnChildAdded<T>(this T element, Action<object?, ElementEventArgs>? childAddedAction)
+        where T : IElement
+    {
+        element.ChildAddedEvent = new SyncEventCommand<ElementEventArgs>(executeWithFullArgs: childAddedAction);
+        return element;
+    }
+
+    public static T OnChildAdded<T>(this T element, Func<Task>? childAddedAction)
+        where T : IElement
+    {
+        element.ChildAddedEvent = new AsyncEventCommand<ElementEventArgs>(execute: childAddedAction);
+        return element;
+    }
+
+    public static T OnChildAdded<T>(this T element, Func<ElementEventArgs, Task>? childAddedAction)
+        where T : IElement
+    {
+        element.ChildAddedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithArgs: childAddedAction);
+        return element;
+    }
+
+    public static T OnChildAdded<T>(this T element, Func<object?, ElementEventArgs, Task>? childAddedAction)
+        where T : IElement
+    {
+        element.ChildAddedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithFullArgs: childAddedAction);
         return element;
     }
 
     public static T OnChildRemoved<T>(this T element, Action? childRemovedAction)
         where T : IElement
     {
-        element.ChildRemovedAction = childRemovedAction;
+        element.ChildRemovedEvent = new SyncEventCommand<ElementEventArgs>(execute: childRemovedAction);
         return element;
     }
 
-    public static T OnChildRemoved<T>(this T element, Action<object?, ElementEventArgs>? childRemovedActionWithArgs)
+    public static T OnChildRemoved<T>(this T element, Action<ElementEventArgs>? childRemovedAction)
         where T : IElement
     {
-        element.ChildRemovedActionWithArgs = childRemovedActionWithArgs;
+        element.ChildRemovedEvent = new SyncEventCommand<ElementEventArgs>(executeWithArgs: childRemovedAction);
+        return element;
+    }
+
+    public static T OnChildRemoved<T>(this T element, Action<object?, ElementEventArgs>? childRemovedAction)
+        where T : IElement
+    {
+        element.ChildRemovedEvent = new SyncEventCommand<ElementEventArgs>(executeWithFullArgs: childRemovedAction);
+        return element;
+    }
+
+    public static T OnChildRemoved<T>(this T element, Func<Task>? childRemovedAction)
+        where T : IElement
+    {
+        element.ChildRemovedEvent = new AsyncEventCommand<ElementEventArgs>(execute: childRemovedAction);
+        return element;
+    }
+
+    public static T OnChildRemoved<T>(this T element, Func<ElementEventArgs, Task>? childRemovedAction)
+        where T : IElement
+    {
+        element.ChildRemovedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithArgs: childRemovedAction);
+        return element;
+    }
+
+    public static T OnChildRemoved<T>(this T element, Func<object?, ElementEventArgs, Task>? childRemovedAction)
+        where T : IElement
+    {
+        element.ChildRemovedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithFullArgs: childRemovedAction);
         return element;
     }
 
     public static T OnDescendantAdded<T>(this T element, Action? descendantAddedAction)
         where T : IElement
     {
-        element.DescendantAddedAction = descendantAddedAction;
+        element.DescendantAddedEvent = new SyncEventCommand<ElementEventArgs>(execute: descendantAddedAction);
         return element;
     }
 
-    public static T OnDescendantAdded<T>(this T element, Action<object?, ElementEventArgs>? descendantAddedActionWithArgs)
+    public static T OnDescendantAdded<T>(this T element, Action<ElementEventArgs>? descendantAddedAction)
         where T : IElement
     {
-        element.DescendantAddedActionWithArgs = descendantAddedActionWithArgs;
+        element.DescendantAddedEvent = new SyncEventCommand<ElementEventArgs>(executeWithArgs: descendantAddedAction);
+        return element;
+    }
+
+    public static T OnDescendantAdded<T>(this T element, Action<object?, ElementEventArgs>? descendantAddedAction)
+        where T : IElement
+    {
+        element.DescendantAddedEvent = new SyncEventCommand<ElementEventArgs>(executeWithFullArgs: descendantAddedAction);
+        return element;
+    }
+
+    public static T OnDescendantAdded<T>(this T element, Func<Task>? descendantAddedAction)
+        where T : IElement
+    {
+        element.DescendantAddedEvent = new AsyncEventCommand<ElementEventArgs>(execute: descendantAddedAction);
+        return element;
+    }
+
+    public static T OnDescendantAdded<T>(this T element, Func<ElementEventArgs, Task>? descendantAddedAction)
+        where T : IElement
+    {
+        element.DescendantAddedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithArgs: descendantAddedAction);
+        return element;
+    }
+
+    public static T OnDescendantAdded<T>(this T element, Func<object?, ElementEventArgs, Task>? descendantAddedAction)
+        where T : IElement
+    {
+        element.DescendantAddedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithFullArgs: descendantAddedAction);
         return element;
     }
 
     public static T OnDescendantRemoved<T>(this T element, Action? descendantRemovedAction)
         where T : IElement
     {
-        element.DescendantRemovedAction = descendantRemovedAction;
+        element.DescendantRemovedEvent = new SyncEventCommand<ElementEventArgs>(execute: descendantRemovedAction);
         return element;
     }
 
-    public static T OnDescendantRemoved<T>(this T element, Action<object?, ElementEventArgs>? descendantRemovedActionWithArgs)
+    public static T OnDescendantRemoved<T>(this T element, Action<ElementEventArgs>? descendantRemovedAction)
         where T : IElement
     {
-        element.DescendantRemovedActionWithArgs = descendantRemovedActionWithArgs;
+        element.DescendantRemovedEvent = new SyncEventCommand<ElementEventArgs>(executeWithArgs: descendantRemovedAction);
+        return element;
+    }
+
+    public static T OnDescendantRemoved<T>(this T element, Action<object?, ElementEventArgs>? descendantRemovedAction)
+        where T : IElement
+    {
+        element.DescendantRemovedEvent = new SyncEventCommand<ElementEventArgs>(executeWithFullArgs: descendantRemovedAction);
+        return element;
+    }
+
+    public static T OnDescendantRemoved<T>(this T element, Func<Task>? descendantRemovedAction)
+        where T : IElement
+    {
+        element.DescendantRemovedEvent = new AsyncEventCommand<ElementEventArgs>(execute: descendantRemovedAction);
+        return element;
+    }
+
+    public static T OnDescendantRemoved<T>(this T element, Func<ElementEventArgs, Task>? descendantRemovedAction)
+        where T : IElement
+    {
+        element.DescendantRemovedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithArgs: descendantRemovedAction);
+        return element;
+    }
+
+    public static T OnDescendantRemoved<T>(this T element, Func<object?, ElementEventArgs, Task>? descendantRemovedAction)
+        where T : IElement
+    {
+        element.DescendantRemovedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithFullArgs: descendantRemovedAction);
         return element;
     }
 
     public static T OnParentChanging<T>(this T element, Action? parentChangingAction)
         where T : IElement
     {
-        element.ParentChangingAction = parentChangingAction;
+        element.ParentChangingEvent = new SyncEventCommand<ParentChangingEventArgs>(execute: parentChangingAction);
         return element;
     }
 
-    public static T OnParentChanging<T>(this T element, Action<object?, ParentChangingEventArgs>? parentChangingActionWithArgs)
+    public static T OnParentChanging<T>(this T element, Action<ParentChangingEventArgs>? parentChangingAction)
         where T : IElement
     {
-        element.ParentChangingActionWithArgs = parentChangingActionWithArgs;
+        element.ParentChangingEvent = new SyncEventCommand<ParentChangingEventArgs>(executeWithArgs: parentChangingAction);
+        return element;
+    }
+
+    public static T OnParentChanging<T>(this T element, Action<object?, ParentChangingEventArgs>? parentChangingAction)
+        where T : IElement
+    {
+        element.ParentChangingEvent = new SyncEventCommand<ParentChangingEventArgs>(executeWithFullArgs: parentChangingAction);
+        return element;
+    }
+
+    public static T OnParentChanging<T>(this T element, Func<Task>? parentChangingAction)
+        where T : IElement
+    {
+        element.ParentChangingEvent = new AsyncEventCommand<ParentChangingEventArgs>(execute: parentChangingAction);
+        return element;
+    }
+
+    public static T OnParentChanging<T>(this T element, Func<ParentChangingEventArgs, Task>? parentChangingAction)
+        where T : IElement
+    {
+        element.ParentChangingEvent = new AsyncEventCommand<ParentChangingEventArgs>(executeWithArgs: parentChangingAction);
+        return element;
+    }
+
+    public static T OnParentChanging<T>(this T element, Func<object?, ParentChangingEventArgs, Task>? parentChangingAction)
+        where T : IElement
+    {
+        element.ParentChangingEvent = new AsyncEventCommand<ParentChangingEventArgs>(executeWithFullArgs: parentChangingAction);
         return element;
     }
 
     public static T OnParentChanged<T>(this T element, Action? parentChangedAction)
         where T : IElement
     {
-        element.ParentChangedAction = parentChangedAction;
+        element.ParentChangedEvent = new SyncEventCommand<EventArgs>(execute: parentChangedAction);
         return element;
     }
 
-    public static T OnParentChanged<T>(this T element, Action<object?, EventArgs>? parentChangedActionWithArgs)
+    public static T OnParentChanged<T>(this T element, Action<EventArgs>? parentChangedAction)
         where T : IElement
     {
-        element.ParentChangedActionWithArgs = parentChangedActionWithArgs;
+        element.ParentChangedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: parentChangedAction);
+        return element;
+    }
+
+    public static T OnParentChanged<T>(this T element, Action<object?, EventArgs>? parentChangedAction)
+        where T : IElement
+    {
+        element.ParentChangedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: parentChangedAction);
+        return element;
+    }
+
+    public static T OnParentChanged<T>(this T element, Func<Task>? parentChangedAction)
+        where T : IElement
+    {
+        element.ParentChangedEvent = new AsyncEventCommand<EventArgs>(execute: parentChangedAction);
+        return element;
+    }
+
+    public static T OnParentChanged<T>(this T element, Func<EventArgs, Task>? parentChangedAction)
+        where T : IElement
+    {
+        element.ParentChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: parentChangedAction);
+        return element;
+    }
+
+    public static T OnParentChanged<T>(this T element, Func<object?, EventArgs, Task>? parentChangedAction)
+        where T : IElement
+    {
+        element.ParentChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: parentChangedAction);
         return element;
     }
 
     public static T OnHandlerChanging<T>(this T element, Action? handlerChangingAction)
         where T : IElement
     {
-        element.HandlerChangingAction = handlerChangingAction;
+        element.HandlerChangingEvent = new SyncEventCommand<HandlerChangingEventArgs>(execute: handlerChangingAction);
         return element;
     }
 
-    public static T OnHandlerChanging<T>(this T element, Action<object?, HandlerChangingEventArgs>? handlerChangingActionWithArgs)
+    public static T OnHandlerChanging<T>(this T element, Action<HandlerChangingEventArgs>? handlerChangingAction)
         where T : IElement
     {
-        element.HandlerChangingActionWithArgs = handlerChangingActionWithArgs;
+        element.HandlerChangingEvent = new SyncEventCommand<HandlerChangingEventArgs>(executeWithArgs: handlerChangingAction);
+        return element;
+    }
+
+    public static T OnHandlerChanging<T>(this T element, Action<object?, HandlerChangingEventArgs>? handlerChangingAction)
+        where T : IElement
+    {
+        element.HandlerChangingEvent = new SyncEventCommand<HandlerChangingEventArgs>(executeWithFullArgs: handlerChangingAction);
+        return element;
+    }
+
+    public static T OnHandlerChanging<T>(this T element, Func<Task>? handlerChangingAction)
+        where T : IElement
+    {
+        element.HandlerChangingEvent = new AsyncEventCommand<HandlerChangingEventArgs>(execute: handlerChangingAction);
+        return element;
+    }
+
+    public static T OnHandlerChanging<T>(this T element, Func<HandlerChangingEventArgs, Task>? handlerChangingAction)
+        where T : IElement
+    {
+        element.HandlerChangingEvent = new AsyncEventCommand<HandlerChangingEventArgs>(executeWithArgs: handlerChangingAction);
+        return element;
+    }
+
+    public static T OnHandlerChanging<T>(this T element, Func<object?, HandlerChangingEventArgs, Task>? handlerChangingAction)
+        where T : IElement
+    {
+        element.HandlerChangingEvent = new AsyncEventCommand<HandlerChangingEventArgs>(executeWithFullArgs: handlerChangingAction);
         return element;
     }
 
     public static T OnHandlerChanged<T>(this T element, Action? handlerChangedAction)
         where T : IElement
     {
-        element.HandlerChangedAction = handlerChangedAction;
+        element.HandlerChangedEvent = new SyncEventCommand<EventArgs>(execute: handlerChangedAction);
         return element;
     }
 
-    public static T OnHandlerChanged<T>(this T element, Action<object?, EventArgs>? handlerChangedActionWithArgs)
+    public static T OnHandlerChanged<T>(this T element, Action<EventArgs>? handlerChangedAction)
         where T : IElement
     {
-        element.HandlerChangedActionWithArgs = handlerChangedActionWithArgs;
+        element.HandlerChangedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: handlerChangedAction);
+        return element;
+    }
+
+    public static T OnHandlerChanged<T>(this T element, Action<object?, EventArgs>? handlerChangedAction)
+        where T : IElement
+    {
+        element.HandlerChangedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: handlerChangedAction);
+        return element;
+    }
+
+    public static T OnHandlerChanged<T>(this T element, Func<Task>? handlerChangedAction)
+        where T : IElement
+    {
+        element.HandlerChangedEvent = new AsyncEventCommand<EventArgs>(execute: handlerChangedAction);
+        return element;
+    }
+
+    public static T OnHandlerChanged<T>(this T element, Func<EventArgs, Task>? handlerChangedAction)
+        where T : IElement
+    {
+        element.HandlerChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: handlerChangedAction);
+        return element;
+    }
+
+    public static T OnHandlerChanged<T>(this T element, Func<object?, EventArgs, Task>? handlerChangedAction)
+        where T : IElement
+    {
+        element.HandlerChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: handlerChangedAction);
         return element;
     }
 }

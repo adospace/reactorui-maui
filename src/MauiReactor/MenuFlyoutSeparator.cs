@@ -46,6 +46,13 @@ public partial class MenuFlyoutSeparator<T> : MenuFlyoutItem<T>, IMenuFlyoutSepa
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class MenuFlyoutSeparator : MenuFlyoutSeparator<Microsoft.Maui.Controls.MenuFlyoutSeparator>

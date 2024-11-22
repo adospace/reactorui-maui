@@ -38,9 +38,7 @@ public partial interface IRadioButton : ITemplatedView
 
     object? BorderWidth { get; set; }
 
-    Action? CheckedChangedAction { get; set; }
-
-    Action<object?, CheckedChangedEventArgs>? CheckedChangedActionWithArgs { get; set; }
+    EventCommand<CheckedChangedEventArgs>? CheckedChangedEvent { get; set; }
 }
 
 public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : Microsoft.Maui.Controls.RadioButton, new()
@@ -81,9 +79,7 @@ public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : M
 
     object? IRadioButton.BorderWidth { get; set; }
 
-    Action? IRadioButton.CheckedChangedAction { get; set; }
-
-    Action<object?, CheckedChangedEventArgs>? IRadioButton.CheckedChangedActionWithArgs { get; set; }
+    EventCommand<CheckedChangedEventArgs>? IRadioButton.CheckedChangedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -123,11 +119,12 @@ public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : M
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<CheckedChangedEventArgs>? _executingCheckedChangedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIRadioButton = (IRadioButton)this;
-        if (thisAsIRadioButton.CheckedChangedAction != null || thisAsIRadioButton.CheckedChangedActionWithArgs != null)
+        if (thisAsIRadioButton.CheckedChangedEvent != null)
         {
             NativeControl.CheckedChanged += NativeControl_CheckedChanged;
         }
@@ -139,8 +136,11 @@ public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : M
     private void NativeControl_CheckedChanged(object? sender, CheckedChangedEventArgs e)
     {
         var thisAsIRadioButton = (IRadioButton)this;
-        thisAsIRadioButton.CheckedChangedAction?.Invoke();
-        thisAsIRadioButton.CheckedChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingCheckedChangedEvent == null || _executingCheckedChangedEvent.IsCompleted)
+        {
+            _executingCheckedChangedEvent = thisAsIRadioButton.CheckedChangedEvent;
+            _executingCheckedChangedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -152,6 +152,21 @@ public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : M
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is RadioButton<T> @radiobutton)
+        {
+            if (_executingCheckedChangedEvent != null && !_executingCheckedChangedEvent.IsCompleted)
+            {
+                @radiobutton._executingCheckedChangedEvent = _executingCheckedChangedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -359,14 +374,42 @@ public static partial class RadioButtonExtensions
     public static T OnCheckedChanged<T>(this T radioButton, Action? checkedChangedAction)
         where T : IRadioButton
     {
-        radioButton.CheckedChangedAction = checkedChangedAction;
+        radioButton.CheckedChangedEvent = new SyncEventCommand<CheckedChangedEventArgs>(execute: checkedChangedAction);
         return radioButton;
     }
 
-    public static T OnCheckedChanged<T>(this T radioButton, Action<object?, CheckedChangedEventArgs>? checkedChangedActionWithArgs)
+    public static T OnCheckedChanged<T>(this T radioButton, Action<CheckedChangedEventArgs>? checkedChangedAction)
         where T : IRadioButton
     {
-        radioButton.CheckedChangedActionWithArgs = checkedChangedActionWithArgs;
+        radioButton.CheckedChangedEvent = new SyncEventCommand<CheckedChangedEventArgs>(executeWithArgs: checkedChangedAction);
+        return radioButton;
+    }
+
+    public static T OnCheckedChanged<T>(this T radioButton, Action<object?, CheckedChangedEventArgs>? checkedChangedAction)
+        where T : IRadioButton
+    {
+        radioButton.CheckedChangedEvent = new SyncEventCommand<CheckedChangedEventArgs>(executeWithFullArgs: checkedChangedAction);
+        return radioButton;
+    }
+
+    public static T OnCheckedChanged<T>(this T radioButton, Func<Task>? checkedChangedAction)
+        where T : IRadioButton
+    {
+        radioButton.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(execute: checkedChangedAction);
+        return radioButton;
+    }
+
+    public static T OnCheckedChanged<T>(this T radioButton, Func<CheckedChangedEventArgs, Task>? checkedChangedAction)
+        where T : IRadioButton
+    {
+        radioButton.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(executeWithArgs: checkedChangedAction);
+        return radioButton;
+    }
+
+    public static T OnCheckedChanged<T>(this T radioButton, Func<object?, CheckedChangedEventArgs, Task>? checkedChangedAction)
+        where T : IRadioButton
+    {
+        radioButton.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(executeWithFullArgs: checkedChangedAction);
         return radioButton;
     }
 }

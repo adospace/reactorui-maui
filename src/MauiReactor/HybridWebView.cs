@@ -16,9 +16,7 @@ public partial interface IHybridWebView : IView
 
     object? HybridRoot { get; set; }
 
-    Action? RawMessageReceivedAction { get; set; }
-
-    Action<object?, HybridWebViewRawMessageReceivedEventArgs>? RawMessageReceivedActionWithArgs { get; set; }
+    EventCommand<HybridWebViewRawMessageReceivedEventArgs>? RawMessageReceivedEvent { get; set; }
 }
 
 public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Microsoft.Maui.Controls.HybridWebView, new()
@@ -37,9 +35,7 @@ public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Micros
 
     object? IHybridWebView.HybridRoot { get; set; }
 
-    Action? IHybridWebView.RawMessageReceivedAction { get; set; }
-
-    Action<object?, HybridWebViewRawMessageReceivedEventArgs>? IHybridWebView.RawMessageReceivedActionWithArgs { get; set; }
+    EventCommand<HybridWebViewRawMessageReceivedEventArgs>? IHybridWebView.RawMessageReceivedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -68,11 +64,12 @@ public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Micros
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<HybridWebViewRawMessageReceivedEventArgs>? _executingRawMessageReceivedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIHybridWebView = (IHybridWebView)this;
-        if (thisAsIHybridWebView.RawMessageReceivedAction != null || thisAsIHybridWebView.RawMessageReceivedActionWithArgs != null)
+        if (thisAsIHybridWebView.RawMessageReceivedEvent != null)
         {
             NativeControl.RawMessageReceived += NativeControl_RawMessageReceived;
         }
@@ -84,8 +81,11 @@ public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Micros
     private void NativeControl_RawMessageReceived(object? sender, HybridWebViewRawMessageReceivedEventArgs e)
     {
         var thisAsIHybridWebView = (IHybridWebView)this;
-        thisAsIHybridWebView.RawMessageReceivedAction?.Invoke();
-        thisAsIHybridWebView.RawMessageReceivedActionWithArgs?.Invoke(sender, e);
+        if (_executingRawMessageReceivedEvent == null || _executingRawMessageReceivedEvent.IsCompleted)
+        {
+            _executingRawMessageReceivedEvent = thisAsIHybridWebView.RawMessageReceivedEvent;
+            _executingRawMessageReceivedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -97,6 +97,21 @@ public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Micros
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is HybridWebView<T> @hybridwebview)
+        {
+            if (_executingRawMessageReceivedEvent != null && !_executingRawMessageReceivedEvent.IsCompleted)
+            {
+                @hybridwebview._executingRawMessageReceivedEvent = _executingRawMessageReceivedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -144,14 +159,42 @@ public static partial class HybridWebViewExtensions
     public static T OnRawMessageReceived<T>(this T hybridWebView, Action? rawMessageReceivedAction)
         where T : IHybridWebView
     {
-        hybridWebView.RawMessageReceivedAction = rawMessageReceivedAction;
+        hybridWebView.RawMessageReceivedEvent = new SyncEventCommand<HybridWebViewRawMessageReceivedEventArgs>(execute: rawMessageReceivedAction);
         return hybridWebView;
     }
 
-    public static T OnRawMessageReceived<T>(this T hybridWebView, Action<object?, HybridWebViewRawMessageReceivedEventArgs>? rawMessageReceivedActionWithArgs)
+    public static T OnRawMessageReceived<T>(this T hybridWebView, Action<HybridWebViewRawMessageReceivedEventArgs>? rawMessageReceivedAction)
         where T : IHybridWebView
     {
-        hybridWebView.RawMessageReceivedActionWithArgs = rawMessageReceivedActionWithArgs;
+        hybridWebView.RawMessageReceivedEvent = new SyncEventCommand<HybridWebViewRawMessageReceivedEventArgs>(executeWithArgs: rawMessageReceivedAction);
+        return hybridWebView;
+    }
+
+    public static T OnRawMessageReceived<T>(this T hybridWebView, Action<object?, HybridWebViewRawMessageReceivedEventArgs>? rawMessageReceivedAction)
+        where T : IHybridWebView
+    {
+        hybridWebView.RawMessageReceivedEvent = new SyncEventCommand<HybridWebViewRawMessageReceivedEventArgs>(executeWithFullArgs: rawMessageReceivedAction);
+        return hybridWebView;
+    }
+
+    public static T OnRawMessageReceived<T>(this T hybridWebView, Func<Task>? rawMessageReceivedAction)
+        where T : IHybridWebView
+    {
+        hybridWebView.RawMessageReceivedEvent = new AsyncEventCommand<HybridWebViewRawMessageReceivedEventArgs>(execute: rawMessageReceivedAction);
+        return hybridWebView;
+    }
+
+    public static T OnRawMessageReceived<T>(this T hybridWebView, Func<HybridWebViewRawMessageReceivedEventArgs, Task>? rawMessageReceivedAction)
+        where T : IHybridWebView
+    {
+        hybridWebView.RawMessageReceivedEvent = new AsyncEventCommand<HybridWebViewRawMessageReceivedEventArgs>(executeWithArgs: rawMessageReceivedAction);
+        return hybridWebView;
+    }
+
+    public static T OnRawMessageReceived<T>(this T hybridWebView, Func<object?, HybridWebViewRawMessageReceivedEventArgs, Task>? rawMessageReceivedAction)
+        where T : IHybridWebView
+    {
+        hybridWebView.RawMessageReceivedEvent = new AsyncEventCommand<HybridWebViewRawMessageReceivedEventArgs>(executeWithFullArgs: rawMessageReceivedAction);
         return hybridWebView;
     }
 }

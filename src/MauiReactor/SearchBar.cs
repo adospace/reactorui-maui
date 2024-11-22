@@ -18,9 +18,7 @@ public partial interface ISearchBar : IInputView
 
     object? VerticalTextAlignment { get; set; }
 
-    Action? SearchButtonPressedAction { get; set; }
-
-    Action<object?, EventArgs>? SearchButtonPressedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? SearchButtonPressedEvent { get; set; }
 }
 
 public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft.Maui.Controls.SearchBar, new()
@@ -41,9 +39,7 @@ public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft
 
     object? ISearchBar.VerticalTextAlignment { get; set; }
 
-    Action? ISearchBar.SearchButtonPressedAction { get; set; }
-
-    Action<object?, EventArgs>? ISearchBar.SearchButtonPressedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? ISearchBar.SearchButtonPressedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -73,11 +69,12 @@ public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingSearchButtonPressedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsISearchBar = (ISearchBar)this;
-        if (thisAsISearchBar.SearchButtonPressedAction != null || thisAsISearchBar.SearchButtonPressedActionWithArgs != null)
+        if (thisAsISearchBar.SearchButtonPressedEvent != null)
         {
             NativeControl.SearchButtonPressed += NativeControl_SearchButtonPressed;
         }
@@ -89,8 +86,11 @@ public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft
     private void NativeControl_SearchButtonPressed(object? sender, EventArgs e)
     {
         var thisAsISearchBar = (ISearchBar)this;
-        thisAsISearchBar.SearchButtonPressedAction?.Invoke();
-        thisAsISearchBar.SearchButtonPressedActionWithArgs?.Invoke(sender, e);
+        if (_executingSearchButtonPressedEvent == null || _executingSearchButtonPressedEvent.IsCompleted)
+        {
+            _executingSearchButtonPressedEvent = thisAsISearchBar.SearchButtonPressedEvent;
+            _executingSearchButtonPressedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -102,6 +102,21 @@ public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is SearchBar<T> @searchbar)
+        {
+            if (_executingSearchButtonPressedEvent != null && !_executingSearchButtonPressedEvent.IsCompleted)
+            {
+                @searchbar._executingSearchButtonPressedEvent = _executingSearchButtonPressedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -163,14 +178,42 @@ public static partial class SearchBarExtensions
     public static T OnSearchButtonPressed<T>(this T searchBar, Action? searchButtonPressedAction)
         where T : ISearchBar
     {
-        searchBar.SearchButtonPressedAction = searchButtonPressedAction;
+        searchBar.SearchButtonPressedEvent = new SyncEventCommand<EventArgs>(execute: searchButtonPressedAction);
         return searchBar;
     }
 
-    public static T OnSearchButtonPressed<T>(this T searchBar, Action<object?, EventArgs>? searchButtonPressedActionWithArgs)
+    public static T OnSearchButtonPressed<T>(this T searchBar, Action<EventArgs>? searchButtonPressedAction)
         where T : ISearchBar
     {
-        searchBar.SearchButtonPressedActionWithArgs = searchButtonPressedActionWithArgs;
+        searchBar.SearchButtonPressedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: searchButtonPressedAction);
+        return searchBar;
+    }
+
+    public static T OnSearchButtonPressed<T>(this T searchBar, Action<object?, EventArgs>? searchButtonPressedAction)
+        where T : ISearchBar
+    {
+        searchBar.SearchButtonPressedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: searchButtonPressedAction);
+        return searchBar;
+    }
+
+    public static T OnSearchButtonPressed<T>(this T searchBar, Func<Task>? searchButtonPressedAction)
+        where T : ISearchBar
+    {
+        searchBar.SearchButtonPressedEvent = new AsyncEventCommand<EventArgs>(execute: searchButtonPressedAction);
+        return searchBar;
+    }
+
+    public static T OnSearchButtonPressed<T>(this T searchBar, Func<EventArgs, Task>? searchButtonPressedAction)
+        where T : ISearchBar
+    {
+        searchBar.SearchButtonPressedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: searchButtonPressedAction);
+        return searchBar;
+    }
+
+    public static T OnSearchButtonPressed<T>(this T searchBar, Func<object?, EventArgs, Task>? searchButtonPressedAction)
+        where T : ISearchBar
+    {
+        searchBar.SearchButtonPressedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: searchButtonPressedAction);
         return searchBar;
     }
 }

@@ -57,6 +57,13 @@ public partial class ActivityIndicator<T> : View<T>, IActivityIndicator where T 
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class ActivityIndicator : ActivityIndicator<Microsoft.Maui.Controls.ActivityIndicator>

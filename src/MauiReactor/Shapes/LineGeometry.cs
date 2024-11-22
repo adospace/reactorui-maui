@@ -57,6 +57,13 @@ public partial class LineGeometry<T> : Shapes.Geometry<T>, ILineGeometry where T
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class LineGeometry : LineGeometry<Microsoft.Maui.Controls.Shapes.LineGeometry>

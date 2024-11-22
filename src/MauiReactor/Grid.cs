@@ -57,6 +57,13 @@ public partial class Grid<T> : Layout<T>, IGrid where T : Microsoft.Maui.Control
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class Grid : Grid<Microsoft.Maui.Controls.Grid>

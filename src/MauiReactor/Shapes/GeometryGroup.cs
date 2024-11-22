@@ -16,9 +16,7 @@ public partial interface IGeometryGroup : Shapes.IGeometry
 
     object? FillRule { get; set; }
 
-    Action? InvalidateGeometryRequestedAction { get; set; }
-
-    Action<object?, EventArgs>? InvalidateGeometryRequestedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? InvalidateGeometryRequestedEvent { get; set; }
 }
 
 public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where T : Microsoft.Maui.Controls.Shapes.GeometryGroup, new()
@@ -37,9 +35,7 @@ public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where
 
     object? IGeometryGroup.FillRule { get; set; }
 
-    Action? IGeometryGroup.InvalidateGeometryRequestedAction { get; set; }
-
-    Action<object?, EventArgs>? IGeometryGroup.InvalidateGeometryRequestedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IGeometryGroup.InvalidateGeometryRequestedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -68,11 +64,12 @@ public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingInvalidateGeometryRequestedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIGeometryGroup = (IGeometryGroup)this;
-        if (thisAsIGeometryGroup.InvalidateGeometryRequestedAction != null || thisAsIGeometryGroup.InvalidateGeometryRequestedActionWithArgs != null)
+        if (thisAsIGeometryGroup.InvalidateGeometryRequestedEvent != null)
         {
             NativeControl.InvalidateGeometryRequested += NativeControl_InvalidateGeometryRequested;
         }
@@ -84,8 +81,11 @@ public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where
     private void NativeControl_InvalidateGeometryRequested(object? sender, EventArgs e)
     {
         var thisAsIGeometryGroup = (IGeometryGroup)this;
-        thisAsIGeometryGroup.InvalidateGeometryRequestedAction?.Invoke();
-        thisAsIGeometryGroup.InvalidateGeometryRequestedActionWithArgs?.Invoke(sender, e);
+        if (_executingInvalidateGeometryRequestedEvent == null || _executingInvalidateGeometryRequestedEvent.IsCompleted)
+        {
+            _executingInvalidateGeometryRequestedEvent = thisAsIGeometryGroup.InvalidateGeometryRequestedEvent;
+            _executingInvalidateGeometryRequestedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -97,6 +97,21 @@ public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is GeometryGroup<T> @geometrygroup)
+        {
+            if (_executingInvalidateGeometryRequestedEvent != null && !_executingInvalidateGeometryRequestedEvent.IsCompleted)
+            {
+                @geometrygroup._executingInvalidateGeometryRequestedEvent = _executingInvalidateGeometryRequestedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -144,14 +159,42 @@ public static partial class GeometryGroupExtensions
     public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Action? invalidateGeometryRequestedAction)
         where T : IGeometryGroup
     {
-        geometryGroup.InvalidateGeometryRequestedAction = invalidateGeometryRequestedAction;
+        geometryGroup.InvalidateGeometryRequestedEvent = new SyncEventCommand<EventArgs>(execute: invalidateGeometryRequestedAction);
         return geometryGroup;
     }
 
-    public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Action<object?, EventArgs>? invalidateGeometryRequestedActionWithArgs)
+    public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Action<EventArgs>? invalidateGeometryRequestedAction)
         where T : IGeometryGroup
     {
-        geometryGroup.InvalidateGeometryRequestedActionWithArgs = invalidateGeometryRequestedActionWithArgs;
+        geometryGroup.InvalidateGeometryRequestedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: invalidateGeometryRequestedAction);
+        return geometryGroup;
+    }
+
+    public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Action<object?, EventArgs>? invalidateGeometryRequestedAction)
+        where T : IGeometryGroup
+    {
+        geometryGroup.InvalidateGeometryRequestedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: invalidateGeometryRequestedAction);
+        return geometryGroup;
+    }
+
+    public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Func<Task>? invalidateGeometryRequestedAction)
+        where T : IGeometryGroup
+    {
+        geometryGroup.InvalidateGeometryRequestedEvent = new AsyncEventCommand<EventArgs>(execute: invalidateGeometryRequestedAction);
+        return geometryGroup;
+    }
+
+    public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Func<EventArgs, Task>? invalidateGeometryRequestedAction)
+        where T : IGeometryGroup
+    {
+        geometryGroup.InvalidateGeometryRequestedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: invalidateGeometryRequestedAction);
+        return geometryGroup;
+    }
+
+    public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Func<object?, EventArgs, Task>? invalidateGeometryRequestedAction)
+        where T : IGeometryGroup
+    {
+        geometryGroup.InvalidateGeometryRequestedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: invalidateGeometryRequestedAction);
         return geometryGroup;
     }
 }

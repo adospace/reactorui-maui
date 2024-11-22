@@ -46,6 +46,13 @@ public partial class ShellItem<T> : ShellGroupItem<T>, IShellItem where T : Micr
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class ShellItem : ShellItem<Microsoft.Maui.Controls.ShellItem>

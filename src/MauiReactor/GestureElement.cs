@@ -46,6 +46,13 @@ public partial class GestureElement<T> : Element<T>, IGestureElement where T : M
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class GestureElement : GestureElement<Microsoft.Maui.Controls.GestureElement>

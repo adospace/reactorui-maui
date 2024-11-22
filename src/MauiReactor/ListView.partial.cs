@@ -576,7 +576,7 @@ public abstract partial class ListView<T>
         }
     }
 
-    protected override void OnMigrated(VisualNode newNode)
+    partial void Migrated(VisualNode newNode)
     {
         var newItemsView = ((ListView<T>)newNode);
         newItemsView._customDataTemplate = _customDataTemplate;
@@ -590,8 +590,6 @@ public abstract partial class ListView<T>
         {
             newItemsView._customGroupDataTemplate.Owner = ((ListView<T>)newNode);
         }
-
-        base.OnMigrated(newNode);
     }
 
     protected override IEnumerable<VisualNode> RenderChildren()

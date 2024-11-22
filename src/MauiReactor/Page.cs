@@ -22,29 +22,17 @@ public partial interface IPage : IVisualElement
 
     object? IconImageSource { get; set; }
 
-    Action? LayoutChangedAction { get; set; }
+    EventCommand<EventArgs>? LayoutChangedEvent { get; set; }
 
-    Action<object?, EventArgs>? LayoutChangedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? AppearingEvent { get; set; }
 
-    Action? AppearingAction { get; set; }
+    EventCommand<EventArgs>? DisappearingEvent { get; set; }
 
-    Action<object?, EventArgs>? AppearingActionWithArgs { get; set; }
+    EventCommand<NavigatedToEventArgs>? NavigatedToEvent { get; set; }
 
-    Action? DisappearingAction { get; set; }
+    EventCommand<NavigatingFromEventArgs>? NavigatingFromEvent { get; set; }
 
-    Action<object?, EventArgs>? DisappearingActionWithArgs { get; set; }
-
-    Action? NavigatedToAction { get; set; }
-
-    Action<object?, NavigatedToEventArgs>? NavigatedToActionWithArgs { get; set; }
-
-    Action? NavigatingFromAction { get; set; }
-
-    Action<object?, NavigatingFromEventArgs>? NavigatingFromActionWithArgs { get; set; }
-
-    Action? NavigatedFromAction { get; set; }
-
-    Action<object?, NavigatedFromEventArgs>? NavigatedFromActionWithArgs { get; set; }
+    EventCommand<NavigatedFromEventArgs>? NavigatedFromEvent { get; set; }
 }
 
 public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.Controls.Page, new()
@@ -69,29 +57,17 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
 
     object? IPage.IconImageSource { get; set; }
 
-    Action? IPage.LayoutChangedAction { get; set; }
+    EventCommand<EventArgs>? IPage.LayoutChangedEvent { get; set; }
 
-    Action<object?, EventArgs>? IPage.LayoutChangedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IPage.AppearingEvent { get; set; }
 
-    Action? IPage.AppearingAction { get; set; }
+    EventCommand<EventArgs>? IPage.DisappearingEvent { get; set; }
 
-    Action<object?, EventArgs>? IPage.AppearingActionWithArgs { get; set; }
+    EventCommand<NavigatedToEventArgs>? IPage.NavigatedToEvent { get; set; }
 
-    Action? IPage.DisappearingAction { get; set; }
+    EventCommand<NavigatingFromEventArgs>? IPage.NavigatingFromEvent { get; set; }
 
-    Action<object?, EventArgs>? IPage.DisappearingActionWithArgs { get; set; }
-
-    Action? IPage.NavigatedToAction { get; set; }
-
-    Action<object?, NavigatedToEventArgs>? IPage.NavigatedToActionWithArgs { get; set; }
-
-    Action? IPage.NavigatingFromAction { get; set; }
-
-    Action<object?, NavigatingFromEventArgs>? IPage.NavigatingFromActionWithArgs { get; set; }
-
-    Action? IPage.NavigatedFromAction { get; set; }
-
-    Action<object?, NavigatedFromEventArgs>? IPage.NavigatedFromActionWithArgs { get; set; }
+    EventCommand<NavigatedFromEventArgs>? IPage.NavigatedFromEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -123,36 +99,42 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingLayoutChangedEvent;
+    private EventCommand<EventArgs>? _executingAppearingEvent;
+    private EventCommand<EventArgs>? _executingDisappearingEvent;
+    private EventCommand<NavigatedToEventArgs>? _executingNavigatedToEvent;
+    private EventCommand<NavigatingFromEventArgs>? _executingNavigatingFromEvent;
+    private EventCommand<NavigatedFromEventArgs>? _executingNavigatedFromEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIPage = (IPage)this;
-        if (thisAsIPage.LayoutChangedAction != null || thisAsIPage.LayoutChangedActionWithArgs != null)
+        if (thisAsIPage.LayoutChangedEvent != null)
         {
             NativeControl.LayoutChanged += NativeControl_LayoutChanged;
         }
 
-        if (thisAsIPage.AppearingAction != null || thisAsIPage.AppearingActionWithArgs != null)
+        if (thisAsIPage.AppearingEvent != null)
         {
             NativeControl.Appearing += NativeControl_Appearing;
         }
 
-        if (thisAsIPage.DisappearingAction != null || thisAsIPage.DisappearingActionWithArgs != null)
+        if (thisAsIPage.DisappearingEvent != null)
         {
             NativeControl.Disappearing += NativeControl_Disappearing;
         }
 
-        if (thisAsIPage.NavigatedToAction != null || thisAsIPage.NavigatedToActionWithArgs != null)
+        if (thisAsIPage.NavigatedToEvent != null)
         {
             NativeControl.NavigatedTo += NativeControl_NavigatedTo;
         }
 
-        if (thisAsIPage.NavigatingFromAction != null || thisAsIPage.NavigatingFromActionWithArgs != null)
+        if (thisAsIPage.NavigatingFromEvent != null)
         {
             NativeControl.NavigatingFrom += NativeControl_NavigatingFrom;
         }
 
-        if (thisAsIPage.NavigatedFromAction != null || thisAsIPage.NavigatedFromActionWithArgs != null)
+        if (thisAsIPage.NavigatedFromEvent != null)
         {
             NativeControl.NavigatedFrom += NativeControl_NavigatedFrom;
         }
@@ -164,43 +146,61 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
     private void NativeControl_LayoutChanged(object? sender, EventArgs e)
     {
         var thisAsIPage = (IPage)this;
-        thisAsIPage.LayoutChangedAction?.Invoke();
-        thisAsIPage.LayoutChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingLayoutChangedEvent == null || _executingLayoutChangedEvent.IsCompleted)
+        {
+            _executingLayoutChangedEvent = thisAsIPage.LayoutChangedEvent;
+            _executingLayoutChangedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Appearing(object? sender, EventArgs e)
     {
         var thisAsIPage = (IPage)this;
-        thisAsIPage.AppearingAction?.Invoke();
-        thisAsIPage.AppearingActionWithArgs?.Invoke(sender, e);
+        if (_executingAppearingEvent == null || _executingAppearingEvent.IsCompleted)
+        {
+            _executingAppearingEvent = thisAsIPage.AppearingEvent;
+            _executingAppearingEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Disappearing(object? sender, EventArgs e)
     {
         var thisAsIPage = (IPage)this;
-        thisAsIPage.DisappearingAction?.Invoke();
-        thisAsIPage.DisappearingActionWithArgs?.Invoke(sender, e);
+        if (_executingDisappearingEvent == null || _executingDisappearingEvent.IsCompleted)
+        {
+            _executingDisappearingEvent = thisAsIPage.DisappearingEvent;
+            _executingDisappearingEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_NavigatedTo(object? sender, NavigatedToEventArgs e)
     {
         var thisAsIPage = (IPage)this;
-        thisAsIPage.NavigatedToAction?.Invoke();
-        thisAsIPage.NavigatedToActionWithArgs?.Invoke(sender, e);
+        if (_executingNavigatedToEvent == null || _executingNavigatedToEvent.IsCompleted)
+        {
+            _executingNavigatedToEvent = thisAsIPage.NavigatedToEvent;
+            _executingNavigatedToEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_NavigatingFrom(object? sender, NavigatingFromEventArgs e)
     {
         var thisAsIPage = (IPage)this;
-        thisAsIPage.NavigatingFromAction?.Invoke();
-        thisAsIPage.NavigatingFromActionWithArgs?.Invoke(sender, e);
+        if (_executingNavigatingFromEvent == null || _executingNavigatingFromEvent.IsCompleted)
+        {
+            _executingNavigatingFromEvent = thisAsIPage.NavigatingFromEvent;
+            _executingNavigatingFromEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_NavigatedFrom(object? sender, NavigatedFromEventArgs e)
     {
         var thisAsIPage = (IPage)this;
-        thisAsIPage.NavigatedFromAction?.Invoke();
-        thisAsIPage.NavigatedFromActionWithArgs?.Invoke(sender, e);
+        if (_executingNavigatedFromEvent == null || _executingNavigatedFromEvent.IsCompleted)
+        {
+            _executingNavigatedFromEvent = thisAsIPage.NavigatedFromEvent;
+            _executingNavigatedFromEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -217,6 +217,46 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is Page<T> @page)
+        {
+            if (_executingLayoutChangedEvent != null && !_executingLayoutChangedEvent.IsCompleted)
+            {
+                @page._executingLayoutChangedEvent = _executingLayoutChangedEvent;
+            }
+
+            if (_executingAppearingEvent != null && !_executingAppearingEvent.IsCompleted)
+            {
+                @page._executingAppearingEvent = _executingAppearingEvent;
+            }
+
+            if (_executingDisappearingEvent != null && !_executingDisappearingEvent.IsCompleted)
+            {
+                @page._executingDisappearingEvent = _executingDisappearingEvent;
+            }
+
+            if (_executingNavigatedToEvent != null && !_executingNavigatedToEvent.IsCompleted)
+            {
+                @page._executingNavigatedToEvent = _executingNavigatedToEvent;
+            }
+
+            if (_executingNavigatingFromEvent != null && !_executingNavigatingFromEvent.IsCompleted)
+            {
+                @page._executingNavigatingFromEvent = _executingNavigatingFromEvent;
+            }
+
+            if (_executingNavigatedFromEvent != null && !_executingNavigatedFromEvent.IsCompleted)
+            {
+                @page._executingNavigatedFromEvent = _executingNavigatedFromEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -426,84 +466,252 @@ public static partial class PageExtensions
     public static T OnLayoutChanged<T>(this T page, Action? layoutChangedAction)
         where T : IPage
     {
-        page.LayoutChangedAction = layoutChangedAction;
+        page.LayoutChangedEvent = new SyncEventCommand<EventArgs>(execute: layoutChangedAction);
         return page;
     }
 
-    public static T OnLayoutChanged<T>(this T page, Action<object?, EventArgs>? layoutChangedActionWithArgs)
+    public static T OnLayoutChanged<T>(this T page, Action<EventArgs>? layoutChangedAction)
         where T : IPage
     {
-        page.LayoutChangedActionWithArgs = layoutChangedActionWithArgs;
+        page.LayoutChangedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: layoutChangedAction);
+        return page;
+    }
+
+    public static T OnLayoutChanged<T>(this T page, Action<object?, EventArgs>? layoutChangedAction)
+        where T : IPage
+    {
+        page.LayoutChangedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: layoutChangedAction);
+        return page;
+    }
+
+    public static T OnLayoutChanged<T>(this T page, Func<Task>? layoutChangedAction)
+        where T : IPage
+    {
+        page.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(execute: layoutChangedAction);
+        return page;
+    }
+
+    public static T OnLayoutChanged<T>(this T page, Func<EventArgs, Task>? layoutChangedAction)
+        where T : IPage
+    {
+        page.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: layoutChangedAction);
+        return page;
+    }
+
+    public static T OnLayoutChanged<T>(this T page, Func<object?, EventArgs, Task>? layoutChangedAction)
+        where T : IPage
+    {
+        page.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: layoutChangedAction);
         return page;
     }
 
     public static T OnAppearing<T>(this T page, Action? appearingAction)
         where T : IPage
     {
-        page.AppearingAction = appearingAction;
+        page.AppearingEvent = new SyncEventCommand<EventArgs>(execute: appearingAction);
         return page;
     }
 
-    public static T OnAppearing<T>(this T page, Action<object?, EventArgs>? appearingActionWithArgs)
+    public static T OnAppearing<T>(this T page, Action<EventArgs>? appearingAction)
         where T : IPage
     {
-        page.AppearingActionWithArgs = appearingActionWithArgs;
+        page.AppearingEvent = new SyncEventCommand<EventArgs>(executeWithArgs: appearingAction);
+        return page;
+    }
+
+    public static T OnAppearing<T>(this T page, Action<object?, EventArgs>? appearingAction)
+        where T : IPage
+    {
+        page.AppearingEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: appearingAction);
+        return page;
+    }
+
+    public static T OnAppearing<T>(this T page, Func<Task>? appearingAction)
+        where T : IPage
+    {
+        page.AppearingEvent = new AsyncEventCommand<EventArgs>(execute: appearingAction);
+        return page;
+    }
+
+    public static T OnAppearing<T>(this T page, Func<EventArgs, Task>? appearingAction)
+        where T : IPage
+    {
+        page.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: appearingAction);
+        return page;
+    }
+
+    public static T OnAppearing<T>(this T page, Func<object?, EventArgs, Task>? appearingAction)
+        where T : IPage
+    {
+        page.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: appearingAction);
         return page;
     }
 
     public static T OnDisappearing<T>(this T page, Action? disappearingAction)
         where T : IPage
     {
-        page.DisappearingAction = disappearingAction;
+        page.DisappearingEvent = new SyncEventCommand<EventArgs>(execute: disappearingAction);
         return page;
     }
 
-    public static T OnDisappearing<T>(this T page, Action<object?, EventArgs>? disappearingActionWithArgs)
+    public static T OnDisappearing<T>(this T page, Action<EventArgs>? disappearingAction)
         where T : IPage
     {
-        page.DisappearingActionWithArgs = disappearingActionWithArgs;
+        page.DisappearingEvent = new SyncEventCommand<EventArgs>(executeWithArgs: disappearingAction);
+        return page;
+    }
+
+    public static T OnDisappearing<T>(this T page, Action<object?, EventArgs>? disappearingAction)
+        where T : IPage
+    {
+        page.DisappearingEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: disappearingAction);
+        return page;
+    }
+
+    public static T OnDisappearing<T>(this T page, Func<Task>? disappearingAction)
+        where T : IPage
+    {
+        page.DisappearingEvent = new AsyncEventCommand<EventArgs>(execute: disappearingAction);
+        return page;
+    }
+
+    public static T OnDisappearing<T>(this T page, Func<EventArgs, Task>? disappearingAction)
+        where T : IPage
+    {
+        page.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: disappearingAction);
+        return page;
+    }
+
+    public static T OnDisappearing<T>(this T page, Func<object?, EventArgs, Task>? disappearingAction)
+        where T : IPage
+    {
+        page.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: disappearingAction);
         return page;
     }
 
     public static T OnNavigatedTo<T>(this T page, Action? navigatedToAction)
         where T : IPage
     {
-        page.NavigatedToAction = navigatedToAction;
+        page.NavigatedToEvent = new SyncEventCommand<NavigatedToEventArgs>(execute: navigatedToAction);
         return page;
     }
 
-    public static T OnNavigatedTo<T>(this T page, Action<object?, NavigatedToEventArgs>? navigatedToActionWithArgs)
+    public static T OnNavigatedTo<T>(this T page, Action<NavigatedToEventArgs>? navigatedToAction)
         where T : IPage
     {
-        page.NavigatedToActionWithArgs = navigatedToActionWithArgs;
+        page.NavigatedToEvent = new SyncEventCommand<NavigatedToEventArgs>(executeWithArgs: navigatedToAction);
+        return page;
+    }
+
+    public static T OnNavigatedTo<T>(this T page, Action<object?, NavigatedToEventArgs>? navigatedToAction)
+        where T : IPage
+    {
+        page.NavigatedToEvent = new SyncEventCommand<NavigatedToEventArgs>(executeWithFullArgs: navigatedToAction);
+        return page;
+    }
+
+    public static T OnNavigatedTo<T>(this T page, Func<Task>? navigatedToAction)
+        where T : IPage
+    {
+        page.NavigatedToEvent = new AsyncEventCommand<NavigatedToEventArgs>(execute: navigatedToAction);
+        return page;
+    }
+
+    public static T OnNavigatedTo<T>(this T page, Func<NavigatedToEventArgs, Task>? navigatedToAction)
+        where T : IPage
+    {
+        page.NavigatedToEvent = new AsyncEventCommand<NavigatedToEventArgs>(executeWithArgs: navigatedToAction);
+        return page;
+    }
+
+    public static T OnNavigatedTo<T>(this T page, Func<object?, NavigatedToEventArgs, Task>? navigatedToAction)
+        where T : IPage
+    {
+        page.NavigatedToEvent = new AsyncEventCommand<NavigatedToEventArgs>(executeWithFullArgs: navigatedToAction);
         return page;
     }
 
     public static T OnNavigatingFrom<T>(this T page, Action? navigatingFromAction)
         where T : IPage
     {
-        page.NavigatingFromAction = navigatingFromAction;
+        page.NavigatingFromEvent = new SyncEventCommand<NavigatingFromEventArgs>(execute: navigatingFromAction);
         return page;
     }
 
-    public static T OnNavigatingFrom<T>(this T page, Action<object?, NavigatingFromEventArgs>? navigatingFromActionWithArgs)
+    public static T OnNavigatingFrom<T>(this T page, Action<NavigatingFromEventArgs>? navigatingFromAction)
         where T : IPage
     {
-        page.NavigatingFromActionWithArgs = navigatingFromActionWithArgs;
+        page.NavigatingFromEvent = new SyncEventCommand<NavigatingFromEventArgs>(executeWithArgs: navigatingFromAction);
+        return page;
+    }
+
+    public static T OnNavigatingFrom<T>(this T page, Action<object?, NavigatingFromEventArgs>? navigatingFromAction)
+        where T : IPage
+    {
+        page.NavigatingFromEvent = new SyncEventCommand<NavigatingFromEventArgs>(executeWithFullArgs: navigatingFromAction);
+        return page;
+    }
+
+    public static T OnNavigatingFrom<T>(this T page, Func<Task>? navigatingFromAction)
+        where T : IPage
+    {
+        page.NavigatingFromEvent = new AsyncEventCommand<NavigatingFromEventArgs>(execute: navigatingFromAction);
+        return page;
+    }
+
+    public static T OnNavigatingFrom<T>(this T page, Func<NavigatingFromEventArgs, Task>? navigatingFromAction)
+        where T : IPage
+    {
+        page.NavigatingFromEvent = new AsyncEventCommand<NavigatingFromEventArgs>(executeWithArgs: navigatingFromAction);
+        return page;
+    }
+
+    public static T OnNavigatingFrom<T>(this T page, Func<object?, NavigatingFromEventArgs, Task>? navigatingFromAction)
+        where T : IPage
+    {
+        page.NavigatingFromEvent = new AsyncEventCommand<NavigatingFromEventArgs>(executeWithFullArgs: navigatingFromAction);
         return page;
     }
 
     public static T OnNavigatedFrom<T>(this T page, Action? navigatedFromAction)
         where T : IPage
     {
-        page.NavigatedFromAction = navigatedFromAction;
+        page.NavigatedFromEvent = new SyncEventCommand<NavigatedFromEventArgs>(execute: navigatedFromAction);
         return page;
     }
 
-    public static T OnNavigatedFrom<T>(this T page, Action<object?, NavigatedFromEventArgs>? navigatedFromActionWithArgs)
+    public static T OnNavigatedFrom<T>(this T page, Action<NavigatedFromEventArgs>? navigatedFromAction)
         where T : IPage
     {
-        page.NavigatedFromActionWithArgs = navigatedFromActionWithArgs;
+        page.NavigatedFromEvent = new SyncEventCommand<NavigatedFromEventArgs>(executeWithArgs: navigatedFromAction);
+        return page;
+    }
+
+    public static T OnNavigatedFrom<T>(this T page, Action<object?, NavigatedFromEventArgs>? navigatedFromAction)
+        where T : IPage
+    {
+        page.NavigatedFromEvent = new SyncEventCommand<NavigatedFromEventArgs>(executeWithFullArgs: navigatedFromAction);
+        return page;
+    }
+
+    public static T OnNavigatedFrom<T>(this T page, Func<Task>? navigatedFromAction)
+        where T : IPage
+    {
+        page.NavigatedFromEvent = new AsyncEventCommand<NavigatedFromEventArgs>(execute: navigatedFromAction);
+        return page;
+    }
+
+    public static T OnNavigatedFrom<T>(this T page, Func<NavigatedFromEventArgs, Task>? navigatedFromAction)
+        where T : IPage
+    {
+        page.NavigatedFromEvent = new AsyncEventCommand<NavigatedFromEventArgs>(executeWithArgs: navigatedFromAction);
+        return page;
+    }
+
+    public static T OnNavigatedFrom<T>(this T page, Func<object?, NavigatedFromEventArgs, Task>? navigatedFromAction)
+        where T : IPage
+    {
+        page.NavigatedFromEvent = new AsyncEventCommand<NavigatedFromEventArgs>(executeWithFullArgs: navigatedFromAction);
         return page;
     }
 }

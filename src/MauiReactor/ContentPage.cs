@@ -52,6 +52,13 @@ public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : M
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class ContentPage : ContentPage<Microsoft.Maui.Controls.ContentPage>

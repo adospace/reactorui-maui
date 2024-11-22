@@ -87,6 +87,13 @@ public partial class Border<T> : View<T>, IBorder where T : Microsoft.Maui.Contr
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class Border : Border<Microsoft.Maui.Controls.Border>

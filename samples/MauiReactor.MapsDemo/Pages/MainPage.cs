@@ -18,8 +18,7 @@ class MainPage : Component<MainPageState>
 {
     public override VisualNode Render()
     {
-        return new ContentPage
-        {
+        return ContentPage(
             new Map()
             {
                 State.Positions.Select((location, index)=> new Pin()
@@ -30,10 +29,7 @@ class MainPage : Component<MainPageState>
             }
             .AutomationId("Map")
             .GridRow(1)
-            .OnMapClicked((map, args) =>
-            {
-                SetState(s => s.Positions.Add(args.Location));
-            })
-        };
+            .OnMapClicked(args => SetState(s => s.Positions.Add(args.Location)))
+        );
     }
 }

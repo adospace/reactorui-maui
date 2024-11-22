@@ -117,93 +117,86 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("    Action? ");
+            this.Write("    EventCommand<");
             
             #line 34 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
-            
-            #line default
-            #line hidden
-            this.Write("Action { get; set; }\r\n    Action<object?, ");
-            
-            #line 35 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
             
             #line default
             #line hidden
             this.Write(">? ");
             
-            #line 35 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 34 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
             
             #line default
             #line hidden
-            this.Write("ActionWithArgs { get; set; }\r\n");
+            this.Write("Event { get; set; }\r\n");
             
-            #line 36 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 35 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n}\r\n\r\n");
             
-            #line 40 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 39 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  if (IsBaseGenericType()) { 
             
             #line default
             #line hidden
             this.Write("public abstract partial class ");
             
-            #line 41 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 40 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("<T> : ");
             
-            #line 41 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 40 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(BaseTypeName()));
             
             #line default
             #line hidden
             this.Write("<T, ");
             
-            #line 41 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 40 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GenericArgumentBaseFullBaseTypeName()));
             
             #line default
             #line hidden
             this.Write(">, ");
             
-            #line 41 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 40 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(" where T : ");
             
-            #line 41 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 40 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
             
             #line default
             #line hidden
             this.Write(", new()\r\n{\r\n    public ");
             
-            #line 43 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 42 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("()\r\n    { \r\n        ");
             
-            #line 45 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 44 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("Styles.Default?.Invoke(this);\r\n    }\r\n\r\n    public ");
             
-            #line 48 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 47 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
@@ -211,63 +204,63 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write("(Action<T?> componentRefAction)\r\n        : base(componentRefAction)\r\n    {\r\n     " +
                     "   ");
             
-            #line 51 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 50 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("Styles.Default?.Invoke(this);\r\n    }\r\n");
             
-            #line 53 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 52 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } else if (IsGenericType()) { 
             
             #line default
             #line hidden
             this.Write("public abstract partial class ");
             
-            #line 54 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 53 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("<T, TChild> : ");
             
-            #line 54 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 53 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(BaseTypeName()));
             
             #line default
             #line hidden
             this.Write("<T>, ");
             
-            #line 54 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 53 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(" where T : ");
             
-            #line 54 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 53 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
             
             #line default
             #line hidden
             this.Write("<TChild>, new() where TChild : ");
             
-            #line 54 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 53 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GenericArgumentBaseFullTypeName()));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n    public ");
             
-            #line 56 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 55 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("()\r\n    { \r\n    }\r\n\r\n    public ");
             
-            #line 60 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 59 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
@@ -275,126 +268,126 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write("(Action<T?> componentRefAction)\r\n        : base(componentRefAction)\r\n    {\r\n    }" +
                     "\r\n");
             
-            #line 64 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 63 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } else if (IsTypeSealed()) { 
             
             #line default
             #line hidden
             this.Write("public sealed partial class ");
             
-            #line 65 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 64 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write(" : ");
             
-            #line 65 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 64 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(BaseTypeName()));
             
             #line default
             #line hidden
             this.Write("<");
             
-            #line 65 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 64 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
             
             #line default
             #line hidden
             this.Write(">, ");
             
-            #line 65 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 64 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n    public ");
             
-            #line 67 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 66 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("()\r\n    { \r\n        ");
             
-            #line 69 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 68 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("Styles.Default?.Invoke(this);\r\n    }\r\n\r\n    public ");
             
-            #line 72 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 71 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("(Action<");
             
-            #line 72 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 71 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
             
             #line default
             #line hidden
             this.Write("?> componentRefAction)\r\n        : base(componentRefAction)\r\n    {\r\n        ");
             
-            #line 75 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 74 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("Styles.Default?.Invoke(this);\r\n    }\r\n");
             
-            #line 77 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 76 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } else if (IsTypeNotAbstractWithEmptyConstructor()) { 
             
             #line default
             #line hidden
             this.Write("public partial class ");
             
-            #line 78 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 77 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("<T> : ");
             
-            #line 78 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 77 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(BaseTypeName()));
             
             #line default
             #line hidden
             this.Write("<T>, ");
             
-            #line 78 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 77 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(" where T : ");
             
-            #line 78 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 77 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
             
             #line default
             #line hidden
             this.Write(", new()\r\n{\r\n    public ");
             
-            #line 80 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 79 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("()\r\n    { \r\n        ");
             
-            #line 82 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 81 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("Styles.Default?.Invoke(this);\r\n    }\r\n\r\n    public ");
             
-            #line 85 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 84 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
@@ -402,63 +395,63 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write("(Action<T?> componentRefAction)\r\n        : base(componentRefAction)\r\n    {\r\n     " +
                     "   ");
             
-            #line 88 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 87 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("Styles.Default?.Invoke(this);\r\n    }\r\n");
             
-            #line 90 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 89 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } else { 
             
             #line default
             #line hidden
             this.Write("public abstract partial class ");
             
-            #line 91 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 90 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("<T> : ");
             
-            #line 91 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 90 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(BaseTypeName()));
             
             #line default
             #line hidden
             this.Write("<T>, ");
             
-            #line 91 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 90 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(" where T : ");
             
-            #line 91 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 90 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
             
             #line default
             #line hidden
             this.Write(", new()\r\n{\r\n    protected ");
             
-            #line 93 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 92 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("()\r\n    { \r\n        ");
             
-            #line 95 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 94 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("Styles.Default?.Invoke(this);\r\n    }\r\n\r\n    protected ");
             
-            #line 98 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 97 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
@@ -466,92 +459,78 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write("(Action<T?> componentRefAction)\r\n        : base(componentRefAction)\r\n    {\r\n     " +
                     "   ");
             
-            #line 101 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 100 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("Styles.Default?.Invoke(this);\r\n    }    \r\n");
             
-            #line 103 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 102 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n    ");
             
-            #line 105 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 104 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  foreach (var property in Properties) { 
             
             #line default
             #line hidden
             this.Write("    object? ");
             
-            #line 106 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 105 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 106 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 105 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n    ");
             
-            #line 107 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 106 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n    ");
             
-            #line 109 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 108 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  foreach (var ev in Events) {
     var genericArgs = ev.EventHandlerType.GetGenericArguments(); 
             
             #line default
             #line hidden
-            this.Write("    Action? ");
+            this.Write("    EventCommand<");
             
-            #line 111 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 111 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
-            
-            #line default
-            #line hidden
-            this.Write("Action { get; set; }\r\n    Action<object?, ");
-            
-            #line 112 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 110 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
             
             #line default
             #line hidden
             this.Write(">? ");
             
-            #line 112 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 110 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 112 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 110 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
             
             #line default
             #line hidden
-            this.Write("ActionWithArgs { get; set; }\r\n    ");
+            this.Write("Event { get; set; }\r\n    ");
             
-            #line 113 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 111 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
@@ -559,36 +538,71 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write("\r\n\r\n    protected override void OnUpdate()\r\n    {\r\n        OnBeginUpdate();\r\n    " +
                     "    ");
             
-            #line 119 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 117 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  if (Properties.Any()) { 
             
             #line default
             #line hidden
             this.Write("\r\n        Validate.EnsureNotNull(NativeControl);\r\n        var thisAs");
             
-            #line 122 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 120 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(" = (");
             
-            #line 122 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 120 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(")this;\r\n        ");
             
-            #line 123 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 121 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  foreach (var property in Properties) { 
             
             #line default
             #line hidden
             this.Write("        ");
             
-            #line 124 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 122 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  if (IsGenericType()) { 
+            
+            #line default
+            #line hidden
+            this.Write("        SetPropertyValue(NativeControl, ");
+            
+            #line 123 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
+            
+            #line default
+            #line hidden
+            this.Write("<TChild>.");
+            
+            #line 123 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Property, thisAs");
+            
+            #line 123 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 123 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n        ");
+            
+            #line 124 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } else { 
             
             #line default
             #line hidden
@@ -599,7 +613,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("<TChild>.");
+            this.Write(".");
             
             #line 125 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
@@ -623,55 +637,20 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write(");\r\n        ");
             
             #line 126 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- } else { 
-            
-            #line default
-            #line hidden
-            this.Write("        SetPropertyValue(NativeControl, ");
-            
-            #line 127 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 127 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write("Property, thisAs");
-            
-            #line 127 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 127 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n        ");
-            
-            #line 128 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("        ");
             
-            #line 129 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 127 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n        ");
             
-            #line 131 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 129 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
@@ -680,7 +659,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
                     "nBeginUpdate();\r\n    partial void OnEndUpdate();\r\n\r\n    partial void OnBeginAnim" +
                     "ate();\r\n    partial void OnEndAnimate();\r\n\r\n    ");
             
-            #line 144 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 142 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  if (!IsGenericType()) { 
             
             #line default
@@ -688,7 +667,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write("    protected override void OnThemeChanged()\r\n    {\r\n        if (ThemeKey != null" +
                     " && ");
             
-            #line 147 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 145 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
@@ -696,86 +675,101 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write("Styles.Themes.TryGetValue(ThemeKey, out var styleAction))\r\n        {\r\n           " +
                     " styleAction(this);\r\n        }\r\n\r\n        base.OnThemeChanged();\r\n    }\r\n    ");
             
-            #line 154 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 152 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n    ");
             
-            #line 156 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 154 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  if (Events.Any()) { 
             
             #line default
             #line hidden
             this.Write("\r\n    partial void OnAttachingNativeEvents();\r\n    partial void OnDetachingNative" +
-                    "Events();\r\n\r\n    protected override void OnAttachNativeEvents()\r\n    {\r\n        " +
-                    "Validate.EnsureNotNull(NativeControl);\r\n\r\n        var thisAs");
+                    "Events();\r\n\r\n    ");
             
-            #line 165 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 159 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ foreach (var ev in Events) { 
+    var genericArgs = ev.EventHandlerType.GetGenericArguments(); 
+            
+            #line default
+            #line hidden
+            this.Write("    private EventCommand<");
+            
+            #line 161 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
+            
+            #line default
+            #line hidden
+            this.Write(">? _executing");
+            
+            #line 161 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Event;\r\n    ");
+            
+            #line 162 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    protected override void OnAttachNativeEvents()\r\n    {\r\n        Validate.Ens" +
+                    "ureNotNull(NativeControl);\r\n\r\n        var thisAs");
+            
+            #line 168 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(" = (");
             
-            #line 165 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 168 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(")this;\r\n        ");
             
-            #line 166 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 169 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  foreach (var ev in Events) { 
             
             #line default
             #line hidden
             this.Write("        if (thisAs");
             
-            #line 167 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 170 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 167 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 170 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
             
             #line default
             #line hidden
-            this.Write("Action != null || thisAs");
+            this.Write("Event != null)\r\n        {\r\n            NativeControl.");
             
-            #line 167 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 167 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
-            
-            #line default
-            #line hidden
-            this.Write("ActionWithArgs != null)\r\n        {\r\n            NativeControl.");
-            
-            #line 169 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 172 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
             
             #line default
             #line hidden
             this.Write(" += NativeControl_");
             
-            #line 169 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 172 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
             
             #line default
             #line hidden
             this.Write(";\r\n        }\r\n        ");
             
-            #line 171 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 174 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
@@ -783,7 +777,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write("\r\n        OnAttachingNativeEvents();\r\n\r\n        base.OnAttachNativeEvents();\r\n   " +
                     " }\r\n\r\n    ");
             
-            #line 178 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 181 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  foreach (var ev in Events) { 
     var genericArgs = ev.EventHandlerType.GetGenericArguments();
     
@@ -792,63 +786,77 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             #line hidden
             this.Write("    private void NativeControl_");
             
-            #line 181 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 184 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
             
             #line default
             #line hidden
             this.Write("(object? sender, ");
             
-            #line 181 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 184 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
             
             #line default
             #line hidden
             this.Write(" e)\r\n    {\r\n        var thisAs");
             
-            #line 183 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 186 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(" = (");
             
-            #line 183 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 186 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
-            this.Write(")this;\r\n            thisAs");
-            
-            #line 184 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 184 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
-            
-            #line default
-            #line hidden
-            this.Write("Action?.Invoke();\r\n            thisAs");
-            
-            #line 185 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 185 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
-            
-            #line default
-            #line hidden
-            this.Write("ActionWithArgs?.Invoke(sender, e);\r\n    }\r\n    ");
+            this.Write(")this;\r\n        if (_executing");
             
             #line 187 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Event == null || _executing");
+            
+            #line 187 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Event.IsCompleted)\r\n        {\r\n            _executing");
+            
+            #line 189 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Event = thisAs");
+            
+            #line 189 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 189 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Event;\r\n            _executing");
+            
+            #line 190 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Event?.Execute(sender, e);\r\n        }\r\n    }\r\n    ");
+            
+            #line 193 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
@@ -856,28 +864,28 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write("\r\n    protected override void OnDetachNativeEvents()\r\n    {\r\n        if (NativeCo" +
                     "ntrol != null)\r\n        {\r\n        ");
             
-            #line 193 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 199 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  foreach (var ev in Events) { 
             
             #line default
             #line hidden
             this.Write("        NativeControl.");
             
-            #line 194 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 200 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
             
             #line default
             #line hidden
             this.Write(" -= NativeControl_");
             
-            #line 194 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 200 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
             
             #line default
             #line hidden
             this.Write(";\r\n        ");
             
-            #line 195 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 201 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
@@ -885,995 +893,716 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write("        }\r\n\r\n        OnDetachingNativeEvents();\r\n\r\n        base.OnDetachNativeEve" +
                     "nts();\r\n    }\r\n    ");
             
-            #line 202 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 208 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
             #line hidden
-            this.Write("\r\n}\r\n\r\n");
+            this.Write("\r\n\r\n    partial void Migrated(VisualNode newNode);\r\n\r\n    protected override void" +
+                    " OnMigrated(VisualNode newNode)\r\n    {\r\n        ");
             
-            #line 206 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 215 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ if (Events.Any()) { 
+            
+            #line default
+            #line hidden
+            this.Write("        if (newNode is ");
+            
+            #line 216 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeNameWithGenericArguments()));
+            
+            #line default
+            #line hidden
+            this.Write(" @");
+            
+            #line 216 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write(")\r\n        {\r\n            ");
+            
+            #line 218 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ foreach (var ev in Events) { 
+            
+            #line default
+            #line hidden
+            this.Write("            if (_executing");
+            
+            #line 219 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Event != null &&\r\n                !_executing");
+            
+            #line 220 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Event.IsCompleted)\r\n            {\r\n                @");
+            
+            #line 222 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLower()));
+            
+            #line default
+            #line hidden
+            this.Write("._executing");
+            
+            #line 222 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Event = _executing");
+            
+            #line 222 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Event;\r\n            }\r\n            ");
+            
+            #line 224 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("        \r\n        }\r\n        ");
+            
+            #line 226 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\r\n        Migrated(newNode);\r\n\r\n        base.OnMigrated(newNode);\r\n    }\r\n}\r\n\r\n");
+            
+            #line 234 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  if (IsTypeNotAbstractWithEmptyConstructor() && !IsTypeSealed()) { 
             
             #line default
             #line hidden
             this.Write("public partial class ");
             
-            #line 207 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 235 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write(" : ");
             
-            #line 207 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 235 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("<");
             
-            #line 207 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 235 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
             
             #line default
             #line hidden
             this.Write(">\r\n{\r\n    public ");
             
-            #line 209 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 237 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("()\r\n    { \r\n        \r\n    }\r\n\r\n    public ");
             
-            #line 214 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 242 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("(Action<");
             
-            #line 214 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 242 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
             
             #line default
             #line hidden
             this.Write("?> componentRefAction)\r\n        : base(componentRefAction)\r\n    {\r\n\r\n    }\r\n}\r\n");
             
-            #line 220 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 248 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\npublic static partial class ");
             
-            #line 222 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 250 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("Extensions\r\n{\r\n    ");
             
-            #line 224 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 252 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  foreach (var property in Properties.GroupBy(p => p.Name).Select(g => g.First())) { 
             
             #line default
             #line hidden
             this.Write("\r\n    ");
             
-            #line 226 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 254 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  if (property.PropertyType == typeof(double)) { 
             
             #line default
             #line hidden
             this.Write("\r\n    static object? Set");
             
-            #line 228 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 256 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write("(object ");
             
-            #line 228 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 256 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(", RxAnimation animation)\r\n        => ((");
             
-            #line 229 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 257 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(")");
             
-            #line 229 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 257 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(").");
             
-            #line 229 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 257 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" = ((RxDoubleAnimation)animation).CurrentValue();\r\n\r\n    ");
             
-            #line 231 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 259 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } else if (property.PropertyType == typeof(Rect)) { 
             
             #line default
             #line hidden
             this.Write("\r\n    static object? Set");
             
-            #line 233 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 261 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write("(object ");
             
-            #line 233 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 261 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(", RxAnimation animation)\r\n        => ((");
             
-            #line 234 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 262 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(")");
             
-            #line 234 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 262 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(").");
             
-            #line 234 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 262 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" = ((RxRectAnimation)animation).CurrentValue();\r\n\r\n    ");
             
-            #line 236 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 264 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } else if (property.PropertyType == typeof(Point)) { 
             
             #line default
             #line hidden
             this.Write("    \r\n    static object? Set");
             
-            #line 238 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 266 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write("(object ");
-            
-            #line 238 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(", RxAnimation animation)\r\n        => ((");
-            
-            #line 239 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
-            
-            #line default
-            #line hidden
-            this.Write(")");
-            
-            #line 239 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(").");
-            
-            #line 239 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write(" = ((RxPointAnimation)animation).CurrentValue();\r\n\r\n    ");
-            
-            #line 241 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- } else if (property.PropertyType == typeof(CornerRadius)) { 
-            
-            #line default
-            #line hidden
-            this.Write("        \r\n    static object? Set");
-            
-            #line 243 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write("(object ");
-            
-            #line 243 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(", RxAnimation animation)\r\n        => ((");
-            
-            #line 244 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
-            
-            #line default
-            #line hidden
-            this.Write(")");
-            
-            #line 244 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(").");
-            
-            #line 244 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write(" = ((RxCornerRadiusAnimation)animation).CurrentValue();\r\n\r\n    ");
-            
-            #line 246 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- } else if (property.PropertyType.Name == "Thickness") { 
-            
-            #line default
-            #line hidden
-            this.Write("        \r\n    static object? Set");
-            
-            #line 248 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write("(object ");
-            
-            #line 248 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(", RxAnimation animation)\r\n        => ((");
-            
-            #line 249 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
-            
-            #line default
-            #line hidden
-            this.Write(")");
-            
-            #line 249 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(").");
-            
-            #line 249 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write(" = ((RxThicknessAnimation)animation).CurrentValue();\r\n\r\n    ");
-            
-            #line 251 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- } else if (property.PropertyType.Name == "CornerRadius") { 
-            
-            #line default
-            #line hidden
-            this.Write("        \r\n    static object? Set");
-            
-            #line 253 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write("(object ");
-            
-            #line 253 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(", RxAnimation animation)\r\n        => ((");
-            
-            #line 254 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
-            
-            #line default
-            #line hidden
-            this.Write(")");
-            
-            #line 254 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(").");
-            
-            #line 254 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write(" = ((RxCornerRadiusAnimation)animation).CurrentValue();\r\n        \r\n    ");
-            
-            #line 256 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- } 
-            
-            #line default
-            #line hidden
-            this.Write("\r\n    ");
-            
-            #line 258 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- } 
-            
-            #line default
-            #line hidden
-            this.Write("\r\n    ");
-            
-            #line 260 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- foreach (var property in Properties) { 
-            
-            #line default
-            #line hidden
-            this.Write("    ");
-            
-            #line 261 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- if (property.PropertyType == typeof(double)) { 
-            
-            #line default
-            #line hidden
-            this.Write("    public static T ");
-            
-            #line 262 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write("<T>(this T ");
-            
-            #line 262 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(", ");
-            
-            #line 262 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyType.FullName.ToResevedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 262 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
-            
-            #line default
-            #line hidden
-            this.Write(", RxDoubleAnimation? customAnimation = null) where T : ");
-            
-            #line 262 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n    {\r\n        ");
-            
-            #line 264 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 264 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write(" = ");
-            
-            #line 264 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
-            
-            #line default
-            #line hidden
-            this.Write(";\r\n        ");
-            
-            #line 265 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(".AppendAnimatable(");
-            
-            #line 265 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 265 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write("Property, customAnimation ?? new RxDoubleAnimation(");
-            
-            #line 265 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
-            
-            #line default
-            #line hidden
-            this.Write("), Set");
-            
-            #line 265 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n        return ");
             
             #line 266 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write(";\r\n    }        \r\n    ");
+            this.Write(", RxAnimation animation)\r\n        => ((");
             
-            #line 268 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- } else if (property.PropertyType == typeof(Rect)) { 
-            
-            #line default
-            #line hidden
-            this.Write("\r\n    public static T ");
-            
-            #line 270 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write("<T>(this T ");
-            
-            #line 270 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(", ");
-            
-            #line 270 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyType.FullName.ToResevedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 270 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
-            
-            #line default
-            #line hidden
-            this.Write(", RxRectAnimation? customAnimation = null) where T : ");
-            
-            #line 270 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 267 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
-            this.Write("\r\n    {\r\n        ");
+            this.Write(")");
+            
+            #line 267 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(").");
+            
+            #line 267 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = ((RxPointAnimation)animation).CurrentValue();\r\n\r\n    ");
+            
+            #line 269 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } else if (property.PropertyType == typeof(CornerRadius)) { 
+            
+            #line default
+            #line hidden
+            this.Write("        \r\n    static object? Set");
+            
+            #line 271 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write("(object ");
+            
+            #line 271 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(", RxAnimation animation)\r\n        => ((");
+            
+            #line 272 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
+            
+            #line default
+            #line hidden
+            this.Write(")");
             
             #line 272 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write(".");
+            this.Write(").");
             
             #line 272 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
-            this.Write(" = ");
-            
-            #line 272 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
-            
-            #line default
-            #line hidden
-            this.Write(";\r\n        ");
-            
-            #line 273 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(".AppendAnimatable(");
-            
-            #line 273 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 273 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write("Property, customAnimation ?? new RxSimpleRectAnimation(");
-            
-            #line 273 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
-            
-            #line default
-            #line hidden
-            this.Write("), Set");
-            
-            #line 273 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n        return ");
+            this.Write(" = ((RxCornerRadiusAnimation)animation).CurrentValue();\r\n\r\n    ");
             
             #line 274 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+ } else if (property.PropertyType.Name == "Thickness") { 
             
             #line default
             #line hidden
-            this.Write(";\r\n    }        \r\n    ");
+            this.Write("        \r\n    static object? Set");
             
             #line 276 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- } else if (property.PropertyType == typeof(Point)) { 
-            
-            #line default
-            #line hidden
-            this.Write("\r\n    public static T ");
-            
-            #line 278 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
-            this.Write("<T>(this T ");
+            this.Write("(object ");
             
-            #line 278 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 276 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write(", ");
+            this.Write(", RxAnimation animation)\r\n        => ((");
             
-            #line 278 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyType.FullName.ToResevedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 278 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
-            
-            #line default
-            #line hidden
-            this.Write(", RxPointAnimation? customAnimation = null) where T : ");
-            
-            #line 278 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 277 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
-            this.Write("\r\n    {\r\n        ");
+            this.Write(")");
             
-            #line 280 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 277 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write(".");
+            this.Write(").");
             
-            #line 280 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 277 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
-            this.Write(" = ");
+            this.Write(" = ((RxThicknessAnimation)animation).CurrentValue();\r\n\r\n    ");
             
-            #line 280 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
+            #line 279 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } else if (property.PropertyType.Name == "CornerRadius") { 
             
             #line default
             #line hidden
-            this.Write(";\r\n        ");
+            this.Write("        \r\n    static object? Set");
+            
+            #line 281 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write("(object ");
             
             #line 281 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write(".AppendAnimatable(");
+            this.Write(", RxAnimation animation)\r\n        => ((");
             
-            #line 281 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 281 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            #line 282 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
-            this.Write("Property, customAnimation ?? new RxSimplePointAnimation(");
-            
-            #line 281 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
-            
-            #line default
-            #line hidden
-            this.Write("), Set");
-            
-            #line 281 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n        return ");
+            this.Write(")");
             
             #line 282 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write(";\r\n    }        \r\n    ");
+            this.Write(").");
             
-            #line 284 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- } else if (property.PropertyType == typeof(Thickness)) { 
+            #line 282 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
-            this.Write("        \r\n    public static T ");
+            this.Write(" = ((RxCornerRadiusAnimation)animation).CurrentValue();\r\n        \r\n    ");
+            
+            #line 284 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    ");
             
             #line 286 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    ");
+            
+            #line 288 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ foreach (var property in Properties) { 
+            
+            #line default
+            #line hidden
+            this.Write("    ");
+            
+            #line 289 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ if (property.PropertyType == typeof(double)) { 
+            
+            #line default
+            #line hidden
+            this.Write("    public static T ");
+            
+            #line 290 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
-            
-            #line 286 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(", ");
-            
-            #line 286 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyType.FullName.ToResevedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(" ");
-            
-            #line 286 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
-            
-            #line default
-            #line hidden
-            this.Write(", RxThicknessAnimation? customAnimation = null) where T : ");
-            
-            #line 286 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n    {\r\n        ");
-            
-            #line 288 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 288 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write(" = ");
-            
-            #line 288 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
-            
-            #line default
-            #line hidden
-            this.Write(";\r\n        ");
-            
-            #line 289 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
-            this.Write(".AppendAnimatable(");
-            
-            #line 289 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(".");
-            
-            #line 289 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write("Property, customAnimation ?? new RxSimpleThicknessAnimation(");
-            
-            #line 289 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
-            
-            #line default
-            #line hidden
-            this.Write("), Set");
-            
-            #line 289 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n        return ");
             
             #line 290 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write(";\r\n    }          \r\n    ");
-            
-            #line 292 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- } else if (property.PropertyType == typeof(CornerRadius)) { 
-            
-            #line default
-            #line hidden
-            this.Write("    public static T ");
-            
-            #line 293 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
-            
-            #line default
-            #line hidden
-            this.Write("<T>(this T ");
-            
-            #line 293 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
-            
-            #line default
-            #line hidden
             this.Write(", ");
             
-            #line 293 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 290 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyType.FullName.ToResevedWordFullTypeName()));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 293 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 290 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
-            this.Write(", RxCornerRadiusAnimation? customAnimation = null) where T : ");
+            this.Write(", RxDoubleAnimation? customAnimation = null) where T : ");
             
-            #line 293 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 290 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 295 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 292 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 295 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 292 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 295 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 292 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
             this.Write(";\r\n        ");
             
-            #line 296 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 293 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".AppendAnimatable(");
             
-            #line 296 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 293 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 296 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 293 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
-            this.Write("Property, customAnimation ?? new RxSimpleCornerRadiusAnimation(");
+            this.Write("Property, customAnimation ?? new RxDoubleAnimation(");
             
-            #line 296 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 293 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
             this.Write("), Set");
             
-            #line 296 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 293 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(");\r\n        return ");
             
-            #line 297 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 294 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write(";\r\n    }      \r\n    ");
+            this.Write(";\r\n    }        \r\n    ");
             
-            #line 299 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- } else { 
+            #line 296 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } else if (property.PropertyType == typeof(Rect)) { 
             
             #line default
             #line hidden
-            this.Write("    public static T ");
+            this.Write("\r\n    public static T ");
             
-            #line 300 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 298 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 300 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 298 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 300 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 298 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyType.FullName.ToResevedWordFullTypeName()));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 300 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 298 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
-            this.Write(") where T : ");
+            this.Write(", RxRectAnimation? customAnimation = null) where T : ");
             
-            #line 300 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 298 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 302 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 300 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 302 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 300 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" = ");
             
-            #line 302 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 300 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
-            this.Write(";\r\n        return ");
+            this.Write(";\r\n        ");
             
-            #line 303 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 301 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write(";\r\n    }       \r\n    ");
+            this.Write(".AppendAnimatable(");
             
-            #line 305 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- } 
+            #line 301 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 301 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Property, customAnimation ?? new RxSimpleRectAnimation(");
+            
+            #line 301 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
+            
+            #line default
+            #line hidden
+            this.Write("), Set");
+            
+            #line 301 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n        return ");
+            
+            #line 302 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n    }        \r\n    ");
+            
+            #line 304 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } else if (property.PropertyType == typeof(Point)) { 
             
             #line default
             #line hidden
             this.Write("\r\n    public static T ");
             
-            #line 307 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 306 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 307 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 306 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write(", Func<");
+            this.Write(", ");
             
-            #line 307 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 306 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyType.FullName.ToResevedWordFullTypeName()));
             
             #line default
             #line hidden
-            this.Write("> ");
+            this.Write(" ");
             
-            #line 307 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 306 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
-            this.Write("Func) where T : ");
+            this.Write(", RxPointAnimation? customAnimation = null) where T : ");
             
-            #line 307 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 306 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
+            #line 308 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 308 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = ");
+            
+            #line 308 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n        ");
+            
             #line 309 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(".AppendAnimatable(");
+            
+            #line 309 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
             
             #line default
             #line hidden
@@ -1884,44 +1613,401 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write(" = new PropertyValue<");
-            
-            #line 309 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyType.FullName.ToResevedWordFullTypeName()));
-            
-            #line default
-            #line hidden
-            this.Write(">(");
+            this.Write("Property, customAnimation ?? new RxSimplePointAnimation(");
             
             #line 309 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
             
             #line default
             #line hidden
-            this.Write("Func);\r\n        return ");
+            this.Write("), Set");
+            
+            #line 309 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n        return ");
             
             #line 310 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write(";\r\n    }\r\n    ");
+            this.Write(";\r\n    }        \r\n    ");
             
             #line 312 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
- if (property.PropertyType.Name == "Thickness") { 
+ } else if (property.PropertyType == typeof(Thickness)) { 
             
             #line default
             #line hidden
-            this.Write("    public static T ");
+            this.Write("        \r\n    public static T ");
             
-            #line 313 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 314 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 313 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 314 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(", ");
+            
+            #line 314 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyType.FullName.ToResevedWordFullTypeName()));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 314 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
+            
+            #line default
+            #line hidden
+            this.Write(", RxThicknessAnimation? customAnimation = null) where T : ");
+            
+            #line 314 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    {\r\n        ");
+            
+            #line 316 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 316 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = ");
+            
+            #line 316 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n        ");
+            
+            #line 317 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(".AppendAnimatable(");
+            
+            #line 317 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 317 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Property, customAnimation ?? new RxSimpleThicknessAnimation(");
+            
+            #line 317 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
+            
+            #line default
+            #line hidden
+            this.Write("), Set");
+            
+            #line 317 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n        return ");
+            
+            #line 318 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n    }          \r\n    ");
+            
+            #line 320 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } else if (property.PropertyType == typeof(CornerRadius)) { 
+            
+            #line default
+            #line hidden
+            this.Write("    public static T ");
+            
+            #line 321 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write("<T>(this T ");
+            
+            #line 321 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(", ");
+            
+            #line 321 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyType.FullName.ToResevedWordFullTypeName()));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 321 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
+            
+            #line default
+            #line hidden
+            this.Write(", RxCornerRadiusAnimation? customAnimation = null) where T : ");
+            
+            #line 321 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    {\r\n        ");
+            
+            #line 323 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 323 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = ");
+            
+            #line 323 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n        ");
+            
+            #line 324 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(".AppendAnimatable(");
+            
+            #line 324 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 324 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Property, customAnimation ?? new RxSimpleCornerRadiusAnimation(");
+            
+            #line 324 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
+            
+            #line default
+            #line hidden
+            this.Write("), Set");
+            
+            #line 324 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n        return ");
+            
+            #line 325 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n    }      \r\n    ");
+            
+            #line 327 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } else { 
+            
+            #line default
+            #line hidden
+            this.Write("    public static T ");
+            
+            #line 328 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write("<T>(this T ");
+            
+            #line 328 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(", ");
+            
+            #line 328 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyType.FullName.ToResevedWordFullTypeName()));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 328 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
+            
+            #line default
+            #line hidden
+            this.Write(") where T : ");
+            
+            #line 328 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    {\r\n        ");
+            
+            #line 330 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 330 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = ");
+            
+            #line 330 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n        return ");
+            
+            #line 331 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n    }       \r\n    ");
+            
+            #line 333 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    public static T ");
+            
+            #line 335 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write("<T>(this T ");
+            
+            #line 335 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(", Func<");
+            
+            #line 335 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyType.FullName.ToResevedWordFullTypeName()));
+            
+            #line default
+            #line hidden
+            this.Write("> ");
+            
+            #line 335 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
+            
+            #line default
+            #line hidden
+            this.Write("Func) where T : ");
+            
+            #line 335 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    {\r\n        ");
+            
+            #line 337 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 337 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write(" = new PropertyValue<");
+            
+            #line 337 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyType.FullName.ToResevedWordFullTypeName()));
+            
+            #line default
+            #line hidden
+            this.Write(">(");
+            
+            #line 337 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name.CamelCase()));
+            
+            #line default
+            #line hidden
+            this.Write("Func);\r\n        return ");
+            
+            #line 338 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n    }\r\n    ");
+            
+            #line 340 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+ if (property.PropertyType.Name == "Thickness") { 
+            
+            #line default
+            #line hidden
+            this.Write("    public static T ");
+            
+            #line 341 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
+            
+            #line default
+            #line hidden
+            this.Write("<T>(this T ");
+            
+            #line 341 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
@@ -1929,42 +2015,42 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write(", double leftRight, double topBottom, RxThicknessAnimation? customAnimation = nul" +
                     "l) where T : ");
             
-            #line 313 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 341 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 315 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 343 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 315 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 343 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" = new Thickness(leftRight, topBottom);\r\n        ");
             
-            #line 316 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 344 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".AppendAnimatable(");
             
-            #line 316 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 344 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 316 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 344 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
@@ -1972,70 +2058,70 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write("Property, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRig" +
                     "ht, topBottom)), Set");
             
-            #line 316 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 344 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(");\r\n        return ");
             
-            #line 317 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 345 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(";\r\n    }\r\n\r\n    public static T ");
             
-            #line 320 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 348 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 320 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 348 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(", double uniformSize, RxThicknessAnimation? customAnimation = null) where T : ");
             
-            #line 320 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 348 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 322 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 350 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 322 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 350 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" = new Thickness(uniformSize);\r\n        ");
             
-            #line 323 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 351 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".AppendAnimatable(");
             
-            #line 323 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 351 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 323 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 351 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
@@ -2043,28 +2129,28 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write("Property, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniform" +
                     "Size)), Set");
             
-            #line 323 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 351 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(");\r\n        return ");
             
-            #line 324 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 352 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(";\r\n    }\r\n    public static T ");
             
-            #line 326 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 354 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 326 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 354 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
@@ -2072,42 +2158,42 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write(", double left, double top, double right, double bottom, RxThicknessAnimation? cus" +
                     "tomAnimation = null) where T : ");
             
-            #line 326 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 354 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 328 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 356 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 328 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 356 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" = new Thickness(left, top, right, bottom);\r\n        ");
             
-            #line 329 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 357 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".AppendAnimatable(");
             
-            #line 329 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 357 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 329 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 357 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
@@ -2115,98 +2201,98 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write("Property, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, t" +
                     "op, right, bottom)), Set");
             
-            #line 329 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 357 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(");\r\n        return ");
             
-            #line 330 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 358 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(";\r\n    }\r\n    ");
             
-            #line 332 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 360 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("    ");
             
-            #line 333 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 361 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  if (property.PropertyType.FullName == "Microsoft.Maui.Graphics.Point") { 
             
             #line default
             #line hidden
             this.Write("    public static T ");
             
-            #line 334 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 362 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 334 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 362 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(", double x, double y) where T : ");
             
-            #line 334 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 362 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 336 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 364 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 336 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 364 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" = new Microsoft.Maui.Graphics.Point(x, y);\r\n        return ");
             
-            #line 337 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 365 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(";\r\n    }\r\n    ");
             
-            #line 339 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 367 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("        \r\n\r\n    ");
             
-            #line 342 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 370 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  if (property.PropertyType.Name == "CornerRadius") { 
             
             #line default
             #line hidden
             this.Write("    public static T ");
             
-            #line 343 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 371 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 343 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 371 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
@@ -2214,42 +2300,42 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write(", double uniformRadius, RxCornerRadiusAnimation? customAnimation = null) where T " +
                     ": ");
             
-            #line 343 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 371 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 345 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 373 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 345 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 373 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" = new CornerRadius(uniformRadius);\r\n        ");
             
-            #line 346 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 374 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".AppendAnimatable(");
             
-            #line 346 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 374 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 346 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 374 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
@@ -2257,28 +2343,28 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write("Property, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(u" +
                     "niformRadius)), Set");
             
-            #line 346 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 374 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(");\r\n        return ");
             
-            #line 347 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 375 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(";\r\n    }\r\n    public static T ");
             
-            #line 349 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 377 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 349 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 377 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
@@ -2286,42 +2372,42 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write(", double topLeft, double topRight, double bottomLeft, double bottomRight, RxCorne" +
                     "rRadiusAnimation? customAnimation = null) where T : ");
             
-            #line 349 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 377 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 351 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 379 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 351 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 379 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" = new CornerRadius(topLeft, topRight, bottomLeft, bottomRight);\r\n        ");
             
-            #line 352 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 380 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".AppendAnimatable(");
             
-            #line 352 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 380 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 352 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 380 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
@@ -2329,28 +2415,28 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write("Property, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(t" +
                     "opLeft, topRight, bottomLeft, bottomRight)), Set");
             
-            #line 352 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 380 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(");\r\n        return ");
             
-            #line 353 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 381 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(";\r\n    }\r\n    ");
             
-            #line 355 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 383 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("    ");
             
-            #line 356 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 384 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  if (property.PropertyType.Name == "ImageSource") { 
     var propertyName = property.Name; 
             
@@ -2358,84 +2444,84 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             #line hidden
             this.Write("    public static T ");
             
-            #line 358 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 386 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyName));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 358 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 386 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(", string file) where T : ");
             
-            #line 358 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 386 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 360 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 388 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 360 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 388 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" = Microsoft.Maui.Controls.ImageSource.FromFile(file);\r\n        return ");
             
-            #line 361 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 389 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(";\r\n    }\r\n    public static T ");
             
-            #line 363 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 391 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyName));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 363 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 391 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(", Func<string> action)\r\n        where T : ");
             
-            #line 364 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 392 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 366 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 394 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 366 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 394 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" = new PropertyValue<");
             
-            #line 366 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 394 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.PropertyType.FullName.ToResevedWordFullTypeName()));
             
             #line default
@@ -2443,42 +2529,42 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write(">(\r\n            () => Microsoft.Maui.Controls.ImageSource.FromFile(action()));\r\n " +
                     "       return ");
             
-            #line 368 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 396 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(";\r\n    }\r\n    public static T ");
             
-            #line 370 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 398 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyName));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 370 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 398 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(", string resourceName, Assembly sourceAssembly) where T : ");
             
-            #line 370 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 398 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 372 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 400 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 372 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 400 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
@@ -2486,84 +2572,84 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             this.Write(" = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly)" +
                     ";\r\n        return ");
             
-            #line 373 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 401 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(";\r\n    }\r\n    public static T ");
             
-            #line 375 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 403 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyName));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 375 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 403 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(", Uri imageUri) where T : ");
             
-            #line 375 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 403 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 377 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 405 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 377 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 405 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);\r\n        return ");
             
-            #line 378 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 406 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(";\r\n    }\r\n    public static T ");
             
-            #line 380 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 408 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyName));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 380 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 408 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(", Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : ");
             
-            #line 380 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 408 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 382 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 410 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 382 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 410 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
@@ -2572,70 +2658,70 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
                     "gEnabled = cachingEnabled,\r\n            CacheValidity = cacheValidity\r\n        }" +
                     ";\r\n        return ");
             
-            #line 388 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 416 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(";\r\n    }\r\n    public static T ");
             
-            #line 390 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 418 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(propertyName));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 390 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 418 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(", Func<Stream> imageStream) where T : ");
             
-            #line 390 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 418 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 392 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 420 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 392 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 420 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property.Name));
             
             #line default
             #line hidden
             this.Write(" = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);\r\n        return ");
             
-            #line 393 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 421 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(";\r\n    }\r\n    ");
             
-            #line 395 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 423 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n    ");
             
-            #line 397 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 425 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("        \r\n    ");
             
-            #line 399 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 427 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  foreach (var ev in Events) {
     var genericArgs = ev.EventHandlerType.GetGenericArguments();
     
@@ -2644,161 +2730,448 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             #line hidden
             this.Write("    public static T On");
             
-            #line 402 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 430 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 402 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 430 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(", Action? ");
             
-            #line 402 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 430 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name.ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write("Action) where T : ");
             
-            #line 402 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 430 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 404 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 432 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 404 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 432 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
             
             #line default
             #line hidden
-            this.Write("Action = ");
+            this.Write("Event = new SyncEventCommand<");
             
-            #line 404 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 432 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
+            
+            #line default
+            #line hidden
+            this.Write(">(execute: ");
+            
+            #line 432 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name.ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write("Action;\r\n        return ");
+            this.Write("Action);\r\n        return ");
             
-            #line 405 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 433 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(";\r\n    }\r\n\r\n    public static T On");
             
-            #line 408 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 436 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
             
             #line default
             #line hidden
             this.Write("<T>(this T ");
             
-            #line 408 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 436 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write(", Action<object?, ");
+            this.Write(", Action<");
             
-            #line 408 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 436 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
             
             #line default
             #line hidden
             this.Write(">? ");
             
-            #line 408 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 436 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name.ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write("ActionWithArgs) where T : ");
+            this.Write("Action) where T : ");
             
-            #line 408 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 436 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n        ");
             
-            #line 410 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 438 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
             this.Write(".");
             
-            #line 410 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 438 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
             
             #line default
             #line hidden
-            this.Write("ActionWithArgs = ");
+            this.Write("Event = new SyncEventCommand<");
             
-            #line 410 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 438 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
+            
+            #line default
+            #line hidden
+            this.Write(">(executeWithArgs: ");
+            
+            #line 438 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name.ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write("ActionWithArgs;\r\n        return ");
+            this.Write("Action);\r\n        return ");
             
-            #line 411 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 439 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
             
             #line default
             #line hidden
-            this.Write(";\r\n    }\r\n    ");
+            this.Write(";\r\n    }\r\n\r\n    public static T On");
             
-            #line 413 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 442 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("<T>(this T ");
+            
+            #line 442 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(", Action<object?, ");
+            
+            #line 442 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
+            
+            #line default
+            #line hidden
+            this.Write(">? ");
+            
+            #line 442 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name.ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write("Action) where T : ");
+            
+            #line 442 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    {\r\n        ");
+            
+            #line 444 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 444 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Event = new SyncEventCommand<");
+            
+            #line 444 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
+            
+            #line default
+            #line hidden
+            this.Write(">(executeWithFullArgs: ");
+            
+            #line 444 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name.ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write("Action);\r\n        return ");
+            
+            #line 445 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n    }\r\n\r\n\r\n    \r\n    public static T On");
+            
+            #line 450 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("<T>(this T ");
+            
+            #line 450 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(", Func<Task>? ");
+            
+            #line 450 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name.ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write("Action) where T : ");
+            
+            #line 450 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    {\r\n        ");
+            
+            #line 452 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 452 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Event = new AsyncEventCommand<");
+            
+            #line 452 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
+            
+            #line default
+            #line hidden
+            this.Write(">(execute: ");
+            
+            #line 452 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name.ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write("Action);\r\n        return ");
+            
+            #line 453 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n    }\r\n\r\n    public static T On");
+            
+            #line 456 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("<T>(this T ");
+            
+            #line 456 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(", Func<");
+            
+            #line 456 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
+            
+            #line default
+            #line hidden
+            this.Write(", Task>? ");
+            
+            #line 456 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name.ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write("Action) where T : ");
+            
+            #line 456 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    {\r\n        ");
+            
+            #line 458 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 458 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Event = new AsyncEventCommand<");
+            
+            #line 458 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
+            
+            #line default
+            #line hidden
+            this.Write(">(executeWithArgs: ");
+            
+            #line 458 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name.ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write("Action);\r\n        return ");
+            
+            #line 459 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n    }\r\n\r\n    public static T On");
+            
+            #line 462 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("<T>(this T ");
+            
+            #line 462 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(", Func<object?, ");
+            
+            #line 462 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
+            
+            #line default
+            #line hidden
+            this.Write(", Task>? ");
+            
+            #line 462 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name.ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write("Action) where T : ");
+            
+            #line 462 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    {\r\n        ");
+            
+            #line 464 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(".");
+            
+            #line 464 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name));
+            
+            #line default
+            #line hidden
+            this.Write("Event = new AsyncEventCommand<");
+            
+            #line 464 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs"));
+            
+            #line default
+            #line hidden
+            this.Write(">(executeWithFullArgs: ");
+            
+            #line 464 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ev.Name.ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write("Action);\r\n        return ");
+            
+            #line 465 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n    }\r\n\r\n    ");
+            
+            #line 468 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("}\r\n\r\n");
             
-            #line 416 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 471 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  if (!IsGenericType()) { 
             
             #line default
             #line hidden
             this.Write("public static partial class ");
             
-            #line 417 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 472 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName()));
             
             #line default
             #line hidden
             this.Write("Styles\r\n{\r\n\r\n    public static Action<");
             
-            #line 420 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 475 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(">? Default { get; set; }\r\n\r\n    public static Dictionary<string, Action<");
             
-            #line 422 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 477 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
             
             #line default
             #line hidden
             this.Write(">> Themes { get; } = [];\r\n}\r\n");
             
-            #line 424 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
+            #line 479 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
  } 
             
             #line default

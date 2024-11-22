@@ -22,7 +22,7 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>
         
         SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SelectableItemsView.SelectedItemsProperty, thisAsISelectableItemsView.SelectedItems);
         
-        if (thisAsISelectableItemsView.SelectionChangedAction != null || thisAsISelectableItemsView.SelectionChangedActionWithArgs != null)
+        if (thisAsISelectableItemsView.SelectionChangedEvent != null)
         {
             NativeControl.SelectionChanged += NativeControl_SelectionChanged;
         }
@@ -48,13 +48,28 @@ public static partial class SelectableItemsViewExtensions
 
     public static T OnSelected<T, I>(this T collectionView, Action<I?> action) where T : ISelectableItemsView
     {
-        collectionView.SelectionChangedActionWithArgs = (sender, args) => action(args.CurrentSelection.Count == 0 ? default : (I)args.CurrentSelection[0]);
+        collectionView.SelectionChangedEvent = new SyncEventCommand<SelectionChangedEventArgs>(
+            (sender, args) => action(args.CurrentSelection.Count == 0 ? default : (I)args.CurrentSelection[0]));
+        return collectionView;
+    }
+    public static T OnSelected<T, I>(this T collectionView, Func<I?, Task> action) where T : ISelectableItemsView
+    {
+        collectionView.SelectionChangedEvent = new AsyncEventCommand<SelectionChangedEventArgs>(
+            (sender, args) => action(args.CurrentSelection.Count == 0 ? default : (I)args.CurrentSelection[0]));
         return collectionView;
     }
 
     public static T OnSelectedMany<T, I>(this T collectionView, Action<I[]> action) where T : ISelectableItemsView
     {
-        collectionView.SelectionChangedActionWithArgs = (sender, args) => action(args.CurrentSelection.Cast<I>().ToArray());
+        collectionView.SelectionChangedEvent = new SyncEventCommand<SelectionChangedEventArgs>(
+            (sender, args) => action(args.CurrentSelection.Cast<I>().ToArray()));
+        return collectionView;
+    }
+
+    public static T OnSelectedMany<T, I>(this T collectionView, Func<I[], Task> action) where T : ISelectableItemsView
+    {
+        collectionView.SelectionChangedEvent = new AsyncEventCommand<SelectionChangedEventArgs>(
+            (sender, args) => action(args.CurrentSelection.Cast<I>().ToArray()));
         return collectionView;
     }
 }

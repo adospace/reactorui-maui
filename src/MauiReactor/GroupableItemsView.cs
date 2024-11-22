@@ -52,6 +52,13 @@ public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableI
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class GroupableItemsView : GroupableItemsView<Microsoft.Maui.Controls.GroupableItemsView>

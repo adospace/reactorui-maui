@@ -46,6 +46,13 @@ public partial class FlyoutItem<T> : ShellItem<T>, IFlyoutItem where T : Microso
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class FlyoutItem : FlyoutItem<Microsoft.Maui.Controls.FlyoutItem>

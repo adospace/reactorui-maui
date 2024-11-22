@@ -14,13 +14,9 @@ public partial interface IDragGestureRecognizer : IGestureRecognizer
 {
     object? CanDrag { get; set; }
 
-    Action? DropCompletedAction { get; set; }
+    EventCommand<DropCompletedEventArgs>? DropCompletedEvent { get; set; }
 
-    Action<object?, DropCompletedEventArgs>? DropCompletedActionWithArgs { get; set; }
-
-    Action? DragStartingAction { get; set; }
-
-    Action<object?, DragStartingEventArgs>? DragStartingActionWithArgs { get; set; }
+    EventCommand<DragStartingEventArgs>? DragStartingEvent { get; set; }
 }
 
 public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestureRecognizer where T : Microsoft.Maui.Controls.DragGestureRecognizer, new()
@@ -37,13 +33,9 @@ public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestu
 
     object? IDragGestureRecognizer.CanDrag { get; set; }
 
-    Action? IDragGestureRecognizer.DropCompletedAction { get; set; }
+    EventCommand<DropCompletedEventArgs>? IDragGestureRecognizer.DropCompletedEvent { get; set; }
 
-    Action<object?, DropCompletedEventArgs>? IDragGestureRecognizer.DropCompletedActionWithArgs { get; set; }
-
-    Action? IDragGestureRecognizer.DragStartingAction { get; set; }
-
-    Action<object?, DragStartingEventArgs>? IDragGestureRecognizer.DragStartingActionWithArgs { get; set; }
+    EventCommand<DragStartingEventArgs>? IDragGestureRecognizer.DragStartingEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -71,16 +63,18 @@ public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestu
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<DropCompletedEventArgs>? _executingDropCompletedEvent;
+    private EventCommand<DragStartingEventArgs>? _executingDragStartingEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIDragGestureRecognizer = (IDragGestureRecognizer)this;
-        if (thisAsIDragGestureRecognizer.DropCompletedAction != null || thisAsIDragGestureRecognizer.DropCompletedActionWithArgs != null)
+        if (thisAsIDragGestureRecognizer.DropCompletedEvent != null)
         {
             NativeControl.DropCompleted += NativeControl_DropCompleted;
         }
 
-        if (thisAsIDragGestureRecognizer.DragStartingAction != null || thisAsIDragGestureRecognizer.DragStartingActionWithArgs != null)
+        if (thisAsIDragGestureRecognizer.DragStartingEvent != null)
         {
             NativeControl.DragStarting += NativeControl_DragStarting;
         }
@@ -92,15 +86,21 @@ public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestu
     private void NativeControl_DropCompleted(object? sender, DropCompletedEventArgs e)
     {
         var thisAsIDragGestureRecognizer = (IDragGestureRecognizer)this;
-        thisAsIDragGestureRecognizer.DropCompletedAction?.Invoke();
-        thisAsIDragGestureRecognizer.DropCompletedActionWithArgs?.Invoke(sender, e);
+        if (_executingDropCompletedEvent == null || _executingDropCompletedEvent.IsCompleted)
+        {
+            _executingDropCompletedEvent = thisAsIDragGestureRecognizer.DropCompletedEvent;
+            _executingDropCompletedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_DragStarting(object? sender, DragStartingEventArgs e)
     {
         var thisAsIDragGestureRecognizer = (IDragGestureRecognizer)this;
-        thisAsIDragGestureRecognizer.DragStartingAction?.Invoke();
-        thisAsIDragGestureRecognizer.DragStartingActionWithArgs?.Invoke(sender, e);
+        if (_executingDragStartingEvent == null || _executingDragStartingEvent.IsCompleted)
+        {
+            _executingDragStartingEvent = thisAsIDragGestureRecognizer.DragStartingEvent;
+            _executingDragStartingEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -113,6 +113,26 @@ public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestu
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is DragGestureRecognizer<T> @draggesturerecognizer)
+        {
+            if (_executingDropCompletedEvent != null && !_executingDropCompletedEvent.IsCompleted)
+            {
+                @draggesturerecognizer._executingDropCompletedEvent = _executingDropCompletedEvent;
+            }
+
+            if (_executingDragStartingEvent != null && !_executingDragStartingEvent.IsCompleted)
+            {
+                @draggesturerecognizer._executingDragStartingEvent = _executingDragStartingEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -146,28 +166,84 @@ public static partial class DragGestureRecognizerExtensions
     public static T OnDropCompleted<T>(this T dragGestureRecognizer, Action? dropCompletedAction)
         where T : IDragGestureRecognizer
     {
-        dragGestureRecognizer.DropCompletedAction = dropCompletedAction;
+        dragGestureRecognizer.DropCompletedEvent = new SyncEventCommand<DropCompletedEventArgs>(execute: dropCompletedAction);
         return dragGestureRecognizer;
     }
 
-    public static T OnDropCompleted<T>(this T dragGestureRecognizer, Action<object?, DropCompletedEventArgs>? dropCompletedActionWithArgs)
+    public static T OnDropCompleted<T>(this T dragGestureRecognizer, Action<DropCompletedEventArgs>? dropCompletedAction)
         where T : IDragGestureRecognizer
     {
-        dragGestureRecognizer.DropCompletedActionWithArgs = dropCompletedActionWithArgs;
+        dragGestureRecognizer.DropCompletedEvent = new SyncEventCommand<DropCompletedEventArgs>(executeWithArgs: dropCompletedAction);
+        return dragGestureRecognizer;
+    }
+
+    public static T OnDropCompleted<T>(this T dragGestureRecognizer, Action<object?, DropCompletedEventArgs>? dropCompletedAction)
+        where T : IDragGestureRecognizer
+    {
+        dragGestureRecognizer.DropCompletedEvent = new SyncEventCommand<DropCompletedEventArgs>(executeWithFullArgs: dropCompletedAction);
+        return dragGestureRecognizer;
+    }
+
+    public static T OnDropCompleted<T>(this T dragGestureRecognizer, Func<Task>? dropCompletedAction)
+        where T : IDragGestureRecognizer
+    {
+        dragGestureRecognizer.DropCompletedEvent = new AsyncEventCommand<DropCompletedEventArgs>(execute: dropCompletedAction);
+        return dragGestureRecognizer;
+    }
+
+    public static T OnDropCompleted<T>(this T dragGestureRecognizer, Func<DropCompletedEventArgs, Task>? dropCompletedAction)
+        where T : IDragGestureRecognizer
+    {
+        dragGestureRecognizer.DropCompletedEvent = new AsyncEventCommand<DropCompletedEventArgs>(executeWithArgs: dropCompletedAction);
+        return dragGestureRecognizer;
+    }
+
+    public static T OnDropCompleted<T>(this T dragGestureRecognizer, Func<object?, DropCompletedEventArgs, Task>? dropCompletedAction)
+        where T : IDragGestureRecognizer
+    {
+        dragGestureRecognizer.DropCompletedEvent = new AsyncEventCommand<DropCompletedEventArgs>(executeWithFullArgs: dropCompletedAction);
         return dragGestureRecognizer;
     }
 
     public static T OnDragStarting<T>(this T dragGestureRecognizer, Action? dragStartingAction)
         where T : IDragGestureRecognizer
     {
-        dragGestureRecognizer.DragStartingAction = dragStartingAction;
+        dragGestureRecognizer.DragStartingEvent = new SyncEventCommand<DragStartingEventArgs>(execute: dragStartingAction);
         return dragGestureRecognizer;
     }
 
-    public static T OnDragStarting<T>(this T dragGestureRecognizer, Action<object?, DragStartingEventArgs>? dragStartingActionWithArgs)
+    public static T OnDragStarting<T>(this T dragGestureRecognizer, Action<DragStartingEventArgs>? dragStartingAction)
         where T : IDragGestureRecognizer
     {
-        dragGestureRecognizer.DragStartingActionWithArgs = dragStartingActionWithArgs;
+        dragGestureRecognizer.DragStartingEvent = new SyncEventCommand<DragStartingEventArgs>(executeWithArgs: dragStartingAction);
+        return dragGestureRecognizer;
+    }
+
+    public static T OnDragStarting<T>(this T dragGestureRecognizer, Action<object?, DragStartingEventArgs>? dragStartingAction)
+        where T : IDragGestureRecognizer
+    {
+        dragGestureRecognizer.DragStartingEvent = new SyncEventCommand<DragStartingEventArgs>(executeWithFullArgs: dragStartingAction);
+        return dragGestureRecognizer;
+    }
+
+    public static T OnDragStarting<T>(this T dragGestureRecognizer, Func<Task>? dragStartingAction)
+        where T : IDragGestureRecognizer
+    {
+        dragGestureRecognizer.DragStartingEvent = new AsyncEventCommand<DragStartingEventArgs>(execute: dragStartingAction);
+        return dragGestureRecognizer;
+    }
+
+    public static T OnDragStarting<T>(this T dragGestureRecognizer, Func<DragStartingEventArgs, Task>? dragStartingAction)
+        where T : IDragGestureRecognizer
+    {
+        dragGestureRecognizer.DragStartingEvent = new AsyncEventCommand<DragStartingEventArgs>(executeWithArgs: dragStartingAction);
+        return dragGestureRecognizer;
+    }
+
+    public static T OnDragStarting<T>(this T dragGestureRecognizer, Func<object?, DragStartingEventArgs, Task>? dragStartingAction)
+        where T : IDragGestureRecognizer
+    {
+        dragGestureRecognizer.DragStartingEvent = new AsyncEventCommand<DragStartingEventArgs>(executeWithFullArgs: dragStartingAction);
         return dragGestureRecognizer;
     }
 }

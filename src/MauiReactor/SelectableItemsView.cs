@@ -16,9 +16,7 @@ public partial interface ISelectableItemsView : IStructuredItemsView
 
     object? SelectedItem { get; set; }
 
-    Action? SelectionChangedAction { get; set; }
-
-    Action<object?, SelectionChangedEventArgs>? SelectionChangedActionWithArgs { get; set; }
+    EventCommand<SelectionChangedEventArgs>? SelectionChangedEvent { get; set; }
 }
 
 public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectableItemsView where T : Microsoft.Maui.Controls.SelectableItemsView, new()
@@ -37,9 +35,7 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectabl
 
     object? ISelectableItemsView.SelectedItem { get; set; }
 
-    Action? ISelectableItemsView.SelectionChangedAction { get; set; }
-
-    Action<object?, SelectionChangedEventArgs>? ISelectableItemsView.SelectionChangedActionWithArgs { get; set; }
+    EventCommand<SelectionChangedEventArgs>? ISelectableItemsView.SelectionChangedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -68,11 +64,12 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectabl
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<SelectionChangedEventArgs>? _executingSelectionChangedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsISelectableItemsView = (ISelectableItemsView)this;
-        if (thisAsISelectableItemsView.SelectionChangedAction != null || thisAsISelectableItemsView.SelectionChangedActionWithArgs != null)
+        if (thisAsISelectableItemsView.SelectionChangedEvent != null)
         {
             NativeControl.SelectionChanged += NativeControl_SelectionChanged;
         }
@@ -84,8 +81,11 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectabl
     private void NativeControl_SelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
         var thisAsISelectableItemsView = (ISelectableItemsView)this;
-        thisAsISelectableItemsView.SelectionChangedAction?.Invoke();
-        thisAsISelectableItemsView.SelectionChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingSelectionChangedEvent == null || _executingSelectionChangedEvent.IsCompleted)
+        {
+            _executingSelectionChangedEvent = thisAsISelectableItemsView.SelectionChangedEvent;
+            _executingSelectionChangedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -97,6 +97,21 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectabl
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is SelectableItemsView<T> @selectableitemsview)
+        {
+            if (_executingSelectionChangedEvent != null && !_executingSelectionChangedEvent.IsCompleted)
+            {
+                @selectableitemsview._executingSelectionChangedEvent = _executingSelectionChangedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -144,14 +159,42 @@ public static partial class SelectableItemsViewExtensions
     public static T OnSelectionChanged<T>(this T selectableItemsView, Action? selectionChangedAction)
         where T : ISelectableItemsView
     {
-        selectableItemsView.SelectionChangedAction = selectionChangedAction;
+        selectableItemsView.SelectionChangedEvent = new SyncEventCommand<SelectionChangedEventArgs>(execute: selectionChangedAction);
         return selectableItemsView;
     }
 
-    public static T OnSelectionChanged<T>(this T selectableItemsView, Action<object?, SelectionChangedEventArgs>? selectionChangedActionWithArgs)
+    public static T OnSelectionChanged<T>(this T selectableItemsView, Action<SelectionChangedEventArgs>? selectionChangedAction)
         where T : ISelectableItemsView
     {
-        selectableItemsView.SelectionChangedActionWithArgs = selectionChangedActionWithArgs;
+        selectableItemsView.SelectionChangedEvent = new SyncEventCommand<SelectionChangedEventArgs>(executeWithArgs: selectionChangedAction);
+        return selectableItemsView;
+    }
+
+    public static T OnSelectionChanged<T>(this T selectableItemsView, Action<object?, SelectionChangedEventArgs>? selectionChangedAction)
+        where T : ISelectableItemsView
+    {
+        selectableItemsView.SelectionChangedEvent = new SyncEventCommand<SelectionChangedEventArgs>(executeWithFullArgs: selectionChangedAction);
+        return selectableItemsView;
+    }
+
+    public static T OnSelectionChanged<T>(this T selectableItemsView, Func<Task>? selectionChangedAction)
+        where T : ISelectableItemsView
+    {
+        selectableItemsView.SelectionChangedEvent = new AsyncEventCommand<SelectionChangedEventArgs>(execute: selectionChangedAction);
+        return selectableItemsView;
+    }
+
+    public static T OnSelectionChanged<T>(this T selectableItemsView, Func<SelectionChangedEventArgs, Task>? selectionChangedAction)
+        where T : ISelectableItemsView
+    {
+        selectableItemsView.SelectionChangedEvent = new AsyncEventCommand<SelectionChangedEventArgs>(executeWithArgs: selectionChangedAction);
+        return selectableItemsView;
+    }
+
+    public static T OnSelectionChanged<T>(this T selectableItemsView, Func<object?, SelectionChangedEventArgs, Task>? selectionChangedAction)
+        where T : ISelectableItemsView
+    {
+        selectableItemsView.SelectionChangedEvent = new AsyncEventCommand<SelectionChangedEventArgs>(executeWithFullArgs: selectionChangedAction);
         return selectableItemsView;
     }
 }

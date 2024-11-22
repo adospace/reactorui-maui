@@ -16,9 +16,7 @@ public partial interface ITapGestureRecognizer : IGestureRecognizer
 
     object? Buttons { get; set; }
 
-    Action? TappedAction { get; set; }
-
-    Action<object?, TappedEventArgs>? TappedActionWithArgs { get; set; }
+    EventCommand<TappedEventArgs>? TappedEvent { get; set; }
 }
 
 public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.TapGestureRecognizer>, ITapGestureRecognizer
@@ -37,9 +35,7 @@ public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.M
 
     object? ITapGestureRecognizer.Buttons { get; set; }
 
-    Action? ITapGestureRecognizer.TappedAction { get; set; }
-
-    Action<object?, TappedEventArgs>? ITapGestureRecognizer.TappedActionWithArgs { get; set; }
+    EventCommand<TappedEventArgs>? ITapGestureRecognizer.TappedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -68,11 +64,12 @@ public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.M
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<TappedEventArgs>? _executingTappedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsITapGestureRecognizer = (ITapGestureRecognizer)this;
-        if (thisAsITapGestureRecognizer.TappedAction != null || thisAsITapGestureRecognizer.TappedActionWithArgs != null)
+        if (thisAsITapGestureRecognizer.TappedEvent != null)
         {
             NativeControl.Tapped += NativeControl_Tapped;
         }
@@ -84,8 +81,11 @@ public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.M
     private void NativeControl_Tapped(object? sender, TappedEventArgs e)
     {
         var thisAsITapGestureRecognizer = (ITapGestureRecognizer)this;
-        thisAsITapGestureRecognizer.TappedAction?.Invoke();
-        thisAsITapGestureRecognizer.TappedActionWithArgs?.Invoke(sender, e);
+        if (_executingTappedEvent == null || _executingTappedEvent.IsCompleted)
+        {
+            _executingTappedEvent = thisAsITapGestureRecognizer.TappedEvent;
+            _executingTappedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -97,6 +97,21 @@ public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.M
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is TapGestureRecognizer @tapgesturerecognizer)
+        {
+            if (_executingTappedEvent != null && !_executingTappedEvent.IsCompleted)
+            {
+                @tapgesturerecognizer._executingTappedEvent = _executingTappedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -133,14 +148,42 @@ public static partial class TapGestureRecognizerExtensions
     public static T OnTapped<T>(this T tapGestureRecognizer, Action? tappedAction)
         where T : ITapGestureRecognizer
     {
-        tapGestureRecognizer.TappedAction = tappedAction;
+        tapGestureRecognizer.TappedEvent = new SyncEventCommand<TappedEventArgs>(execute: tappedAction);
         return tapGestureRecognizer;
     }
 
-    public static T OnTapped<T>(this T tapGestureRecognizer, Action<object?, TappedEventArgs>? tappedActionWithArgs)
+    public static T OnTapped<T>(this T tapGestureRecognizer, Action<TappedEventArgs>? tappedAction)
         where T : ITapGestureRecognizer
     {
-        tapGestureRecognizer.TappedActionWithArgs = tappedActionWithArgs;
+        tapGestureRecognizer.TappedEvent = new SyncEventCommand<TappedEventArgs>(executeWithArgs: tappedAction);
+        return tapGestureRecognizer;
+    }
+
+    public static T OnTapped<T>(this T tapGestureRecognizer, Action<object?, TappedEventArgs>? tappedAction)
+        where T : ITapGestureRecognizer
+    {
+        tapGestureRecognizer.TappedEvent = new SyncEventCommand<TappedEventArgs>(executeWithFullArgs: tappedAction);
+        return tapGestureRecognizer;
+    }
+
+    public static T OnTapped<T>(this T tapGestureRecognizer, Func<Task>? tappedAction)
+        where T : ITapGestureRecognizer
+    {
+        tapGestureRecognizer.TappedEvent = new AsyncEventCommand<TappedEventArgs>(execute: tappedAction);
+        return tapGestureRecognizer;
+    }
+
+    public static T OnTapped<T>(this T tapGestureRecognizer, Func<TappedEventArgs, Task>? tappedAction)
+        where T : ITapGestureRecognizer
+    {
+        tapGestureRecognizer.TappedEvent = new AsyncEventCommand<TappedEventArgs>(executeWithArgs: tappedAction);
+        return tapGestureRecognizer;
+    }
+
+    public static T OnTapped<T>(this T tapGestureRecognizer, Func<object?, TappedEventArgs, Task>? tappedAction)
+        where T : ITapGestureRecognizer
+    {
+        tapGestureRecognizer.TappedEvent = new AsyncEventCommand<TappedEventArgs>(executeWithFullArgs: tappedAction);
         return tapGestureRecognizer;
     }
 }

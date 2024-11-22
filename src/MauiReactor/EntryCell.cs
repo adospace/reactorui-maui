@@ -26,9 +26,7 @@ public partial interface IEntryCell : ICell
 
     object? VerticalTextAlignment { get; set; }
 
-    Action? CompletedAction { get; set; }
-
-    Action<object?, EventArgs>? CompletedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? CompletedEvent { get; set; }
 }
 
 public partial class EntryCell<T> : Cell<T>, IEntryCell where T : Microsoft.Maui.Controls.EntryCell, new()
@@ -57,9 +55,7 @@ public partial class EntryCell<T> : Cell<T>, IEntryCell where T : Microsoft.Maui
 
     object? IEntryCell.VerticalTextAlignment { get; set; }
 
-    Action? IEntryCell.CompletedAction { get; set; }
-
-    Action<object?, EventArgs>? IEntryCell.CompletedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IEntryCell.CompletedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -93,11 +89,12 @@ public partial class EntryCell<T> : Cell<T>, IEntryCell where T : Microsoft.Maui
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingCompletedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIEntryCell = (IEntryCell)this;
-        if (thisAsIEntryCell.CompletedAction != null || thisAsIEntryCell.CompletedActionWithArgs != null)
+        if (thisAsIEntryCell.CompletedEvent != null)
         {
             NativeControl.Completed += NativeControl_Completed;
         }
@@ -109,8 +106,11 @@ public partial class EntryCell<T> : Cell<T>, IEntryCell where T : Microsoft.Maui
     private void NativeControl_Completed(object? sender, EventArgs e)
     {
         var thisAsIEntryCell = (IEntryCell)this;
-        thisAsIEntryCell.CompletedAction?.Invoke();
-        thisAsIEntryCell.CompletedActionWithArgs?.Invoke(sender, e);
+        if (_executingCompletedEvent == null || _executingCompletedEvent.IsCompleted)
+        {
+            _executingCompletedEvent = thisAsIEntryCell.CompletedEvent;
+            _executingCompletedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -122,6 +122,21 @@ public partial class EntryCell<T> : Cell<T>, IEntryCell where T : Microsoft.Maui
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is EntryCell<T> @entrycell)
+        {
+            if (_executingCompletedEvent != null && !_executingCompletedEvent.IsCompleted)
+            {
+                @entrycell._executingCompletedEvent = _executingCompletedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -239,14 +254,42 @@ public static partial class EntryCellExtensions
     public static T OnCompleted<T>(this T entryCell, Action? completedAction)
         where T : IEntryCell
     {
-        entryCell.CompletedAction = completedAction;
+        entryCell.CompletedEvent = new SyncEventCommand<EventArgs>(execute: completedAction);
         return entryCell;
     }
 
-    public static T OnCompleted<T>(this T entryCell, Action<object?, EventArgs>? completedActionWithArgs)
+    public static T OnCompleted<T>(this T entryCell, Action<EventArgs>? completedAction)
         where T : IEntryCell
     {
-        entryCell.CompletedActionWithArgs = completedActionWithArgs;
+        entryCell.CompletedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: completedAction);
+        return entryCell;
+    }
+
+    public static T OnCompleted<T>(this T entryCell, Action<object?, EventArgs>? completedAction)
+        where T : IEntryCell
+    {
+        entryCell.CompletedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: completedAction);
+        return entryCell;
+    }
+
+    public static T OnCompleted<T>(this T entryCell, Func<Task>? completedAction)
+        where T : IEntryCell
+    {
+        entryCell.CompletedEvent = new AsyncEventCommand<EventArgs>(execute: completedAction);
+        return entryCell;
+    }
+
+    public static T OnCompleted<T>(this T entryCell, Func<EventArgs, Task>? completedAction)
+        where T : IEntryCell
+    {
+        entryCell.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: completedAction);
+        return entryCell;
+    }
+
+    public static T OnCompleted<T>(this T entryCell, Func<object?, EventArgs, Task>? completedAction)
+        where T : IEntryCell
+    {
+        entryCell.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: completedAction);
         return entryCell;
     }
 }

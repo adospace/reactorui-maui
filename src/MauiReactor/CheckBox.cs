@@ -16,9 +16,7 @@ public partial interface ICheckBox : IView
 
     object? Color { get; set; }
 
-    Action? CheckedChangedAction { get; set; }
-
-    Action<object?, CheckedChangedEventArgs>? CheckedChangedActionWithArgs { get; set; }
+    EventCommand<CheckedChangedEventArgs>? CheckedChangedEvent { get; set; }
 }
 
 public partial class CheckBox<T> : View<T>, ICheckBox where T : Microsoft.Maui.Controls.CheckBox, new()
@@ -37,9 +35,7 @@ public partial class CheckBox<T> : View<T>, ICheckBox where T : Microsoft.Maui.C
 
     object? ICheckBox.Color { get; set; }
 
-    Action? ICheckBox.CheckedChangedAction { get; set; }
-
-    Action<object?, CheckedChangedEventArgs>? ICheckBox.CheckedChangedActionWithArgs { get; set; }
+    EventCommand<CheckedChangedEventArgs>? ICheckBox.CheckedChangedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -68,11 +64,12 @@ public partial class CheckBox<T> : View<T>, ICheckBox where T : Microsoft.Maui.C
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<CheckedChangedEventArgs>? _executingCheckedChangedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsICheckBox = (ICheckBox)this;
-        if (thisAsICheckBox.CheckedChangedAction != null || thisAsICheckBox.CheckedChangedActionWithArgs != null)
+        if (thisAsICheckBox.CheckedChangedEvent != null)
         {
             NativeControl.CheckedChanged += NativeControl_CheckedChanged;
         }
@@ -84,8 +81,11 @@ public partial class CheckBox<T> : View<T>, ICheckBox where T : Microsoft.Maui.C
     private void NativeControl_CheckedChanged(object? sender, CheckedChangedEventArgs e)
     {
         var thisAsICheckBox = (ICheckBox)this;
-        thisAsICheckBox.CheckedChangedAction?.Invoke();
-        thisAsICheckBox.CheckedChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingCheckedChangedEvent == null || _executingCheckedChangedEvent.IsCompleted)
+        {
+            _executingCheckedChangedEvent = thisAsICheckBox.CheckedChangedEvent;
+            _executingCheckedChangedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -97,6 +97,21 @@ public partial class CheckBox<T> : View<T>, ICheckBox where T : Microsoft.Maui.C
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is CheckBox<T> @checkbox)
+        {
+            if (_executingCheckedChangedEvent != null && !_executingCheckedChangedEvent.IsCompleted)
+            {
+                @checkbox._executingCheckedChangedEvent = _executingCheckedChangedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -144,14 +159,42 @@ public static partial class CheckBoxExtensions
     public static T OnCheckedChanged<T>(this T checkBox, Action? checkedChangedAction)
         where T : ICheckBox
     {
-        checkBox.CheckedChangedAction = checkedChangedAction;
+        checkBox.CheckedChangedEvent = new SyncEventCommand<CheckedChangedEventArgs>(execute: checkedChangedAction);
         return checkBox;
     }
 
-    public static T OnCheckedChanged<T>(this T checkBox, Action<object?, CheckedChangedEventArgs>? checkedChangedActionWithArgs)
+    public static T OnCheckedChanged<T>(this T checkBox, Action<CheckedChangedEventArgs>? checkedChangedAction)
         where T : ICheckBox
     {
-        checkBox.CheckedChangedActionWithArgs = checkedChangedActionWithArgs;
+        checkBox.CheckedChangedEvent = new SyncEventCommand<CheckedChangedEventArgs>(executeWithArgs: checkedChangedAction);
+        return checkBox;
+    }
+
+    public static T OnCheckedChanged<T>(this T checkBox, Action<object?, CheckedChangedEventArgs>? checkedChangedAction)
+        where T : ICheckBox
+    {
+        checkBox.CheckedChangedEvent = new SyncEventCommand<CheckedChangedEventArgs>(executeWithFullArgs: checkedChangedAction);
+        return checkBox;
+    }
+
+    public static T OnCheckedChanged<T>(this T checkBox, Func<Task>? checkedChangedAction)
+        where T : ICheckBox
+    {
+        checkBox.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(execute: checkedChangedAction);
+        return checkBox;
+    }
+
+    public static T OnCheckedChanged<T>(this T checkBox, Func<CheckedChangedEventArgs, Task>? checkedChangedAction)
+        where T : ICheckBox
+    {
+        checkBox.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(executeWithArgs: checkedChangedAction);
+        return checkBox;
+    }
+
+    public static T OnCheckedChanged<T>(this T checkBox, Func<object?, CheckedChangedEventArgs, Task>? checkedChangedAction)
+        where T : ICheckBox
+    {
+        checkBox.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(executeWithFullArgs: checkedChangedAction);
         return checkBox;
     }
 }

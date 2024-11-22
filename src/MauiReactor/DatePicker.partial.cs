@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MauiReactor.Internals;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +14,7 @@ public partial class DatePickerExtensions
     {
         if (dateSelectedAction != null)
         {
-            datePicker.DateSelectedActionWithArgs = (sender, args) => dateSelectedAction?.Invoke(args.NewDate);
+            datePicker.DateSelectedEvent = new SyncEventCommand<DateChangedEventArgs>((args) => dateSelectedAction?.Invoke(args.NewDate));
         }
         return datePicker;
     }

@@ -18,9 +18,7 @@ public partial interface IMenuItem : IBaseMenuItem
 
     object? Text { get; set; }
 
-    Action? ClickedAction { get; set; }
-
-    Action<object?, EventArgs>? ClickedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? ClickedEvent { get; set; }
 }
 
 public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsoft.Maui.Controls.MenuItem, new()
@@ -41,9 +39,7 @@ public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsof
 
     object? IMenuItem.Text { get; set; }
 
-    Action? IMenuItem.ClickedAction { get; set; }
-
-    Action<object?, EventArgs>? IMenuItem.ClickedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IMenuItem.ClickedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -73,11 +69,12 @@ public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsof
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingClickedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIMenuItem = (IMenuItem)this;
-        if (thisAsIMenuItem.ClickedAction != null || thisAsIMenuItem.ClickedActionWithArgs != null)
+        if (thisAsIMenuItem.ClickedEvent != null)
         {
             NativeControl.Clicked += NativeControl_Clicked;
         }
@@ -89,8 +86,11 @@ public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsof
     private void NativeControl_Clicked(object? sender, EventArgs e)
     {
         var thisAsIMenuItem = (IMenuItem)this;
-        thisAsIMenuItem.ClickedAction?.Invoke();
-        thisAsIMenuItem.ClickedActionWithArgs?.Invoke(sender, e);
+        if (_executingClickedEvent == null || _executingClickedEvent.IsCompleted)
+        {
+            _executingClickedEvent = thisAsIMenuItem.ClickedEvent;
+            _executingClickedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -102,6 +102,21 @@ public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsof
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is MenuItem<T> @menuitem)
+        {
+            if (_executingClickedEvent != null && !_executingClickedEvent.IsCompleted)
+            {
+                @menuitem._executingClickedEvent = _executingClickedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -210,14 +225,42 @@ public static partial class MenuItemExtensions
     public static T OnClicked<T>(this T menuItem, Action? clickedAction)
         where T : IMenuItem
     {
-        menuItem.ClickedAction = clickedAction;
+        menuItem.ClickedEvent = new SyncEventCommand<EventArgs>(execute: clickedAction);
         return menuItem;
     }
 
-    public static T OnClicked<T>(this T menuItem, Action<object?, EventArgs>? clickedActionWithArgs)
+    public static T OnClicked<T>(this T menuItem, Action<EventArgs>? clickedAction)
         where T : IMenuItem
     {
-        menuItem.ClickedActionWithArgs = clickedActionWithArgs;
+        menuItem.ClickedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: clickedAction);
+        return menuItem;
+    }
+
+    public static T OnClicked<T>(this T menuItem, Action<object?, EventArgs>? clickedAction)
+        where T : IMenuItem
+    {
+        menuItem.ClickedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: clickedAction);
+        return menuItem;
+    }
+
+    public static T OnClicked<T>(this T menuItem, Func<Task>? clickedAction)
+        where T : IMenuItem
+    {
+        menuItem.ClickedEvent = new AsyncEventCommand<EventArgs>(execute: clickedAction);
+        return menuItem;
+    }
+
+    public static T OnClicked<T>(this T menuItem, Func<EventArgs, Task>? clickedAction)
+        where T : IMenuItem
+    {
+        menuItem.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: clickedAction);
+        return menuItem;
+    }
+
+    public static T OnClicked<T>(this T menuItem, Func<object?, EventArgs, Task>? clickedAction)
+        where T : IMenuItem
+    {
+        menuItem.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: clickedAction);
         return menuItem;
     }
 }

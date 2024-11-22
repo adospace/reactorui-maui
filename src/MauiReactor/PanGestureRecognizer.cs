@@ -14,9 +14,7 @@ public partial interface IPanGestureRecognizer : IGestureRecognizer
 {
     object? TouchPoints { get; set; }
 
-    Action? PanUpdatedAction { get; set; }
-
-    Action<object?, PanUpdatedEventArgs>? PanUpdatedActionWithArgs { get; set; }
+    EventCommand<PanUpdatedEventArgs>? PanUpdatedEvent { get; set; }
 }
 
 public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGestureRecognizer where T : Microsoft.Maui.Controls.PanGestureRecognizer, new()
@@ -33,9 +31,7 @@ public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGesture
 
     object? IPanGestureRecognizer.TouchPoints { get; set; }
 
-    Action? IPanGestureRecognizer.PanUpdatedAction { get; set; }
-
-    Action<object?, PanUpdatedEventArgs>? IPanGestureRecognizer.PanUpdatedActionWithArgs { get; set; }
+    EventCommand<PanUpdatedEventArgs>? IPanGestureRecognizer.PanUpdatedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -63,11 +59,12 @@ public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGesture
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<PanUpdatedEventArgs>? _executingPanUpdatedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIPanGestureRecognizer = (IPanGestureRecognizer)this;
-        if (thisAsIPanGestureRecognizer.PanUpdatedAction != null || thisAsIPanGestureRecognizer.PanUpdatedActionWithArgs != null)
+        if (thisAsIPanGestureRecognizer.PanUpdatedEvent != null)
         {
             NativeControl.PanUpdated += NativeControl_PanUpdated;
         }
@@ -79,8 +76,11 @@ public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGesture
     private void NativeControl_PanUpdated(object? sender, PanUpdatedEventArgs e)
     {
         var thisAsIPanGestureRecognizer = (IPanGestureRecognizer)this;
-        thisAsIPanGestureRecognizer.PanUpdatedAction?.Invoke();
-        thisAsIPanGestureRecognizer.PanUpdatedActionWithArgs?.Invoke(sender, e);
+        if (_executingPanUpdatedEvent == null || _executingPanUpdatedEvent.IsCompleted)
+        {
+            _executingPanUpdatedEvent = thisAsIPanGestureRecognizer.PanUpdatedEvent;
+            _executingPanUpdatedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -92,6 +92,21 @@ public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGesture
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is PanGestureRecognizer<T> @pangesturerecognizer)
+        {
+            if (_executingPanUpdatedEvent != null && !_executingPanUpdatedEvent.IsCompleted)
+            {
+                @pangesturerecognizer._executingPanUpdatedEvent = _executingPanUpdatedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -125,14 +140,42 @@ public static partial class PanGestureRecognizerExtensions
     public static T OnPanUpdated<T>(this T panGestureRecognizer, Action? panUpdatedAction)
         where T : IPanGestureRecognizer
     {
-        panGestureRecognizer.PanUpdatedAction = panUpdatedAction;
+        panGestureRecognizer.PanUpdatedEvent = new SyncEventCommand<PanUpdatedEventArgs>(execute: panUpdatedAction);
         return panGestureRecognizer;
     }
 
-    public static T OnPanUpdated<T>(this T panGestureRecognizer, Action<object?, PanUpdatedEventArgs>? panUpdatedActionWithArgs)
+    public static T OnPanUpdated<T>(this T panGestureRecognizer, Action<PanUpdatedEventArgs>? panUpdatedAction)
         where T : IPanGestureRecognizer
     {
-        panGestureRecognizer.PanUpdatedActionWithArgs = panUpdatedActionWithArgs;
+        panGestureRecognizer.PanUpdatedEvent = new SyncEventCommand<PanUpdatedEventArgs>(executeWithArgs: panUpdatedAction);
+        return panGestureRecognizer;
+    }
+
+    public static T OnPanUpdated<T>(this T panGestureRecognizer, Action<object?, PanUpdatedEventArgs>? panUpdatedAction)
+        where T : IPanGestureRecognizer
+    {
+        panGestureRecognizer.PanUpdatedEvent = new SyncEventCommand<PanUpdatedEventArgs>(executeWithFullArgs: panUpdatedAction);
+        return panGestureRecognizer;
+    }
+
+    public static T OnPanUpdated<T>(this T panGestureRecognizer, Func<Task>? panUpdatedAction)
+        where T : IPanGestureRecognizer
+    {
+        panGestureRecognizer.PanUpdatedEvent = new AsyncEventCommand<PanUpdatedEventArgs>(execute: panUpdatedAction);
+        return panGestureRecognizer;
+    }
+
+    public static T OnPanUpdated<T>(this T panGestureRecognizer, Func<PanUpdatedEventArgs, Task>? panUpdatedAction)
+        where T : IPanGestureRecognizer
+    {
+        panGestureRecognizer.PanUpdatedEvent = new AsyncEventCommand<PanUpdatedEventArgs>(executeWithArgs: panUpdatedAction);
+        return panGestureRecognizer;
+    }
+
+    public static T OnPanUpdated<T>(this T panGestureRecognizer, Func<object?, PanUpdatedEventArgs, Task>? panUpdatedAction)
+        where T : IPanGestureRecognizer
+    {
+        panGestureRecognizer.PanUpdatedEvent = new AsyncEventCommand<PanUpdatedEventArgs>(executeWithFullArgs: panUpdatedAction);
         return panGestureRecognizer;
     }
 }

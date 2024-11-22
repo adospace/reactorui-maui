@@ -22,9 +22,7 @@ public partial interface IEntry : IInputView
 
     object? ClearButtonVisibility { get; set; }
 
-    Action? CompletedAction { get; set; }
-
-    Action<object?, EventArgs>? CompletedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? CompletedEvent { get; set; }
 }
 
 public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Controls.Entry, new()
@@ -49,9 +47,7 @@ public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Co
 
     object? IEntry.ClearButtonVisibility { get; set; }
 
-    Action? IEntry.CompletedAction { get; set; }
-
-    Action<object?, EventArgs>? IEntry.CompletedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IEntry.CompletedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -83,11 +79,12 @@ public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Co
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingCompletedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIEntry = (IEntry)this;
-        if (thisAsIEntry.CompletedAction != null || thisAsIEntry.CompletedActionWithArgs != null)
+        if (thisAsIEntry.CompletedEvent != null)
         {
             NativeControl.Completed += NativeControl_Completed;
         }
@@ -99,8 +96,11 @@ public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Co
     private void NativeControl_Completed(object? sender, EventArgs e)
     {
         var thisAsIEntry = (IEntry)this;
-        thisAsIEntry.CompletedAction?.Invoke();
-        thisAsIEntry.CompletedActionWithArgs?.Invoke(sender, e);
+        if (_executingCompletedEvent == null || _executingCompletedEvent.IsCompleted)
+        {
+            _executingCompletedEvent = thisAsIEntry.CompletedEvent;
+            _executingCompletedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -112,6 +112,21 @@ public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Co
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is Entry<T> @entry)
+        {
+            if (_executingCompletedEvent != null && !_executingCompletedEvent.IsCompleted)
+            {
+                @entry._executingCompletedEvent = _executingCompletedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -201,14 +216,42 @@ public static partial class EntryExtensions
     public static T OnCompleted<T>(this T entry, Action? completedAction)
         where T : IEntry
     {
-        entry.CompletedAction = completedAction;
+        entry.CompletedEvent = new SyncEventCommand<EventArgs>(execute: completedAction);
         return entry;
     }
 
-    public static T OnCompleted<T>(this T entry, Action<object?, EventArgs>? completedActionWithArgs)
+    public static T OnCompleted<T>(this T entry, Action<EventArgs>? completedAction)
         where T : IEntry
     {
-        entry.CompletedActionWithArgs = completedActionWithArgs;
+        entry.CompletedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: completedAction);
+        return entry;
+    }
+
+    public static T OnCompleted<T>(this T entry, Action<object?, EventArgs>? completedAction)
+        where T : IEntry
+    {
+        entry.CompletedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: completedAction);
+        return entry;
+    }
+
+    public static T OnCompleted<T>(this T entry, Func<Task>? completedAction)
+        where T : IEntry
+    {
+        entry.CompletedEvent = new AsyncEventCommand<EventArgs>(execute: completedAction);
+        return entry;
+    }
+
+    public static T OnCompleted<T>(this T entry, Func<EventArgs, Task>? completedAction)
+        where T : IEntry
+    {
+        entry.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: completedAction);
+        return entry;
+    }
+
+    public static T OnCompleted<T>(this T entry, Func<object?, EventArgs, Task>? completedAction)
+        where T : IEntry
+    {
+        entry.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: completedAction);
         return entry;
     }
 }

@@ -20,9 +20,7 @@ public partial interface IStepper : IView
 
     object? Increment { get; set; }
 
-    Action? ValueChangedAction { get; set; }
-
-    Action<object?, ValueChangedEventArgs>? ValueChangedActionWithArgs { get; set; }
+    EventCommand<ValueChangedEventArgs>? ValueChangedEvent { get; set; }
 }
 
 public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Controls.Stepper, new()
@@ -45,9 +43,7 @@ public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Con
 
     object? IStepper.Increment { get; set; }
 
-    Action? IStepper.ValueChangedAction { get; set; }
-
-    Action<object?, ValueChangedEventArgs>? IStepper.ValueChangedActionWithArgs { get; set; }
+    EventCommand<ValueChangedEventArgs>? IStepper.ValueChangedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -78,11 +74,12 @@ public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Con
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<ValueChangedEventArgs>? _executingValueChangedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIStepper = (IStepper)this;
-        if (thisAsIStepper.ValueChangedAction != null || thisAsIStepper.ValueChangedActionWithArgs != null)
+        if (thisAsIStepper.ValueChangedEvent != null)
         {
             NativeControl.ValueChanged += NativeControl_ValueChanged;
         }
@@ -94,8 +91,11 @@ public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Con
     private void NativeControl_ValueChanged(object? sender, ValueChangedEventArgs e)
     {
         var thisAsIStepper = (IStepper)this;
-        thisAsIStepper.ValueChangedAction?.Invoke();
-        thisAsIStepper.ValueChangedActionWithArgs?.Invoke(sender, e);
+        if (_executingValueChangedEvent == null || _executingValueChangedEvent.IsCompleted)
+        {
+            _executingValueChangedEvent = thisAsIStepper.ValueChangedEvent;
+            _executingValueChangedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -107,6 +107,21 @@ public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Con
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is Stepper<T> @stepper)
+        {
+            if (_executingValueChangedEvent != null && !_executingValueChangedEvent.IsCompleted)
+            {
+                @stepper._executingValueChangedEvent = _executingValueChangedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -190,14 +205,42 @@ public static partial class StepperExtensions
     public static T OnValueChanged<T>(this T stepper, Action? valueChangedAction)
         where T : IStepper
     {
-        stepper.ValueChangedAction = valueChangedAction;
+        stepper.ValueChangedEvent = new SyncEventCommand<ValueChangedEventArgs>(execute: valueChangedAction);
         return stepper;
     }
 
-    public static T OnValueChanged<T>(this T stepper, Action<object?, ValueChangedEventArgs>? valueChangedActionWithArgs)
+    public static T OnValueChanged<T>(this T stepper, Action<ValueChangedEventArgs>? valueChangedAction)
         where T : IStepper
     {
-        stepper.ValueChangedActionWithArgs = valueChangedActionWithArgs;
+        stepper.ValueChangedEvent = new SyncEventCommand<ValueChangedEventArgs>(executeWithArgs: valueChangedAction);
+        return stepper;
+    }
+
+    public static T OnValueChanged<T>(this T stepper, Action<object?, ValueChangedEventArgs>? valueChangedAction)
+        where T : IStepper
+    {
+        stepper.ValueChangedEvent = new SyncEventCommand<ValueChangedEventArgs>(executeWithFullArgs: valueChangedAction);
+        return stepper;
+    }
+
+    public static T OnValueChanged<T>(this T stepper, Func<Task>? valueChangedAction)
+        where T : IStepper
+    {
+        stepper.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(execute: valueChangedAction);
+        return stepper;
+    }
+
+    public static T OnValueChanged<T>(this T stepper, Func<ValueChangedEventArgs, Task>? valueChangedAction)
+        where T : IStepper
+    {
+        stepper.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(executeWithArgs: valueChangedAction);
+        return stepper;
+    }
+
+    public static T OnValueChanged<T>(this T stepper, Func<object?, ValueChangedEventArgs, Task>? valueChangedAction)
+        where T : IStepper
+    {
+        stepper.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(executeWithFullArgs: valueChangedAction);
         return stepper;
     }
 }

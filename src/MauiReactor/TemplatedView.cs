@@ -46,6 +46,13 @@ public partial class TemplatedView<T> : Compatibility.Layout<T>, ITemplatedView 
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class TemplatedView : TemplatedView<Microsoft.Maui.Controls.TemplatedView>

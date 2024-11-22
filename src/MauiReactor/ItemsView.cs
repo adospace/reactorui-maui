@@ -20,17 +20,11 @@ public partial interface IItemsView : IView
 
     object? ItemsUpdatingScrollMode { get; set; }
 
-    Action? ScrollToRequestedAction { get; set; }
+    EventCommand<ScrollToRequestEventArgs>? ScrollToRequestedEvent { get; set; }
 
-    Action<object?, ScrollToRequestEventArgs>? ScrollToRequestedActionWithArgs { get; set; }
+    EventCommand<ItemsViewScrolledEventArgs>? ScrolledEvent { get; set; }
 
-    Action? ScrolledAction { get; set; }
-
-    Action<object?, ItemsViewScrolledEventArgs>? ScrolledActionWithArgs { get; set; }
-
-    Action? RemainingItemsThresholdReachedAction { get; set; }
-
-    Action<object?, EventArgs>? RemainingItemsThresholdReachedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? RemainingItemsThresholdReachedEvent { get; set; }
 }
 
 public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Microsoft.Maui.Controls.ItemsView, new()
@@ -53,17 +47,11 @@ public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Micro
 
     object? IItemsView.ItemsUpdatingScrollMode { get; set; }
 
-    Action? IItemsView.ScrollToRequestedAction { get; set; }
+    EventCommand<ScrollToRequestEventArgs>? IItemsView.ScrollToRequestedEvent { get; set; }
 
-    Action<object?, ScrollToRequestEventArgs>? IItemsView.ScrollToRequestedActionWithArgs { get; set; }
+    EventCommand<ItemsViewScrolledEventArgs>? IItemsView.ScrolledEvent { get; set; }
 
-    Action? IItemsView.ScrolledAction { get; set; }
-
-    Action<object?, ItemsViewScrolledEventArgs>? IItemsView.ScrolledActionWithArgs { get; set; }
-
-    Action? IItemsView.RemainingItemsThresholdReachedAction { get; set; }
-
-    Action<object?, EventArgs>? IItemsView.RemainingItemsThresholdReachedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IItemsView.RemainingItemsThresholdReachedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -94,21 +82,24 @@ public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Micro
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<ScrollToRequestEventArgs>? _executingScrollToRequestedEvent;
+    private EventCommand<ItemsViewScrolledEventArgs>? _executingScrolledEvent;
+    private EventCommand<EventArgs>? _executingRemainingItemsThresholdReachedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIItemsView = (IItemsView)this;
-        if (thisAsIItemsView.ScrollToRequestedAction != null || thisAsIItemsView.ScrollToRequestedActionWithArgs != null)
+        if (thisAsIItemsView.ScrollToRequestedEvent != null)
         {
             NativeControl.ScrollToRequested += NativeControl_ScrollToRequested;
         }
 
-        if (thisAsIItemsView.ScrolledAction != null || thisAsIItemsView.ScrolledActionWithArgs != null)
+        if (thisAsIItemsView.ScrolledEvent != null)
         {
             NativeControl.Scrolled += NativeControl_Scrolled;
         }
 
-        if (thisAsIItemsView.RemainingItemsThresholdReachedAction != null || thisAsIItemsView.RemainingItemsThresholdReachedActionWithArgs != null)
+        if (thisAsIItemsView.RemainingItemsThresholdReachedEvent != null)
         {
             NativeControl.RemainingItemsThresholdReached += NativeControl_RemainingItemsThresholdReached;
         }
@@ -120,22 +111,31 @@ public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Micro
     private void NativeControl_ScrollToRequested(object? sender, ScrollToRequestEventArgs e)
     {
         var thisAsIItemsView = (IItemsView)this;
-        thisAsIItemsView.ScrollToRequestedAction?.Invoke();
-        thisAsIItemsView.ScrollToRequestedActionWithArgs?.Invoke(sender, e);
+        if (_executingScrollToRequestedEvent == null || _executingScrollToRequestedEvent.IsCompleted)
+        {
+            _executingScrollToRequestedEvent = thisAsIItemsView.ScrollToRequestedEvent;
+            _executingScrollToRequestedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Scrolled(object? sender, ItemsViewScrolledEventArgs e)
     {
         var thisAsIItemsView = (IItemsView)this;
-        thisAsIItemsView.ScrolledAction?.Invoke();
-        thisAsIItemsView.ScrolledActionWithArgs?.Invoke(sender, e);
+        if (_executingScrolledEvent == null || _executingScrolledEvent.IsCompleted)
+        {
+            _executingScrolledEvent = thisAsIItemsView.ScrolledEvent;
+            _executingScrolledEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_RemainingItemsThresholdReached(object? sender, EventArgs e)
     {
         var thisAsIItemsView = (IItemsView)this;
-        thisAsIItemsView.RemainingItemsThresholdReachedAction?.Invoke();
-        thisAsIItemsView.RemainingItemsThresholdReachedActionWithArgs?.Invoke(sender, e);
+        if (_executingRemainingItemsThresholdReachedEvent == null || _executingRemainingItemsThresholdReachedEvent.IsCompleted)
+        {
+            _executingRemainingItemsThresholdReachedEvent = thisAsIItemsView.RemainingItemsThresholdReachedEvent;
+            _executingRemainingItemsThresholdReachedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -149,6 +149,31 @@ public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Micro
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is ItemsView<T> @itemsview)
+        {
+            if (_executingScrollToRequestedEvent != null && !_executingScrollToRequestedEvent.IsCompleted)
+            {
+                @itemsview._executingScrollToRequestedEvent = _executingScrollToRequestedEvent;
+            }
+
+            if (_executingScrolledEvent != null && !_executingScrolledEvent.IsCompleted)
+            {
+                @itemsview._executingScrolledEvent = _executingScrolledEvent;
+            }
+
+            if (_executingRemainingItemsThresholdReachedEvent != null && !_executingRemainingItemsThresholdReachedEvent.IsCompleted)
+            {
+                @itemsview._executingRemainingItemsThresholdReachedEvent = _executingRemainingItemsThresholdReachedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -213,42 +238,126 @@ public static partial class ItemsViewExtensions
     public static T OnScrollToRequested<T>(this T itemsView, Action? scrollToRequestedAction)
         where T : IItemsView
     {
-        itemsView.ScrollToRequestedAction = scrollToRequestedAction;
+        itemsView.ScrollToRequestedEvent = new SyncEventCommand<ScrollToRequestEventArgs>(execute: scrollToRequestedAction);
         return itemsView;
     }
 
-    public static T OnScrollToRequested<T>(this T itemsView, Action<object?, ScrollToRequestEventArgs>? scrollToRequestedActionWithArgs)
+    public static T OnScrollToRequested<T>(this T itemsView, Action<ScrollToRequestEventArgs>? scrollToRequestedAction)
         where T : IItemsView
     {
-        itemsView.ScrollToRequestedActionWithArgs = scrollToRequestedActionWithArgs;
+        itemsView.ScrollToRequestedEvent = new SyncEventCommand<ScrollToRequestEventArgs>(executeWithArgs: scrollToRequestedAction);
+        return itemsView;
+    }
+
+    public static T OnScrollToRequested<T>(this T itemsView, Action<object?, ScrollToRequestEventArgs>? scrollToRequestedAction)
+        where T : IItemsView
+    {
+        itemsView.ScrollToRequestedEvent = new SyncEventCommand<ScrollToRequestEventArgs>(executeWithFullArgs: scrollToRequestedAction);
+        return itemsView;
+    }
+
+    public static T OnScrollToRequested<T>(this T itemsView, Func<Task>? scrollToRequestedAction)
+        where T : IItemsView
+    {
+        itemsView.ScrollToRequestedEvent = new AsyncEventCommand<ScrollToRequestEventArgs>(execute: scrollToRequestedAction);
+        return itemsView;
+    }
+
+    public static T OnScrollToRequested<T>(this T itemsView, Func<ScrollToRequestEventArgs, Task>? scrollToRequestedAction)
+        where T : IItemsView
+    {
+        itemsView.ScrollToRequestedEvent = new AsyncEventCommand<ScrollToRequestEventArgs>(executeWithArgs: scrollToRequestedAction);
+        return itemsView;
+    }
+
+    public static T OnScrollToRequested<T>(this T itemsView, Func<object?, ScrollToRequestEventArgs, Task>? scrollToRequestedAction)
+        where T : IItemsView
+    {
+        itemsView.ScrollToRequestedEvent = new AsyncEventCommand<ScrollToRequestEventArgs>(executeWithFullArgs: scrollToRequestedAction);
         return itemsView;
     }
 
     public static T OnScrolled<T>(this T itemsView, Action? scrolledAction)
         where T : IItemsView
     {
-        itemsView.ScrolledAction = scrolledAction;
+        itemsView.ScrolledEvent = new SyncEventCommand<ItemsViewScrolledEventArgs>(execute: scrolledAction);
         return itemsView;
     }
 
-    public static T OnScrolled<T>(this T itemsView, Action<object?, ItemsViewScrolledEventArgs>? scrolledActionWithArgs)
+    public static T OnScrolled<T>(this T itemsView, Action<ItemsViewScrolledEventArgs>? scrolledAction)
         where T : IItemsView
     {
-        itemsView.ScrolledActionWithArgs = scrolledActionWithArgs;
+        itemsView.ScrolledEvent = new SyncEventCommand<ItemsViewScrolledEventArgs>(executeWithArgs: scrolledAction);
+        return itemsView;
+    }
+
+    public static T OnScrolled<T>(this T itemsView, Action<object?, ItemsViewScrolledEventArgs>? scrolledAction)
+        where T : IItemsView
+    {
+        itemsView.ScrolledEvent = new SyncEventCommand<ItemsViewScrolledEventArgs>(executeWithFullArgs: scrolledAction);
+        return itemsView;
+    }
+
+    public static T OnScrolled<T>(this T itemsView, Func<Task>? scrolledAction)
+        where T : IItemsView
+    {
+        itemsView.ScrolledEvent = new AsyncEventCommand<ItemsViewScrolledEventArgs>(execute: scrolledAction);
+        return itemsView;
+    }
+
+    public static T OnScrolled<T>(this T itemsView, Func<ItemsViewScrolledEventArgs, Task>? scrolledAction)
+        where T : IItemsView
+    {
+        itemsView.ScrolledEvent = new AsyncEventCommand<ItemsViewScrolledEventArgs>(executeWithArgs: scrolledAction);
+        return itemsView;
+    }
+
+    public static T OnScrolled<T>(this T itemsView, Func<object?, ItemsViewScrolledEventArgs, Task>? scrolledAction)
+        where T : IItemsView
+    {
+        itemsView.ScrolledEvent = new AsyncEventCommand<ItemsViewScrolledEventArgs>(executeWithFullArgs: scrolledAction);
         return itemsView;
     }
 
     public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Action? remainingItemsThresholdReachedAction)
         where T : IItemsView
     {
-        itemsView.RemainingItemsThresholdReachedAction = remainingItemsThresholdReachedAction;
+        itemsView.RemainingItemsThresholdReachedEvent = new SyncEventCommand<EventArgs>(execute: remainingItemsThresholdReachedAction);
         return itemsView;
     }
 
-    public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Action<object?, EventArgs>? remainingItemsThresholdReachedActionWithArgs)
+    public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Action<EventArgs>? remainingItemsThresholdReachedAction)
         where T : IItemsView
     {
-        itemsView.RemainingItemsThresholdReachedActionWithArgs = remainingItemsThresholdReachedActionWithArgs;
+        itemsView.RemainingItemsThresholdReachedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: remainingItemsThresholdReachedAction);
+        return itemsView;
+    }
+
+    public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Action<object?, EventArgs>? remainingItemsThresholdReachedAction)
+        where T : IItemsView
+    {
+        itemsView.RemainingItemsThresholdReachedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: remainingItemsThresholdReachedAction);
+        return itemsView;
+    }
+
+    public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Func<Task>? remainingItemsThresholdReachedAction)
+        where T : IItemsView
+    {
+        itemsView.RemainingItemsThresholdReachedEvent = new AsyncEventCommand<EventArgs>(execute: remainingItemsThresholdReachedAction);
+        return itemsView;
+    }
+
+    public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Func<EventArgs, Task>? remainingItemsThresholdReachedAction)
+        where T : IItemsView
+    {
+        itemsView.RemainingItemsThresholdReachedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: remainingItemsThresholdReachedAction);
+        return itemsView;
+    }
+
+    public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Func<object?, EventArgs, Task>? remainingItemsThresholdReachedAction)
+        where T : IItemsView
+    {
+        itemsView.RemainingItemsThresholdReachedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: remainingItemsThresholdReachedAction);
         return itemsView;
     }
 }

@@ -36,6 +36,12 @@ public abstract partial class Behavior<T, TChild> : Behavior<T>, IGenericBehavio
     partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public static partial class BehaviorExtensions

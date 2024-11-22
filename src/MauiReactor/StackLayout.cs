@@ -52,6 +52,13 @@ public partial class StackLayout<T> : StackBase<T>, IStackLayout where T : Micro
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class StackLayout : StackLayout<Microsoft.Maui.Controls.StackLayout>

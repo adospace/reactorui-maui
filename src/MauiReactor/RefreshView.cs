@@ -16,9 +16,7 @@ public partial interface IRefreshView : IContentView
 
     object? RefreshColor { get; set; }
 
-    Action? RefreshingAction { get; set; }
-
-    Action<object?, EventArgs>? RefreshingActionWithArgs { get; set; }
+    EventCommand<EventArgs>? RefreshingEvent { get; set; }
 }
 
 public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Microsoft.Maui.Controls.RefreshView, new()
@@ -37,9 +35,7 @@ public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Mic
 
     object? IRefreshView.RefreshColor { get; set; }
 
-    Action? IRefreshView.RefreshingAction { get; set; }
-
-    Action<object?, EventArgs>? IRefreshView.RefreshingActionWithArgs { get; set; }
+    EventCommand<EventArgs>? IRefreshView.RefreshingEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -68,11 +64,12 @@ public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Mic
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingRefreshingEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIRefreshView = (IRefreshView)this;
-        if (thisAsIRefreshView.RefreshingAction != null || thisAsIRefreshView.RefreshingActionWithArgs != null)
+        if (thisAsIRefreshView.RefreshingEvent != null)
         {
             NativeControl.Refreshing += NativeControl_Refreshing;
         }
@@ -84,8 +81,11 @@ public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Mic
     private void NativeControl_Refreshing(object? sender, EventArgs e)
     {
         var thisAsIRefreshView = (IRefreshView)this;
-        thisAsIRefreshView.RefreshingAction?.Invoke();
-        thisAsIRefreshView.RefreshingActionWithArgs?.Invoke(sender, e);
+        if (_executingRefreshingEvent == null || _executingRefreshingEvent.IsCompleted)
+        {
+            _executingRefreshingEvent = thisAsIRefreshView.RefreshingEvent;
+            _executingRefreshingEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -97,6 +97,21 @@ public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Mic
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is RefreshView<T> @refreshview)
+        {
+            if (_executingRefreshingEvent != null && !_executingRefreshingEvent.IsCompleted)
+            {
+                @refreshview._executingRefreshingEvent = _executingRefreshingEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -144,14 +159,42 @@ public static partial class RefreshViewExtensions
     public static T OnRefreshing<T>(this T refreshView, Action? refreshingAction)
         where T : IRefreshView
     {
-        refreshView.RefreshingAction = refreshingAction;
+        refreshView.RefreshingEvent = new SyncEventCommand<EventArgs>(execute: refreshingAction);
         return refreshView;
     }
 
-    public static T OnRefreshing<T>(this T refreshView, Action<object?, EventArgs>? refreshingActionWithArgs)
+    public static T OnRefreshing<T>(this T refreshView, Action<EventArgs>? refreshingAction)
         where T : IRefreshView
     {
-        refreshView.RefreshingActionWithArgs = refreshingActionWithArgs;
+        refreshView.RefreshingEvent = new SyncEventCommand<EventArgs>(executeWithArgs: refreshingAction);
+        return refreshView;
+    }
+
+    public static T OnRefreshing<T>(this T refreshView, Action<object?, EventArgs>? refreshingAction)
+        where T : IRefreshView
+    {
+        refreshView.RefreshingEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: refreshingAction);
+        return refreshView;
+    }
+
+    public static T OnRefreshing<T>(this T refreshView, Func<Task>? refreshingAction)
+        where T : IRefreshView
+    {
+        refreshView.RefreshingEvent = new AsyncEventCommand<EventArgs>(execute: refreshingAction);
+        return refreshView;
+    }
+
+    public static T OnRefreshing<T>(this T refreshView, Func<EventArgs, Task>? refreshingAction)
+        where T : IRefreshView
+    {
+        refreshView.RefreshingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: refreshingAction);
+        return refreshView;
+    }
+
+    public static T OnRefreshing<T>(this T refreshView, Func<object?, EventArgs, Task>? refreshingAction)
+        where T : IRefreshView
+    {
+        refreshView.RefreshingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: refreshingAction);
         return refreshView;
     }
 }

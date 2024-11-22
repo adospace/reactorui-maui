@@ -32,9 +32,7 @@ public partial interface IDatePicker : IView
 
     object? FontAutoScalingEnabled { get; set; }
 
-    Action? DateSelectedAction { get; set; }
-
-    Action<object?, DateChangedEventArgs>? DateSelectedActionWithArgs { get; set; }
+    EventCommand<DateChangedEventArgs>? DateSelectedEvent { get; set; }
 }
 
 public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Maui.Controls.DatePicker, new()
@@ -69,9 +67,7 @@ public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Ma
 
     object? IDatePicker.FontAutoScalingEnabled { get; set; }
 
-    Action? IDatePicker.DateSelectedAction { get; set; }
-
-    Action<object?, DateChangedEventArgs>? IDatePicker.DateSelectedActionWithArgs { get; set; }
+    EventCommand<DateChangedEventArgs>? IDatePicker.DateSelectedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -108,11 +104,12 @@ public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Ma
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<DateChangedEventArgs>? _executingDateSelectedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIDatePicker = (IDatePicker)this;
-        if (thisAsIDatePicker.DateSelectedAction != null || thisAsIDatePicker.DateSelectedActionWithArgs != null)
+        if (thisAsIDatePicker.DateSelectedEvent != null)
         {
             NativeControl.DateSelected += NativeControl_DateSelected;
         }
@@ -124,8 +121,11 @@ public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Ma
     private void NativeControl_DateSelected(object? sender, DateChangedEventArgs e)
     {
         var thisAsIDatePicker = (IDatePicker)this;
-        thisAsIDatePicker.DateSelectedAction?.Invoke();
-        thisAsIDatePicker.DateSelectedActionWithArgs?.Invoke(sender, e);
+        if (_executingDateSelectedEvent == null || _executingDateSelectedEvent.IsCompleted)
+        {
+            _executingDateSelectedEvent = thisAsIDatePicker.DateSelectedEvent;
+            _executingDateSelectedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -137,6 +137,21 @@ public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Ma
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is DatePicker<T> @datepicker)
+        {
+            if (_executingDateSelectedEvent != null && !_executingDateSelectedEvent.IsCompleted)
+            {
+                @datepicker._executingDateSelectedEvent = _executingDateSelectedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -300,14 +315,42 @@ public static partial class DatePickerExtensions
     public static T OnDateSelected<T>(this T datePicker, Action? dateSelectedAction)
         where T : IDatePicker
     {
-        datePicker.DateSelectedAction = dateSelectedAction;
+        datePicker.DateSelectedEvent = new SyncEventCommand<DateChangedEventArgs>(execute: dateSelectedAction);
         return datePicker;
     }
 
-    public static T OnDateSelected<T>(this T datePicker, Action<object?, DateChangedEventArgs>? dateSelectedActionWithArgs)
+    public static T OnDateSelected<T>(this T datePicker, Action<DateChangedEventArgs>? dateSelectedAction)
         where T : IDatePicker
     {
-        datePicker.DateSelectedActionWithArgs = dateSelectedActionWithArgs;
+        datePicker.DateSelectedEvent = new SyncEventCommand<DateChangedEventArgs>(executeWithArgs: dateSelectedAction);
+        return datePicker;
+    }
+
+    public static T OnDateSelected<T>(this T datePicker, Action<object?, DateChangedEventArgs>? dateSelectedAction)
+        where T : IDatePicker
+    {
+        datePicker.DateSelectedEvent = new SyncEventCommand<DateChangedEventArgs>(executeWithFullArgs: dateSelectedAction);
+        return datePicker;
+    }
+
+    public static T OnDateSelected<T>(this T datePicker, Func<Task>? dateSelectedAction)
+        where T : IDatePicker
+    {
+        datePicker.DateSelectedEvent = new AsyncEventCommand<DateChangedEventArgs>(execute: dateSelectedAction);
+        return datePicker;
+    }
+
+    public static T OnDateSelected<T>(this T datePicker, Func<DateChangedEventArgs, Task>? dateSelectedAction)
+        where T : IDatePicker
+    {
+        datePicker.DateSelectedEvent = new AsyncEventCommand<DateChangedEventArgs>(executeWithArgs: dateSelectedAction);
+        return datePicker;
+    }
+
+    public static T OnDateSelected<T>(this T datePicker, Func<object?, DateChangedEventArgs, Task>? dateSelectedAction)
+        where T : IDatePicker
+    {
+        datePicker.DateSelectedEvent = new AsyncEventCommand<DateChangedEventArgs>(executeWithFullArgs: dateSelectedAction);
         return datePicker;
     }
 }

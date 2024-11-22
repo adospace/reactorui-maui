@@ -28,9 +28,7 @@ public partial interface ITimePicker : IView
 
     object? FontAutoScalingEnabled { get; set; }
 
-    Action? TimeSelectedAction { get; set; }
-
-    Action<object?, TimeChangedEventArgs>? TimeSelectedActionWithArgs { get; set; }
+    EventCommand<TimeChangedEventArgs>? TimeSelectedEvent { get; set; }
 }
 
 public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Maui.Controls.TimePicker, new()
@@ -61,9 +59,7 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
 
     object? ITimePicker.FontAutoScalingEnabled { get; set; }
 
-    Action? ITimePicker.TimeSelectedAction { get; set; }
-
-    Action<object?, TimeChangedEventArgs>? ITimePicker.TimeSelectedActionWithArgs { get; set; }
+    EventCommand<TimeChangedEventArgs>? ITimePicker.TimeSelectedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -98,11 +94,12 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<TimeChangedEventArgs>? _executingTimeSelectedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsITimePicker = (ITimePicker)this;
-        if (thisAsITimePicker.TimeSelectedAction != null || thisAsITimePicker.TimeSelectedActionWithArgs != null)
+        if (thisAsITimePicker.TimeSelectedEvent != null)
         {
             NativeControl.TimeSelected += NativeControl_TimeSelected;
         }
@@ -114,8 +111,11 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
     private void NativeControl_TimeSelected(object? sender, TimeChangedEventArgs e)
     {
         var thisAsITimePicker = (ITimePicker)this;
-        thisAsITimePicker.TimeSelectedAction?.Invoke();
-        thisAsITimePicker.TimeSelectedActionWithArgs?.Invoke(sender, e);
+        if (_executingTimeSelectedEvent == null || _executingTimeSelectedEvent.IsCompleted)
+        {
+            _executingTimeSelectedEvent = thisAsITimePicker.TimeSelectedEvent;
+            _executingTimeSelectedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -127,6 +127,21 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is TimePicker<T> @timepicker)
+        {
+            if (_executingTimeSelectedEvent != null && !_executingTimeSelectedEvent.IsCompleted)
+            {
+                @timepicker._executingTimeSelectedEvent = _executingTimeSelectedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -262,14 +277,42 @@ public static partial class TimePickerExtensions
     public static T OnTimeSelected<T>(this T timePicker, Action? timeSelectedAction)
         where T : ITimePicker
     {
-        timePicker.TimeSelectedAction = timeSelectedAction;
+        timePicker.TimeSelectedEvent = new SyncEventCommand<TimeChangedEventArgs>(execute: timeSelectedAction);
         return timePicker;
     }
 
-    public static T OnTimeSelected<T>(this T timePicker, Action<object?, TimeChangedEventArgs>? timeSelectedActionWithArgs)
+    public static T OnTimeSelected<T>(this T timePicker, Action<TimeChangedEventArgs>? timeSelectedAction)
         where T : ITimePicker
     {
-        timePicker.TimeSelectedActionWithArgs = timeSelectedActionWithArgs;
+        timePicker.TimeSelectedEvent = new SyncEventCommand<TimeChangedEventArgs>(executeWithArgs: timeSelectedAction);
+        return timePicker;
+    }
+
+    public static T OnTimeSelected<T>(this T timePicker, Action<object?, TimeChangedEventArgs>? timeSelectedAction)
+        where T : ITimePicker
+    {
+        timePicker.TimeSelectedEvent = new SyncEventCommand<TimeChangedEventArgs>(executeWithFullArgs: timeSelectedAction);
+        return timePicker;
+    }
+
+    public static T OnTimeSelected<T>(this T timePicker, Func<Task>? timeSelectedAction)
+        where T : ITimePicker
+    {
+        timePicker.TimeSelectedEvent = new AsyncEventCommand<TimeChangedEventArgs>(execute: timeSelectedAction);
+        return timePicker;
+    }
+
+    public static T OnTimeSelected<T>(this T timePicker, Func<TimeChangedEventArgs, Task>? timeSelectedAction)
+        where T : ITimePicker
+    {
+        timePicker.TimeSelectedEvent = new AsyncEventCommand<TimeChangedEventArgs>(executeWithArgs: timeSelectedAction);
+        return timePicker;
+    }
+
+    public static T OnTimeSelected<T>(this T timePicker, Func<object?, TimeChangedEventArgs, Task>? timeSelectedAction)
+        where T : ITimePicker
+    {
+        timePicker.TimeSelectedEvent = new AsyncEventCommand<TimeChangedEventArgs>(executeWithFullArgs: timeSelectedAction);
         return timePicker;
     }
 }

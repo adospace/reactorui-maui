@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MauiReactor.Internals;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ public static partial class SliderExtensions
 {
     public static T OnValueChanged<T>(this T slider, Action<double>? valueChangedActionWithArgs) where T : ISlider
     {
-        slider.ValueChangedActionWithArgs = (sender, args) => valueChangedActionWithArgs?.Invoke(args.NewValue);
+        slider.ValueChangedEvent = new SyncEventCommand<ValueChangedEventArgs>((sender, args) => valueChangedActionWithArgs?.Invoke(args.NewValue));
         return slider;
     }
 }

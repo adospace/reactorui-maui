@@ -57,6 +57,13 @@ public sealed partial class Polyline : Shapes.Shape<Microsoft.Maui.Controls.Shap
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public static partial class PolylineExtensions

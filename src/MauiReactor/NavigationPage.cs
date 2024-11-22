@@ -18,17 +18,11 @@ public partial interface INavigationPage : IPage
 
     object? BarTextColor { get; set; }
 
-    Action? PoppedAction { get; set; }
+    EventCommand<NavigationEventArgs>? PoppedEvent { get; set; }
 
-    Action<object?, NavigationEventArgs>? PoppedActionWithArgs { get; set; }
+    EventCommand<NavigationEventArgs>? PoppedToRootEvent { get; set; }
 
-    Action? PoppedToRootAction { get; set; }
-
-    Action<object?, NavigationEventArgs>? PoppedToRootActionWithArgs { get; set; }
-
-    Action? PushedAction { get; set; }
-
-    Action<object?, NavigationEventArgs>? PushedActionWithArgs { get; set; }
+    EventCommand<NavigationEventArgs>? PushedEvent { get; set; }
 }
 
 public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Microsoft.Maui.Controls.NavigationPage, new()
@@ -49,17 +43,11 @@ public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Micr
 
     object? INavigationPage.BarTextColor { get; set; }
 
-    Action? INavigationPage.PoppedAction { get; set; }
+    EventCommand<NavigationEventArgs>? INavigationPage.PoppedEvent { get; set; }
 
-    Action<object?, NavigationEventArgs>? INavigationPage.PoppedActionWithArgs { get; set; }
+    EventCommand<NavigationEventArgs>? INavigationPage.PoppedToRootEvent { get; set; }
 
-    Action? INavigationPage.PoppedToRootAction { get; set; }
-
-    Action<object?, NavigationEventArgs>? INavigationPage.PoppedToRootActionWithArgs { get; set; }
-
-    Action? INavigationPage.PushedAction { get; set; }
-
-    Action<object?, NavigationEventArgs>? INavigationPage.PushedActionWithArgs { get; set; }
+    EventCommand<NavigationEventArgs>? INavigationPage.PushedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -89,21 +77,24 @@ public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Micr
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<NavigationEventArgs>? _executingPoppedEvent;
+    private EventCommand<NavigationEventArgs>? _executingPoppedToRootEvent;
+    private EventCommand<NavigationEventArgs>? _executingPushedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsINavigationPage = (INavigationPage)this;
-        if (thisAsINavigationPage.PoppedAction != null || thisAsINavigationPage.PoppedActionWithArgs != null)
+        if (thisAsINavigationPage.PoppedEvent != null)
         {
             NativeControl.Popped += NativeControl_Popped;
         }
 
-        if (thisAsINavigationPage.PoppedToRootAction != null || thisAsINavigationPage.PoppedToRootActionWithArgs != null)
+        if (thisAsINavigationPage.PoppedToRootEvent != null)
         {
             NativeControl.PoppedToRoot += NativeControl_PoppedToRoot;
         }
 
-        if (thisAsINavigationPage.PushedAction != null || thisAsINavigationPage.PushedActionWithArgs != null)
+        if (thisAsINavigationPage.PushedEvent != null)
         {
             NativeControl.Pushed += NativeControl_Pushed;
         }
@@ -115,22 +106,31 @@ public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Micr
     private void NativeControl_Popped(object? sender, NavigationEventArgs e)
     {
         var thisAsINavigationPage = (INavigationPage)this;
-        thisAsINavigationPage.PoppedAction?.Invoke();
-        thisAsINavigationPage.PoppedActionWithArgs?.Invoke(sender, e);
+        if (_executingPoppedEvent == null || _executingPoppedEvent.IsCompleted)
+        {
+            _executingPoppedEvent = thisAsINavigationPage.PoppedEvent;
+            _executingPoppedEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_PoppedToRoot(object? sender, NavigationEventArgs e)
     {
         var thisAsINavigationPage = (INavigationPage)this;
-        thisAsINavigationPage.PoppedToRootAction?.Invoke();
-        thisAsINavigationPage.PoppedToRootActionWithArgs?.Invoke(sender, e);
+        if (_executingPoppedToRootEvent == null || _executingPoppedToRootEvent.IsCompleted)
+        {
+            _executingPoppedToRootEvent = thisAsINavigationPage.PoppedToRootEvent;
+            _executingPoppedToRootEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Pushed(object? sender, NavigationEventArgs e)
     {
         var thisAsINavigationPage = (INavigationPage)this;
-        thisAsINavigationPage.PushedAction?.Invoke();
-        thisAsINavigationPage.PushedActionWithArgs?.Invoke(sender, e);
+        if (_executingPushedEvent == null || _executingPushedEvent.IsCompleted)
+        {
+            _executingPushedEvent = thisAsINavigationPage.PushedEvent;
+            _executingPushedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -144,6 +144,31 @@ public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Micr
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is NavigationPage<T> @navigationpage)
+        {
+            if (_executingPoppedEvent != null && !_executingPoppedEvent.IsCompleted)
+            {
+                @navigationpage._executingPoppedEvent = _executingPoppedEvent;
+            }
+
+            if (_executingPoppedToRootEvent != null && !_executingPoppedToRootEvent.IsCompleted)
+            {
+                @navigationpage._executingPoppedToRootEvent = _executingPoppedToRootEvent;
+            }
+
+            if (_executingPushedEvent != null && !_executingPushedEvent.IsCompleted)
+            {
+                @navigationpage._executingPushedEvent = _executingPushedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -205,42 +230,126 @@ public static partial class NavigationPageExtensions
     public static T OnPopped<T>(this T navigationPage, Action? poppedAction)
         where T : INavigationPage
     {
-        navigationPage.PoppedAction = poppedAction;
+        navigationPage.PoppedEvent = new SyncEventCommand<NavigationEventArgs>(execute: poppedAction);
         return navigationPage;
     }
 
-    public static T OnPopped<T>(this T navigationPage, Action<object?, NavigationEventArgs>? poppedActionWithArgs)
+    public static T OnPopped<T>(this T navigationPage, Action<NavigationEventArgs>? poppedAction)
         where T : INavigationPage
     {
-        navigationPage.PoppedActionWithArgs = poppedActionWithArgs;
+        navigationPage.PoppedEvent = new SyncEventCommand<NavigationEventArgs>(executeWithArgs: poppedAction);
+        return navigationPage;
+    }
+
+    public static T OnPopped<T>(this T navigationPage, Action<object?, NavigationEventArgs>? poppedAction)
+        where T : INavigationPage
+    {
+        navigationPage.PoppedEvent = new SyncEventCommand<NavigationEventArgs>(executeWithFullArgs: poppedAction);
+        return navigationPage;
+    }
+
+    public static T OnPopped<T>(this T navigationPage, Func<Task>? poppedAction)
+        where T : INavigationPage
+    {
+        navigationPage.PoppedEvent = new AsyncEventCommand<NavigationEventArgs>(execute: poppedAction);
+        return navigationPage;
+    }
+
+    public static T OnPopped<T>(this T navigationPage, Func<NavigationEventArgs, Task>? poppedAction)
+        where T : INavigationPage
+    {
+        navigationPage.PoppedEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithArgs: poppedAction);
+        return navigationPage;
+    }
+
+    public static T OnPopped<T>(this T navigationPage, Func<object?, NavigationEventArgs, Task>? poppedAction)
+        where T : INavigationPage
+    {
+        navigationPage.PoppedEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithFullArgs: poppedAction);
         return navigationPage;
     }
 
     public static T OnPoppedToRoot<T>(this T navigationPage, Action? poppedToRootAction)
         where T : INavigationPage
     {
-        navigationPage.PoppedToRootAction = poppedToRootAction;
+        navigationPage.PoppedToRootEvent = new SyncEventCommand<NavigationEventArgs>(execute: poppedToRootAction);
         return navigationPage;
     }
 
-    public static T OnPoppedToRoot<T>(this T navigationPage, Action<object?, NavigationEventArgs>? poppedToRootActionWithArgs)
+    public static T OnPoppedToRoot<T>(this T navigationPage, Action<NavigationEventArgs>? poppedToRootAction)
         where T : INavigationPage
     {
-        navigationPage.PoppedToRootActionWithArgs = poppedToRootActionWithArgs;
+        navigationPage.PoppedToRootEvent = new SyncEventCommand<NavigationEventArgs>(executeWithArgs: poppedToRootAction);
+        return navigationPage;
+    }
+
+    public static T OnPoppedToRoot<T>(this T navigationPage, Action<object?, NavigationEventArgs>? poppedToRootAction)
+        where T : INavigationPage
+    {
+        navigationPage.PoppedToRootEvent = new SyncEventCommand<NavigationEventArgs>(executeWithFullArgs: poppedToRootAction);
+        return navigationPage;
+    }
+
+    public static T OnPoppedToRoot<T>(this T navigationPage, Func<Task>? poppedToRootAction)
+        where T : INavigationPage
+    {
+        navigationPage.PoppedToRootEvent = new AsyncEventCommand<NavigationEventArgs>(execute: poppedToRootAction);
+        return navigationPage;
+    }
+
+    public static T OnPoppedToRoot<T>(this T navigationPage, Func<NavigationEventArgs, Task>? poppedToRootAction)
+        where T : INavigationPage
+    {
+        navigationPage.PoppedToRootEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithArgs: poppedToRootAction);
+        return navigationPage;
+    }
+
+    public static T OnPoppedToRoot<T>(this T navigationPage, Func<object?, NavigationEventArgs, Task>? poppedToRootAction)
+        where T : INavigationPage
+    {
+        navigationPage.PoppedToRootEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithFullArgs: poppedToRootAction);
         return navigationPage;
     }
 
     public static T OnPushed<T>(this T navigationPage, Action? pushedAction)
         where T : INavigationPage
     {
-        navigationPage.PushedAction = pushedAction;
+        navigationPage.PushedEvent = new SyncEventCommand<NavigationEventArgs>(execute: pushedAction);
         return navigationPage;
     }
 
-    public static T OnPushed<T>(this T navigationPage, Action<object?, NavigationEventArgs>? pushedActionWithArgs)
+    public static T OnPushed<T>(this T navigationPage, Action<NavigationEventArgs>? pushedAction)
         where T : INavigationPage
     {
-        navigationPage.PushedActionWithArgs = pushedActionWithArgs;
+        navigationPage.PushedEvent = new SyncEventCommand<NavigationEventArgs>(executeWithArgs: pushedAction);
+        return navigationPage;
+    }
+
+    public static T OnPushed<T>(this T navigationPage, Action<object?, NavigationEventArgs>? pushedAction)
+        where T : INavigationPage
+    {
+        navigationPage.PushedEvent = new SyncEventCommand<NavigationEventArgs>(executeWithFullArgs: pushedAction);
+        return navigationPage;
+    }
+
+    public static T OnPushed<T>(this T navigationPage, Func<Task>? pushedAction)
+        where T : INavigationPage
+    {
+        navigationPage.PushedEvent = new AsyncEventCommand<NavigationEventArgs>(execute: pushedAction);
+        return navigationPage;
+    }
+
+    public static T OnPushed<T>(this T navigationPage, Func<NavigationEventArgs, Task>? pushedAction)
+        where T : INavigationPage
+    {
+        navigationPage.PushedEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithArgs: pushedAction);
+        return navigationPage;
+    }
+
+    public static T OnPushed<T>(this T navigationPage, Func<object?, NavigationEventArgs, Task>? pushedAction)
+        where T : INavigationPage
+    {
+        navigationPage.PushedEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithFullArgs: pushedAction);
         return navigationPage;
     }
 }

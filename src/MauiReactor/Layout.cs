@@ -62,6 +62,13 @@ public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.M
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public static partial class LayoutExtensions

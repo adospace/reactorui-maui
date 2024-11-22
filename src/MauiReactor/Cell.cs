@@ -14,17 +14,11 @@ public partial interface ICell : IElement
 {
     object? IsEnabled { get; set; }
 
-    Action? AppearingAction { get; set; }
+    EventCommand<EventArgs>? AppearingEvent { get; set; }
 
-    Action<object?, EventArgs>? AppearingActionWithArgs { get; set; }
+    EventCommand<EventArgs>? DisappearingEvent { get; set; }
 
-    Action? DisappearingAction { get; set; }
-
-    Action<object?, EventArgs>? DisappearingActionWithArgs { get; set; }
-
-    Action? TappedAction { get; set; }
-
-    Action<object?, EventArgs>? TappedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? TappedEvent { get; set; }
 }
 
 public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Maui.Controls.Cell, new()
@@ -41,17 +35,11 @@ public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Ma
 
     object? ICell.IsEnabled { get; set; }
 
-    Action? ICell.AppearingAction { get; set; }
+    EventCommand<EventArgs>? ICell.AppearingEvent { get; set; }
 
-    Action<object?, EventArgs>? ICell.AppearingActionWithArgs { get; set; }
+    EventCommand<EventArgs>? ICell.DisappearingEvent { get; set; }
 
-    Action? ICell.DisappearingAction { get; set; }
-
-    Action<object?, EventArgs>? ICell.DisappearingActionWithArgs { get; set; }
-
-    Action? ICell.TappedAction { get; set; }
-
-    Action<object?, EventArgs>? ICell.TappedActionWithArgs { get; set; }
+    EventCommand<EventArgs>? ICell.TappedEvent { get; set; }
 
     protected override void OnUpdate()
     {
@@ -79,21 +67,24 @@ public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Ma
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
+    private EventCommand<EventArgs>? _executingAppearingEvent;
+    private EventCommand<EventArgs>? _executingDisappearingEvent;
+    private EventCommand<EventArgs>? _executingTappedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsICell = (ICell)this;
-        if (thisAsICell.AppearingAction != null || thisAsICell.AppearingActionWithArgs != null)
+        if (thisAsICell.AppearingEvent != null)
         {
             NativeControl.Appearing += NativeControl_Appearing;
         }
 
-        if (thisAsICell.DisappearingAction != null || thisAsICell.DisappearingActionWithArgs != null)
+        if (thisAsICell.DisappearingEvent != null)
         {
             NativeControl.Disappearing += NativeControl_Disappearing;
         }
 
-        if (thisAsICell.TappedAction != null || thisAsICell.TappedActionWithArgs != null)
+        if (thisAsICell.TappedEvent != null)
         {
             NativeControl.Tapped += NativeControl_Tapped;
         }
@@ -105,22 +96,31 @@ public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Ma
     private void NativeControl_Appearing(object? sender, EventArgs e)
     {
         var thisAsICell = (ICell)this;
-        thisAsICell.AppearingAction?.Invoke();
-        thisAsICell.AppearingActionWithArgs?.Invoke(sender, e);
+        if (_executingAppearingEvent == null || _executingAppearingEvent.IsCompleted)
+        {
+            _executingAppearingEvent = thisAsICell.AppearingEvent;
+            _executingAppearingEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Disappearing(object? sender, EventArgs e)
     {
         var thisAsICell = (ICell)this;
-        thisAsICell.DisappearingAction?.Invoke();
-        thisAsICell.DisappearingActionWithArgs?.Invoke(sender, e);
+        if (_executingDisappearingEvent == null || _executingDisappearingEvent.IsCompleted)
+        {
+            _executingDisappearingEvent = thisAsICell.DisappearingEvent;
+            _executingDisappearingEvent?.Execute(sender, e);
+        }
     }
 
     private void NativeControl_Tapped(object? sender, EventArgs e)
     {
         var thisAsICell = (ICell)this;
-        thisAsICell.TappedAction?.Invoke();
-        thisAsICell.TappedActionWithArgs?.Invoke(sender, e);
+        if (_executingTappedEvent == null || _executingTappedEvent.IsCompleted)
+        {
+            _executingTappedEvent = thisAsICell.TappedEvent;
+            _executingTappedEvent?.Execute(sender, e);
+        }
     }
 
     protected override void OnDetachNativeEvents()
@@ -134,6 +134,31 @@ public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Ma
 
         OnDetachingNativeEvents();
         base.OnDetachNativeEvents();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        if (newNode is Cell<T> @cell)
+        {
+            if (_executingAppearingEvent != null && !_executingAppearingEvent.IsCompleted)
+            {
+                @cell._executingAppearingEvent = _executingAppearingEvent;
+            }
+
+            if (_executingDisappearingEvent != null && !_executingDisappearingEvent.IsCompleted)
+            {
+                @cell._executingDisappearingEvent = _executingDisappearingEvent;
+            }
+
+            if (_executingTappedEvent != null && !_executingTappedEvent.IsCompleted)
+            {
+                @cell._executingTappedEvent = _executingTappedEvent;
+            }
+        }
+
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -156,42 +181,126 @@ public static partial class CellExtensions
     public static T OnAppearing<T>(this T cell, Action? appearingAction)
         where T : ICell
     {
-        cell.AppearingAction = appearingAction;
+        cell.AppearingEvent = new SyncEventCommand<EventArgs>(execute: appearingAction);
         return cell;
     }
 
-    public static T OnAppearing<T>(this T cell, Action<object?, EventArgs>? appearingActionWithArgs)
+    public static T OnAppearing<T>(this T cell, Action<EventArgs>? appearingAction)
         where T : ICell
     {
-        cell.AppearingActionWithArgs = appearingActionWithArgs;
+        cell.AppearingEvent = new SyncEventCommand<EventArgs>(executeWithArgs: appearingAction);
+        return cell;
+    }
+
+    public static T OnAppearing<T>(this T cell, Action<object?, EventArgs>? appearingAction)
+        where T : ICell
+    {
+        cell.AppearingEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: appearingAction);
+        return cell;
+    }
+
+    public static T OnAppearing<T>(this T cell, Func<Task>? appearingAction)
+        where T : ICell
+    {
+        cell.AppearingEvent = new AsyncEventCommand<EventArgs>(execute: appearingAction);
+        return cell;
+    }
+
+    public static T OnAppearing<T>(this T cell, Func<EventArgs, Task>? appearingAction)
+        where T : ICell
+    {
+        cell.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: appearingAction);
+        return cell;
+    }
+
+    public static T OnAppearing<T>(this T cell, Func<object?, EventArgs, Task>? appearingAction)
+        where T : ICell
+    {
+        cell.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: appearingAction);
         return cell;
     }
 
     public static T OnDisappearing<T>(this T cell, Action? disappearingAction)
         where T : ICell
     {
-        cell.DisappearingAction = disappearingAction;
+        cell.DisappearingEvent = new SyncEventCommand<EventArgs>(execute: disappearingAction);
         return cell;
     }
 
-    public static T OnDisappearing<T>(this T cell, Action<object?, EventArgs>? disappearingActionWithArgs)
+    public static T OnDisappearing<T>(this T cell, Action<EventArgs>? disappearingAction)
         where T : ICell
     {
-        cell.DisappearingActionWithArgs = disappearingActionWithArgs;
+        cell.DisappearingEvent = new SyncEventCommand<EventArgs>(executeWithArgs: disappearingAction);
+        return cell;
+    }
+
+    public static T OnDisappearing<T>(this T cell, Action<object?, EventArgs>? disappearingAction)
+        where T : ICell
+    {
+        cell.DisappearingEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: disappearingAction);
+        return cell;
+    }
+
+    public static T OnDisappearing<T>(this T cell, Func<Task>? disappearingAction)
+        where T : ICell
+    {
+        cell.DisappearingEvent = new AsyncEventCommand<EventArgs>(execute: disappearingAction);
+        return cell;
+    }
+
+    public static T OnDisappearing<T>(this T cell, Func<EventArgs, Task>? disappearingAction)
+        where T : ICell
+    {
+        cell.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: disappearingAction);
+        return cell;
+    }
+
+    public static T OnDisappearing<T>(this T cell, Func<object?, EventArgs, Task>? disappearingAction)
+        where T : ICell
+    {
+        cell.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: disappearingAction);
         return cell;
     }
 
     public static T OnTapped<T>(this T cell, Action? tappedAction)
         where T : ICell
     {
-        cell.TappedAction = tappedAction;
+        cell.TappedEvent = new SyncEventCommand<EventArgs>(execute: tappedAction);
         return cell;
     }
 
-    public static T OnTapped<T>(this T cell, Action<object?, EventArgs>? tappedActionWithArgs)
+    public static T OnTapped<T>(this T cell, Action<EventArgs>? tappedAction)
         where T : ICell
     {
-        cell.TappedActionWithArgs = tappedActionWithArgs;
+        cell.TappedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: tappedAction);
+        return cell;
+    }
+
+    public static T OnTapped<T>(this T cell, Action<object?, EventArgs>? tappedAction)
+        where T : ICell
+    {
+        cell.TappedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: tappedAction);
+        return cell;
+    }
+
+    public static T OnTapped<T>(this T cell, Func<Task>? tappedAction)
+        where T : ICell
+    {
+        cell.TappedEvent = new AsyncEventCommand<EventArgs>(execute: tappedAction);
+        return cell;
+    }
+
+    public static T OnTapped<T>(this T cell, Func<EventArgs, Task>? tappedAction)
+        where T : ICell
+    {
+        cell.TappedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: tappedAction);
+        return cell;
+    }
+
+    public static T OnTapped<T>(this T cell, Func<object?, EventArgs, Task>? tappedAction)
+        where T : ICell
+    {
+        cell.TappedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: tappedAction);
         return cell;
     }
 }

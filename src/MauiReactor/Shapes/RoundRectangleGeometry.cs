@@ -57,6 +57,13 @@ public partial class RoundRectangleGeometry<T> : Shapes.GeometryGroup<T>, IRound
 
         base.OnThemeChanged();
     }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
+    }
 }
 
 public partial class RoundRectangleGeometry : RoundRectangleGeometry<Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry>
