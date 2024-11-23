@@ -20,7 +20,7 @@ partial class SfPullToRefresh
     {
         Validate.EnsureNotNull(NativeControl);
 
-        if (childControl is MauiControls.View view)
+        if (childControl is View view)
         {
             NativeControl.PullableContent = view;
         }
@@ -141,6 +141,118 @@ partial class SfSegmentedControl
 
 [Scaffold(typeof(Syncfusion.Maui.Toolkit.SegmentedControl.SfSegmentItem))]
 partial class SfSegmentItem
+{
+
+}
+
+[Scaffold(typeof(Syncfusion.Maui.Toolkit.Charts.ChartBase))]
+partial class ChartBase
+{
+
+}
+
+[Scaffold(typeof(Syncfusion.Maui.Toolkit.Charts.SfCircularChart))]
+partial class SfCircularChart
+{
+    protected override void OnAddChild(VisualNode widget, BindableObject childControl)
+    {
+        Validate.EnsureNotNull(NativeControl);
+
+        if (childControl is Syncfusion.Maui.Toolkit.Charts.ChartLegend chartLegend)
+        {
+            NativeControl.Legend = chartLegend;
+        }
+        else if (childControl is Syncfusion.Maui.Toolkit.Charts.ChartSeries chartSeries)
+        { 
+            NativeControl.Series.Add(chartSeries);
+        }
+
+        base.OnAddChild(widget, childControl);
+    }
+}
+
+[Scaffold(typeof(Syncfusion.Maui.Toolkit.Charts.ChartLegend))]
+partial class ChartLegend
+{
+    partial class ChartLegendWithCustomMaximumSizeCoefficient : Syncfusion.Maui.Toolkit.Charts.ChartLegend
+    {
+        protected override double GetMaximumSizeCoefficient()
+        {
+            return 0.5;
+        }
+    }
+
+    protected override void OnMount()
+    {
+        _nativeControl ??= new ChartLegendWithCustomMaximumSizeCoefficient();
+
+        base.OnMount();
+    }
+
+    protected override void OnAddChild(VisualNode widget, BindableObject childNativeControl)
+    {
+        Validate.EnsureNotNull(NativeControl);
+
+        if (childNativeControl is Syncfusion.Maui.Toolkit.Charts.ChartLegendLabelStyle chartLegendLabelStyle)
+        {
+            NativeControl.LabelStyle = chartLegendLabelStyle;
+        }
+
+        base.OnAddChild(widget, childNativeControl);
+    }
+}
+
+
+[Scaffold(typeof(Syncfusion.Maui.Toolkit.Charts.ChartLegendLabelStyle))]
+partial class ChartLegendLabelStyle
+{
+
+}
+
+[Scaffold(typeof(Syncfusion.Maui.Toolkit.Charts.ChartSeries))]
+partial class ChartSeries
+{
+
+}
+
+partial interface IChartSeries
+{
+    public object? ItemsSource { get; set; }
+}
+
+partial class ChartSeries<T>
+{
+    object? IChartSeries.ItemsSource { get; set; }
+
+    partial void OnBeginUpdate()
+    {
+        Validate.EnsureNotNull(NativeControl);
+
+        var thisAsIChartSeries = (IChartSeries)this;
+        SetPropertyValue(NativeControl, Syncfusion.Maui.Toolkit.Charts.ChartSeries.ItemsSourceProperty, thisAsIChartSeries.ItemsSource);
+    }
+}
+
+partial class ChartSeriesExtensions
+{
+    public static T ItemsSource<T>(this T chartSeries, object? itemsSource) where T : IChartSeries
+    {
+        chartSeries.ItemsSource = itemsSource;
+        return chartSeries;
+    }
+}
+
+
+
+[Scaffold(typeof(Syncfusion.Maui.Toolkit.Charts.CircularSeries))]
+partial class CircularSeries
+{
+
+}
+
+
+[Scaffold(typeof(Syncfusion.Maui.Toolkit.Charts.RadialBarSeries))]
+partial class RadialBarSeries
 {
 
 }

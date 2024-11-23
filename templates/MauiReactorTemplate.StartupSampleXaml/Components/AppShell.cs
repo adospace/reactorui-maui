@@ -11,7 +11,7 @@ namespace MauiReactorTemplate.StartupSampleXaml.Components;
 
 public partial class AppShell : Component
 {
-    public override VisualNode Render() 
+    public override VisualNode Render()
         => Shell(
             ShellContent()
                 .Title("Dashboard")

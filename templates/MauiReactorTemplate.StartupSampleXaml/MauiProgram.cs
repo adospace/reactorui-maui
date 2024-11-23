@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Fonts;
 using MauiReactorTemplate.StartupSampleXaml.Data;
+using MauiReactorTemplate.StartupSampleXaml.Services;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Toolkit.Hosting;
 
@@ -32,7 +33,7 @@ public static class MauiProgram
         builder.Services.AddLogging(configure => configure.AddDebug());
         builder.OnMauiReactorUnhandledException(ex =>
         {
-            System.Diagnostics.Debug.WriteLine(ex);
+            System.Diagnostics.Debug.WriteLine(ex.ExceptionObject);
         });
 #endif
 
@@ -41,6 +42,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<CategoryRepository>();
         builder.Services.AddSingleton<TagRepository>();
         builder.Services.AddSingleton<SeedDataService>();
+        builder.Services.AddSingleton<ModalErrorHandler>();
 
         return builder.Build();
     }

@@ -37,6 +37,15 @@ public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : M
 
 public partial class ContentPage
 {
+    partial class ContentPageWithBackButtonPressedOverriden : Microsoft.Maui.Controls.ContentPage
+    {
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
+            //return base.OnBackButtonPressed();
+        }
+    }
+
     public ContentPage(string title)
         : base(title)
     {
@@ -46,6 +55,14 @@ public partial class ContentPage
     public ContentPage(VisualNode content)
     {
         _internalChildren.Add(content);
+    }
+
+
+    protected override void OnMount()
+    {
+        _nativeControl ??= new ContentPageWithBackButtonPressedOverriden();
+
+        base.OnMount();
     }
 
 }
