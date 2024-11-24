@@ -1,5 +1,4 @@
-﻿
-namespace MauiReactorTemplate.StartupSampleXaml.Components;
+﻿namespace MauiReactorTemplate.StartupSampleXaml.Components.Projects;
 
 partial class ProjectListPage : Component
 {

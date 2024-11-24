@@ -1,11 +1,8 @@
-﻿using Fonts;
+﻿using MauiReactorTemplate.StartupSampleXaml.Components.Main;
+using MauiReactorTemplate.StartupSampleXaml.Components.Meta;
+using MauiReactorTemplate.StartupSampleXaml.Components.Projects;
 using MauiReactorTemplate.StartupSampleXaml.Framework;
 using MauiReactorTemplate.StartupSampleXaml.Resources.Styles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MauiReactorTemplate.StartupSampleXaml.Components;
 

@@ -1,5 +1,5 @@
 ﻿
-namespace MauiReactorTemplate.StartupSampleXaml.Components;
+namespace MauiReactorTemplate.StartupSampleXaml.Components.Meta;
 
 partial class ManageMetaPage : Component
 {
