@@ -24,6 +24,7 @@ partial class SfPullToRefresh
         {
             NativeControl.PullableContent = view;
         }
+        
 
         base.OnAddChild(widget, childControl);
     }
@@ -90,8 +91,10 @@ partial class SfShimmer<T>
         {
             NativeControl.CustomView = (View)childControl;
         }
-
-        base.OnAddChild(widget, childControl);
+        else
+        {
+            base.OnAddChild(widget, childControl);
+        }
     }
 }
 

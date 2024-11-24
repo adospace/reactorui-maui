@@ -49,56 +49,7 @@ partial class MainPage : Component<MainPageState>
             Grid(
                 new SfPullToRefresh
                 {
-                    VScrollView(
-                        VStack(
-                            //new CategoryChart()
-                            //    .IsBusy(State.IsBusy)
-                            //    .TodoCategoryData(State.TodoCategoryData)
-                            //    .TodoCategoryColors(State.TodoCategoryColors)//,
-
-                            Label("Projects")
-                                .Style(ResourceHelper.GetResource<Style>("Title2")),
-
-                            HScrollView(
-                                HStack(
-                                    State.Projects.Select(project => new ProjectCardView()
-                                        .Project(project)
-                                        .IsBusy(State.IsBusy)
-                                    ).ToArray()
-                                )
-                                .Spacing(15)
-                                .Padding(new Thickness(30, 0))
-                            )
-                            .Margin(new Thickness(-30, 0)),
-
-                            Grid(
-                                Label("Tasks")
-                                        .Style(ResourceHelper.GetResource<Style>("Title2"))
-                                        .VerticalOptions(LayoutOptions.Center),
-                                ImageButton()
-                                    .Source(ResourceHelper.GetResource<ImageSource>("IconClean"))
-                                    .HorizontalOptions(LayoutOptions.End)
-                                    .VerticalOptions(LayoutOptions.Center)
-                                    .Aspect(Aspect.Center)
-                                    .HeightRequest(44)
-                                    .WidthRequest(44)
-                                    .IsVisible(State.Tasks.Any(t => t.IsCompleted))
-                                    .OnClicked(CleanTasks)
-                            )
-                            .HeightRequest(44),
-
-                            VStack(
-                                State.Tasks.Select(task => new TaskView()
-                                    .Task(task)
-                                    .IsBusy(State.IsBusy)
-                                ).ToArray()
-                            )
-                            .Spacing(15)
-
-                        )
-                        .Spacing(ResourceHelper.GetResource<OnIdiom<double>>("LayoutSpacing"))
-                        .Padding(ResourceHelper.GetResource<OnIdiom<Thickness>>("LayoutPadding"))
-                    )
+                    RenderBody()
                 }
                 .IsRefreshing(State.IsRefreshing)
                 .OnRefreshing(Refresh)
@@ -107,6 +58,60 @@ partial class MainPage : Component<MainPageState>
         .OnNavigatedTo(() => State.IsNavigatingTo = true)
         .OnNavigatedFrom(() => State.IsNavigatingTo = false)
         .OnAppearing(LoadOrRefreshData);
+    }
+
+    VisualNode RenderBody()
+    {
+        return VScrollView(
+            VStack(
+                new CategoryChart()
+                    .IsBusy(State.IsBusy)
+                    .TodoCategoryData(State.TodoCategoryData)
+                    .TodoCategoryColors(State.TodoCategoryColors),
+
+                Label("Projects")
+                    .Style(ResourceHelper.GetResource<Style>("Title2")),
+
+                HScrollView(
+                    HStack(
+                        State.Projects.Select(project => new ProjectCardView()
+                            .Project(project)
+                            .IsBusy(State.IsBusy)
+                        ).ToArray()
+                    )
+                    .Spacing(15)
+                    .Padding(new Thickness(30, 0))
+                )
+                .Margin(new Thickness(-30, 0)),
+
+                Grid(
+                    Label("Tasks")
+                            .Style(ResourceHelper.GetResource<Style>("Title2"))
+                            .VerticalOptions(LayoutOptions.Center),
+                    ImageButton()
+                        .Source(ResourceHelper.GetResource<ImageSource>("IconClean"))
+                        .HorizontalOptions(LayoutOptions.End)
+                        .VerticalOptions(LayoutOptions.Center)
+                        .Aspect(Aspect.Center)
+                        .HeightRequest(44)
+                        .WidthRequest(44)
+                        .IsVisible(State.Tasks.Any(t => t.IsCompleted))
+                        .OnClicked(CleanTasks)
+                )
+                .HeightRequest(44),
+
+                VStack(
+                    State.Tasks.Select(task => new TaskView()
+                        .Task(task)
+                        .IsBusy(State.IsBusy)
+                    ).ToArray()
+                )
+                .Spacing(15)
+
+            )
+            .Spacing(ResourceHelper.GetResource<OnIdiom<double>>("LayoutSpacing"))
+            .Padding(ResourceHelper.GetResource<OnIdiom<Thickness>>("LayoutPadding"))
+        );
     }
 
     async Task LoadOrRefreshData()
@@ -136,6 +141,8 @@ partial class MainPage : Component<MainPageState>
         try
         {
             SetState(s => s.IsBusy = true);
+
+            await Task.Delay(100);
 
             State.Projects = await _projectRepository.ListAsync();
 
@@ -169,6 +176,9 @@ partial class MainPage : Component<MainPageState>
         try
         {
             SetState(s => s.IsRefreshing = true);
+
+            await Task.Delay(1000);
+
             await LoadData();
         }
         catch (Exception e)
@@ -229,11 +239,12 @@ partial class CategoryChart : Component
                         .TrackFill(Theme.IsLightTheme ?
                             ResourceHelper.GetResource<Color>("LightBackground") :
                             ResourceHelper.GetResource<Color>("DarkBackground"))
-                        .CapStyle(Syncfusion.Maui.Toolkit.Charts.CapStyle.BothCurve)
+                        .CapStyle(Syncfusion.Maui.Toolkit.Charts.CapStyle.BothCurve),
+
                 }
             }
             .CustomView(RenderCustomView())
-            .IsVisible(_isBusy)
+            .IsActive(_isBusy)
             .BackgroundColor(Colors.Transparent)
             .VFill()
         )
@@ -266,11 +277,11 @@ partial class ProjectCardView : Component
     {
         return Border(
             new SfShimmer
-            { 
-                RenderContent()            
+            {
+                RenderContent()
             }
-            .CustomView(RenderCustomView())
             .IsActive(_isBusy)
+            .CustomView(RenderCustomView())
             .BackgroundColor(Colors.Transparent)
             .VFill()
         )
@@ -313,13 +324,12 @@ partial class ProjectCardView : Component
         foreach (var tag in _project?.Tags ?? Enumerable.Empty<Tag>())
         {
             yield return Border(
-                Label()
-                    .Text(() => tag.Title)
+                Label(tag.Title)
                     .TextColor(Theme.IsLightTheme ?
                         ResourceHelper.GetResource<Color>("LightBackground") :
                         ResourceHelper.GetResource<Color>("DarkBackground"))
                     .FontSize(14)
-                    .VerticalOptions(LayoutOptions.Center)
+                    .VCenter()
                     .VerticalTextAlignment(TextAlignment.Center)
             )
             .Padding(12, 0, 12, 8)
@@ -327,8 +337,7 @@ partial class ProjectCardView : Component
             .StrokeCornerRadius(16)
             .HeightRequest(32)
             .StrokeThickness(0)
-            .BackgroundColor(tag.DisplayColor)
-            ;
+            .Background(tag.DisplayColor);
         }
     }
 
