@@ -163,7 +163,6 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
             _sleeping = false;
 
             TypeLoader.Instance.Run();
-            //TypeLoader.Instance.AssemblyChanged += OnComponentAssemblyChanged;
             TypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
 
             OnLayout();
@@ -173,10 +172,7 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
 
         void IHostElement.Stop()
         {
-            //TypeLoader.Instance.AssemblyChanged -= OnComponentAssemblyChanged;
             TypeLoader.Instance.AssemblyChangedEvent?.RemoveListener(this);
-
-
             _sleeping = true;
         }
 

@@ -118,7 +118,9 @@ namespace MauiReactor.HotReload
 
                 try
                 {
-                    _newAssemblyReceived?.Invoke(Assembly.Load(assemblyRaw, assemblySymbolStoreRaw));
+                    var hotReloadedAssembly = Assembly.Load(assemblyRaw, assemblySymbolStoreRaw);
+                    
+                    _newAssemblyReceived?.Invoke(hotReloadedAssembly);
                 }
                 catch (Exception ex)
                 {

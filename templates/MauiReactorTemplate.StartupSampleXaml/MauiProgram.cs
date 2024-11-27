@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Fonts;
+using MauiReactor.HotReload;
 using MauiReactorTemplate.StartupSampleXaml.Data;
 using MauiReactorTemplate.StartupSampleXaml.Services;
 using Microsoft.Extensions.Logging;
@@ -30,22 +31,30 @@ public static class MauiProgram
 
 #if DEBUG
         builder.Logging.AddDebug();
-        builder.Services.AddLogging(configure => configure.AddDebug());
+        builder.EnableMauiReactorHotReload();
         builder.OnMauiReactorUnhandledException(ex =>
         {
             System.Diagnostics.Debug.WriteLine(ex.ExceptionObject);
         });
 #endif
 
-        builder.Services.AddSingleton<ProjectRepository>();
-        builder.Services.AddSingleton<TaskRepository>();
-        builder.Services.AddSingleton<CategoryRepository>();
-        builder.Services.AddSingleton<TagRepository>();
-        builder.Services.AddSingleton<SeedDataService>();
-        builder.Services.AddSingleton<ModalErrorHandler>();
+        RegisterServices(builder.Services);
 
         return builder.Build();
     }
 
+    [ComponentServices]
+    static void RegisterServices(IServiceCollection services)
+    {
+#if DEBUG
+        services.AddLogging(configure => configure.AddDebug());
+#endif
 
+        services.AddSingleton<ProjectRepository>();
+        services.AddSingleton<TaskRepository>();
+        services.AddSingleton<CategoryRepository>();
+        services.AddSingleton<TagRepository>();
+        services.AddSingleton<SeedDataService>();
+        services.AddSingleton<ModalErrorHandler>();
+    }
 }

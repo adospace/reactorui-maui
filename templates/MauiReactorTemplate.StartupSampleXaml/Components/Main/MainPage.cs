@@ -57,8 +57,8 @@ partial class MainPage : Component<MainPageState>
         )
         .OnNavigatedTo(() => State.IsNavigatingTo = true)
         .OnNavigatedFrom(() => State.IsNavigatingTo = false)
-        .OnAppearing(LoadOrRefreshData);
-    }
+        .OnAppearing(LoadOrRefreshData);  
+    }  
 
     VisualNode RenderBody()
     {

@@ -15,7 +15,7 @@ namespace MauiReactor.HotReload
     {
         WeakProducer<ITypeLoaderEventConsumer>? AssemblyChangedEvent { get; }
 
-        //T LoadObject<T>() where T : new();
+        Assembly? LastLoadedAssembly { get; }
 
         T LoadObject<T>(Type type);
 

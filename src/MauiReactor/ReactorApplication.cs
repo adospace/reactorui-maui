@@ -370,6 +370,7 @@ public static class MauiAppBuilderExtensions
     {
         TypeLoader.UseRemoteLoader = true;
         TypeLoader.OnHotReloadCompleted = onHotReloadCompleted;
+        ServiceCollectionProvider.EnableHotReload = true;
         return appBuilder;
     }
 
