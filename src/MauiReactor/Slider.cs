@@ -340,7 +340,7 @@ public static partial class SliderExtensions
     public static T ThumbImageSource<T>(this T slider, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : ISlider
     {
-        slider.ThumbImageSource = new UriImageSource
+        slider.ThumbImageSource = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,

@@ -134,7 +134,7 @@ public static partial class ImageExtensions
     public static T Source<T>(this T image, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IImage
     {
-        image.Source = new UriImageSource
+        image.Source = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,

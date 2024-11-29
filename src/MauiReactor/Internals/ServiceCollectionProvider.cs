@@ -57,24 +57,35 @@ internal class ServiceProviderWithHotReloadedServices : IServiceProvider
                 {
                     _lastParseAssembly = TypeLoader.Instance.LastLoadedAssembly;
 
-                    var servicesBuilderMethod = _lastParseAssembly
+                    var servicesBuilderMethods = _lastParseAssembly
                         .GetTypes()
                         .SelectMany(t => t.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
                         .Where(m => m.GetCustomAttribute<ComponentServicesAttribute>() != null)
-                        .FirstOrDefault(m => m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == typeof(IServiceCollection));
+                        .Where(m => m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == typeof(IServiceCollection))
+                        .ToList();
 
-                    if (servicesBuilderMethod != null)
+                    if (servicesBuilderMethods.Count > 0)
                     {
                         var services = new ServiceCollection();
 
-                        //get the service descriptors list from the _serviceProvider using reflection
-                        var entryAssembly = Assembly.GetEntryAssembly();
-                        foreach (var serviceDescriptor in _serviceProvider.GetServiceDescriptors())
+                        foreach (var servicesBuilderMethod in servicesBuilderMethods)
                         {
-                            services.Add(serviceDescriptor);
+                            servicesBuilderMethod.Invoke(null, [services]);
                         }
 
-                        servicesBuilderMethod.Invoke(null, [services]);
+                        //get the service descriptors list from the _serviceProvider using reflection
+                        var entryAssembly = Assembly.GetEntryAssembly();
+                        var existingServices = services.Select(_ => _.ServiceType.AssemblyQualifiedName).ToHashSet();
+
+                        foreach (var serviceDescriptor in _serviceProvider.GetServiceDescriptors())
+                        {
+                            if (existingServices.Contains(serviceDescriptor.ServiceType.AssemblyQualifiedName))
+                            {
+                                continue;
+                            }
+
+                            services.Add(serviceDescriptor);
+                        }
 
                         _lastServiceProvider = services.BuildServiceProvider();
                     }

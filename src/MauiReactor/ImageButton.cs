@@ -295,7 +295,7 @@ public static partial class ImageButtonExtensions
     public static T Source<T>(this T imageButton, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IImageButton
     {
-        imageButton.Source = new UriImageSource
+        imageButton.Source = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,

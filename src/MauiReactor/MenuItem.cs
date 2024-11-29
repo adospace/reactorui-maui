@@ -192,7 +192,7 @@ public static partial class MenuItemExtensions
     public static T IconImageSource<T>(this T menuItem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IMenuItem
     {
-        menuItem.IconImageSource = new UriImageSource
+        menuItem.IconImageSource = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,

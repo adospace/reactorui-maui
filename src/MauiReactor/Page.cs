@@ -319,7 +319,7 @@ public static partial class PageExtensions
     public static T BackgroundImageSource<T>(this T page, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IPage
     {
-        page.BackgroundImageSource = new UriImageSource
+        page.BackgroundImageSource = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,
@@ -447,7 +447,7 @@ public static partial class PageExtensions
     public static T IconImageSource<T>(this T page, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IPage
     {
-        page.IconImageSource = new UriImageSource
+        page.IconImageSource = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,

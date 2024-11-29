@@ -44,16 +44,16 @@
                 return AreLinearGradientsClose(leftLinearGradientBrush, rightLinearGradientBrush);
             }
 
-            if (left is FileImageSource leftFileImageSource &&
-                right is FileImageSource rightFileImageSource)
+            if (left is Microsoft.Maui.Controls.FileImageSource leftFileImageSource &&
+                right is Microsoft.Maui.Controls.FileImageSource rightFileImageSource)
             { 
                 return leftFileImageSource.File == rightFileImageSource.File;
             }
 
-            if (left is UriImageSource leftUriImageSource &&
-                right is UriImageSource rightUriImageSource)
+            if (left is Microsoft.Maui.Controls.UriImageSource leftUriImageSource &&
+                right is Microsoft.Maui.Controls.UriImageSource rightUriImageSource)
             {
-                //campare using uri equals
+                //compare using uri equals
                 return leftUriImageSource.Uri == rightUriImageSource.Uri;
             }
             

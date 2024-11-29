@@ -219,7 +219,7 @@ public static partial class BaseShellItemExtensions
     public static T FlyoutIcon<T>(this T baseShellItem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IBaseShellItem
     {
-        baseShellItem.FlyoutIcon = new UriImageSource
+        baseShellItem.FlyoutIcon = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,
@@ -280,7 +280,7 @@ public static partial class BaseShellItemExtensions
     public static T Icon<T>(this T baseShellItem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IBaseShellItem
     {
-        baseShellItem.Icon = new UriImageSource
+        baseShellItem.Icon = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,

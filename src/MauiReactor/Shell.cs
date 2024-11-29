@@ -309,7 +309,7 @@ public static partial class ShellExtensions
     public static T FlyoutBackgroundImage<T>(this T shell, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IShell
     {
-        shell.FlyoutBackgroundImage = new UriImageSource
+        shell.FlyoutBackgroundImage = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,
@@ -440,7 +440,7 @@ public static partial class ShellExtensions
     public static T FlyoutIcon<T>(this T shell, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IShell
     {
-        shell.FlyoutIcon = new UriImageSource
+        shell.FlyoutIcon = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,

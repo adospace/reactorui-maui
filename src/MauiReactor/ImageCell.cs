@@ -119,7 +119,7 @@ public static partial class ImageCellExtensions
     public static T ImageSource<T>(this T imageCell, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IImageCell
     {
-        imageCell.ImageSource = new UriImageSource
+        imageCell.ImageSource = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,

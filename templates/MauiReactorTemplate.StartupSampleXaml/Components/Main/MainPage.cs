@@ -55,7 +55,7 @@ partial class MainPage : Component<MainPageState>
                 .OnRefreshing(Refresh)
             )
         )
-        .OnNavigatedTo(() => State.IsNavigatingTo = true)
+        .OnNavigatedTo(() => State.IsNavigatingTo = true)  
         .OnNavigatedFrom(() => State.IsNavigatingTo = false)
         .OnAppearing(LoadOrRefreshData);  
     }  

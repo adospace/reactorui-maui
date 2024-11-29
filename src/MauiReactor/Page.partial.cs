@@ -181,7 +181,7 @@ public partial class PageExtensions
         where T : IPage
     {
         page.BackButtonBehavior ??= new BackButtonBehavior();
-        page.BackButtonBehavior.IconOverride = new UriImageSource { Uri = pageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity };
+        page.BackButtonBehavior.IconOverride = new Microsoft.Maui.Controls.UriImageSource { Uri = pageUri, CachingEnabled = cachingEnabled, CacheValidity = cacheValidity };
         return page;
     }
 

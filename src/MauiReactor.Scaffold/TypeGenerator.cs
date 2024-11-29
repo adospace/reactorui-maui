@@ -2654,9 +2654,9 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write(" = new UriImageSource\r\n        {\r\n            Uri = imageUri,\r\n            Cachin" +
-                    "gEnabled = cachingEnabled,\r\n            CacheValidity = cacheValidity\r\n        }" +
-                    ";\r\n        return ");
+            this.Write(" = new Microsoft.Maui.Controls.UriImageSource\r\n        {\r\n            Uri = image" +
+                    "Uri,\r\n            CachingEnabled = cachingEnabled,\r\n            CacheValidity = " +
+                    "cacheValidity\r\n        };\r\n        return ");
             
             #line 416 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));

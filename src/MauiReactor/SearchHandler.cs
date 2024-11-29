@@ -581,7 +581,7 @@ public static partial class SearchHandlerExtensions
     public static T ClearIcon<T>(this T searchHandler, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : ISearchHandler
     {
-        searchHandler.ClearIcon = new UriImageSource
+        searchHandler.ClearIcon = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,
@@ -670,7 +670,7 @@ public static partial class SearchHandlerExtensions
     public static T ClearPlaceholderIcon<T>(this T searchHandler, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : ISearchHandler
     {
-        searchHandler.ClearPlaceholderIcon = new UriImageSource
+        searchHandler.ClearPlaceholderIcon = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,
@@ -801,7 +801,7 @@ public static partial class SearchHandlerExtensions
     public static T QueryIcon<T>(this T searchHandler, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : ISearchHandler
     {
-        searchHandler.QueryIcon = new UriImageSource
+        searchHandler.QueryIcon = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,

@@ -134,7 +134,7 @@ public static partial class TitleBarExtensions
     public static T Icon<T>(this T titleBar, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : ITitleBar
     {
-        titleBar.Icon = new UriImageSource
+        titleBar.Icon = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,

@@ -44,6 +44,12 @@ Microsoft.Maui.Controls.ToolbarItem
 Microsoft.Maui.Controls.BoxView
 Microsoft.Maui.Controls.ScrollView
 Microsoft.Maui.Controls.Image
+//Microsoft.Maui.Controls.ImageSource
+//Microsoft.Maui.Controls.FileImageSource
+//Microsoft.Maui.Controls.FontImageSource
+//Microsoft.Maui.Controls.StreamImageSource
+//Microsoft.Maui.Controls.UriImageSource
+
 //Microsoft.Maui.Controls.Frame deprecated in .net 9
 //Microsoft.Maui.Controls.Compatibility.Layout
 Microsoft.Maui.Controls.GestureRecognizer
