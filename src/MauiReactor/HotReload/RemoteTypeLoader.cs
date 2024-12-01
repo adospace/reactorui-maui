@@ -10,13 +10,6 @@ namespace MauiReactor.HotReload;
 
 internal class RemoteTypeLoader : ITypeLoader
 {
-    //private readonly WeakEvent<EventArgs> _event = new();
-    //public event EventHandler<EventArgs> AssemblyChanged
-    //{
-    //    add => _event.AddListener(value);
-    //    remove => _event.RemoveListener(value);
-    //}
-    //public event EventHandler<EventArgs>? AssemblyChanged;
     public WeakProducer<ITypeLoaderEventConsumer>? AssemblyChangedEvent { get; } = new();
 
 
@@ -27,6 +20,12 @@ internal class RemoteTypeLoader : ITypeLoader
     private Assembly? _assembly;
 
     private bool _running;
+
+    public RemoteTypeLoader()
+    {
+        _instance = this;
+        _server = new HotReloadServer(ReceivedAssemblyFromHost);
+    }
 
     public T LoadObject<T>(Type type)
     {
@@ -48,25 +47,11 @@ internal class RemoteTypeLoader : ITypeLoader
         }
     }
 
-    //public T LoadObject<T>() where T : new()
-    //{
-    //    if (_assembly == null)
-    //        return new T();
-
-    //    return LoadObject<T>(typeof(T));
-    //}
-
-    public RemoteTypeLoader()
-    {
-        _instance = this;
-        _server = new HotReloadServer(ReceivedAssemblyFromHost);
-    }
+    public Assembly? LastLoadedAssembly => _assembly;
 
     private void ReceivedAssemblyFromHost(Assembly? newAssembly)
     {
         _assembly = newAssembly;
-        //_event.Raise(this, EventArgs.Empty);
-        //AssemblyChanged?.Invoke(this, EventArgs.Empty);
         AssemblyChangedEvent?.Raise(consumer => consumer.OnAssemblyChanged());
         TypeLoader.OnHotReloadCompleted?.Invoke();
     }

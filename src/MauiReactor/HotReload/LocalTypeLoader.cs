@@ -1,6 +1,7 @@
 ﻿using MauiReactor.Internals;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace MauiReactor.HotReload
@@ -17,6 +18,7 @@ namespace MauiReactor.HotReload
         //public event EventHandler<EventArgs>? AssemblyChanged;
 
         public WeakProducer<ITypeLoaderEventConsumer>? AssemblyChangedEvent { get; }
+        public Assembly? LastLoadedAssembly { get; }
 
 #pragma warning restore CS0067
         //public Component? LoadComponent<T>() where T : Component, new() => new T();

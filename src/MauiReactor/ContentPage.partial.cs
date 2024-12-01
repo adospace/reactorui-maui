@@ -35,8 +35,18 @@ public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : M
     }
 }
 
+
 public partial class ContentPage
 {
+    partial class ContentPageWithBackButtonPressedOverriden : Microsoft.Maui.Controls.ContentPage
+    {
+        protected override bool OnBackButtonPressed()
+        {
+            //we want to handle back button pressed event (including physical button on Android)
+            return true;
+        }
+    }
+
     public ContentPage(string title)
         : base(title)
     {
@@ -48,7 +58,16 @@ public partial class ContentPage
         _internalChildren.Add(content);
     }
 
+
+    protected override void OnMount()
+    {
+        _nativeControl ??= new ContentPageWithBackButtonPressedOverriden();
+
+        base.OnMount();
+    }
+
 }
+
 
 public partial class Component
 {
