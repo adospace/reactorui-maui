@@ -42,8 +42,18 @@ public partial class ContentPage
     {
         protected override bool OnBackButtonPressed()
         {
-            //we want to handle back button pressed event (including physical button on Android)
-            return true;
+            var backButtonBehavior = (BackButtonBehavior?)this.GetValue(Microsoft.Maui.Controls.Shell.BackButtonBehaviorProperty);
+
+            if (backButtonBehavior != null &&
+                backButtonBehavior.Command != null &&
+                backButtonBehavior.Command.CanExecute(null))
+            {
+                //we want to handle back button pressed event (including physical button on Android)
+                backButtonBehavior.Command.Execute(null);
+                return true;
+            }
+
+            return false;
         }
     }
 
