@@ -25,16 +25,16 @@ partial class IndicatorView<T>
 
     VisualStateGroupList IIndicatorView.IndicatorVisualStateGroups { get; set; } = [];
 
-
-
-    partial void OnBeginUpdate()
+    protected override void OnUpdate()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIIndicatorView = (IIndicatorView)this;
 
         SetPropertyValue(NativeControl, Microsoft.Maui.Controls.IndicatorView.ItemsSourceProperty, thisAsIIndicatorView.ItemsSource);
         SetPropertyValue(NativeControl, Microsoft.Maui.Controls.IndicatorView.IndicatorTemplateProperty, thisAsIIndicatorView.IndicatorTemplate);
+        base.OnUpdate();
     }
+
 }
 
 public static partial class IndicatorViewExtensions

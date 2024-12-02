@@ -12,10 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor.Shapes;
 public partial interface IGeometryGroup : Shapes.IGeometry
 {
-    object? Children { get; set; }
-
-    object? FillRule { get; set; }
-
     EventCommand<EventArgs>? InvalidateGeometryRequestedEvent { get; set; }
 }
 
@@ -31,25 +27,8 @@ public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where
         GeometryGroupStyles.Default?.Invoke(this);
     }
 
-    object? IGeometryGroup.Children { get; set; }
-
-    object? IGeometryGroup.FillRule { get; set; }
-
     EventCommand<EventArgs>? IGeometryGroup.InvalidateGeometryRequestedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIGeometryGroup = (IGeometryGroup)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.GeometryGroup.ChildrenProperty, thisAsIGeometryGroup.Children);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.GeometryGroup.FillRuleProperty, thisAsIGeometryGroup.FillRule);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -128,31 +107,41 @@ public partial class GeometryGroup : GeometryGroup<Microsoft.Maui.Controls.Shape
 
 public static partial class GeometryGroupExtensions
 {
+    /*
+    
+    
+    
+    
+    */
     public static T Children<T>(this T geometryGroup, Microsoft.Maui.Controls.Shapes.GeometryCollection children)
         where T : IGeometryGroup
     {
-        geometryGroup.Children = children;
+        //geometryGroup.Children = children;
+        geometryGroup.SetProperty(Microsoft.Maui.Controls.Shapes.GeometryGroup.ChildrenProperty, children);
         return geometryGroup;
     }
 
     public static T Children<T>(this T geometryGroup, Func<Microsoft.Maui.Controls.Shapes.GeometryCollection> childrenFunc)
         where T : IGeometryGroup
     {
-        geometryGroup.Children = new PropertyValue<Microsoft.Maui.Controls.Shapes.GeometryCollection>(childrenFunc);
+        //geometryGroup.Children = new PropertyValue<Microsoft.Maui.Controls.Shapes.GeometryCollection>(childrenFunc);
+        geometryGroup.SetProperty(Microsoft.Maui.Controls.Shapes.GeometryGroup.ChildrenProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.GeometryCollection>(childrenFunc));
         return geometryGroup;
     }
 
     public static T FillRule<T>(this T geometryGroup, Microsoft.Maui.Controls.Shapes.FillRule fillRule)
         where T : IGeometryGroup
     {
-        geometryGroup.FillRule = fillRule;
+        //geometryGroup.FillRule = fillRule;
+        geometryGroup.SetProperty(Microsoft.Maui.Controls.Shapes.GeometryGroup.FillRuleProperty, fillRule);
         return geometryGroup;
     }
 
     public static T FillRule<T>(this T geometryGroup, Func<Microsoft.Maui.Controls.Shapes.FillRule> fillRuleFunc)
         where T : IGeometryGroup
     {
-        geometryGroup.FillRule = new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc);
+        //geometryGroup.FillRule = new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc);
+        geometryGroup.SetProperty(Microsoft.Maui.Controls.Shapes.GeometryGroup.FillRuleProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc));
         return geometryGroup;
     }
 

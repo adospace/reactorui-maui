@@ -12,12 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IEditor : IInputView
 {
-    object? AutoSize { get; set; }
-
-    object? HorizontalTextAlignment { get; set; }
-
-    object? VerticalTextAlignment { get; set; }
-
     EventCommand<EventArgs>? CompletedEvent { get; set; }
 }
 
@@ -33,28 +27,8 @@ public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.
         EditorStyles.Default?.Invoke(this);
     }
 
-    object? IEditor.AutoSize { get; set; }
-
-    object? IEditor.HorizontalTextAlignment { get; set; }
-
-    object? IEditor.VerticalTextAlignment { get; set; }
-
     EventCommand<EventArgs>? IEditor.CompletedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIEditor = (IEditor)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.AutoSizeProperty, thisAsIEditor.AutoSize);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.HorizontalTextAlignmentProperty, thisAsIEditor.HorizontalTextAlignment);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Editor.VerticalTextAlignmentProperty, thisAsIEditor.VerticalTextAlignment);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -133,45 +107,59 @@ public partial class Editor : Editor<Microsoft.Maui.Controls.Editor>
 
 public static partial class EditorExtensions
 {
+    /*
+    
+    
+    
+    
+    
+    
+    */
     public static T AutoSize<T>(this T editor, Microsoft.Maui.Controls.EditorAutoSizeOption autoSize)
         where T : IEditor
     {
-        editor.AutoSize = autoSize;
+        //editor.AutoSize = autoSize;
+        editor.SetProperty(Microsoft.Maui.Controls.Editor.AutoSizeProperty, autoSize);
         return editor;
     }
 
     public static T AutoSize<T>(this T editor, Func<Microsoft.Maui.Controls.EditorAutoSizeOption> autoSizeFunc)
         where T : IEditor
     {
-        editor.AutoSize = new PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>(autoSizeFunc);
+        //editor.AutoSize = new PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>(autoSizeFunc);
+        editor.SetProperty(Microsoft.Maui.Controls.Editor.AutoSizeProperty, new PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>(autoSizeFunc));
         return editor;
     }
 
     public static T HorizontalTextAlignment<T>(this T editor, Microsoft.Maui.TextAlignment horizontalTextAlignment)
         where T : IEditor
     {
-        editor.HorizontalTextAlignment = horizontalTextAlignment;
+        //editor.HorizontalTextAlignment = horizontalTextAlignment;
+        editor.SetProperty(Microsoft.Maui.Controls.Editor.HorizontalTextAlignmentProperty, horizontalTextAlignment);
         return editor;
     }
 
     public static T HorizontalTextAlignment<T>(this T editor, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc)
         where T : IEditor
     {
-        editor.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
+        //editor.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
+        editor.SetProperty(Microsoft.Maui.Controls.Editor.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc));
         return editor;
     }
 
     public static T VerticalTextAlignment<T>(this T editor, Microsoft.Maui.TextAlignment verticalTextAlignment)
         where T : IEditor
     {
-        editor.VerticalTextAlignment = verticalTextAlignment;
+        //editor.VerticalTextAlignment = verticalTextAlignment;
+        editor.SetProperty(Microsoft.Maui.Controls.Editor.VerticalTextAlignmentProperty, verticalTextAlignment);
         return editor;
     }
 
     public static T VerticalTextAlignment<T>(this T editor, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc)
         where T : IEditor
     {
-        editor.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
+        //editor.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
+        editor.SetProperty(Microsoft.Maui.Controls.Editor.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc));
         return editor;
     }
 

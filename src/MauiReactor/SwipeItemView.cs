@@ -29,15 +29,6 @@ public partial class SwipeItemView<T> : ContentView<T>, ISwipeItemView where T :
 
     EventCommand<EventArgs>? ISwipeItemView.InvokedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -116,6 +107,8 @@ public partial class SwipeItemView : SwipeItemView<Microsoft.Maui.Controls.Swipe
 
 public static partial class SwipeItemViewExtensions
 {
+    /*
+    */
     public static T OnInvoked<T>(this T swipeItemView, Action? invokedAction)
         where T : ISwipeItemView
     {

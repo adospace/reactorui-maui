@@ -56,7 +56,7 @@ public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableI
 
     private FooterDataTemplate? _footerDataTemplate;
 
-    partial void OnBeginUpdate()
+    protected override void OnUpdate()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIItemsView = (IGroupableItemsView)this;
@@ -97,6 +97,8 @@ public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableI
             _headerDataTemplate = null;
             _footerDataTemplate = null;
         }
+
+        base.OnUpdate();
     }
 
     partial void Migrated(VisualNode newNode)

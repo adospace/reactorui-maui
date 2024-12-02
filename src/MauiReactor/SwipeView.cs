@@ -12,8 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ISwipeView : IContentView
 {
-    object? Threshold { get; set; }
-
     EventCommand<SwipeStartedEventArgs>? SwipeStartedEvent { get; set; }
 
     EventCommand<SwipeChangingEventArgs>? SwipeChangingEvent { get; set; }
@@ -33,26 +31,12 @@ public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microso
         SwipeViewStyles.Default?.Invoke(this);
     }
 
-    object? ISwipeView.Threshold { get; set; }
-
     EventCommand<SwipeStartedEventArgs>? ISwipeView.SwipeStartedEvent { get; set; }
 
     EventCommand<SwipeChangingEventArgs>? ISwipeView.SwipeChangingEvent { get; set; }
 
     EventCommand<SwipeEndedEventArgs>? ISwipeView.SwipeEndedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsISwipeView = (ISwipeView)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwipeView.ThresholdProperty, thisAsISwipeView.Threshold);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -175,19 +159,28 @@ public partial class SwipeView : SwipeView<Microsoft.Maui.Controls.SwipeView>
 
 public static partial class SwipeViewExtensions
 {
-    static object? SetThreshold(object swipeView, RxAnimation animation) => ((ISwipeView)swipeView).Threshold = ((RxDoubleAnimation)animation).CurrentValue();
+    /*
+    
+    
+    static object? SetThreshold(object swipeView, RxAnimation animation)
+        => ((ISwipeView)swipeView).Threshold = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    */
     public static T Threshold<T>(this T swipeView, double threshold, RxDoubleAnimation? customAnimation = null)
         where T : ISwipeView
     {
-        swipeView.Threshold = threshold;
-        swipeView.AppendAnimatable(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, customAnimation ?? new RxDoubleAnimation(threshold), SetThreshold);
+        //swipeView.Threshold = threshold;
+        swipeView.SetProperty(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, threshold);
+        swipeView.AppendAnimatable(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, customAnimation ?? new RxDoubleAnimation(threshold));
         return swipeView;
     }
 
     public static T Threshold<T>(this T swipeView, Func<double> thresholdFunc)
         where T : ISwipeView
     {
-        swipeView.Threshold = new PropertyValue<double>(thresholdFunc);
+        //swipeView.Threshold = new PropertyValue<double>(thresholdFunc);
+        swipeView.SetProperty(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, new PropertyValue<double>(thresholdFunc));
         return swipeView;
     }
 

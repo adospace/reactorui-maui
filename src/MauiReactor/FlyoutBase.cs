@@ -26,15 +26,6 @@ public abstract partial class FlyoutBase<T> : Element<T>, IFlyoutBase where T : 
         FlyoutBaseStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -57,6 +48,8 @@ public abstract partial class FlyoutBase<T> : Element<T>, IFlyoutBase where T : 
 
 public static partial class FlyoutBaseExtensions
 {
+/*
+    */
 }
 
 public static partial class FlyoutBaseStyles

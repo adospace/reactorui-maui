@@ -12,7 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IImageCell : ITextCell
 {
-    object? ImageSource { get; set; }
 }
 
 public partial class ImageCell<T> : TextCell<T>, IImageCell where T : Microsoft.Maui.Controls.ImageCell, new()
@@ -27,20 +26,6 @@ public partial class ImageCell<T> : TextCell<T>, IImageCell where T : Microsoft.
         ImageCellStyles.Default?.Invoke(this);
     }
 
-    object? IImageCell.ImageSource { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIImageCell = (IImageCell)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ImageCell.ImageSourceProperty, thisAsIImageCell.ImageSource);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -74,64 +59,83 @@ public partial class ImageCell : ImageCell<Microsoft.Maui.Controls.ImageCell>
 
 public static partial class ImageCellExtensions
 {
+    /*
+    
+    
+    */
     public static T ImageSource<T>(this T imageCell, Microsoft.Maui.Controls.ImageSource imageSource)
         where T : IImageCell
     {
-        imageCell.ImageSource = imageSource;
+        //imageCell.ImageSource = imageSource;
+        imageCell.SetProperty(Microsoft.Maui.Controls.ImageCell.ImageSourceProperty, imageSource);
         return imageCell;
     }
 
     public static T ImageSource<T>(this T imageCell, Func<Microsoft.Maui.Controls.ImageSource> imageSourceFunc)
         where T : IImageCell
     {
-        imageCell.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(imageSourceFunc);
+        //imageCell.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(imageSourceFunc);
+        imageCell.SetProperty(Microsoft.Maui.Controls.ImageCell.ImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(imageSourceFunc));
         return imageCell;
     }
 
     public static T ImageSource<T>(this T imageCell, string file)
         where T : IImageCell
     {
-        imageCell.ImageSource = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        //imageCell.ImageSource = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        imageCell.SetProperty(Microsoft.Maui.Controls.ImageCell.ImageSourceProperty, Microsoft.Maui.Controls.ImageSource.FromFile(file));
         return imageCell;
     }
 
     public static T ImageSource<T>(this T imageCell, Func<string> action)
         where T : IImageCell
     {
-        imageCell.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+        /*imageCell.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(
+            () => Microsoft.Maui.Controls.ImageSource.FromFile(action()));*/
+        imageCell.SetProperty(Microsoft.Maui.Controls.ImageCell.ImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action())));
         return imageCell;
     }
 
     public static T ImageSource<T>(this T imageCell, string resourceName, Assembly sourceAssembly)
         where T : IImageCell
     {
-        imageCell.ImageSource = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        //imageCell.ImageSource = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        imageCell.SetProperty(Microsoft.Maui.Controls.ImageCell.ImageSourceProperty, Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
         return imageCell;
     }
 
     public static T ImageSource<T>(this T imageCell, Uri imageUri)
         where T : IImageCell
     {
-        imageCell.ImageSource = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        //imageCell.ImageSource = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        imageCell.SetProperty(Microsoft.Maui.Controls.ImageCell.ImageSourceProperty, Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
         return imageCell;
     }
 
     public static T ImageSource<T>(this T imageCell, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IImageCell
     {
-        imageCell.ImageSource = new Microsoft.Maui.Controls.UriImageSource
+        //imageCell.ImageSource = new Microsoft.Maui.Controls.UriImageSource
+        //{
+        //    Uri = imageUri,
+        //    CachingEnabled = cachingEnabled,
+        //    CacheValidity = cacheValidity
+        //};
+        var newValue = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,
             CacheValidity = cacheValidity
         };
+        imageCell.SetProperty(Microsoft.Maui.Controls.ImageCell.ImageSourceProperty, newValue);
         return imageCell;
     }
 
     public static T ImageSource<T>(this T imageCell, Func<Stream> imageStream)
         where T : IImageCell
     {
-        imageCell.ImageSource = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        //imageCell.ImageSource = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        imageCell.SetProperty(Microsoft.Maui.Controls.ImageCell.ImageSourceProperty, Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
         return imageCell;
     }
 }

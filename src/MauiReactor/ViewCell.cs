@@ -26,15 +26,6 @@ public partial class ViewCell<T> : Cell<T>, IViewCell where T : Microsoft.Maui.C
         ViewCellStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,6 +59,8 @@ public partial class ViewCell : ViewCell<Microsoft.Maui.Controls.ViewCell>
 
 public static partial class ViewCellExtensions
 {
+/*
+    */
 }
 
 public static partial class ViewCellStyles

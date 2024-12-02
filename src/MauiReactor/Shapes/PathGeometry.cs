@@ -12,9 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor.Shapes;
 public partial interface IPathGeometry : Shapes.IGeometry
 {
-    object? Figures { get; set; }
-
-    object? FillRule { get; set; }
 }
 
 public sealed partial class PathGeometry : Shapes.Geometry<Microsoft.Maui.Controls.Shapes.PathGeometry>, IPathGeometry
@@ -29,23 +26,6 @@ public sealed partial class PathGeometry : Shapes.Geometry<Microsoft.Maui.Contro
         PathGeometryStyles.Default?.Invoke(this);
     }
 
-    object? IPathGeometry.Figures { get; set; }
-
-    object? IPathGeometry.FillRule { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIPathGeometry = (IPathGeometry)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.PathGeometry.FiguresProperty, thisAsIPathGeometry.Figures);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.PathGeometry.FillRuleProperty, thisAsIPathGeometry.FillRule);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,31 +48,41 @@ public sealed partial class PathGeometry : Shapes.Geometry<Microsoft.Maui.Contro
 
 public static partial class PathGeometryExtensions
 {
+    /*
+    
+    
+    
+    
+    */
     public static T Figures<T>(this T pathGeometry, Microsoft.Maui.Controls.Shapes.PathFigureCollection figures)
         where T : IPathGeometry
     {
-        pathGeometry.Figures = figures;
+        //pathGeometry.Figures = figures;
+        pathGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.PathGeometry.FiguresProperty, figures);
         return pathGeometry;
     }
 
     public static T Figures<T>(this T pathGeometry, Func<Microsoft.Maui.Controls.Shapes.PathFigureCollection> figuresFunc)
         where T : IPathGeometry
     {
-        pathGeometry.Figures = new PropertyValue<Microsoft.Maui.Controls.Shapes.PathFigureCollection>(figuresFunc);
+        //pathGeometry.Figures = new PropertyValue<Microsoft.Maui.Controls.Shapes.PathFigureCollection>(figuresFunc);
+        pathGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.PathGeometry.FiguresProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.PathFigureCollection>(figuresFunc));
         return pathGeometry;
     }
 
     public static T FillRule<T>(this T pathGeometry, Microsoft.Maui.Controls.Shapes.FillRule fillRule)
         where T : IPathGeometry
     {
-        pathGeometry.FillRule = fillRule;
+        //pathGeometry.FillRule = fillRule;
+        pathGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.PathGeometry.FillRuleProperty, fillRule);
         return pathGeometry;
     }
 
     public static T FillRule<T>(this T pathGeometry, Func<Microsoft.Maui.Controls.Shapes.FillRule> fillRuleFunc)
         where T : IPathGeometry
     {
-        pathGeometry.FillRule = new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc);
+        //pathGeometry.FillRule = new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc);
+        pathGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.PathGeometry.FillRuleProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc));
         return pathGeometry;
     }
 }

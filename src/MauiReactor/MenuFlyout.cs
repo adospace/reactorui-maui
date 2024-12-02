@@ -26,15 +26,6 @@ public partial class MenuFlyout<T> : FlyoutBase<T>, IMenuFlyout where T : Micros
         MenuFlyoutStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,6 +59,8 @@ public partial class MenuFlyout : MenuFlyout<Microsoft.Maui.Controls.MenuFlyout>
 
 public static partial class MenuFlyoutExtensions
 {
+/*
+    */
 }
 
 public static partial class MenuFlyoutStyles

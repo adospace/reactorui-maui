@@ -26,15 +26,6 @@ public partial class TabBar<T> : ShellItem<T>, ITabBar where T : Microsoft.Maui.
         TabBarStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,6 +59,8 @@ public partial class TabBar : TabBar<Microsoft.Maui.Controls.TabBar>
 
 public static partial class TabBarExtensions
 {
+/*
+    */
 }
 
 public static partial class TabBarStyles

@@ -12,12 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IWebView : IView
 {
-    object? Source { get; set; }
-
-    object? UserAgent { get; set; }
-
-    object? Cookies { get; set; }
-
     EventCommand<WebNavigatedEventArgs>? NavigatedEvent { get; set; }
 
     EventCommand<WebNavigatingEventArgs>? NavigatingEvent { get; set; }
@@ -37,32 +31,12 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
         WebViewStyles.Default?.Invoke(this);
     }
 
-    object? IWebView.Source { get; set; }
-
-    object? IWebView.UserAgent { get; set; }
-
-    object? IWebView.Cookies { get; set; }
-
     EventCommand<WebNavigatedEventArgs>? IWebView.NavigatedEvent { get; set; }
 
     EventCommand<WebNavigatingEventArgs>? IWebView.NavigatingEvent { get; set; }
 
     EventCommand<WebViewProcessTerminatedEventArgs>? IWebView.ProcessTerminatedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIWebView = (IWebView)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.WebView.SourceProperty, thisAsIWebView.Source);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.WebView.UserAgentProperty, thisAsIWebView.UserAgent);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.WebView.CookiesProperty, thisAsIWebView.Cookies);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -185,45 +159,59 @@ public partial class WebView : WebView<Microsoft.Maui.Controls.WebView>
 
 public static partial class WebViewExtensions
 {
+    /*
+    
+    
+    
+    
+    
+    
+    */
     public static T Source<T>(this T webView, Microsoft.Maui.Controls.WebViewSource source)
         where T : IWebView
     {
-        webView.Source = source;
+        //webView.Source = source;
+        webView.SetProperty(Microsoft.Maui.Controls.WebView.SourceProperty, source);
         return webView;
     }
 
     public static T Source<T>(this T webView, Func<Microsoft.Maui.Controls.WebViewSource> sourceFunc)
         where T : IWebView
     {
-        webView.Source = new PropertyValue<Microsoft.Maui.Controls.WebViewSource>(sourceFunc);
+        //webView.Source = new PropertyValue<Microsoft.Maui.Controls.WebViewSource>(sourceFunc);
+        webView.SetProperty(Microsoft.Maui.Controls.WebView.SourceProperty, new PropertyValue<Microsoft.Maui.Controls.WebViewSource>(sourceFunc));
         return webView;
     }
 
     public static T UserAgent<T>(this T webView, string userAgent)
         where T : IWebView
     {
-        webView.UserAgent = userAgent;
+        //webView.UserAgent = userAgent;
+        webView.SetProperty(Microsoft.Maui.Controls.WebView.UserAgentProperty, userAgent);
         return webView;
     }
 
     public static T UserAgent<T>(this T webView, Func<string> userAgentFunc)
         where T : IWebView
     {
-        webView.UserAgent = new PropertyValue<string>(userAgentFunc);
+        //webView.UserAgent = new PropertyValue<string>(userAgentFunc);
+        webView.SetProperty(Microsoft.Maui.Controls.WebView.UserAgentProperty, new PropertyValue<string>(userAgentFunc));
         return webView;
     }
 
     public static T Cookies<T>(this T webView, System.Net.CookieContainer cookies)
         where T : IWebView
     {
-        webView.Cookies = cookies;
+        //webView.Cookies = cookies;
+        webView.SetProperty(Microsoft.Maui.Controls.WebView.CookiesProperty, cookies);
         return webView;
     }
 
     public static T Cookies<T>(this T webView, Func<System.Net.CookieContainer> cookiesFunc)
         where T : IWebView
     {
-        webView.Cookies = new PropertyValue<System.Net.CookieContainer>(cookiesFunc);
+        //webView.Cookies = new PropertyValue<System.Net.CookieContainer>(cookiesFunc);
+        webView.SetProperty(Microsoft.Maui.Controls.WebView.CookiesProperty, new PropertyValue<System.Net.CookieContainer>(cookiesFunc));
         return webView;
     }
 

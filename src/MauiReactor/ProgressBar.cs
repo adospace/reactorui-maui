@@ -12,9 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IProgressBar : IView
 {
-    object? ProgressColor { get; set; }
-
-    object? Progress { get; set; }
 }
 
 public partial class ProgressBar<T> : View<T>, IProgressBar where T : Microsoft.Maui.Controls.ProgressBar, new()
@@ -29,23 +26,6 @@ public partial class ProgressBar<T> : View<T>, IProgressBar where T : Microsoft.
         ProgressBarStyles.Default?.Invoke(this);
     }
 
-    object? IProgressBar.ProgressColor { get; set; }
-
-    object? IProgressBar.Progress { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIProgressBar = (IProgressBar)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ProgressBar.ProgressColorProperty, thisAsIProgressBar.ProgressColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ProgressBar.ProgressProperty, thisAsIProgressBar.Progress);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -79,33 +59,46 @@ public partial class ProgressBar : ProgressBar<Microsoft.Maui.Controls.ProgressB
 
 public static partial class ProgressBarExtensions
 {
-    static object? SetProgress(object progressBar, RxAnimation animation) => ((IProgressBar)progressBar).Progress = ((RxDoubleAnimation)animation).CurrentValue();
+    /*
+    
+    
+    
+    
+    static object? SetProgress(object progressBar, RxAnimation animation)
+        => ((IProgressBar)progressBar).Progress = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    */
     public static T ProgressColor<T>(this T progressBar, Microsoft.Maui.Graphics.Color progressColor)
         where T : IProgressBar
     {
-        progressBar.ProgressColor = progressColor;
+        //progressBar.ProgressColor = progressColor;
+        progressBar.SetProperty(Microsoft.Maui.Controls.ProgressBar.ProgressColorProperty, progressColor);
         return progressBar;
     }
 
     public static T ProgressColor<T>(this T progressBar, Func<Microsoft.Maui.Graphics.Color> progressColorFunc)
         where T : IProgressBar
     {
-        progressBar.ProgressColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(progressColorFunc);
+        //progressBar.ProgressColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(progressColorFunc);
+        progressBar.SetProperty(Microsoft.Maui.Controls.ProgressBar.ProgressColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(progressColorFunc));
         return progressBar;
     }
 
     public static T Progress<T>(this T progressBar, double progress, RxDoubleAnimation? customAnimation = null)
         where T : IProgressBar
     {
-        progressBar.Progress = progress;
-        progressBar.AppendAnimatable(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, customAnimation ?? new RxDoubleAnimation(progress), SetProgress);
+        //progressBar.Progress = progress;
+        progressBar.SetProperty(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, progress);
+        progressBar.AppendAnimatable(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, customAnimation ?? new RxDoubleAnimation(progress));
         return progressBar;
     }
 
     public static T Progress<T>(this T progressBar, Func<double> progressFunc)
         where T : IProgressBar
     {
-        progressBar.Progress = new PropertyValue<double>(progressFunc);
+        //progressBar.Progress = new PropertyValue<double>(progressFunc);
+        progressBar.SetProperty(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, new PropertyValue<double>(progressFunc));
         return progressBar;
     }
 }

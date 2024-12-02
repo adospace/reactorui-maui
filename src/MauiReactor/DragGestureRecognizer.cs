@@ -12,8 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IDragGestureRecognizer : IGestureRecognizer
 {
-    object? CanDrag { get; set; }
-
     EventCommand<DropCompletedEventArgs>? DropCompletedEvent { get; set; }
 
     EventCommand<DragStartingEventArgs>? DragStartingEvent { get; set; }
@@ -31,24 +29,10 @@ public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestu
         DragGestureRecognizerStyles.Default?.Invoke(this);
     }
 
-    object? IDragGestureRecognizer.CanDrag { get; set; }
-
     EventCommand<DropCompletedEventArgs>? IDragGestureRecognizer.DropCompletedEvent { get; set; }
 
     EventCommand<DragStartingEventArgs>? IDragGestureRecognizer.DragStartingEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIDragGestureRecognizer = (IDragGestureRecognizer)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DragGestureRecognizer.CanDragProperty, thisAsIDragGestureRecognizer.CanDrag);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -149,17 +133,23 @@ public partial class DragGestureRecognizer : DragGestureRecognizer<Microsoft.Mau
 
 public static partial class DragGestureRecognizerExtensions
 {
+    /*
+    
+    
+    */
     public static T CanDrag<T>(this T dragGestureRecognizer, bool canDrag)
         where T : IDragGestureRecognizer
     {
-        dragGestureRecognizer.CanDrag = canDrag;
+        //dragGestureRecognizer.CanDrag = canDrag;
+        dragGestureRecognizer.SetProperty(Microsoft.Maui.Controls.DragGestureRecognizer.CanDragProperty, canDrag);
         return dragGestureRecognizer;
     }
 
     public static T CanDrag<T>(this T dragGestureRecognizer, Func<bool> canDragFunc)
         where T : IDragGestureRecognizer
     {
-        dragGestureRecognizer.CanDrag = new PropertyValue<bool>(canDragFunc);
+        //dragGestureRecognizer.CanDrag = new PropertyValue<bool>(canDragFunc);
+        dragGestureRecognizer.SetProperty(Microsoft.Maui.Controls.DragGestureRecognizer.CanDragProperty, new PropertyValue<bool>(canDragFunc));
         return dragGestureRecognizer;
     }
 

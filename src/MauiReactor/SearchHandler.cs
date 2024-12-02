@@ -10,68 +10,8 @@ using MauiReactor.Internals;
 
 #nullable enable
 namespace MauiReactor;
-public partial interface ISearchHandler : IVisualNode
+public partial interface ISearchHandler : IVisualNodeWithNativeControl
 {
-    object? Keyboard { get; set; }
-
-    object? HorizontalTextAlignment { get; set; }
-
-    object? VerticalTextAlignment { get; set; }
-
-    object? TextColor { get; set; }
-
-    object? CharacterSpacing { get; set; }
-
-    object? CancelButtonColor { get; set; }
-
-    object? FontFamily { get; set; }
-
-    object? FontSize { get; set; }
-
-    object? FontAttributes { get; set; }
-
-    object? FontAutoScalingEnabled { get; set; }
-
-    object? Placeholder { get; set; }
-
-    object? PlaceholderColor { get; set; }
-
-    object? TextTransform { get; set; }
-
-    object? BackgroundColor { get; set; }
-
-    object? AutomationId { get; set; }
-
-    object? ClearIconHelpText { get; set; }
-
-    object? ClearIconName { get; set; }
-
-    object? ClearIcon { get; set; }
-
-    object? ClearPlaceholderEnabled { get; set; }
-
-    object? ClearPlaceholderHelpText { get; set; }
-
-    object? ClearPlaceholderIcon { get; set; }
-
-    object? ClearPlaceholderName { get; set; }
-
-    object? DisplayMemberName { get; set; }
-
-    object? IsSearchEnabled { get; set; }
-
-    object? QueryIconHelpText { get; set; }
-
-    object? QueryIconName { get; set; }
-
-    object? QueryIcon { get; set; }
-
-    object? Query { get; set; }
-
-    object? SearchBoxVisibility { get; set; }
-
-    object? ShowsResults { get; set; }
-
     EventCommand<EventArgs>? FocusedEvent { get; set; }
 
     EventCommand<EventArgs>? UnfocusedEvent { get; set; }
@@ -89,111 +29,10 @@ public partial class SearchHandler<T> : VisualNode<T>, ISearchHandler where T : 
         SearchHandlerStyles.Default?.Invoke(this);
     }
 
-    object? ISearchHandler.Keyboard { get; set; }
-
-    object? ISearchHandler.HorizontalTextAlignment { get; set; }
-
-    object? ISearchHandler.VerticalTextAlignment { get; set; }
-
-    object? ISearchHandler.TextColor { get; set; }
-
-    object? ISearchHandler.CharacterSpacing { get; set; }
-
-    object? ISearchHandler.CancelButtonColor { get; set; }
-
-    object? ISearchHandler.FontFamily { get; set; }
-
-    object? ISearchHandler.FontSize { get; set; }
-
-    object? ISearchHandler.FontAttributes { get; set; }
-
-    object? ISearchHandler.FontAutoScalingEnabled { get; set; }
-
-    object? ISearchHandler.Placeholder { get; set; }
-
-    object? ISearchHandler.PlaceholderColor { get; set; }
-
-    object? ISearchHandler.TextTransform { get; set; }
-
-    object? ISearchHandler.BackgroundColor { get; set; }
-
-    object? ISearchHandler.AutomationId { get; set; }
-
-    object? ISearchHandler.ClearIconHelpText { get; set; }
-
-    object? ISearchHandler.ClearIconName { get; set; }
-
-    object? ISearchHandler.ClearIcon { get; set; }
-
-    object? ISearchHandler.ClearPlaceholderEnabled { get; set; }
-
-    object? ISearchHandler.ClearPlaceholderHelpText { get; set; }
-
-    object? ISearchHandler.ClearPlaceholderIcon { get; set; }
-
-    object? ISearchHandler.ClearPlaceholderName { get; set; }
-
-    object? ISearchHandler.DisplayMemberName { get; set; }
-
-    object? ISearchHandler.IsSearchEnabled { get; set; }
-
-    object? ISearchHandler.QueryIconHelpText { get; set; }
-
-    object? ISearchHandler.QueryIconName { get; set; }
-
-    object? ISearchHandler.QueryIcon { get; set; }
-
-    object? ISearchHandler.Query { get; set; }
-
-    object? ISearchHandler.SearchBoxVisibility { get; set; }
-
-    object? ISearchHandler.ShowsResults { get; set; }
-
     EventCommand<EventArgs>? ISearchHandler.FocusedEvent { get; set; }
 
     EventCommand<EventArgs>? ISearchHandler.UnfocusedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsISearchHandler = (ISearchHandler)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.KeyboardProperty, thisAsISearchHandler.Keyboard);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.HorizontalTextAlignmentProperty, thisAsISearchHandler.HorizontalTextAlignment);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.VerticalTextAlignmentProperty, thisAsISearchHandler.VerticalTextAlignment);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.TextColorProperty, thisAsISearchHandler.TextColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.CharacterSpacingProperty, thisAsISearchHandler.CharacterSpacing);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.CancelButtonColorProperty, thisAsISearchHandler.CancelButtonColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.FontFamilyProperty, thisAsISearchHandler.FontFamily);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.FontSizeProperty, thisAsISearchHandler.FontSize);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.FontAttributesProperty, thisAsISearchHandler.FontAttributes);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.FontAutoScalingEnabledProperty, thisAsISearchHandler.FontAutoScalingEnabled);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.PlaceholderProperty, thisAsISearchHandler.Placeholder);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.PlaceholderColorProperty, thisAsISearchHandler.PlaceholderColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.TextTransformProperty, thisAsISearchHandler.TextTransform);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.BackgroundColorProperty, thisAsISearchHandler.BackgroundColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.AutomationIdProperty, thisAsISearchHandler.AutomationId);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.ClearIconHelpTextProperty, thisAsISearchHandler.ClearIconHelpText);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.ClearIconNameProperty, thisAsISearchHandler.ClearIconName);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.ClearIconProperty, thisAsISearchHandler.ClearIcon);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderEnabledProperty, thisAsISearchHandler.ClearPlaceholderEnabled);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderHelpTextProperty, thisAsISearchHandler.ClearPlaceholderHelpText);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderIconProperty, thisAsISearchHandler.ClearPlaceholderIcon);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderNameProperty, thisAsISearchHandler.ClearPlaceholderName);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.DisplayMemberNameProperty, thisAsISearchHandler.DisplayMemberName);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.IsSearchEnabledProperty, thisAsISearchHandler.IsSearchEnabled);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.QueryIconHelpTextProperty, thisAsISearchHandler.QueryIconHelpText);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.QueryIconNameProperty, thisAsISearchHandler.QueryIconName);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.QueryIconProperty, thisAsISearchHandler.QueryIcon);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.QueryProperty, thisAsISearchHandler.Query);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.SearchBoxVisibilityProperty, thisAsISearchHandler.SearchBoxVisibility);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SearchHandler.ShowsResultsProperty, thisAsISearchHandler.ShowsResults);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -294,568 +133,735 @@ public partial class SearchHandler : SearchHandler<Microsoft.Maui.Controls.Searc
 
 public static partial class SearchHandlerExtensions
 {
-    static object? SetCharacterSpacing(object searchHandler, RxAnimation animation) => ((ISearchHandler)searchHandler).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetFontSize(object searchHandler, RxAnimation animation) => ((ISearchHandler)searchHandler).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    /*
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    static object? SetCharacterSpacing(object searchHandler, RxAnimation animation)
+        => ((ISearchHandler)searchHandler).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    
+    
+    
+    
+    static object? SetFontSize(object searchHandler, RxAnimation animation)
+        => ((ISearchHandler)searchHandler).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    */
     public static T Keyboard<T>(this T searchHandler, Microsoft.Maui.Keyboard keyboard)
         where T : ISearchHandler
     {
-        searchHandler.Keyboard = keyboard;
+        //searchHandler.Keyboard = keyboard;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.KeyboardProperty, keyboard);
         return searchHandler;
     }
 
     public static T Keyboard<T>(this T searchHandler, Func<Microsoft.Maui.Keyboard> keyboardFunc)
         where T : ISearchHandler
     {
-        searchHandler.Keyboard = new PropertyValue<Microsoft.Maui.Keyboard>(keyboardFunc);
+        //searchHandler.Keyboard = new PropertyValue<Microsoft.Maui.Keyboard>(keyboardFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.KeyboardProperty, new PropertyValue<Microsoft.Maui.Keyboard>(keyboardFunc));
         return searchHandler;
     }
 
     public static T HorizontalTextAlignment<T>(this T searchHandler, Microsoft.Maui.TextAlignment horizontalTextAlignment)
         where T : ISearchHandler
     {
-        searchHandler.HorizontalTextAlignment = horizontalTextAlignment;
+        //searchHandler.HorizontalTextAlignment = horizontalTextAlignment;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.HorizontalTextAlignmentProperty, horizontalTextAlignment);
         return searchHandler;
     }
 
     public static T HorizontalTextAlignment<T>(this T searchHandler, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc)
         where T : ISearchHandler
     {
-        searchHandler.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
+        //searchHandler.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc));
         return searchHandler;
     }
 
     public static T VerticalTextAlignment<T>(this T searchHandler, Microsoft.Maui.TextAlignment verticalTextAlignment)
         where T : ISearchHandler
     {
-        searchHandler.VerticalTextAlignment = verticalTextAlignment;
+        //searchHandler.VerticalTextAlignment = verticalTextAlignment;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.VerticalTextAlignmentProperty, verticalTextAlignment);
         return searchHandler;
     }
 
     public static T VerticalTextAlignment<T>(this T searchHandler, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc)
         where T : ISearchHandler
     {
-        searchHandler.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
+        //searchHandler.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc));
         return searchHandler;
     }
 
     public static T TextColor<T>(this T searchHandler, Microsoft.Maui.Graphics.Color textColor)
         where T : ISearchHandler
     {
-        searchHandler.TextColor = textColor;
+        //searchHandler.TextColor = textColor;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.TextColorProperty, textColor);
         return searchHandler;
     }
 
     public static T TextColor<T>(this T searchHandler, Func<Microsoft.Maui.Graphics.Color> textColorFunc)
         where T : ISearchHandler
     {
-        searchHandler.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
+        //searchHandler.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc));
         return searchHandler;
     }
 
     public static T CharacterSpacing<T>(this T searchHandler, double characterSpacing, RxDoubleAnimation? customAnimation = null)
         where T : ISearchHandler
     {
-        searchHandler.CharacterSpacing = characterSpacing;
-        searchHandler.AppendAnimatable(Microsoft.Maui.Controls.SearchHandler.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), SetCharacterSpacing);
+        //searchHandler.CharacterSpacing = characterSpacing;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.CharacterSpacingProperty, characterSpacing);
+        searchHandler.AppendAnimatable(Microsoft.Maui.Controls.SearchHandler.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing));
         return searchHandler;
     }
 
     public static T CharacterSpacing<T>(this T searchHandler, Func<double> characterSpacingFunc)
         where T : ISearchHandler
     {
-        searchHandler.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
+        //searchHandler.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc));
         return searchHandler;
     }
 
     public static T CancelButtonColor<T>(this T searchHandler, Microsoft.Maui.Graphics.Color cancelButtonColor)
         where T : ISearchHandler
     {
-        searchHandler.CancelButtonColor = cancelButtonColor;
+        //searchHandler.CancelButtonColor = cancelButtonColor;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.CancelButtonColorProperty, cancelButtonColor);
         return searchHandler;
     }
 
     public static T CancelButtonColor<T>(this T searchHandler, Func<Microsoft.Maui.Graphics.Color> cancelButtonColorFunc)
         where T : ISearchHandler
     {
-        searchHandler.CancelButtonColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(cancelButtonColorFunc);
+        //searchHandler.CancelButtonColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(cancelButtonColorFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.CancelButtonColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(cancelButtonColorFunc));
         return searchHandler;
     }
 
     public static T FontFamily<T>(this T searchHandler, string fontFamily)
         where T : ISearchHandler
     {
-        searchHandler.FontFamily = fontFamily;
+        //searchHandler.FontFamily = fontFamily;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontFamilyProperty, fontFamily);
         return searchHandler;
     }
 
     public static T FontFamily<T>(this T searchHandler, Func<string> fontFamilyFunc)
         where T : ISearchHandler
     {
-        searchHandler.FontFamily = new PropertyValue<string>(fontFamilyFunc);
+        //searchHandler.FontFamily = new PropertyValue<string>(fontFamilyFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc));
         return searchHandler;
     }
 
     public static T FontSize<T>(this T searchHandler, double fontSize, RxDoubleAnimation? customAnimation = null)
         where T : ISearchHandler
     {
-        searchHandler.FontSize = fontSize;
-        searchHandler.AppendAnimatable(Microsoft.Maui.Controls.SearchHandler.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), SetFontSize);
+        //searchHandler.FontSize = fontSize;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontSizeProperty, fontSize);
+        searchHandler.AppendAnimatable(Microsoft.Maui.Controls.SearchHandler.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize));
         return searchHandler;
     }
 
     public static T FontSize<T>(this T searchHandler, Func<double> fontSizeFunc)
         where T : ISearchHandler
     {
-        searchHandler.FontSize = new PropertyValue<double>(fontSizeFunc);
+        //searchHandler.FontSize = new PropertyValue<double>(fontSizeFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontSizeProperty, new PropertyValue<double>(fontSizeFunc));
         return searchHandler;
     }
 
     public static T FontAttributes<T>(this T searchHandler, Microsoft.Maui.Controls.FontAttributes fontAttributes)
         where T : ISearchHandler
     {
-        searchHandler.FontAttributes = fontAttributes;
+        //searchHandler.FontAttributes = fontAttributes;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontAttributesProperty, fontAttributes);
         return searchHandler;
     }
 
     public static T FontAttributes<T>(this T searchHandler, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc)
         where T : ISearchHandler
     {
-        searchHandler.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
+        //searchHandler.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc));
         return searchHandler;
     }
 
     public static T FontAutoScalingEnabled<T>(this T searchHandler, bool fontAutoScalingEnabled)
         where T : ISearchHandler
     {
-        searchHandler.FontAutoScalingEnabled = fontAutoScalingEnabled;
+        //searchHandler.FontAutoScalingEnabled = fontAutoScalingEnabled;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontAutoScalingEnabledProperty, fontAutoScalingEnabled);
         return searchHandler;
     }
 
     public static T FontAutoScalingEnabled<T>(this T searchHandler, Func<bool> fontAutoScalingEnabledFunc)
         where T : ISearchHandler
     {
-        searchHandler.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
+        //searchHandler.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc));
         return searchHandler;
     }
 
     public static T Placeholder<T>(this T searchHandler, string placeholder)
         where T : ISearchHandler
     {
-        searchHandler.Placeholder = placeholder;
+        //searchHandler.Placeholder = placeholder;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.PlaceholderProperty, placeholder);
         return searchHandler;
     }
 
     public static T Placeholder<T>(this T searchHandler, Func<string> placeholderFunc)
         where T : ISearchHandler
     {
-        searchHandler.Placeholder = new PropertyValue<string>(placeholderFunc);
+        //searchHandler.Placeholder = new PropertyValue<string>(placeholderFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.PlaceholderProperty, new PropertyValue<string>(placeholderFunc));
         return searchHandler;
     }
 
     public static T PlaceholderColor<T>(this T searchHandler, Microsoft.Maui.Graphics.Color placeholderColor)
         where T : ISearchHandler
     {
-        searchHandler.PlaceholderColor = placeholderColor;
+        //searchHandler.PlaceholderColor = placeholderColor;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.PlaceholderColorProperty, placeholderColor);
         return searchHandler;
     }
 
     public static T PlaceholderColor<T>(this T searchHandler, Func<Microsoft.Maui.Graphics.Color> placeholderColorFunc)
         where T : ISearchHandler
     {
-        searchHandler.PlaceholderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(placeholderColorFunc);
+        //searchHandler.PlaceholderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(placeholderColorFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.PlaceholderColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(placeholderColorFunc));
         return searchHandler;
     }
 
     public static T TextTransform<T>(this T searchHandler, Microsoft.Maui.TextTransform textTransform)
         where T : ISearchHandler
     {
-        searchHandler.TextTransform = textTransform;
+        //searchHandler.TextTransform = textTransform;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.TextTransformProperty, textTransform);
         return searchHandler;
     }
 
     public static T TextTransform<T>(this T searchHandler, Func<Microsoft.Maui.TextTransform> textTransformFunc)
         where T : ISearchHandler
     {
-        searchHandler.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc);
+        //searchHandler.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.TextTransformProperty, new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc));
         return searchHandler;
     }
 
     public static T BackgroundColor<T>(this T searchHandler, Microsoft.Maui.Graphics.Color backgroundColor)
         where T : ISearchHandler
     {
-        searchHandler.BackgroundColor = backgroundColor;
+        //searchHandler.BackgroundColor = backgroundColor;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.BackgroundColorProperty, backgroundColor);
         return searchHandler;
     }
 
     public static T BackgroundColor<T>(this T searchHandler, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc)
         where T : ISearchHandler
     {
-        searchHandler.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc);
+        //searchHandler.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.BackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc));
         return searchHandler;
     }
 
     public static T AutomationId<T>(this T searchHandler, string automationId)
         where T : ISearchHandler
     {
-        searchHandler.AutomationId = automationId;
+        //searchHandler.AutomationId = automationId;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.AutomationIdProperty, automationId);
         return searchHandler;
     }
 
     public static T AutomationId<T>(this T searchHandler, Func<string> automationIdFunc)
         where T : ISearchHandler
     {
-        searchHandler.AutomationId = new PropertyValue<string>(automationIdFunc);
+        //searchHandler.AutomationId = new PropertyValue<string>(automationIdFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.AutomationIdProperty, new PropertyValue<string>(automationIdFunc));
         return searchHandler;
     }
 
     public static T ClearIconHelpText<T>(this T searchHandler, string clearIconHelpText)
         where T : ISearchHandler
     {
-        searchHandler.ClearIconHelpText = clearIconHelpText;
+        //searchHandler.ClearIconHelpText = clearIconHelpText;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconHelpTextProperty, clearIconHelpText);
         return searchHandler;
     }
 
     public static T ClearIconHelpText<T>(this T searchHandler, Func<string> clearIconHelpTextFunc)
         where T : ISearchHandler
     {
-        searchHandler.ClearIconHelpText = new PropertyValue<string>(clearIconHelpTextFunc);
+        //searchHandler.ClearIconHelpText = new PropertyValue<string>(clearIconHelpTextFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconHelpTextProperty, new PropertyValue<string>(clearIconHelpTextFunc));
         return searchHandler;
     }
 
     public static T ClearIconName<T>(this T searchHandler, string clearIconName)
         where T : ISearchHandler
     {
-        searchHandler.ClearIconName = clearIconName;
+        //searchHandler.ClearIconName = clearIconName;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconNameProperty, clearIconName);
         return searchHandler;
     }
 
     public static T ClearIconName<T>(this T searchHandler, Func<string> clearIconNameFunc)
         where T : ISearchHandler
     {
-        searchHandler.ClearIconName = new PropertyValue<string>(clearIconNameFunc);
+        //searchHandler.ClearIconName = new PropertyValue<string>(clearIconNameFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconNameProperty, new PropertyValue<string>(clearIconNameFunc));
         return searchHandler;
     }
 
     public static T ClearIcon<T>(this T searchHandler, Microsoft.Maui.Controls.ImageSource clearIcon)
         where T : ISearchHandler
     {
-        searchHandler.ClearIcon = clearIcon;
+        //searchHandler.ClearIcon = clearIcon;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconProperty, clearIcon);
         return searchHandler;
     }
 
     public static T ClearIcon<T>(this T searchHandler, Func<Microsoft.Maui.Controls.ImageSource> clearIconFunc)
         where T : ISearchHandler
     {
-        searchHandler.ClearIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(clearIconFunc);
+        //searchHandler.ClearIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(clearIconFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(clearIconFunc));
         return searchHandler;
     }
 
     public static T ClearIcon<T>(this T searchHandler, string file)
         where T : ISearchHandler
     {
-        searchHandler.ClearIcon = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        //searchHandler.ClearIcon = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconProperty, Microsoft.Maui.Controls.ImageSource.FromFile(file));
         return searchHandler;
     }
 
     public static T ClearIcon<T>(this T searchHandler, Func<string> action)
         where T : ISearchHandler
     {
-        searchHandler.ClearIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+        /*searchHandler.ClearIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(
+            () => Microsoft.Maui.Controls.ImageSource.FromFile(action()));*/
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action())));
         return searchHandler;
     }
 
     public static T ClearIcon<T>(this T searchHandler, string resourceName, Assembly sourceAssembly)
         where T : ISearchHandler
     {
-        searchHandler.ClearIcon = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        //searchHandler.ClearIcon = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconProperty, Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
         return searchHandler;
     }
 
     public static T ClearIcon<T>(this T searchHandler, Uri imageUri)
         where T : ISearchHandler
     {
-        searchHandler.ClearIcon = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        //searchHandler.ClearIcon = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconProperty, Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
         return searchHandler;
     }
 
     public static T ClearIcon<T>(this T searchHandler, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : ISearchHandler
     {
-        searchHandler.ClearIcon = new Microsoft.Maui.Controls.UriImageSource
+        //searchHandler.ClearIcon = new Microsoft.Maui.Controls.UriImageSource
+        //{
+        //    Uri = imageUri,
+        //    CachingEnabled = cachingEnabled,
+        //    CacheValidity = cacheValidity
+        //};
+        var newValue = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,
             CacheValidity = cacheValidity
         };
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconProperty, newValue);
         return searchHandler;
     }
 
     public static T ClearIcon<T>(this T searchHandler, Func<Stream> imageStream)
         where T : ISearchHandler
     {
-        searchHandler.ClearIcon = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        //searchHandler.ClearIcon = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconProperty, Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
         return searchHandler;
     }
 
     public static T ClearPlaceholderEnabled<T>(this T searchHandler, bool clearPlaceholderEnabled)
         where T : ISearchHandler
     {
-        searchHandler.ClearPlaceholderEnabled = clearPlaceholderEnabled;
+        //searchHandler.ClearPlaceholderEnabled = clearPlaceholderEnabled;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderEnabledProperty, clearPlaceholderEnabled);
         return searchHandler;
     }
 
     public static T ClearPlaceholderEnabled<T>(this T searchHandler, Func<bool> clearPlaceholderEnabledFunc)
         where T : ISearchHandler
     {
-        searchHandler.ClearPlaceholderEnabled = new PropertyValue<bool>(clearPlaceholderEnabledFunc);
+        //searchHandler.ClearPlaceholderEnabled = new PropertyValue<bool>(clearPlaceholderEnabledFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderEnabledProperty, new PropertyValue<bool>(clearPlaceholderEnabledFunc));
         return searchHandler;
     }
 
     public static T ClearPlaceholderHelpText<T>(this T searchHandler, string clearPlaceholderHelpText)
         where T : ISearchHandler
     {
-        searchHandler.ClearPlaceholderHelpText = clearPlaceholderHelpText;
+        //searchHandler.ClearPlaceholderHelpText = clearPlaceholderHelpText;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderHelpTextProperty, clearPlaceholderHelpText);
         return searchHandler;
     }
 
     public static T ClearPlaceholderHelpText<T>(this T searchHandler, Func<string> clearPlaceholderHelpTextFunc)
         where T : ISearchHandler
     {
-        searchHandler.ClearPlaceholderHelpText = new PropertyValue<string>(clearPlaceholderHelpTextFunc);
+        //searchHandler.ClearPlaceholderHelpText = new PropertyValue<string>(clearPlaceholderHelpTextFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderHelpTextProperty, new PropertyValue<string>(clearPlaceholderHelpTextFunc));
         return searchHandler;
     }
 
     public static T ClearPlaceholderIcon<T>(this T searchHandler, Microsoft.Maui.Controls.ImageSource clearPlaceholderIcon)
         where T : ISearchHandler
     {
-        searchHandler.ClearPlaceholderIcon = clearPlaceholderIcon;
+        //searchHandler.ClearPlaceholderIcon = clearPlaceholderIcon;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderIconProperty, clearPlaceholderIcon);
         return searchHandler;
     }
 
     public static T ClearPlaceholderIcon<T>(this T searchHandler, Func<Microsoft.Maui.Controls.ImageSource> clearPlaceholderIconFunc)
         where T : ISearchHandler
     {
-        searchHandler.ClearPlaceholderIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(clearPlaceholderIconFunc);
+        //searchHandler.ClearPlaceholderIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(clearPlaceholderIconFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(clearPlaceholderIconFunc));
         return searchHandler;
     }
 
     public static T ClearPlaceholderIcon<T>(this T searchHandler, string file)
         where T : ISearchHandler
     {
-        searchHandler.ClearPlaceholderIcon = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        //searchHandler.ClearPlaceholderIcon = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderIconProperty, Microsoft.Maui.Controls.ImageSource.FromFile(file));
         return searchHandler;
     }
 
     public static T ClearPlaceholderIcon<T>(this T searchHandler, Func<string> action)
         where T : ISearchHandler
     {
-        searchHandler.ClearPlaceholderIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+        /*searchHandler.ClearPlaceholderIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(
+            () => Microsoft.Maui.Controls.ImageSource.FromFile(action()));*/
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action())));
         return searchHandler;
     }
 
     public static T ClearPlaceholderIcon<T>(this T searchHandler, string resourceName, Assembly sourceAssembly)
         where T : ISearchHandler
     {
-        searchHandler.ClearPlaceholderIcon = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        //searchHandler.ClearPlaceholderIcon = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderIconProperty, Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
         return searchHandler;
     }
 
     public static T ClearPlaceholderIcon<T>(this T searchHandler, Uri imageUri)
         where T : ISearchHandler
     {
-        searchHandler.ClearPlaceholderIcon = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        //searchHandler.ClearPlaceholderIcon = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderIconProperty, Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
         return searchHandler;
     }
 
     public static T ClearPlaceholderIcon<T>(this T searchHandler, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : ISearchHandler
     {
-        searchHandler.ClearPlaceholderIcon = new Microsoft.Maui.Controls.UriImageSource
+        //searchHandler.ClearPlaceholderIcon = new Microsoft.Maui.Controls.UriImageSource
+        //{
+        //    Uri = imageUri,
+        //    CachingEnabled = cachingEnabled,
+        //    CacheValidity = cacheValidity
+        //};
+        var newValue = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,
             CacheValidity = cacheValidity
         };
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderIconProperty, newValue);
         return searchHandler;
     }
 
     public static T ClearPlaceholderIcon<T>(this T searchHandler, Func<Stream> imageStream)
         where T : ISearchHandler
     {
-        searchHandler.ClearPlaceholderIcon = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        //searchHandler.ClearPlaceholderIcon = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderIconProperty, Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
         return searchHandler;
     }
 
     public static T ClearPlaceholderName<T>(this T searchHandler, string clearPlaceholderName)
         where T : ISearchHandler
     {
-        searchHandler.ClearPlaceholderName = clearPlaceholderName;
+        //searchHandler.ClearPlaceholderName = clearPlaceholderName;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderNameProperty, clearPlaceholderName);
         return searchHandler;
     }
 
     public static T ClearPlaceholderName<T>(this T searchHandler, Func<string> clearPlaceholderNameFunc)
         where T : ISearchHandler
     {
-        searchHandler.ClearPlaceholderName = new PropertyValue<string>(clearPlaceholderNameFunc);
+        //searchHandler.ClearPlaceholderName = new PropertyValue<string>(clearPlaceholderNameFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderNameProperty, new PropertyValue<string>(clearPlaceholderNameFunc));
         return searchHandler;
     }
 
     public static T DisplayMemberName<T>(this T searchHandler, string displayMemberName)
         where T : ISearchHandler
     {
-        searchHandler.DisplayMemberName = displayMemberName;
+        //searchHandler.DisplayMemberName = displayMemberName;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.DisplayMemberNameProperty, displayMemberName);
         return searchHandler;
     }
 
     public static T DisplayMemberName<T>(this T searchHandler, Func<string> displayMemberNameFunc)
         where T : ISearchHandler
     {
-        searchHandler.DisplayMemberName = new PropertyValue<string>(displayMemberNameFunc);
+        //searchHandler.DisplayMemberName = new PropertyValue<string>(displayMemberNameFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.DisplayMemberNameProperty, new PropertyValue<string>(displayMemberNameFunc));
         return searchHandler;
     }
 
     public static T IsSearchEnabled<T>(this T searchHandler, bool isSearchEnabled)
         where T : ISearchHandler
     {
-        searchHandler.IsSearchEnabled = isSearchEnabled;
+        //searchHandler.IsSearchEnabled = isSearchEnabled;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.IsSearchEnabledProperty, isSearchEnabled);
         return searchHandler;
     }
 
     public static T IsSearchEnabled<T>(this T searchHandler, Func<bool> isSearchEnabledFunc)
         where T : ISearchHandler
     {
-        searchHandler.IsSearchEnabled = new PropertyValue<bool>(isSearchEnabledFunc);
+        //searchHandler.IsSearchEnabled = new PropertyValue<bool>(isSearchEnabledFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.IsSearchEnabledProperty, new PropertyValue<bool>(isSearchEnabledFunc));
         return searchHandler;
     }
 
     public static T QueryIconHelpText<T>(this T searchHandler, string queryIconHelpText)
         where T : ISearchHandler
     {
-        searchHandler.QueryIconHelpText = queryIconHelpText;
+        //searchHandler.QueryIconHelpText = queryIconHelpText;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconHelpTextProperty, queryIconHelpText);
         return searchHandler;
     }
 
     public static T QueryIconHelpText<T>(this T searchHandler, Func<string> queryIconHelpTextFunc)
         where T : ISearchHandler
     {
-        searchHandler.QueryIconHelpText = new PropertyValue<string>(queryIconHelpTextFunc);
+        //searchHandler.QueryIconHelpText = new PropertyValue<string>(queryIconHelpTextFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconHelpTextProperty, new PropertyValue<string>(queryIconHelpTextFunc));
         return searchHandler;
     }
 
     public static T QueryIconName<T>(this T searchHandler, string queryIconName)
         where T : ISearchHandler
     {
-        searchHandler.QueryIconName = queryIconName;
+        //searchHandler.QueryIconName = queryIconName;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconNameProperty, queryIconName);
         return searchHandler;
     }
 
     public static T QueryIconName<T>(this T searchHandler, Func<string> queryIconNameFunc)
         where T : ISearchHandler
     {
-        searchHandler.QueryIconName = new PropertyValue<string>(queryIconNameFunc);
+        //searchHandler.QueryIconName = new PropertyValue<string>(queryIconNameFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconNameProperty, new PropertyValue<string>(queryIconNameFunc));
         return searchHandler;
     }
 
     public static T QueryIcon<T>(this T searchHandler, Microsoft.Maui.Controls.ImageSource queryIcon)
         where T : ISearchHandler
     {
-        searchHandler.QueryIcon = queryIcon;
+        //searchHandler.QueryIcon = queryIcon;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconProperty, queryIcon);
         return searchHandler;
     }
 
     public static T QueryIcon<T>(this T searchHandler, Func<Microsoft.Maui.Controls.ImageSource> queryIconFunc)
         where T : ISearchHandler
     {
-        searchHandler.QueryIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(queryIconFunc);
+        //searchHandler.QueryIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(queryIconFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(queryIconFunc));
         return searchHandler;
     }
 
     public static T QueryIcon<T>(this T searchHandler, string file)
         where T : ISearchHandler
     {
-        searchHandler.QueryIcon = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        //searchHandler.QueryIcon = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconProperty, Microsoft.Maui.Controls.ImageSource.FromFile(file));
         return searchHandler;
     }
 
     public static T QueryIcon<T>(this T searchHandler, Func<string> action)
         where T : ISearchHandler
     {
-        searchHandler.QueryIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+        /*searchHandler.QueryIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(
+            () => Microsoft.Maui.Controls.ImageSource.FromFile(action()));*/
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action())));
         return searchHandler;
     }
 
     public static T QueryIcon<T>(this T searchHandler, string resourceName, Assembly sourceAssembly)
         where T : ISearchHandler
     {
-        searchHandler.QueryIcon = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        //searchHandler.QueryIcon = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconProperty, Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
         return searchHandler;
     }
 
     public static T QueryIcon<T>(this T searchHandler, Uri imageUri)
         where T : ISearchHandler
     {
-        searchHandler.QueryIcon = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        //searchHandler.QueryIcon = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconProperty, Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
         return searchHandler;
     }
 
     public static T QueryIcon<T>(this T searchHandler, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : ISearchHandler
     {
-        searchHandler.QueryIcon = new Microsoft.Maui.Controls.UriImageSource
+        //searchHandler.QueryIcon = new Microsoft.Maui.Controls.UriImageSource
+        //{
+        //    Uri = imageUri,
+        //    CachingEnabled = cachingEnabled,
+        //    CacheValidity = cacheValidity
+        //};
+        var newValue = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,
             CacheValidity = cacheValidity
         };
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconProperty, newValue);
         return searchHandler;
     }
 
     public static T QueryIcon<T>(this T searchHandler, Func<Stream> imageStream)
         where T : ISearchHandler
     {
-        searchHandler.QueryIcon = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        //searchHandler.QueryIcon = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconProperty, Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
         return searchHandler;
     }
 
     public static T Query<T>(this T searchHandler, string query)
         where T : ISearchHandler
     {
-        searchHandler.Query = query;
+        //searchHandler.Query = query;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryProperty, query);
         return searchHandler;
     }
 
     public static T Query<T>(this T searchHandler, Func<string> queryFunc)
         where T : ISearchHandler
     {
-        searchHandler.Query = new PropertyValue<string>(queryFunc);
+        //searchHandler.Query = new PropertyValue<string>(queryFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryProperty, new PropertyValue<string>(queryFunc));
         return searchHandler;
     }
 
     public static T SearchBoxVisibility<T>(this T searchHandler, Microsoft.Maui.Controls.SearchBoxVisibility searchBoxVisibility)
         where T : ISearchHandler
     {
-        searchHandler.SearchBoxVisibility = searchBoxVisibility;
+        //searchHandler.SearchBoxVisibility = searchBoxVisibility;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.SearchBoxVisibilityProperty, searchBoxVisibility);
         return searchHandler;
     }
 
     public static T SearchBoxVisibility<T>(this T searchHandler, Func<Microsoft.Maui.Controls.SearchBoxVisibility> searchBoxVisibilityFunc)
         where T : ISearchHandler
     {
-        searchHandler.SearchBoxVisibility = new PropertyValue<Microsoft.Maui.Controls.SearchBoxVisibility>(searchBoxVisibilityFunc);
+        //searchHandler.SearchBoxVisibility = new PropertyValue<Microsoft.Maui.Controls.SearchBoxVisibility>(searchBoxVisibilityFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.SearchBoxVisibilityProperty, new PropertyValue<Microsoft.Maui.Controls.SearchBoxVisibility>(searchBoxVisibilityFunc));
         return searchHandler;
     }
 
     public static T ShowsResults<T>(this T searchHandler, bool showsResults)
         where T : ISearchHandler
     {
-        searchHandler.ShowsResults = showsResults;
+        //searchHandler.ShowsResults = showsResults;
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ShowsResultsProperty, showsResults);
         return searchHandler;
     }
 
     public static T ShowsResults<T>(this T searchHandler, Func<bool> showsResultsFunc)
         where T : ISearchHandler
     {
-        searchHandler.ShowsResults = new PropertyValue<bool>(showsResultsFunc);
+        //searchHandler.ShowsResults = new PropertyValue<bool>(showsResultsFunc);
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ShowsResultsProperty, new PropertyValue<bool>(showsResultsFunc));
         return searchHandler;
     }
 

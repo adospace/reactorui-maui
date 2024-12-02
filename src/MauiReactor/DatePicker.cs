@@ -12,26 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IDatePicker : IView
 {
-    object? Format { get; set; }
-
-    object? Date { get; set; }
-
-    object? MinimumDate { get; set; }
-
-    object? MaximumDate { get; set; }
-
-    object? TextColor { get; set; }
-
-    object? CharacterSpacing { get; set; }
-
-    object? FontFamily { get; set; }
-
-    object? FontSize { get; set; }
-
-    object? FontAttributes { get; set; }
-
-    object? FontAutoScalingEnabled { get; set; }
-
     EventCommand<DateChangedEventArgs>? DateSelectedEvent { get; set; }
 }
 
@@ -47,49 +27,8 @@ public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Ma
         DatePickerStyles.Default?.Invoke(this);
     }
 
-    object? IDatePicker.Format { get; set; }
-
-    object? IDatePicker.Date { get; set; }
-
-    object? IDatePicker.MinimumDate { get; set; }
-
-    object? IDatePicker.MaximumDate { get; set; }
-
-    object? IDatePicker.TextColor { get; set; }
-
-    object? IDatePicker.CharacterSpacing { get; set; }
-
-    object? IDatePicker.FontFamily { get; set; }
-
-    object? IDatePicker.FontSize { get; set; }
-
-    object? IDatePicker.FontAttributes { get; set; }
-
-    object? IDatePicker.FontAutoScalingEnabled { get; set; }
-
     EventCommand<DateChangedEventArgs>? IDatePicker.DateSelectedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIDatePicker = (IDatePicker)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.FormatProperty, thisAsIDatePicker.Format);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.DateProperty, thisAsIDatePicker.Date);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.MinimumDateProperty, thisAsIDatePicker.MinimumDate);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.MaximumDateProperty, thisAsIDatePicker.MaximumDate);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.TextColorProperty, thisAsIDatePicker.TextColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.CharacterSpacingProperty, thisAsIDatePicker.CharacterSpacing);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.FontFamilyProperty, thisAsIDatePicker.FontFamily);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.FontSizeProperty, thisAsIDatePicker.FontSize);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.FontAttributesProperty, thisAsIDatePicker.FontAttributes);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DatePicker.FontAutoScalingEnabledProperty, thisAsIDatePicker.FontAutoScalingEnabled);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -168,147 +107,195 @@ public partial class DatePicker : DatePicker<Microsoft.Maui.Controls.DatePicker>
 
 public static partial class DatePickerExtensions
 {
-    static object? SetCharacterSpacing(object datePicker, RxAnimation animation) => ((IDatePicker)datePicker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetFontSize(object datePicker, RxAnimation animation) => ((IDatePicker)datePicker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    /*
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    static object? SetCharacterSpacing(object datePicker, RxAnimation animation)
+        => ((IDatePicker)datePicker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    
+    
+    static object? SetFontSize(object datePicker, RxAnimation animation)
+        => ((IDatePicker)datePicker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    
+    
+    */
     public static T Format<T>(this T datePicker, string format)
         where T : IDatePicker
     {
-        datePicker.Format = format;
+        //datePicker.Format = format;
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FormatProperty, format);
         return datePicker;
     }
 
     public static T Format<T>(this T datePicker, Func<string> formatFunc)
         where T : IDatePicker
     {
-        datePicker.Format = new PropertyValue<string>(formatFunc);
+        //datePicker.Format = new PropertyValue<string>(formatFunc);
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FormatProperty, new PropertyValue<string>(formatFunc));
         return datePicker;
     }
 
     public static T Date<T>(this T datePicker, System.DateTime date)
         where T : IDatePicker
     {
-        datePicker.Date = date;
+        //datePicker.Date = date;
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.DateProperty, date);
         return datePicker;
     }
 
     public static T Date<T>(this T datePicker, Func<System.DateTime> dateFunc)
         where T : IDatePicker
     {
-        datePicker.Date = new PropertyValue<System.DateTime>(dateFunc);
+        //datePicker.Date = new PropertyValue<System.DateTime>(dateFunc);
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.DateProperty, new PropertyValue<System.DateTime>(dateFunc));
         return datePicker;
     }
 
     public static T MinimumDate<T>(this T datePicker, System.DateTime minimumDate)
         where T : IDatePicker
     {
-        datePicker.MinimumDate = minimumDate;
+        //datePicker.MinimumDate = minimumDate;
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.MinimumDateProperty, minimumDate);
         return datePicker;
     }
 
     public static T MinimumDate<T>(this T datePicker, Func<System.DateTime> minimumDateFunc)
         where T : IDatePicker
     {
-        datePicker.MinimumDate = new PropertyValue<System.DateTime>(minimumDateFunc);
+        //datePicker.MinimumDate = new PropertyValue<System.DateTime>(minimumDateFunc);
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.MinimumDateProperty, new PropertyValue<System.DateTime>(minimumDateFunc));
         return datePicker;
     }
 
     public static T MaximumDate<T>(this T datePicker, System.DateTime maximumDate)
         where T : IDatePicker
     {
-        datePicker.MaximumDate = maximumDate;
+        //datePicker.MaximumDate = maximumDate;
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.MaximumDateProperty, maximumDate);
         return datePicker;
     }
 
     public static T MaximumDate<T>(this T datePicker, Func<System.DateTime> maximumDateFunc)
         where T : IDatePicker
     {
-        datePicker.MaximumDate = new PropertyValue<System.DateTime>(maximumDateFunc);
+        //datePicker.MaximumDate = new PropertyValue<System.DateTime>(maximumDateFunc);
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.MaximumDateProperty, new PropertyValue<System.DateTime>(maximumDateFunc));
         return datePicker;
     }
 
     public static T TextColor<T>(this T datePicker, Microsoft.Maui.Graphics.Color textColor)
         where T : IDatePicker
     {
-        datePicker.TextColor = textColor;
+        //datePicker.TextColor = textColor;
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.TextColorProperty, textColor);
         return datePicker;
     }
 
     public static T TextColor<T>(this T datePicker, Func<Microsoft.Maui.Graphics.Color> textColorFunc)
         where T : IDatePicker
     {
-        datePicker.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
+        //datePicker.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc));
         return datePicker;
     }
 
     public static T CharacterSpacing<T>(this T datePicker, double characterSpacing, RxDoubleAnimation? customAnimation = null)
         where T : IDatePicker
     {
-        datePicker.CharacterSpacing = characterSpacing;
-        datePicker.AppendAnimatable(Microsoft.Maui.Controls.DatePicker.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), SetCharacterSpacing);
+        //datePicker.CharacterSpacing = characterSpacing;
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.CharacterSpacingProperty, characterSpacing);
+        datePicker.AppendAnimatable(Microsoft.Maui.Controls.DatePicker.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing));
         return datePicker;
     }
 
     public static T CharacterSpacing<T>(this T datePicker, Func<double> characterSpacingFunc)
         where T : IDatePicker
     {
-        datePicker.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
+        //datePicker.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc));
         return datePicker;
     }
 
     public static T FontFamily<T>(this T datePicker, string fontFamily)
         where T : IDatePicker
     {
-        datePicker.FontFamily = fontFamily;
+        //datePicker.FontFamily = fontFamily;
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontFamilyProperty, fontFamily);
         return datePicker;
     }
 
     public static T FontFamily<T>(this T datePicker, Func<string> fontFamilyFunc)
         where T : IDatePicker
     {
-        datePicker.FontFamily = new PropertyValue<string>(fontFamilyFunc);
+        //datePicker.FontFamily = new PropertyValue<string>(fontFamilyFunc);
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc));
         return datePicker;
     }
 
     public static T FontSize<T>(this T datePicker, double fontSize, RxDoubleAnimation? customAnimation = null)
         where T : IDatePicker
     {
-        datePicker.FontSize = fontSize;
-        datePicker.AppendAnimatable(Microsoft.Maui.Controls.DatePicker.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), SetFontSize);
+        //datePicker.FontSize = fontSize;
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontSizeProperty, fontSize);
+        datePicker.AppendAnimatable(Microsoft.Maui.Controls.DatePicker.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize));
         return datePicker;
     }
 
     public static T FontSize<T>(this T datePicker, Func<double> fontSizeFunc)
         where T : IDatePicker
     {
-        datePicker.FontSize = new PropertyValue<double>(fontSizeFunc);
+        //datePicker.FontSize = new PropertyValue<double>(fontSizeFunc);
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontSizeProperty, new PropertyValue<double>(fontSizeFunc));
         return datePicker;
     }
 
     public static T FontAttributes<T>(this T datePicker, Microsoft.Maui.Controls.FontAttributes fontAttributes)
         where T : IDatePicker
     {
-        datePicker.FontAttributes = fontAttributes;
+        //datePicker.FontAttributes = fontAttributes;
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontAttributesProperty, fontAttributes);
         return datePicker;
     }
 
     public static T FontAttributes<T>(this T datePicker, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc)
         where T : IDatePicker
     {
-        datePicker.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
+        //datePicker.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc));
         return datePicker;
     }
 
     public static T FontAutoScalingEnabled<T>(this T datePicker, bool fontAutoScalingEnabled)
         where T : IDatePicker
     {
-        datePicker.FontAutoScalingEnabled = fontAutoScalingEnabled;
+        //datePicker.FontAutoScalingEnabled = fontAutoScalingEnabled;
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontAutoScalingEnabledProperty, fontAutoScalingEnabled);
         return datePicker;
     }
 
     public static T FontAutoScalingEnabled<T>(this T datePicker, Func<bool> fontAutoScalingEnabledFunc)
         where T : IDatePicker
     {
-        datePicker.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
+        //datePicker.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc));
         return datePicker;
     }
 

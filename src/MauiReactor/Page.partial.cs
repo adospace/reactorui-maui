@@ -69,8 +69,9 @@ public partial class Page<T>
         base.OnRemoveChild(widget, childControl);
     }
 
-    partial void OnEndUpdate()
+    protected override void OnUpdate()
     {
+        base.OnUpdate();
         var thisAsIPage = (IPage)this;
 
         if (thisAsIPage.WindowTitle != null &&                 

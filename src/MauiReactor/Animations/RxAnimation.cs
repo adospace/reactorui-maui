@@ -23,5 +23,7 @@
         protected virtual void OnMigrateFrom(RxAnimation previousAnimation)
         {
         }
+
+        internal abstract object GetCurrentValue();
     }
 }

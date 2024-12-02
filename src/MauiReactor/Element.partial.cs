@@ -5,8 +5,7 @@ namespace MauiReactor
 {
     public partial interface IElement : IVisualNodeWithAttachedProperties
     {
-        //void SetAttachedProperty(BindableProperty property, object value);
-
+        void Add(params VisualNode?[]? nodes);
     }
 
     public partial class Element<T> : IEnumerable
@@ -35,7 +34,6 @@ namespace MauiReactor
             if (nodes is null)
             {
                 return;
-                //throw new ArgumentNullException(nameof(nodes));
             }
 
             foreach (var node in nodes)
@@ -56,7 +54,7 @@ namespace MauiReactor
 
             if (genericNode is VisualNode visualNode)
             {
-                Add(visualNode);
+                OnChildAdd(visualNode);
             }
             else if (genericNode is IEnumerable nodes)
             {
@@ -70,9 +68,12 @@ namespace MauiReactor
 
         public void AddChildren(IEnumerable<VisualNode?> children)
         {
-            foreach (var child in children.Cast<VisualNode>())
+            foreach (var child in children)
             {
-                Add(child);
+                if (child != null)
+                {
+                    OnChildAdd(child);
+                }
             }
         }
 
@@ -85,6 +86,4 @@ namespace MauiReactor
         protected virtual void OnChildAdded(VisualNode node)
         { }
     }
-
-
 }

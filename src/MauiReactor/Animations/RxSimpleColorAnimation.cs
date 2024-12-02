@@ -22,6 +22,7 @@
 
         private bool _isCompleted;
         public override bool IsCompleted() => _isCompleted || StartColor == null || StartColor == TargetColor;
+        internal override object GetCurrentValue() => CurrentValue();
 
         public override Color CurrentValue()
         {

@@ -14,6 +14,7 @@
         private bool _isCompleted;
         public override bool IsCompleted() => _isCompleted || StartPoint == null || StartPoint.Value == TargetPoint;
 
+        internal override object GetCurrentValue() => CurrentValue();
 
         public override Rect CurrentValue()
         {

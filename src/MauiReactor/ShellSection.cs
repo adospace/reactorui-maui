@@ -26,15 +26,6 @@ public partial class ShellSection<T> : ShellGroupItem<T>, IShellSection where T 
         ShellSectionStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,6 +59,8 @@ public partial class ShellSection : ShellSection<Microsoft.Maui.Controls.ShellSe
 
 public static partial class ShellSectionExtensions
 {
+/*
+    */
 }
 
 public static partial class ShellSectionStyles

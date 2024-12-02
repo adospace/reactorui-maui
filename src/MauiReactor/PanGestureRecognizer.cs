@@ -12,8 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IPanGestureRecognizer : IGestureRecognizer
 {
-    object? TouchPoints { get; set; }
-
     EventCommand<PanUpdatedEventArgs>? PanUpdatedEvent { get; set; }
 }
 
@@ -29,22 +27,8 @@ public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGesture
         PanGestureRecognizerStyles.Default?.Invoke(this);
     }
 
-    object? IPanGestureRecognizer.TouchPoints { get; set; }
-
     EventCommand<PanUpdatedEventArgs>? IPanGestureRecognizer.PanUpdatedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIPanGestureRecognizer = (IPanGestureRecognizer)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.PanGestureRecognizer.TouchPointsProperty, thisAsIPanGestureRecognizer.TouchPoints);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -123,17 +107,23 @@ public partial class PanGestureRecognizer : PanGestureRecognizer<Microsoft.Maui.
 
 public static partial class PanGestureRecognizerExtensions
 {
+    /*
+    
+    
+    */
     public static T TouchPoints<T>(this T panGestureRecognizer, int touchPoints)
         where T : IPanGestureRecognizer
     {
-        panGestureRecognizer.TouchPoints = touchPoints;
+        //panGestureRecognizer.TouchPoints = touchPoints;
+        panGestureRecognizer.SetProperty(Microsoft.Maui.Controls.PanGestureRecognizer.TouchPointsProperty, touchPoints);
         return panGestureRecognizer;
     }
 
     public static T TouchPoints<T>(this T panGestureRecognizer, Func<int> touchPointsFunc)
         where T : IPanGestureRecognizer
     {
-        panGestureRecognizer.TouchPoints = new PropertyValue<int>(touchPointsFunc);
+        //panGestureRecognizer.TouchPoints = new PropertyValue<int>(touchPointsFunc);
+        panGestureRecognizer.SetProperty(Microsoft.Maui.Controls.PanGestureRecognizer.TouchPointsProperty, new PropertyValue<int>(touchPointsFunc));
         return panGestureRecognizer;
     }
 

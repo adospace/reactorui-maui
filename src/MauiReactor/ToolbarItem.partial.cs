@@ -14,8 +14,7 @@ public partial class ToolbarItem<T> : IToolbarItem
     ToolbarItemOrder? IToolbarItem.Order { get; set; }
     int? IToolbarItem.Priority { get; set; }
 
-
-    partial void OnBeginUpdate()
+    protected override void OnUpdate()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIToolbarItem = (IToolbarItem)this;
@@ -27,6 +26,7 @@ public partial class ToolbarItem<T> : IToolbarItem
         {
             NativeControl.Priority = thisAsIToolbarItem.Priority.Value;
         }
+        base.OnUpdate();
     }
 }
 

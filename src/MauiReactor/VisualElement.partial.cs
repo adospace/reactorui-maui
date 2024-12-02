@@ -35,8 +35,9 @@ public abstract partial class VisualElement<T>
         base.OnChildAdd(node);
     }
 
-    partial void OnEndUpdate()
+    protected override void OnUpdate()
     {
+        base.OnUpdate();
         var thisAsIVisualElement = (IVisualElement)this;
 
         if (thisAsIVisualElement.VisualStateGroups != null)

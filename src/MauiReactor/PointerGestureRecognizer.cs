@@ -45,15 +45,6 @@ public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microso
 
     EventCommand<PointerEventArgs>? IPointerGestureRecognizer.PointerReleasedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -209,6 +200,8 @@ public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microso
 
 public static partial class PointerGestureRecognizerExtensions
 {
+    /*
+    */
     public static T OnPointerEntered<T>(this T pointerGestureRecognizer, Action? pointerEnteredAction)
         where T : IPointerGestureRecognizer
     {

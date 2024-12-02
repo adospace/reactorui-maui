@@ -10,40 +10,40 @@ namespace MauiReactor
 {
     public static partial class AbsoluteLayoutExtensions
     {
-        static object? SetAbsoluteLayoutBounds(object visualNodeWithAttachedProperties, RxAnimation animation) 
-        {
-            var valueToSet = ((RxRectAnimation)animation).CurrentValue();
-            ((IVisualNodeWithAttachedProperties)visualNodeWithAttachedProperties).SetAttachedProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, valueToSet);
-            return valueToSet;
-        } 
+        //static object? SetAbsoluteLayoutBounds(object visualNodeWithAttachedProperties, RxAnimation animation) 
+        //{
+        //    var valueToSet = ((RxRectAnimation)animation).CurrentValue();
+        //    ((IVisualNodeWithAttachedProperties)visualNodeWithAttachedProperties).SetProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, valueToSet);
+        //    return valueToSet;
+        //} 
 
         public static T AbsoluteLayoutBounds<T>(this T visualNodeWithAttachedProperties, Rect value, RxRectAnimation? customAnimation = null) where T : IVisualNodeWithAttachedProperties
         {
-            visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, value);
+            visualNodeWithAttachedProperties.SetProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, value);
             visualNodeWithAttachedProperties.AppendAnimatable(
                 Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, 
-                customAnimation ?? new RxSimpleRectAnimation(value), SetAbsoluteLayoutBounds);
+                customAnimation ?? new RxSimpleRectAnimation(value));
 
             return visualNodeWithAttachedProperties;
         }
 
         public static T AbsoluteLayoutBounds<T>(this T visualNodeWithAttachedProperties, double x, double y, double width, double height) where T : IVisualNodeWithAttachedProperties
         {
-            visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, new Rect(x, y, width, height));
+            visualNodeWithAttachedProperties.SetProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, new Rect(x, y, width, height));
 
             return visualNodeWithAttachedProperties;
         }
 
         public static T AbsoluteLayoutBounds<T>(this T visualNodeWithAttachedProperties, Point loc, Size sz) where T : IVisualNodeWithAttachedProperties
         {
-            visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, new Rect(loc, sz));
+            visualNodeWithAttachedProperties.SetProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, new Rect(loc, sz));
 
             return visualNodeWithAttachedProperties;
         }
 
         public static T AbsoluteLayoutFlags<T>(this T visualNodeWithAttachedProperties, AbsoluteLayoutFlags value) where T : IVisualNodeWithAttachedProperties
         {
-            visualNodeWithAttachedProperties.SetAttachedProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutFlagsProperty, value);
+            visualNodeWithAttachedProperties.SetProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutFlagsProperty, value);
 
             return visualNodeWithAttachedProperties;
         }

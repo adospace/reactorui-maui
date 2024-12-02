@@ -26,15 +26,6 @@ public partial class FormattedString<T> : Element<T>, IFormattedString where T :
         FormattedStringStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,6 +59,8 @@ public partial class FormattedString : FormattedString<Microsoft.Maui.Controls.F
 
 public static partial class FormattedStringExtensions
 {
+/*
+    */
 }
 
 public static partial class FormattedStringStyles

@@ -12,12 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface INavigationPage : IPage
 {
-    object? BarBackgroundColor { get; set; }
-
-    object? BarBackground { get; set; }
-
-    object? BarTextColor { get; set; }
-
     EventCommand<NavigationEventArgs>? PoppedEvent { get; set; }
 
     EventCommand<NavigationEventArgs>? PoppedToRootEvent { get; set; }
@@ -37,32 +31,12 @@ public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Micr
         NavigationPageStyles.Default?.Invoke(this);
     }
 
-    object? INavigationPage.BarBackgroundColor { get; set; }
-
-    object? INavigationPage.BarBackground { get; set; }
-
-    object? INavigationPage.BarTextColor { get; set; }
-
     EventCommand<NavigationEventArgs>? INavigationPage.PoppedEvent { get; set; }
 
     EventCommand<NavigationEventArgs>? INavigationPage.PoppedToRootEvent { get; set; }
 
     EventCommand<NavigationEventArgs>? INavigationPage.PushedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsINavigationPage = (INavigationPage)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.NavigationPage.BarBackgroundColorProperty, thisAsINavigationPage.BarBackgroundColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.NavigationPage.BarBackgroundProperty, thisAsINavigationPage.BarBackground);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.NavigationPage.BarTextColorProperty, thisAsINavigationPage.BarTextColor);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -185,45 +159,59 @@ public partial class NavigationPage : NavigationPage<Microsoft.Maui.Controls.Nav
 
 public static partial class NavigationPageExtensions
 {
+    /*
+    
+    
+    
+    
+    
+    
+    */
     public static T BarBackgroundColor<T>(this T navigationPage, Microsoft.Maui.Graphics.Color barBackgroundColor)
         where T : INavigationPage
     {
-        navigationPage.BarBackgroundColor = barBackgroundColor;
+        //navigationPage.BarBackgroundColor = barBackgroundColor;
+        navigationPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.BarBackgroundColorProperty, barBackgroundColor);
         return navigationPage;
     }
 
     public static T BarBackgroundColor<T>(this T navigationPage, Func<Microsoft.Maui.Graphics.Color> barBackgroundColorFunc)
         where T : INavigationPage
     {
-        navigationPage.BarBackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(barBackgroundColorFunc);
+        //navigationPage.BarBackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(barBackgroundColorFunc);
+        navigationPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.BarBackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(barBackgroundColorFunc));
         return navigationPage;
     }
 
     public static T BarBackground<T>(this T navigationPage, Microsoft.Maui.Controls.Brush barBackground)
         where T : INavigationPage
     {
-        navigationPage.BarBackground = barBackground;
+        //navigationPage.BarBackground = barBackground;
+        navigationPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.BarBackgroundProperty, barBackground);
         return navigationPage;
     }
 
     public static T BarBackground<T>(this T navigationPage, Func<Microsoft.Maui.Controls.Brush> barBackgroundFunc)
         where T : INavigationPage
     {
-        navigationPage.BarBackground = new PropertyValue<Microsoft.Maui.Controls.Brush>(barBackgroundFunc);
+        //navigationPage.BarBackground = new PropertyValue<Microsoft.Maui.Controls.Brush>(barBackgroundFunc);
+        navigationPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.BarBackgroundProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(barBackgroundFunc));
         return navigationPage;
     }
 
     public static T BarTextColor<T>(this T navigationPage, Microsoft.Maui.Graphics.Color barTextColor)
         where T : INavigationPage
     {
-        navigationPage.BarTextColor = barTextColor;
+        //navigationPage.BarTextColor = barTextColor;
+        navigationPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.BarTextColorProperty, barTextColor);
         return navigationPage;
     }
 
     public static T BarTextColor<T>(this T navigationPage, Func<Microsoft.Maui.Graphics.Color> barTextColorFunc)
         where T : INavigationPage
     {
-        navigationPage.BarTextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(barTextColorFunc);
+        //navigationPage.BarTextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(barTextColorFunc);
+        navigationPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.BarTextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(barTextColorFunc));
         return navigationPage;
     }
 

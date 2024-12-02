@@ -12,10 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ISelectableItemsView : IStructuredItemsView
 {
-    object? SelectionMode { get; set; }
-
-    object? SelectedItem { get; set; }
-
     EventCommand<SelectionChangedEventArgs>? SelectionChangedEvent { get; set; }
 }
 
@@ -31,25 +27,8 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectabl
         SelectableItemsViewStyles.Default?.Invoke(this);
     }
 
-    object? ISelectableItemsView.SelectionMode { get; set; }
-
-    object? ISelectableItemsView.SelectedItem { get; set; }
-
     EventCommand<SelectionChangedEventArgs>? ISelectableItemsView.SelectionChangedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsISelectableItemsView = (ISelectableItemsView)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SelectableItemsView.SelectionModeProperty, thisAsISelectableItemsView.SelectionMode);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SelectableItemsView.SelectedItemProperty, thisAsISelectableItemsView.SelectedItem);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -128,31 +107,41 @@ public partial class SelectableItemsView : SelectableItemsView<Microsoft.Maui.Co
 
 public static partial class SelectableItemsViewExtensions
 {
+    /*
+    
+    
+    
+    
+    */
     public static T SelectionMode<T>(this T selectableItemsView, Microsoft.Maui.Controls.SelectionMode selectionMode)
         where T : ISelectableItemsView
     {
-        selectableItemsView.SelectionMode = selectionMode;
+        //selectableItemsView.SelectionMode = selectionMode;
+        selectableItemsView.SetProperty(Microsoft.Maui.Controls.SelectableItemsView.SelectionModeProperty, selectionMode);
         return selectableItemsView;
     }
 
     public static T SelectionMode<T>(this T selectableItemsView, Func<Microsoft.Maui.Controls.SelectionMode> selectionModeFunc)
         where T : ISelectableItemsView
     {
-        selectableItemsView.SelectionMode = new PropertyValue<Microsoft.Maui.Controls.SelectionMode>(selectionModeFunc);
+        //selectableItemsView.SelectionMode = new PropertyValue<Microsoft.Maui.Controls.SelectionMode>(selectionModeFunc);
+        selectableItemsView.SetProperty(Microsoft.Maui.Controls.SelectableItemsView.SelectionModeProperty, new PropertyValue<Microsoft.Maui.Controls.SelectionMode>(selectionModeFunc));
         return selectableItemsView;
     }
 
     public static T SelectedItem<T>(this T selectableItemsView, object? selectedItem)
         where T : ISelectableItemsView
     {
-        selectableItemsView.SelectedItem = selectedItem;
+        //selectableItemsView.SelectedItem = selectedItem;
+        selectableItemsView.SetProperty(Microsoft.Maui.Controls.SelectableItemsView.SelectedItemProperty, selectedItem);
         return selectableItemsView;
     }
 
     public static T SelectedItem<T>(this T selectableItemsView, Func<object?> selectedItemFunc)
         where T : ISelectableItemsView
     {
-        selectableItemsView.SelectedItem = new PropertyValue<object?>(selectedItemFunc);
+        //selectableItemsView.SelectedItem = new PropertyValue<object?>(selectedItemFunc);
+        selectableItemsView.SetProperty(Microsoft.Maui.Controls.SelectableItemsView.SelectedItemProperty, new PropertyValue<object?>(selectedItemFunc));
         return selectableItemsView;
     }
 

@@ -12,10 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IHybridWebView : IView
 {
-    object? DefaultFile { get; set; }
-
-    object? HybridRoot { get; set; }
-
     EventCommand<HybridWebViewRawMessageReceivedEventArgs>? RawMessageReceivedEvent { get; set; }
 }
 
@@ -31,25 +27,8 @@ public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Micros
         HybridWebViewStyles.Default?.Invoke(this);
     }
 
-    object? IHybridWebView.DefaultFile { get; set; }
-
-    object? IHybridWebView.HybridRoot { get; set; }
-
     EventCommand<HybridWebViewRawMessageReceivedEventArgs>? IHybridWebView.RawMessageReceivedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIHybridWebView = (IHybridWebView)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.HybridWebView.DefaultFileProperty, thisAsIHybridWebView.DefaultFile);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.HybridWebView.HybridRootProperty, thisAsIHybridWebView.HybridRoot);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -128,31 +107,41 @@ public partial class HybridWebView : HybridWebView<Microsoft.Maui.Controls.Hybri
 
 public static partial class HybridWebViewExtensions
 {
+    /*
+    
+    
+    
+    
+    */
     public static T DefaultFile<T>(this T hybridWebView, string defaultFile)
         where T : IHybridWebView
     {
-        hybridWebView.DefaultFile = defaultFile;
+        //hybridWebView.DefaultFile = defaultFile;
+        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.DefaultFileProperty, defaultFile);
         return hybridWebView;
     }
 
     public static T DefaultFile<T>(this T hybridWebView, Func<string> defaultFileFunc)
         where T : IHybridWebView
     {
-        hybridWebView.DefaultFile = new PropertyValue<string>(defaultFileFunc);
+        //hybridWebView.DefaultFile = new PropertyValue<string>(defaultFileFunc);
+        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.DefaultFileProperty, new PropertyValue<string>(defaultFileFunc));
         return hybridWebView;
     }
 
     public static T HybridRoot<T>(this T hybridWebView, string hybridRoot)
         where T : IHybridWebView
     {
-        hybridWebView.HybridRoot = hybridRoot;
+        //hybridWebView.HybridRoot = hybridRoot;
+        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.HybridRootProperty, hybridRoot);
         return hybridWebView;
     }
 
     public static T HybridRoot<T>(this T hybridWebView, Func<string> hybridRootFunc)
         where T : IHybridWebView
     {
-        hybridWebView.HybridRoot = new PropertyValue<string>(hybridRootFunc);
+        //hybridWebView.HybridRoot = new PropertyValue<string>(hybridRootFunc);
+        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.HybridRootProperty, new PropertyValue<string>(hybridRootFunc));
         return hybridWebView;
     }
 

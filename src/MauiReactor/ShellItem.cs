@@ -26,15 +26,6 @@ public partial class ShellItem<T> : ShellGroupItem<T>, IShellItem where T : Micr
         ShellItemStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,6 +59,8 @@ public partial class ShellItem : ShellItem<Microsoft.Maui.Controls.ShellItem>
 
 public static partial class ShellItemExtensions
 {
+/*
+    */
 }
 
 public static partial class ShellItemStyles

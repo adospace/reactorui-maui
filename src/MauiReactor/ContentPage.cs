@@ -12,7 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IContentPage : ITemplatedPage
 {
-    object? HideSoftInputOnTapped { get; set; }
 }
 
 public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : Microsoft.Maui.Controls.ContentPage, new()
@@ -27,20 +26,6 @@ public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : M
         ContentPageStyles.Default?.Invoke(this);
     }
 
-    object? IContentPage.HideSoftInputOnTapped { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIContentPage = (IContentPage)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ContentPage.HideSoftInputOnTappedProperty, thisAsIContentPage.HideSoftInputOnTapped);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -74,17 +59,23 @@ public partial class ContentPage : ContentPage<Microsoft.Maui.Controls.ContentPa
 
 public static partial class ContentPageExtensions
 {
+    /*
+    
+    
+    */
     public static T HideSoftInputOnTapped<T>(this T contentPage, bool hideSoftInputOnTapped)
         where T : IContentPage
     {
-        contentPage.HideSoftInputOnTapped = hideSoftInputOnTapped;
+        //contentPage.HideSoftInputOnTapped = hideSoftInputOnTapped;
+        contentPage.SetProperty(Microsoft.Maui.Controls.ContentPage.HideSoftInputOnTappedProperty, hideSoftInputOnTapped);
         return contentPage;
     }
 
     public static T HideSoftInputOnTapped<T>(this T contentPage, Func<bool> hideSoftInputOnTappedFunc)
         where T : IContentPage
     {
-        contentPage.HideSoftInputOnTapped = new PropertyValue<bool>(hideSoftInputOnTappedFunc);
+        //contentPage.HideSoftInputOnTapped = new PropertyValue<bool>(hideSoftInputOnTappedFunc);
+        contentPage.SetProperty(Microsoft.Maui.Controls.ContentPage.HideSoftInputOnTappedProperty, new PropertyValue<bool>(hideSoftInputOnTappedFunc));
         return contentPage;
     }
 }

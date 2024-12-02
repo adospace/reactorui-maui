@@ -12,8 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ICell : IElement
 {
-    object? IsEnabled { get; set; }
-
     EventCommand<EventArgs>? AppearingEvent { get; set; }
 
     EventCommand<EventArgs>? DisappearingEvent { get; set; }
@@ -33,26 +31,12 @@ public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Ma
         CellStyles.Default?.Invoke(this);
     }
 
-    object? ICell.IsEnabled { get; set; }
-
     EventCommand<EventArgs>? ICell.AppearingEvent { get; set; }
 
     EventCommand<EventArgs>? ICell.DisappearingEvent { get; set; }
 
     EventCommand<EventArgs>? ICell.TappedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsICell = (ICell)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Cell.IsEnabledProperty, thisAsICell.IsEnabled);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -164,17 +148,23 @@ public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Ma
 
 public static partial class CellExtensions
 {
+    /*
+    
+    
+    */
     public static T IsEnabled<T>(this T cell, bool isEnabled)
         where T : ICell
     {
-        cell.IsEnabled = isEnabled;
+        //cell.IsEnabled = isEnabled;
+        cell.SetProperty(Microsoft.Maui.Controls.Cell.IsEnabledProperty, isEnabled);
         return cell;
     }
 
     public static T IsEnabled<T>(this T cell, Func<bool> isEnabledFunc)
         where T : ICell
     {
-        cell.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
+        //cell.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
+        cell.SetProperty(Microsoft.Maui.Controls.Cell.IsEnabledProperty, new PropertyValue<bool>(isEnabledFunc));
         return cell;
     }
 

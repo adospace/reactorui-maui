@@ -12,20 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IImageButton : IView
 {
-    object? CornerRadius { get; set; }
-
-    object? BorderWidth { get; set; }
-
-    object? BorderColor { get; set; }
-
-    object? Source { get; set; }
-
-    object? Aspect { get; set; }
-
-    object? IsOpaque { get; set; }
-
-    object? Padding { get; set; }
-
     EventCommand<EventArgs>? ClickedEvent { get; set; }
 
     EventCommand<EventArgs>? PressedEvent { get; set; }
@@ -45,44 +31,12 @@ public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.
         ImageButtonStyles.Default?.Invoke(this);
     }
 
-    object? IImageButton.CornerRadius { get; set; }
-
-    object? IImageButton.BorderWidth { get; set; }
-
-    object? IImageButton.BorderColor { get; set; }
-
-    object? IImageButton.Source { get; set; }
-
-    object? IImageButton.Aspect { get; set; }
-
-    object? IImageButton.IsOpaque { get; set; }
-
-    object? IImageButton.Padding { get; set; }
-
     EventCommand<EventArgs>? IImageButton.ClickedEvent { get; set; }
 
     EventCommand<EventArgs>? IImageButton.PressedEvent { get; set; }
 
     EventCommand<EventArgs>? IImageButton.ReleasedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIImageButton = (IImageButton)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ImageButton.CornerRadiusProperty, thisAsIImageButton.CornerRadius);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, thisAsIImageButton.BorderWidth);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ImageButton.BorderColorProperty, thisAsIImageButton.BorderColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ImageButton.SourceProperty, thisAsIImageButton.Source);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ImageButton.AspectProperty, thisAsIImageButton.Aspect);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ImageButton.IsOpaqueProperty, thisAsIImageButton.IsOpaque);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ImageButton.PaddingProperty, thisAsIImageButton.Padding);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -205,176 +159,228 @@ public partial class ImageButton : ImageButton<Microsoft.Maui.Controls.ImageButt
 
 public static partial class ImageButtonExtensions
 {
-    static object? SetBorderWidth(object imageButton, RxAnimation animation) => ((IImageButton)imageButton).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetPadding(object imageButton, RxAnimation animation) => ((IImageButton)imageButton).Padding = ((RxThicknessAnimation)animation).CurrentValue();
+    /*
+    
+    
+    
+    
+    static object? SetBorderWidth(object imageButton, RxAnimation animation)
+        => ((IImageButton)imageButton).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+            
+    static object? SetPadding(object imageButton, RxAnimation animation)
+        => ((IImageButton)imageButton).Padding = ((RxThicknessAnimation)animation).CurrentValue();
+
+    
+    */
     public static T CornerRadius<T>(this T imageButton, int cornerRadius)
         where T : IImageButton
     {
-        imageButton.CornerRadius = cornerRadius;
+        //imageButton.CornerRadius = cornerRadius;
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.CornerRadiusProperty, cornerRadius);
         return imageButton;
     }
 
     public static T CornerRadius<T>(this T imageButton, Func<int> cornerRadiusFunc)
         where T : IImageButton
     {
-        imageButton.CornerRadius = new PropertyValue<int>(cornerRadiusFunc);
+        //imageButton.CornerRadius = new PropertyValue<int>(cornerRadiusFunc);
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.CornerRadiusProperty, new PropertyValue<int>(cornerRadiusFunc));
         return imageButton;
     }
 
     public static T BorderWidth<T>(this T imageButton, double borderWidth, RxDoubleAnimation? customAnimation = null)
         where T : IImageButton
     {
-        imageButton.BorderWidth = borderWidth;
-        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, customAnimation ?? new RxDoubleAnimation(borderWidth), SetBorderWidth);
+        //imageButton.BorderWidth = borderWidth;
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, borderWidth);
+        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, customAnimation ?? new RxDoubleAnimation(borderWidth));
         return imageButton;
     }
 
     public static T BorderWidth<T>(this T imageButton, Func<double> borderWidthFunc)
         where T : IImageButton
     {
-        imageButton.BorderWidth = new PropertyValue<double>(borderWidthFunc);
+        //imageButton.BorderWidth = new PropertyValue<double>(borderWidthFunc);
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, new PropertyValue<double>(borderWidthFunc));
         return imageButton;
     }
 
     public static T BorderColor<T>(this T imageButton, Microsoft.Maui.Graphics.Color borderColor)
         where T : IImageButton
     {
-        imageButton.BorderColor = borderColor;
+        //imageButton.BorderColor = borderColor;
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.BorderColorProperty, borderColor);
         return imageButton;
     }
 
     public static T BorderColor<T>(this T imageButton, Func<Microsoft.Maui.Graphics.Color> borderColorFunc)
         where T : IImageButton
     {
-        imageButton.BorderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc);
+        //imageButton.BorderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc);
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.BorderColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc));
         return imageButton;
     }
 
     public static T Source<T>(this T imageButton, Microsoft.Maui.Controls.ImageSource source)
         where T : IImageButton
     {
-        imageButton.Source = source;
+        //imageButton.Source = source;
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.SourceProperty, source);
         return imageButton;
     }
 
     public static T Source<T>(this T imageButton, Func<Microsoft.Maui.Controls.ImageSource> sourceFunc)
         where T : IImageButton
     {
-        imageButton.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(sourceFunc);
+        //imageButton.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(sourceFunc);
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.SourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(sourceFunc));
         return imageButton;
     }
 
     public static T Source<T>(this T imageButton, string file)
         where T : IImageButton
     {
-        imageButton.Source = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        //imageButton.Source = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.SourceProperty, Microsoft.Maui.Controls.ImageSource.FromFile(file));
         return imageButton;
     }
 
     public static T Source<T>(this T imageButton, Func<string> action)
         where T : IImageButton
     {
-        imageButton.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+        /*imageButton.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(
+            () => Microsoft.Maui.Controls.ImageSource.FromFile(action()));*/
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.SourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action())));
         return imageButton;
     }
 
     public static T Source<T>(this T imageButton, string resourceName, Assembly sourceAssembly)
         where T : IImageButton
     {
-        imageButton.Source = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        //imageButton.Source = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.SourceProperty, Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
         return imageButton;
     }
 
     public static T Source<T>(this T imageButton, Uri imageUri)
         where T : IImageButton
     {
-        imageButton.Source = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        //imageButton.Source = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.SourceProperty, Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
         return imageButton;
     }
 
     public static T Source<T>(this T imageButton, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IImageButton
     {
-        imageButton.Source = new Microsoft.Maui.Controls.UriImageSource
+        //imageButton.Source = new Microsoft.Maui.Controls.UriImageSource
+        //{
+        //    Uri = imageUri,
+        //    CachingEnabled = cachingEnabled,
+        //    CacheValidity = cacheValidity
+        //};
+        var newValue = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,
             CacheValidity = cacheValidity
         };
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.SourceProperty, newValue);
         return imageButton;
     }
 
     public static T Source<T>(this T imageButton, Func<Stream> imageStream)
         where T : IImageButton
     {
-        imageButton.Source = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        //imageButton.Source = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.SourceProperty, Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
         return imageButton;
     }
 
     public static T Aspect<T>(this T imageButton, Microsoft.Maui.Aspect aspect)
         where T : IImageButton
     {
-        imageButton.Aspect = aspect;
+        //imageButton.Aspect = aspect;
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.AspectProperty, aspect);
         return imageButton;
     }
 
     public static T Aspect<T>(this T imageButton, Func<Microsoft.Maui.Aspect> aspectFunc)
         where T : IImageButton
     {
-        imageButton.Aspect = new PropertyValue<Microsoft.Maui.Aspect>(aspectFunc);
+        //imageButton.Aspect = new PropertyValue<Microsoft.Maui.Aspect>(aspectFunc);
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.AspectProperty, new PropertyValue<Microsoft.Maui.Aspect>(aspectFunc));
         return imageButton;
     }
 
     public static T IsOpaque<T>(this T imageButton, bool isOpaque)
         where T : IImageButton
     {
-        imageButton.IsOpaque = isOpaque;
+        //imageButton.IsOpaque = isOpaque;
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.IsOpaqueProperty, isOpaque);
         return imageButton;
     }
 
     public static T IsOpaque<T>(this T imageButton, Func<bool> isOpaqueFunc)
         where T : IImageButton
     {
-        imageButton.IsOpaque = new PropertyValue<bool>(isOpaqueFunc);
+        //imageButton.IsOpaque = new PropertyValue<bool>(isOpaqueFunc);
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.IsOpaqueProperty, new PropertyValue<bool>(isOpaqueFunc));
         return imageButton;
     }
 
     public static T Padding<T>(this T imageButton, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
         where T : IImageButton
     {
-        imageButton.Padding = padding;
-        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), SetPadding);
+        //imageButton.Padding = padding;
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.PaddingProperty, padding);
+        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding));
         return imageButton;
     }
 
     public static T Padding<T>(this T imageButton, Func<Microsoft.Maui.Thickness> paddingFunc)
         where T : IImageButton
     {
-        imageButton.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
+        //imageButton.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc));
         return imageButton;
     }
 
     public static T Padding<T>(this T imageButton, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
         where T : IImageButton
     {
-        imageButton.Padding = new Thickness(leftRight, topBottom);
-        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), SetPadding);
+        //imageButton.Padding = new Thickness(leftRight, topBottom);
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.PaddingProperty, new Thickness(leftRight, topBottom));
+        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)));
         return imageButton;
     }
 
     public static T Padding<T>(this T imageButton, double uniformSize, RxThicknessAnimation? customAnimation = null)
         where T : IImageButton
     {
-        imageButton.Padding = new Thickness(uniformSize);
-        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), SetPadding);
+        //imageButton.Padding = new Thickness(uniformSize);
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.PaddingProperty, new Thickness(uniformSize));
+        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)));
         return imageButton;
     }
 
     public static T Padding<T>(this T imageButton, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
         where T : IImageButton
     {
-        imageButton.Padding = new Thickness(left, top, right, bottom);
-        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), SetPadding);
+        //imageButton.Padding = new Thickness(left, top, right, bottom);
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.PaddingProperty, new Thickness(left, top, right, bottom));
+        imageButton.AppendAnimatable(Microsoft.Maui.Controls.ImageButton.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)));
         return imageButton;
     }
 

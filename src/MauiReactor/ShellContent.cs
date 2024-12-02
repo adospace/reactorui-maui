@@ -26,15 +26,6 @@ public partial class ShellContent<T> : BaseShellItem<T>, IShellContent where T :
         ShellContentStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,6 +59,8 @@ public partial class ShellContent : ShellContent<Microsoft.Maui.Controls.ShellCo
 
 public static partial class ShellContentExtensions
 {
+/*
+    */
 }
 
 public static partial class ShellContentStyles

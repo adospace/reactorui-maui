@@ -12,13 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ITitleBar : ITemplatedView
 {
-    object? Icon { get; set; }
-
-    object? Title { get; set; }
-
-    object? Subtitle { get; set; }
-
-    object? ForegroundColor { get; set; }
 }
 
 public partial class TitleBar<T> : TemplatedView<T>, ITitleBar where T : Microsoft.Maui.Controls.TitleBar, new()
@@ -33,29 +26,6 @@ public partial class TitleBar<T> : TemplatedView<T>, ITitleBar where T : Microso
         TitleBarStyles.Default?.Invoke(this);
     }
 
-    object? ITitleBar.Icon { get; set; }
-
-    object? ITitleBar.Title { get; set; }
-
-    object? ITitleBar.Subtitle { get; set; }
-
-    object? ITitleBar.ForegroundColor { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsITitleBar = (ITitleBar)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TitleBar.IconProperty, thisAsITitleBar.Icon);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TitleBar.TitleProperty, thisAsITitleBar.Title);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TitleBar.SubtitleProperty, thisAsITitleBar.Subtitle);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TitleBar.ForegroundColorProperty, thisAsITitleBar.ForegroundColor);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -89,106 +59,137 @@ public partial class TitleBar : TitleBar<Microsoft.Maui.Controls.TitleBar>
 
 public static partial class TitleBarExtensions
 {
+    /*
+    
+    
+    
+    
+    
+    
+    
+    
+    */
     public static T Icon<T>(this T titleBar, Microsoft.Maui.Controls.ImageSource icon)
         where T : ITitleBar
     {
-        titleBar.Icon = icon;
+        //titleBar.Icon = icon;
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.IconProperty, icon);
         return titleBar;
     }
 
     public static T Icon<T>(this T titleBar, Func<Microsoft.Maui.Controls.ImageSource> iconFunc)
         where T : ITitleBar
     {
-        titleBar.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc);
+        //titleBar.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc);
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.IconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc));
         return titleBar;
     }
 
     public static T Icon<T>(this T titleBar, string file)
         where T : ITitleBar
     {
-        titleBar.Icon = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        //titleBar.Icon = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.IconProperty, Microsoft.Maui.Controls.ImageSource.FromFile(file));
         return titleBar;
     }
 
     public static T Icon<T>(this T titleBar, Func<string> action)
         where T : ITitleBar
     {
-        titleBar.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+        /*titleBar.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(
+            () => Microsoft.Maui.Controls.ImageSource.FromFile(action()));*/
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.IconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action())));
         return titleBar;
     }
 
     public static T Icon<T>(this T titleBar, string resourceName, Assembly sourceAssembly)
         where T : ITitleBar
     {
-        titleBar.Icon = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        //titleBar.Icon = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.IconProperty, Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
         return titleBar;
     }
 
     public static T Icon<T>(this T titleBar, Uri imageUri)
         where T : ITitleBar
     {
-        titleBar.Icon = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        //titleBar.Icon = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.IconProperty, Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
         return titleBar;
     }
 
     public static T Icon<T>(this T titleBar, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : ITitleBar
     {
-        titleBar.Icon = new Microsoft.Maui.Controls.UriImageSource
+        //titleBar.Icon = new Microsoft.Maui.Controls.UriImageSource
+        //{
+        //    Uri = imageUri,
+        //    CachingEnabled = cachingEnabled,
+        //    CacheValidity = cacheValidity
+        //};
+        var newValue = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,
             CacheValidity = cacheValidity
         };
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.IconProperty, newValue);
         return titleBar;
     }
 
     public static T Icon<T>(this T titleBar, Func<Stream> imageStream)
         where T : ITitleBar
     {
-        titleBar.Icon = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        //titleBar.Icon = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.IconProperty, Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
         return titleBar;
     }
 
     public static T Title<T>(this T titleBar, string title)
         where T : ITitleBar
     {
-        titleBar.Title = title;
+        //titleBar.Title = title;
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.TitleProperty, title);
         return titleBar;
     }
 
     public static T Title<T>(this T titleBar, Func<string> titleFunc)
         where T : ITitleBar
     {
-        titleBar.Title = new PropertyValue<string>(titleFunc);
+        //titleBar.Title = new PropertyValue<string>(titleFunc);
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.TitleProperty, new PropertyValue<string>(titleFunc));
         return titleBar;
     }
 
     public static T Subtitle<T>(this T titleBar, string subtitle)
         where T : ITitleBar
     {
-        titleBar.Subtitle = subtitle;
+        //titleBar.Subtitle = subtitle;
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.SubtitleProperty, subtitle);
         return titleBar;
     }
 
     public static T Subtitle<T>(this T titleBar, Func<string> subtitleFunc)
         where T : ITitleBar
     {
-        titleBar.Subtitle = new PropertyValue<string>(subtitleFunc);
+        //titleBar.Subtitle = new PropertyValue<string>(subtitleFunc);
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.SubtitleProperty, new PropertyValue<string>(subtitleFunc));
         return titleBar;
     }
 
     public static T ForegroundColor<T>(this T titleBar, Microsoft.Maui.Graphics.Color foregroundColor)
         where T : ITitleBar
     {
-        titleBar.ForegroundColor = foregroundColor;
+        //titleBar.ForegroundColor = foregroundColor;
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.ForegroundColorProperty, foregroundColor);
         return titleBar;
     }
 
     public static T ForegroundColor<T>(this T titleBar, Func<Microsoft.Maui.Graphics.Color> foregroundColorFunc)
         where T : ITitleBar
     {
-        titleBar.ForegroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(foregroundColorFunc);
+        //titleBar.ForegroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(foregroundColorFunc);
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.ForegroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(foregroundColorFunc));
         return titleBar;
     }
 }

@@ -106,8 +106,7 @@ public partial class ShellContent<T> : IAutomationItemContainer
         return base.RenderChildren();
     }
 
-
-    partial void OnBeginUpdate()
+    protected override void OnUpdate()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsShellContent = (IShellContent)this;
@@ -129,6 +128,7 @@ public partial class ShellContent<T> : IAutomationItemContainer
         {
             NativeControl.ClearValue(Microsoft.Maui.Controls.ShellContent.ContentTemplateProperty);
         }
+        base.OnUpdate();
     }
 
     partial void Migrated(VisualNode newNode)

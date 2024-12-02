@@ -26,15 +26,6 @@ public partial class MenuFlyoutSubItem<T> : MenuFlyoutItem<T>, IMenuFlyoutSubIte
         MenuFlyoutSubItemStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,6 +59,8 @@ public partial class MenuFlyoutSubItem : MenuFlyoutSubItem<Microsoft.Maui.Contro
 
 public static partial class MenuFlyoutSubItemExtensions
 {
+/*
+    */
 }
 
 public static partial class MenuFlyoutSubItemStyles

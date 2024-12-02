@@ -29,15 +29,6 @@ public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft
 
     EventCommand<PinchGestureUpdatedEventArgs>? IPinchGestureRecognizer.PinchUpdatedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -105,6 +96,8 @@ public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft
 
 public static partial class PinchGestureRecognizerExtensions
 {
+    /*
+    */
     public static T OnPinchUpdated<T>(this T pinchGestureRecognizer, Action? pinchUpdatedAction)
         where T : IPinchGestureRecognizer
     {

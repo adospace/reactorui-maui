@@ -22,9 +22,9 @@ namespace MauiReactor.Shapes
 
         PropertyValue<Geometry>? IPath.Data { get; set; }
 
-
-        partial void OnEndUpdate()
+        protected override void OnUpdate()
         {
+            base.OnUpdate();
             Validate.EnsureNotNull(NativeControl);
             var thisAsIPath = (IPath)this;
             SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Path.DataProperty, thisAsIPath.Data);

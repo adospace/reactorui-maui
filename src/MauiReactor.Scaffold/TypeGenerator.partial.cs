@@ -145,6 +145,10 @@ namespace MauiReactor.Scaffold
         public string BaseInterfaceName()
         {
             var baseTypeName = BaseTypeName();
+            if (baseTypeName == "VisualNode")
+            {
+                return "IVisualNodeWithNativeControl";
+            }
             return baseTypeName.Insert(baseTypeName.LastIndexOf('.') + 1, "I");
         }
 

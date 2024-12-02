@@ -12,11 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor.Shapes;
 public partial interface IEllipseGeometry : Shapes.IGeometry
 {
-    object? Center { get; set; }
-
-    object? RadiusX { get; set; }
-
-    object? RadiusY { get; set; }
 }
 
 public partial class EllipseGeometry<T> : Shapes.Geometry<T>, IEllipseGeometry where T : Microsoft.Maui.Controls.Shapes.EllipseGeometry, new()
@@ -31,26 +26,6 @@ public partial class EllipseGeometry<T> : Shapes.Geometry<T>, IEllipseGeometry w
         EllipseGeometryStyles.Default?.Invoke(this);
     }
 
-    object? IEllipseGeometry.Center { get; set; }
-
-    object? IEllipseGeometry.RadiusX { get; set; }
-
-    object? IEllipseGeometry.RadiusY { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIEllipseGeometry = (IEllipseGeometry)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, thisAsIEllipseGeometry.Center);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, thisAsIEllipseGeometry.RadiusX);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, thisAsIEllipseGeometry.RadiusY);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -84,58 +59,82 @@ public partial class EllipseGeometry : EllipseGeometry<Microsoft.Maui.Controls.S
 
 public static partial class EllipseGeometryExtensions
 {
-    static object? SetCenter(object ellipseGeometry, RxAnimation animation) => ((IEllipseGeometry)ellipseGeometry).Center = ((RxPointAnimation)animation).CurrentValue();
-    static object? SetRadiusX(object ellipseGeometry, RxAnimation animation) => ((IEllipseGeometry)ellipseGeometry).RadiusX = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetRadiusY(object ellipseGeometry, RxAnimation animation) => ((IEllipseGeometry)ellipseGeometry).RadiusY = ((RxDoubleAnimation)animation).CurrentValue();
+    /*
+    
+        
+    static object? SetCenter(object ellipseGeometry, RxAnimation animation)
+        => ((IEllipseGeometry)ellipseGeometry).Center = ((RxPointAnimation)animation).CurrentValue();
+
+    
+    
+    
+    static object? SetRadiusX(object ellipseGeometry, RxAnimation animation)
+        => ((IEllipseGeometry)ellipseGeometry).RadiusX = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    static object? SetRadiusY(object ellipseGeometry, RxAnimation animation)
+        => ((IEllipseGeometry)ellipseGeometry).RadiusY = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    */
     public static T Center<T>(this T ellipseGeometry, Microsoft.Maui.Graphics.Point center, RxPointAnimation? customAnimation = null)
         where T : IEllipseGeometry
     {
-        ellipseGeometry.Center = center;
-        ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, customAnimation ?? new RxSimplePointAnimation(center), SetCenter);
+        //ellipseGeometry.Center = center;
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, center);
+        ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, customAnimation ?? new RxSimplePointAnimation(center));
         return ellipseGeometry;
     }
 
     public static T Center<T>(this T ellipseGeometry, Func<Microsoft.Maui.Graphics.Point> centerFunc)
         where T : IEllipseGeometry
     {
-        ellipseGeometry.Center = new PropertyValue<Microsoft.Maui.Graphics.Point>(centerFunc);
+        //ellipseGeometry.Center = new PropertyValue<Microsoft.Maui.Graphics.Point>(centerFunc);
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, new PropertyValue<Microsoft.Maui.Graphics.Point>(centerFunc));
         return ellipseGeometry;
     }
 
     public static T Center<T>(this T ellipseGeometry, double x, double y)
         where T : IEllipseGeometry
     {
-        ellipseGeometry.Center = new Microsoft.Maui.Graphics.Point(x, y);
+        //ellipseGeometry.Center = new Microsoft.Maui.Graphics.Point(x, y);
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, new Microsoft.Maui.Graphics.Point(x, y));
         return ellipseGeometry;
     }
 
     public static T RadiusX<T>(this T ellipseGeometry, double radiusX, RxDoubleAnimation? customAnimation = null)
         where T : IEllipseGeometry
     {
-        ellipseGeometry.RadiusX = radiusX;
-        ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, customAnimation ?? new RxDoubleAnimation(radiusX), SetRadiusX);
+        //ellipseGeometry.RadiusX = radiusX;
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, radiusX);
+        ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, customAnimation ?? new RxDoubleAnimation(radiusX));
         return ellipseGeometry;
     }
 
     public static T RadiusX<T>(this T ellipseGeometry, Func<double> radiusXFunc)
         where T : IEllipseGeometry
     {
-        ellipseGeometry.RadiusX = new PropertyValue<double>(radiusXFunc);
+        //ellipseGeometry.RadiusX = new PropertyValue<double>(radiusXFunc);
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, new PropertyValue<double>(radiusXFunc));
         return ellipseGeometry;
     }
 
     public static T RadiusY<T>(this T ellipseGeometry, double radiusY, RxDoubleAnimation? customAnimation = null)
         where T : IEllipseGeometry
     {
-        ellipseGeometry.RadiusY = radiusY;
-        ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, customAnimation ?? new RxDoubleAnimation(radiusY), SetRadiusY);
+        //ellipseGeometry.RadiusY = radiusY;
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, radiusY);
+        ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, customAnimation ?? new RxDoubleAnimation(radiusY));
         return ellipseGeometry;
     }
 
     public static T RadiusY<T>(this T ellipseGeometry, Func<double> radiusYFunc)
         where T : IEllipseGeometry
     {
-        ellipseGeometry.RadiusY = new PropertyValue<double>(radiusYFunc);
+        //ellipseGeometry.RadiusY = new PropertyValue<double>(radiusYFunc);
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, new PropertyValue<double>(radiusYFunc));
         return ellipseGeometry;
     }
 }

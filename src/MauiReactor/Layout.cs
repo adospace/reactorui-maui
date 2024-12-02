@@ -12,11 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ILayout : IView
 {
-    object? IsClippedToBounds { get; set; }
-
-    object? Padding { get; set; }
-
-    object? CascadeInputTransparent { get; set; }
 }
 
 public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.Maui.Controls.Layout, new()
@@ -31,26 +26,6 @@ public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.M
         LayoutStyles.Default?.Invoke(this);
     }
 
-    object? ILayout.IsClippedToBounds { get; set; }
-
-    object? ILayout.Padding { get; set; }
-
-    object? ILayout.CascadeInputTransparent { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsILayout = (ILayout)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Layout.IsClippedToBoundsProperty, thisAsILayout.IsClippedToBounds);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Layout.PaddingProperty, thisAsILayout.Padding);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Layout.CascadeInputTransparentProperty, thisAsILayout.CascadeInputTransparent);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -73,71 +48,91 @@ public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.M
 
 public static partial class LayoutExtensions
 {
-    static object? SetPadding(object layout, RxAnimation animation) => ((ILayout)layout).Padding = ((RxThicknessAnimation)animation).CurrentValue();
+    /*
+    
+    
+    
+            
+    static object? SetPadding(object layout, RxAnimation animation)
+        => ((ILayout)layout).Padding = ((RxThicknessAnimation)animation).CurrentValue();
+
+    
+    
+    
+    */
     public static T IsClippedToBounds<T>(this T layout, bool isClippedToBounds)
         where T : ILayout
     {
-        layout.IsClippedToBounds = isClippedToBounds;
+        //layout.IsClippedToBounds = isClippedToBounds;
+        layout.SetProperty(Microsoft.Maui.Controls.Layout.IsClippedToBoundsProperty, isClippedToBounds);
         return layout;
     }
 
     public static T IsClippedToBounds<T>(this T layout, Func<bool> isClippedToBoundsFunc)
         where T : ILayout
     {
-        layout.IsClippedToBounds = new PropertyValue<bool>(isClippedToBoundsFunc);
+        //layout.IsClippedToBounds = new PropertyValue<bool>(isClippedToBoundsFunc);
+        layout.SetProperty(Microsoft.Maui.Controls.Layout.IsClippedToBoundsProperty, new PropertyValue<bool>(isClippedToBoundsFunc));
         return layout;
     }
 
     public static T Padding<T>(this T layout, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
         where T : ILayout
     {
-        layout.Padding = padding;
-        layout.AppendAnimatable(Microsoft.Maui.Controls.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding), SetPadding);
+        //layout.Padding = padding;
+        layout.SetProperty(Microsoft.Maui.Controls.Layout.PaddingProperty, padding);
+        layout.AppendAnimatable(Microsoft.Maui.Controls.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding));
         return layout;
     }
 
     public static T Padding<T>(this T layout, Func<Microsoft.Maui.Thickness> paddingFunc)
         where T : ILayout
     {
-        layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
+        //layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
+        layout.SetProperty(Microsoft.Maui.Controls.Layout.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc));
         return layout;
     }
 
     public static T Padding<T>(this T layout, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
         where T : ILayout
     {
-        layout.Padding = new Thickness(leftRight, topBottom);
-        layout.AppendAnimatable(Microsoft.Maui.Controls.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)), SetPadding);
+        //layout.Padding = new Thickness(leftRight, topBottom);
+        layout.SetProperty(Microsoft.Maui.Controls.Layout.PaddingProperty, new Thickness(leftRight, topBottom));
+        layout.AppendAnimatable(Microsoft.Maui.Controls.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)));
         return layout;
     }
 
     public static T Padding<T>(this T layout, double uniformSize, RxThicknessAnimation? customAnimation = null)
         where T : ILayout
     {
-        layout.Padding = new Thickness(uniformSize);
-        layout.AppendAnimatable(Microsoft.Maui.Controls.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)), SetPadding);
+        //layout.Padding = new Thickness(uniformSize);
+        layout.SetProperty(Microsoft.Maui.Controls.Layout.PaddingProperty, new Thickness(uniformSize));
+        layout.AppendAnimatable(Microsoft.Maui.Controls.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)));
         return layout;
     }
 
     public static T Padding<T>(this T layout, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
         where T : ILayout
     {
-        layout.Padding = new Thickness(left, top, right, bottom);
-        layout.AppendAnimatable(Microsoft.Maui.Controls.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)), SetPadding);
+        //layout.Padding = new Thickness(left, top, right, bottom);
+        layout.SetProperty(Microsoft.Maui.Controls.Layout.PaddingProperty, new Thickness(left, top, right, bottom));
+        layout.AppendAnimatable(Microsoft.Maui.Controls.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)));
         return layout;
     }
 
     public static T CascadeInputTransparent<T>(this T layout, bool cascadeInputTransparent)
         where T : ILayout
     {
-        layout.CascadeInputTransparent = cascadeInputTransparent;
+        //layout.CascadeInputTransparent = cascadeInputTransparent;
+        layout.SetProperty(Microsoft.Maui.Controls.Layout.CascadeInputTransparentProperty, cascadeInputTransparent);
         return layout;
     }
 
     public static T CascadeInputTransparent<T>(this T layout, Func<bool> cascadeInputTransparentFunc)
         where T : ILayout
     {
-        layout.CascadeInputTransparent = new PropertyValue<bool>(cascadeInputTransparentFunc);
+        //layout.CascadeInputTransparent = new PropertyValue<bool>(cascadeInputTransparentFunc);
+        layout.SetProperty(Microsoft.Maui.Controls.Layout.CascadeInputTransparentProperty, new PropertyValue<bool>(cascadeInputTransparentFunc));
         return layout;
     }
 }

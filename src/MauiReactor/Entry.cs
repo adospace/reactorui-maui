@@ -12,16 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IEntry : IInputView
 {
-    object? ReturnType { get; set; }
-
-    object? IsPassword { get; set; }
-
-    object? HorizontalTextAlignment { get; set; }
-
-    object? VerticalTextAlignment { get; set; }
-
-    object? ClearButtonVisibility { get; set; }
-
     EventCommand<EventArgs>? CompletedEvent { get; set; }
 }
 
@@ -37,34 +27,8 @@ public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Co
         EntryStyles.Default?.Invoke(this);
     }
 
-    object? IEntry.ReturnType { get; set; }
-
-    object? IEntry.IsPassword { get; set; }
-
-    object? IEntry.HorizontalTextAlignment { get; set; }
-
-    object? IEntry.VerticalTextAlignment { get; set; }
-
-    object? IEntry.ClearButtonVisibility { get; set; }
-
     EventCommand<EventArgs>? IEntry.CompletedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIEntry = (IEntry)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.ReturnTypeProperty, thisAsIEntry.ReturnType);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.IsPasswordProperty, thisAsIEntry.IsPassword);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.HorizontalTextAlignmentProperty, thisAsIEntry.HorizontalTextAlignment);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.VerticalTextAlignmentProperty, thisAsIEntry.VerticalTextAlignment);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Entry.ClearButtonVisibilityProperty, thisAsIEntry.ClearButtonVisibility);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -143,73 +107,95 @@ public partial class Entry : Entry<Microsoft.Maui.Controls.Entry>
 
 public static partial class EntryExtensions
 {
+    /*
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    */
     public static T ReturnType<T>(this T entry, Microsoft.Maui.ReturnType returnType)
         where T : IEntry
     {
-        entry.ReturnType = returnType;
+        //entry.ReturnType = returnType;
+        entry.SetProperty(Microsoft.Maui.Controls.Entry.ReturnTypeProperty, returnType);
         return entry;
     }
 
     public static T ReturnType<T>(this T entry, Func<Microsoft.Maui.ReturnType> returnTypeFunc)
         where T : IEntry
     {
-        entry.ReturnType = new PropertyValue<Microsoft.Maui.ReturnType>(returnTypeFunc);
+        //entry.ReturnType = new PropertyValue<Microsoft.Maui.ReturnType>(returnTypeFunc);
+        entry.SetProperty(Microsoft.Maui.Controls.Entry.ReturnTypeProperty, new PropertyValue<Microsoft.Maui.ReturnType>(returnTypeFunc));
         return entry;
     }
 
     public static T IsPassword<T>(this T entry, bool isPassword)
         where T : IEntry
     {
-        entry.IsPassword = isPassword;
+        //entry.IsPassword = isPassword;
+        entry.SetProperty(Microsoft.Maui.Controls.Entry.IsPasswordProperty, isPassword);
         return entry;
     }
 
     public static T IsPassword<T>(this T entry, Func<bool> isPasswordFunc)
         where T : IEntry
     {
-        entry.IsPassword = new PropertyValue<bool>(isPasswordFunc);
+        //entry.IsPassword = new PropertyValue<bool>(isPasswordFunc);
+        entry.SetProperty(Microsoft.Maui.Controls.Entry.IsPasswordProperty, new PropertyValue<bool>(isPasswordFunc));
         return entry;
     }
 
     public static T HorizontalTextAlignment<T>(this T entry, Microsoft.Maui.TextAlignment horizontalTextAlignment)
         where T : IEntry
     {
-        entry.HorizontalTextAlignment = horizontalTextAlignment;
+        //entry.HorizontalTextAlignment = horizontalTextAlignment;
+        entry.SetProperty(Microsoft.Maui.Controls.Entry.HorizontalTextAlignmentProperty, horizontalTextAlignment);
         return entry;
     }
 
     public static T HorizontalTextAlignment<T>(this T entry, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc)
         where T : IEntry
     {
-        entry.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
+        //entry.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
+        entry.SetProperty(Microsoft.Maui.Controls.Entry.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc));
         return entry;
     }
 
     public static T VerticalTextAlignment<T>(this T entry, Microsoft.Maui.TextAlignment verticalTextAlignment)
         where T : IEntry
     {
-        entry.VerticalTextAlignment = verticalTextAlignment;
+        //entry.VerticalTextAlignment = verticalTextAlignment;
+        entry.SetProperty(Microsoft.Maui.Controls.Entry.VerticalTextAlignmentProperty, verticalTextAlignment);
         return entry;
     }
 
     public static T VerticalTextAlignment<T>(this T entry, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc)
         where T : IEntry
     {
-        entry.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
+        //entry.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
+        entry.SetProperty(Microsoft.Maui.Controls.Entry.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc));
         return entry;
     }
 
     public static T ClearButtonVisibility<T>(this T entry, Microsoft.Maui.ClearButtonVisibility clearButtonVisibility)
         where T : IEntry
     {
-        entry.ClearButtonVisibility = clearButtonVisibility;
+        //entry.ClearButtonVisibility = clearButtonVisibility;
+        entry.SetProperty(Microsoft.Maui.Controls.Entry.ClearButtonVisibilityProperty, clearButtonVisibility);
         return entry;
     }
 
     public static T ClearButtonVisibility<T>(this T entry, Func<Microsoft.Maui.ClearButtonVisibility> clearButtonVisibilityFunc)
         where T : IEntry
     {
-        entry.ClearButtonVisibility = new PropertyValue<Microsoft.Maui.ClearButtonVisibility>(clearButtonVisibilityFunc);
+        //entry.ClearButtonVisibility = new PropertyValue<Microsoft.Maui.ClearButtonVisibility>(clearButtonVisibilityFunc);
+        entry.SetProperty(Microsoft.Maui.Controls.Entry.ClearButtonVisibilityProperty, new PropertyValue<Microsoft.Maui.ClearButtonVisibility>(clearButtonVisibilityFunc));
         return entry;
     }
 

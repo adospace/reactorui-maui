@@ -26,15 +26,6 @@ public partial class CollectionView<T> : ReorderableItemsView<T>, ICollectionVie
         CollectionViewStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,6 +59,8 @@ public partial class CollectionView : CollectionView<Microsoft.Maui.Controls.Col
 
 public static partial class CollectionViewExtensions
 {
+/*
+    */
 }
 
 public static partial class CollectionViewStyles

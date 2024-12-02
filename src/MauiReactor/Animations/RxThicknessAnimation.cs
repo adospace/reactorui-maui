@@ -13,6 +13,8 @@ namespace MauiReactor.Animations
         }
 
         public abstract Thickness CurrentValue();
+
+        internal override object GetCurrentValue() => CurrentValue();
     }
     
 }

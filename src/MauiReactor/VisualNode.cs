@@ -7,7 +7,7 @@ namespace MauiReactor
 {
     public interface IVisualNode
     {
-        void AppendAnimatable(BindableProperty key, RxAnimation animation, Func<IVisualNode, RxAnimation, object?> action);
+        void AppendAnimatable(BindableProperty key, RxAnimation animation);
 
         Microsoft.Maui.Controls.Page? GetContainerPage();
 
@@ -245,9 +245,9 @@ namespace MauiReactor
             Parent = null;
         }
 
-        public void AppendAnimatable(BindableProperty key, RxAnimation animation, Func<IVisualNode, RxAnimation, object?> action)
+        public void AppendAnimatable(BindableProperty key, RxAnimation animation)
         {
-            var newAnimatableProperty = new Animatable(key, animation, action);
+            var newAnimatableProperty = new Animatable(key, animation);
 
             _animatables ??= [];
             _animatables[key] = newAnimatableProperty;
@@ -516,9 +516,6 @@ namespace MauiReactor
             }
         }
 
-
-
-
         protected virtual T? GetParent<T>() where T : VisualNode
         {
             var parent = Parent;
@@ -710,7 +707,7 @@ namespace MauiReactor
         //}
     }
 
-    public interface IVisualNodeWithNativeControl : IVisualNode
+    public interface IVisualNodeWithNativeControl : IVisualNodeWithAttachedProperties
     {
         TResult? GetNativeControl<TResult>() where TResult : BindableObject;
 
@@ -721,16 +718,16 @@ namespace MauiReactor
 
     public interface IVisualNodeWithAttachedProperties : IVisualNode
     {
-        void SetAttachedProperty(BindableProperty property, object value);
+        void SetProperty(BindableProperty property, object? value);
 
-        bool HasAttachedProperty(BindableProperty property);
+        bool HasPropertySet(BindableProperty property);
     }
 
     public static class VisualNodeWithAttachedPropertiesExtensions
     {
         public static T Set<T>(this T element, BindableProperty property, object value) where T : IVisualNodeWithAttachedProperties
         {
-            element.SetAttachedProperty(property, value);
+            element.SetProperty(property, value);
             return element;
         }
     }
@@ -739,7 +736,7 @@ namespace MauiReactor
     {
         protected BindableObject? _nativeControl;
 
-        private readonly Dictionary<BindableProperty, object?> _attachedProperties = [];
+        private readonly Dictionary<BindableProperty, object?> _propertiesToSet = [];
 
         private Action<T?>? _componentRefAction;
 
@@ -753,11 +750,11 @@ namespace MauiReactor
 
         protected T? NativeControl { get => (T?)_nativeControl; }
 
-        public void SetAttachedProperty(BindableProperty property, object? value)
-            => _attachedProperties[property] = value;
+        public void SetProperty(BindableProperty property, object? value)
+            => _propertiesToSet[property] = value;
 
-        public bool HasAttachedProperty(BindableProperty property)
-            => _attachedProperties.ContainsKey(property);
+        public bool HasPropertySet(BindableProperty property)
+            => _propertiesToSet.ContainsKey(property);
 
         internal Action<T?> ComponentRefAction
         {
@@ -797,9 +794,9 @@ namespace MauiReactor
 
                 if (newNode is IVisualNodeWithAttachedProperties newNodeAsNodeWithAttachedProperties)
                 {
-                    foreach (var attachedProperty in _attachedProperties)
+                    foreach (var attachedProperty in _propertiesToSet)
                     {
-                        if (newNodeAsNodeWithAttachedProperties.HasAttachedProperty(attachedProperty.Key))
+                        if (newNodeAsNodeWithAttachedProperties.HasPropertySet(attachedProperty.Key))
                         {
                             continue;
                         }
@@ -809,7 +806,7 @@ namespace MauiReactor
                 }
             }
 
-            _attachedProperties.Clear();
+            _propertiesToSet.Clear();
 
             base.OnMigrated(newNode);
 
@@ -859,9 +856,9 @@ namespace MauiReactor
                 throw new InvalidOperationException();
             }
 
-            foreach (var attachedProperty in _attachedProperties)
+            foreach (var attachedProperty in _propertiesToSet)
             {
-                NativeControl.SetPropertyValue(attachedProperty.Key, attachedProperty.Value);
+                SetPropertyValue(NativeControl, attachedProperty.Key, attachedProperty.Value);
             }
 
             OnAttachNativeEvents();
@@ -931,7 +928,7 @@ namespace MauiReactor
                         if (animatable.Value.IsEnabled.GetValueOrDefault() &&
                             !animatable.Value.Animation.IsCompleted())
                         {
-                            var newValue = animatable.Value.Animate(this);
+                            var newValue = animatable.Value.Animation.GetCurrentValue();
 
                             Validate.EnsureNotNull(NativeControl);
 

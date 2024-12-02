@@ -12,7 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IStyleableElement : IElement
 {
-    object? Style { get; set; }
 }
 
 public abstract partial class StyleableElement<T> : Element<T>, IStyleableElement where T : Microsoft.Maui.Controls.StyleableElement, new()
@@ -27,20 +26,6 @@ public abstract partial class StyleableElement<T> : Element<T>, IStyleableElemen
         StyleableElementStyles.Default?.Invoke(this);
     }
 
-    object? IStyleableElement.Style { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIStyleableElement = (IStyleableElement)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.StyleableElement.StyleProperty, thisAsIStyleableElement.Style);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -63,17 +48,23 @@ public abstract partial class StyleableElement<T> : Element<T>, IStyleableElemen
 
 public static partial class StyleableElementExtensions
 {
+    /*
+    
+    
+    */
     public static T Style<T>(this T styleableElement, Microsoft.Maui.Controls.Style style)
         where T : IStyleableElement
     {
-        styleableElement.Style = style;
+        //styleableElement.Style = style;
+        styleableElement.SetProperty(Microsoft.Maui.Controls.StyleableElement.StyleProperty, style);
         return styleableElement;
     }
 
     public static T Style<T>(this T styleableElement, Func<Microsoft.Maui.Controls.Style> styleFunc)
         where T : IStyleableElement
     {
-        styleableElement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc);
+        //styleableElement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc);
+        styleableElement.SetProperty(Microsoft.Maui.Controls.StyleableElement.StyleProperty, new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc));
         return styleableElement;
     }
 }

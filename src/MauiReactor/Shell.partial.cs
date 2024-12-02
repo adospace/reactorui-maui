@@ -201,7 +201,7 @@ public partial class Shell<T> : IEnumerable
         }
     }
 
-    partial void OnBeginUpdate()
+    protected override void OnUpdate()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIShell = (IShell)this;
@@ -231,6 +231,7 @@ public partial class Shell<T> : IEnumerable
                 _customMenuItemDataTemplate.UpdateLayout();
             }
         }
+        base.OnUpdate();
     }
 
     protected override void OnAddChild(VisualNode widget, BindableObject childControl)

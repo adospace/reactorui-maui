@@ -13,7 +13,8 @@
 
         private bool _isCompleted;
         public override bool IsCompleted() => _isCompleted || StartValue == null || StartValue.Value == TargetValue;
-        
+        internal override object GetCurrentValue() => CurrentValue();
+
         public double CurrentValue()
         {
             if (StartValue == null)
@@ -77,6 +78,7 @@
 
             base.OnMigrateFrom(previousAnimation);
         }
+
     }
 
 }

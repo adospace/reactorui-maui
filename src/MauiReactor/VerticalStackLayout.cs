@@ -26,15 +26,6 @@ public partial class VerticalStackLayout<T> : StackBase<T>, IVerticalStackLayout
         VerticalStackLayoutStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,6 +59,8 @@ public partial class VerticalStackLayout : VerticalStackLayout<Microsoft.Maui.Co
 
 public static partial class VerticalStackLayoutExtensions
 {
+/*
+    */
 }
 
 public static partial class VerticalStackLayoutStyles

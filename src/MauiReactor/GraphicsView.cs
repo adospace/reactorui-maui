@@ -12,8 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IGraphicsView : IView
 {
-    object? Drawable { get; set; }
-
     EventCommand<TouchEventArgs>? StartHoverInteractionEvent { get; set; }
 
     EventCommand<TouchEventArgs>? MoveHoverInteractionEvent { get; set; }
@@ -41,8 +39,6 @@ public partial class GraphicsView<T> : View<T>, IGraphicsView where T : Microsof
         GraphicsViewStyles.Default?.Invoke(this);
     }
 
-    object? IGraphicsView.Drawable { get; set; }
-
     EventCommand<TouchEventArgs>? IGraphicsView.StartHoverInteractionEvent { get; set; }
 
     EventCommand<TouchEventArgs>? IGraphicsView.MoveHoverInteractionEvent { get; set; }
@@ -57,18 +53,6 @@ public partial class GraphicsView<T> : View<T>, IGraphicsView where T : Microsof
 
     EventCommand<EventArgs>? IGraphicsView.CancelInteractionEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIGraphicsView = (IGraphicsView)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.GraphicsView.DrawableProperty, thisAsIGraphicsView.Drawable);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -279,17 +263,23 @@ public partial class GraphicsView : GraphicsView<Microsoft.Maui.Controls.Graphic
 
 public static partial class GraphicsViewExtensions
 {
+    /*
+    
+    
+    */
     public static T Drawable<T>(this T graphicsView, Microsoft.Maui.Graphics.IDrawable drawable)
         where T : IGraphicsView
     {
-        graphicsView.Drawable = drawable;
+        //graphicsView.Drawable = drawable;
+        graphicsView.SetProperty(Microsoft.Maui.Controls.GraphicsView.DrawableProperty, drawable);
         return graphicsView;
     }
 
     public static T Drawable<T>(this T graphicsView, Func<Microsoft.Maui.Graphics.IDrawable> drawableFunc)
         where T : IGraphicsView
     {
-        graphicsView.Drawable = new PropertyValue<Microsoft.Maui.Graphics.IDrawable>(drawableFunc);
+        //graphicsView.Drawable = new PropertyValue<Microsoft.Maui.Graphics.IDrawable>(drawableFunc);
+        graphicsView.SetProperty(Microsoft.Maui.Controls.GraphicsView.DrawableProperty, new PropertyValue<Microsoft.Maui.Graphics.IDrawable>(drawableFunc));
         return graphicsView;
     }
 

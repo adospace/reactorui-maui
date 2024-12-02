@@ -12,7 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IStackLayout : IStackBase
 {
-    object? Orientation { get; set; }
 }
 
 public partial class StackLayout<T> : StackBase<T>, IStackLayout where T : Microsoft.Maui.Controls.StackLayout, new()
@@ -27,20 +26,6 @@ public partial class StackLayout<T> : StackBase<T>, IStackLayout where T : Micro
         StackLayoutStyles.Default?.Invoke(this);
     }
 
-    object? IStackLayout.Orientation { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIStackLayout = (IStackLayout)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.StackLayout.OrientationProperty, thisAsIStackLayout.Orientation);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -74,17 +59,23 @@ public partial class StackLayout : StackLayout<Microsoft.Maui.Controls.StackLayo
 
 public static partial class StackLayoutExtensions
 {
+    /*
+    
+    
+    */
     public static T Orientation<T>(this T stackLayout, Microsoft.Maui.Controls.StackOrientation orientation)
         where T : IStackLayout
     {
-        stackLayout.Orientation = orientation;
+        //stackLayout.Orientation = orientation;
+        stackLayout.SetProperty(Microsoft.Maui.Controls.StackLayout.OrientationProperty, orientation);
         return stackLayout;
     }
 
     public static T Orientation<T>(this T stackLayout, Func<Microsoft.Maui.Controls.StackOrientation> orientationFunc)
         where T : IStackLayout
     {
-        stackLayout.Orientation = new PropertyValue<Microsoft.Maui.Controls.StackOrientation>(orientationFunc);
+        //stackLayout.Orientation = new PropertyValue<Microsoft.Maui.Controls.StackOrientation>(orientationFunc);
+        stackLayout.SetProperty(Microsoft.Maui.Controls.StackLayout.OrientationProperty, new PropertyValue<Microsoft.Maui.Controls.StackOrientation>(orientationFunc));
         return stackLayout;
     }
 }

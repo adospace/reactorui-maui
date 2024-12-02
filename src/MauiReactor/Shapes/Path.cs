@@ -12,7 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor.Shapes;
 public partial interface IPath : Shapes.IShape
 {
-    object? RenderTransform { get; set; }
 }
 
 public sealed partial class Path : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Path>, IPath
@@ -27,20 +26,6 @@ public sealed partial class Path : Shapes.Shape<Microsoft.Maui.Controls.Shapes.P
         PathStyles.Default?.Invoke(this);
     }
 
-    object? IPath.RenderTransform { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIPath = (IPath)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Path.RenderTransformProperty, thisAsIPath.RenderTransform);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -63,17 +48,23 @@ public sealed partial class Path : Shapes.Shape<Microsoft.Maui.Controls.Shapes.P
 
 public static partial class PathExtensions
 {
+    /*
+    
+    
+    */
     public static T RenderTransform<T>(this T path, Microsoft.Maui.Controls.Shapes.Transform renderTransform)
         where T : IPath
     {
-        path.RenderTransform = renderTransform;
+        //path.RenderTransform = renderTransform;
+        path.SetProperty(Microsoft.Maui.Controls.Shapes.Path.RenderTransformProperty, renderTransform);
         return path;
     }
 
     public static T RenderTransform<T>(this T path, Func<Microsoft.Maui.Controls.Shapes.Transform> renderTransformFunc)
         where T : IPath
     {
-        path.RenderTransform = new PropertyValue<Microsoft.Maui.Controls.Shapes.Transform>(renderTransformFunc);
+        //path.RenderTransform = new PropertyValue<Microsoft.Maui.Controls.Shapes.Transform>(renderTransformFunc);
+        path.SetProperty(Microsoft.Maui.Controls.Shapes.Path.RenderTransformProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.Transform>(renderTransformFunc));
         return path;
     }
 }

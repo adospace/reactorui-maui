@@ -12,12 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ISwitchCell : ICell
 {
-    object? On { get; set; }
-
-    object? Text { get; set; }
-
-    object? OnColor { get; set; }
-
     EventCommand<ToggledEventArgs>? OnChangedEvent { get; set; }
 }
 
@@ -33,28 +27,8 @@ public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Ma
         SwitchCellStyles.Default?.Invoke(this);
     }
 
-    object? ISwitchCell.On { get; set; }
-
-    object? ISwitchCell.Text { get; set; }
-
-    object? ISwitchCell.OnColor { get; set; }
-
     EventCommand<ToggledEventArgs>? ISwitchCell.OnChangedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsISwitchCell = (ISwitchCell)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwitchCell.OnProperty, thisAsISwitchCell.On);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwitchCell.TextProperty, thisAsISwitchCell.Text);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.SwitchCell.OnColorProperty, thisAsISwitchCell.OnColor);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -133,45 +107,59 @@ public partial class SwitchCell : SwitchCell<Microsoft.Maui.Controls.SwitchCell>
 
 public static partial class SwitchCellExtensions
 {
+    /*
+    
+    
+    
+    
+    
+    
+    */
     public static T On<T>(this T switchCell, bool on)
         where T : ISwitchCell
     {
-        switchCell.On = on;
+        //switchCell.On = on;
+        switchCell.SetProperty(Microsoft.Maui.Controls.SwitchCell.OnProperty, on);
         return switchCell;
     }
 
     public static T On<T>(this T switchCell, Func<bool> onFunc)
         where T : ISwitchCell
     {
-        switchCell.On = new PropertyValue<bool>(onFunc);
+        //switchCell.On = new PropertyValue<bool>(onFunc);
+        switchCell.SetProperty(Microsoft.Maui.Controls.SwitchCell.OnProperty, new PropertyValue<bool>(onFunc));
         return switchCell;
     }
 
     public static T Text<T>(this T switchCell, string text)
         where T : ISwitchCell
     {
-        switchCell.Text = text;
+        //switchCell.Text = text;
+        switchCell.SetProperty(Microsoft.Maui.Controls.SwitchCell.TextProperty, text);
         return switchCell;
     }
 
     public static T Text<T>(this T switchCell, Func<string> textFunc)
         where T : ISwitchCell
     {
-        switchCell.Text = new PropertyValue<string>(textFunc);
+        //switchCell.Text = new PropertyValue<string>(textFunc);
+        switchCell.SetProperty(Microsoft.Maui.Controls.SwitchCell.TextProperty, new PropertyValue<string>(textFunc));
         return switchCell;
     }
 
     public static T OnColor<T>(this T switchCell, Microsoft.Maui.Graphics.Color onColor)
         where T : ISwitchCell
     {
-        switchCell.OnColor = onColor;
+        //switchCell.OnColor = onColor;
+        switchCell.SetProperty(Microsoft.Maui.Controls.SwitchCell.OnColorProperty, onColor);
         return switchCell;
     }
 
     public static T OnColor<T>(this T switchCell, Func<Microsoft.Maui.Graphics.Color> onColorFunc)
         where T : ISwitchCell
     {
-        switchCell.OnColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(onColorFunc);
+        //switchCell.OnColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(onColorFunc);
+        switchCell.SetProperty(Microsoft.Maui.Controls.SwitchCell.OnColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(onColorFunc));
         return switchCell;
     }
 

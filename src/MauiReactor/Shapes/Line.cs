@@ -12,13 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor.Shapes;
 public partial interface ILine : Shapes.IShape
 {
-    object? X1 { get; set; }
-
-    object? Y1 { get; set; }
-
-    object? X2 { get; set; }
-
-    object? Y2 { get; set; }
 }
 
 public sealed partial class Line : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Line>, ILine
@@ -33,29 +26,6 @@ public sealed partial class Line : Shapes.Shape<Microsoft.Maui.Controls.Shapes.L
         LineStyles.Default?.Invoke(this);
     }
 
-    object? ILine.X1 { get; set; }
-
-    object? ILine.Y1 { get; set; }
-
-    object? ILine.X2 { get; set; }
-
-    object? ILine.Y2 { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsILine = (ILine)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Line.X1Property, thisAsILine.X1);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Line.Y1Property, thisAsILine.Y1);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Line.X2Property, thisAsILine.X2);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Line.Y2Property, thisAsILine.Y2);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -78,67 +48,97 @@ public sealed partial class Line : Shapes.Shape<Microsoft.Maui.Controls.Shapes.L
 
 public static partial class LineExtensions
 {
-    static object? SetX1(object line, RxAnimation animation) => ((ILine)line).X1 = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetY1(object line, RxAnimation animation) => ((ILine)line).Y1 = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetX2(object line, RxAnimation animation) => ((ILine)line).X2 = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetY2(object line, RxAnimation animation) => ((ILine)line).Y2 = ((RxDoubleAnimation)animation).CurrentValue();
+    /*
+    
+    
+    static object? SetX1(object line, RxAnimation animation)
+        => ((ILine)line).X1 = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    static object? SetY1(object line, RxAnimation animation)
+        => ((ILine)line).Y1 = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    static object? SetX2(object line, RxAnimation animation)
+        => ((ILine)line).X2 = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    static object? SetY2(object line, RxAnimation animation)
+        => ((ILine)line).Y2 = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    */
     public static T X1<T>(this T line, double x1, RxDoubleAnimation? customAnimation = null)
         where T : ILine
     {
-        line.X1 = x1;
-        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.X1Property, customAnimation ?? new RxDoubleAnimation(x1), SetX1);
+        //line.X1 = x1;
+        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.X1Property, x1);
+        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.X1Property, customAnimation ?? new RxDoubleAnimation(x1));
         return line;
     }
 
     public static T X1<T>(this T line, Func<double> x1Func)
         where T : ILine
     {
-        line.X1 = new PropertyValue<double>(x1Func);
+        //line.X1 = new PropertyValue<double>(x1Func);
+        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.X1Property, new PropertyValue<double>(x1Func));
         return line;
     }
 
     public static T Y1<T>(this T line, double y1, RxDoubleAnimation? customAnimation = null)
         where T : ILine
     {
-        line.Y1 = y1;
-        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.Y1Property, customAnimation ?? new RxDoubleAnimation(y1), SetY1);
+        //line.Y1 = y1;
+        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.Y1Property, y1);
+        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.Y1Property, customAnimation ?? new RxDoubleAnimation(y1));
         return line;
     }
 
     public static T Y1<T>(this T line, Func<double> y1Func)
         where T : ILine
     {
-        line.Y1 = new PropertyValue<double>(y1Func);
+        //line.Y1 = new PropertyValue<double>(y1Func);
+        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.Y1Property, new PropertyValue<double>(y1Func));
         return line;
     }
 
     public static T X2<T>(this T line, double x2, RxDoubleAnimation? customAnimation = null)
         where T : ILine
     {
-        line.X2 = x2;
-        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.X2Property, customAnimation ?? new RxDoubleAnimation(x2), SetX2);
+        //line.X2 = x2;
+        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.X2Property, x2);
+        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.X2Property, customAnimation ?? new RxDoubleAnimation(x2));
         return line;
     }
 
     public static T X2<T>(this T line, Func<double> x2Func)
         where T : ILine
     {
-        line.X2 = new PropertyValue<double>(x2Func);
+        //line.X2 = new PropertyValue<double>(x2Func);
+        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.X2Property, new PropertyValue<double>(x2Func));
         return line;
     }
 
     public static T Y2<T>(this T line, double y2, RxDoubleAnimation? customAnimation = null)
         where T : ILine
     {
-        line.Y2 = y2;
-        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.Y2Property, customAnimation ?? new RxDoubleAnimation(y2), SetY2);
+        //line.Y2 = y2;
+        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.Y2Property, y2);
+        line.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Line.Y2Property, customAnimation ?? new RxDoubleAnimation(y2));
         return line;
     }
 
     public static T Y2<T>(this T line, Func<double> y2Func)
         where T : ILine
     {
-        line.Y2 = new PropertyValue<double>(y2Func);
+        //line.Y2 = new PropertyValue<double>(y2Func);
+        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.Y2Property, new PropertyValue<double>(y2Func));
         return line;
     }
 }

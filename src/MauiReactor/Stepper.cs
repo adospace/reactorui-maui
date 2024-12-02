@@ -12,14 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IStepper : IView
 {
-    object? Maximum { get; set; }
-
-    object? Minimum { get; set; }
-
-    object? Value { get; set; }
-
-    object? Increment { get; set; }
-
     EventCommand<ValueChangedEventArgs>? ValueChangedEvent { get; set; }
 }
 
@@ -35,31 +27,8 @@ public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Con
         StepperStyles.Default?.Invoke(this);
     }
 
-    object? IStepper.Maximum { get; set; }
-
-    object? IStepper.Minimum { get; set; }
-
-    object? IStepper.Value { get; set; }
-
-    object? IStepper.Increment { get; set; }
-
     EventCommand<ValueChangedEventArgs>? IStepper.ValueChangedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIStepper = (IStepper)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Stepper.MaximumProperty, thisAsIStepper.Maximum);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Stepper.MinimumProperty, thisAsIStepper.Minimum);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Stepper.ValueProperty, thisAsIStepper.Value);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Stepper.IncrementProperty, thisAsIStepper.Increment);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -138,67 +107,97 @@ public partial class Stepper : Stepper<Microsoft.Maui.Controls.Stepper>
 
 public static partial class StepperExtensions
 {
-    static object? SetMaximum(object stepper, RxAnimation animation) => ((IStepper)stepper).Maximum = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetMinimum(object stepper, RxAnimation animation) => ((IStepper)stepper).Minimum = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetValue(object stepper, RxAnimation animation) => ((IStepper)stepper).Value = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetIncrement(object stepper, RxAnimation animation) => ((IStepper)stepper).Increment = ((RxDoubleAnimation)animation).CurrentValue();
+    /*
+    
+    
+    static object? SetMaximum(object stepper, RxAnimation animation)
+        => ((IStepper)stepper).Maximum = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    static object? SetMinimum(object stepper, RxAnimation animation)
+        => ((IStepper)stepper).Minimum = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    static object? SetValue(object stepper, RxAnimation animation)
+        => ((IStepper)stepper).Value = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    static object? SetIncrement(object stepper, RxAnimation animation)
+        => ((IStepper)stepper).Increment = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    */
     public static T Maximum<T>(this T stepper, double maximum, RxDoubleAnimation? customAnimation = null)
         where T : IStepper
     {
-        stepper.Maximum = maximum;
-        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.MaximumProperty, customAnimation ?? new RxDoubleAnimation(maximum), SetMaximum);
+        //stepper.Maximum = maximum;
+        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.MaximumProperty, maximum);
+        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.MaximumProperty, customAnimation ?? new RxDoubleAnimation(maximum));
         return stepper;
     }
 
     public static T Maximum<T>(this T stepper, Func<double> maximumFunc)
         where T : IStepper
     {
-        stepper.Maximum = new PropertyValue<double>(maximumFunc);
+        //stepper.Maximum = new PropertyValue<double>(maximumFunc);
+        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.MaximumProperty, new PropertyValue<double>(maximumFunc));
         return stepper;
     }
 
     public static T Minimum<T>(this T stepper, double minimum, RxDoubleAnimation? customAnimation = null)
         where T : IStepper
     {
-        stepper.Minimum = minimum;
-        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.MinimumProperty, customAnimation ?? new RxDoubleAnimation(minimum), SetMinimum);
+        //stepper.Minimum = minimum;
+        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.MinimumProperty, minimum);
+        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.MinimumProperty, customAnimation ?? new RxDoubleAnimation(minimum));
         return stepper;
     }
 
     public static T Minimum<T>(this T stepper, Func<double> minimumFunc)
         where T : IStepper
     {
-        stepper.Minimum = new PropertyValue<double>(minimumFunc);
+        //stepper.Minimum = new PropertyValue<double>(minimumFunc);
+        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.MinimumProperty, new PropertyValue<double>(minimumFunc));
         return stepper;
     }
 
     public static T Value<T>(this T stepper, double value, RxDoubleAnimation? customAnimation = null)
         where T : IStepper
     {
-        stepper.Value = value;
-        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.ValueProperty, customAnimation ?? new RxDoubleAnimation(value), SetValue);
+        //stepper.Value = value;
+        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.ValueProperty, value);
+        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.ValueProperty, customAnimation ?? new RxDoubleAnimation(value));
         return stepper;
     }
 
     public static T Value<T>(this T stepper, Func<double> valueFunc)
         where T : IStepper
     {
-        stepper.Value = new PropertyValue<double>(valueFunc);
+        //stepper.Value = new PropertyValue<double>(valueFunc);
+        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.ValueProperty, new PropertyValue<double>(valueFunc));
         return stepper;
     }
 
     public static T Increment<T>(this T stepper, double increment, RxDoubleAnimation? customAnimation = null)
         where T : IStepper
     {
-        stepper.Increment = increment;
-        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.IncrementProperty, customAnimation ?? new RxDoubleAnimation(increment), SetIncrement);
+        //stepper.Increment = increment;
+        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.IncrementProperty, increment);
+        stepper.AppendAnimatable(Microsoft.Maui.Controls.Stepper.IncrementProperty, customAnimation ?? new RxDoubleAnimation(increment));
         return stepper;
     }
 
     public static T Increment<T>(this T stepper, Func<double> incrementFunc)
         where T : IStepper
     {
-        stepper.Increment = new PropertyValue<double>(incrementFunc);
+        //stepper.Increment = new PropertyValue<double>(incrementFunc);
+        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.IncrementProperty, new PropertyValue<double>(incrementFunc));
         return stepper;
     }
 

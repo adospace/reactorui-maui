@@ -12,7 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IStackBase : ILayout
 {
-    object? Spacing { get; set; }
 }
 
 public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Microsoft.Maui.Controls.StackBase, new()
@@ -27,20 +26,6 @@ public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Mic
         StackBaseStyles.Default?.Invoke(this);
     }
 
-    object? IStackBase.Spacing { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIStackBase = (IStackBase)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.StackBase.SpacingProperty, thisAsIStackBase.Spacing);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -63,19 +48,28 @@ public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Mic
 
 public static partial class StackBaseExtensions
 {
-    static object? SetSpacing(object stackBase, RxAnimation animation) => ((IStackBase)stackBase).Spacing = ((RxDoubleAnimation)animation).CurrentValue();
+    /*
+    
+    
+    static object? SetSpacing(object stackBase, RxAnimation animation)
+        => ((IStackBase)stackBase).Spacing = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    */
     public static T Spacing<T>(this T stackBase, double spacing, RxDoubleAnimation? customAnimation = null)
         where T : IStackBase
     {
-        stackBase.Spacing = spacing;
-        stackBase.AppendAnimatable(Microsoft.Maui.Controls.StackBase.SpacingProperty, customAnimation ?? new RxDoubleAnimation(spacing), SetSpacing);
+        //stackBase.Spacing = spacing;
+        stackBase.SetProperty(Microsoft.Maui.Controls.StackBase.SpacingProperty, spacing);
+        stackBase.AppendAnimatable(Microsoft.Maui.Controls.StackBase.SpacingProperty, customAnimation ?? new RxDoubleAnimation(spacing));
         return stackBase;
     }
 
     public static T Spacing<T>(this T stackBase, Func<double> spacingFunc)
         where T : IStackBase
     {
-        stackBase.Spacing = new PropertyValue<double>(spacingFunc);
+        //stackBase.Spacing = new PropertyValue<double>(spacingFunc);
+        stackBase.SetProperty(Microsoft.Maui.Controls.StackBase.SpacingProperty, new PropertyValue<double>(spacingFunc));
         return stackBase;
     }
 }

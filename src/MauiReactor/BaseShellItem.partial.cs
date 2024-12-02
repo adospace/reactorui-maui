@@ -15,7 +15,7 @@ public partial class BaseShellItem<T>
 
     string? IBaseShellItem.Route { get; set; }
 
-    partial void OnBeginUpdate()
+    protected override void OnUpdate()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIBaseShellItem = (IBaseShellItem)this;
@@ -25,6 +25,7 @@ public partial class BaseShellItem<T>
         {
             Microsoft.Maui.Controls.Routing.SetRoute(NativeControl, thisAsIBaseShellItem.Route);
         }
+        base.OnUpdate();
     }
 }
 

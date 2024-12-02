@@ -26,15 +26,6 @@ public abstract partial class NavigableElement<T> : StyleableElement<T>, INaviga
         NavigableElementStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -57,6 +48,8 @@ public abstract partial class NavigableElement<T> : StyleableElement<T>, INaviga
 
 public static partial class NavigableElementExtensions
 {
+/*
+    */
 }
 
 public static partial class NavigableElementStyles

@@ -12,12 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ISwitch : IView
 {
-    object? IsToggled { get; set; }
-
-    object? OnColor { get; set; }
-
-    object? ThumbColor { get; set; }
-
     EventCommand<ToggledEventArgs>? ToggledEvent { get; set; }
 }
 
@@ -33,28 +27,8 @@ public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Contr
         SwitchStyles.Default?.Invoke(this);
     }
 
-    object? ISwitch.IsToggled { get; set; }
-
-    object? ISwitch.OnColor { get; set; }
-
-    object? ISwitch.ThumbColor { get; set; }
-
     EventCommand<ToggledEventArgs>? ISwitch.ToggledEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsISwitch = (ISwitch)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Switch.IsToggledProperty, thisAsISwitch.IsToggled);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Switch.OnColorProperty, thisAsISwitch.OnColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Switch.ThumbColorProperty, thisAsISwitch.ThumbColor);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -133,45 +107,59 @@ public partial class Switch : Switch<Microsoft.Maui.Controls.Switch>
 
 public static partial class SwitchExtensions
 {
+    /*
+    
+    
+    
+    
+    
+    
+    */
     public static T IsToggled<T>(this T @switch, bool isToggled)
         where T : ISwitch
     {
-        @switch.IsToggled = isToggled;
+        //@switch.IsToggled = isToggled;
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.IsToggledProperty, isToggled);
         return @switch;
     }
 
     public static T IsToggled<T>(this T @switch, Func<bool> isToggledFunc)
         where T : ISwitch
     {
-        @switch.IsToggled = new PropertyValue<bool>(isToggledFunc);
+        //@switch.IsToggled = new PropertyValue<bool>(isToggledFunc);
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.IsToggledProperty, new PropertyValue<bool>(isToggledFunc));
         return @switch;
     }
 
     public static T OnColor<T>(this T @switch, Microsoft.Maui.Graphics.Color onColor)
         where T : ISwitch
     {
-        @switch.OnColor = onColor;
+        //@switch.OnColor = onColor;
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.OnColorProperty, onColor);
         return @switch;
     }
 
     public static T OnColor<T>(this T @switch, Func<Microsoft.Maui.Graphics.Color> onColorFunc)
         where T : ISwitch
     {
-        @switch.OnColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(onColorFunc);
+        //@switch.OnColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(onColorFunc);
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.OnColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(onColorFunc));
         return @switch;
     }
 
     public static T ThumbColor<T>(this T @switch, Microsoft.Maui.Graphics.Color thumbColor)
         where T : ISwitch
     {
-        @switch.ThumbColor = thumbColor;
+        //@switch.ThumbColor = thumbColor;
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.ThumbColorProperty, thumbColor);
         return @switch;
     }
 
     public static T ThumbColor<T>(this T @switch, Func<Microsoft.Maui.Graphics.Color> thumbColorFunc)
         where T : ISwitch
     {
-        @switch.ThumbColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(thumbColorFunc);
+        //@switch.ThumbColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(thumbColorFunc);
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.ThumbColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(thumbColorFunc));
         return @switch;
     }
 

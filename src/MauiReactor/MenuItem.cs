@@ -12,12 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IMenuItem : IBaseMenuItem
 {
-    object? IsDestructive { get; set; }
-
-    object? IconImageSource { get; set; }
-
-    object? Text { get; set; }
-
     EventCommand<EventArgs>? ClickedEvent { get; set; }
 }
 
@@ -33,28 +27,8 @@ public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsof
         MenuItemStyles.Default?.Invoke(this);
     }
 
-    object? IMenuItem.IsDestructive { get; set; }
-
-    object? IMenuItem.IconImageSource { get; set; }
-
-    object? IMenuItem.Text { get; set; }
-
     EventCommand<EventArgs>? IMenuItem.ClickedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIMenuItem = (IMenuItem)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuItem.IsDestructiveProperty, thisAsIMenuItem.IsDestructive);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, thisAsIMenuItem.IconImageSource);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuItem.TextProperty, thisAsIMenuItem.Text);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -133,92 +107,119 @@ public partial class MenuItem : MenuItem<Microsoft.Maui.Controls.MenuItem>
 
 public static partial class MenuItemExtensions
 {
+    /*
+    
+    
+    
+    
+    
+    
+    */
     public static T IsDestructive<T>(this T menuItem, bool isDestructive)
         where T : IMenuItem
     {
-        menuItem.IsDestructive = isDestructive;
+        //menuItem.IsDestructive = isDestructive;
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IsDestructiveProperty, isDestructive);
         return menuItem;
     }
 
     public static T IsDestructive<T>(this T menuItem, Func<bool> isDestructiveFunc)
         where T : IMenuItem
     {
-        menuItem.IsDestructive = new PropertyValue<bool>(isDestructiveFunc);
+        //menuItem.IsDestructive = new PropertyValue<bool>(isDestructiveFunc);
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IsDestructiveProperty, new PropertyValue<bool>(isDestructiveFunc));
         return menuItem;
     }
 
     public static T IconImageSource<T>(this T menuItem, Microsoft.Maui.Controls.ImageSource iconImageSource)
         where T : IMenuItem
     {
-        menuItem.IconImageSource = iconImageSource;
+        //menuItem.IconImageSource = iconImageSource;
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, iconImageSource);
         return menuItem;
     }
 
     public static T IconImageSource<T>(this T menuItem, Func<Microsoft.Maui.Controls.ImageSource> iconImageSourceFunc)
         where T : IMenuItem
     {
-        menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc);
+        //menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc);
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc));
         return menuItem;
     }
 
     public static T IconImageSource<T>(this T menuItem, string file)
         where T : IMenuItem
     {
-        menuItem.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        //menuItem.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, Microsoft.Maui.Controls.ImageSource.FromFile(file));
         return menuItem;
     }
 
     public static T IconImageSource<T>(this T menuItem, Func<string> action)
         where T : IMenuItem
     {
-        menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+        /*menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(
+            () => Microsoft.Maui.Controls.ImageSource.FromFile(action()));*/
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action())));
         return menuItem;
     }
 
     public static T IconImageSource<T>(this T menuItem, string resourceName, Assembly sourceAssembly)
         where T : IMenuItem
     {
-        menuItem.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        //menuItem.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
         return menuItem;
     }
 
     public static T IconImageSource<T>(this T menuItem, Uri imageUri)
         where T : IMenuItem
     {
-        menuItem.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        //menuItem.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
         return menuItem;
     }
 
     public static T IconImageSource<T>(this T menuItem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IMenuItem
     {
-        menuItem.IconImageSource = new Microsoft.Maui.Controls.UriImageSource
+        //menuItem.IconImageSource = new Microsoft.Maui.Controls.UriImageSource
+        //{
+        //    Uri = imageUri,
+        //    CachingEnabled = cachingEnabled,
+        //    CacheValidity = cacheValidity
+        //};
+        var newValue = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,
             CacheValidity = cacheValidity
         };
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, newValue);
         return menuItem;
     }
 
     public static T IconImageSource<T>(this T menuItem, Func<Stream> imageStream)
         where T : IMenuItem
     {
-        menuItem.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        //menuItem.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
         return menuItem;
     }
 
     public static T Text<T>(this T menuItem, string text)
         where T : IMenuItem
     {
-        menuItem.Text = text;
+        //menuItem.Text = text;
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.TextProperty, text);
         return menuItem;
     }
 
     public static T Text<T>(this T menuItem, Func<string> textFunc)
         where T : IMenuItem
     {
-        menuItem.Text = new PropertyValue<string>(textFunc);
+        //menuItem.Text = new PropertyValue<string>(textFunc);
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.TextProperty, new PropertyValue<string>(textFunc));
         return menuItem;
     }
 

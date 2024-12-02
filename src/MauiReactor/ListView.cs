@@ -12,30 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IListView : IGenericItemsView
 {
-    object? IsPullToRefreshEnabled { get; set; }
-
-    object? IsRefreshing { get; set; }
-
-    object? SelectedItem { get; set; }
-
-    object? SelectionMode { get; set; }
-
-    object? HasUnevenRows { get; set; }
-
-    object? RowHeight { get; set; }
-
-    object? IsGroupingEnabled { get; set; }
-
-    object? SeparatorVisibility { get; set; }
-
-    object? SeparatorColor { get; set; }
-
-    object? RefreshControlColor { get; set; }
-
-    object? HorizontalScrollBarVisibility { get; set; }
-
-    object? VerticalScrollBarVisibility { get; set; }
-
     EventCommand<ItemVisibilityEventArgs>? ItemAppearingEvent { get; set; }
 
     EventCommand<ItemVisibilityEventArgs>? ItemDisappearingEvent { get; set; }
@@ -61,30 +37,6 @@ public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls
         ListViewStyles.Default?.Invoke(this);
     }
 
-    object? IListView.IsPullToRefreshEnabled { get; set; }
-
-    object? IListView.IsRefreshing { get; set; }
-
-    object? IListView.SelectedItem { get; set; }
-
-    object? IListView.SelectionMode { get; set; }
-
-    object? IListView.HasUnevenRows { get; set; }
-
-    object? IListView.RowHeight { get; set; }
-
-    object? IListView.IsGroupingEnabled { get; set; }
-
-    object? IListView.SeparatorVisibility { get; set; }
-
-    object? IListView.SeparatorColor { get; set; }
-
-    object? IListView.RefreshControlColor { get; set; }
-
-    object? IListView.HorizontalScrollBarVisibility { get; set; }
-
-    object? IListView.VerticalScrollBarVisibility { get; set; }
-
     EventCommand<ItemVisibilityEventArgs>? IListView.ItemAppearingEvent { get; set; }
 
     EventCommand<ItemVisibilityEventArgs>? IListView.ItemDisappearingEvent { get; set; }
@@ -97,29 +49,6 @@ public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls
 
     EventCommand<EventArgs>? IListView.RefreshingEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIListView = (IListView)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.IsPullToRefreshEnabledProperty, thisAsIListView.IsPullToRefreshEnabled);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.IsRefreshingProperty, thisAsIListView.IsRefreshing);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.SelectedItemProperty, thisAsIListView.SelectedItem);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.SelectionModeProperty, thisAsIListView.SelectionMode);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.HasUnevenRowsProperty, thisAsIListView.HasUnevenRows);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.RowHeightProperty, thisAsIListView.RowHeight);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.IsGroupingEnabledProperty, thisAsIListView.IsGroupingEnabled);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.SeparatorVisibilityProperty, thisAsIListView.SeparatorVisibility);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.SeparatorColorProperty, thisAsIListView.SeparatorColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.RefreshControlColorProperty, thisAsIListView.RefreshControlColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.HorizontalScrollBarVisibilityProperty, thisAsIListView.HorizontalScrollBarVisibility);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ListView.VerticalScrollBarVisibilityProperty, thisAsIListView.VerticalScrollBarVisibility);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -308,171 +237,221 @@ public partial class ListView : ListView<Microsoft.Maui.Controls.ListView>
 
 public static partial class ListViewExtensions
 {
+    /*
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    */
     public static T IsPullToRefreshEnabled<T>(this T listView, bool isPullToRefreshEnabled)
         where T : IListView
     {
-        listView.IsPullToRefreshEnabled = isPullToRefreshEnabled;
+        //listView.IsPullToRefreshEnabled = isPullToRefreshEnabled;
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.IsPullToRefreshEnabledProperty, isPullToRefreshEnabled);
         return listView;
     }
 
     public static T IsPullToRefreshEnabled<T>(this T listView, Func<bool> isPullToRefreshEnabledFunc)
         where T : IListView
     {
-        listView.IsPullToRefreshEnabled = new PropertyValue<bool>(isPullToRefreshEnabledFunc);
+        //listView.IsPullToRefreshEnabled = new PropertyValue<bool>(isPullToRefreshEnabledFunc);
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.IsPullToRefreshEnabledProperty, new PropertyValue<bool>(isPullToRefreshEnabledFunc));
         return listView;
     }
 
     public static T IsRefreshing<T>(this T listView, bool isRefreshing)
         where T : IListView
     {
-        listView.IsRefreshing = isRefreshing;
+        //listView.IsRefreshing = isRefreshing;
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.IsRefreshingProperty, isRefreshing);
         return listView;
     }
 
     public static T IsRefreshing<T>(this T listView, Func<bool> isRefreshingFunc)
         where T : IListView
     {
-        listView.IsRefreshing = new PropertyValue<bool>(isRefreshingFunc);
+        //listView.IsRefreshing = new PropertyValue<bool>(isRefreshingFunc);
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.IsRefreshingProperty, new PropertyValue<bool>(isRefreshingFunc));
         return listView;
     }
 
     public static T SelectedItem<T>(this T listView, object? selectedItem)
         where T : IListView
     {
-        listView.SelectedItem = selectedItem;
+        //listView.SelectedItem = selectedItem;
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.SelectedItemProperty, selectedItem);
         return listView;
     }
 
     public static T SelectedItem<T>(this T listView, Func<object?> selectedItemFunc)
         where T : IListView
     {
-        listView.SelectedItem = new PropertyValue<object?>(selectedItemFunc);
+        //listView.SelectedItem = new PropertyValue<object?>(selectedItemFunc);
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.SelectedItemProperty, new PropertyValue<object?>(selectedItemFunc));
         return listView;
     }
 
     public static T SelectionMode<T>(this T listView, Microsoft.Maui.Controls.ListViewSelectionMode selectionMode)
         where T : IListView
     {
-        listView.SelectionMode = selectionMode;
+        //listView.SelectionMode = selectionMode;
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.SelectionModeProperty, selectionMode);
         return listView;
     }
 
     public static T SelectionMode<T>(this T listView, Func<Microsoft.Maui.Controls.ListViewSelectionMode> selectionModeFunc)
         where T : IListView
     {
-        listView.SelectionMode = new PropertyValue<Microsoft.Maui.Controls.ListViewSelectionMode>(selectionModeFunc);
+        //listView.SelectionMode = new PropertyValue<Microsoft.Maui.Controls.ListViewSelectionMode>(selectionModeFunc);
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.SelectionModeProperty, new PropertyValue<Microsoft.Maui.Controls.ListViewSelectionMode>(selectionModeFunc));
         return listView;
     }
 
     public static T HasUnevenRows<T>(this T listView, bool hasUnevenRows)
         where T : IListView
     {
-        listView.HasUnevenRows = hasUnevenRows;
+        //listView.HasUnevenRows = hasUnevenRows;
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.HasUnevenRowsProperty, hasUnevenRows);
         return listView;
     }
 
     public static T HasUnevenRows<T>(this T listView, Func<bool> hasUnevenRowsFunc)
         where T : IListView
     {
-        listView.HasUnevenRows = new PropertyValue<bool>(hasUnevenRowsFunc);
+        //listView.HasUnevenRows = new PropertyValue<bool>(hasUnevenRowsFunc);
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.HasUnevenRowsProperty, new PropertyValue<bool>(hasUnevenRowsFunc));
         return listView;
     }
 
     public static T RowHeight<T>(this T listView, int rowHeight)
         where T : IListView
     {
-        listView.RowHeight = rowHeight;
+        //listView.RowHeight = rowHeight;
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.RowHeightProperty, rowHeight);
         return listView;
     }
 
     public static T RowHeight<T>(this T listView, Func<int> rowHeightFunc)
         where T : IListView
     {
-        listView.RowHeight = new PropertyValue<int>(rowHeightFunc);
+        //listView.RowHeight = new PropertyValue<int>(rowHeightFunc);
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.RowHeightProperty, new PropertyValue<int>(rowHeightFunc));
         return listView;
     }
 
     public static T IsGroupingEnabled<T>(this T listView, bool isGroupingEnabled)
         where T : IListView
     {
-        listView.IsGroupingEnabled = isGroupingEnabled;
+        //listView.IsGroupingEnabled = isGroupingEnabled;
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.IsGroupingEnabledProperty, isGroupingEnabled);
         return listView;
     }
 
     public static T IsGroupingEnabled<T>(this T listView, Func<bool> isGroupingEnabledFunc)
         where T : IListView
     {
-        listView.IsGroupingEnabled = new PropertyValue<bool>(isGroupingEnabledFunc);
+        //listView.IsGroupingEnabled = new PropertyValue<bool>(isGroupingEnabledFunc);
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.IsGroupingEnabledProperty, new PropertyValue<bool>(isGroupingEnabledFunc));
         return listView;
     }
 
     public static T SeparatorVisibility<T>(this T listView, Microsoft.Maui.Controls.SeparatorVisibility separatorVisibility)
         where T : IListView
     {
-        listView.SeparatorVisibility = separatorVisibility;
+        //listView.SeparatorVisibility = separatorVisibility;
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.SeparatorVisibilityProperty, separatorVisibility);
         return listView;
     }
 
     public static T SeparatorVisibility<T>(this T listView, Func<Microsoft.Maui.Controls.SeparatorVisibility> separatorVisibilityFunc)
         where T : IListView
     {
-        listView.SeparatorVisibility = new PropertyValue<Microsoft.Maui.Controls.SeparatorVisibility>(separatorVisibilityFunc);
+        //listView.SeparatorVisibility = new PropertyValue<Microsoft.Maui.Controls.SeparatorVisibility>(separatorVisibilityFunc);
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.SeparatorVisibilityProperty, new PropertyValue<Microsoft.Maui.Controls.SeparatorVisibility>(separatorVisibilityFunc));
         return listView;
     }
 
     public static T SeparatorColor<T>(this T listView, Microsoft.Maui.Graphics.Color separatorColor)
         where T : IListView
     {
-        listView.SeparatorColor = separatorColor;
+        //listView.SeparatorColor = separatorColor;
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.SeparatorColorProperty, separatorColor);
         return listView;
     }
 
     public static T SeparatorColor<T>(this T listView, Func<Microsoft.Maui.Graphics.Color> separatorColorFunc)
         where T : IListView
     {
-        listView.SeparatorColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(separatorColorFunc);
+        //listView.SeparatorColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(separatorColorFunc);
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.SeparatorColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(separatorColorFunc));
         return listView;
     }
 
     public static T RefreshControlColor<T>(this T listView, Microsoft.Maui.Graphics.Color refreshControlColor)
         where T : IListView
     {
-        listView.RefreshControlColor = refreshControlColor;
+        //listView.RefreshControlColor = refreshControlColor;
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.RefreshControlColorProperty, refreshControlColor);
         return listView;
     }
 
     public static T RefreshControlColor<T>(this T listView, Func<Microsoft.Maui.Graphics.Color> refreshControlColorFunc)
         where T : IListView
     {
-        listView.RefreshControlColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(refreshControlColorFunc);
+        //listView.RefreshControlColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(refreshControlColorFunc);
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.RefreshControlColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(refreshControlColorFunc));
         return listView;
     }
 
     public static T HorizontalScrollBarVisibility<T>(this T listView, Microsoft.Maui.ScrollBarVisibility horizontalScrollBarVisibility)
         where T : IListView
     {
-        listView.HorizontalScrollBarVisibility = horizontalScrollBarVisibility;
+        //listView.HorizontalScrollBarVisibility = horizontalScrollBarVisibility;
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.HorizontalScrollBarVisibilityProperty, horizontalScrollBarVisibility);
         return listView;
     }
 
     public static T HorizontalScrollBarVisibility<T>(this T listView, Func<Microsoft.Maui.ScrollBarVisibility> horizontalScrollBarVisibilityFunc)
         where T : IListView
     {
-        listView.HorizontalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibilityFunc);
+        //listView.HorizontalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibilityFunc);
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.HorizontalScrollBarVisibilityProperty, new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibilityFunc));
         return listView;
     }
 
     public static T VerticalScrollBarVisibility<T>(this T listView, Microsoft.Maui.ScrollBarVisibility verticalScrollBarVisibility)
         where T : IListView
     {
-        listView.VerticalScrollBarVisibility = verticalScrollBarVisibility;
+        //listView.VerticalScrollBarVisibility = verticalScrollBarVisibility;
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.VerticalScrollBarVisibilityProperty, verticalScrollBarVisibility);
         return listView;
     }
 
     public static T VerticalScrollBarVisibility<T>(this T listView, Func<Microsoft.Maui.ScrollBarVisibility> verticalScrollBarVisibilityFunc)
         where T : IListView
     {
-        listView.VerticalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibilityFunc);
+        //listView.VerticalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibilityFunc);
+        listView.SetProperty(Microsoft.Maui.Controls.ListView.VerticalScrollBarVisibilityProperty, new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibilityFunc));
         return listView;
     }
 

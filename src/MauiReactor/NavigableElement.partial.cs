@@ -11,8 +11,7 @@ public partial class NavigableElement<T>
 {
     List<string>? INavigableElement.Class { get; set; }
 
-
-    partial void OnBeginUpdate()
+    protected override void OnUpdate()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsINavigableElement = (INavigableElement)this;
@@ -24,6 +23,7 @@ public partial class NavigableElement<T>
             NativeControl.StyleClass = thisAsINavigableElement.Class ?? [];
         }
 
+        base.OnUpdate();
     }
 }
 

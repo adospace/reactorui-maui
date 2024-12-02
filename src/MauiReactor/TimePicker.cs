@@ -12,22 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ITimePicker : IView
 {
-    object? Format { get; set; }
-
-    object? TextColor { get; set; }
-
-    object? CharacterSpacing { get; set; }
-
-    object? Time { get; set; }
-
-    object? FontFamily { get; set; }
-
-    object? FontSize { get; set; }
-
-    object? FontAttributes { get; set; }
-
-    object? FontAutoScalingEnabled { get; set; }
-
     EventCommand<TimeChangedEventArgs>? TimeSelectedEvent { get; set; }
 }
 
@@ -43,43 +27,8 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
         TimePickerStyles.Default?.Invoke(this);
     }
 
-    object? ITimePicker.Format { get; set; }
-
-    object? ITimePicker.TextColor { get; set; }
-
-    object? ITimePicker.CharacterSpacing { get; set; }
-
-    object? ITimePicker.Time { get; set; }
-
-    object? ITimePicker.FontFamily { get; set; }
-
-    object? ITimePicker.FontSize { get; set; }
-
-    object? ITimePicker.FontAttributes { get; set; }
-
-    object? ITimePicker.FontAutoScalingEnabled { get; set; }
-
     EventCommand<TimeChangedEventArgs>? ITimePicker.TimeSelectedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsITimePicker = (ITimePicker)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TimePicker.FormatProperty, thisAsITimePicker.Format);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TimePicker.TextColorProperty, thisAsITimePicker.TextColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TimePicker.CharacterSpacingProperty, thisAsITimePicker.CharacterSpacing);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TimePicker.TimeProperty, thisAsITimePicker.Time);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TimePicker.FontFamilyProperty, thisAsITimePicker.FontFamily);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TimePicker.FontSizeProperty, thisAsITimePicker.FontSize);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TimePicker.FontAttributesProperty, thisAsITimePicker.FontAttributes);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TimePicker.FontAutoScalingEnabledProperty, thisAsITimePicker.FontAutoScalingEnabled);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -158,119 +107,159 @@ public partial class TimePicker : TimePicker<Microsoft.Maui.Controls.TimePicker>
 
 public static partial class TimePickerExtensions
 {
-    static object? SetCharacterSpacing(object timePicker, RxAnimation animation) => ((ITimePicker)timePicker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetFontSize(object timePicker, RxAnimation animation) => ((ITimePicker)timePicker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    /*
+    
+    
+    
+    
+    
+    
+    static object? SetCharacterSpacing(object timePicker, RxAnimation animation)
+        => ((ITimePicker)timePicker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    
+    
+    
+    
+    static object? SetFontSize(object timePicker, RxAnimation animation)
+        => ((ITimePicker)timePicker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    
+    
+    */
     public static T Format<T>(this T timePicker, string format)
         where T : ITimePicker
     {
-        timePicker.Format = format;
+        //timePicker.Format = format;
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.FormatProperty, format);
         return timePicker;
     }
 
     public static T Format<T>(this T timePicker, Func<string> formatFunc)
         where T : ITimePicker
     {
-        timePicker.Format = new PropertyValue<string>(formatFunc);
+        //timePicker.Format = new PropertyValue<string>(formatFunc);
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.FormatProperty, new PropertyValue<string>(formatFunc));
         return timePicker;
     }
 
     public static T TextColor<T>(this T timePicker, Microsoft.Maui.Graphics.Color textColor)
         where T : ITimePicker
     {
-        timePicker.TextColor = textColor;
+        //timePicker.TextColor = textColor;
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.TextColorProperty, textColor);
         return timePicker;
     }
 
     public static T TextColor<T>(this T timePicker, Func<Microsoft.Maui.Graphics.Color> textColorFunc)
         where T : ITimePicker
     {
-        timePicker.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
+        //timePicker.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc));
         return timePicker;
     }
 
     public static T CharacterSpacing<T>(this T timePicker, double characterSpacing, RxDoubleAnimation? customAnimation = null)
         where T : ITimePicker
     {
-        timePicker.CharacterSpacing = characterSpacing;
-        timePicker.AppendAnimatable(Microsoft.Maui.Controls.TimePicker.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), SetCharacterSpacing);
+        //timePicker.CharacterSpacing = characterSpacing;
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.CharacterSpacingProperty, characterSpacing);
+        timePicker.AppendAnimatable(Microsoft.Maui.Controls.TimePicker.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing));
         return timePicker;
     }
 
     public static T CharacterSpacing<T>(this T timePicker, Func<double> characterSpacingFunc)
         where T : ITimePicker
     {
-        timePicker.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
+        //timePicker.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc));
         return timePicker;
     }
 
     public static T Time<T>(this T timePicker, System.TimeSpan time)
         where T : ITimePicker
     {
-        timePicker.Time = time;
+        //timePicker.Time = time;
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.TimeProperty, time);
         return timePicker;
     }
 
     public static T Time<T>(this T timePicker, Func<System.TimeSpan> timeFunc)
         where T : ITimePicker
     {
-        timePicker.Time = new PropertyValue<System.TimeSpan>(timeFunc);
+        //timePicker.Time = new PropertyValue<System.TimeSpan>(timeFunc);
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.TimeProperty, new PropertyValue<System.TimeSpan>(timeFunc));
         return timePicker;
     }
 
     public static T FontFamily<T>(this T timePicker, string fontFamily)
         where T : ITimePicker
     {
-        timePicker.FontFamily = fontFamily;
+        //timePicker.FontFamily = fontFamily;
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.FontFamilyProperty, fontFamily);
         return timePicker;
     }
 
     public static T FontFamily<T>(this T timePicker, Func<string> fontFamilyFunc)
         where T : ITimePicker
     {
-        timePicker.FontFamily = new PropertyValue<string>(fontFamilyFunc);
+        //timePicker.FontFamily = new PropertyValue<string>(fontFamilyFunc);
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc));
         return timePicker;
     }
 
     public static T FontSize<T>(this T timePicker, double fontSize, RxDoubleAnimation? customAnimation = null)
         where T : ITimePicker
     {
-        timePicker.FontSize = fontSize;
-        timePicker.AppendAnimatable(Microsoft.Maui.Controls.TimePicker.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), SetFontSize);
+        //timePicker.FontSize = fontSize;
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.FontSizeProperty, fontSize);
+        timePicker.AppendAnimatable(Microsoft.Maui.Controls.TimePicker.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize));
         return timePicker;
     }
 
     public static T FontSize<T>(this T timePicker, Func<double> fontSizeFunc)
         where T : ITimePicker
     {
-        timePicker.FontSize = new PropertyValue<double>(fontSizeFunc);
+        //timePicker.FontSize = new PropertyValue<double>(fontSizeFunc);
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.FontSizeProperty, new PropertyValue<double>(fontSizeFunc));
         return timePicker;
     }
 
     public static T FontAttributes<T>(this T timePicker, Microsoft.Maui.Controls.FontAttributes fontAttributes)
         where T : ITimePicker
     {
-        timePicker.FontAttributes = fontAttributes;
+        //timePicker.FontAttributes = fontAttributes;
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.FontAttributesProperty, fontAttributes);
         return timePicker;
     }
 
     public static T FontAttributes<T>(this T timePicker, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc)
         where T : ITimePicker
     {
-        timePicker.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
+        //timePicker.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc));
         return timePicker;
     }
 
     public static T FontAutoScalingEnabled<T>(this T timePicker, bool fontAutoScalingEnabled)
         where T : ITimePicker
     {
-        timePicker.FontAutoScalingEnabled = fontAutoScalingEnabled;
+        //timePicker.FontAutoScalingEnabled = fontAutoScalingEnabled;
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.FontAutoScalingEnabledProperty, fontAutoScalingEnabled);
         return timePicker;
     }
 
     public static T FontAutoScalingEnabled<T>(this T timePicker, Func<bool> fontAutoScalingEnabledFunc)
         where T : ITimePicker
     {
-        timePicker.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
+        //timePicker.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc));
         return timePicker;
     }
 

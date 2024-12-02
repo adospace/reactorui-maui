@@ -47,7 +47,8 @@ public partial class ItemsView<T> : ICustomDataTemplateOwner, IAutomationItemCon
 
         return visualNodeForItem;
     }
-    partial void OnBeginUpdate()
+
+    protected override void OnUpdate()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIItemsView = (IItemsView)this;
@@ -75,7 +76,15 @@ public partial class ItemsView<T> : ICustomDataTemplateOwner, IAutomationItemCon
             NativeControl.ClearValue(ItemsView.ItemsSourceProperty);
             NativeControl.ClearValue(ItemsView.ItemTemplateProperty);
         }
+
+        base.OnUpdate();
+
+        if (thisAsIItemsView.EmptyView is string)
+        {
+            NativeControl.EmptyView = thisAsIItemsView.EmptyView;
+        }
     }
+
 
     partial void Migrated(VisualNode newNode)
     {
@@ -147,16 +156,6 @@ public partial class ItemsView<T> : ICustomDataTemplateOwner, IAutomationItemCon
         }
     }
 
-    partial void OnEndUpdate()
-    {
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIItemsView = (IItemsView)this;
-
-        if (thisAsIItemsView.EmptyView is string)
-        {
-            NativeControl.EmptyView = thisAsIItemsView.EmptyView;
-        }
-    }
 
     protected override IEnumerable<VisualNode> RenderChildren()
     {

@@ -12,9 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IMenuBarItem : IBaseMenuItem
 {
-    object? Text { get; set; }
-
-    object? IsEnabled { get; set; }
 }
 
 public partial class MenuBarItem<T> : BaseMenuItem<T>, IMenuBarItem where T : Microsoft.Maui.Controls.MenuBarItem, new()
@@ -29,23 +26,6 @@ public partial class MenuBarItem<T> : BaseMenuItem<T>, IMenuBarItem where T : Mi
         MenuBarItemStyles.Default?.Invoke(this);
     }
 
-    object? IMenuBarItem.Text { get; set; }
-
-    object? IMenuBarItem.IsEnabled { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIMenuBarItem = (IMenuBarItem)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuBarItem.TextProperty, thisAsIMenuBarItem.Text);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MenuBarItem.IsEnabledProperty, thisAsIMenuBarItem.IsEnabled);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -79,31 +59,41 @@ public partial class MenuBarItem : MenuBarItem<Microsoft.Maui.Controls.MenuBarIt
 
 public static partial class MenuBarItemExtensions
 {
+    /*
+    
+    
+    
+    
+    */
     public static T Text<T>(this T menuBarItem, string text)
         where T : IMenuBarItem
     {
-        menuBarItem.Text = text;
+        //menuBarItem.Text = text;
+        menuBarItem.SetProperty(Microsoft.Maui.Controls.MenuBarItem.TextProperty, text);
         return menuBarItem;
     }
 
     public static T Text<T>(this T menuBarItem, Func<string> textFunc)
         where T : IMenuBarItem
     {
-        menuBarItem.Text = new PropertyValue<string>(textFunc);
+        //menuBarItem.Text = new PropertyValue<string>(textFunc);
+        menuBarItem.SetProperty(Microsoft.Maui.Controls.MenuBarItem.TextProperty, new PropertyValue<string>(textFunc));
         return menuBarItem;
     }
 
     public static T IsEnabled<T>(this T menuBarItem, bool isEnabled)
         where T : IMenuBarItem
     {
-        menuBarItem.IsEnabled = isEnabled;
+        //menuBarItem.IsEnabled = isEnabled;
+        menuBarItem.SetProperty(Microsoft.Maui.Controls.MenuBarItem.IsEnabledProperty, isEnabled);
         return menuBarItem;
     }
 
     public static T IsEnabled<T>(this T menuBarItem, Func<bool> isEnabledFunc)
         where T : IMenuBarItem
     {
-        menuBarItem.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
+        //menuBarItem.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
+        menuBarItem.SetProperty(Microsoft.Maui.Controls.MenuBarItem.IsEnabledProperty, new PropertyValue<bool>(isEnabledFunc));
         return menuBarItem;
     }
 }

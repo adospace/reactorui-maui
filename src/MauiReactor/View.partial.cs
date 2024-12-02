@@ -77,57 +77,57 @@ public static partial class ViewExtensions
 {
     public static T HStart<T>(this T view) where T : IView
     {
-        view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Start);
+        view.HorizontalOptions(LayoutOptions.Start);
 
         return view;
     }
 
     public static T HCenter<T>(this T view) where T : IView
     {
-        view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Center);
+        view.HorizontalOptions(LayoutOptions.Center);
         return view;
     }
 
     public static T HEnd<T>(this T view) where T : IView
     {
-        view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.End);
+        view.HorizontalOptions  (LayoutOptions.End);
         return view;
     }
 
     public static T HFill<T>(this T view) where T : IView
     {
-        view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Fill);
+        view.HorizontalOptions(LayoutOptions.Fill);
         return view;
     }
 
     public static T VStart<T>(this T view) where T : IView
     {
-        view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Start);
+        view.VerticalOptions(LayoutOptions.Start);
         return view;
     }
 
     public static T VCenter<T>(this T view) where T : IView
     {
-        view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Center);
+        view.VerticalOptions(LayoutOptions.Center);
         return view;
     }
 
     public static T VEnd<T>(this T view) where T : IView
     {
-        view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.End);
+        view.VerticalOptions(LayoutOptions.End);
         return view;
     }
 
     public static T VFill<T>(this T view) where T : IView
     {
-        view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Fill);
+        view.VerticalOptions(LayoutOptions.Fill);
         return view;
     }
 
     public static T Center<T>(this T view) where T : IView
     {
-        view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Center);
-        view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(LayoutOptions.Center);
+        view.HorizontalOptions(LayoutOptions.Center);
+        view.VerticalOptions(LayoutOptions.Center);
         return view;
     }
 

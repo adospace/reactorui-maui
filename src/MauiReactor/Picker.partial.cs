@@ -16,7 +16,7 @@ public partial class Picker<T>
 {
     IReadOnlyList<string>? IPicker.ItemsSource { get; set; }
 
-    partial void OnBeginUpdate()
+    protected override void OnUpdate()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIPicker = (IPicker)this;
@@ -34,6 +34,7 @@ public partial class Picker<T>
                 NativeControl.ItemsSource = thisAsIPicker.ItemsSource?.ToList();
             }
         }
+        base.OnUpdate();
     }
 }
 

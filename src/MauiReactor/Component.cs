@@ -11,14 +11,14 @@ namespace MauiReactor
 
         private readonly List<VisualNode> _children = [];
 
-        private readonly Dictionary<BindableProperty, object> _attachedProperties = [];
+        private readonly Dictionary<BindableProperty, object?> _attachedProperties = [];
 
         public abstract VisualNode Render();
 
-        public void SetAttachedProperty(BindableProperty property, object value)
+        public void SetProperty(BindableProperty property, object? value)
             => _attachedProperties[property] = value;
 
-        public bool HasAttachedProperty(BindableProperty property)
+        public bool HasPropertySet(BindableProperty property)
             => _attachedProperties.ContainsKey(property);
 
         public IEnumerator<VisualNode> GetEnumerator()

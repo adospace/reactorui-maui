@@ -36,9 +36,9 @@ public partial class RadioButton<T> : IRadioButton
         base.OnRemoveChild(widget, childControl);
     }
 
-
-    partial void OnEndUpdate()
+    protected override void OnUpdate()
     {
+        base.OnUpdate();
         Validate.EnsureNotNull(NativeControl);
         var thisAsIRadioButton = (IRadioButton)this;
 

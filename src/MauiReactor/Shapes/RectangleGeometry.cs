@@ -12,7 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor.Shapes;
 public partial interface IRectangleGeometry : Shapes.IGeometry
 {
-    object? Rect { get; set; }
 }
 
 public partial class RectangleGeometry<T> : Shapes.Geometry<T>, IRectangleGeometry where T : Microsoft.Maui.Controls.Shapes.RectangleGeometry, new()
@@ -27,20 +26,6 @@ public partial class RectangleGeometry<T> : Shapes.Geometry<T>, IRectangleGeomet
         RectangleGeometryStyles.Default?.Invoke(this);
     }
 
-    object? IRectangleGeometry.Rect { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIRectangleGeometry = (IRectangleGeometry)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, thisAsIRectangleGeometry.Rect);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -74,19 +59,28 @@ public partial class RectangleGeometry : RectangleGeometry<Microsoft.Maui.Contro
 
 public static partial class RectangleGeometryExtensions
 {
-    static object? SetRect(object rectangleGeometry, RxAnimation animation) => ((IRectangleGeometry)rectangleGeometry).Rect = ((RxRectAnimation)animation).CurrentValue();
+    /*
+    
+    
+    static object? SetRect(object rectangleGeometry, RxAnimation animation)
+        => ((IRectangleGeometry)rectangleGeometry).Rect = ((RxRectAnimation)animation).CurrentValue();
+
+    
+    */
     public static T Rect<T>(this T rectangleGeometry, Microsoft.Maui.Graphics.Rect rect, RxRectAnimation? customAnimation = null)
         where T : IRectangleGeometry
     {
-        rectangleGeometry.Rect = rect;
-        rectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, customAnimation ?? new RxSimpleRectAnimation(rect), SetRect);
+        //rectangleGeometry.Rect = rect;
+        rectangleGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, rect);
+        rectangleGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, customAnimation ?? new RxSimpleRectAnimation(rect));
         return rectangleGeometry;
     }
 
     public static T Rect<T>(this T rectangleGeometry, Func<Microsoft.Maui.Graphics.Rect> rectFunc)
         where T : IRectangleGeometry
     {
-        rectangleGeometry.Rect = new PropertyValue<Microsoft.Maui.Graphics.Rect>(rectFunc);
+        //rectangleGeometry.Rect = new PropertyValue<Microsoft.Maui.Graphics.Rect>(rectFunc);
+        rectangleGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, new PropertyValue<Microsoft.Maui.Graphics.Rect>(rectFunc));
         return rectangleGeometry;
     }
 }

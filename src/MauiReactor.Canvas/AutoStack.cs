@@ -30,14 +30,14 @@ public static partial class AutoVerticalStackExtensions
 {
     public static T AutoStackWidth<T>(this T visualNodeWithAttachedProperties, float width) where T : IVisualNodeWithAttachedProperties
     {
-        visualNodeWithAttachedProperties.SetAttachedProperty(Canvas.Internals.AutoStack.WidthProperty, width);
+        visualNodeWithAttachedProperties.SetProperty(Canvas.Internals.AutoStack.WidthProperty, width);
 
         return visualNodeWithAttachedProperties;
     }
 
     public static T AutoStackHeight<T>(this T visualNodeWithAttachedProperties, float height) where T : IVisualNodeWithAttachedProperties
     {
-        visualNodeWithAttachedProperties.SetAttachedProperty(Canvas.Internals.AutoStack.HeightProperty, height);
+        visualNodeWithAttachedProperties.SetProperty(Canvas.Internals.AutoStack.HeightProperty, height);
 
         return visualNodeWithAttachedProperties;
     }

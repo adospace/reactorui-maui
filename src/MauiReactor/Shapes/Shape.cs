@@ -12,23 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor.Shapes;
 public partial interface IShape : IView
 {
-    object? Fill { get; set; }
-
-    object? Stroke { get; set; }
-
-    object? StrokeThickness { get; set; }
-
-    object? StrokeDashArray { get; set; }
-
-    object? StrokeDashOffset { get; set; }
-
-    object? StrokeLineCap { get; set; }
-
-    object? StrokeLineJoin { get; set; }
-
-    object? StrokeMiterLimit { get; set; }
-
-    object? Aspect { get; set; }
 }
 
 public abstract partial class Shape<T> : View<T>, IShape where T : Microsoft.Maui.Controls.Shapes.Shape, new()
@@ -43,44 +26,6 @@ public abstract partial class Shape<T> : View<T>, IShape where T : Microsoft.Mau
         ShapeStyles.Default?.Invoke(this);
     }
 
-    object? IShape.Fill { get; set; }
-
-    object? IShape.Stroke { get; set; }
-
-    object? IShape.StrokeThickness { get; set; }
-
-    object? IShape.StrokeDashArray { get; set; }
-
-    object? IShape.StrokeDashOffset { get; set; }
-
-    object? IShape.StrokeLineCap { get; set; }
-
-    object? IShape.StrokeLineJoin { get; set; }
-
-    object? IShape.StrokeMiterLimit { get; set; }
-
-    object? IShape.Aspect { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIShape = (IShape)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Shape.FillProperty, thisAsIShape.Fill);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Shape.StrokeProperty, thisAsIShape.Stroke);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Shape.StrokeThicknessProperty, thisAsIShape.StrokeThickness);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Shape.StrokeDashArrayProperty, thisAsIShape.StrokeDashArray);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Shape.StrokeDashOffsetProperty, thisAsIShape.StrokeDashOffset);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Shape.StrokeLineCapProperty, thisAsIShape.StrokeLineCap);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Shape.StrokeLineJoinProperty, thisAsIShape.StrokeLineJoin);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Shape.StrokeMiterLimitProperty, thisAsIShape.StrokeMiterLimit);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.Shape.AspectProperty, thisAsIShape.Aspect);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -103,135 +48,182 @@ public abstract partial class Shape<T> : View<T>, IShape where T : Microsoft.Mau
 
 public static partial class ShapeExtensions
 {
-    static object? SetStrokeThickness(object shape, RxAnimation animation) => ((IShape)shape).StrokeThickness = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetStrokeDashOffset(object shape, RxAnimation animation) => ((IShape)shape).StrokeDashOffset = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetStrokeMiterLimit(object shape, RxAnimation animation) => ((IShape)shape).StrokeMiterLimit = ((RxDoubleAnimation)animation).CurrentValue();
+    /*
+    
+    
+    
+    
+    
+    
+    static object? SetStrokeThickness(object shape, RxAnimation animation)
+        => ((IShape)shape).StrokeThickness = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    
+    
+    static object? SetStrokeDashOffset(object shape, RxAnimation animation)
+        => ((IShape)shape).StrokeDashOffset = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    
+    
+    
+    
+    static object? SetStrokeMiterLimit(object shape, RxAnimation animation)
+        => ((IShape)shape).StrokeMiterLimit = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    */
     public static T Fill<T>(this T shape, Microsoft.Maui.Controls.Brush fill)
         where T : IShape
     {
-        shape.Fill = fill;
+        //shape.Fill = fill;
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.FillProperty, fill);
         return shape;
     }
 
     public static T Fill<T>(this T shape, Func<Microsoft.Maui.Controls.Brush> fillFunc)
         where T : IShape
     {
-        shape.Fill = new PropertyValue<Microsoft.Maui.Controls.Brush>(fillFunc);
+        //shape.Fill = new PropertyValue<Microsoft.Maui.Controls.Brush>(fillFunc);
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.FillProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(fillFunc));
         return shape;
     }
 
     public static T Stroke<T>(this T shape, Microsoft.Maui.Controls.Brush stroke)
         where T : IShape
     {
-        shape.Stroke = stroke;
+        //shape.Stroke = stroke;
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeProperty, stroke);
         return shape;
     }
 
     public static T Stroke<T>(this T shape, Func<Microsoft.Maui.Controls.Brush> strokeFunc)
         where T : IShape
     {
-        shape.Stroke = new PropertyValue<Microsoft.Maui.Controls.Brush>(strokeFunc);
+        //shape.Stroke = new PropertyValue<Microsoft.Maui.Controls.Brush>(strokeFunc);
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(strokeFunc));
         return shape;
     }
 
     public static T StrokeThickness<T>(this T shape, double strokeThickness, RxDoubleAnimation? customAnimation = null)
         where T : IShape
     {
-        shape.StrokeThickness = strokeThickness;
-        shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeThicknessProperty, customAnimation ?? new RxDoubleAnimation(strokeThickness), SetStrokeThickness);
+        //shape.StrokeThickness = strokeThickness;
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeThicknessProperty, strokeThickness);
+        shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeThicknessProperty, customAnimation ?? new RxDoubleAnimation(strokeThickness));
         return shape;
     }
 
     public static T StrokeThickness<T>(this T shape, Func<double> strokeThicknessFunc)
         where T : IShape
     {
-        shape.StrokeThickness = new PropertyValue<double>(strokeThicknessFunc);
+        //shape.StrokeThickness = new PropertyValue<double>(strokeThicknessFunc);
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeThicknessProperty, new PropertyValue<double>(strokeThicknessFunc));
         return shape;
     }
 
     public static T StrokeDashArray<T>(this T shape, Microsoft.Maui.Controls.DoubleCollection strokeDashArray)
         where T : IShape
     {
-        shape.StrokeDashArray = strokeDashArray;
+        //shape.StrokeDashArray = strokeDashArray;
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashArrayProperty, strokeDashArray);
         return shape;
     }
 
     public static T StrokeDashArray<T>(this T shape, Func<Microsoft.Maui.Controls.DoubleCollection> strokeDashArrayFunc)
         where T : IShape
     {
-        shape.StrokeDashArray = new PropertyValue<Microsoft.Maui.Controls.DoubleCollection>(strokeDashArrayFunc);
+        //shape.StrokeDashArray = new PropertyValue<Microsoft.Maui.Controls.DoubleCollection>(strokeDashArrayFunc);
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashArrayProperty, new PropertyValue<Microsoft.Maui.Controls.DoubleCollection>(strokeDashArrayFunc));
         return shape;
     }
 
     public static T StrokeDashOffset<T>(this T shape, double strokeDashOffset, RxDoubleAnimation? customAnimation = null)
         where T : IShape
     {
-        shape.StrokeDashOffset = strokeDashOffset;
-        shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashOffsetProperty, customAnimation ?? new RxDoubleAnimation(strokeDashOffset), SetStrokeDashOffset);
+        //shape.StrokeDashOffset = strokeDashOffset;
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashOffsetProperty, strokeDashOffset);
+        shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashOffsetProperty, customAnimation ?? new RxDoubleAnimation(strokeDashOffset));
         return shape;
     }
 
     public static T StrokeDashOffset<T>(this T shape, Func<double> strokeDashOffsetFunc)
         where T : IShape
     {
-        shape.StrokeDashOffset = new PropertyValue<double>(strokeDashOffsetFunc);
+        //shape.StrokeDashOffset = new PropertyValue<double>(strokeDashOffsetFunc);
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashOffsetProperty, new PropertyValue<double>(strokeDashOffsetFunc));
         return shape;
     }
 
     public static T StrokeLineCap<T>(this T shape, Microsoft.Maui.Controls.Shapes.PenLineCap strokeLineCap)
         where T : IShape
     {
-        shape.StrokeLineCap = strokeLineCap;
+        //shape.StrokeLineCap = strokeLineCap;
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeLineCapProperty, strokeLineCap);
         return shape;
     }
 
     public static T StrokeLineCap<T>(this T shape, Func<Microsoft.Maui.Controls.Shapes.PenLineCap> strokeLineCapFunc)
         where T : IShape
     {
-        shape.StrokeLineCap = new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineCap>(strokeLineCapFunc);
+        //shape.StrokeLineCap = new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineCap>(strokeLineCapFunc);
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeLineCapProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineCap>(strokeLineCapFunc));
         return shape;
     }
 
     public static T StrokeLineJoin<T>(this T shape, Microsoft.Maui.Controls.Shapes.PenLineJoin strokeLineJoin)
         where T : IShape
     {
-        shape.StrokeLineJoin = strokeLineJoin;
+        //shape.StrokeLineJoin = strokeLineJoin;
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeLineJoinProperty, strokeLineJoin);
         return shape;
     }
 
     public static T StrokeLineJoin<T>(this T shape, Func<Microsoft.Maui.Controls.Shapes.PenLineJoin> strokeLineJoinFunc)
         where T : IShape
     {
-        shape.StrokeLineJoin = new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineJoin>(strokeLineJoinFunc);
+        //shape.StrokeLineJoin = new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineJoin>(strokeLineJoinFunc);
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeLineJoinProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineJoin>(strokeLineJoinFunc));
         return shape;
     }
 
     public static T StrokeMiterLimit<T>(this T shape, double strokeMiterLimit, RxDoubleAnimation? customAnimation = null)
         where T : IShape
     {
-        shape.StrokeMiterLimit = strokeMiterLimit;
-        shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeMiterLimitProperty, customAnimation ?? new RxDoubleAnimation(strokeMiterLimit), SetStrokeMiterLimit);
+        //shape.StrokeMiterLimit = strokeMiterLimit;
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeMiterLimitProperty, strokeMiterLimit);
+        shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeMiterLimitProperty, customAnimation ?? new RxDoubleAnimation(strokeMiterLimit));
         return shape;
     }
 
     public static T StrokeMiterLimit<T>(this T shape, Func<double> strokeMiterLimitFunc)
         where T : IShape
     {
-        shape.StrokeMiterLimit = new PropertyValue<double>(strokeMiterLimitFunc);
+        //shape.StrokeMiterLimit = new PropertyValue<double>(strokeMiterLimitFunc);
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeMiterLimitProperty, new PropertyValue<double>(strokeMiterLimitFunc));
         return shape;
     }
 
     public static T Aspect<T>(this T shape, Microsoft.Maui.Controls.Stretch aspect)
         where T : IShape
     {
-        shape.Aspect = aspect;
+        //shape.Aspect = aspect;
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.AspectProperty, aspect);
         return shape;
     }
 
     public static T Aspect<T>(this T shape, Func<Microsoft.Maui.Controls.Stretch> aspectFunc)
         where T : IShape
     {
-        shape.Aspect = new PropertyValue<Microsoft.Maui.Controls.Stretch>(aspectFunc);
+        //shape.Aspect = new PropertyValue<Microsoft.Maui.Controls.Stretch>(aspectFunc);
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.AspectProperty, new PropertyValue<Microsoft.Maui.Controls.Stretch>(aspectFunc));
         return shape;
     }
 }

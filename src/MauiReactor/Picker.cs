@@ -12,28 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IPicker : IView
 {
-    object? TextColor { get; set; }
-
-    object? CharacterSpacing { get; set; }
-
-    object? Title { get; set; }
-
-    object? TitleColor { get; set; }
-
-    object? SelectedIndex { get; set; }
-
-    object? FontFamily { get; set; }
-
-    object? FontSize { get; set; }
-
-    object? FontAttributes { get; set; }
-
-    object? FontAutoScalingEnabled { get; set; }
-
-    object? HorizontalTextAlignment { get; set; }
-
-    object? VerticalTextAlignment { get; set; }
-
     EventCommand<EventArgs>? SelectedIndexChangedEvent { get; set; }
 }
 
@@ -49,52 +27,8 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
         PickerStyles.Default?.Invoke(this);
     }
 
-    object? IPicker.TextColor { get; set; }
-
-    object? IPicker.CharacterSpacing { get; set; }
-
-    object? IPicker.Title { get; set; }
-
-    object? IPicker.TitleColor { get; set; }
-
-    object? IPicker.SelectedIndex { get; set; }
-
-    object? IPicker.FontFamily { get; set; }
-
-    object? IPicker.FontSize { get; set; }
-
-    object? IPicker.FontAttributes { get; set; }
-
-    object? IPicker.FontAutoScalingEnabled { get; set; }
-
-    object? IPicker.HorizontalTextAlignment { get; set; }
-
-    object? IPicker.VerticalTextAlignment { get; set; }
-
     EventCommand<EventArgs>? IPicker.SelectedIndexChangedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIPicker = (IPicker)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.TextColorProperty, thisAsIPicker.TextColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, thisAsIPicker.CharacterSpacing);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.TitleProperty, thisAsIPicker.Title);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.TitleColorProperty, thisAsIPicker.TitleColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.SelectedIndexProperty, thisAsIPicker.SelectedIndex);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.FontFamilyProperty, thisAsIPicker.FontFamily);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.FontSizeProperty, thisAsIPicker.FontSize);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.FontAttributesProperty, thisAsIPicker.FontAttributes);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.FontAutoScalingEnabledProperty, thisAsIPicker.FontAutoScalingEnabled);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.HorizontalTextAlignmentProperty, thisAsIPicker.HorizontalTextAlignment);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Picker.VerticalTextAlignmentProperty, thisAsIPicker.VerticalTextAlignment);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -173,161 +107,213 @@ public partial class Picker : Picker<Microsoft.Maui.Controls.Picker>
 
 public static partial class PickerExtensions
 {
-    static object? SetCharacterSpacing(object picker, RxAnimation animation) => ((IPicker)picker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetFontSize(object picker, RxAnimation animation) => ((IPicker)picker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+    /*
+    
+    
+    
+    
+    static object? SetCharacterSpacing(object picker, RxAnimation animation)
+        => ((IPicker)picker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    static object? SetFontSize(object picker, RxAnimation animation)
+        => ((IPicker)picker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    */
     public static T TextColor<T>(this T picker, Microsoft.Maui.Graphics.Color textColor)
         where T : IPicker
     {
-        picker.TextColor = textColor;
+        //picker.TextColor = textColor;
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.TextColorProperty, textColor);
         return picker;
     }
 
     public static T TextColor<T>(this T picker, Func<Microsoft.Maui.Graphics.Color> textColorFunc)
         where T : IPicker
     {
-        picker.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
+        //picker.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc));
         return picker;
     }
 
     public static T CharacterSpacing<T>(this T picker, double characterSpacing, RxDoubleAnimation? customAnimation = null)
         where T : IPicker
     {
-        picker.CharacterSpacing = characterSpacing;
-        picker.AppendAnimatable(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), SetCharacterSpacing);
+        //picker.CharacterSpacing = characterSpacing;
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, characterSpacing);
+        picker.AppendAnimatable(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing));
         return picker;
     }
 
     public static T CharacterSpacing<T>(this T picker, Func<double> characterSpacingFunc)
         where T : IPicker
     {
-        picker.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
+        //picker.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc));
         return picker;
     }
 
     public static T Title<T>(this T picker, string title)
         where T : IPicker
     {
-        picker.Title = title;
+        //picker.Title = title;
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.TitleProperty, title);
         return picker;
     }
 
     public static T Title<T>(this T picker, Func<string> titleFunc)
         where T : IPicker
     {
-        picker.Title = new PropertyValue<string>(titleFunc);
+        //picker.Title = new PropertyValue<string>(titleFunc);
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.TitleProperty, new PropertyValue<string>(titleFunc));
         return picker;
     }
 
     public static T TitleColor<T>(this T picker, Microsoft.Maui.Graphics.Color titleColor)
         where T : IPicker
     {
-        picker.TitleColor = titleColor;
+        //picker.TitleColor = titleColor;
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.TitleColorProperty, titleColor);
         return picker;
     }
 
     public static T TitleColor<T>(this T picker, Func<Microsoft.Maui.Graphics.Color> titleColorFunc)
         where T : IPicker
     {
-        picker.TitleColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(titleColorFunc);
+        //picker.TitleColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(titleColorFunc);
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.TitleColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(titleColorFunc));
         return picker;
     }
 
     public static T SelectedIndex<T>(this T picker, int selectedIndex)
         where T : IPicker
     {
-        picker.SelectedIndex = selectedIndex;
+        //picker.SelectedIndex = selectedIndex;
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.SelectedIndexProperty, selectedIndex);
         return picker;
     }
 
     public static T SelectedIndex<T>(this T picker, Func<int> selectedIndexFunc)
         where T : IPicker
     {
-        picker.SelectedIndex = new PropertyValue<int>(selectedIndexFunc);
+        //picker.SelectedIndex = new PropertyValue<int>(selectedIndexFunc);
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.SelectedIndexProperty, new PropertyValue<int>(selectedIndexFunc));
         return picker;
     }
 
     public static T FontFamily<T>(this T picker, string fontFamily)
         where T : IPicker
     {
-        picker.FontFamily = fontFamily;
+        //picker.FontFamily = fontFamily;
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontFamilyProperty, fontFamily);
         return picker;
     }
 
     public static T FontFamily<T>(this T picker, Func<string> fontFamilyFunc)
         where T : IPicker
     {
-        picker.FontFamily = new PropertyValue<string>(fontFamilyFunc);
+        //picker.FontFamily = new PropertyValue<string>(fontFamilyFunc);
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc));
         return picker;
     }
 
     public static T FontSize<T>(this T picker, double fontSize, RxDoubleAnimation? customAnimation = null)
         where T : IPicker
     {
-        picker.FontSize = fontSize;
-        picker.AppendAnimatable(Microsoft.Maui.Controls.Picker.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), SetFontSize);
+        //picker.FontSize = fontSize;
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontSizeProperty, fontSize);
+        picker.AppendAnimatable(Microsoft.Maui.Controls.Picker.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize));
         return picker;
     }
 
     public static T FontSize<T>(this T picker, Func<double> fontSizeFunc)
         where T : IPicker
     {
-        picker.FontSize = new PropertyValue<double>(fontSizeFunc);
+        //picker.FontSize = new PropertyValue<double>(fontSizeFunc);
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontSizeProperty, new PropertyValue<double>(fontSizeFunc));
         return picker;
     }
 
     public static T FontAttributes<T>(this T picker, Microsoft.Maui.Controls.FontAttributes fontAttributes)
         where T : IPicker
     {
-        picker.FontAttributes = fontAttributes;
+        //picker.FontAttributes = fontAttributes;
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontAttributesProperty, fontAttributes);
         return picker;
     }
 
     public static T FontAttributes<T>(this T picker, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc)
         where T : IPicker
     {
-        picker.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
+        //picker.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc));
         return picker;
     }
 
     public static T FontAutoScalingEnabled<T>(this T picker, bool fontAutoScalingEnabled)
         where T : IPicker
     {
-        picker.FontAutoScalingEnabled = fontAutoScalingEnabled;
+        //picker.FontAutoScalingEnabled = fontAutoScalingEnabled;
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontAutoScalingEnabledProperty, fontAutoScalingEnabled);
         return picker;
     }
 
     public static T FontAutoScalingEnabled<T>(this T picker, Func<bool> fontAutoScalingEnabledFunc)
         where T : IPicker
     {
-        picker.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
+        //picker.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc));
         return picker;
     }
 
     public static T HorizontalTextAlignment<T>(this T picker, Microsoft.Maui.TextAlignment horizontalTextAlignment)
         where T : IPicker
     {
-        picker.HorizontalTextAlignment = horizontalTextAlignment;
+        //picker.HorizontalTextAlignment = horizontalTextAlignment;
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.HorizontalTextAlignmentProperty, horizontalTextAlignment);
         return picker;
     }
 
     public static T HorizontalTextAlignment<T>(this T picker, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc)
         where T : IPicker
     {
-        picker.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
+        //picker.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc));
         return picker;
     }
 
     public static T VerticalTextAlignment<T>(this T picker, Microsoft.Maui.TextAlignment verticalTextAlignment)
         where T : IPicker
     {
-        picker.VerticalTextAlignment = verticalTextAlignment;
+        //picker.VerticalTextAlignment = verticalTextAlignment;
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.VerticalTextAlignmentProperty, verticalTextAlignment);
         return picker;
     }
 
     public static T VerticalTextAlignment<T>(this T picker, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc)
         where T : IPicker
     {
-        picker.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
+        //picker.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc));
         return picker;
     }
 

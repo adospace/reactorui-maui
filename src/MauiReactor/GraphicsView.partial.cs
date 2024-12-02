@@ -32,8 +32,9 @@ public partial class GraphicsView<T>
 {
     Action<ICanvas, RectF>? IGraphicsView.DrawAction { get; set; }
 
-    partial void OnEndUpdate()
+    protected override void OnUpdate()
     {
+        base.OnUpdate();
         Validate.EnsureNotNull(NativeControl);
         var thisAsIGraphicsView = (IGraphicsView)this;
 

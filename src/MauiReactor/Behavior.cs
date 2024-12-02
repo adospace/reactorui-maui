@@ -10,7 +10,7 @@ using MauiReactor.Internals;
 
 #nullable enable
 namespace MauiReactor;
-public partial interface IBehavior : IVisualNode
+public partial interface IBehavior : IVisualNodeWithNativeControl
 {
 }
 
@@ -26,15 +26,6 @@ public abstract partial class Behavior<T> : VisualNode<T>, IBehavior where T : M
         BehaviorStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -57,6 +48,8 @@ public abstract partial class Behavior<T> : VisualNode<T>, IBehavior where T : M
 
 public static partial class BehaviorExtensions
 {
+/*
+    */
 }
 
 public static partial class BehaviorStyles

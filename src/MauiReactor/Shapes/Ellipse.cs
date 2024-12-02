@@ -26,15 +26,6 @@ public sealed partial class Ellipse : Shapes.Shape<Microsoft.Maui.Controls.Shape
         EllipseStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -57,6 +48,8 @@ public sealed partial class Ellipse : Shapes.Shape<Microsoft.Maui.Controls.Shape
 
 public static partial class EllipseExtensions
 {
+/*
+    */
 }
 
 public static partial class EllipseStyles

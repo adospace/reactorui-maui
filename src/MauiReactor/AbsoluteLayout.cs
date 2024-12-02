@@ -26,15 +26,6 @@ public partial class AbsoluteLayout<T> : Layout<T>, IAbsoluteLayout where T : Mi
         AbsoluteLayoutStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,6 +59,8 @@ public partial class AbsoluteLayout : AbsoluteLayout<Microsoft.Maui.Controls.Abs
 
 public static partial class AbsoluteLayoutExtensions
 {
+/*
+    */
 }
 
 public static partial class AbsoluteLayoutStyles

@@ -26,15 +26,6 @@ public partial class HorizontalStackLayout<T> : StackBase<T>, IHorizontalStackLa
         HorizontalStackLayoutStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,6 +59,8 @@ public partial class HorizontalStackLayout : HorizontalStackLayout<Microsoft.Mau
 
 public static partial class HorizontalStackLayoutExtensions
 {
+/*
+    */
 }
 
 public static partial class HorizontalStackLayoutStyles

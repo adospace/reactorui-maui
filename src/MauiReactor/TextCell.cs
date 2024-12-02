@@ -12,13 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ITextCell : ICell
 {
-    object? Text { get; set; }
-
-    object? Detail { get; set; }
-
-    object? TextColor { get; set; }
-
-    object? DetailColor { get; set; }
 }
 
 public partial class TextCell<T> : Cell<T>, ITextCell where T : Microsoft.Maui.Controls.TextCell, new()
@@ -33,29 +26,6 @@ public partial class TextCell<T> : Cell<T>, ITextCell where T : Microsoft.Maui.C
         TextCellStyles.Default?.Invoke(this);
     }
 
-    object? ITextCell.Text { get; set; }
-
-    object? ITextCell.Detail { get; set; }
-
-    object? ITextCell.TextColor { get; set; }
-
-    object? ITextCell.DetailColor { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsITextCell = (ITextCell)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TextCell.TextProperty, thisAsITextCell.Text);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TextCell.DetailProperty, thisAsITextCell.Detail);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TextCell.TextColorProperty, thisAsITextCell.TextColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TextCell.DetailColorProperty, thisAsITextCell.DetailColor);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -89,59 +59,77 @@ public partial class TextCell : TextCell<Microsoft.Maui.Controls.TextCell>
 
 public static partial class TextCellExtensions
 {
+    /*
+    
+    
+    
+    
+    
+    
+    
+    
+    */
     public static T Text<T>(this T textCell, string text)
         where T : ITextCell
     {
-        textCell.Text = text;
+        //textCell.Text = text;
+        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.TextProperty, text);
         return textCell;
     }
 
     public static T Text<T>(this T textCell, Func<string> textFunc)
         where T : ITextCell
     {
-        textCell.Text = new PropertyValue<string>(textFunc);
+        //textCell.Text = new PropertyValue<string>(textFunc);
+        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.TextProperty, new PropertyValue<string>(textFunc));
         return textCell;
     }
 
     public static T Detail<T>(this T textCell, string detail)
         where T : ITextCell
     {
-        textCell.Detail = detail;
+        //textCell.Detail = detail;
+        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.DetailProperty, detail);
         return textCell;
     }
 
     public static T Detail<T>(this T textCell, Func<string> detailFunc)
         where T : ITextCell
     {
-        textCell.Detail = new PropertyValue<string>(detailFunc);
+        //textCell.Detail = new PropertyValue<string>(detailFunc);
+        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.DetailProperty, new PropertyValue<string>(detailFunc));
         return textCell;
     }
 
     public static T TextColor<T>(this T textCell, Microsoft.Maui.Graphics.Color textColor)
         where T : ITextCell
     {
-        textCell.TextColor = textColor;
+        //textCell.TextColor = textColor;
+        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.TextColorProperty, textColor);
         return textCell;
     }
 
     public static T TextColor<T>(this T textCell, Func<Microsoft.Maui.Graphics.Color> textColorFunc)
         where T : ITextCell
     {
-        textCell.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
+        //textCell.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
+        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc));
         return textCell;
     }
 
     public static T DetailColor<T>(this T textCell, Microsoft.Maui.Graphics.Color detailColor)
         where T : ITextCell
     {
-        textCell.DetailColor = detailColor;
+        //textCell.DetailColor = detailColor;
+        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.DetailColorProperty, detailColor);
         return textCell;
     }
 
     public static T DetailColor<T>(this T textCell, Func<Microsoft.Maui.Graphics.Color> detailColorFunc)
         where T : ITextCell
     {
-        textCell.DetailColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(detailColorFunc);
+        //textCell.DetailColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(detailColorFunc);
+        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.DetailColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(detailColorFunc));
         return textCell;
     }
 }

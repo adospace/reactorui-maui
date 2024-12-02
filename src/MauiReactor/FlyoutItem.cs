@@ -26,15 +26,6 @@ public partial class FlyoutItem<T> : ShellItem<T>, IFlyoutItem where T : Microso
         FlyoutItemStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,6 +59,8 @@ public partial class FlyoutItem : FlyoutItem<Microsoft.Maui.Controls.FlyoutItem>
 
 public static partial class FlyoutItemExtensions
 {
+/*
+    */
 }
 
 public static partial class FlyoutItemStyles

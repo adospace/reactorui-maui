@@ -12,14 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IItemsView : IView
 {
-    object? HorizontalScrollBarVisibility { get; set; }
-
-    object? VerticalScrollBarVisibility { get; set; }
-
-    object? RemainingItemsThreshold { get; set; }
-
-    object? ItemsUpdatingScrollMode { get; set; }
-
     EventCommand<ScrollToRequestEventArgs>? ScrollToRequestedEvent { get; set; }
 
     EventCommand<ItemsViewScrolledEventArgs>? ScrolledEvent { get; set; }
@@ -39,35 +31,12 @@ public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Micro
         ItemsViewStyles.Default?.Invoke(this);
     }
 
-    object? IItemsView.HorizontalScrollBarVisibility { get; set; }
-
-    object? IItemsView.VerticalScrollBarVisibility { get; set; }
-
-    object? IItemsView.RemainingItemsThreshold { get; set; }
-
-    object? IItemsView.ItemsUpdatingScrollMode { get; set; }
-
     EventCommand<ScrollToRequestEventArgs>? IItemsView.ScrollToRequestedEvent { get; set; }
 
     EventCommand<ItemsViewScrolledEventArgs>? IItemsView.ScrolledEvent { get; set; }
 
     EventCommand<EventArgs>? IItemsView.RemainingItemsThresholdReachedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIItemsView = (IItemsView)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ItemsView.HorizontalScrollBarVisibilityProperty, thisAsIItemsView.HorizontalScrollBarVisibility);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ItemsView.VerticalScrollBarVisibilityProperty, thisAsIItemsView.VerticalScrollBarVisibility);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ItemsView.RemainingItemsThresholdProperty, thisAsIItemsView.RemainingItemsThreshold);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.ItemsView.ItemsUpdatingScrollModeProperty, thisAsIItemsView.ItemsUpdatingScrollMode);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -179,59 +148,77 @@ public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Micro
 
 public static partial class ItemsViewExtensions
 {
+    /*
+    
+    
+    
+    
+    
+    
+    
+    
+    */
     public static T HorizontalScrollBarVisibility<T>(this T itemsView, Microsoft.Maui.ScrollBarVisibility horizontalScrollBarVisibility)
         where T : IItemsView
     {
-        itemsView.HorizontalScrollBarVisibility = horizontalScrollBarVisibility;
+        //itemsView.HorizontalScrollBarVisibility = horizontalScrollBarVisibility;
+        itemsView.SetProperty(Microsoft.Maui.Controls.ItemsView.HorizontalScrollBarVisibilityProperty, horizontalScrollBarVisibility);
         return itemsView;
     }
 
     public static T HorizontalScrollBarVisibility<T>(this T itemsView, Func<Microsoft.Maui.ScrollBarVisibility> horizontalScrollBarVisibilityFunc)
         where T : IItemsView
     {
-        itemsView.HorizontalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibilityFunc);
+        //itemsView.HorizontalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibilityFunc);
+        itemsView.SetProperty(Microsoft.Maui.Controls.ItemsView.HorizontalScrollBarVisibilityProperty, new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibilityFunc));
         return itemsView;
     }
 
     public static T VerticalScrollBarVisibility<T>(this T itemsView, Microsoft.Maui.ScrollBarVisibility verticalScrollBarVisibility)
         where T : IItemsView
     {
-        itemsView.VerticalScrollBarVisibility = verticalScrollBarVisibility;
+        //itemsView.VerticalScrollBarVisibility = verticalScrollBarVisibility;
+        itemsView.SetProperty(Microsoft.Maui.Controls.ItemsView.VerticalScrollBarVisibilityProperty, verticalScrollBarVisibility);
         return itemsView;
     }
 
     public static T VerticalScrollBarVisibility<T>(this T itemsView, Func<Microsoft.Maui.ScrollBarVisibility> verticalScrollBarVisibilityFunc)
         where T : IItemsView
     {
-        itemsView.VerticalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibilityFunc);
+        //itemsView.VerticalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibilityFunc);
+        itemsView.SetProperty(Microsoft.Maui.Controls.ItemsView.VerticalScrollBarVisibilityProperty, new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibilityFunc));
         return itemsView;
     }
 
     public static T RemainingItemsThreshold<T>(this T itemsView, int remainingItemsThreshold)
         where T : IItemsView
     {
-        itemsView.RemainingItemsThreshold = remainingItemsThreshold;
+        //itemsView.RemainingItemsThreshold = remainingItemsThreshold;
+        itemsView.SetProperty(Microsoft.Maui.Controls.ItemsView.RemainingItemsThresholdProperty, remainingItemsThreshold);
         return itemsView;
     }
 
     public static T RemainingItemsThreshold<T>(this T itemsView, Func<int> remainingItemsThresholdFunc)
         where T : IItemsView
     {
-        itemsView.RemainingItemsThreshold = new PropertyValue<int>(remainingItemsThresholdFunc);
+        //itemsView.RemainingItemsThreshold = new PropertyValue<int>(remainingItemsThresholdFunc);
+        itemsView.SetProperty(Microsoft.Maui.Controls.ItemsView.RemainingItemsThresholdProperty, new PropertyValue<int>(remainingItemsThresholdFunc));
         return itemsView;
     }
 
     public static T ItemsUpdatingScrollMode<T>(this T itemsView, Microsoft.Maui.Controls.ItemsUpdatingScrollMode itemsUpdatingScrollMode)
         where T : IItemsView
     {
-        itemsView.ItemsUpdatingScrollMode = itemsUpdatingScrollMode;
+        //itemsView.ItemsUpdatingScrollMode = itemsUpdatingScrollMode;
+        itemsView.SetProperty(Microsoft.Maui.Controls.ItemsView.ItemsUpdatingScrollModeProperty, itemsUpdatingScrollMode);
         return itemsView;
     }
 
     public static T ItemsUpdatingScrollMode<T>(this T itemsView, Func<Microsoft.Maui.Controls.ItemsUpdatingScrollMode> itemsUpdatingScrollModeFunc)
         where T : IItemsView
     {
-        itemsView.ItemsUpdatingScrollMode = new PropertyValue<Microsoft.Maui.Controls.ItemsUpdatingScrollMode>(itemsUpdatingScrollModeFunc);
+        //itemsView.ItemsUpdatingScrollMode = new PropertyValue<Microsoft.Maui.Controls.ItemsUpdatingScrollMode>(itemsUpdatingScrollModeFunc);
+        itemsView.SetProperty(Microsoft.Maui.Controls.ItemsView.ItemsUpdatingScrollModeProperty, new PropertyValue<Microsoft.Maui.Controls.ItemsUpdatingScrollMode>(itemsUpdatingScrollModeFunc));
         return itemsView;
     }
 

@@ -127,9 +127,14 @@ public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage 
 
 public static partial class MultiPageExtensions
 {
+    /*
+    
+    
+    */
     public static T SelectedItem<T>(this T multiPage, object? selectedItem)
         where T : IGenericMultiPage
     {
+        //multiPage.SelectedItem = selectedItem;
         multiPage.SelectedItem = selectedItem;
         return multiPage;
     }
@@ -137,6 +142,7 @@ public static partial class MultiPageExtensions
     public static T SelectedItem<T>(this T multiPage, Func<object?> selectedItemFunc)
         where T : IGenericMultiPage
     {
+        //multiPage.SelectedItem = new PropertyValue<object?>(selectedItemFunc);
         multiPage.SelectedItem = new PropertyValue<object?>(selectedItemFunc);
         return multiPage;
     }

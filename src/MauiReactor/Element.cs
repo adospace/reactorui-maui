@@ -10,12 +10,8 @@ using MauiReactor.Internals;
 
 #nullable enable
 namespace MauiReactor;
-public partial interface IElement : IVisualNode
+public partial interface IElement : IVisualNodeWithNativeControl
 {
-    object? AutomationId { get; set; }
-
-    object? ClassId { get; set; }
-
     EventCommand<ElementEventArgs>? ChildAddedEvent { get; set; }
 
     EventCommand<ElementEventArgs>? ChildRemovedEvent { get; set; }
@@ -45,10 +41,6 @@ public abstract partial class Element<T> : VisualNode<T>, IElement where T : Mic
         ElementStyles.Default?.Invoke(this);
     }
 
-    object? IElement.AutomationId { get; set; }
-
-    object? IElement.ClassId { get; set; }
-
     EventCommand<ElementEventArgs>? IElement.ChildAddedEvent { get; set; }
 
     EventCommand<ElementEventArgs>? IElement.ChildRemovedEvent { get; set; }
@@ -65,19 +57,6 @@ public abstract partial class Element<T> : VisualNode<T>, IElement where T : Mic
 
     EventCommand<EventArgs>? IElement.HandlerChangedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIElement = (IElement)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Element.AutomationIdProperty, thisAsIElement.AutomationId);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Element.ClassIdProperty, thisAsIElement.ClassId);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -299,31 +278,41 @@ public abstract partial class Element<T> : VisualNode<T>, IElement where T : Mic
 
 public static partial class ElementExtensions
 {
+    /*
+    
+    
+    
+    
+    */
     public static T AutomationId<T>(this T element, string automationId)
         where T : IElement
     {
-        element.AutomationId = automationId;
+        //element.AutomationId = automationId;
+        element.SetProperty(Microsoft.Maui.Controls.Element.AutomationIdProperty, automationId);
         return element;
     }
 
     public static T AutomationId<T>(this T element, Func<string> automationIdFunc)
         where T : IElement
     {
-        element.AutomationId = new PropertyValue<string>(automationIdFunc);
+        //element.AutomationId = new PropertyValue<string>(automationIdFunc);
+        element.SetProperty(Microsoft.Maui.Controls.Element.AutomationIdProperty, new PropertyValue<string>(automationIdFunc));
         return element;
     }
 
     public static T ClassId<T>(this T element, string classId)
         where T : IElement
     {
-        element.ClassId = classId;
+        //element.ClassId = classId;
+        element.SetProperty(Microsoft.Maui.Controls.Element.ClassIdProperty, classId);
         return element;
     }
 
     public static T ClassId<T>(this T element, Func<string> classIdFunc)
         where T : IElement
     {
-        element.ClassId = new PropertyValue<string>(classIdFunc);
+        //element.ClassId = new PropertyValue<string>(classIdFunc);
+        element.SetProperty(Microsoft.Maui.Controls.Element.ClassIdProperty, new PropertyValue<string>(classIdFunc));
         return element;
     }
 

@@ -12,10 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IRefreshView : IContentView
 {
-    object? IsRefreshing { get; set; }
-
-    object? RefreshColor { get; set; }
-
     EventCommand<EventArgs>? RefreshingEvent { get; set; }
 }
 
@@ -31,25 +27,8 @@ public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Mic
         RefreshViewStyles.Default?.Invoke(this);
     }
 
-    object? IRefreshView.IsRefreshing { get; set; }
-
-    object? IRefreshView.RefreshColor { get; set; }
-
     EventCommand<EventArgs>? IRefreshView.RefreshingEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIRefreshView = (IRefreshView)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.RefreshView.IsRefreshingProperty, thisAsIRefreshView.IsRefreshing);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.RefreshView.RefreshColorProperty, thisAsIRefreshView.RefreshColor);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -128,31 +107,41 @@ public partial class RefreshView : RefreshView<Microsoft.Maui.Controls.RefreshVi
 
 public static partial class RefreshViewExtensions
 {
+    /*
+    
+    
+    
+    
+    */
     public static T IsRefreshing<T>(this T refreshView, bool isRefreshing)
         where T : IRefreshView
     {
-        refreshView.IsRefreshing = isRefreshing;
+        //refreshView.IsRefreshing = isRefreshing;
+        refreshView.SetProperty(Microsoft.Maui.Controls.RefreshView.IsRefreshingProperty, isRefreshing);
         return refreshView;
     }
 
     public static T IsRefreshing<T>(this T refreshView, Func<bool> isRefreshingFunc)
         where T : IRefreshView
     {
-        refreshView.IsRefreshing = new PropertyValue<bool>(isRefreshingFunc);
+        //refreshView.IsRefreshing = new PropertyValue<bool>(isRefreshingFunc);
+        refreshView.SetProperty(Microsoft.Maui.Controls.RefreshView.IsRefreshingProperty, new PropertyValue<bool>(isRefreshingFunc));
         return refreshView;
     }
 
     public static T RefreshColor<T>(this T refreshView, Microsoft.Maui.Graphics.Color refreshColor)
         where T : IRefreshView
     {
-        refreshView.RefreshColor = refreshColor;
+        //refreshView.RefreshColor = refreshColor;
+        refreshView.SetProperty(Microsoft.Maui.Controls.RefreshView.RefreshColorProperty, refreshColor);
         return refreshView;
     }
 
     public static T RefreshColor<T>(this T refreshView, Func<Microsoft.Maui.Graphics.Color> refreshColorFunc)
         where T : IRefreshView
     {
-        refreshView.RefreshColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(refreshColorFunc);
+        //refreshView.RefreshColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(refreshColorFunc);
+        refreshView.SetProperty(Microsoft.Maui.Controls.RefreshView.RefreshColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(refreshColorFunc));
         return refreshView;
     }
 

@@ -26,15 +26,6 @@ public partial class MenuFlyoutSeparator<T> : MenuFlyoutItem<T>, IMenuFlyoutSepa
         MenuFlyoutSeparatorStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,6 +59,8 @@ public partial class MenuFlyoutSeparator : MenuFlyoutSeparator<Microsoft.Maui.Co
 
 public static partial class MenuFlyoutSeparatorExtensions
 {
+/*
+    */
 }
 
 public static partial class MenuFlyoutSeparatorStyles

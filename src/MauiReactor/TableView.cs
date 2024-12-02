@@ -12,9 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ITableView : IView
 {
-    object? RowHeight { get; set; }
-
-    object? HasUnevenRows { get; set; }
 }
 
 public partial class TableView<T> : View<T>, ITableView where T : Microsoft.Maui.Controls.TableView, new()
@@ -29,23 +26,6 @@ public partial class TableView<T> : View<T>, ITableView where T : Microsoft.Maui
         TableViewStyles.Default?.Invoke(this);
     }
 
-    object? ITableView.RowHeight { get; set; }
-
-    object? ITableView.HasUnevenRows { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsITableView = (ITableView)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TableView.RowHeightProperty, thisAsITableView.RowHeight);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.TableView.HasUnevenRowsProperty, thisAsITableView.HasUnevenRows);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -79,31 +59,41 @@ public partial class TableView : TableView<Microsoft.Maui.Controls.TableView>
 
 public static partial class TableViewExtensions
 {
+    /*
+    
+    
+    
+    
+    */
     public static T RowHeight<T>(this T tableView, int rowHeight)
         where T : ITableView
     {
-        tableView.RowHeight = rowHeight;
+        //tableView.RowHeight = rowHeight;
+        tableView.SetProperty(Microsoft.Maui.Controls.TableView.RowHeightProperty, rowHeight);
         return tableView;
     }
 
     public static T RowHeight<T>(this T tableView, Func<int> rowHeightFunc)
         where T : ITableView
     {
-        tableView.RowHeight = new PropertyValue<int>(rowHeightFunc);
+        //tableView.RowHeight = new PropertyValue<int>(rowHeightFunc);
+        tableView.SetProperty(Microsoft.Maui.Controls.TableView.RowHeightProperty, new PropertyValue<int>(rowHeightFunc));
         return tableView;
     }
 
     public static T HasUnevenRows<T>(this T tableView, bool hasUnevenRows)
         where T : ITableView
     {
-        tableView.HasUnevenRows = hasUnevenRows;
+        //tableView.HasUnevenRows = hasUnevenRows;
+        tableView.SetProperty(Microsoft.Maui.Controls.TableView.HasUnevenRowsProperty, hasUnevenRows);
         return tableView;
     }
 
     public static T HasUnevenRows<T>(this T tableView, Func<bool> hasUnevenRowsFunc)
         where T : ITableView
     {
-        tableView.HasUnevenRows = new PropertyValue<bool>(hasUnevenRowsFunc);
+        //tableView.HasUnevenRows = new PropertyValue<bool>(hasUnevenRowsFunc);
+        tableView.SetProperty(Microsoft.Maui.Controls.TableView.HasUnevenRowsProperty, new PropertyValue<bool>(hasUnevenRowsFunc));
         return tableView;
     }
 }

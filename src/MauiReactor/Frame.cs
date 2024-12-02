@@ -13,11 +13,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IFrame : IContentView
 {
-    object? BorderColor { get; set; }
-
-    object? HasShadow { get; set; }
-
-    object? CornerRadius { get; set; }
 }
 
 public partial class Frame<T> : ContentView<T>, IFrame where T : Microsoft.Maui.Controls.Frame, new()
@@ -32,26 +27,6 @@ public partial class Frame<T> : ContentView<T>, IFrame where T : Microsoft.Maui.
         FrameStyles.Default?.Invoke(this);
     }
 
-    object? IFrame.BorderColor { get; set; }
-
-    object? IFrame.HasShadow { get; set; }
-
-    object? IFrame.CornerRadius { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIFrame = (IFrame)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Frame.BorderColorProperty, thisAsIFrame.BorderColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Frame.HasShadowProperty, thisAsIFrame.HasShadow);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Frame.CornerRadiusProperty, thisAsIFrame.CornerRadius);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -62,6 +37,13 @@ public partial class Frame<T> : ContentView<T>, IFrame where T : Microsoft.Maui.
         }
 
         base.OnThemeChanged();
+    }
+
+    partial void Migrated(VisualNode newNode);
+    protected override void OnMigrated(VisualNode newNode)
+    {
+        Migrated(newNode);
+        base.OnMigrated(newNode);
     }
 }
 
@@ -78,45 +60,59 @@ public partial class Frame : Frame<Microsoft.Maui.Controls.Frame>
 
 public static partial class FrameExtensions
 {
+    /*
+    
+    
+    
+    
+    
+    
+    */
     public static T BorderColor<T>(this T frame, Microsoft.Maui.Graphics.Color borderColor)
         where T : IFrame
     {
-        frame.BorderColor = borderColor;
+        //frame.BorderColor = borderColor;
+        frame.SetProperty(Microsoft.Maui.Controls.Frame.BorderColorProperty, borderColor);
         return frame;
     }
 
     public static T BorderColor<T>(this T frame, Func<Microsoft.Maui.Graphics.Color> borderColorFunc)
         where T : IFrame
     {
-        frame.BorderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc);
+        //frame.BorderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc);
+        frame.SetProperty(Microsoft.Maui.Controls.Frame.BorderColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc));
         return frame;
     }
 
     public static T HasShadow<T>(this T frame, bool hasShadow)
         where T : IFrame
     {
-        frame.HasShadow = hasShadow;
+        //frame.HasShadow = hasShadow;
+        frame.SetProperty(Microsoft.Maui.Controls.Frame.HasShadowProperty, hasShadow);
         return frame;
     }
 
     public static T HasShadow<T>(this T frame, Func<bool> hasShadowFunc)
         where T : IFrame
     {
-        frame.HasShadow = new PropertyValue<bool>(hasShadowFunc);
+        //frame.HasShadow = new PropertyValue<bool>(hasShadowFunc);
+        frame.SetProperty(Microsoft.Maui.Controls.Frame.HasShadowProperty, new PropertyValue<bool>(hasShadowFunc));
         return frame;
     }
 
     public static T CornerRadius<T>(this T frame, float cornerRadius)
         where T : IFrame
     {
-        frame.CornerRadius = cornerRadius;
+        //frame.CornerRadius = cornerRadius;
+        frame.SetProperty(Microsoft.Maui.Controls.Frame.CornerRadiusProperty, cornerRadius);
         return frame;
     }
 
     public static T CornerRadius<T>(this T frame, Func<float> cornerRadiusFunc)
         where T : IFrame
     {
-        frame.CornerRadius = new PropertyValue<float>(cornerRadiusFunc);
+        //frame.CornerRadius = new PropertyValue<float>(cornerRadiusFunc);
+        frame.SetProperty(Microsoft.Maui.Controls.Frame.CornerRadiusProperty, new PropertyValue<float>(cornerRadiusFunc));
         return frame;
     }
 }

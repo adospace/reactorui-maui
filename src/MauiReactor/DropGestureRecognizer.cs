@@ -12,8 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IDropGestureRecognizer : IGestureRecognizer
 {
-    object? AllowDrop { get; set; }
-
     EventCommand<DragEventArgs>? DragLeaveEvent { get; set; }
 
     EventCommand<DragEventArgs>? DragOverEvent { get; set; }
@@ -33,26 +31,12 @@ public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestu
         DropGestureRecognizerStyles.Default?.Invoke(this);
     }
 
-    object? IDropGestureRecognizer.AllowDrop { get; set; }
-
     EventCommand<DragEventArgs>? IDropGestureRecognizer.DragLeaveEvent { get; set; }
 
     EventCommand<DragEventArgs>? IDropGestureRecognizer.DragOverEvent { get; set; }
 
     EventCommand<DropEventArgs>? IDropGestureRecognizer.DropEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIDropGestureRecognizer = (IDropGestureRecognizer)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.DropGestureRecognizer.AllowDropProperty, thisAsIDropGestureRecognizer.AllowDrop);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -175,17 +159,23 @@ public partial class DropGestureRecognizer : DropGestureRecognizer<Microsoft.Mau
 
 public static partial class DropGestureRecognizerExtensions
 {
+    /*
+    
+    
+    */
     public static T AllowDrop<T>(this T dropGestureRecognizer, bool allowDrop)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.AllowDrop = allowDrop;
+        //dropGestureRecognizer.AllowDrop = allowDrop;
+        dropGestureRecognizer.SetProperty(Microsoft.Maui.Controls.DropGestureRecognizer.AllowDropProperty, allowDrop);
         return dropGestureRecognizer;
     }
 
     public static T AllowDrop<T>(this T dropGestureRecognizer, Func<bool> allowDropFunc)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.AllowDrop = new PropertyValue<bool>(allowDropFunc);
+        //dropGestureRecognizer.AllowDrop = new PropertyValue<bool>(allowDropFunc);
+        dropGestureRecognizer.SetProperty(Microsoft.Maui.Controls.DropGestureRecognizer.AllowDropProperty, new PropertyValue<bool>(allowDropFunc));
         return dropGestureRecognizer;
     }
 

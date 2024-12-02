@@ -12,29 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ISpan : IGestureElement
 {
-    object? Style { get; set; }
-
-    object? TextDecorations { get; set; }
-
-    object? TextTransform { get; set; }
-
-    object? BackgroundColor { get; set; }
-
-    object? TextColor { get; set; }
-
-    object? CharacterSpacing { get; set; }
-
-    object? Text { get; set; }
-
-    object? FontFamily { get; set; }
-
-    object? FontSize { get; set; }
-
-    object? FontAttributes { get; set; }
-
-    object? FontAutoScalingEnabled { get; set; }
-
-    object? LineHeight { get; set; }
 }
 
 public partial class Span<T> : GestureElement<T>, ISpan where T : Microsoft.Maui.Controls.Span, new()
@@ -49,53 +26,6 @@ public partial class Span<T> : GestureElement<T>, ISpan where T : Microsoft.Maui
         SpanStyles.Default?.Invoke(this);
     }
 
-    object? ISpan.Style { get; set; }
-
-    object? ISpan.TextDecorations { get; set; }
-
-    object? ISpan.TextTransform { get; set; }
-
-    object? ISpan.BackgroundColor { get; set; }
-
-    object? ISpan.TextColor { get; set; }
-
-    object? ISpan.CharacterSpacing { get; set; }
-
-    object? ISpan.Text { get; set; }
-
-    object? ISpan.FontFamily { get; set; }
-
-    object? ISpan.FontSize { get; set; }
-
-    object? ISpan.FontAttributes { get; set; }
-
-    object? ISpan.FontAutoScalingEnabled { get; set; }
-
-    object? ISpan.LineHeight { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsISpan = (ISpan)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Span.StyleProperty, thisAsISpan.Style);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Span.TextDecorationsProperty, thisAsISpan.TextDecorations);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Span.TextTransformProperty, thisAsISpan.TextTransform);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Span.BackgroundColorProperty, thisAsISpan.BackgroundColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Span.TextColorProperty, thisAsISpan.TextColor);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Span.CharacterSpacingProperty, thisAsISpan.CharacterSpacing);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Span.TextProperty, thisAsISpan.Text);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Span.FontFamilyProperty, thisAsISpan.FontFamily);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Span.FontSizeProperty, thisAsISpan.FontSize);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Span.FontAttributesProperty, thisAsISpan.FontAttributes);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Span.FontAutoScalingEnabledProperty, thisAsISpan.FontAutoScalingEnabled);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Span.LineHeightProperty, thisAsISpan.LineHeight);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -129,177 +59,236 @@ public partial class Span : Span<Microsoft.Maui.Controls.Span>
 
 public static partial class SpanExtensions
 {
-    static object? SetCharacterSpacing(object span, RxAnimation animation) => ((ISpan)span).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetFontSize(object span, RxAnimation animation) => ((ISpan)span).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetLineHeight(object span, RxAnimation animation) => ((ISpan)span).LineHeight = ((RxDoubleAnimation)animation).CurrentValue();
+    /*
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    static object? SetCharacterSpacing(object span, RxAnimation animation)
+        => ((ISpan)span).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    
+    
+    
+    
+    static object? SetFontSize(object span, RxAnimation animation)
+        => ((ISpan)span).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    
+    
+    
+    
+    static object? SetLineHeight(object span, RxAnimation animation)
+        => ((ISpan)span).LineHeight = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    */
     public static T Style<T>(this T span, Microsoft.Maui.Controls.Style style)
         where T : ISpan
     {
-        span.Style = style;
+        //span.Style = style;
+        span.SetProperty(Microsoft.Maui.Controls.Span.StyleProperty, style);
         return span;
     }
 
     public static T Style<T>(this T span, Func<Microsoft.Maui.Controls.Style> styleFunc)
         where T : ISpan
     {
-        span.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc);
+        //span.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc);
+        span.SetProperty(Microsoft.Maui.Controls.Span.StyleProperty, new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc));
         return span;
     }
 
     public static T TextDecorations<T>(this T span, Microsoft.Maui.TextDecorations textDecorations)
         where T : ISpan
     {
-        span.TextDecorations = textDecorations;
+        //span.TextDecorations = textDecorations;
+        span.SetProperty(Microsoft.Maui.Controls.Span.TextDecorationsProperty, textDecorations);
         return span;
     }
 
     public static T TextDecorations<T>(this T span, Func<Microsoft.Maui.TextDecorations> textDecorationsFunc)
         where T : ISpan
     {
-        span.TextDecorations = new PropertyValue<Microsoft.Maui.TextDecorations>(textDecorationsFunc);
+        //span.TextDecorations = new PropertyValue<Microsoft.Maui.TextDecorations>(textDecorationsFunc);
+        span.SetProperty(Microsoft.Maui.Controls.Span.TextDecorationsProperty, new PropertyValue<Microsoft.Maui.TextDecorations>(textDecorationsFunc));
         return span;
     }
 
     public static T TextTransform<T>(this T span, Microsoft.Maui.TextTransform textTransform)
         where T : ISpan
     {
-        span.TextTransform = textTransform;
+        //span.TextTransform = textTransform;
+        span.SetProperty(Microsoft.Maui.Controls.Span.TextTransformProperty, textTransform);
         return span;
     }
 
     public static T TextTransform<T>(this T span, Func<Microsoft.Maui.TextTransform> textTransformFunc)
         where T : ISpan
     {
-        span.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc);
+        //span.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc);
+        span.SetProperty(Microsoft.Maui.Controls.Span.TextTransformProperty, new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc));
         return span;
     }
 
     public static T BackgroundColor<T>(this T span, Microsoft.Maui.Graphics.Color backgroundColor)
         where T : ISpan
     {
-        span.BackgroundColor = backgroundColor;
+        //span.BackgroundColor = backgroundColor;
+        span.SetProperty(Microsoft.Maui.Controls.Span.BackgroundColorProperty, backgroundColor);
         return span;
     }
 
     public static T BackgroundColor<T>(this T span, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc)
         where T : ISpan
     {
-        span.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc);
+        //span.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc);
+        span.SetProperty(Microsoft.Maui.Controls.Span.BackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc));
         return span;
     }
 
     public static T TextColor<T>(this T span, Microsoft.Maui.Graphics.Color textColor)
         where T : ISpan
     {
-        span.TextColor = textColor;
+        //span.TextColor = textColor;
+        span.SetProperty(Microsoft.Maui.Controls.Span.TextColorProperty, textColor);
         return span;
     }
 
     public static T TextColor<T>(this T span, Func<Microsoft.Maui.Graphics.Color> textColorFunc)
         where T : ISpan
     {
-        span.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
+        //span.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
+        span.SetProperty(Microsoft.Maui.Controls.Span.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc));
         return span;
     }
 
     public static T CharacterSpacing<T>(this T span, double characterSpacing, RxDoubleAnimation? customAnimation = null)
         where T : ISpan
     {
-        span.CharacterSpacing = characterSpacing;
-        span.AppendAnimatable(Microsoft.Maui.Controls.Span.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing), SetCharacterSpacing);
+        //span.CharacterSpacing = characterSpacing;
+        span.SetProperty(Microsoft.Maui.Controls.Span.CharacterSpacingProperty, characterSpacing);
+        span.AppendAnimatable(Microsoft.Maui.Controls.Span.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing));
         return span;
     }
 
     public static T CharacterSpacing<T>(this T span, Func<double> characterSpacingFunc)
         where T : ISpan
     {
-        span.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
+        //span.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
+        span.SetProperty(Microsoft.Maui.Controls.Span.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc));
         return span;
     }
 
     public static T Text<T>(this T span, string text)
         where T : ISpan
     {
-        span.Text = text;
+        //span.Text = text;
+        span.SetProperty(Microsoft.Maui.Controls.Span.TextProperty, text);
         return span;
     }
 
     public static T Text<T>(this T span, Func<string> textFunc)
         where T : ISpan
     {
-        span.Text = new PropertyValue<string>(textFunc);
+        //span.Text = new PropertyValue<string>(textFunc);
+        span.SetProperty(Microsoft.Maui.Controls.Span.TextProperty, new PropertyValue<string>(textFunc));
         return span;
     }
 
     public static T FontFamily<T>(this T span, string fontFamily)
         where T : ISpan
     {
-        span.FontFamily = fontFamily;
+        //span.FontFamily = fontFamily;
+        span.SetProperty(Microsoft.Maui.Controls.Span.FontFamilyProperty, fontFamily);
         return span;
     }
 
     public static T FontFamily<T>(this T span, Func<string> fontFamilyFunc)
         where T : ISpan
     {
-        span.FontFamily = new PropertyValue<string>(fontFamilyFunc);
+        //span.FontFamily = new PropertyValue<string>(fontFamilyFunc);
+        span.SetProperty(Microsoft.Maui.Controls.Span.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc));
         return span;
     }
 
     public static T FontSize<T>(this T span, double fontSize, RxDoubleAnimation? customAnimation = null)
         where T : ISpan
     {
-        span.FontSize = fontSize;
-        span.AppendAnimatable(Microsoft.Maui.Controls.Span.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize), SetFontSize);
+        //span.FontSize = fontSize;
+        span.SetProperty(Microsoft.Maui.Controls.Span.FontSizeProperty, fontSize);
+        span.AppendAnimatable(Microsoft.Maui.Controls.Span.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize));
         return span;
     }
 
     public static T FontSize<T>(this T span, Func<double> fontSizeFunc)
         where T : ISpan
     {
-        span.FontSize = new PropertyValue<double>(fontSizeFunc);
+        //span.FontSize = new PropertyValue<double>(fontSizeFunc);
+        span.SetProperty(Microsoft.Maui.Controls.Span.FontSizeProperty, new PropertyValue<double>(fontSizeFunc));
         return span;
     }
 
     public static T FontAttributes<T>(this T span, Microsoft.Maui.Controls.FontAttributes fontAttributes)
         where T : ISpan
     {
-        span.FontAttributes = fontAttributes;
+        //span.FontAttributes = fontAttributes;
+        span.SetProperty(Microsoft.Maui.Controls.Span.FontAttributesProperty, fontAttributes);
         return span;
     }
 
     public static T FontAttributes<T>(this T span, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc)
         where T : ISpan
     {
-        span.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
+        //span.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
+        span.SetProperty(Microsoft.Maui.Controls.Span.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc));
         return span;
     }
 
     public static T FontAutoScalingEnabled<T>(this T span, bool fontAutoScalingEnabled)
         where T : ISpan
     {
-        span.FontAutoScalingEnabled = fontAutoScalingEnabled;
+        //span.FontAutoScalingEnabled = fontAutoScalingEnabled;
+        span.SetProperty(Microsoft.Maui.Controls.Span.FontAutoScalingEnabledProperty, fontAutoScalingEnabled);
         return span;
     }
 
     public static T FontAutoScalingEnabled<T>(this T span, Func<bool> fontAutoScalingEnabledFunc)
         where T : ISpan
     {
-        span.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
+        //span.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
+        span.SetProperty(Microsoft.Maui.Controls.Span.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc));
         return span;
     }
 
     public static T LineHeight<T>(this T span, double lineHeight, RxDoubleAnimation? customAnimation = null)
         where T : ISpan
     {
-        span.LineHeight = lineHeight;
-        span.AppendAnimatable(Microsoft.Maui.Controls.Span.LineHeightProperty, customAnimation ?? new RxDoubleAnimation(lineHeight), SetLineHeight);
+        //span.LineHeight = lineHeight;
+        span.SetProperty(Microsoft.Maui.Controls.Span.LineHeightProperty, lineHeight);
+        span.AppendAnimatable(Microsoft.Maui.Controls.Span.LineHeightProperty, customAnimation ?? new RxDoubleAnimation(lineHeight));
         return span;
     }
 
     public static T LineHeight<T>(this T span, Func<double> lineHeightFunc)
         where T : ISpan
     {
-        span.LineHeight = new PropertyValue<double>(lineHeightFunc);
+        //span.LineHeight = new PropertyValue<double>(lineHeightFunc);
+        span.SetProperty(Microsoft.Maui.Controls.Span.LineHeightProperty, new PropertyValue<double>(lineHeightFunc));
         return span;
     }
 }

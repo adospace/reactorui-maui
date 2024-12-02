@@ -26,15 +26,6 @@ public partial class ContentView<T> : TemplatedView<T>, IContentView where T : M
         ContentViewStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -68,6 +59,8 @@ public partial class ContentView : ContentView<Microsoft.Maui.Controls.ContentVi
 
 public static partial class ContentViewExtensions
 {
+/*
+    */
 }
 
 public static partial class ContentViewStyles

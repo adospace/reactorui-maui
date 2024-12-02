@@ -12,9 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor.Shapes;
 public partial interface ILineGeometry : Shapes.IGeometry
 {
-    object? StartPoint { get; set; }
-
-    object? EndPoint { get; set; }
 }
 
 public partial class LineGeometry<T> : Shapes.Geometry<T>, ILineGeometry where T : Microsoft.Maui.Controls.Shapes.LineGeometry, new()
@@ -29,23 +26,6 @@ public partial class LineGeometry<T> : Shapes.Geometry<T>, ILineGeometry where T
         LineGeometryStyles.Default?.Invoke(this);
     }
 
-    object? ILineGeometry.StartPoint { get; set; }
-
-    object? ILineGeometry.EndPoint { get; set; }
-
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsILineGeometry = (ILineGeometry)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, thisAsILineGeometry.StartPoint);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, thisAsILineGeometry.EndPoint);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -79,49 +59,67 @@ public partial class LineGeometry : LineGeometry<Microsoft.Maui.Controls.Shapes.
 
 public static partial class LineGeometryExtensions
 {
-    static object? SetStartPoint(object lineGeometry, RxAnimation animation) => ((ILineGeometry)lineGeometry).StartPoint = ((RxPointAnimation)animation).CurrentValue();
-    static object? SetEndPoint(object lineGeometry, RxAnimation animation) => ((ILineGeometry)lineGeometry).EndPoint = ((RxPointAnimation)animation).CurrentValue();
+    /*
+    
+        
+    static object? SetStartPoint(object lineGeometry, RxAnimation animation)
+        => ((ILineGeometry)lineGeometry).StartPoint = ((RxPointAnimation)animation).CurrentValue();
+
+    
+    
+        
+    static object? SetEndPoint(object lineGeometry, RxAnimation animation)
+        => ((ILineGeometry)lineGeometry).EndPoint = ((RxPointAnimation)animation).CurrentValue();
+
+    
+    */
     public static T StartPoint<T>(this T lineGeometry, Microsoft.Maui.Graphics.Point startPoint, RxPointAnimation? customAnimation = null)
         where T : ILineGeometry
     {
-        lineGeometry.StartPoint = startPoint;
-        lineGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, customAnimation ?? new RxSimplePointAnimation(startPoint), SetStartPoint);
+        //lineGeometry.StartPoint = startPoint;
+        lineGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, startPoint);
+        lineGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, customAnimation ?? new RxSimplePointAnimation(startPoint));
         return lineGeometry;
     }
 
     public static T StartPoint<T>(this T lineGeometry, Func<Microsoft.Maui.Graphics.Point> startPointFunc)
         where T : ILineGeometry
     {
-        lineGeometry.StartPoint = new PropertyValue<Microsoft.Maui.Graphics.Point>(startPointFunc);
+        //lineGeometry.StartPoint = new PropertyValue<Microsoft.Maui.Graphics.Point>(startPointFunc);
+        lineGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, new PropertyValue<Microsoft.Maui.Graphics.Point>(startPointFunc));
         return lineGeometry;
     }
 
     public static T StartPoint<T>(this T lineGeometry, double x, double y)
         where T : ILineGeometry
     {
-        lineGeometry.StartPoint = new Microsoft.Maui.Graphics.Point(x, y);
+        //lineGeometry.StartPoint = new Microsoft.Maui.Graphics.Point(x, y);
+        lineGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, new Microsoft.Maui.Graphics.Point(x, y));
         return lineGeometry;
     }
 
     public static T EndPoint<T>(this T lineGeometry, Microsoft.Maui.Graphics.Point endPoint, RxPointAnimation? customAnimation = null)
         where T : ILineGeometry
     {
-        lineGeometry.EndPoint = endPoint;
-        lineGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, customAnimation ?? new RxSimplePointAnimation(endPoint), SetEndPoint);
+        //lineGeometry.EndPoint = endPoint;
+        lineGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, endPoint);
+        lineGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, customAnimation ?? new RxSimplePointAnimation(endPoint));
         return lineGeometry;
     }
 
     public static T EndPoint<T>(this T lineGeometry, Func<Microsoft.Maui.Graphics.Point> endPointFunc)
         where T : ILineGeometry
     {
-        lineGeometry.EndPoint = new PropertyValue<Microsoft.Maui.Graphics.Point>(endPointFunc);
+        //lineGeometry.EndPoint = new PropertyValue<Microsoft.Maui.Graphics.Point>(endPointFunc);
+        lineGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, new PropertyValue<Microsoft.Maui.Graphics.Point>(endPointFunc));
         return lineGeometry;
     }
 
     public static T EndPoint<T>(this T lineGeometry, double x, double y)
         where T : ILineGeometry
     {
-        lineGeometry.EndPoint = new Microsoft.Maui.Graphics.Point(x, y);
+        //lineGeometry.EndPoint = new Microsoft.Maui.Graphics.Point(x, y);
+        lineGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, new Microsoft.Maui.Graphics.Point(x, y));
         return lineGeometry;
     }
 }

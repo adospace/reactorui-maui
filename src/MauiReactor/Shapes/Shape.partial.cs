@@ -14,8 +14,9 @@ internal static class ShapeBindableProperties
 
 public abstract partial class Shape<T>
 {
-    partial void OnEndUpdate()
+    protected override void OnUpdate()
     {
+        base.OnUpdate();
         Validate.EnsureNotNull(NativeControl);
 
         //HACK: properties changes on the shape are not reflected to the border

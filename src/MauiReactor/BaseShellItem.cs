@@ -12,18 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IBaseShellItem : INavigableElement
 {
-    object? FlyoutIcon { get; set; }
-
-    object? Icon { get; set; }
-
-    object? IsEnabled { get; set; }
-
-    object? Title { get; set; }
-
-    object? IsVisible { get; set; }
-
-    object? FlyoutItemIsVisible { get; set; }
-
     EventCommand<EventArgs>? AppearingEvent { get; set; }
 
     EventCommand<EventArgs>? DisappearingEvent { get; set; }
@@ -41,39 +29,10 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
         BaseShellItemStyles.Default?.Invoke(this);
     }
 
-    object? IBaseShellItem.FlyoutIcon { get; set; }
-
-    object? IBaseShellItem.Icon { get; set; }
-
-    object? IBaseShellItem.IsEnabled { get; set; }
-
-    object? IBaseShellItem.Title { get; set; }
-
-    object? IBaseShellItem.IsVisible { get; set; }
-
-    object? IBaseShellItem.FlyoutItemIsVisible { get; set; }
-
     EventCommand<EventArgs>? IBaseShellItem.AppearingEvent { get; set; }
 
     EventCommand<EventArgs>? IBaseShellItem.DisappearingEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIBaseShellItem = (IBaseShellItem)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BaseShellItem.FlyoutIconProperty, thisAsIBaseShellItem.FlyoutIcon);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BaseShellItem.IconProperty, thisAsIBaseShellItem.Icon);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BaseShellItem.IsEnabledProperty, thisAsIBaseShellItem.IsEnabled);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BaseShellItem.TitleProperty, thisAsIBaseShellItem.Title);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BaseShellItem.IsVisibleProperty, thisAsIBaseShellItem.IsVisible);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.BaseShellItem.FlyoutItemIsVisibleProperty, thisAsIBaseShellItem.FlyoutItemIsVisible);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -174,181 +133,233 @@ public partial class BaseShellItem : BaseShellItem<Microsoft.Maui.Controls.BaseS
 
 public static partial class BaseShellItemExtensions
 {
+    /*
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    */
     public static T FlyoutIcon<T>(this T baseShellItem, Microsoft.Maui.Controls.ImageSource flyoutIcon)
         where T : IBaseShellItem
     {
-        baseShellItem.FlyoutIcon = flyoutIcon;
+        //baseShellItem.FlyoutIcon = flyoutIcon;
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.FlyoutIconProperty, flyoutIcon);
         return baseShellItem;
     }
 
     public static T FlyoutIcon<T>(this T baseShellItem, Func<Microsoft.Maui.Controls.ImageSource> flyoutIconFunc)
         where T : IBaseShellItem
     {
-        baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIconFunc);
+        //baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIconFunc);
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.FlyoutIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIconFunc));
         return baseShellItem;
     }
 
     public static T FlyoutIcon<T>(this T baseShellItem, string file)
         where T : IBaseShellItem
     {
-        baseShellItem.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        //baseShellItem.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.FlyoutIconProperty, Microsoft.Maui.Controls.ImageSource.FromFile(file));
         return baseShellItem;
     }
 
     public static T FlyoutIcon<T>(this T baseShellItem, Func<string> action)
         where T : IBaseShellItem
     {
-        baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+        /*baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(
+            () => Microsoft.Maui.Controls.ImageSource.FromFile(action()));*/
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.FlyoutIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action())));
         return baseShellItem;
     }
 
     public static T FlyoutIcon<T>(this T baseShellItem, string resourceName, Assembly sourceAssembly)
         where T : IBaseShellItem
     {
-        baseShellItem.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        //baseShellItem.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.FlyoutIconProperty, Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
         return baseShellItem;
     }
 
     public static T FlyoutIcon<T>(this T baseShellItem, Uri imageUri)
         where T : IBaseShellItem
     {
-        baseShellItem.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        //baseShellItem.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.FlyoutIconProperty, Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
         return baseShellItem;
     }
 
     public static T FlyoutIcon<T>(this T baseShellItem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IBaseShellItem
     {
-        baseShellItem.FlyoutIcon = new Microsoft.Maui.Controls.UriImageSource
+        //baseShellItem.FlyoutIcon = new Microsoft.Maui.Controls.UriImageSource
+        //{
+        //    Uri = imageUri,
+        //    CachingEnabled = cachingEnabled,
+        //    CacheValidity = cacheValidity
+        //};
+        var newValue = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,
             CacheValidity = cacheValidity
         };
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.FlyoutIconProperty, newValue);
         return baseShellItem;
     }
 
     public static T FlyoutIcon<T>(this T baseShellItem, Func<Stream> imageStream)
         where T : IBaseShellItem
     {
-        baseShellItem.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        //baseShellItem.FlyoutIcon = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.FlyoutIconProperty, Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
         return baseShellItem;
     }
 
     public static T Icon<T>(this T baseShellItem, Microsoft.Maui.Controls.ImageSource icon)
         where T : IBaseShellItem
     {
-        baseShellItem.Icon = icon;
+        //baseShellItem.Icon = icon;
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IconProperty, icon);
         return baseShellItem;
     }
 
     public static T Icon<T>(this T baseShellItem, Func<Microsoft.Maui.Controls.ImageSource> iconFunc)
         where T : IBaseShellItem
     {
-        baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc);
+        //baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc);
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc));
         return baseShellItem;
     }
 
     public static T Icon<T>(this T baseShellItem, string file)
         where T : IBaseShellItem
     {
-        baseShellItem.Icon = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        //baseShellItem.Icon = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IconProperty, Microsoft.Maui.Controls.ImageSource.FromFile(file));
         return baseShellItem;
     }
 
     public static T Icon<T>(this T baseShellItem, Func<string> action)
         where T : IBaseShellItem
     {
-        baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
+        /*baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(
+            () => Microsoft.Maui.Controls.ImageSource.FromFile(action()));*/
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(() => Microsoft.Maui.Controls.ImageSource.FromFile(action())));
         return baseShellItem;
     }
 
     public static T Icon<T>(this T baseShellItem, string resourceName, Assembly sourceAssembly)
         where T : IBaseShellItem
     {
-        baseShellItem.Icon = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        //baseShellItem.Icon = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IconProperty, Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
         return baseShellItem;
     }
 
     public static T Icon<T>(this T baseShellItem, Uri imageUri)
         where T : IBaseShellItem
     {
-        baseShellItem.Icon = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        //baseShellItem.Icon = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IconProperty, Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
         return baseShellItem;
     }
 
     public static T Icon<T>(this T baseShellItem, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity)
         where T : IBaseShellItem
     {
-        baseShellItem.Icon = new Microsoft.Maui.Controls.UriImageSource
+        //baseShellItem.Icon = new Microsoft.Maui.Controls.UriImageSource
+        //{
+        //    Uri = imageUri,
+        //    CachingEnabled = cachingEnabled,
+        //    CacheValidity = cacheValidity
+        //};
+        var newValue = new Microsoft.Maui.Controls.UriImageSource
         {
             Uri = imageUri,
             CachingEnabled = cachingEnabled,
             CacheValidity = cacheValidity
         };
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IconProperty, newValue);
         return baseShellItem;
     }
 
     public static T Icon<T>(this T baseShellItem, Func<Stream> imageStream)
         where T : IBaseShellItem
     {
-        baseShellItem.Icon = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        //baseShellItem.Icon = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IconProperty, Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
         return baseShellItem;
     }
 
     public static T IsEnabled<T>(this T baseShellItem, bool isEnabled)
         where T : IBaseShellItem
     {
-        baseShellItem.IsEnabled = isEnabled;
+        //baseShellItem.IsEnabled = isEnabled;
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IsEnabledProperty, isEnabled);
         return baseShellItem;
     }
 
     public static T IsEnabled<T>(this T baseShellItem, Func<bool> isEnabledFunc)
         where T : IBaseShellItem
     {
-        baseShellItem.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
+        //baseShellItem.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IsEnabledProperty, new PropertyValue<bool>(isEnabledFunc));
         return baseShellItem;
     }
 
     public static T Title<T>(this T baseShellItem, string title)
         where T : IBaseShellItem
     {
-        baseShellItem.Title = title;
+        //baseShellItem.Title = title;
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.TitleProperty, title);
         return baseShellItem;
     }
 
     public static T Title<T>(this T baseShellItem, Func<string> titleFunc)
         where T : IBaseShellItem
     {
-        baseShellItem.Title = new PropertyValue<string>(titleFunc);
+        //baseShellItem.Title = new PropertyValue<string>(titleFunc);
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.TitleProperty, new PropertyValue<string>(titleFunc));
         return baseShellItem;
     }
 
     public static T IsVisible<T>(this T baseShellItem, bool isVisible)
         where T : IBaseShellItem
     {
-        baseShellItem.IsVisible = isVisible;
+        //baseShellItem.IsVisible = isVisible;
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IsVisibleProperty, isVisible);
         return baseShellItem;
     }
 
     public static T IsVisible<T>(this T baseShellItem, Func<bool> isVisibleFunc)
         where T : IBaseShellItem
     {
-        baseShellItem.IsVisible = new PropertyValue<bool>(isVisibleFunc);
+        //baseShellItem.IsVisible = new PropertyValue<bool>(isVisibleFunc);
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IsVisibleProperty, new PropertyValue<bool>(isVisibleFunc));
         return baseShellItem;
     }
 
     public static T FlyoutItemIsVisible<T>(this T baseShellItem, bool flyoutItemIsVisible)
         where T : IBaseShellItem
     {
-        baseShellItem.FlyoutItemIsVisible = flyoutItemIsVisible;
+        //baseShellItem.FlyoutItemIsVisible = flyoutItemIsVisible;
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.FlyoutItemIsVisibleProperty, flyoutItemIsVisible);
         return baseShellItem;
     }
 
     public static T FlyoutItemIsVisible<T>(this T baseShellItem, Func<bool> flyoutItemIsVisibleFunc)
         where T : IBaseShellItem
     {
-        baseShellItem.FlyoutItemIsVisible = new PropertyValue<bool>(flyoutItemIsVisibleFunc);
+        //baseShellItem.FlyoutItemIsVisible = new PropertyValue<bool>(flyoutItemIsVisibleFunc);
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.FlyoutItemIsVisibleProperty, new PropertyValue<bool>(flyoutItemIsVisibleFunc));
         return baseShellItem;
     }
 

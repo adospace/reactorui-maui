@@ -505,8 +505,7 @@ public abstract partial class ListView<T>
         return null;
     }
 
-
-    partial void OnBeginUpdate()
+    protected override void OnUpdate()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIItemsView = (IListView)this;
@@ -574,6 +573,8 @@ public abstract partial class ListView<T>
             _customDataTemplate = null;
             _customGroupDataTemplate = null;
         }
+
+        base.OnUpdate();
     }
 
     partial void Migrated(VisualNode newNode)

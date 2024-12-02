@@ -12,10 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface ICheckBox : IView
 {
-    object? IsChecked { get; set; }
-
-    object? Color { get; set; }
-
     EventCommand<CheckedChangedEventArgs>? CheckedChangedEvent { get; set; }
 }
 
@@ -31,25 +27,8 @@ public partial class CheckBox<T> : View<T>, ICheckBox where T : Microsoft.Maui.C
         CheckBoxStyles.Default?.Invoke(this);
     }
 
-    object? ICheckBox.IsChecked { get; set; }
-
-    object? ICheckBox.Color { get; set; }
-
     EventCommand<CheckedChangedEventArgs>? ICheckBox.CheckedChangedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsICheckBox = (ICheckBox)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.CheckBox.IsCheckedProperty, thisAsICheckBox.IsChecked);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.CheckBox.ColorProperty, thisAsICheckBox.Color);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -128,31 +107,41 @@ public partial class CheckBox : CheckBox<Microsoft.Maui.Controls.CheckBox>
 
 public static partial class CheckBoxExtensions
 {
+    /*
+    
+    
+    
+    
+    */
     public static T IsChecked<T>(this T checkBox, bool isChecked)
         where T : ICheckBox
     {
-        checkBox.IsChecked = isChecked;
+        //checkBox.IsChecked = isChecked;
+        checkBox.SetProperty(Microsoft.Maui.Controls.CheckBox.IsCheckedProperty, isChecked);
         return checkBox;
     }
 
     public static T IsChecked<T>(this T checkBox, Func<bool> isCheckedFunc)
         where T : ICheckBox
     {
-        checkBox.IsChecked = new PropertyValue<bool>(isCheckedFunc);
+        //checkBox.IsChecked = new PropertyValue<bool>(isCheckedFunc);
+        checkBox.SetProperty(Microsoft.Maui.Controls.CheckBox.IsCheckedProperty, new PropertyValue<bool>(isCheckedFunc));
         return checkBox;
     }
 
     public static T Color<T>(this T checkBox, Microsoft.Maui.Graphics.Color color)
         where T : ICheckBox
     {
-        checkBox.Color = color;
+        //checkBox.Color = color;
+        checkBox.SetProperty(Microsoft.Maui.Controls.CheckBox.ColorProperty, color);
         return checkBox;
     }
 
     public static T Color<T>(this T checkBox, Func<Microsoft.Maui.Graphics.Color> colorFunc)
         where T : ICheckBox
     {
-        checkBox.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc);
+        //checkBox.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc);
+        checkBox.SetProperty(Microsoft.Maui.Controls.CheckBox.ColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc));
         return checkBox;
     }
 

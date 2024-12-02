@@ -12,9 +12,9 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>
 {
     object? ISelectableItemsView.SelectedItems { get; set; }
 
-
-    partial void OnEndUpdate()
+    protected override void OnUpdate()
     {
+        base.OnUpdate();
         Validate.EnsureNotNull(NativeControl);
         var thisAsISelectableItemsView = (ISelectableItemsView)this;
         

@@ -10,7 +10,7 @@ using MauiReactor.Internals;
 
 #nullable enable
 namespace MauiReactor.Shapes;
-public partial interface IGeometry : IVisualNode
+public partial interface IGeometry : IVisualNodeWithNativeControl
 {
 }
 
@@ -26,15 +26,6 @@ public abstract partial class Geometry<T> : VisualNode<T>, IGeometry where T : M
         GeometryStyles.Default?.Invoke(this);
     }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -57,6 +48,8 @@ public abstract partial class Geometry<T> : VisualNode<T>, IGeometry where T : M
 
 public static partial class GeometryExtensions
 {
+/*
+    */
 }
 
 public static partial class GeometryStyles

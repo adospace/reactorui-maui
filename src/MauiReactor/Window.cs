@@ -12,28 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IWindow : INavigableElement
 {
-    object? Title { get; set; }
-
-    object? FlowDirection { get; set; }
-
-    object? X { get; set; }
-
-    object? Y { get; set; }
-
-    object? Width { get; set; }
-
-    object? Height { get; set; }
-
-    object? MaximumWidth { get; set; }
-
-    object? MaximumHeight { get; set; }
-
-    object? MinimumWidth { get; set; }
-
-    object? MinimumHeight { get; set; }
-
-    object? TitleBar { get; set; }
-
     EventCommand<EventArgs>? SizeChangedEvent { get; set; }
 
     EventCommand<ModalPoppedEventArgs>? ModalPoppedEvent { get; set; }
@@ -75,28 +53,6 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
         WindowStyles.Default?.Invoke(this);
     }
 
-    object? IWindow.Title { get; set; }
-
-    object? IWindow.FlowDirection { get; set; }
-
-    object? IWindow.X { get; set; }
-
-    object? IWindow.Y { get; set; }
-
-    object? IWindow.Width { get; set; }
-
-    object? IWindow.Height { get; set; }
-
-    object? IWindow.MaximumWidth { get; set; }
-
-    object? IWindow.MaximumHeight { get; set; }
-
-    object? IWindow.MinimumWidth { get; set; }
-
-    object? IWindow.MinimumHeight { get; set; }
-
-    object? IWindow.TitleBar { get; set; }
-
     EventCommand<EventArgs>? IWindow.SizeChangedEvent { get; set; }
 
     EventCommand<ModalPoppedEventArgs>? IWindow.ModalPoppedEvent { get; set; }
@@ -125,28 +81,6 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
 
     EventCommand<DisplayDensityChangedEventArgs>? IWindow.DisplayDensityChangedEvent { get; set; }
 
-    protected override void OnUpdate()
-    {
-        OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
-        var thisAsIWindow = (IWindow)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Window.TitleProperty, thisAsIWindow.Title);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Window.FlowDirectionProperty, thisAsIWindow.FlowDirection);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Window.XProperty, thisAsIWindow.X);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Window.YProperty, thisAsIWindow.Y);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Window.WidthProperty, thisAsIWindow.Width);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Window.HeightProperty, thisAsIWindow.Height);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Window.MaximumWidthProperty, thisAsIWindow.MaximumWidth);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Window.MaximumHeightProperty, thisAsIWindow.MaximumHeight);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Window.MinimumWidthProperty, thisAsIWindow.MinimumWidth);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Window.MinimumHeightProperty, thisAsIWindow.MinimumHeight);
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.Window.TitleBarProperty, thisAsIWindow.TitleBar);
-        base.OnUpdate();
-        OnEndUpdate();
-    }
-
-    partial void OnBeginUpdate();
-    partial void OnEndUpdate();
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
     protected override void OnThemeChanged()
@@ -511,173 +445,243 @@ public partial class Window : Window<Microsoft.Maui.Controls.Window>
 
 public static partial class WindowExtensions
 {
-    static object? SetX(object window, RxAnimation animation) => ((IWindow)window).X = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetY(object window, RxAnimation animation) => ((IWindow)window).Y = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetWidth(object window, RxAnimation animation) => ((IWindow)window).Width = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetHeight(object window, RxAnimation animation) => ((IWindow)window).Height = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetMaximumWidth(object window, RxAnimation animation) => ((IWindow)window).MaximumWidth = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetMaximumHeight(object window, RxAnimation animation) => ((IWindow)window).MaximumHeight = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetMinimumWidth(object window, RxAnimation animation) => ((IWindow)window).MinimumWidth = ((RxDoubleAnimation)animation).CurrentValue();
-    static object? SetMinimumHeight(object window, RxAnimation animation) => ((IWindow)window).MinimumHeight = ((RxDoubleAnimation)animation).CurrentValue();
+    /*
+    
+    
+    
+    
+    
+    
+    static object? SetX(object window, RxAnimation animation)
+        => ((IWindow)window).X = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    static object? SetY(object window, RxAnimation animation)
+        => ((IWindow)window).Y = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    static object? SetWidth(object window, RxAnimation animation)
+        => ((IWindow)window).Width = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    static object? SetHeight(object window, RxAnimation animation)
+        => ((IWindow)window).Height = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    static object? SetMaximumWidth(object window, RxAnimation animation)
+        => ((IWindow)window).MaximumWidth = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    static object? SetMaximumHeight(object window, RxAnimation animation)
+        => ((IWindow)window).MaximumHeight = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    static object? SetMinimumWidth(object window, RxAnimation animation)
+        => ((IWindow)window).MinimumWidth = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    static object? SetMinimumHeight(object window, RxAnimation animation)
+        => ((IWindow)window).MinimumHeight = ((RxDoubleAnimation)animation).CurrentValue();
+
+    
+    
+    
+    */
     public static T Title<T>(this T window, string title)
         where T : IWindow
     {
-        window.Title = title;
+        //window.Title = title;
+        window.SetProperty(Microsoft.Maui.Controls.Window.TitleProperty, title);
         return window;
     }
 
     public static T Title<T>(this T window, Func<string> titleFunc)
         where T : IWindow
     {
-        window.Title = new PropertyValue<string>(titleFunc);
+        //window.Title = new PropertyValue<string>(titleFunc);
+        window.SetProperty(Microsoft.Maui.Controls.Window.TitleProperty, new PropertyValue<string>(titleFunc));
         return window;
     }
 
     public static T FlowDirection<T>(this T window, Microsoft.Maui.FlowDirection flowDirection)
         where T : IWindow
     {
-        window.FlowDirection = flowDirection;
+        //window.FlowDirection = flowDirection;
+        window.SetProperty(Microsoft.Maui.Controls.Window.FlowDirectionProperty, flowDirection);
         return window;
     }
 
     public static T FlowDirection<T>(this T window, Func<Microsoft.Maui.FlowDirection> flowDirectionFunc)
         where T : IWindow
     {
-        window.FlowDirection = new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirectionFunc);
+        //window.FlowDirection = new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirectionFunc);
+        window.SetProperty(Microsoft.Maui.Controls.Window.FlowDirectionProperty, new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirectionFunc));
         return window;
     }
 
     public static T X<T>(this T window, double x, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.X = x;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.XProperty, customAnimation ?? new RxDoubleAnimation(x), SetX);
+        //window.X = x;
+        window.SetProperty(Microsoft.Maui.Controls.Window.XProperty, x);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.XProperty, customAnimation ?? new RxDoubleAnimation(x));
         return window;
     }
 
     public static T X<T>(this T window, Func<double> xFunc)
         where T : IWindow
     {
-        window.X = new PropertyValue<double>(xFunc);
+        //window.X = new PropertyValue<double>(xFunc);
+        window.SetProperty(Microsoft.Maui.Controls.Window.XProperty, new PropertyValue<double>(xFunc));
         return window;
     }
 
     public static T Y<T>(this T window, double y, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.Y = y;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.YProperty, customAnimation ?? new RxDoubleAnimation(y), SetY);
+        //window.Y = y;
+        window.SetProperty(Microsoft.Maui.Controls.Window.YProperty, y);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.YProperty, customAnimation ?? new RxDoubleAnimation(y));
         return window;
     }
 
     public static T Y<T>(this T window, Func<double> yFunc)
         where T : IWindow
     {
-        window.Y = new PropertyValue<double>(yFunc);
+        //window.Y = new PropertyValue<double>(yFunc);
+        window.SetProperty(Microsoft.Maui.Controls.Window.YProperty, new PropertyValue<double>(yFunc));
         return window;
     }
 
     public static T Width<T>(this T window, double width, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.Width = width;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.WidthProperty, customAnimation ?? new RxDoubleAnimation(width), SetWidth);
+        //window.Width = width;
+        window.SetProperty(Microsoft.Maui.Controls.Window.WidthProperty, width);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.WidthProperty, customAnimation ?? new RxDoubleAnimation(width));
         return window;
     }
 
     public static T Width<T>(this T window, Func<double> widthFunc)
         where T : IWindow
     {
-        window.Width = new PropertyValue<double>(widthFunc);
+        //window.Width = new PropertyValue<double>(widthFunc);
+        window.SetProperty(Microsoft.Maui.Controls.Window.WidthProperty, new PropertyValue<double>(widthFunc));
         return window;
     }
 
     public static T Height<T>(this T window, double height, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.Height = height;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.HeightProperty, customAnimation ?? new RxDoubleAnimation(height), SetHeight);
+        //window.Height = height;
+        window.SetProperty(Microsoft.Maui.Controls.Window.HeightProperty, height);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.HeightProperty, customAnimation ?? new RxDoubleAnimation(height));
         return window;
     }
 
     public static T Height<T>(this T window, Func<double> heightFunc)
         where T : IWindow
     {
-        window.Height = new PropertyValue<double>(heightFunc);
+        //window.Height = new PropertyValue<double>(heightFunc);
+        window.SetProperty(Microsoft.Maui.Controls.Window.HeightProperty, new PropertyValue<double>(heightFunc));
         return window;
     }
 
     public static T MaximumWidth<T>(this T window, double maximumWidth, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.MaximumWidth = maximumWidth;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MaximumWidthProperty, customAnimation ?? new RxDoubleAnimation(maximumWidth), SetMaximumWidth);
+        //window.MaximumWidth = maximumWidth;
+        window.SetProperty(Microsoft.Maui.Controls.Window.MaximumWidthProperty, maximumWidth);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MaximumWidthProperty, customAnimation ?? new RxDoubleAnimation(maximumWidth));
         return window;
     }
 
     public static T MaximumWidth<T>(this T window, Func<double> maximumWidthFunc)
         where T : IWindow
     {
-        window.MaximumWidth = new PropertyValue<double>(maximumWidthFunc);
+        //window.MaximumWidth = new PropertyValue<double>(maximumWidthFunc);
+        window.SetProperty(Microsoft.Maui.Controls.Window.MaximumWidthProperty, new PropertyValue<double>(maximumWidthFunc));
         return window;
     }
 
     public static T MaximumHeight<T>(this T window, double maximumHeight, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.MaximumHeight = maximumHeight;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MaximumHeightProperty, customAnimation ?? new RxDoubleAnimation(maximumHeight), SetMaximumHeight);
+        //window.MaximumHeight = maximumHeight;
+        window.SetProperty(Microsoft.Maui.Controls.Window.MaximumHeightProperty, maximumHeight);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MaximumHeightProperty, customAnimation ?? new RxDoubleAnimation(maximumHeight));
         return window;
     }
 
     public static T MaximumHeight<T>(this T window, Func<double> maximumHeightFunc)
         where T : IWindow
     {
-        window.MaximumHeight = new PropertyValue<double>(maximumHeightFunc);
+        //window.MaximumHeight = new PropertyValue<double>(maximumHeightFunc);
+        window.SetProperty(Microsoft.Maui.Controls.Window.MaximumHeightProperty, new PropertyValue<double>(maximumHeightFunc));
         return window;
     }
 
     public static T MinimumWidth<T>(this T window, double minimumWidth, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.MinimumWidth = minimumWidth;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MinimumWidthProperty, customAnimation ?? new RxDoubleAnimation(minimumWidth), SetMinimumWidth);
+        //window.MinimumWidth = minimumWidth;
+        window.SetProperty(Microsoft.Maui.Controls.Window.MinimumWidthProperty, minimumWidth);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MinimumWidthProperty, customAnimation ?? new RxDoubleAnimation(minimumWidth));
         return window;
     }
 
     public static T MinimumWidth<T>(this T window, Func<double> minimumWidthFunc)
         where T : IWindow
     {
-        window.MinimumWidth = new PropertyValue<double>(minimumWidthFunc);
+        //window.MinimumWidth = new PropertyValue<double>(minimumWidthFunc);
+        window.SetProperty(Microsoft.Maui.Controls.Window.MinimumWidthProperty, new PropertyValue<double>(minimumWidthFunc));
         return window;
     }
 
     public static T MinimumHeight<T>(this T window, double minimumHeight, RxDoubleAnimation? customAnimation = null)
         where T : IWindow
     {
-        window.MinimumHeight = minimumHeight;
-        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MinimumHeightProperty, customAnimation ?? new RxDoubleAnimation(minimumHeight), SetMinimumHeight);
+        //window.MinimumHeight = minimumHeight;
+        window.SetProperty(Microsoft.Maui.Controls.Window.MinimumHeightProperty, minimumHeight);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MinimumHeightProperty, customAnimation ?? new RxDoubleAnimation(minimumHeight));
         return window;
     }
 
     public static T MinimumHeight<T>(this T window, Func<double> minimumHeightFunc)
         where T : IWindow
     {
-        window.MinimumHeight = new PropertyValue<double>(minimumHeightFunc);
+        //window.MinimumHeight = new PropertyValue<double>(minimumHeightFunc);
+        window.SetProperty(Microsoft.Maui.Controls.Window.MinimumHeightProperty, new PropertyValue<double>(minimumHeightFunc));
         return window;
     }
 
     public static T TitleBar<T>(this T window, Microsoft.Maui.ITitleBar titleBar)
         where T : IWindow
     {
-        window.TitleBar = titleBar;
+        //window.TitleBar = titleBar;
+        window.SetProperty(Microsoft.Maui.Controls.Window.TitleBarProperty, titleBar);
         return window;
     }
 
     public static T TitleBar<T>(this T window, Func<Microsoft.Maui.ITitleBar> titleBarFunc)
         where T : IWindow
     {
-        window.TitleBar = new PropertyValue<Microsoft.Maui.ITitleBar>(titleBarFunc);
+        //window.TitleBar = new PropertyValue<Microsoft.Maui.ITitleBar>(titleBarFunc);
+        window.SetProperty(Microsoft.Maui.Controls.Window.TitleBarProperty, new PropertyValue<Microsoft.Maui.ITitleBar>(titleBarFunc));
         return window;
     }
 
