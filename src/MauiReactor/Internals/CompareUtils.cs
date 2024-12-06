@@ -47,16 +47,27 @@
             if (left is Microsoft.Maui.Controls.FileImageSource leftFileImageSource &&
                 right is Microsoft.Maui.Controls.FileImageSource rightFileImageSource)
             { 
-                return leftFileImageSource.File == rightFileImageSource.File;
+                return leftFileImageSource.File == rightFileImageSource.File; //intentionally not comparing CachingEnabled
             }
 
             if (left is Microsoft.Maui.Controls.UriImageSource leftUriImageSource &&
                 right is Microsoft.Maui.Controls.UriImageSource rightUriImageSource)
             {
                 //compare using uri equals
-                return leftUriImageSource.Uri == rightUriImageSource.Uri;
+                return leftUriImageSource.Uri == rightUriImageSource.Uri; //intentionally not comparing CachingEnabled
             }
-            
+
+            if (left is Microsoft.Maui.Controls.FontImageSource leftFontImageSource &&
+                right is Microsoft.Maui.Controls.FontImageSource rightFontImageSource)
+            {
+                //compare using uri equals
+                return leftFontImageSource.IsEmpty == rightFontImageSource.IsEmpty ||
+                    (leftFontImageSource.Color == rightFontImageSource.Color && 
+                    leftFontImageSource.FontFamily == rightFontImageSource.FontFamily &&
+                    leftFontImageSource.Glyph == rightFontImageSource.Glyph &&
+                    leftFontImageSource.Size == rightFontImageSource.Size); //intentionally not comparing FontAutoScalingEnabled
+            }
+
             if (left is UrlWebViewSource leftUrlWebViewSource &&
                 right is UrlWebViewSource rightUrlWebViewSource)
             {

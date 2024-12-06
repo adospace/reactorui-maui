@@ -25,7 +25,7 @@ public partial class Border<T>
             return base.RenderChildren();
         }
 
-        return base.RenderChildren().Concat(new[] { (VisualNode)thisAsIVisualElement.StrokeShape });
+        return base.RenderChildren().Concat([(VisualNode)thisAsIVisualElement.StrokeShape]);
     }
 
     protected override void OnAddChild(VisualNode widget, BindableObject childNativeControl)

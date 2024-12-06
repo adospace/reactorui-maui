@@ -1,11 +1,12 @@
 ﻿using MauiReactor.Internals;
+using Microsoft.Maui.Controls;
 
 namespace MauiReactor;
 
 public partial interface IGrid
 {
-    ColumnDefinitionCollection ColumnDefinitions { get; set; }
-    RowDefinitionCollection RowDefinitions { get; set; }
+    string? ColumnDefinitions { get; set; }
+    string? RowDefinitions { get; set; }
 }
 
 public partial class Grid<T>
@@ -28,15 +29,45 @@ public partial class Grid<T>
         thisAsIGrid.Rows(rows).Columns(columns);
     }
 
-    ColumnDefinitionCollection IGrid.ColumnDefinitions { get; set; } = [];
-    RowDefinitionCollection IGrid.RowDefinitions { get; set; } = [];
+    string? IGrid.ColumnDefinitions { get; set; }
+    string? IGrid.RowDefinitions { get; set; }
+
+    private static readonly BindablePropertyKey _mauiReactorGridRowsKey = BindableProperty.CreateAttachedReadOnly(
+        nameof(_mauiReactorGridRowsKey),
+        typeof(HashSet<BindableProperty>), typeof(Grid<T>), null);
+
+    private static readonly BindablePropertyKey _mauiReactorGridColumnsKey = BindableProperty.CreateAttachedReadOnly(
+        nameof(_mauiReactorGridColumnsKey),
+        typeof(HashSet<BindableProperty>), typeof(Grid<T>), null);
 
     protected override void OnUpdate()
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIGrid = (IGrid)this;
-        if (!NativeControl.ColumnDefinitions.IsEqualTo(thisAsIGrid.ColumnDefinitions)) NativeControl.ColumnDefinitions = thisAsIGrid.ColumnDefinitions;
-        if (!NativeControl.RowDefinitions.IsEqualTo(thisAsIGrid.RowDefinitions)) NativeControl.RowDefinitions = thisAsIGrid.RowDefinitions;
+        //if (!NativeControl.ColumnDefinitions.IsEqualTo(thisAsIGrid.ColumnDefinitions)) NativeControl.ColumnDefinitions = thisAsIGrid.ColumnDefinitions;
+        //if (!NativeControl.RowDefinitions.IsEqualTo(thisAsIGrid.RowDefinitions)) NativeControl.RowDefinitions = thisAsIGrid.RowDefinitions;
+
+        //foreach (var rowDefinition in rows.Split([' ', ','], StringSplitOptions.RemoveEmptyEntries)
+        //    .Select(_ => (GridLength)Validate.EnsureNotNull(_gridLengthTypeConverter.ConvertFromInvariantString(_)))
+        //    .Select(_ => new RowDefinition() { Height = _ }))
+        //{
+        //    grid.RowDefinitions.Add(rowDefinition);
+        //}
+
+        var rowsOnNativeControl = (string?)NativeControl.GetValue(_mauiReactorGridRowsKey.BindableProperty);
+        if (rowsOnNativeControl != thisAsIGrid.RowDefinitions)
+        {
+            GridExtensions.SetRowDefinitions(NativeControl, thisAsIGrid.RowDefinitions);
+            NativeControl.SetValue(_mauiReactorGridColumnsKey.BindableProperty, thisAsIGrid.RowDefinitions);
+        }
+
+        var columnsOnNativeControl = (string?)NativeControl.GetValue(_mauiReactorGridColumnsKey.BindableProperty);
+        if (columnsOnNativeControl != thisAsIGrid.ColumnDefinitions)
+        {
+            GridExtensions.SetColumnDefinitions(NativeControl, thisAsIGrid.ColumnDefinitions);
+            NativeControl.SetValue(_mauiReactorGridColumnsKey.BindableProperty, thisAsIGrid.ColumnDefinitions);
+        }
+
         base.OnUpdate();
     }
 }
@@ -100,53 +131,83 @@ public static partial class GridExtensions
 {
     private static readonly GridLengthTypeConverter _gridLengthTypeConverter = new GridLengthTypeConverter();
 
-    public static T Rows<T>(this T grid, string rows) where T : IGrid
+    internal static void SetRowDefinitions(this Microsoft.Maui.Controls.Grid grid, string? rowDefinitions)
     {
-        foreach (var rowDefinition in rows.Split(new[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries)
+        grid.RowDefinitions.Clear();
+        if (rowDefinitions == null)
+            return;
+        foreach (var rowDefinition in rowDefinitions.Split([' ', ','], StringSplitOptions.RemoveEmptyEntries)
             .Select(_ => (GridLength)Validate.EnsureNotNull(_gridLengthTypeConverter.ConvertFromInvariantString(_)))
             .Select(_ => new RowDefinition() { Height = _ }))
         {
             grid.RowDefinitions.Add(rowDefinition);
         }
+    }
+
+    internal static void SetColumnDefinitions(this Microsoft.Maui.Controls.Grid grid, string? columnDefinitions)
+    {
+        grid.ColumnDefinitions.Clear();
+        if (columnDefinitions == null)
+            return;
+        foreach (var columnDefinition in columnDefinitions.Split([' ', ','], StringSplitOptions.RemoveEmptyEntries)
+            .Select(_ => (GridLength)Validate.EnsureNotNull(_gridLengthTypeConverter.ConvertFromInvariantString(_)))
+            .Select(_ => new ColumnDefinition() { Width = _ }))
+        {
+            grid.ColumnDefinitions.Add(columnDefinition);
+        }
+    }
+
+    public static T Rows<T>(this T grid, string rows) where T : IGrid
+    {
+        //foreach (var rowDefinition in rows.Split([' ', ','], StringSplitOptions.RemoveEmptyEntries)
+        //    .Select(_ => (GridLength)Validate.EnsureNotNull(_gridLengthTypeConverter.ConvertFromInvariantString(_)))
+        //    .Select(_ => new RowDefinition() { Height = _ }))
+        //{
+        //    grid.RowDefinitions.Add(rowDefinition);
+        //}
+        grid.RowDefinitions = rows;
 
         return grid;
     }
 
     public static T Columns<T>(this T grid, string columns) where T : IGrid
     {
-        foreach (var columnDefinition in columns.Split(new[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(_ => (GridLength)Validate.EnsureNotNull(_gridLengthTypeConverter.ConvertFromInvariantString(_)))
-            .Select(_ => new ColumnDefinition() { Width = _ }))
-        {
-            grid.ColumnDefinitions.Add(columnDefinition);
-        }
+        //foreach (var columnDefinition in columns.Split([' ', ','], StringSplitOptions.RemoveEmptyEntries)
+        //    .Select(_ => (GridLength)Validate.EnsureNotNull(_gridLengthTypeConverter.ConvertFromInvariantString(_)))
+        //    .Select(_ => new ColumnDefinition() { Width = _ }))
+        //{
+        //    grid.ColumnDefinitions.Add(columnDefinition);
+        //}
+        grid.ColumnDefinitions = columns;
 
         return grid;
     }
 
     public static T Rows<T>(this T grid, RowDefinitionCollection rowDefinitions) where T : IGrid
     {
-        grid.RowDefinitions = rowDefinitions;
+        grid.RowDefinitions = string.Join(',', rowDefinitions.Select(_ => _gridLengthTypeConverter.ConvertToInvariantString(_.Height)));
         return grid;
     }
 
     public static T Columns<T>(this T grid, ColumnDefinitionCollection columnDefinitions) where T : IGrid
     {
-        grid.ColumnDefinitions = columnDefinitions;
+        grid.ColumnDefinitions = string.Join(',', columnDefinitions.Select(_ => _gridLengthTypeConverter.ConvertToInvariantString(_.Width)));
         return grid;
     }
 
     public static T Rows<T>(this T grid, IEnumerable<RowDefinition> rows) where T : IGrid
     {
-        foreach (var row in rows)
-            grid.RowDefinitions.Add(row);
+        //foreach (var row in rows)
+        //    grid.RowDefinitions.Add(row);
+        grid.RowDefinitions = string.Join(',', rows.Select(_ => _gridLengthTypeConverter.ConvertToInvariantString(_.Height)));
         return grid;
     }
 
     public static T Columns<T>(this T grid, IEnumerable<ColumnDefinition> columns) where T : IGrid
     {
-        foreach (var column in columns)
-            grid.ColumnDefinitions.Add(column);
+        //foreach (var column in columns)
+        //    grid.ColumnDefinitions.Add(column);
+        grid.ColumnDefinitions = string.Join(',', columns.Select(_ => _gridLengthTypeConverter.ConvertToInvariantString(_.Width)));
         return grid;
     }
 

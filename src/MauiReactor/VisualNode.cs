@@ -150,7 +150,7 @@ namespace MauiReactor
             VisualNodeStyles.Default?.Invoke(this);
         }
 
-        internal static BindablePropertyKey _mauiReactorPropertiesBagKey = BindableProperty.CreateAttachedReadOnly(nameof(_mauiReactorPropertiesBagKey),
+        internal static readonly BindablePropertyKey _mauiReactorPropertiesBagKey = BindableProperty.CreateAttachedReadOnly(nameof(_mauiReactorPropertiesBagKey),
             typeof(HashSet<BindableProperty>), typeof(VisualNode), null);
 
         public int ChildIndex
@@ -777,7 +777,6 @@ namespace MauiReactor
 
                 base.MergeWith(newNode);
 
-                //ReleaseNodeToPool(this);
                 _nativeControl = null;
             }
             else
@@ -856,9 +855,9 @@ namespace MauiReactor
                 throw new InvalidOperationException();
             }
 
-            foreach (var attachedProperty in _propertiesToSet)
+            foreach (var property in _propertiesToSet)
             {
-                SetPropertyValue(NativeControl, attachedProperty.Key, attachedProperty.Value);
+                SetPropertyValue(NativeControl, property.Key, property.Value);
             }
 
             OnAttachNativeEvents();
@@ -919,7 +918,6 @@ namespace MauiReactor
         {
             if (_isMounted)
             {
-                //var animated = AnimateThis();
                 bool animated = false;
                 if (_animatables != null)
                 {
@@ -950,8 +948,6 @@ namespace MauiReactor
                     }
                 }
 
-                //OnAnimate();
-
                 return animated;
             }
 
@@ -968,46 +964,6 @@ namespace MauiReactor
                 ((IVisualNodeWithNativeControl)this).Animate();
             }
         }
-
-        //protected override void OnAnimate()
-        //{
-        //    Validate.EnsureNotNull(NativeControl);
-        //    foreach (var attachedProperty in _attachedProperties)
-        //    {
-        //        NativeControl.SetPropertyValue(attachedProperty.Key, attachedProperty.Value);
-        //    }
-
-        //    base.OnAnimate();
-        //}
-
-        //protected void AnimateProperty(BindableProperty property, object? propertyValueAsObject)
-        //{
-        //    if (propertyValueAsObject == null ||
-        //        _animatables == null)
-        //    {
-        //        return;
-        //    }
-
-        //    if (_animatables.TryGetValue(property, out var animatableProperty) && 
-        //        animatableProperty.IsEnabled == true)
-        //    {
-        //        var newValue = propertyValueAsObject;
-        //        if (propertyValueAsObject is IPropertyValue propertyValue)
-        //        {
-        //            newValue = propertyValue.GetValue();
-        //        }
-
-        //        Validate.EnsureNotNull(NativeControl);
-
-        //        //var oldValue = NativeControl.GetValue(property);
-
-        //        //if (!CompareUtils.AreEquals(oldValue, newValue))
-        //        {
-        //            NativeControl.SetValue(property, newValue);
-        //        }
-        //    }
-        //}
-
         Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
         {
             if (_nativeControl is Microsoft.Maui.Controls.Page containerPage)
