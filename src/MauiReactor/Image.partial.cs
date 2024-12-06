@@ -18,6 +18,8 @@ public partial class Image<T>
         {
             NativeControl.Source = imageSource;
         }
+
+        base.OnAddChild(widget, childControl);
     }
 
     protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
