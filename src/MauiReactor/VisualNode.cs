@@ -943,6 +943,9 @@ namespace MauiReactor
                             {
                                 NativeControl.SetValue(animatable.Key, newValue);
                             }
+
+                            SetProperty(animatable.Key, newValue);
+
                             animated = true;
                         }
                     }
