@@ -30,7 +30,7 @@ public partial class ScaffoldTypeGenerator
             .Cast<IPropertySymbol>()
             .Where(_ => !_.IsReadOnly && !_.IsWriteOnly)
             .Where(_ => (_.ContainingType is INamedTypeSymbol namedTypeSymbol) && namedTypeSymbol.GetFullyQualifiedName() == typeToScaffold.GetFullyQualifiedName())
-            //.Where(_ => !((INamedTypeSymbol)_.Type).IsGenericType)
+            .Where(_ => _.DeclaredAccessibility == Accessibility.Public) // Check if the property is public
             .GroupBy(p => p.Name, StringComparer.OrdinalIgnoreCase)
             .ToDictionary(g => g.Key, g => g.First(), StringComparer.OrdinalIgnoreCase);
 
@@ -39,6 +39,7 @@ public partial class ScaffoldTypeGenerator
             .Where(_ => _.Kind == SymbolKind.Field)
             .Cast<IFieldSymbol>()
             .Where(_ => _.Type.Equals(bindablePropertyType, SymbolEqualityComparer.Default))
+            .Where(_ => _.DeclaredAccessibility == Accessibility.Public) // Check if the field is public
             .Select(_ => _.Name.Substring(0, _.Name.Length - "Property".Length))
             .Where(_ => propertiesMap.ContainsKey(_))
             .Select(_ => propertiesMap[_])
@@ -71,6 +72,7 @@ public partial class ScaffoldTypeGenerator
         Events = typeToScaffold.GetMembers()
             .Where(_ => _.Kind == SymbolKind.Event)
             .Cast<IEventSymbol>()
+            .Where(_ => _.DeclaredAccessibility == Accessibility.Public) // Check if the field is public
             .Where(_ => _.Type.Name != "Func")
             .Where(_ => !_.Name.Contains('.'))
             .Where(_ => (_.ContainingType is INamedTypeSymbol namedTypeSymbol) && namedTypeSymbol.GetFullyQualifiedName() == typeToScaffold.GetFullyQualifiedName())
