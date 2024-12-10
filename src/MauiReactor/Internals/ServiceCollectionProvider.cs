@@ -134,7 +134,7 @@ public sealed class ServiceContext : IDisposable
     }
 
     public ServiceContext(Action<ServiceCollection> serviceCollectionSetupAction)
-         : this( SetupServiceProvider(serviceCollectionSetupAction))
+         : this(SetupServiceProvider(serviceCollectionSetupAction))
     {
     }
 

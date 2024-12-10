@@ -272,7 +272,7 @@ namespace <#= Namespace #>
             else if (thisAs<#= InterfaceName #>.ItemsSource != null)
             {
                 _customDataTemplate = new CustomDataTemplate(this);
-                NativeControl.ItemsSource = thisAs<#= InterfaceName #>.ItemsSource;
+                NativeControl.ItemsSource = (<#= ItemsSourceFullyQualifiedName #>)thisAs<#= InterfaceName #>.ItemsSource;
                 NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
             }
             else
