@@ -273,7 +273,7 @@ namespace <#= Namespace #>
             else if (thisAs<#= InterfaceName #>.ItemsSource != null)
             {
                 _customDataTemplate = new CustomDataTemplate(this);
-                NativeControl.ItemsSource = thisAs<#= InterfaceName #>.ItemsSource;
+                NativeControl.ItemsSource = (<#= ItemsSourceFullyQualifiedName #>)thisAs<#= InterfaceName #>.ItemsSource;
                 NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
             }
             else
@@ -370,6 +370,8 @@ namespace <#= Namespace #>
             base.OnDetachNativeEvents();
         }
         <# } #>
+
+        partial void Migrated(VisualNode newNode);
         
         <# if (SupportItemTemplate) { #>
         protected override void OnMigrated(VisualNode newNode)
@@ -379,7 +381,9 @@ namespace <#= Namespace #>
             if (new<#= TypeName #>._customDataTemplate != null)
             {
                 new<#= TypeName #>._customDataTemplate.Owner = new<#= TypeName #>;
-            }            
+            }
+
+            Migrated(newNode);
 
             base.OnMigrated(newNode);
         }

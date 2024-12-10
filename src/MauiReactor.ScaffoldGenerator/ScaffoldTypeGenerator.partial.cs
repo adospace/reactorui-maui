@@ -119,18 +119,19 @@ public partial class ScaffoldTypeGenerator
             .ToArray();
 
         SupportItemTemplate = implementItemTemplateFlag && typeToScaffold.GetMembers().Count(_ => _.Name == "ItemsSource" || _.Name == "ItemTemplate") == 2;
-        ItemSourceIsIList = SupportItemTemplate && typeToScaffold
+        ItemsSourceFullyQualifiedName = (SupportItemTemplate) ?
+            typeToScaffold
             .GetMembers("ItemsSource")
             .Cast<IPropertySymbol>()
             .First()
             .Type
-            .GetFullyQualifiedName() == "System.Collections.IList";
+            .GetFullyQualifiedName() : string.Empty;
     }
 
     private IPropertySymbol[] Properties { get; }
     private IPropertySymbol[] AnimatableProperties { get; }
-    public bool SupportItemTemplate { get; }
-    public bool ItemSourceIsIList { get; }
+    public bool SupportItemTemplate { get; }    
+    private string ItemsSourceFullyQualifiedName { get; }
     private IEventSymbol[] Events { get; }
     private string Namespace { get; }
     private string TypeName { get; }
