@@ -33,7 +33,7 @@ public static class MauiProgram
                     //.AddLightTheme()
                     );
             })
-            .EnableMauiReactorHotReload()
+            //.EnableMauiReactorHotReload()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

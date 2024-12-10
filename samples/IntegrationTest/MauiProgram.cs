@@ -18,7 +18,7 @@ namespace IntegrationTest
 
 
 #if DEBUG
-            builder.EnableMauiReactorHotReload();
+            //builder.EnableMauiReactorHotReload();
 		    builder.Logging.AddDebug();
 #endif
 

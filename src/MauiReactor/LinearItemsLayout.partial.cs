@@ -34,6 +34,13 @@ namespace MauiReactor
         }
     }
 
+
+    public partial class Component
+    {
+        public static HorizontalLinearItemsLayout HorizontalLinearItemsLayout() => new();
+        public static VerticalLinearItemsLayout VerticalLinearItemsLayout() => new();
+
+    }
 }
 
 namespace MauiReactor.Internals

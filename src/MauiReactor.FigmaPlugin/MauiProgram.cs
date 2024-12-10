@@ -11,7 +11,7 @@ namespace MauiReactor.FigmaPlugin
             builder
                 .UseMauiReactorApp<MainPage>()
 #if DEBUG
-                .EnableMauiReactorHotReload()
+                //.EnableMauiReactorHotReload()
 #endif
                 .ConfigureFonts(fonts =>
                 {

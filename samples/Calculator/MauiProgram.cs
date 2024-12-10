@@ -16,7 +16,7 @@ public static class MauiProgram
                  app.UseTheme<AppTheme>();
              })
 #if DEBUG
-            .EnableMauiReactorHotReload()
+            //.EnableMauiReactorHotReload()
 #endif
             .ConfigureFonts(fonts =>
             {

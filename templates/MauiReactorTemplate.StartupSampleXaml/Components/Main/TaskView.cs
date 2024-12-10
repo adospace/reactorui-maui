@@ -16,6 +16,9 @@ partial class TaskView : Component
     [Prop]
     ProjectTask _task = default!;
 
+    [Prop]
+    Action<bool> _onTaskCompletion;
+
     public override VisualNode Render()
     {
         return Border(
@@ -66,6 +69,8 @@ partial class TaskView : Component
         {
             _task.IsCompleted = e.Value;
             await _taskRepository.SaveItemAsync(_task);
+
+            _onTaskCompletion?.Invoke(e.Value);
         }
     }
 

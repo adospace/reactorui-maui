@@ -49,6 +49,10 @@
 		<MauiFont Include="Resources\Fonts\*" />
 	</ItemGroup>
 
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="MauiReactor.HotReload" Value="true" Trim="true" />
+  </ItemGroup>
+
 	<ItemGroup>
 	  <None Remove="Resources\Images\tab_favorites.svg" />
 	  <None Remove="Resources\Images\tab_home.svg" />

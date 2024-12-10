@@ -250,10 +250,18 @@ namespace MauiReactor
         public IHostElement Run()
         {
             _sleeping = false;
-            _component ??= InitializeComponent(TypeLoader.Instance.LoadObject<Component>(typeof(T)));
 
-            TypeLoader.Instance.Run();
-            TypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
+            if (MauiReactorFeatures.HotReloadIsEnabled)
+            {
+                _component ??= InitializeComponent(HotReloadTypeLoader.Instance.LoadObject<Component>(typeof(T)));
+
+                HotReloadTypeLoader.Instance.Run();
+                HotReloadTypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
+            }
+            else
+            {
+                _component ??= InitializeComponent(new T());
+            }
 
             OnLayout();
 
@@ -275,9 +283,14 @@ namespace MauiReactor
 
         public void OnAssemblyChanged()
         {
+            if (!MauiReactorFeatures.HotReloadIsEnabled)
+            {
+                throw new InvalidOperationException();
+            }
+
             try
             {
-                var newComponent = TypeLoader.Instance.LoadObject<Component>(typeof(T));
+                var newComponent = HotReloadTypeLoader.Instance.LoadObject<Component>(typeof(T));
                 if (newComponent != null)
                 {
                     _component = newComponent;
@@ -299,7 +312,11 @@ namespace MauiReactor
 
         public void Stop()
         {
-            TypeLoader.Instance.AssemblyChangedEvent?.RemoveListener(this);
+            if (!MauiReactorFeatures.HotReloadIsEnabled)
+            {
+                HotReloadTypeLoader.Instance.AssemblyChangedEvent?.RemoveListener(this);
+            }                
+                
             _component = null;
             _sleeping = true;
         }

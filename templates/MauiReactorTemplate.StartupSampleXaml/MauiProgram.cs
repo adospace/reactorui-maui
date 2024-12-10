@@ -31,11 +31,6 @@ public static class MauiProgram
 
 #if DEBUG
         builder.Logging.AddDebug();
-        builder.EnableMauiReactorHotReload();
-        builder.OnMauiReactorUnhandledException(ex =>
-        {
-            System.Diagnostics.Debug.WriteLine(ex.ExceptionObject);
-        });
 #endif
 
         RegisterServices(builder.Services);

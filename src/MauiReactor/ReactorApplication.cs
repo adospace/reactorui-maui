@@ -9,13 +9,16 @@ internal abstract class ReactorApplicationHost : VisualNode, IHostElement, IVisu
 {
     protected readonly ReactorApplication _application;
 
-    internal static bool _showFrameRate = false;
+    //internal static bool _showFrameRate = false;
 
     protected ReactorApplicationHost(ReactorApplication application)
     {
         _application = application ?? throw new ArgumentNullException(nameof(application));
 
-        TypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
+        if (MauiReactorFeatures.HotReloadIsEnabled)
+        {
+            HotReloadTypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
+        }
     }
 
     public static Action<UnhandledExceptionEventArgs>? UnhandledException { get; set; }
@@ -119,9 +122,12 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
             _application.Theme?.Apply();
             _rootComponent ??= new T();
             OnLayout();
-            TypeLoader.Instance.Run();
+            if (MauiReactorFeatures.HotReloadIsEnabled)
+            {
+                HotReloadTypeLoader.Instance.Run();
+            }
 
-            if (_showFrameRate)
+            if (MauiReactorFeatures.FrameRateIsEnabled)
             {
                 FrameRateIndicator.Start();
             }
@@ -136,11 +142,16 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
         {
             if (_application.Theme != null)
             {
-                _application.Theme = TypeLoader.Instance.LoadObject<Theme>(_application.Theme.GetType());
+                _application.Theme = MauiReactorFeatures.HotReloadIsEnabled ?
+                    HotReloadTypeLoader.Instance.LoadObject<Theme>(_application.Theme.GetType()) :
+                    (Theme?)Activator.CreateInstance(_application.Theme.GetType());
                 _application.Theme?.Apply();
             }
 
-            var newComponent = TypeLoader.Instance.LoadObject<Component>(typeof(T));
+            var newComponent = MauiReactorFeatures.HotReloadIsEnabled ?
+                HotReloadTypeLoader.Instance.LoadObject<Component>(typeof(T)) :
+                new T();
+
             if (newComponent != null &&
                 _rootComponent != newComponent)
             {
@@ -168,11 +179,14 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
         if (_started)
         {
             _started = false;
-            TypeLoader.Instance.Stop();
-
-            if (_showFrameRate)
+            if (MauiReactorFeatures.HotReloadIsEnabled)
             {
-                FrameRateIndicator.Start();
+                HotReloadTypeLoader.Instance.Stop();
+            }
+
+            if (MauiReactorFeatures.FrameRateIsEnabled)
+            {
+                FrameRateIndicator.Stop();
             }
         }
     }
@@ -358,33 +372,43 @@ public class ReactorApplication<T> : ReactorApplication where T : Component, new
 
 public static class MauiAppBuilderExtensions
 {
-    public static MauiAppBuilder UseMauiReactorApp<TComponent>(this MauiAppBuilder appBuilder, Action<ReactorApplication>? configureApplication = null) where TComponent : Component, new()
+    public static MauiAppBuilder UseMauiReactorApp<TComponent>(this MauiAppBuilder appBuilder, 
+        Action<ReactorApplication>? configureApplication = null,
+        Action? onHotReloadCompleted = null,
+        Action<UnhandledExceptionEventArgs>? unhandledExceptionAction = null) where TComponent : Component, new()
         => appBuilder.UseMauiApp(sp =>
         {
+            if (MauiReactorFeatures.HotReloadIsEnabled)
+            {
+                HotReloadTypeLoader.Instance.OnHotReloadCompleted = onHotReloadCompleted;
+            }
+
+            ReactorApplicationHost.UnhandledException = unhandledExceptionAction;
+
             var app = new ReactorApplication<TComponent>(sp);
             configureApplication?.Invoke(app);
             return app;
         });
 
-    public static MauiAppBuilder EnableMauiReactorHotReload(this MauiAppBuilder appBuilder, Action? onHotReloadCompleted = null)
-    {
-        TypeLoader.UseRemoteLoader = true;
-        TypeLoader.OnHotReloadCompleted = onHotReloadCompleted;
-        ServiceCollectionProvider.EnableHotReload = true;
-        return appBuilder;
-    }
+    //public static MauiAppBuilder EnableMauiReactorHotReload(this MauiAppBuilder appBuilder, Action? onHotReloadCompleted = null)
+    //{
+    //    TypeLoader.UseRemoteLoader = true;
+    //    TypeLoader.OnHotReloadCompleted = onHotReloadCompleted;
+    //    ServiceCollectionProvider.EnableHotReload = true;
+    //    return appBuilder;
+    //}
 
-    public static MauiAppBuilder EnableFrameRateIndicator(this MauiAppBuilder appBuilder)
-    {
-        ReactorApplicationHost._showFrameRate = true;
-        return appBuilder;
-    }
+    //public static MauiAppBuilder EnableFrameRateIndicator(this MauiAppBuilder appBuilder)
+    //{
+    //    ReactorApplicationHost._showFrameRate = true;
+    //    return appBuilder;
+    //}
 
-    public static MauiAppBuilder OnMauiReactorUnhandledException(this MauiAppBuilder appBuilder, Action<UnhandledExceptionEventArgs> unhandledExceptionAction)
-    {
-        ReactorApplicationHost.UnhandledException = unhandledExceptionAction;
-        return appBuilder;
-    }
+    //public static MauiAppBuilder OnMauiReactorUnhandledException(this MauiAppBuilder appBuilder, Action<UnhandledExceptionEventArgs> unhandledExceptionAction)
+    //{
+    //    ReactorApplicationHost.UnhandledException = unhandledExceptionAction;
+    //    return appBuilder;
+    //}
 
 }
 

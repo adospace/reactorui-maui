@@ -17,7 +17,7 @@ namespace MauiReactor.WeatherTwentyOne
                     app.SetWindowsSpecificAssetsDirectory("Assets");
                 })
 #if DEBUG
-            .EnableMauiReactorHotReload()
+            //.EnableMauiReactorHotReload()
 #endif
             .ConfigureFonts(fonts => {
                 fonts.AddFont("fa-solid-900.ttf", "FontAwesome");

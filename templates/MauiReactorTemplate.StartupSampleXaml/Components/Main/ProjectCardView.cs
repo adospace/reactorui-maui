@@ -76,7 +76,7 @@ partial class ProjectCardView : Component
             .StrokeCornerRadius(16)
             .HeightRequest(32)
             .StrokeThickness(0)
-            .Background(tag.DisplayColor);
+            .Background(Color.FromArgb(tag.Color));
         }
     }
 

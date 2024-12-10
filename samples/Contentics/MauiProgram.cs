@@ -12,7 +12,7 @@ public static class MauiProgram
         builder
             .UseMauiReactorApp<Main>()
 #if DEBUG
-            .EnableMauiReactorHotReload()
+            //.EnableMauiReactorHotReload()
 #endif
             .ConfigureFonts(fonts =>
             {

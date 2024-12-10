@@ -32,13 +32,17 @@ public partial class Grid<T>
     string? IGrid.ColumnDefinitions { get; set; }
     string? IGrid.RowDefinitions { get; set; }
 
-    private static readonly BindablePropertyKey _mauiReactorGridRowsKey = BindableProperty.CreateAttachedReadOnly(
-        nameof(_mauiReactorGridRowsKey),
-        typeof(HashSet<BindableProperty>), typeof(Grid<T>), null);
+    private static readonly BindableProperty _mauiReactorGridRows = BindableProperty.CreateAttached(
+        nameof(_mauiReactorGridRows),
+        typeof(string), 
+        typeof(Grid<T>), 
+        null);
 
-    private static readonly BindablePropertyKey _mauiReactorGridColumnsKey = BindableProperty.CreateAttachedReadOnly(
-        nameof(_mauiReactorGridColumnsKey),
-        typeof(HashSet<BindableProperty>), typeof(Grid<T>), null);
+    private static readonly BindableProperty _mauiReactorGridColumns = BindableProperty.CreateAttached(
+        nameof(_mauiReactorGridColumns),
+        typeof(string), 
+        typeof(Grid<T>), 
+        null);
 
     protected override void OnUpdate()
     {
@@ -54,18 +58,18 @@ public partial class Grid<T>
         //    grid.RowDefinitions.Add(rowDefinition);
         //}
 
-        var rowsOnNativeControl = (string?)NativeControl.GetValue(_mauiReactorGridRowsKey.BindableProperty);
+        var rowsOnNativeControl = (string?)NativeControl.GetValue(_mauiReactorGridRows);
         if (rowsOnNativeControl != thisAsIGrid.RowDefinitions)
         {
             GridExtensions.SetRowDefinitions(NativeControl, thisAsIGrid.RowDefinitions);
-            NativeControl.SetValue(_mauiReactorGridColumnsKey.BindableProperty, thisAsIGrid.RowDefinitions);
+            NativeControl.SetValue(_mauiReactorGridColumns, thisAsIGrid.RowDefinitions);
         }
 
-        var columnsOnNativeControl = (string?)NativeControl.GetValue(_mauiReactorGridColumnsKey.BindableProperty);
+        var columnsOnNativeControl = (string?)NativeControl.GetValue(_mauiReactorGridColumns);
         if (columnsOnNativeControl != thisAsIGrid.ColumnDefinitions)
         {
             GridExtensions.SetColumnDefinitions(NativeControl, thisAsIGrid.ColumnDefinitions);
-            NativeControl.SetValue(_mauiReactorGridColumnsKey.BindableProperty, thisAsIGrid.ColumnDefinitions);
+            NativeControl.SetValue(_mauiReactorGridColumns, thisAsIGrid.ColumnDefinitions);
         }
 
         base.OnUpdate();

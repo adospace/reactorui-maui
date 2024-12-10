@@ -15,7 +15,7 @@ public static class MauiProgram
                 app.SetWindowsSpecificAssetsDirectory("Assets");
             })
 #if DEBUG
-            .EnableMauiReactorHotReload()
+            //.EnableMauiReactorHotReload()
 #endif
             .ConfigureFonts(fonts =>
             {

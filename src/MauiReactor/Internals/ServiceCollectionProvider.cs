@@ -13,18 +13,23 @@ internal static class ServiceCollectionProvider
         get => _serviceProvider;
         set
         {
-            if (value != null && EnableHotReload)
+            if (value != null)
             {
-                _serviceProvider = new ServiceProviderWithHotReloadedServices(value);
+                if (MauiReactorFeatures.HotReloadIsEnabled)
+                {
+                    _serviceProvider = new ServiceProviderWithHotReloadedServices(value);
+                }
+                else
+                {
+                    _serviceProvider = value;
+                }
             }
             else
             {
-                _serviceProvider = value!;
+                _serviceProvider = null!;
             }
         }
     }
-
-    public static bool EnableHotReload { get; set; }
 }
 
 internal class ServiceProviderWithHotReloadedServices : IServiceProvider
@@ -43,7 +48,7 @@ internal class ServiceProviderWithHotReloadedServices : IServiceProvider
         var service = _serviceProvider.GetService(serviceType);
         if (service == null)
         {
-            if (ServiceCollectionProvider.EnableHotReload)
+            if (MauiReactorFeatures.HotReloadIsEnabled)
             {
                 //1. find the first static method in the assembly that has the attribute ComponentServicesAttribute
                 //2. if it exists it must accept a IServiceCollection as a parameter
@@ -52,10 +57,10 @@ internal class ServiceProviderWithHotReloadedServices : IServiceProvider
                 //5. save the save provider and the assembly as local class field so to not recreate it every time
                 //6. return the service from the new service provider
 
-                if (TypeLoader.Instance.LastLoadedAssembly != null &&
-                    _lastParseAssembly != TypeLoader.Instance.LastLoadedAssembly)
+                if (HotReloadTypeLoader.Instance.LastLoadedAssembly != null &&
+                    _lastParseAssembly != HotReloadTypeLoader.Instance.LastLoadedAssembly)
                 {
-                    _lastParseAssembly = TypeLoader.Instance.LastLoadedAssembly;
+                    _lastParseAssembly = HotReloadTypeLoader.Instance.LastLoadedAssembly;
 
                     var servicesBuilderMethods = _lastParseAssembly
                         .GetTypes()
