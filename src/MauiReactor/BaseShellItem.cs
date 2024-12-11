@@ -129,6 +129,14 @@ public partial class BaseShellItem : BaseShellItem<Microsoft.Maui.Controls.BaseS
     public BaseShellItem(Action<Microsoft.Maui.Controls.BaseShellItem?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public BaseShellItem(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class BaseShellItemExtensions

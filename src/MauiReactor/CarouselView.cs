@@ -129,6 +129,14 @@ public partial class CarouselView : CarouselView<Microsoft.Maui.Controls.Carouse
     public CarouselView(Action<Microsoft.Maui.Controls.CarouselView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public CarouselView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class CarouselViewExtensions

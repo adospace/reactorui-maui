@@ -55,6 +55,14 @@ public partial class Grid : Grid<Microsoft.Maui.Controls.Grid>
     public Grid(Action<Microsoft.Maui.Controls.Grid?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Grid(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class GridExtensions

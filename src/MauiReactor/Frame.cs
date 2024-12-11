@@ -56,6 +56,14 @@ public partial class Frame : Frame<Microsoft.Maui.Controls.Frame>
     public Frame(Action<Microsoft.Maui.Controls.Frame?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Frame(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class FrameExtensions
@@ -123,4 +131,4 @@ public static partial class FrameStyles
     public static Dictionary<string, Action<IFrame>> Themes { get; } = [];
 }
 
-#pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete

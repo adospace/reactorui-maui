@@ -55,6 +55,14 @@ public partial class BoxView : BoxView<Microsoft.Maui.Controls.BoxView>
     public BoxView(Action<Microsoft.Maui.Controls.BoxView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public BoxView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class BoxViewExtensions

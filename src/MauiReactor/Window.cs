@@ -441,6 +441,14 @@ public partial class Window : Window<Microsoft.Maui.Controls.Window>
     public Window(Action<Microsoft.Maui.Controls.Window?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Window(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class WindowExtensions

@@ -424,15 +424,15 @@ namespace MauiReactor
 
     internal class PageHost<T, P> : PageHost<T> where T : Component, new() where P : class, new()
     {
-        private readonly Action<P> _propsInitializer;
+        private readonly Action<P>? _propsInitializer;
 
-        protected PageHost(INavigation navigation, Action<P> propsInitializer)
+        protected PageHost(INavigation navigation, Action<P>? propsInitializer)
             :base(navigation)
         {
             _propsInitializer = propsInitializer;
         }
 
-        public static Microsoft.Maui.Controls.Page CreatePage(INavigation navigation, Action<P> propsInitializer) 
+        public static Microsoft.Maui.Controls.Page CreatePage(INavigation navigation, Action<P>? propsInitializer) 
         {
             var host = new PageHost<T, P>(navigation, propsInitializer);
             host.Run();
@@ -444,7 +444,7 @@ namespace MauiReactor
             if (component is not ComponentWithProps<P> componentWithProps)
                 throw new InvalidOperationException($"Component type ({component.GetType()}) should derive from ComponentWithProps<{typeof(P)}>");
 
-            _propsInitializer.Invoke(componentWithProps.Props);
+            _propsInitializer?.Invoke(componentWithProps.Props);
             return component;
         }
     }

@@ -55,6 +55,14 @@ public partial class Span : Span<Microsoft.Maui.Controls.Span>
     public Span(Action<Microsoft.Maui.Controls.Span?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Span(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class SpanExtensions

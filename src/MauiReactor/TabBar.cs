@@ -55,6 +55,14 @@ public partial class TabBar : TabBar<Microsoft.Maui.Controls.TabBar>
     public TabBar(Action<Microsoft.Maui.Controls.TabBar?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public TabBar(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class TabBarExtensions

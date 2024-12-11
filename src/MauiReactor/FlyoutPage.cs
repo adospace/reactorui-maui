@@ -103,6 +103,14 @@ public partial class FlyoutPage : FlyoutPage<Microsoft.Maui.Controls.FlyoutPage>
     public FlyoutPage(Action<Microsoft.Maui.Controls.FlyoutPage?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public FlyoutPage(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class FlyoutPageExtensions

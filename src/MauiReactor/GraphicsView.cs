@@ -259,6 +259,14 @@ public partial class GraphicsView : GraphicsView<Microsoft.Maui.Controls.Graphic
     public GraphicsView(Action<Microsoft.Maui.Controls.GraphicsView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public GraphicsView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class GraphicsViewExtensions

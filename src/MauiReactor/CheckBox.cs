@@ -103,6 +103,14 @@ public partial class CheckBox : CheckBox<Microsoft.Maui.Controls.CheckBox>
     public CheckBox(Action<Microsoft.Maui.Controls.CheckBox?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public CheckBox(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class CheckBoxExtensions

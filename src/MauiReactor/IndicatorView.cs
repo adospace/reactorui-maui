@@ -55,6 +55,14 @@ public partial class IndicatorView : IndicatorView<Microsoft.Maui.Controls.Indic
     public IndicatorView(Action<Microsoft.Maui.Controls.IndicatorView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public IndicatorView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class IndicatorViewExtensions

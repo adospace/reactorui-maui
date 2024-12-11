@@ -55,6 +55,14 @@ public partial class Border : Border<Microsoft.Maui.Controls.Border>
     public Border(Action<Microsoft.Maui.Controls.Border?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Border(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class BorderExtensions

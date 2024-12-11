@@ -157,19 +157,25 @@ namespace MauiReactor
 
         }
 
-        public INavigation? Navigation
-            => ContainerPage?.Navigation ?? NavigationProvider.Navigation;
+        public INavigation Navigation
+            => ContainerPage?.Navigation ?? NavigationProvider.Navigation ?? throw new InvalidOperationException("Navigation not available");
+
+        public bool IsNavigationAvailable
+            => ContainerPage?.Navigation != null || NavigationProvider.Navigation != null;
 
         private Microsoft.Maui.Controls.Page? _containerPage;
 
-        public Microsoft.Maui.Controls.Page? ContainerPage
+        public Microsoft.Maui.Controls.Page ContainerPage
         {
             get
             {
                 _containerPage ??= ((IVisualNode)this).GetContainerPage();
-                return _containerPage;
+                return _containerPage ?? throw new InvalidOperationException("ContainerPage not available");
             }
         }
+
+        public bool IsContainerPageAvailable
+            => _containerPage != null || ((IVisualNode)this).GetContainerPage() != null;
 
         public static IServiceProvider Services
             => ServiceCollectionProvider.ServiceProvider;

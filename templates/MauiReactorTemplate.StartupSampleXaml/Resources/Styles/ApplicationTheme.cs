@@ -1,5 +1,7 @@
-﻿using MauiReactor;
+﻿using CommunityToolkit.Maui.Core;
+using MauiReactor;
 using MauiReactor.Shapes;
+using MauiReactorTemplate.StartupSampleXaml.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,5 +54,25 @@ class ApplicationTheme : Theme
     protected override void OnApply()
     {
         //Define additional styles here
+        ButtonStyles.Themes["AddButton"] = _ => _
+            .ImageSource(ResourceHelper.GetResource<ImageSource>("IconAdd"))
+            .BackgroundColor(ResourceHelper.GetResource<Color>("Primary"))
+            .CornerRadius(30)
+            .HeightRequest(60)
+            .WidthRequest(60)
+            .VEnd()
+            .HEnd()
+            .Margin(3);
+
+        ContentPageStyles.Default = _ => _
+            .Add(
+                new StatusBarBehavior()
+                    .StatusBarColor(IsLightTheme ?
+                            ResourceHelper.GetResource<Color>("LightBackground") :
+                            ResourceHelper.GetResource<Color>("DarkBackground"))
+                    .StatusBarStyle(IsLightTheme ?
+                        StatusBarStyle.DarkContent :
+                        StatusBarStyle.LightContent)
+            );
     }
 }

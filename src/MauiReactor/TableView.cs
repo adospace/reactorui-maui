@@ -55,6 +55,14 @@ public partial class TableView : TableView<Microsoft.Maui.Controls.TableView>
     public TableView(Action<Microsoft.Maui.Controls.TableView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public TableView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class TableViewExtensions

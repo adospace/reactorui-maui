@@ -155,6 +155,14 @@ public partial class WebView : WebView<Microsoft.Maui.Controls.WebView>
     public WebView(Action<Microsoft.Maui.Controls.WebView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public WebView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class WebViewExtensions

@@ -55,6 +55,14 @@ public partial class TabbedPage : TabbedPage<Microsoft.Maui.Controls.TabbedPage>
     public TabbedPage(Action<Microsoft.Maui.Controls.TabbedPage?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public TabbedPage(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class TabbedPageExtensions

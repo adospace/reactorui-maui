@@ -55,6 +55,14 @@ public partial class GestureRecognizer : GestureRecognizer<Microsoft.Maui.Contro
     public GestureRecognizer(Action<Microsoft.Maui.Controls.GestureRecognizer?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public GestureRecognizer(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class GestureRecognizerExtensions

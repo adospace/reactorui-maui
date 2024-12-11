@@ -3,7 +3,7 @@ using MauiReactorTemplate.StartupSampleXaml.Framework;
 using MauiReactorTemplate.StartupSampleXaml.Models;
 using MauiReactorTemplate.StartupSampleXaml.Resources.Styles;
 
-namespace MauiReactorTemplate.StartupSampleXaml.Components.Main;
+namespace MauiReactorTemplate.StartupSampleXaml.Components.Tasks;
 
 partial class TaskView : Component
 {
@@ -17,7 +17,7 @@ partial class TaskView : Component
     ProjectTask _task = default!;
 
     [Prop]
-    Action<bool> _onTaskCompletion;
+    Action _onTaskCompletionChanged;
 
     public override VisualNode Render()
     {
@@ -70,12 +70,15 @@ partial class TaskView : Component
             _task.IsCompleted = e.Value;
             await _taskRepository.SaveItemAsync(_task);
 
-            _onTaskCompletion?.Invoke(e.Value);
+            _onTaskCompletionChanged?.Invoke();
         }
     }
 
     Task NavigateToTask() 
-        => MauiControls.Shell.Current.GoToAsync($"task?id={_task.ID}");
+        => Navigation.PushAsync<TaskDetailPage, TaskDetailPageProps>(props =>
+        {
+            props.TaskId = _task.ID;
+        });
 
     static VisualNode RenderCustomView()
     {

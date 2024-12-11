@@ -1,5 +1,6 @@
 ﻿using Fonts;
 using MauiReactorTemplate.StartupSampleXaml.Components.Main;
+using MauiReactorTemplate.StartupSampleXaml.Components.Tasks;
 using MauiReactorTemplate.StartupSampleXaml.Data;
 using MauiReactorTemplate.StartupSampleXaml.Framework;
 using MauiReactorTemplate.StartupSampleXaml.Models;
@@ -27,7 +28,7 @@ class ProjectDetailPageState
 
 class ProjectDetailPageProps
 {
-    public int ProjectID { get; set; }
+    public int? ProjectID { get; set; }
 }
 
 partial class ProjectDetailPage : Component<ProjectDetailPageState, ProjectDetailPageProps>
@@ -47,30 +48,35 @@ partial class ProjectDetailPage : Component<ProjectDetailPageState, ProjectDetai
     public override VisualNode Render()
     {
         return ContentPage("Project",
+
+            Props.ProjectID.HasValue ?
+            ToolbarItem("Delete")
+                .OnClicked(Delete)
+                .Order(ToolbarItemOrder.Primary)
+                .Priority(0)
+                .IconImageSource(ResourceHelper.GetResource<ImageSource>("IconDelete")) : null,
+
             Grid(
                 VScrollView(
                     VStack(
-                        new SfTextInputLayout
-                        {
+                        new SfTextInputLayout(
                             Entry()
                                 .Text(State.Name)
                                 .OnTextChanged(newText => State.Name = newText)
-                        }
+                        )
                         .Hint("Name"),
-                        new SfTextInputLayout
-                        {
+                        new SfTextInputLayout(
                             Entry()
                                 .Text(State.Description)
                                 .OnTextChanged(newText => State.Description = newText)
-                        }
+                        )
                         .Hint("Description"),
-                        new SfTextInputLayout
-                        {
+                        new SfTextInputLayout(
                             Picker()
                                 .ItemsSource(State.Categories.Select(_=>_.Title).ToList())
                                 .SelectedIndex(State.Categories.FindIndex(_=>_.ID == State.CategoryID))
-                                .OnSelectedIndexChanged(newIndex => State.CategoryID = newIndex)
-                        }
+                                .OnSelectedIndexChanged(newIndex => State.CategoryID = State.Categories[newIndex].ID)
+                        )
                         .Hint("Category"),
 
                         Label("Icon")
@@ -111,12 +117,11 @@ partial class ProjectDetailPage : Component<ProjectDetailPageState, ProjectDetai
                             HStack(spacing: ResourceHelper.GetResource<OnIdiom<double>>("LayoutSpacing"),
                                 State.Tags
                                     .Select(RenderTag)
-                                    .ToArray()
                                 )
                             ),
 
                         Button("Save")
-                            .HeightRequest(DeviceInfo.Current.Idiom == DeviceIdiom.Desktop ? 44 : 60)
+                            .HeightRequest(DeviceInfo.Current.Idiom == DeviceIdiom.Desktop ? 60 : 44)
                             .OnClicked(Save),
 
                         Grid(
@@ -137,7 +142,7 @@ partial class ProjectDetailPage : Component<ProjectDetailPageState, ProjectDetai
                         .HeightRequest(44),
 
                         VStack(
-                            State.ProjectTasks.Select(RenderTask).ToArray()
+                            State.ProjectTasks.Select(RenderTask)
                         )
                         .Spacing(ResourceHelper.GetResource<OnIdiom<double>>("LayoutSpacing"))
 
@@ -221,46 +226,61 @@ partial class ProjectDetailPage : Component<ProjectDetailPageState, ProjectDetai
     {
         return new TaskView()
             .Task(task)
-            .OnTaskCompletion(completed => Invalidate());
+            .OnTaskCompletionChanged(Invalidate);
     }
 
     async Task Refresh()
     {
-        var project = await _projectRepository.GetAsync(Props.ProjectID) ?? throw new InvalidOperationException();
         var categories = await _categoryRepository.ListAsync();
         var tags = await _tagRepository.ListAsync();
-        var projectTags = await _tagRepository.ListAsync(Props.ProjectID);
-        var projectTasks = await _taskRepository.ListAsync(Props.ProjectID);
 
-        SetState(s =>
+        if (Props.ProjectID != null)
         {
-            s.Name = project.Name;
-            s.Description = project.Description;
-            s.Categories = categories;
-            s.SelectedTags = s.ProjectTags = [.. projectTags];
-            s.CategoryID = project.CategoryID;
-            s.Icon = project.Icon;
-            s.Tags = tags;
-            s.ProjectTasks = projectTasks;
-        });
+            var project = await _projectRepository.GetAsync(Props.ProjectID.Value) ?? throw new InvalidOperationException();
+            var projectTags = await _tagRepository.ListAsync(Props.ProjectID.Value);
+            var projectTasks = await _taskRepository.ListAsync(Props.ProjectID.Value);
+
+            SetState(s =>
+            {
+                s.Name = project.Name;
+                s.Description = project.Description;
+                s.Categories = categories;
+                s.SelectedTags = [.. projectTags];
+                s.ProjectTags = [.. projectTags];
+                s.CategoryID = project.CategoryID;
+                s.Icon = project.Icon;
+                s.Tags = tags;
+                s.ProjectTasks = projectTasks;
+            });
+        }
+        else
+        {
+            SetState(s =>
+            {
+                s.Categories = categories;
+                s.Tags = tags;
+            });
+        }
     }
 
     async Task Save()
     {
-        await _projectRepository.SaveItemAsync(new Project
+        var projectToSave = new Project
         {
-            ID = Props.ProjectID,
+            ID = Props.ProjectID.GetValueOrDefault(),
             Name = State.Name,
             Description = State.Description,
             CategoryID = State.CategoryID,
             Icon = State.Icon ?? FluentUI.ribbon_24_regular
-        });
+        };
+
+        await _projectRepository.SaveItemAsync(projectToSave);
 
         foreach (var tag in State.ProjectTags)
         {
             if (!State.SelectedTags.Contains(tag))
             {
-                await _tagRepository.DeleteItemAsync(tag, Props.ProjectID);
+                await _tagRepository.DeleteItemAsync(tag, projectToSave.ID);
             }
         }
 
@@ -268,9 +288,25 @@ partial class ProjectDetailPage : Component<ProjectDetailPageState, ProjectDetai
         {
             if (!State.ProjectTags.Contains(tag))
             {
-                await _tagRepository.SaveItemAsync(tag, Props.ProjectID);
+                await _tagRepository.SaveItemAsync(tag, projectToSave.ID);
             }
         }
+
+        await Navigation.PopAsync();
+
+        await AppUtils.DisplayToastAsync("Project Saved!");
+    }
+
+    async Task Delete()
+    {
+        if (Props.ProjectID.HasValue)
+        {
+            await _projectRepository.DeleteItemAsync(Props.ProjectID.Value);
+        }
+
+        await Navigation.PopAsync();
+
+        await AppUtils.DisplayToastAsync("Project deleted");
     }
 
     async Task CleanTasks()

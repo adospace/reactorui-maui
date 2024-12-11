@@ -55,6 +55,14 @@ public partial class ImageCell : ImageCell<Microsoft.Maui.Controls.ImageCell>
     public ImageCell(Action<Microsoft.Maui.Controls.ImageCell?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public ImageCell(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ImageCellExtensions

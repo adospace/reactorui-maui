@@ -55,6 +55,14 @@ public partial class FlexLayout : FlexLayout<Microsoft.Maui.Controls.FlexLayout>
     public FlexLayout(Action<Microsoft.Maui.Controls.FlexLayout?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public FlexLayout(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class FlexLayoutExtensions

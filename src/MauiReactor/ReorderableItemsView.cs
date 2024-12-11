@@ -103,6 +103,14 @@ public partial class ReorderableItemsView : ReorderableItemsView<Microsoft.Maui.
     public ReorderableItemsView(Action<Microsoft.Maui.Controls.ReorderableItemsView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public ReorderableItemsView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ReorderableItemsViewExtensions

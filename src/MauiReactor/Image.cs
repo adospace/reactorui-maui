@@ -55,6 +55,14 @@ public partial class Image : Image<Microsoft.Maui.Controls.Image>
     public Image(Action<Microsoft.Maui.Controls.Image?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Image(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ImageExtensions

@@ -129,6 +129,14 @@ public partial class DragGestureRecognizer : DragGestureRecognizer<Microsoft.Mau
     public DragGestureRecognizer(Action<Microsoft.Maui.Controls.DragGestureRecognizer?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public DragGestureRecognizer(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class DragGestureRecognizerExtensions

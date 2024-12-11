@@ -19,7 +19,7 @@ namespace MauiReactor
             return page;
         }
 
-        public static async Task<Microsoft.Maui.Controls.Page?> PushAsync<T, P>(this INavigation? navigation, Action<P> propsInitializer) where T : Component, new() where P : class, new()
+        public static async Task<Microsoft.Maui.Controls.Page?> PushAsync<T, P>(this INavigation? navigation, Action<P>? propsInitializer = null) where T : Component, new() where P : class, new()
         {
             if (navigation == null)
             {

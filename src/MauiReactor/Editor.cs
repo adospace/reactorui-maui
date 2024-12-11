@@ -103,6 +103,14 @@ public partial class Editor : Editor<Microsoft.Maui.Controls.Editor>
     public Editor(Action<Microsoft.Maui.Controls.Editor?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Editor(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class EditorExtensions

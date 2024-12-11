@@ -55,6 +55,14 @@ public partial class TemplatedPage : TemplatedPage<Microsoft.Maui.Controls.Templ
     public TemplatedPage(Action<Microsoft.Maui.Controls.TemplatedPage?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public TemplatedPage(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class TemplatedPageExtensions

@@ -168,4 +168,18 @@ static class Helper
         // No matching property found in the base type or any ancestor type
         return false;
     }
+
+    public static bool IsDerivedFrom(this INamedTypeSymbol type, INamedTypeSymbol baseType)
+    {
+        INamedTypeSymbol? currentBaseType = type.BaseType;
+        while (currentBaseType != null)
+        {
+            if (currentBaseType.Equals(baseType, SymbolEqualityComparer.Default))
+            {
+                return true;
+            }
+            currentBaseType = currentBaseType.BaseType;
+        }
+        return false;
+    }
 }

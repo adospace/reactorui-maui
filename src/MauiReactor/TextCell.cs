@@ -55,6 +55,14 @@ public partial class TextCell : TextCell<Microsoft.Maui.Controls.TextCell>
     public TextCell(Action<Microsoft.Maui.Controls.TextCell?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public TextCell(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class TextCellExtensions

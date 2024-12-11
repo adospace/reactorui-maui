@@ -103,6 +103,14 @@ public partial class Stepper : Stepper<Microsoft.Maui.Controls.Stepper>
     public Stepper(Action<Microsoft.Maui.Controls.Stepper?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Stepper(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class StepperExtensions

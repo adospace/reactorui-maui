@@ -103,6 +103,14 @@ public partial class SelectableItemsView : SelectableItemsView<Microsoft.Maui.Co
     public SelectableItemsView(Action<Microsoft.Maui.Controls.SelectableItemsView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public SelectableItemsView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class SelectableItemsViewExtensions

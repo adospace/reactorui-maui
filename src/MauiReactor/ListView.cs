@@ -233,6 +233,14 @@ public partial class ListView : ListView<Microsoft.Maui.Controls.ListView>
     public ListView(Action<Microsoft.Maui.Controls.ListView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public ListView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ListViewExtensions

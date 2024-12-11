@@ -155,6 +155,14 @@ public partial class DropGestureRecognizer : DropGestureRecognizer<Microsoft.Mau
     public DropGestureRecognizer(Action<Microsoft.Maui.Controls.DropGestureRecognizer?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public DropGestureRecognizer(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class DropGestureRecognizerExtensions

@@ -155,6 +155,14 @@ public partial class ImageButton : ImageButton<Microsoft.Maui.Controls.ImageButt
     public ImageButton(Action<Microsoft.Maui.Controls.ImageButton?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public ImageButton(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ImageButtonExtensions

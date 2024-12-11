@@ -55,6 +55,14 @@ public partial class ActivityIndicator : ActivityIndicator<Microsoft.Maui.Contro
     public ActivityIndicator(Action<Microsoft.Maui.Controls.ActivityIndicator?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public ActivityIndicator(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ActivityIndicatorExtensions

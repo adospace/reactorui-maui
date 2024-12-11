@@ -55,6 +55,14 @@ public partial class CollectionView : CollectionView<Microsoft.Maui.Controls.Col
     public CollectionView(Action<Microsoft.Maui.Controls.CollectionView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public CollectionView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class CollectionViewExtensions

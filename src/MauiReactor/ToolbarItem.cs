@@ -55,6 +55,14 @@ public partial class ToolbarItem : ToolbarItem<Microsoft.Maui.Controls.ToolbarIt
     public ToolbarItem(Action<Microsoft.Maui.Controls.ToolbarItem?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public ToolbarItem(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ToolbarItemExtensions

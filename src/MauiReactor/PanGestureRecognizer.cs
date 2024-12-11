@@ -103,6 +103,14 @@ public partial class PanGestureRecognizer : PanGestureRecognizer<Microsoft.Maui.
     public PanGestureRecognizer(Action<Microsoft.Maui.Controls.PanGestureRecognizer?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public PanGestureRecognizer(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class PanGestureRecognizerExtensions

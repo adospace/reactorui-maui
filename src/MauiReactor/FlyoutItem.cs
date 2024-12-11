@@ -55,6 +55,14 @@ public partial class FlyoutItem : FlyoutItem<Microsoft.Maui.Controls.FlyoutItem>
     public FlyoutItem(Action<Microsoft.Maui.Controls.FlyoutItem?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public FlyoutItem(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class FlyoutItemExtensions

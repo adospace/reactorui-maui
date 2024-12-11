@@ -155,6 +155,14 @@ public partial class Slider : Slider<Microsoft.Maui.Controls.Slider>
     public Slider(Action<Microsoft.Maui.Controls.Slider?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Slider(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class SliderExtensions

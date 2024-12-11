@@ -55,6 +55,14 @@ public partial class StackLayout : StackLayout<Microsoft.Maui.Controls.StackLayo
     public StackLayout(Action<Microsoft.Maui.Controls.StackLayout?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public StackLayout(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class StackLayoutExtensions

@@ -129,6 +129,14 @@ public partial class Shell : Shell<Microsoft.Maui.Controls.Shell>
     public Shell(Action<Microsoft.Maui.Controls.Shell?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Shell(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ShellExtensions

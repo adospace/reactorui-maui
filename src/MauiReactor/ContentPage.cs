@@ -55,6 +55,14 @@ public partial class ContentPage : ContentPage<Microsoft.Maui.Controls.ContentPa
     public ContentPage(Action<Microsoft.Maui.Controls.ContentPage?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public ContentPage(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ContentPageExtensions

@@ -13,7 +13,7 @@ namespace MauiReactor;
 public partial class Component
 {
     public static ListView ListView() => new ListView();
-    public static ListView ListView(params VisualNode? []? children)
+    public static ListView ListView(params IEnumerable<VisualNode?>? children)
     {
         var @listview = new ListView();
         if (children != null)
@@ -31,7 +31,7 @@ public partial class Component
         return @listview;
     }
 
-    public static ListView ListView(Action<Microsoft.Maui.Controls.ListView?> componentRefAction, params VisualNode? []? children)
+    public static ListView ListView(Action<Microsoft.Maui.Controls.ListView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @listview = new ListView();
         @listview.ComponentRefAction = componentRefAction;
@@ -44,7 +44,7 @@ public partial class Component
     }
 
     public static TabbedPage TabbedPage() => new TabbedPage();
-    public static TabbedPage TabbedPage(params VisualNode? []? children)
+    public static TabbedPage TabbedPage(params IEnumerable<VisualNode?>? children)
     {
         var @tabbedpage = new TabbedPage();
         if (children != null)
@@ -62,7 +62,7 @@ public partial class Component
         return @tabbedpage;
     }
 
-    public static TabbedPage TabbedPage(Action<Microsoft.Maui.Controls.TabbedPage?> componentRefAction, params VisualNode? []? children)
+    public static TabbedPage TabbedPage(Action<Microsoft.Maui.Controls.TabbedPage?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @tabbedpage = new TabbedPage();
         @tabbedpage.ComponentRefAction = componentRefAction;
@@ -75,7 +75,7 @@ public partial class Component
     }
 
     public static Page Page() => new Page();
-    public static Page Page(params VisualNode? []? children)
+    public static Page Page(params IEnumerable<VisualNode?>? children)
     {
         var @page = new Page();
         if (children != null)
@@ -93,7 +93,7 @@ public partial class Component
         return @page;
     }
 
-    public static Page Page(Action<Microsoft.Maui.Controls.Page?> componentRefAction, params VisualNode? []? children)
+    public static Page Page(Action<Microsoft.Maui.Controls.Page?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @page = new Page();
         @page.ComponentRefAction = componentRefAction;
@@ -106,7 +106,7 @@ public partial class Component
     }
 
     public static TemplatedPage TemplatedPage() => new TemplatedPage();
-    public static TemplatedPage TemplatedPage(params VisualNode? []? children)
+    public static TemplatedPage TemplatedPage(params IEnumerable<VisualNode?>? children)
     {
         var @templatedpage = new TemplatedPage();
         if (children != null)
@@ -124,7 +124,7 @@ public partial class Component
         return @templatedpage;
     }
 
-    public static TemplatedPage TemplatedPage(Action<Microsoft.Maui.Controls.TemplatedPage?> componentRefAction, params VisualNode? []? children)
+    public static TemplatedPage TemplatedPage(Action<Microsoft.Maui.Controls.TemplatedPage?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @templatedpage = new TemplatedPage();
         @templatedpage.ComponentRefAction = componentRefAction;
@@ -137,7 +137,7 @@ public partial class Component
     }
 
     public static ContentPage ContentPage() => new ContentPage();
-    public static ContentPage ContentPage(params VisualNode? []? children)
+    public static ContentPage ContentPage(params IEnumerable<VisualNode?>? children)
     {
         var @contentpage = new ContentPage();
         if (children != null)
@@ -155,7 +155,7 @@ public partial class Component
         return @contentpage;
     }
 
-    public static ContentPage ContentPage(Action<Microsoft.Maui.Controls.ContentPage?> componentRefAction, params VisualNode? []? children)
+    public static ContentPage ContentPage(Action<Microsoft.Maui.Controls.ContentPage?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @contentpage = new ContentPage();
         @contentpage.ComponentRefAction = componentRefAction;
@@ -168,7 +168,7 @@ public partial class Component
     }
 
     public static NavigationPage NavigationPage() => new NavigationPage();
-    public static NavigationPage NavigationPage(params VisualNode? []? children)
+    public static NavigationPage NavigationPage(params IEnumerable<VisualNode?>? children)
     {
         var @navigationpage = new NavigationPage();
         if (children != null)
@@ -186,7 +186,7 @@ public partial class Component
         return @navigationpage;
     }
 
-    public static NavigationPage NavigationPage(Action<Microsoft.Maui.Controls.NavigationPage?> componentRefAction, params VisualNode? []? children)
+    public static NavigationPage NavigationPage(Action<Microsoft.Maui.Controls.NavigationPage?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @navigationpage = new NavigationPage();
         @navigationpage.ComponentRefAction = componentRefAction;
@@ -199,7 +199,7 @@ public partial class Component
     }
 
     public static FlyoutPage FlyoutPage() => new FlyoutPage();
-    public static FlyoutPage FlyoutPage(params VisualNode? []? children)
+    public static FlyoutPage FlyoutPage(params IEnumerable<VisualNode?>? children)
     {
         var @flyoutpage = new FlyoutPage();
         if (children != null)
@@ -217,7 +217,7 @@ public partial class Component
         return @flyoutpage;
     }
 
-    public static FlyoutPage FlyoutPage(Action<Microsoft.Maui.Controls.FlyoutPage?> componentRefAction, params VisualNode? []? children)
+    public static FlyoutPage FlyoutPage(Action<Microsoft.Maui.Controls.FlyoutPage?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @flyoutpage = new FlyoutPage();
         @flyoutpage.ComponentRefAction = componentRefAction;
@@ -230,7 +230,7 @@ public partial class Component
     }
 
     public static Button Button() => new Button();
-    public static Button Button(params VisualNode? []? children)
+    public static Button Button(params IEnumerable<VisualNode?>? children)
     {
         var @button = new Button();
         if (children != null)
@@ -248,7 +248,7 @@ public partial class Component
         return @button;
     }
 
-    public static Button Button(Action<Microsoft.Maui.Controls.Button?> componentRefAction, params VisualNode? []? children)
+    public static Button Button(Action<Microsoft.Maui.Controls.Button?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @button = new Button();
         @button.ComponentRefAction = componentRefAction;
@@ -261,7 +261,7 @@ public partial class Component
     }
 
     public static Label Label() => new Label();
-    public static Label Label(params VisualNode? []? children)
+    public static Label Label(params IEnumerable<VisualNode?>? children)
     {
         var @label = new Label();
         if (children != null)
@@ -279,7 +279,7 @@ public partial class Component
         return @label;
     }
 
-    public static Label Label(Action<Microsoft.Maui.Controls.Label?> componentRefAction, params VisualNode? []? children)
+    public static Label Label(Action<Microsoft.Maui.Controls.Label?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @label = new Label();
         @label.ComponentRefAction = componentRefAction;
@@ -292,7 +292,7 @@ public partial class Component
     }
 
     public static StackLayout StackLayout() => new StackLayout();
-    public static StackLayout StackLayout(params VisualNode? []? children)
+    public static StackLayout StackLayout(params IEnumerable<VisualNode?>? children)
     {
         var @stacklayout = new StackLayout();
         if (children != null)
@@ -310,7 +310,7 @@ public partial class Component
         return @stacklayout;
     }
 
-    public static StackLayout StackLayout(Action<Microsoft.Maui.Controls.StackLayout?> componentRefAction, params VisualNode? []? children)
+    public static StackLayout StackLayout(Action<Microsoft.Maui.Controls.StackLayout?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @stacklayout = new StackLayout();
         @stacklayout.ComponentRefAction = componentRefAction;
@@ -323,7 +323,7 @@ public partial class Component
     }
 
     public static VerticalStackLayout VerticalStackLayout() => new VerticalStackLayout();
-    public static VerticalStackLayout VerticalStackLayout(params VisualNode? []? children)
+    public static VerticalStackLayout VerticalStackLayout(params IEnumerable<VisualNode?>? children)
     {
         var @verticalstacklayout = new VerticalStackLayout();
         if (children != null)
@@ -341,7 +341,7 @@ public partial class Component
         return @verticalstacklayout;
     }
 
-    public static VerticalStackLayout VerticalStackLayout(Action<Microsoft.Maui.Controls.VerticalStackLayout?> componentRefAction, params VisualNode? []? children)
+    public static VerticalStackLayout VerticalStackLayout(Action<Microsoft.Maui.Controls.VerticalStackLayout?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @verticalstacklayout = new VerticalStackLayout();
         @verticalstacklayout.ComponentRefAction = componentRefAction;
@@ -354,7 +354,7 @@ public partial class Component
     }
 
     public static HorizontalStackLayout HorizontalStackLayout() => new HorizontalStackLayout();
-    public static HorizontalStackLayout HorizontalStackLayout(params VisualNode? []? children)
+    public static HorizontalStackLayout HorizontalStackLayout(params IEnumerable<VisualNode?>? children)
     {
         var @horizontalstacklayout = new HorizontalStackLayout();
         if (children != null)
@@ -372,7 +372,7 @@ public partial class Component
         return @horizontalstacklayout;
     }
 
-    public static HorizontalStackLayout HorizontalStackLayout(Action<Microsoft.Maui.Controls.HorizontalStackLayout?> componentRefAction, params VisualNode? []? children)
+    public static HorizontalStackLayout HorizontalStackLayout(Action<Microsoft.Maui.Controls.HorizontalStackLayout?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @horizontalstacklayout = new HorizontalStackLayout();
         @horizontalstacklayout.ComponentRefAction = componentRefAction;
@@ -385,7 +385,7 @@ public partial class Component
     }
 
     public static Grid Grid() => new Grid();
-    public static Grid Grid(params VisualNode? []? children)
+    public static Grid Grid(params IEnumerable<VisualNode?>? children)
     {
         var @grid = new Grid();
         if (children != null)
@@ -403,7 +403,7 @@ public partial class Component
         return @grid;
     }
 
-    public static Grid Grid(Action<Microsoft.Maui.Controls.Grid?> componentRefAction, params VisualNode? []? children)
+    public static Grid Grid(Action<Microsoft.Maui.Controls.Grid?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @grid = new Grid();
         @grid.ComponentRefAction = componentRefAction;
@@ -416,7 +416,7 @@ public partial class Component
     }
 
     public static Shell Shell() => new Shell();
-    public static Shell Shell(params VisualNode? []? children)
+    public static Shell Shell(params IEnumerable<VisualNode?>? children)
     {
         var @shell = new Shell();
         if (children != null)
@@ -434,7 +434,7 @@ public partial class Component
         return @shell;
     }
 
-    public static Shell Shell(Action<Microsoft.Maui.Controls.Shell?> componentRefAction, params VisualNode? []? children)
+    public static Shell Shell(Action<Microsoft.Maui.Controls.Shell?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @shell = new Shell();
         @shell.ComponentRefAction = componentRefAction;
@@ -447,7 +447,7 @@ public partial class Component
     }
 
     public static BaseShellItem BaseShellItem() => new BaseShellItem();
-    public static BaseShellItem BaseShellItem(params VisualNode? []? children)
+    public static BaseShellItem BaseShellItem(params IEnumerable<VisualNode?>? children)
     {
         var @baseshellitem = new BaseShellItem();
         if (children != null)
@@ -465,7 +465,7 @@ public partial class Component
         return @baseshellitem;
     }
 
-    public static BaseShellItem BaseShellItem(Action<Microsoft.Maui.Controls.BaseShellItem?> componentRefAction, params VisualNode? []? children)
+    public static BaseShellItem BaseShellItem(Action<Microsoft.Maui.Controls.BaseShellItem?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @baseshellitem = new BaseShellItem();
         @baseshellitem.ComponentRefAction = componentRefAction;
@@ -478,7 +478,7 @@ public partial class Component
     }
 
     public static ShellGroupItem ShellGroupItem() => new ShellGroupItem();
-    public static ShellGroupItem ShellGroupItem(params VisualNode? []? children)
+    public static ShellGroupItem ShellGroupItem(params IEnumerable<VisualNode?>? children)
     {
         var @shellgroupitem = new ShellGroupItem();
         if (children != null)
@@ -496,7 +496,7 @@ public partial class Component
         return @shellgroupitem;
     }
 
-    public static ShellGroupItem ShellGroupItem(Action<Microsoft.Maui.Controls.ShellGroupItem?> componentRefAction, params VisualNode? []? children)
+    public static ShellGroupItem ShellGroupItem(Action<Microsoft.Maui.Controls.ShellGroupItem?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @shellgroupitem = new ShellGroupItem();
         @shellgroupitem.ComponentRefAction = componentRefAction;
@@ -509,7 +509,7 @@ public partial class Component
     }
 
     public static ShellItem ShellItem() => new ShellItem();
-    public static ShellItem ShellItem(params VisualNode? []? children)
+    public static ShellItem ShellItem(params IEnumerable<VisualNode?>? children)
     {
         var @shellitem = new ShellItem();
         if (children != null)
@@ -527,7 +527,7 @@ public partial class Component
         return @shellitem;
     }
 
-    public static ShellItem ShellItem(Action<Microsoft.Maui.Controls.ShellItem?> componentRefAction, params VisualNode? []? children)
+    public static ShellItem ShellItem(Action<Microsoft.Maui.Controls.ShellItem?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @shellitem = new ShellItem();
         @shellitem.ComponentRefAction = componentRefAction;
@@ -540,7 +540,7 @@ public partial class Component
     }
 
     public static FlyoutItem FlyoutItem() => new FlyoutItem();
-    public static FlyoutItem FlyoutItem(params VisualNode? []? children)
+    public static FlyoutItem FlyoutItem(params IEnumerable<VisualNode?>? children)
     {
         var @flyoutitem = new FlyoutItem();
         if (children != null)
@@ -558,7 +558,7 @@ public partial class Component
         return @flyoutitem;
     }
 
-    public static FlyoutItem FlyoutItem(Action<Microsoft.Maui.Controls.FlyoutItem?> componentRefAction, params VisualNode? []? children)
+    public static FlyoutItem FlyoutItem(Action<Microsoft.Maui.Controls.FlyoutItem?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @flyoutitem = new FlyoutItem();
         @flyoutitem.ComponentRefAction = componentRefAction;
@@ -571,7 +571,7 @@ public partial class Component
     }
 
     public static ShellContent ShellContent() => new ShellContent();
-    public static ShellContent ShellContent(params VisualNode? []? children)
+    public static ShellContent ShellContent(params IEnumerable<VisualNode?>? children)
     {
         var @shellcontent = new ShellContent();
         if (children != null)
@@ -589,7 +589,7 @@ public partial class Component
         return @shellcontent;
     }
 
-    public static ShellContent ShellContent(Action<Microsoft.Maui.Controls.ShellContent?> componentRefAction, params VisualNode? []? children)
+    public static ShellContent ShellContent(Action<Microsoft.Maui.Controls.ShellContent?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @shellcontent = new ShellContent();
         @shellcontent.ComponentRefAction = componentRefAction;
@@ -602,7 +602,7 @@ public partial class Component
     }
 
     public static TabBar TabBar() => new TabBar();
-    public static TabBar TabBar(params VisualNode? []? children)
+    public static TabBar TabBar(params IEnumerable<VisualNode?>? children)
     {
         var @tabbar = new TabBar();
         if (children != null)
@@ -620,7 +620,7 @@ public partial class Component
         return @tabbar;
     }
 
-    public static TabBar TabBar(Action<Microsoft.Maui.Controls.TabBar?> componentRefAction, params VisualNode? []? children)
+    public static TabBar TabBar(Action<Microsoft.Maui.Controls.TabBar?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @tabbar = new TabBar();
         @tabbar.ComponentRefAction = componentRefAction;
@@ -633,7 +633,7 @@ public partial class Component
     }
 
     public static Tab Tab() => new Tab();
-    public static Tab Tab(params VisualNode? []? children)
+    public static Tab Tab(params IEnumerable<VisualNode?>? children)
     {
         var @tab = new Tab();
         if (children != null)
@@ -651,7 +651,7 @@ public partial class Component
         return @tab;
     }
 
-    public static Tab Tab(Action<Microsoft.Maui.Controls.Tab?> componentRefAction, params VisualNode? []? children)
+    public static Tab Tab(Action<Microsoft.Maui.Controls.Tab?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @tab = new Tab();
         @tab.ComponentRefAction = componentRefAction;
@@ -664,7 +664,7 @@ public partial class Component
     }
 
     public static ShellSection ShellSection() => new ShellSection();
-    public static ShellSection ShellSection(params VisualNode? []? children)
+    public static ShellSection ShellSection(params IEnumerable<VisualNode?>? children)
     {
         var @shellsection = new ShellSection();
         if (children != null)
@@ -682,7 +682,7 @@ public partial class Component
         return @shellsection;
     }
 
-    public static ShellSection ShellSection(Action<Microsoft.Maui.Controls.ShellSection?> componentRefAction, params VisualNode? []? children)
+    public static ShellSection ShellSection(Action<Microsoft.Maui.Controls.ShellSection?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @shellsection = new ShellSection();
         @shellsection.ComponentRefAction = componentRefAction;
@@ -695,7 +695,7 @@ public partial class Component
     }
 
     public static MenuItem MenuItem() => new MenuItem();
-    public static MenuItem MenuItem(params VisualNode? []? children)
+    public static MenuItem MenuItem(params IEnumerable<VisualNode?>? children)
     {
         var @menuitem = new MenuItem();
         if (children != null)
@@ -713,7 +713,7 @@ public partial class Component
         return @menuitem;
     }
 
-    public static MenuItem MenuItem(Action<Microsoft.Maui.Controls.MenuItem?> componentRefAction, params VisualNode? []? children)
+    public static MenuItem MenuItem(Action<Microsoft.Maui.Controls.MenuItem?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @menuitem = new MenuItem();
         @menuitem.ComponentRefAction = componentRefAction;
@@ -726,7 +726,7 @@ public partial class Component
     }
 
     public static MenuBarItem MenuBarItem() => new MenuBarItem();
-    public static MenuBarItem MenuBarItem(params VisualNode? []? children)
+    public static MenuBarItem MenuBarItem(params IEnumerable<VisualNode?>? children)
     {
         var @menubaritem = new MenuBarItem();
         if (children != null)
@@ -744,7 +744,7 @@ public partial class Component
         return @menubaritem;
     }
 
-    public static MenuBarItem MenuBarItem(Action<Microsoft.Maui.Controls.MenuBarItem?> componentRefAction, params VisualNode? []? children)
+    public static MenuBarItem MenuBarItem(Action<Microsoft.Maui.Controls.MenuBarItem?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @menubaritem = new MenuBarItem();
         @menubaritem.ComponentRefAction = componentRefAction;
@@ -757,7 +757,7 @@ public partial class Component
     }
 
     public static MenuFlyout MenuFlyout() => new MenuFlyout();
-    public static MenuFlyout MenuFlyout(params VisualNode? []? children)
+    public static MenuFlyout MenuFlyout(params IEnumerable<VisualNode?>? children)
     {
         var @menuflyout = new MenuFlyout();
         if (children != null)
@@ -775,7 +775,7 @@ public partial class Component
         return @menuflyout;
     }
 
-    public static MenuFlyout MenuFlyout(Action<Microsoft.Maui.Controls.MenuFlyout?> componentRefAction, params VisualNode? []? children)
+    public static MenuFlyout MenuFlyout(Action<Microsoft.Maui.Controls.MenuFlyout?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @menuflyout = new MenuFlyout();
         @menuflyout.ComponentRefAction = componentRefAction;
@@ -788,7 +788,7 @@ public partial class Component
     }
 
     public static MenuFlyoutItem MenuFlyoutItem() => new MenuFlyoutItem();
-    public static MenuFlyoutItem MenuFlyoutItem(params VisualNode? []? children)
+    public static MenuFlyoutItem MenuFlyoutItem(params IEnumerable<VisualNode?>? children)
     {
         var @menuflyoutitem = new MenuFlyoutItem();
         if (children != null)
@@ -806,7 +806,7 @@ public partial class Component
         return @menuflyoutitem;
     }
 
-    public static MenuFlyoutItem MenuFlyoutItem(Action<Microsoft.Maui.Controls.MenuFlyoutItem?> componentRefAction, params VisualNode? []? children)
+    public static MenuFlyoutItem MenuFlyoutItem(Action<Microsoft.Maui.Controls.MenuFlyoutItem?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @menuflyoutitem = new MenuFlyoutItem();
         @menuflyoutitem.ComponentRefAction = componentRefAction;
@@ -819,7 +819,7 @@ public partial class Component
     }
 
     public static MenuFlyoutSubItem MenuFlyoutSubItem() => new MenuFlyoutSubItem();
-    public static MenuFlyoutSubItem MenuFlyoutSubItem(params VisualNode? []? children)
+    public static MenuFlyoutSubItem MenuFlyoutSubItem(params IEnumerable<VisualNode?>? children)
     {
         var @menuflyoutsubitem = new MenuFlyoutSubItem();
         if (children != null)
@@ -837,7 +837,7 @@ public partial class Component
         return @menuflyoutsubitem;
     }
 
-    public static MenuFlyoutSubItem MenuFlyoutSubItem(Action<Microsoft.Maui.Controls.MenuFlyoutSubItem?> componentRefAction, params VisualNode? []? children)
+    public static MenuFlyoutSubItem MenuFlyoutSubItem(Action<Microsoft.Maui.Controls.MenuFlyoutSubItem?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @menuflyoutsubitem = new MenuFlyoutSubItem();
         @menuflyoutsubitem.ComponentRefAction = componentRefAction;
@@ -850,7 +850,7 @@ public partial class Component
     }
 
     public static MenuFlyoutSeparator MenuFlyoutSeparator() => new MenuFlyoutSeparator();
-    public static MenuFlyoutSeparator MenuFlyoutSeparator(params VisualNode? []? children)
+    public static MenuFlyoutSeparator MenuFlyoutSeparator(params IEnumerable<VisualNode?>? children)
     {
         var @menuflyoutseparator = new MenuFlyoutSeparator();
         if (children != null)
@@ -868,7 +868,7 @@ public partial class Component
         return @menuflyoutseparator;
     }
 
-    public static MenuFlyoutSeparator MenuFlyoutSeparator(Action<Microsoft.Maui.Controls.MenuFlyoutSeparator?> componentRefAction, params VisualNode? []? children)
+    public static MenuFlyoutSeparator MenuFlyoutSeparator(Action<Microsoft.Maui.Controls.MenuFlyoutSeparator?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @menuflyoutseparator = new MenuFlyoutSeparator();
         @menuflyoutseparator.ComponentRefAction = componentRefAction;
@@ -881,7 +881,7 @@ public partial class Component
     }
 
     public static ToolbarItem ToolbarItem() => new ToolbarItem();
-    public static ToolbarItem ToolbarItem(params VisualNode? []? children)
+    public static ToolbarItem ToolbarItem(params IEnumerable<VisualNode?>? children)
     {
         var @toolbaritem = new ToolbarItem();
         if (children != null)
@@ -899,7 +899,7 @@ public partial class Component
         return @toolbaritem;
     }
 
-    public static ToolbarItem ToolbarItem(Action<Microsoft.Maui.Controls.ToolbarItem?> componentRefAction, params VisualNode? []? children)
+    public static ToolbarItem ToolbarItem(Action<Microsoft.Maui.Controls.ToolbarItem?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @toolbaritem = new ToolbarItem();
         @toolbaritem.ComponentRefAction = componentRefAction;
@@ -912,7 +912,7 @@ public partial class Component
     }
 
     public static BoxView BoxView() => new BoxView();
-    public static BoxView BoxView(params VisualNode? []? children)
+    public static BoxView BoxView(params IEnumerable<VisualNode?>? children)
     {
         var @boxview = new BoxView();
         if (children != null)
@@ -930,7 +930,7 @@ public partial class Component
         return @boxview;
     }
 
-    public static BoxView BoxView(Action<Microsoft.Maui.Controls.BoxView?> componentRefAction, params VisualNode? []? children)
+    public static BoxView BoxView(Action<Microsoft.Maui.Controls.BoxView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @boxview = new BoxView();
         @boxview.ComponentRefAction = componentRefAction;
@@ -943,7 +943,7 @@ public partial class Component
     }
 
     public static ScrollView ScrollView() => new ScrollView();
-    public static ScrollView ScrollView(params VisualNode? []? children)
+    public static ScrollView ScrollView(params IEnumerable<VisualNode?>? children)
     {
         var @scrollview = new ScrollView();
         if (children != null)
@@ -961,7 +961,7 @@ public partial class Component
         return @scrollview;
     }
 
-    public static ScrollView ScrollView(Action<Microsoft.Maui.Controls.ScrollView?> componentRefAction, params VisualNode? []? children)
+    public static ScrollView ScrollView(Action<Microsoft.Maui.Controls.ScrollView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @scrollview = new ScrollView();
         @scrollview.ComponentRefAction = componentRefAction;
@@ -974,7 +974,7 @@ public partial class Component
     }
 
     public static Image Image() => new Image();
-    public static Image Image(params VisualNode? []? children)
+    public static Image Image(params IEnumerable<VisualNode?>? children)
     {
         var @image = new Image();
         if (children != null)
@@ -992,7 +992,7 @@ public partial class Component
         return @image;
     }
 
-    public static Image Image(Action<Microsoft.Maui.Controls.Image?> componentRefAction, params VisualNode? []? children)
+    public static Image Image(Action<Microsoft.Maui.Controls.Image?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @image = new Image();
         @image.ComponentRefAction = componentRefAction;
@@ -1005,7 +1005,7 @@ public partial class Component
     }
 
     public static GestureRecognizer GestureRecognizer() => new GestureRecognizer();
-    public static GestureRecognizer GestureRecognizer(params VisualNode? []? children)
+    public static GestureRecognizer GestureRecognizer(params IEnumerable<VisualNode?>? children)
     {
         var @gesturerecognizer = new GestureRecognizer();
         if (children != null)
@@ -1023,7 +1023,7 @@ public partial class Component
         return @gesturerecognizer;
     }
 
-    public static GestureRecognizer GestureRecognizer(Action<Microsoft.Maui.Controls.GestureRecognizer?> componentRefAction, params VisualNode? []? children)
+    public static GestureRecognizer GestureRecognizer(Action<Microsoft.Maui.Controls.GestureRecognizer?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @gesturerecognizer = new GestureRecognizer();
         @gesturerecognizer.ComponentRefAction = componentRefAction;
@@ -1036,7 +1036,7 @@ public partial class Component
     }
 
     public static TapGestureRecognizer TapGestureRecognizer() => new TapGestureRecognizer();
-    public static TapGestureRecognizer TapGestureRecognizer(params VisualNode? []? children)
+    public static TapGestureRecognizer TapGestureRecognizer(params IEnumerable<VisualNode?>? children)
     {
         var @tapgesturerecognizer = new TapGestureRecognizer();
         if (children != null)
@@ -1054,7 +1054,7 @@ public partial class Component
         return @tapgesturerecognizer;
     }
 
-    public static TapGestureRecognizer TapGestureRecognizer(Action<Microsoft.Maui.Controls.TapGestureRecognizer?> componentRefAction, params VisualNode? []? children)
+    public static TapGestureRecognizer TapGestureRecognizer(Action<Microsoft.Maui.Controls.TapGestureRecognizer?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @tapgesturerecognizer = new TapGestureRecognizer();
         @tapgesturerecognizer.ComponentRefAction = componentRefAction;
@@ -1067,7 +1067,7 @@ public partial class Component
     }
 
     public static DragGestureRecognizer DragGestureRecognizer() => new DragGestureRecognizer();
-    public static DragGestureRecognizer DragGestureRecognizer(params VisualNode? []? children)
+    public static DragGestureRecognizer DragGestureRecognizer(params IEnumerable<VisualNode?>? children)
     {
         var @draggesturerecognizer = new DragGestureRecognizer();
         if (children != null)
@@ -1085,7 +1085,7 @@ public partial class Component
         return @draggesturerecognizer;
     }
 
-    public static DragGestureRecognizer DragGestureRecognizer(Action<Microsoft.Maui.Controls.DragGestureRecognizer?> componentRefAction, params VisualNode? []? children)
+    public static DragGestureRecognizer DragGestureRecognizer(Action<Microsoft.Maui.Controls.DragGestureRecognizer?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @draggesturerecognizer = new DragGestureRecognizer();
         @draggesturerecognizer.ComponentRefAction = componentRefAction;
@@ -1098,7 +1098,7 @@ public partial class Component
     }
 
     public static DropGestureRecognizer DropGestureRecognizer() => new DropGestureRecognizer();
-    public static DropGestureRecognizer DropGestureRecognizer(params VisualNode? []? children)
+    public static DropGestureRecognizer DropGestureRecognizer(params IEnumerable<VisualNode?>? children)
     {
         var @dropgesturerecognizer = new DropGestureRecognizer();
         if (children != null)
@@ -1116,7 +1116,7 @@ public partial class Component
         return @dropgesturerecognizer;
     }
 
-    public static DropGestureRecognizer DropGestureRecognizer(Action<Microsoft.Maui.Controls.DropGestureRecognizer?> componentRefAction, params VisualNode? []? children)
+    public static DropGestureRecognizer DropGestureRecognizer(Action<Microsoft.Maui.Controls.DropGestureRecognizer?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @dropgesturerecognizer = new DropGestureRecognizer();
         @dropgesturerecognizer.ComponentRefAction = componentRefAction;
@@ -1129,7 +1129,7 @@ public partial class Component
     }
 
     public static PanGestureRecognizer PanGestureRecognizer() => new PanGestureRecognizer();
-    public static PanGestureRecognizer PanGestureRecognizer(params VisualNode? []? children)
+    public static PanGestureRecognizer PanGestureRecognizer(params IEnumerable<VisualNode?>? children)
     {
         var @pangesturerecognizer = new PanGestureRecognizer();
         if (children != null)
@@ -1147,7 +1147,7 @@ public partial class Component
         return @pangesturerecognizer;
     }
 
-    public static PanGestureRecognizer PanGestureRecognizer(Action<Microsoft.Maui.Controls.PanGestureRecognizer?> componentRefAction, params VisualNode? []? children)
+    public static PanGestureRecognizer PanGestureRecognizer(Action<Microsoft.Maui.Controls.PanGestureRecognizer?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @pangesturerecognizer = new PanGestureRecognizer();
         @pangesturerecognizer.ComponentRefAction = componentRefAction;
@@ -1160,7 +1160,7 @@ public partial class Component
     }
 
     public static PinchGestureRecognizer PinchGestureRecognizer() => new PinchGestureRecognizer();
-    public static PinchGestureRecognizer PinchGestureRecognizer(params VisualNode? []? children)
+    public static PinchGestureRecognizer PinchGestureRecognizer(params IEnumerable<VisualNode?>? children)
     {
         var @pinchgesturerecognizer = new PinchGestureRecognizer();
         if (children != null)
@@ -1178,7 +1178,7 @@ public partial class Component
         return @pinchgesturerecognizer;
     }
 
-    public static PinchGestureRecognizer PinchGestureRecognizer(Action<Microsoft.Maui.Controls.PinchGestureRecognizer?> componentRefAction, params VisualNode? []? children)
+    public static PinchGestureRecognizer PinchGestureRecognizer(Action<Microsoft.Maui.Controls.PinchGestureRecognizer?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @pinchgesturerecognizer = new PinchGestureRecognizer();
         @pinchgesturerecognizer.ComponentRefAction = componentRefAction;
@@ -1191,7 +1191,7 @@ public partial class Component
     }
 
     public static PointerGestureRecognizer PointerGestureRecognizer() => new PointerGestureRecognizer();
-    public static PointerGestureRecognizer PointerGestureRecognizer(params VisualNode? []? children)
+    public static PointerGestureRecognizer PointerGestureRecognizer(params IEnumerable<VisualNode?>? children)
     {
         var @pointergesturerecognizer = new PointerGestureRecognizer();
         if (children != null)
@@ -1209,7 +1209,7 @@ public partial class Component
         return @pointergesturerecognizer;
     }
 
-    public static PointerGestureRecognizer PointerGestureRecognizer(Action<Microsoft.Maui.Controls.PointerGestureRecognizer?> componentRefAction, params VisualNode? []? children)
+    public static PointerGestureRecognizer PointerGestureRecognizer(Action<Microsoft.Maui.Controls.PointerGestureRecognizer?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @pointergesturerecognizer = new PointerGestureRecognizer();
         @pointergesturerecognizer.ComponentRefAction = componentRefAction;
@@ -1222,7 +1222,7 @@ public partial class Component
     }
 
     public static SwipeGestureRecognizer SwipeGestureRecognizer() => new SwipeGestureRecognizer();
-    public static SwipeGestureRecognizer SwipeGestureRecognizer(params VisualNode? []? children)
+    public static SwipeGestureRecognizer SwipeGestureRecognizer(params IEnumerable<VisualNode?>? children)
     {
         var @swipegesturerecognizer = new SwipeGestureRecognizer();
         if (children != null)
@@ -1240,7 +1240,7 @@ public partial class Component
         return @swipegesturerecognizer;
     }
 
-    public static SwipeGestureRecognizer SwipeGestureRecognizer(Action<Microsoft.Maui.Controls.SwipeGestureRecognizer?> componentRefAction, params VisualNode? []? children)
+    public static SwipeGestureRecognizer SwipeGestureRecognizer(Action<Microsoft.Maui.Controls.SwipeGestureRecognizer?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @swipegesturerecognizer = new SwipeGestureRecognizer();
         @swipegesturerecognizer.ComponentRefAction = componentRefAction;
@@ -1293,7 +1293,7 @@ public partial class Component
     }
 
     public static Shapes.RoundRectangle RoundRectangle() => new Shapes.RoundRectangle();
-    public static Shapes.RoundRectangle RoundRectangle(params VisualNode? []? children)
+    public static Shapes.RoundRectangle RoundRectangle(params IEnumerable<VisualNode?>? children)
     {
         var @roundrectangle = new Shapes.RoundRectangle();
         if (children != null)
@@ -1311,7 +1311,7 @@ public partial class Component
         return @roundrectangle;
     }
 
-    public static Shapes.RoundRectangle RoundRectangle(Action<Microsoft.Maui.Controls.Shapes.RoundRectangle?> componentRefAction, params VisualNode? []? children)
+    public static Shapes.RoundRectangle RoundRectangle(Action<Microsoft.Maui.Controls.Shapes.RoundRectangle?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @roundrectangle = new Shapes.RoundRectangle();
         @roundrectangle.ComponentRefAction = componentRefAction;
@@ -1324,7 +1324,7 @@ public partial class Component
     }
 
     public static Shapes.Line Line() => new Shapes.Line();
-    public static Shapes.Line Line(params VisualNode? []? children)
+    public static Shapes.Line Line(params IEnumerable<VisualNode?>? children)
     {
         var @line = new Shapes.Line();
         if (children != null)
@@ -1342,7 +1342,7 @@ public partial class Component
         return @line;
     }
 
-    public static Shapes.Line Line(Action<Microsoft.Maui.Controls.Shapes.Line?> componentRefAction, params VisualNode? []? children)
+    public static Shapes.Line Line(Action<Microsoft.Maui.Controls.Shapes.Line?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @line = new Shapes.Line();
         @line.ComponentRefAction = componentRefAction;
@@ -1355,7 +1355,7 @@ public partial class Component
     }
 
     public static Shapes.Path Path() => new Shapes.Path();
-    public static Shapes.Path Path(params VisualNode? []? children)
+    public static Shapes.Path Path(params IEnumerable<VisualNode?>? children)
     {
         var @path = new Shapes.Path();
         if (children != null)
@@ -1373,7 +1373,7 @@ public partial class Component
         return @path;
     }
 
-    public static Shapes.Path Path(Action<Microsoft.Maui.Controls.Shapes.Path?> componentRefAction, params VisualNode? []? children)
+    public static Shapes.Path Path(Action<Microsoft.Maui.Controls.Shapes.Path?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @path = new Shapes.Path();
         @path.ComponentRefAction = componentRefAction;
@@ -1386,7 +1386,7 @@ public partial class Component
     }
 
     public static Shapes.Polygon Polygon() => new Shapes.Polygon();
-    public static Shapes.Polygon Polygon(params VisualNode? []? children)
+    public static Shapes.Polygon Polygon(params IEnumerable<VisualNode?>? children)
     {
         var @polygon = new Shapes.Polygon();
         if (children != null)
@@ -1404,7 +1404,7 @@ public partial class Component
         return @polygon;
     }
 
-    public static Shapes.Polygon Polygon(Action<Microsoft.Maui.Controls.Shapes.Polygon?> componentRefAction, params VisualNode? []? children)
+    public static Shapes.Polygon Polygon(Action<Microsoft.Maui.Controls.Shapes.Polygon?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @polygon = new Shapes.Polygon();
         @polygon.ComponentRefAction = componentRefAction;
@@ -1417,7 +1417,7 @@ public partial class Component
     }
 
     public static Shapes.Polyline Polyline() => new Shapes.Polyline();
-    public static Shapes.Polyline Polyline(params VisualNode? []? children)
+    public static Shapes.Polyline Polyline(params IEnumerable<VisualNode?>? children)
     {
         var @polyline = new Shapes.Polyline();
         if (children != null)
@@ -1435,7 +1435,7 @@ public partial class Component
         return @polyline;
     }
 
-    public static Shapes.Polyline Polyline(Action<Microsoft.Maui.Controls.Shapes.Polyline?> componentRefAction, params VisualNode? []? children)
+    public static Shapes.Polyline Polyline(Action<Microsoft.Maui.Controls.Shapes.Polyline?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @polyline = new Shapes.Polyline();
         @polyline.ComponentRefAction = componentRefAction;
@@ -1448,7 +1448,7 @@ public partial class Component
     }
 
     public static Shapes.Rectangle Rectangle() => new Shapes.Rectangle();
-    public static Shapes.Rectangle Rectangle(params VisualNode? []? children)
+    public static Shapes.Rectangle Rectangle(params IEnumerable<VisualNode?>? children)
     {
         var @rectangle = new Shapes.Rectangle();
         if (children != null)
@@ -1466,7 +1466,7 @@ public partial class Component
         return @rectangle;
     }
 
-    public static Shapes.Rectangle Rectangle(Action<Microsoft.Maui.Controls.Shapes.Rectangle?> componentRefAction, params VisualNode? []? children)
+    public static Shapes.Rectangle Rectangle(Action<Microsoft.Maui.Controls.Shapes.Rectangle?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @rectangle = new Shapes.Rectangle();
         @rectangle.ComponentRefAction = componentRefAction;
@@ -1487,7 +1487,7 @@ public partial class Component
     }
 
     public static Shapes.Ellipse Ellipse() => new Shapes.Ellipse();
-    public static Shapes.Ellipse Ellipse(params VisualNode? []? children)
+    public static Shapes.Ellipse Ellipse(params IEnumerable<VisualNode?>? children)
     {
         var @ellipse = new Shapes.Ellipse();
         if (children != null)
@@ -1505,7 +1505,7 @@ public partial class Component
         return @ellipse;
     }
 
-    public static Shapes.Ellipse Ellipse(Action<Microsoft.Maui.Controls.Shapes.Ellipse?> componentRefAction, params VisualNode? []? children)
+    public static Shapes.Ellipse Ellipse(Action<Microsoft.Maui.Controls.Shapes.Ellipse?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @ellipse = new Shapes.Ellipse();
         @ellipse.ComponentRefAction = componentRefAction;
@@ -1518,7 +1518,7 @@ public partial class Component
     }
 
     public static Border Border() => new Border();
-    public static Border Border(params VisualNode? []? children)
+    public static Border Border(params IEnumerable<VisualNode?>? children)
     {
         var @border = new Border();
         if (children != null)
@@ -1536,7 +1536,7 @@ public partial class Component
         return @border;
     }
 
-    public static Border Border(Action<Microsoft.Maui.Controls.Border?> componentRefAction, params VisualNode? []? children)
+    public static Border Border(Action<Microsoft.Maui.Controls.Border?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @border = new Border();
         @border.ComponentRefAction = componentRefAction;
@@ -1549,7 +1549,7 @@ public partial class Component
     }
 
     public static FlexLayout FlexLayout() => new FlexLayout();
-    public static FlexLayout FlexLayout(params VisualNode? []? children)
+    public static FlexLayout FlexLayout(params IEnumerable<VisualNode?>? children)
     {
         var @flexlayout = new FlexLayout();
         if (children != null)
@@ -1567,7 +1567,7 @@ public partial class Component
         return @flexlayout;
     }
 
-    public static FlexLayout FlexLayout(Action<Microsoft.Maui.Controls.FlexLayout?> componentRefAction, params VisualNode? []? children)
+    public static FlexLayout FlexLayout(Action<Microsoft.Maui.Controls.FlexLayout?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @flexlayout = new FlexLayout();
         @flexlayout.ComponentRefAction = componentRefAction;
@@ -1580,7 +1580,7 @@ public partial class Component
     }
 
     public static CollectionView CollectionView() => new CollectionView();
-    public static CollectionView CollectionView(params VisualNode? []? children)
+    public static CollectionView CollectionView(params IEnumerable<VisualNode?>? children)
     {
         var @collectionview = new CollectionView();
         if (children != null)
@@ -1598,7 +1598,7 @@ public partial class Component
         return @collectionview;
     }
 
-    public static CollectionView CollectionView(Action<Microsoft.Maui.Controls.CollectionView?> componentRefAction, params VisualNode? []? children)
+    public static CollectionView CollectionView(Action<Microsoft.Maui.Controls.CollectionView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @collectionview = new CollectionView();
         @collectionview.ComponentRefAction = componentRefAction;
@@ -1611,7 +1611,7 @@ public partial class Component
     }
 
     public static GroupableItemsView GroupableItemsView() => new GroupableItemsView();
-    public static GroupableItemsView GroupableItemsView(params VisualNode? []? children)
+    public static GroupableItemsView GroupableItemsView(params IEnumerable<VisualNode?>? children)
     {
         var @groupableitemsview = new GroupableItemsView();
         if (children != null)
@@ -1629,7 +1629,7 @@ public partial class Component
         return @groupableitemsview;
     }
 
-    public static GroupableItemsView GroupableItemsView(Action<Microsoft.Maui.Controls.GroupableItemsView?> componentRefAction, params VisualNode? []? children)
+    public static GroupableItemsView GroupableItemsView(Action<Microsoft.Maui.Controls.GroupableItemsView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @groupableitemsview = new GroupableItemsView();
         @groupableitemsview.ComponentRefAction = componentRefAction;
@@ -1642,7 +1642,7 @@ public partial class Component
     }
 
     public static ReorderableItemsView ReorderableItemsView() => new ReorderableItemsView();
-    public static ReorderableItemsView ReorderableItemsView(params VisualNode? []? children)
+    public static ReorderableItemsView ReorderableItemsView(params IEnumerable<VisualNode?>? children)
     {
         var @reorderableitemsview = new ReorderableItemsView();
         if (children != null)
@@ -1660,7 +1660,7 @@ public partial class Component
         return @reorderableitemsview;
     }
 
-    public static ReorderableItemsView ReorderableItemsView(Action<Microsoft.Maui.Controls.ReorderableItemsView?> componentRefAction, params VisualNode? []? children)
+    public static ReorderableItemsView ReorderableItemsView(Action<Microsoft.Maui.Controls.ReorderableItemsView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @reorderableitemsview = new ReorderableItemsView();
         @reorderableitemsview.ComponentRefAction = componentRefAction;
@@ -1673,7 +1673,7 @@ public partial class Component
     }
 
     public static SelectableItemsView SelectableItemsView() => new SelectableItemsView();
-    public static SelectableItemsView SelectableItemsView(params VisualNode? []? children)
+    public static SelectableItemsView SelectableItemsView(params IEnumerable<VisualNode?>? children)
     {
         var @selectableitemsview = new SelectableItemsView();
         if (children != null)
@@ -1691,7 +1691,7 @@ public partial class Component
         return @selectableitemsview;
     }
 
-    public static SelectableItemsView SelectableItemsView(Action<Microsoft.Maui.Controls.SelectableItemsView?> componentRefAction, params VisualNode? []? children)
+    public static SelectableItemsView SelectableItemsView(Action<Microsoft.Maui.Controls.SelectableItemsView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @selectableitemsview = new SelectableItemsView();
         @selectableitemsview.ComponentRefAction = componentRefAction;
@@ -1704,7 +1704,7 @@ public partial class Component
     }
 
     public static StructuredItemsView StructuredItemsView() => new StructuredItemsView();
-    public static StructuredItemsView StructuredItemsView(params VisualNode? []? children)
+    public static StructuredItemsView StructuredItemsView(params IEnumerable<VisualNode?>? children)
     {
         var @structureditemsview = new StructuredItemsView();
         if (children != null)
@@ -1722,7 +1722,7 @@ public partial class Component
         return @structureditemsview;
     }
 
-    public static StructuredItemsView StructuredItemsView(Action<Microsoft.Maui.Controls.StructuredItemsView?> componentRefAction, params VisualNode? []? children)
+    public static StructuredItemsView StructuredItemsView(Action<Microsoft.Maui.Controls.StructuredItemsView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @structureditemsview = new StructuredItemsView();
         @structureditemsview.ComponentRefAction = componentRefAction;
@@ -1735,7 +1735,7 @@ public partial class Component
     }
 
     public static ContentView ContentView() => new ContentView();
-    public static ContentView ContentView(params VisualNode? []? children)
+    public static ContentView ContentView(params IEnumerable<VisualNode?>? children)
     {
         var @contentview = new ContentView();
         if (children != null)
@@ -1753,7 +1753,7 @@ public partial class Component
         return @contentview;
     }
 
-    public static ContentView ContentView(Action<Microsoft.Maui.Controls.ContentView?> componentRefAction, params VisualNode? []? children)
+    public static ContentView ContentView(Action<Microsoft.Maui.Controls.ContentView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @contentview = new ContentView();
         @contentview.ComponentRefAction = componentRefAction;
@@ -1766,7 +1766,7 @@ public partial class Component
     }
 
     public static Frame Frame() => new Frame();
-    public static Frame Frame(params VisualNode? []? children)
+    public static Frame Frame(params IEnumerable<VisualNode?>? children)
     {
         var @frame = new Frame();
         if (children != null)
@@ -1786,7 +1786,7 @@ public partial class Component
     }
 
     [Obsolete("Frame is obsolete as of .NET 9. Please use Border instead.")]
-    public static Frame Frame(Action<Microsoft.Maui.Controls.Frame?> componentRefAction, params VisualNode? []? children)
+    public static Frame Frame(Action<Microsoft.Maui.Controls.Frame?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @frame = new Frame();
         @frame.ComponentRefAction = componentRefAction;
@@ -1799,7 +1799,7 @@ public partial class Component
     }
 
     public static TemplatedView TemplatedView() => new TemplatedView();
-    public static TemplatedView TemplatedView(params VisualNode? []? children)
+    public static TemplatedView TemplatedView(params IEnumerable<VisualNode?>? children)
     {
         var @templatedview = new TemplatedView();
         if (children != null)
@@ -1817,7 +1817,7 @@ public partial class Component
         return @templatedview;
     }
 
-    public static TemplatedView TemplatedView(Action<Microsoft.Maui.Controls.TemplatedView?> componentRefAction, params VisualNode? []? children)
+    public static TemplatedView TemplatedView(Action<Microsoft.Maui.Controls.TemplatedView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @templatedview = new TemplatedView();
         @templatedview.ComponentRefAction = componentRefAction;
@@ -1830,7 +1830,7 @@ public partial class Component
     }
 
     public static ImageButton ImageButton() => new ImageButton();
-    public static ImageButton ImageButton(params VisualNode? []? children)
+    public static ImageButton ImageButton(params IEnumerable<VisualNode?>? children)
     {
         var @imagebutton = new ImageButton();
         if (children != null)
@@ -1848,7 +1848,7 @@ public partial class Component
         return @imagebutton;
     }
 
-    public static ImageButton ImageButton(Action<Microsoft.Maui.Controls.ImageButton?> componentRefAction, params VisualNode? []? children)
+    public static ImageButton ImageButton(Action<Microsoft.Maui.Controls.ImageButton?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @imagebutton = new ImageButton();
         @imagebutton.ComponentRefAction = componentRefAction;
@@ -1861,7 +1861,7 @@ public partial class Component
     }
 
     public static RadioButton RadioButton() => new RadioButton();
-    public static RadioButton RadioButton(params VisualNode? []? children)
+    public static RadioButton RadioButton(params IEnumerable<VisualNode?>? children)
     {
         var @radiobutton = new RadioButton();
         if (children != null)
@@ -1879,7 +1879,7 @@ public partial class Component
         return @radiobutton;
     }
 
-    public static RadioButton RadioButton(Action<Microsoft.Maui.Controls.RadioButton?> componentRefAction, params VisualNode? []? children)
+    public static RadioButton RadioButton(Action<Microsoft.Maui.Controls.RadioButton?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @radiobutton = new RadioButton();
         @radiobutton.ComponentRefAction = componentRefAction;
@@ -1892,7 +1892,7 @@ public partial class Component
     }
 
     public static WebView WebView() => new WebView();
-    public static WebView WebView(params VisualNode? []? children)
+    public static WebView WebView(params IEnumerable<VisualNode?>? children)
     {
         var @webview = new WebView();
         if (children != null)
@@ -1910,7 +1910,7 @@ public partial class Component
         return @webview;
     }
 
-    public static WebView WebView(Action<Microsoft.Maui.Controls.WebView?> componentRefAction, params VisualNode? []? children)
+    public static WebView WebView(Action<Microsoft.Maui.Controls.WebView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @webview = new WebView();
         @webview.ComponentRefAction = componentRefAction;
@@ -1923,7 +1923,7 @@ public partial class Component
     }
 
     public static RefreshView RefreshView() => new RefreshView();
-    public static RefreshView RefreshView(params VisualNode? []? children)
+    public static RefreshView RefreshView(params IEnumerable<VisualNode?>? children)
     {
         var @refreshview = new RefreshView();
         if (children != null)
@@ -1941,7 +1941,7 @@ public partial class Component
         return @refreshview;
     }
 
-    public static RefreshView RefreshView(Action<Microsoft.Maui.Controls.RefreshView?> componentRefAction, params VisualNode? []? children)
+    public static RefreshView RefreshView(Action<Microsoft.Maui.Controls.RefreshView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @refreshview = new RefreshView();
         @refreshview.ComponentRefAction = componentRefAction;
@@ -1954,7 +1954,7 @@ public partial class Component
     }
 
     public static SearchBar SearchBar() => new SearchBar();
-    public static SearchBar SearchBar(params VisualNode? []? children)
+    public static SearchBar SearchBar(params IEnumerable<VisualNode?>? children)
     {
         var @searchbar = new SearchBar();
         if (children != null)
@@ -1972,7 +1972,7 @@ public partial class Component
         return @searchbar;
     }
 
-    public static SearchBar SearchBar(Action<Microsoft.Maui.Controls.SearchBar?> componentRefAction, params VisualNode? []? children)
+    public static SearchBar SearchBar(Action<Microsoft.Maui.Controls.SearchBar?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @searchbar = new SearchBar();
         @searchbar.ComponentRefAction = componentRefAction;
@@ -1984,8 +1984,16 @@ public partial class Component
         return @searchbar;
     }
 
+    public static SearchHandler SearchHandler() => new SearchHandler();
+    public static SearchHandler SearchHandler(Action<Microsoft.Maui.Controls.SearchHandler?> componentRefAction)
+    {
+        var @searchhandler = new SearchHandler();
+        @searchhandler.ComponentRefAction = componentRefAction;
+        return @searchhandler;
+    }
+
     public static SwipeView SwipeView() => new SwipeView();
-    public static SwipeView SwipeView(params VisualNode? []? children)
+    public static SwipeView SwipeView(params IEnumerable<VisualNode?>? children)
     {
         var @swipeview = new SwipeView();
         if (children != null)
@@ -2003,7 +2011,7 @@ public partial class Component
         return @swipeview;
     }
 
-    public static SwipeView SwipeView(Action<Microsoft.Maui.Controls.SwipeView?> componentRefAction, params VisualNode? []? children)
+    public static SwipeView SwipeView(Action<Microsoft.Maui.Controls.SwipeView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @swipeview = new SwipeView();
         @swipeview.ComponentRefAction = componentRefAction;
@@ -2016,7 +2024,7 @@ public partial class Component
     }
 
     public static SwipeItem SwipeItem() => new SwipeItem();
-    public static SwipeItem SwipeItem(params VisualNode? []? children)
+    public static SwipeItem SwipeItem(params IEnumerable<VisualNode?>? children)
     {
         var @swipeitem = new SwipeItem();
         if (children != null)
@@ -2034,7 +2042,7 @@ public partial class Component
         return @swipeitem;
     }
 
-    public static SwipeItem SwipeItem(Action<Microsoft.Maui.Controls.SwipeItem?> componentRefAction, params VisualNode? []? children)
+    public static SwipeItem SwipeItem(Action<Microsoft.Maui.Controls.SwipeItem?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @swipeitem = new SwipeItem();
         @swipeitem.ComponentRefAction = componentRefAction;
@@ -2047,7 +2055,7 @@ public partial class Component
     }
 
     public static SwipeItemView SwipeItemView() => new SwipeItemView();
-    public static SwipeItemView SwipeItemView(params VisualNode? []? children)
+    public static SwipeItemView SwipeItemView(params IEnumerable<VisualNode?>? children)
     {
         var @swipeitemview = new SwipeItemView();
         if (children != null)
@@ -2065,7 +2073,7 @@ public partial class Component
         return @swipeitemview;
     }
 
-    public static SwipeItemView SwipeItemView(Action<Microsoft.Maui.Controls.SwipeItemView?> componentRefAction, params VisualNode? []? children)
+    public static SwipeItemView SwipeItemView(Action<Microsoft.Maui.Controls.SwipeItemView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @swipeitemview = new SwipeItemView();
         @swipeitemview.ComponentRefAction = componentRefAction;
@@ -2078,7 +2086,7 @@ public partial class Component
     }
 
     public static SwipeItems SwipeItems() => new SwipeItems();
-    public static SwipeItems SwipeItems(params VisualNode? []? children)
+    public static SwipeItems SwipeItems(params IEnumerable<VisualNode?>? children)
     {
         var @swipeitems = new SwipeItems();
         if (children != null)
@@ -2096,7 +2104,7 @@ public partial class Component
         return @swipeitems;
     }
 
-    public static SwipeItems SwipeItems(Action<Microsoft.Maui.Controls.SwipeItems?> componentRefAction, params VisualNode? []? children)
+    public static SwipeItems SwipeItems(Action<Microsoft.Maui.Controls.SwipeItems?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @swipeitems = new SwipeItems();
         @swipeitems.ComponentRefAction = componentRefAction;
@@ -2109,7 +2117,7 @@ public partial class Component
     }
 
     public static TitleBar TitleBar() => new TitleBar();
-    public static TitleBar TitleBar(params VisualNode? []? children)
+    public static TitleBar TitleBar(params IEnumerable<VisualNode?>? children)
     {
         var @titlebar = new TitleBar();
         if (children != null)
@@ -2127,7 +2135,7 @@ public partial class Component
         return @titlebar;
     }
 
-    public static TitleBar TitleBar(Action<Microsoft.Maui.Controls.TitleBar?> componentRefAction, params VisualNode? []? children)
+    public static TitleBar TitleBar(Action<Microsoft.Maui.Controls.TitleBar?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @titlebar = new TitleBar();
         @titlebar.ComponentRefAction = componentRefAction;
@@ -2140,7 +2148,7 @@ public partial class Component
     }
 
     public static CheckBox CheckBox() => new CheckBox();
-    public static CheckBox CheckBox(params VisualNode? []? children)
+    public static CheckBox CheckBox(params IEnumerable<VisualNode?>? children)
     {
         var @checkbox = new CheckBox();
         if (children != null)
@@ -2158,7 +2166,7 @@ public partial class Component
         return @checkbox;
     }
 
-    public static CheckBox CheckBox(Action<Microsoft.Maui.Controls.CheckBox?> componentRefAction, params VisualNode? []? children)
+    public static CheckBox CheckBox(Action<Microsoft.Maui.Controls.CheckBox?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @checkbox = new CheckBox();
         @checkbox.ComponentRefAction = componentRefAction;
@@ -2171,7 +2179,7 @@ public partial class Component
     }
 
     public static Slider Slider() => new Slider();
-    public static Slider Slider(params VisualNode? []? children)
+    public static Slider Slider(params IEnumerable<VisualNode?>? children)
     {
         var @slider = new Slider();
         if (children != null)
@@ -2189,7 +2197,7 @@ public partial class Component
         return @slider;
     }
 
-    public static Slider Slider(Action<Microsoft.Maui.Controls.Slider?> componentRefAction, params VisualNode? []? children)
+    public static Slider Slider(Action<Microsoft.Maui.Controls.Slider?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @slider = new Slider();
         @slider.ComponentRefAction = componentRefAction;
@@ -2202,7 +2210,7 @@ public partial class Component
     }
 
     public static Stepper Stepper() => new Stepper();
-    public static Stepper Stepper(params VisualNode? []? children)
+    public static Stepper Stepper(params IEnumerable<VisualNode?>? children)
     {
         var @stepper = new Stepper();
         if (children != null)
@@ -2220,7 +2228,7 @@ public partial class Component
         return @stepper;
     }
 
-    public static Stepper Stepper(Action<Microsoft.Maui.Controls.Stepper?> componentRefAction, params VisualNode? []? children)
+    public static Stepper Stepper(Action<Microsoft.Maui.Controls.Stepper?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @stepper = new Stepper();
         @stepper.ComponentRefAction = componentRefAction;
@@ -2233,7 +2241,7 @@ public partial class Component
     }
 
     public static Editor Editor() => new Editor();
-    public static Editor Editor(params VisualNode? []? children)
+    public static Editor Editor(params IEnumerable<VisualNode?>? children)
     {
         var @editor = new Editor();
         if (children != null)
@@ -2251,7 +2259,7 @@ public partial class Component
         return @editor;
     }
 
-    public static Editor Editor(Action<Microsoft.Maui.Controls.Editor?> componentRefAction, params VisualNode? []? children)
+    public static Editor Editor(Action<Microsoft.Maui.Controls.Editor?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @editor = new Editor();
         @editor.ComponentRefAction = componentRefAction;
@@ -2264,7 +2272,7 @@ public partial class Component
     }
 
     public static Switch Switch() => new Switch();
-    public static Switch Switch(params VisualNode? []? children)
+    public static Switch Switch(params IEnumerable<VisualNode?>? children)
     {
         var @switch = new Switch();
         if (children != null)
@@ -2282,7 +2290,7 @@ public partial class Component
         return @switch;
     }
 
-    public static Switch Switch(Action<Microsoft.Maui.Controls.Switch?> componentRefAction, params VisualNode? []? children)
+    public static Switch Switch(Action<Microsoft.Maui.Controls.Switch?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @switch = new Switch();
         @switch.ComponentRefAction = componentRefAction;
@@ -2295,7 +2303,7 @@ public partial class Component
     }
 
     public static DatePicker DatePicker() => new DatePicker();
-    public static DatePicker DatePicker(params VisualNode? []? children)
+    public static DatePicker DatePicker(params IEnumerable<VisualNode?>? children)
     {
         var @datepicker = new DatePicker();
         if (children != null)
@@ -2313,7 +2321,7 @@ public partial class Component
         return @datepicker;
     }
 
-    public static DatePicker DatePicker(Action<Microsoft.Maui.Controls.DatePicker?> componentRefAction, params VisualNode? []? children)
+    public static DatePicker DatePicker(Action<Microsoft.Maui.Controls.DatePicker?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @datepicker = new DatePicker();
         @datepicker.ComponentRefAction = componentRefAction;
@@ -2326,7 +2334,7 @@ public partial class Component
     }
 
     public static TimePicker TimePicker() => new TimePicker();
-    public static TimePicker TimePicker(params VisualNode? []? children)
+    public static TimePicker TimePicker(params IEnumerable<VisualNode?>? children)
     {
         var @timepicker = new TimePicker();
         if (children != null)
@@ -2344,7 +2352,7 @@ public partial class Component
         return @timepicker;
     }
 
-    public static TimePicker TimePicker(Action<Microsoft.Maui.Controls.TimePicker?> componentRefAction, params VisualNode? []? children)
+    public static TimePicker TimePicker(Action<Microsoft.Maui.Controls.TimePicker?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @timepicker = new TimePicker();
         @timepicker.ComponentRefAction = componentRefAction;
@@ -2357,7 +2365,7 @@ public partial class Component
     }
 
     public static Entry Entry() => new Entry();
-    public static Entry Entry(params VisualNode? []? children)
+    public static Entry Entry(params IEnumerable<VisualNode?>? children)
     {
         var @entry = new Entry();
         if (children != null)
@@ -2375,7 +2383,7 @@ public partial class Component
         return @entry;
     }
 
-    public static Entry Entry(Action<Microsoft.Maui.Controls.Entry?> componentRefAction, params VisualNode? []? children)
+    public static Entry Entry(Action<Microsoft.Maui.Controls.Entry?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @entry = new Entry();
         @entry.ComponentRefAction = componentRefAction;
@@ -2388,7 +2396,7 @@ public partial class Component
     }
 
     public static ActivityIndicator ActivityIndicator() => new ActivityIndicator();
-    public static ActivityIndicator ActivityIndicator(params VisualNode? []? children)
+    public static ActivityIndicator ActivityIndicator(params IEnumerable<VisualNode?>? children)
     {
         var @activityindicator = new ActivityIndicator();
         if (children != null)
@@ -2406,7 +2414,7 @@ public partial class Component
         return @activityindicator;
     }
 
-    public static ActivityIndicator ActivityIndicator(Action<Microsoft.Maui.Controls.ActivityIndicator?> componentRefAction, params VisualNode? []? children)
+    public static ActivityIndicator ActivityIndicator(Action<Microsoft.Maui.Controls.ActivityIndicator?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @activityindicator = new ActivityIndicator();
         @activityindicator.ComponentRefAction = componentRefAction;
@@ -2419,7 +2427,7 @@ public partial class Component
     }
 
     public static ProgressBar ProgressBar() => new ProgressBar();
-    public static ProgressBar ProgressBar(params VisualNode? []? children)
+    public static ProgressBar ProgressBar(params IEnumerable<VisualNode?>? children)
     {
         var @progressbar = new ProgressBar();
         if (children != null)
@@ -2437,7 +2445,7 @@ public partial class Component
         return @progressbar;
     }
 
-    public static ProgressBar ProgressBar(Action<Microsoft.Maui.Controls.ProgressBar?> componentRefAction, params VisualNode? []? children)
+    public static ProgressBar ProgressBar(Action<Microsoft.Maui.Controls.ProgressBar?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @progressbar = new ProgressBar();
         @progressbar.ComponentRefAction = componentRefAction;
@@ -2450,7 +2458,7 @@ public partial class Component
     }
 
     public static AbsoluteLayout AbsoluteLayout() => new AbsoluteLayout();
-    public static AbsoluteLayout AbsoluteLayout(params VisualNode? []? children)
+    public static AbsoluteLayout AbsoluteLayout(params IEnumerable<VisualNode?>? children)
     {
         var @absolutelayout = new AbsoluteLayout();
         if (children != null)
@@ -2468,7 +2476,7 @@ public partial class Component
         return @absolutelayout;
     }
 
-    public static AbsoluteLayout AbsoluteLayout(Action<Microsoft.Maui.Controls.AbsoluteLayout?> componentRefAction, params VisualNode? []? children)
+    public static AbsoluteLayout AbsoluteLayout(Action<Microsoft.Maui.Controls.AbsoluteLayout?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @absolutelayout = new AbsoluteLayout();
         @absolutelayout.ComponentRefAction = componentRefAction;
@@ -2481,7 +2489,7 @@ public partial class Component
     }
 
     public static IndicatorView IndicatorView() => new IndicatorView();
-    public static IndicatorView IndicatorView(params VisualNode? []? children)
+    public static IndicatorView IndicatorView(params IEnumerable<VisualNode?>? children)
     {
         var @indicatorview = new IndicatorView();
         if (children != null)
@@ -2499,7 +2507,7 @@ public partial class Component
         return @indicatorview;
     }
 
-    public static IndicatorView IndicatorView(Action<Microsoft.Maui.Controls.IndicatorView?> componentRefAction, params VisualNode? []? children)
+    public static IndicatorView IndicatorView(Action<Microsoft.Maui.Controls.IndicatorView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @indicatorview = new IndicatorView();
         @indicatorview.ComponentRefAction = componentRefAction;
@@ -2512,7 +2520,7 @@ public partial class Component
     }
 
     public static Picker Picker() => new Picker();
-    public static Picker Picker(params VisualNode? []? children)
+    public static Picker Picker(params IEnumerable<VisualNode?>? children)
     {
         var @picker = new Picker();
         if (children != null)
@@ -2530,7 +2538,7 @@ public partial class Component
         return @picker;
     }
 
-    public static Picker Picker(Action<Microsoft.Maui.Controls.Picker?> componentRefAction, params VisualNode? []? children)
+    public static Picker Picker(Action<Microsoft.Maui.Controls.Picker?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @picker = new Picker();
         @picker.ComponentRefAction = componentRefAction;
@@ -2543,7 +2551,7 @@ public partial class Component
     }
 
     public static TableView TableView() => new TableView();
-    public static TableView TableView(params VisualNode? []? children)
+    public static TableView TableView(params IEnumerable<VisualNode?>? children)
     {
         var @tableview = new TableView();
         if (children != null)
@@ -2561,7 +2569,7 @@ public partial class Component
         return @tableview;
     }
 
-    public static TableView TableView(Action<Microsoft.Maui.Controls.TableView?> componentRefAction, params VisualNode? []? children)
+    public static TableView TableView(Action<Microsoft.Maui.Controls.TableView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @tableview = new TableView();
         @tableview.ComponentRefAction = componentRefAction;
@@ -2574,7 +2582,7 @@ public partial class Component
     }
 
     public static TextCell TextCell() => new TextCell();
-    public static TextCell TextCell(params VisualNode? []? children)
+    public static TextCell TextCell(params IEnumerable<VisualNode?>? children)
     {
         var @textcell = new TextCell();
         if (children != null)
@@ -2592,7 +2600,7 @@ public partial class Component
         return @textcell;
     }
 
-    public static TextCell TextCell(Action<Microsoft.Maui.Controls.TextCell?> componentRefAction, params VisualNode? []? children)
+    public static TextCell TextCell(Action<Microsoft.Maui.Controls.TextCell?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @textcell = new TextCell();
         @textcell.ComponentRefAction = componentRefAction;
@@ -2605,7 +2613,7 @@ public partial class Component
     }
 
     public static ImageCell ImageCell() => new ImageCell();
-    public static ImageCell ImageCell(params VisualNode? []? children)
+    public static ImageCell ImageCell(params IEnumerable<VisualNode?>? children)
     {
         var @imagecell = new ImageCell();
         if (children != null)
@@ -2623,7 +2631,7 @@ public partial class Component
         return @imagecell;
     }
 
-    public static ImageCell ImageCell(Action<Microsoft.Maui.Controls.ImageCell?> componentRefAction, params VisualNode? []? children)
+    public static ImageCell ImageCell(Action<Microsoft.Maui.Controls.ImageCell?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @imagecell = new ImageCell();
         @imagecell.ComponentRefAction = componentRefAction;
@@ -2636,7 +2644,7 @@ public partial class Component
     }
 
     public static SwitchCell SwitchCell() => new SwitchCell();
-    public static SwitchCell SwitchCell(params VisualNode? []? children)
+    public static SwitchCell SwitchCell(params IEnumerable<VisualNode?>? children)
     {
         var @switchcell = new SwitchCell();
         if (children != null)
@@ -2654,7 +2662,7 @@ public partial class Component
         return @switchcell;
     }
 
-    public static SwitchCell SwitchCell(Action<Microsoft.Maui.Controls.SwitchCell?> componentRefAction, params VisualNode? []? children)
+    public static SwitchCell SwitchCell(Action<Microsoft.Maui.Controls.SwitchCell?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @switchcell = new SwitchCell();
         @switchcell.ComponentRefAction = componentRefAction;
@@ -2667,7 +2675,7 @@ public partial class Component
     }
 
     public static EntryCell EntryCell() => new EntryCell();
-    public static EntryCell EntryCell(params VisualNode? []? children)
+    public static EntryCell EntryCell(params IEnumerable<VisualNode?>? children)
     {
         var @entrycell = new EntryCell();
         if (children != null)
@@ -2685,7 +2693,7 @@ public partial class Component
         return @entrycell;
     }
 
-    public static EntryCell EntryCell(Action<Microsoft.Maui.Controls.EntryCell?> componentRefAction, params VisualNode? []? children)
+    public static EntryCell EntryCell(Action<Microsoft.Maui.Controls.EntryCell?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @entrycell = new EntryCell();
         @entrycell.ComponentRefAction = componentRefAction;
@@ -2698,7 +2706,7 @@ public partial class Component
     }
 
     public static ViewCell ViewCell() => new ViewCell();
-    public static ViewCell ViewCell(params VisualNode? []? children)
+    public static ViewCell ViewCell(params IEnumerable<VisualNode?>? children)
     {
         var @viewcell = new ViewCell();
         if (children != null)
@@ -2716,7 +2724,7 @@ public partial class Component
         return @viewcell;
     }
 
-    public static ViewCell ViewCell(Action<Microsoft.Maui.Controls.ViewCell?> componentRefAction, params VisualNode? []? children)
+    public static ViewCell ViewCell(Action<Microsoft.Maui.Controls.ViewCell?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @viewcell = new ViewCell();
         @viewcell.ComponentRefAction = componentRefAction;
@@ -2729,7 +2737,7 @@ public partial class Component
     }
 
     public static CarouselView CarouselView() => new CarouselView();
-    public static CarouselView CarouselView(params VisualNode? []? children)
+    public static CarouselView CarouselView(params IEnumerable<VisualNode?>? children)
     {
         var @carouselview = new CarouselView();
         if (children != null)
@@ -2747,7 +2755,7 @@ public partial class Component
         return @carouselview;
     }
 
-    public static CarouselView CarouselView(Action<Microsoft.Maui.Controls.CarouselView?> componentRefAction, params VisualNode? []? children)
+    public static CarouselView CarouselView(Action<Microsoft.Maui.Controls.CarouselView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @carouselview = new CarouselView();
         @carouselview.ComponentRefAction = componentRefAction;
@@ -2760,7 +2768,7 @@ public partial class Component
     }
 
     public static GraphicsView GraphicsView() => new GraphicsView();
-    public static GraphicsView GraphicsView(params VisualNode? []? children)
+    public static GraphicsView GraphicsView(params IEnumerable<VisualNode?>? children)
     {
         var @graphicsview = new GraphicsView();
         if (children != null)
@@ -2778,7 +2786,7 @@ public partial class Component
         return @graphicsview;
     }
 
-    public static GraphicsView GraphicsView(Action<Microsoft.Maui.Controls.GraphicsView?> componentRefAction, params VisualNode? []? children)
+    public static GraphicsView GraphicsView(Action<Microsoft.Maui.Controls.GraphicsView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @graphicsview = new GraphicsView();
         @graphicsview.ComponentRefAction = componentRefAction;
@@ -2791,7 +2799,7 @@ public partial class Component
     }
 
     public static Shadow Shadow() => new Shadow();
-    public static Shadow Shadow(params VisualNode? []? children)
+    public static Shadow Shadow(params IEnumerable<VisualNode?>? children)
     {
         var @shadow = new Shadow();
         if (children != null)
@@ -2809,7 +2817,7 @@ public partial class Component
         return @shadow;
     }
 
-    public static Shadow Shadow(Action<Microsoft.Maui.Controls.Shadow?> componentRefAction, params VisualNode? []? children)
+    public static Shadow Shadow(Action<Microsoft.Maui.Controls.Shadow?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @shadow = new Shadow();
         @shadow.ComponentRefAction = componentRefAction;
@@ -2822,7 +2830,7 @@ public partial class Component
     }
 
     public static Window Window() => new Window();
-    public static Window Window(params VisualNode? []? children)
+    public static Window Window(params IEnumerable<VisualNode?>? children)
     {
         var @window = new Window();
         if (children != null)
@@ -2840,7 +2848,7 @@ public partial class Component
         return @window;
     }
 
-    public static Window Window(Action<Microsoft.Maui.Controls.Window?> componentRefAction, params VisualNode? []? children)
+    public static Window Window(Action<Microsoft.Maui.Controls.Window?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @window = new Window();
         @window.ComponentRefAction = componentRefAction;
@@ -2853,7 +2861,7 @@ public partial class Component
     }
 
     public static HybridWebView HybridWebView() => new HybridWebView();
-    public static HybridWebView HybridWebView(params VisualNode? []? children)
+    public static HybridWebView HybridWebView(params IEnumerable<VisualNode?>? children)
     {
         var @hybridwebview = new HybridWebView();
         if (children != null)
@@ -2871,7 +2879,7 @@ public partial class Component
         return @hybridwebview;
     }
 
-    public static HybridWebView HybridWebView(Action<Microsoft.Maui.Controls.HybridWebView?> componentRefAction, params VisualNode? []? children)
+    public static HybridWebView HybridWebView(Action<Microsoft.Maui.Controls.HybridWebView?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @hybridwebview = new HybridWebView();
         @hybridwebview.ComponentRefAction = componentRefAction;
@@ -2884,7 +2892,7 @@ public partial class Component
     }
 
     public static GestureElement GestureElement() => new GestureElement();
-    public static GestureElement GestureElement(params VisualNode? []? children)
+    public static GestureElement GestureElement(params IEnumerable<VisualNode?>? children)
     {
         var @gestureelement = new GestureElement();
         if (children != null)
@@ -2902,7 +2910,7 @@ public partial class Component
         return @gestureelement;
     }
 
-    public static GestureElement GestureElement(Action<Microsoft.Maui.Controls.GestureElement?> componentRefAction, params VisualNode? []? children)
+    public static GestureElement GestureElement(Action<Microsoft.Maui.Controls.GestureElement?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @gestureelement = new GestureElement();
         @gestureelement.ComponentRefAction = componentRefAction;
@@ -2915,7 +2923,7 @@ public partial class Component
     }
 
     public static Span Span() => new Span();
-    public static Span Span(params VisualNode? []? children)
+    public static Span Span(params IEnumerable<VisualNode?>? children)
     {
         var @span = new Span();
         if (children != null)
@@ -2933,7 +2941,7 @@ public partial class Component
         return @span;
     }
 
-    public static Span Span(Action<Microsoft.Maui.Controls.Span?> componentRefAction, params VisualNode? []? children)
+    public static Span Span(Action<Microsoft.Maui.Controls.Span?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @span = new Span();
         @span.ComponentRefAction = componentRefAction;
@@ -2946,7 +2954,7 @@ public partial class Component
     }
 
     public static FormattedString FormattedString() => new FormattedString();
-    public static FormattedString FormattedString(params VisualNode? []? children)
+    public static FormattedString FormattedString(params IEnumerable<VisualNode?>? children)
     {
         var @formattedstring = new FormattedString();
         if (children != null)
@@ -2964,7 +2972,7 @@ public partial class Component
         return @formattedstring;
     }
 
-    public static FormattedString FormattedString(Action<Microsoft.Maui.Controls.FormattedString?> componentRefAction, params VisualNode? []? children)
+    public static FormattedString FormattedString(Action<Microsoft.Maui.Controls.FormattedString?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @formattedstring = new FormattedString();
         @formattedstring.ComponentRefAction = componentRefAction;

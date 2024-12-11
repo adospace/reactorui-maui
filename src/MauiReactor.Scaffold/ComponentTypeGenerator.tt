@@ -27,7 +27,7 @@ public partial class Component
         => new <#= typeName #>();
 
     <# if (typeof(Element).IsAssignableFrom(type)) { #>
-    public static <#= typeName #> <#= type.Name #>(params VisualNode?[]? children)
+    public static <#= typeName #> <#= type.Name #>(params IEnumerable<VisualNode?>? children)
     {
         var @<#= type.Name.ToLower() #> = new <#= typeName #>();
         if (children != null)
@@ -46,7 +46,7 @@ public partial class Component
     }
     
     <# if (typeof(Element).IsAssignableFrom(type)) { #>
-    public static <#= typeName #> <#= type.Name #>(Action<<#= type.FullName #>?> componentRefAction, params VisualNode?[]? children)
+    public static <#= typeName #> <#= type.Name #>(Action<<#= type.FullName #>?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
         var @<#= type.Name.ToLower() #> = new <#= typeName #>();
         @<#= type.Name.ToLower() #>.ComponentRefAction = componentRefAction;

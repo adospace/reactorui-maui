@@ -103,6 +103,14 @@ public partial class MenuItem : MenuItem<Microsoft.Maui.Controls.MenuItem>
     public MenuItem(Action<Microsoft.Maui.Controls.MenuItem?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public MenuItem(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class MenuItemExtensions

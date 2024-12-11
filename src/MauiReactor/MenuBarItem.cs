@@ -55,6 +55,14 @@ public partial class MenuBarItem : MenuBarItem<Microsoft.Maui.Controls.MenuBarIt
     public MenuBarItem(Action<Microsoft.Maui.Controls.MenuBarItem?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public MenuBarItem(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class MenuBarItemExtensions

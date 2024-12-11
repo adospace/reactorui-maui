@@ -101,7 +101,7 @@ public partial class Component
             
             #line default
             #line hidden
-            this.Write("(params VisualNode?[]? children)\r\n    {\r\n        var @");
+            this.Write("(params IEnumerable<VisualNode?>? children)\r\n    {\r\n        var @");
             
             #line 32 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(type.Name.ToLower()));
@@ -213,7 +213,8 @@ public partial class Component
             
             #line default
             #line hidden
-            this.Write("?> componentRefAction, params VisualNode?[]? children)\r\n    {\r\n        var @");
+            this.Write("?> componentRefAction, params IEnumerable<VisualNode?>? children)\r\n    {\r\n       " +
+                    " var @");
             
             #line 51 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\ComponentTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(type.Name.ToLower()));

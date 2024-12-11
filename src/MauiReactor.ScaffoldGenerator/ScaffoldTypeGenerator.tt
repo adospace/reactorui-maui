@@ -434,6 +434,16 @@ namespace <#= Namespace #>
         {
 
         }
+        
+        <# if (IsTypeDerivingFromElement) { #>
+        public <#= GeneratorType.Name #>(params IEnumerable<VisualNode?>? children)
+        {
+            if (children != null)
+            {
+                this.AddChildren(children);
+            }
+        }        
+        <# } #>
     }
     <# } #>
 
@@ -450,6 +460,16 @@ namespace <#= Namespace #>
         {
 
         }
+
+        <# if (IsTypeDerivingFromElement) { #>
+        public <#= GeneratorType.Name #>(params IEnumerable<VisualNode?>? children)
+        {
+            if (children != null)
+            {
+                this.AddChildren(children);
+            }
+        }        
+        <# } #>
     }
     <# } #>
 

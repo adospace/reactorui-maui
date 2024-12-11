@@ -55,6 +55,14 @@ public partial class TemplatedView : TemplatedView<Microsoft.Maui.Controls.Templ
     public TemplatedView(Action<Microsoft.Maui.Controls.TemplatedView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public TemplatedView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class TemplatedViewExtensions

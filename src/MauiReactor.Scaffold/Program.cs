@@ -32,7 +32,7 @@ foreach (var classNameToGenerate in File
     scaffoldedTypes.Add(typeToScaffold);
 }
 
-//GenerateComponentPartial(scaffoldedTypes, outputPath);
+GenerateComponentPartial(scaffoldedTypes, outputPath);
 
 Console.WriteLine("Done");
 

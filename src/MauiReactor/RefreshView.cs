@@ -103,6 +103,14 @@ public partial class RefreshView : RefreshView<Microsoft.Maui.Controls.RefreshVi
     public RefreshView(Action<Microsoft.Maui.Controls.RefreshView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public RefreshView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class RefreshViewExtensions

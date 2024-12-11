@@ -103,6 +103,14 @@ public partial class ScrollView : ScrollView<Microsoft.Maui.Controls.ScrollView>
     public ScrollView(Action<Microsoft.Maui.Controls.ScrollView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public ScrollView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ScrollViewExtensions

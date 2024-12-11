@@ -55,6 +55,14 @@ public partial class GroupableItemsView : GroupableItemsView<Microsoft.Maui.Cont
     public GroupableItemsView(Action<Microsoft.Maui.Controls.GroupableItemsView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public GroupableItemsView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class GroupableItemsViewExtensions

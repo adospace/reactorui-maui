@@ -55,6 +55,14 @@ public partial class Label : Label<Microsoft.Maui.Controls.Label>
     public Label(Action<Microsoft.Maui.Controls.Label?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Label(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class LabelExtensions

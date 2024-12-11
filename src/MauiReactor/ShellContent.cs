@@ -55,6 +55,14 @@ public partial class ShellContent : ShellContent<Microsoft.Maui.Controls.ShellCo
     public ShellContent(Action<Microsoft.Maui.Controls.ShellContent?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public ShellContent(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ShellContentExtensions

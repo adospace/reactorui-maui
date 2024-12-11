@@ -103,6 +103,14 @@ public partial class RadioButton : RadioButton<Microsoft.Maui.Controls.RadioButt
     public RadioButton(Action<Microsoft.Maui.Controls.RadioButton?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public RadioButton(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class RadioButtonExtensions

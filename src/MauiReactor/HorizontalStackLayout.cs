@@ -55,6 +55,14 @@ public partial class HorizontalStackLayout : HorizontalStackLayout<Microsoft.Mau
     public HorizontalStackLayout(Action<Microsoft.Maui.Controls.HorizontalStackLayout?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public HorizontalStackLayout(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class HorizontalStackLayoutExtensions

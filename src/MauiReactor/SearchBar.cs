@@ -103,6 +103,14 @@ public partial class SearchBar : SearchBar<Microsoft.Maui.Controls.SearchBar>
     public SearchBar(Action<Microsoft.Maui.Controls.SearchBar?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public SearchBar(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class SearchBarExtensions

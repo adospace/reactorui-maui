@@ -55,6 +55,14 @@ public partial class Shadow : Shadow<Microsoft.Maui.Controls.Shadow>
     public Shadow(Action<Microsoft.Maui.Controls.Shadow?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Shadow(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ShadowExtensions

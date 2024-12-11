@@ -155,6 +155,14 @@ public partial class Button : Button<Microsoft.Maui.Controls.Button>
     public Button(Action<Microsoft.Maui.Controls.Button?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Button(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ButtonExtensions

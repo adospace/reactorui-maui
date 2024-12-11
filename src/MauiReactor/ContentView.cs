@@ -55,6 +55,14 @@ public partial class ContentView : ContentView<Microsoft.Maui.Controls.ContentVi
     public ContentView(Action<Microsoft.Maui.Controls.ContentView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public ContentView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ContentViewExtensions

@@ -55,6 +55,14 @@ public partial class VerticalStackLayout : VerticalStackLayout<Microsoft.Maui.Co
     public VerticalStackLayout(Action<Microsoft.Maui.Controls.VerticalStackLayout?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public VerticalStackLayout(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class VerticalStackLayoutExtensions

@@ -55,6 +55,14 @@ public partial class GestureElement : GestureElement<Microsoft.Maui.Controls.Ges
     public GestureElement(Action<Microsoft.Maui.Controls.GestureElement?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public GestureElement(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class GestureElementExtensions

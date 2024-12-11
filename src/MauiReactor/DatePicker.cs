@@ -103,6 +103,14 @@ public partial class DatePicker : DatePicker<Microsoft.Maui.Controls.DatePicker>
     public DatePicker(Action<Microsoft.Maui.Controls.DatePicker?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public DatePicker(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class DatePickerExtensions

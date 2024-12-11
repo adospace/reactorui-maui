@@ -55,6 +55,14 @@ public partial class ShellItem : ShellItem<Microsoft.Maui.Controls.ShellItem>
     public ShellItem(Action<Microsoft.Maui.Controls.ShellItem?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public ShellItem(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ShellItemExtensions

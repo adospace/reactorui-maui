@@ -55,6 +55,14 @@ public partial class StructuredItemsView : StructuredItemsView<Microsoft.Maui.Co
     public StructuredItemsView(Action<Microsoft.Maui.Controls.StructuredItemsView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public StructuredItemsView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class StructuredItemsViewExtensions

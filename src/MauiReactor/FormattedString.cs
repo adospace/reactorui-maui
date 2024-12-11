@@ -55,6 +55,14 @@ public partial class FormattedString : FormattedString<Microsoft.Maui.Controls.F
     public FormattedString(Action<Microsoft.Maui.Controls.FormattedString?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public FormattedString(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class FormattedStringExtensions

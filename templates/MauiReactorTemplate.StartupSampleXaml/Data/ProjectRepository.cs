@@ -181,21 +181,31 @@ public class ProjectRepository
 	/// <returns>The number of rows affected.</returns>
 	public async Task<int> DeleteItemAsync(Project item)
 	{
-		await Init();
-		await using var connection = new SqliteConnection(Constants.DatabasePath);
-		await connection.OpenAsync();
-
-		var deleteCmd = connection.CreateCommand();
-		deleteCmd.CommandText = "DELETE FROM Project WHERE ID = @ID";
-		deleteCmd.Parameters.AddWithValue("@ID", item.ID);
-
-		return await deleteCmd.ExecuteNonQueryAsync();
+		return await DeleteItemAsync(item.ID);
 	}
 
-	/// <summary>
-	/// Drops the Project table from the database.
-	/// </summary>
-	public async Task DropTableAsync()
+    /// <summary>
+    /// Deletes a project from the database.
+    /// </summary>
+    /// <param name="item">The project to delete.</param>
+    /// <returns>The number of rows affected.</returns>
+    public async Task<int> DeleteItemAsync(int itemID)
+    {
+        await Init();
+        await using var connection = new SqliteConnection(Constants.DatabasePath);
+        await connection.OpenAsync();
+
+        var deleteCmd = connection.CreateCommand();
+        deleteCmd.CommandText = "DELETE FROM Project WHERE ID = @ID";
+        deleteCmd.Parameters.AddWithValue("@ID", itemID);
+
+        return await deleteCmd.ExecuteNonQueryAsync();
+    }
+
+    /// <summary>
+    /// Drops the Project table from the database.
+    /// </summary>
+    public async Task DropTableAsync()
 	{
 		await Init();
 		await using var connection = new SqliteConnection(Constants.DatabasePath);

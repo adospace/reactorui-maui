@@ -55,6 +55,14 @@ public partial class ViewCell : ViewCell<Microsoft.Maui.Controls.ViewCell>
     public ViewCell(Action<Microsoft.Maui.Controls.ViewCell?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public ViewCell(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ViewCellExtensions

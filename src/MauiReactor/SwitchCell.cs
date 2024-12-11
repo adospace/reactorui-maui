@@ -103,6 +103,14 @@ public partial class SwitchCell : SwitchCell<Microsoft.Maui.Controls.SwitchCell>
     public SwitchCell(Action<Microsoft.Maui.Controls.SwitchCell?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public SwitchCell(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class SwitchCellExtensions

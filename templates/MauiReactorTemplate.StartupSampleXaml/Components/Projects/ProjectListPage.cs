@@ -19,13 +19,17 @@ partial class ProjectListPage : Component<ProjectListPageState>
         return ContentPage("Projects",
             Grid(
                 VStack(
-                    State.Projects.Select(RenderProjectItem).ToArray()
-                    )
-                    .Spacing(ResourceHelper.GetResource<OnIdiom<double>>("LayoutSpacing"))
-                    .Padding(ResourceHelper.GetResource<OnIdiom<Thickness>>("LayoutPadding"))
-                )            
+                    State.Projects.Select(RenderProjectItem)
+                )
+                .Spacing(ResourceHelper.GetResource<OnIdiom<double>>("LayoutSpacing"))
+                .Padding(ResourceHelper.GetResource<OnIdiom<Thickness>>("LayoutPadding")),
+
+                Button()
+                    .ThemeKey("AddButton")
+                    .OnClicked(AddProject)
             )
-            .OnAppearing(LoadProjects);
+        )
+        .OnAppearing(LoadProjects);
     }
 
     VisualNode RenderProjectItem(Project project, int index)
@@ -46,4 +50,7 @@ partial class ProjectListPage : Component<ProjectListPageState>
         var projects = await _projectRepository.ListAsync();
         SetState(s => s.Projects = projects);
     }
+
+    async Task AddProject()
+        => await Navigation.PushAsync<ProjectDetailPage>();
 }

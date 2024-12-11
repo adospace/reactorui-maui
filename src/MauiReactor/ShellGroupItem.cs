@@ -55,6 +55,14 @@ public partial class ShellGroupItem : ShellGroupItem<Microsoft.Maui.Controls.She
     public ShellGroupItem(Action<Microsoft.Maui.Controls.ShellGroupItem?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public ShellGroupItem(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ShellGroupItemExtensions

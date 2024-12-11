@@ -55,6 +55,14 @@ public partial class AbsoluteLayout : AbsoluteLayout<Microsoft.Maui.Controls.Abs
     public AbsoluteLayout(Action<Microsoft.Maui.Controls.AbsoluteLayout?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public AbsoluteLayout(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class AbsoluteLayoutExtensions

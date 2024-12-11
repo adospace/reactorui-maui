@@ -55,6 +55,14 @@ public partial class ProgressBar : ProgressBar<Microsoft.Maui.Controls.ProgressB
     public ProgressBar(Action<Microsoft.Maui.Controls.ProgressBar?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public ProgressBar(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ProgressBarExtensions

@@ -103,6 +103,14 @@ public partial class EntryCell : EntryCell<Microsoft.Maui.Controls.EntryCell>
     public EntryCell(Action<Microsoft.Maui.Controls.EntryCell?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public EntryCell(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class EntryCellExtensions

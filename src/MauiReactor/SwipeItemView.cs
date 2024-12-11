@@ -103,6 +103,14 @@ public partial class SwipeItemView : SwipeItemView<Microsoft.Maui.Controls.Swipe
     public SwipeItemView(Action<Microsoft.Maui.Controls.SwipeItemView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public SwipeItemView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class SwipeItemViewExtensions

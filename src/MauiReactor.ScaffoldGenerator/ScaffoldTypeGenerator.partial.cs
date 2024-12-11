@@ -128,6 +128,9 @@ public partial class ScaffoldTypeGenerator
             .First()
             .Type
             .GetFullyQualifiedName() : string.Empty;
+
+        var typeOfElement = compilation.FindNamedType("Microsoft.Maui.Controls.Element").EnsureNotNull();
+        IsTypeDerivingFromElement = typeToScaffold.IsDerivedFrom(typeOfElement);
     }
 
     private IPropertySymbol[] Properties { get; }
@@ -156,6 +159,7 @@ public partial class ScaffoldTypeGenerator
     public INamedTypeSymbol TypeofColor { get; }
 
     private string? BaseTypeNamespace { get; }
+
     public bool IsBaseGenericType =>
         TypeToScaffold.BaseType.EnsureNotNull().IsGenericType;
 
@@ -243,6 +247,8 @@ public partial class ScaffoldTypeGenerator
 
     private bool IsTypeSealed
         => TypeToScaffold.IsSealed;
+
+    private bool IsTypeDerivingFromElement { get; }    
 
     private string GetDelegateParametersDescriptor(IEventSymbol ev)
     {

@@ -55,6 +55,14 @@ public partial class TitleBar : TitleBar<Microsoft.Maui.Controls.TitleBar>
     public TitleBar(Action<Microsoft.Maui.Controls.TitleBar?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public TitleBar(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class TitleBarExtensions

@@ -103,6 +103,14 @@ public partial class Picker : Picker<Microsoft.Maui.Controls.Picker>
     public Picker(Action<Microsoft.Maui.Controls.Picker?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Picker(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class PickerExtensions

@@ -103,6 +103,14 @@ public partial class HybridWebView : HybridWebView<Microsoft.Maui.Controls.Hybri
     public HybridWebView(Action<Microsoft.Maui.Controls.HybridWebView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public HybridWebView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class HybridWebViewExtensions

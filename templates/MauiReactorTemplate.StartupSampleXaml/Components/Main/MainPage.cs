@@ -1,4 +1,6 @@
-﻿using MauiReactorTemplate.StartupSampleXaml.Data;
+﻿using CommunityToolkit.Maui.Core;
+using MauiReactorTemplate.StartupSampleXaml.Components.Tasks;
+using MauiReactorTemplate.StartupSampleXaml.Data;
 using MauiReactorTemplate.StartupSampleXaml.Framework;
 using MauiReactorTemplate.StartupSampleXaml.Models;
 using MauiReactorTemplate.StartupSampleXaml.Resources.Styles;
@@ -47,12 +49,16 @@ partial class MainPage : Component<MainPageState>
     {
         return ContentPage(DateTime.Now.ToLongDateString(),
             Grid(
-                new SfPullToRefresh
-                {
+                new SfPullToRefresh(
                     RenderBody()
-                }
+                )
                 .IsRefreshing(State.IsRefreshing)
-                .OnRefreshing(Refresh)
+                .OnRefreshing(Refresh),
+
+                Button()
+                    .ThemeKey("AddButton")
+                    .IsEnabled(!State.IsBusy)
+                    .OnClicked(AddTask)
             )
         )
         .OnNavigatedTo(() => State.IsNavigatingTo = true)  
@@ -104,6 +110,7 @@ partial class MainPage : Component<MainPageState>
                     State.Tasks.Select(task => new TaskView()
                         .Task(task)
                         .IsBusy(State.IsBusy)
+                        .OnTaskCompletionChanged(Invalidate)
                     ).ToArray()
                 )
                 .Spacing(15)
@@ -191,8 +198,19 @@ partial class MainPage : Component<MainPageState>
         }
     }
 
-    Task CleanTasks()
+    async Task CleanTasks()
     {
-        throw new NotImplementedException();
+        var completedTasks = State.Tasks.Where(t => t.IsCompleted).ToArray();
+        foreach (var task in completedTasks)
+        {
+            await _taskRepository.DeleteItemAsync(task);
+        }
+
+        SetState(s => s.Tasks.RemoveAll(t => t.IsCompleted));
+
+        await AppUtils.DisplayToastAsync("All cleaned up!");
     }
+
+    async Task AddTask()
+        => await Navigation.PushAsync<TaskDetailPage>();
 }

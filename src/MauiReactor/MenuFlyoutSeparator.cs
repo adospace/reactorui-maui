@@ -55,6 +55,14 @@ public partial class MenuFlyoutSeparator : MenuFlyoutSeparator<Microsoft.Maui.Co
     public MenuFlyoutSeparator(Action<Microsoft.Maui.Controls.MenuFlyoutSeparator?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public MenuFlyoutSeparator(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class MenuFlyoutSeparatorExtensions

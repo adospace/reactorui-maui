@@ -103,6 +103,14 @@ public partial class TimePicker : TimePicker<Microsoft.Maui.Controls.TimePicker>
     public TimePicker(Action<Microsoft.Maui.Controls.TimePicker?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public TimePicker(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class TimePickerExtensions

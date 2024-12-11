@@ -103,6 +103,14 @@ public partial class Entry : Entry<Microsoft.Maui.Controls.Entry>
     public Entry(Action<Microsoft.Maui.Controls.Entry?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Entry(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class EntryExtensions

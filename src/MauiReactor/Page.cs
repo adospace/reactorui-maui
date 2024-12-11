@@ -233,6 +233,14 @@ public partial class Page : Page<Microsoft.Maui.Controls.Page>
     public Page(Action<Microsoft.Maui.Controls.Page?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Page(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class PageExtensions

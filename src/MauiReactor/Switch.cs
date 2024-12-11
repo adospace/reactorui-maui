@@ -103,6 +103,14 @@ public partial class Switch : Switch<Microsoft.Maui.Controls.Switch>
     public Switch(Action<Microsoft.Maui.Controls.Switch?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Switch(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class SwitchExtensions

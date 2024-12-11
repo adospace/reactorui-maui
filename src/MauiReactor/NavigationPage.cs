@@ -155,6 +155,14 @@ public partial class NavigationPage : NavigationPage<Microsoft.Maui.Controls.Nav
     public NavigationPage(Action<Microsoft.Maui.Controls.NavigationPage?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public NavigationPage(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class NavigationPageExtensions

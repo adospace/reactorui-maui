@@ -155,6 +155,14 @@ public partial class SwipeView : SwipeView<Microsoft.Maui.Controls.SwipeView>
     public SwipeView(Action<Microsoft.Maui.Controls.SwipeView?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public SwipeView(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class SwipeViewExtensions

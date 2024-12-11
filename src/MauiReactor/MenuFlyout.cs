@@ -55,6 +55,14 @@ public partial class MenuFlyout : MenuFlyout<Microsoft.Maui.Controls.MenuFlyout>
     public MenuFlyout(Action<Microsoft.Maui.Controls.MenuFlyout?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public MenuFlyout(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class MenuFlyoutExtensions

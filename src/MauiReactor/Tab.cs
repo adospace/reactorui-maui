@@ -55,6 +55,14 @@ public partial class Tab : Tab<Microsoft.Maui.Controls.Tab>
     public Tab(Action<Microsoft.Maui.Controls.Tab?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public Tab(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class TabExtensions

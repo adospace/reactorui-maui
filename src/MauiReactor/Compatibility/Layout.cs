@@ -236,4 +236,4 @@ public static partial class LayoutStyles
     public static Dictionary<string, Action<ILayout>> Themes { get; } = [];
 }
 
-#pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete

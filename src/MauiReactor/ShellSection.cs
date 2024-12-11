@@ -55,6 +55,14 @@ public partial class ShellSection : ShellSection<Microsoft.Maui.Controls.ShellSe
     public ShellSection(Action<Microsoft.Maui.Controls.ShellSection?> componentRefAction) : base(componentRefAction)
     {
     }
+
+    public ShellSection(params IEnumerable<VisualNode?>? children)
+    {
+        if (children != null)
+        {
+            this.AddChildren(children);
+        }
+    }
 }
 
 public static partial class ShellSectionExtensions
