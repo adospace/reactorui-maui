@@ -15,49 +15,49 @@ public class LinearGradient
 {
     private readonly LinearGradientBrush _brush;
 
-    public LinearGradient(double angleDegrees, params uint[] colors)
+    public LinearGradient(double angleDegrees, params ReadOnlySpan<uint> colors)
     {
         var stopCollection = GradientStopCollectionExtensions.CreateStopCollection(colors);
 
         _brush = CreateBrush(angleDegrees, stopCollection);
     }
 
-    public LinearGradient(double angleDegrees, params string[] colors)
+    public LinearGradient(double angleDegrees, params ReadOnlySpan<string> colors)
     {
         var stopCollection = GradientStopCollectionExtensions.CreateStopCollection(colors);
 
         _brush = CreateBrush(angleDegrees, stopCollection);
     }
 
-    public LinearGradient(double angleDegrees, params Color[] colors)
+    public LinearGradient(double angleDegrees, params ReadOnlySpan<Color> colors)
     {
         var stopCollection = GradientStopCollectionExtensions.CreateStopCollection(colors);
 
         _brush = CreateBrush(angleDegrees, stopCollection);
     }
 
-    public LinearGradient(double angleDegrees, params GradientStop[] stops)
+    public LinearGradient(double angleDegrees, params ReadOnlySpan<GradientStop> stops)
     {
         var stopCollection = GradientStopCollectionExtensions.CreateStopCollection(stops);
 
         _brush = CreateBrush(angleDegrees, stopCollection);
     }
 
-    public LinearGradient(double angleDegrees, params (Color, float)[] stops)
+    public LinearGradient(double angleDegrees, params ReadOnlySpan<(Color, float)> stops)
     {
         var stopCollection = GradientStopCollectionExtensions.CreateStopCollection(stops);
 
         _brush = CreateBrush(angleDegrees, stopCollection);
     }
 
-    public LinearGradient(double angleDegrees, params (uint, float)[] stops)
+    public LinearGradient(double angleDegrees, params ReadOnlySpan<(uint, float)> stops)
     {
         var stopCollection = GradientStopCollectionExtensions.CreateStopCollection(stops);
 
         _brush = CreateBrush(angleDegrees, stopCollection);
     }
 
-    public LinearGradient(double angleDegrees, params (string, float)[] stops)
+    public LinearGradient(double angleDegrees, params ReadOnlySpan<(string, float)> stops)
     {
         var stopCollection = GradientStopCollectionExtensions.CreateStopCollection(stops);
 

@@ -53,8 +53,8 @@ public class VScrollView : ScrollView
 
 public partial class Component
 {
-    public static ScrollView HScrollView(params VisualNode?[]? children)
+    public static ScrollView HScrollView(params IEnumerable<VisualNode?>? children)
         => ScrollView(children).Orientation(ScrollOrientation.Horizontal);
-    public static ScrollView VScrollView(params VisualNode?[]? children) 
+    public static ScrollView VScrollView(params IEnumerable<VisualNode?>? children) 
         => ScrollView(children).Orientation(ScrollOrientation.Vertical);
 }

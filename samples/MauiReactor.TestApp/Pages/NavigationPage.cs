@@ -48,7 +48,7 @@ public class NavigationMainPage : Component<NavigationMainPageState>
 
     private async void OpenChildPage()
     {
-        if (Navigation == null)
+        if (!IsNavigationAvailable)
         {
             return;
         }
@@ -124,7 +124,7 @@ public class ChildPage : Component<ChildPageState, ChildPageProps>
 
     private async void GoBack()
     {
-        if (Navigation == null)
+        if (!IsNavigationAvailable)
         {
             return;
         }

@@ -5,7 +5,7 @@ namespace MauiReactor
 {
     public partial interface IElement : IVisualNodeWithAttachedProperties
     {
-        void Add(params VisualNode?[]? nodes);
+        void Add(params IEnumerable<VisualNode?>? nodes);
     }
 
     public partial class Element<T> : IEnumerable
@@ -29,7 +29,7 @@ namespace MauiReactor
             return _internalChildren.GetEnumerator();
         }
 
-        public void Add(params VisualNode?[]? nodes)
+        public void Add(params IEnumerable<VisualNode?>? nodes)
         {
             if (nodes is null)
             {

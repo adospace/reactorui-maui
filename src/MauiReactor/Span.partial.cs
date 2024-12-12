@@ -52,29 +52,29 @@ public partial class Component
 {
     public static Span Span(string text) =>
         new(text);
-    public static Span Span(string text, params VisualNode[] children) =>
+    public static Span Span(string text, params IEnumerable<VisualNode> children) =>
         new(text) { children };
 
     public static Span Span(string text, Color textColor) =>
         new(text, textColor);
-    public static Span Span(string text, Color textColor, params VisualNode[] children) =>
+    public static Span Span(string text, Color textColor, params IEnumerable<VisualNode> children) =>
         new(text, textColor) { children };
 
     public static Span Span(string text, Color textColor, FontAttributes fontAttributes) =>
         new(text, textColor, fontAttributes);
-    public static Span Span(string text, Color textColor, FontAttributes fontAttributes, params VisualNode[] children) =>
+    public static Span Span(string text, Color textColor, FontAttributes fontAttributes, params IEnumerable<VisualNode> children) =>
         new(text, textColor, fontAttributes) { children };
     public static Span Span(string text, Color textColor, FontAttributes fontAttributes, double fontSize) =>
         new(text, textColor, fontAttributes, fontSize);
-    public static Span Span(string text, Color textColor, FontAttributes fontAttributes, double fontSize, params VisualNode[] children) =>
+    public static Span Span(string text, Color textColor, FontAttributes fontAttributes, double fontSize, params IEnumerable<VisualNode> children) =>
         new(text, textColor, fontAttributes, fontSize) { children };
 
     public static Span Span(string text, FontAttributes fontAttributes) =>
         new(text, fontAttributes);
-    public static Span Span(string text,FontAttributes fontAttributes, params VisualNode[] children) =>
+    public static Span Span(string text,FontAttributes fontAttributes, params IEnumerable<VisualNode> children) =>
         new(text, fontAttributes) { children };
     public static Span Span(string text, FontAttributes fontAttributes, double fontSize) =>
         new(text, fontAttributes, fontSize);
-    public static Span Span(string text, FontAttributes fontAttributes, double fontSize, params VisualNode[] children) =>
+    public static Span Span(string text, FontAttributes fontAttributes, double fontSize, params IEnumerable<VisualNode> children) =>
         new(text, fontAttributes, fontSize) { children };
 }

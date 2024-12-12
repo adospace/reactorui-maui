@@ -249,13 +249,13 @@ public static partial class GridExtensions
 
 public partial class Component
 {
-    public static Grid Grid(string rows, string columns, params VisualNode?[]? children)
+    public static Grid Grid(string rows, string columns, params IEnumerable<VisualNode?>? children)
         => Grid(children).Rows(rows).Columns(columns);
 
-    public static Grid Grid(RowDefinitionCollection rows, ColumnDefinitionCollection columns, params VisualNode?[]? children)
+    public static Grid Grid(RowDefinitionCollection rows, ColumnDefinitionCollection columns, params IEnumerable<VisualNode?>? children)
         => Grid(children).Rows(rows).Columns(columns);
 
-    public static Grid Grid(IEnumerable<RowDefinition> rows, IEnumerable<ColumnDefinition> columns, params VisualNode?[]? children)
+    public static Grid Grid(IEnumerable<RowDefinition> rows, IEnumerable<ColumnDefinition> columns, params IEnumerable<VisualNode?>? children)
         => Grid(children).Rows(rows).Columns(columns);
 
 }

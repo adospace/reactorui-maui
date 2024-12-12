@@ -31,7 +31,7 @@ namespace MauiReactor
             return GetEnumerator();
         }
 
-        public void Add(params VisualNode[] nodes)
+        public void Add(params IEnumerable<VisualNode> nodes)
         {
             ArgumentNullException.ThrowIfNull(nodes);
 
@@ -94,11 +94,6 @@ namespace MauiReactor
             base.OnUpdate();
         }
 
-        //protected sealed override void OnAnimate()
-        //{
-        //    base.OnAnimate();
-        //}
-
         protected override void MergeWith(VisualNode newNode)
         {
             if (newNode.GetType().FullName == GetType().FullName && _isMounted)
@@ -158,10 +153,10 @@ namespace MauiReactor
         }
 
         public INavigation Navigation
-            => ContainerPage?.Navigation ?? NavigationProvider.Navigation ?? throw new InvalidOperationException("Navigation not available");
+            => (IsContainerPageAvailable ? ContainerPage.Navigation : null) ?? NavigationProvider.Navigation ?? throw new InvalidOperationException("Navigation not available");
 
         public bool IsNavigationAvailable
-            => ContainerPage?.Navigation != null || NavigationProvider.Navigation != null;
+            => (IsContainerPageAvailable && ContainerPage.Navigation != null) || NavigationProvider.Navigation != null;
 
         private Microsoft.Maui.Controls.Page? _containerPage;
 

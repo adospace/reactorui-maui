@@ -16,9 +16,9 @@ public partial class Component
     public static FlyoutItem FlyoutItem(string title, string icon) 
         => new FlyoutItem().Title(title).Icon(icon);
 
-    public static FlyoutItem FlyoutItem(string title, params VisualNode?[]? children)
+    public static FlyoutItem FlyoutItem(string title, params IEnumerable<VisualNode?>? children)
         => FlyoutItem(children).Title(title);
 
-    public static FlyoutItem FlyoutItem(string title, string icon, params VisualNode?[]? children)
+    public static FlyoutItem FlyoutItem(string title, string icon, params IEnumerable<VisualNode?>? children)
         => FlyoutItem(children).Title(title).Icon(icon);
 }

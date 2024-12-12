@@ -2,10 +2,10 @@
 
 public static class GradientStopCollectionExtensions
 {
-    public static GradientStopCollection CreateStopCollection(uint[] colors)
+    public static GradientStopCollection CreateStopCollection(ReadOnlySpan<uint> colors)
     {
         var stops = new GradientStopCollection();
-
+        
         for (int i = 0; i < colors.Length; i++)
         {
             stops.Add(new GradientStop(Color.FromUint(colors[i]), i * 1.0f / colors.Length));
@@ -14,7 +14,7 @@ public static class GradientStopCollectionExtensions
         return stops;
     }
 
-    public static GradientStopCollection CreateStopCollection(Color[] colors)
+    public static GradientStopCollection CreateStopCollection(ReadOnlySpan<Color> colors)
     {
         var stops = new GradientStopCollection();
 
@@ -26,7 +26,7 @@ public static class GradientStopCollectionExtensions
         return stops;
     }
 
-    public static GradientStopCollection CreateStopCollection(string[] colors)
+    public static GradientStopCollection CreateStopCollection(ReadOnlySpan<string> colors)
     {
         var stops = new GradientStopCollection();
 
@@ -38,45 +38,45 @@ public static class GradientStopCollectionExtensions
         return stops;
     }
 
-    public static GradientStopCollection CreateStopCollection(params GradientStop[] stops)
+    public static GradientStopCollection CreateStopCollection(params ReadOnlySpan<GradientStop> stops)
     {
         var stopCollection = new GradientStopCollection();
-        for (int i = 0; i < stops.Length; i++)
+        foreach (var stop in stops)
         {
-            stopCollection.Add(stops[i]);
+            stopCollection.Add(stop);
         }
 
         return stopCollection;
     }
 
-    public static GradientStopCollection CreateStopCollection(params (Color, float)[] stops)
+    public static GradientStopCollection CreateStopCollection(params ReadOnlySpan<(Color, float)> stops)
     {
         var stopCollection = new GradientStopCollection();
-        for (int i = 0; i < stops.Length; i++)
+        foreach (var stop in stops)
         {
-            stopCollection.Add(new GradientStop(stops[i].Item1, stops[i].Item2));
+            stopCollection.Add(new GradientStop(stop.Item1, stop.Item2));
         }
 
         return stopCollection;
     }
 
-    public static GradientStopCollection CreateStopCollection(params (uint, float)[] stops)
+    public static GradientStopCollection CreateStopCollection(params ReadOnlySpan<(uint, float)> stops)
     {
         var stopCollection = new GradientStopCollection();
-        for (int i = 0; i < stops.Length; i++)
+        foreach (var stop in stops)
         {
-            stopCollection.Add(new GradientStop(Color.FromUint(stops[i].Item1), stops[i].Item2));
+            stopCollection.Add(new GradientStop(Color.FromUint(stop.Item1), stop.Item2));
         }
 
         return stopCollection;
     }
 
-    public static GradientStopCollection CreateStopCollection(params (string, float)[] stops)
+    public static GradientStopCollection CreateStopCollection(params ReadOnlySpan<(string, float)> stops)
     {
         var stopCollection = new GradientStopCollection();
-        for (int i = 0; i < stops.Length; i++)
+        foreach (var stop in stops)
         {
-            stopCollection.Add(new GradientStop(Color.FromArgb(stops[i].Item1), stops[i].Item2));
+            stopCollection.Add(new GradientStop(Color.FromArgb(stop.Item1), stop.Item2));
         }
 
         return stopCollection;

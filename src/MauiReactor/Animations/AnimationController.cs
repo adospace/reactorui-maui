@@ -61,7 +61,7 @@ namespace MauiReactor.Animations
             return _internalChildren.GetEnumerator();
         }
 
-        public void Add(params VisualNode?[]? animations)
+        public void Add(params IEnumerable<VisualNode?>? animations)
         {
             if (animations is null)
             {
@@ -273,7 +273,7 @@ namespace MauiReactor.Animations
             return _internalChildren.GetEnumerator();
         }
 
-        public void Add(params VisualNode?[]? animations)
+        public void Add(params IEnumerable<VisualNode?>? animations)
         {
             if (animations is null)
             {

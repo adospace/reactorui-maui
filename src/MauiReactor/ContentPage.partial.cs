@@ -84,7 +84,7 @@ public partial class Component
     public static ContentPage ContentPage(string title) 
         => new ContentPage().Title(title);
 
-    public static ContentPage ContentPage(string title, params VisualNode?[]? children)
+    public static ContentPage ContentPage(string title, params IEnumerable<VisualNode?>? children)
         => ContentPage(children).Title(title);    
 }
 
