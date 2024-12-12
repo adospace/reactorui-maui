@@ -5,10 +5,10 @@ namespace MauiReactor
 {
     public partial interface IElement : IVisualNodeWithAttachedProperties
     {
-        void Add(params IEnumerable<VisualNode?>? nodes);
+        void AddChildren(params IEnumerable<VisualNode?>? nodes);
     }
 
-    public partial class Element<T> : IEnumerable
+    public partial class Element<T> : IElement, IEnumerable
     {
 
         protected readonly List<VisualNode> _internalChildren = [];
@@ -29,21 +29,28 @@ namespace MauiReactor
             return _internalChildren.GetEnumerator();
         }
 
-        public void Add(params IEnumerable<VisualNode?>? nodes)
-        {
-            if (nodes is null)
-            {
-                return;
-            }
+        //public void Add(params IEnumerable<VisualNode?[]>? nodes)
+        //{
+        //    if (nodes is null)
+        //    {
+        //        return;
+        //    }
 
-            foreach (var node in nodes)
-            {
-                if (node != null)
-                {
-                    OnChildAdd(node);
-                }
-            }
-        }
+        //    if (nodes is VisualNode visualNode)
+        //    {
+        //        OnChildAdd(visualNode);
+        //    }
+        //    else
+        //    {
+        //        foreach (var node in nodes)
+        //        {
+        //            if (node != null)
+        //            {
+        //                OnChildAdd(node);
+        //            }
+        //        }
+        //    }
+        //}
 
         public void Add(object? genericNode)
         {
@@ -66,13 +73,25 @@ namespace MauiReactor
             }
         }
 
-        public void AddChildren(IEnumerable<VisualNode?> children)
+        public void AddChildren(params IEnumerable<VisualNode?>? children)
         {
-            foreach (var child in children)
+            if (children is null)
             {
-                if (child != null)
+                return;
+            }
+
+            if (children is VisualNode visualNode)
+            {
+                OnChildAdd(visualNode);
+            }
+            else
+            {
+                foreach (var child in children)
                 {
-                    OnChildAdd(child);
+                    if (child != null)
+                    {
+                        OnChildAdd(child);
+                    }
                 }
             }
         }

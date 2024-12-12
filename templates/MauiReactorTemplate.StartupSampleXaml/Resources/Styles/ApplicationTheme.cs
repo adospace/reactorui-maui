@@ -65,7 +65,7 @@ class ApplicationTheme : Theme
             .Margin(3);
 
         ContentPageStyles.Default = _ => _
-            .Add(
+            .AddChildren(
                 new StatusBarBehavior()
                     .StatusBarColor(IsLightTheme ?
                             ResourceHelper.GetResource<Color>("LightBackground") :

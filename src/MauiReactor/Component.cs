@@ -38,13 +38,6 @@ namespace MauiReactor
             _children.AddRange(nodes);
         }
 
-        //protected static T GetNodeFromPool<T>(VisualNode[] nodes) where T : Component, new()
-        //{
-        //    var node = GetNodeFromPool<T>();
-        //    node.Add(nodes);
-        //    return node;
-        //}
-
         protected new IReadOnlyList<VisualNode> Children()
             => _children;
 

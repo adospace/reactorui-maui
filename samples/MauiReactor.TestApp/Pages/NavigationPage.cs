@@ -46,13 +46,8 @@ public class NavigationMainPage : Component<NavigationMainPageState>
         .Title("Main Page");
     }
 
-    private async void OpenChildPage()
+    private async Task OpenChildPage()
     {
-        if (!IsNavigationAvailable)
-        {
-            return;
-        }
-
         await Navigation.PushAsync<ChildPage, ChildPageProps>(_ =>
         {
             _.InitialValue = State.Value;
@@ -122,13 +117,8 @@ public class ChildPage : Component<ChildPageState, ChildPageProps>
         .Title("Child Page");
     }
 
-    private async void GoBack()
+    private async Task GoBack()
     {
-        if (!IsNavigationAvailable)
-        {
-            return;
-        }
-
         Props.OnValueSet?.Invoke(State.Value);
 
         await Navigation.PopAsync();

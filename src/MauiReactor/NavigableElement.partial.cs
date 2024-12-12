@@ -17,9 +17,6 @@ public partial class NavigableElement<T>
         var thisAsINavigableElement = (INavigableElement)this;
         if (!NativeControl.StyleClass.NullableSequenceEqual(thisAsINavigableElement.Class))
         {
-//#if DEBUG
-//                System.Diagnostics.Debug.WriteLine($"[{this}] Update 'StyleClass' to {(thisAsINavigableElement.Class == null ? "null" : string.Join(",", thisAsINavigableElement.Class))}");
-//#endif
             NativeControl.StyleClass = thisAsINavigableElement.Class ?? [];
         }
 

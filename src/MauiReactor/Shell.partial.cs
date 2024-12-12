@@ -38,15 +38,15 @@ public partial class Shell<T> : IEnumerable
 
         if (thisAsIShell.FlyoutHeader != null)
         {
-            children = children.Concat(new[] { thisAsIShell.FlyoutHeader });
+            children = children.Concat([thisAsIShell.FlyoutHeader]);
         }
         if (thisAsIShell.FlyoutFooter != null)
         {
-            children = children.Concat(new[] { thisAsIShell.FlyoutFooter });
+            children = children.Concat([thisAsIShell.FlyoutFooter]);
         }
         if (thisAsIShell.FlyoutContent != null)
         {
-            children = children.Concat(new[] { thisAsIShell.FlyoutContent });
+            children = children.Concat([thisAsIShell.FlyoutContent]);
         }
 
         return children;

@@ -30,13 +30,12 @@ public partial class AppShell : Component
         )
         .FlyoutFooter(
             Grid(
-                new SfSegmentedControl
-                {
+                new SfSegmentedControl(
                     new SfSegmentItem()
                         .ImageSource(ResourceHelper.GetResource<ImageSource>("IconLight")),
                     new SfSegmentItem()
                         .ImageSource(ResourceHelper.GetResource<ImageSource>("IconDark"))
-                }
+                )
                 .SelectedIndex(Theme.CurrentAppTheme == AppTheme.Light ? 0 : 1)
                 .OnSelectionChanged((s, e) => Theme.UserTheme = e.NewIndex == 0 ? AppTheme.Light : AppTheme.Dark)
                 .VerticalOptions(LayoutOptions.Center)

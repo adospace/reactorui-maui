@@ -25,7 +25,7 @@ public partial class CarouselView<T>
 
         if (thisAsICarouselView.ItemsLayout != null)
         {
-            children = children.Concat(new[] { (VisualNode)thisAsICarouselView.ItemsLayout });
+            children = children.Concat([(VisualNode)thisAsICarouselView.ItemsLayout]);
         }
 
         return children;
@@ -67,6 +67,7 @@ public static partial class CarouselViewExtensions
 {
     public static T ItemsLayout<T>(this T carouselView, IItemsLayout itemsLayout) where T : ICarouselView
     {
+        carouselView.SetProperty(Microsoft.Maui.Controls.CarouselView.ItemsLayoutProperty, itemsLayout);
         carouselView.ItemsLayout = itemsLayout;
         return carouselView;
     }

@@ -149,8 +149,6 @@ partial class MainPage : Component<MainPageState>
         {
             SetState(s => s.IsBusy = true);
 
-            await Task.Delay(100);
-
             State.Projects = await _projectRepository.ListAsync();
 
             var chartData = new List<CategoryChartData>();
@@ -183,8 +181,6 @@ partial class MainPage : Component<MainPageState>
         try
         {
             SetState(s => s.IsRefreshing = true);
-
-            await Task.Delay(1000);
 
             await LoadData();
         }

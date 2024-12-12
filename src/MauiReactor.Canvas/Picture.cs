@@ -83,14 +83,14 @@ public static partial class PictureExtensions
     public static T Source<T>(this T node, string? imageSource, bool cacheImage = true, Assembly? resourceAssembly = null) where T : IPicture
     {
         resourceAssembly ??= Assembly.GetCallingAssembly();
-        node.Source = new PropertyValue<Microsoft.Maui.Graphics.IImage?>(LoadImage(imageSource, cacheImage, resourceAssembly));
+        node.Source(LoadImage(imageSource, cacheImage, resourceAssembly));
         return node;
     }
 
     public static T Source<T>(this T node, Func<string?> valueFunc, bool cacheImage = true, Assembly? resourceAssembly = null) where T : IPicture
     {
         resourceAssembly ??= Assembly.GetCallingAssembly();
-        node.Source = new PropertyValue<Microsoft.Maui.Graphics.IImage?>(() => LoadImage(valueFunc.Invoke(), cacheImage, resourceAssembly));
+        node.Source(() => LoadImage(valueFunc.Invoke(), cacheImage, resourceAssembly));
         return node;
     }
 
@@ -103,13 +103,13 @@ public static partial class PictureExtensions
         Microsoft.Maui.Graphics.IImage? image = Microsoft.Maui.Graphics.Platform.PlatformImage.FromStream(stream);
 #endif
 
-        node.Source = new PropertyValue<Microsoft.Maui.Graphics.IImage?>(image);
+        node.Source(image);
         return node;
     }
 
     public static T Source<T>(this T node, Func<Stream?> valueFunc) where T : IPicture
     {
-        node.Source = new PropertyValue<Microsoft.Maui.Graphics.IImage?>(()=>
+        node.Source(()=>
         { 
             var stream = valueFunc.Invoke();
             if (stream == null)

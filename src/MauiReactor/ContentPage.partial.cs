@@ -63,12 +63,6 @@ public partial class ContentPage
 
     }
 
-    public ContentPage(VisualNode content)
-    {
-        _internalChildren.Add(content);
-    }
-
-
     protected override void OnMount()
     {
         _nativeControl ??= new ContentPageWithBackButtonPressedOverriden();

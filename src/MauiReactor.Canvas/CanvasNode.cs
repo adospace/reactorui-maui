@@ -14,6 +14,10 @@ namespace MauiReactor.Canvas;
 [Scaffold(typeof(Internals.CanvasNode))]
 public partial class CanvasNode { }
 
+public partial interface ICanvasNode : IVisualNodeWithAttachedProperties
+{
+}
+
 public partial class CanvasNode<T> : IEnumerable 
 {
     protected readonly List<VisualNode> _internalChildren = new();
@@ -33,7 +37,7 @@ public partial class CanvasNode<T> : IEnumerable
         return _internalChildren.GetEnumerator();
     }
 
-    public void Add(params VisualNode?[]? childNodes)
+    public void Add(params IEnumerable<VisualNode?>? childNodes)
     {
         if (childNodes is null)
         {

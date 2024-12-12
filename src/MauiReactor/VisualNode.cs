@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using MauiReactor.Animations;
 using MauiReactor.Internals;
@@ -211,7 +212,20 @@ namespace MauiReactor
             {
                 if (_children == null)
                 {
-                    _children = RenderChildren().Where(_ => _ != null).ToList()!;
+                    var renderedChildrenList = RenderChildren();
+
+                    if (renderedChildrenList is List<VisualNode> renderedChildren)
+                    {
+                        renderedChildren.RemoveAll(_ => _ == null);
+                        _children = renderedChildren;
+                    }
+                    else
+                    {
+                        _children = renderedChildrenList
+                            .Where(_ => _ != null)
+                            .ToList()!;
+                    }
+
                     var childIndex = 0;
                     for (int i = 0; i < _children.Count; i++)
                     {

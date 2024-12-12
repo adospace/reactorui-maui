@@ -17,43 +17,43 @@ public static partial class AlignExtensions
 {
     public static T HStart<T>(this T view) where T : IAlign
     {
-        view.HorizontalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.Start);
+        view.HorizontalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Start);
         return view;
     }
 
     public static T HCenter<T>(this T view) where T : IAlign
     {
-        view.HorizontalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.Center);
+        view.HorizontalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Center);
         return view;
     }
 
     public static T HEnd<T>(this T view) where T : IAlign
     {
-        view.HorizontalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.End);
+        view.HorizontalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.End);
         return view;
     }
 
     public static T VStart<T>(this T view) where T : IAlign
     {
-        view.VerticalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.Start);
+        view.VerticalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Start);
         return view;
     }
 
     public static T VCenter<T>(this T view) where T : IAlign
     {
-        view.VerticalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.Center);
+        view.VerticalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Center);
         return view;
     }
 
     public static T VEnd<T>(this T view) where T : IAlign
     {
-        view.VerticalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.End);
+        view.VerticalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.End);
         return view;
     }
     public static T Center<T>(this T view) where T : IAlign
     {
-        view.HorizontalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.Center);
-        view.VerticalAlignment = new PropertyValue<Microsoft.Maui.Primitives.LayoutAlignment>(Microsoft.Maui.Primitives.LayoutAlignment.Center);
+        view.HorizontalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Center);
+        view.VerticalAlignment(Microsoft.Maui.Primitives.LayoutAlignment.Center);
         return view;
     }
 }

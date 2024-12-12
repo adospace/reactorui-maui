@@ -33,12 +33,14 @@ namespace <#= Namespace #>
         Func<object, VisualNode>? ItemTemplate { get; set; }
     <# } #>
 
+    <# if (IsGenericType) { #>
     <# foreach (var property in Properties) { #>
         <# if (Helper.IsNewModifierUsed(property)) { #>
         new object? <#= property.Name #> { get; set; }
         <# } else { #>
         object? <#= property.Name #> { get; set; }
         <# } #>
+    <# } #>
     <# } #>
 
     <# foreach (var ev in Events) { 
@@ -197,8 +199,10 @@ namespace <#= Namespace #>
         private CustomDataTemplate? _customDataTemplate;
         <# } #>
 
+        <# if (IsGenericType) { #>
         <# foreach (var property in Properties) { #>
         object? <#= InterfaceName #>.<#= property.Name #> { get; set; }
+        <# } #>
         <# } #>
 
         <# foreach (var ev in Events) {
@@ -292,8 +296,6 @@ namespace <#= Namespace #>
             <# foreach (var property in Properties) { #>
             <# if (IsGenericType) { #>
             SetPropertyValue(NativeControl, global::<#= FullTypeName #><TChild>.<#= property.Name #>Property, thisAs<#= InterfaceName #>.<#= property.Name #>);
-            <# } else { #>
-            SetPropertyValue(NativeControl, global::<#= FullTypeName #>.<#= property.Name #>Property, thisAs<#= InterfaceName #>.<#= property.Name #>);
             <# } #>
             <# } #>
 
@@ -468,7 +470,7 @@ namespace <#= Namespace #>
             {
                 this.AddChildren(children);
             }
-        }        
+        }
         <# } #>
     }
     <# } #>
@@ -548,95 +550,162 @@ namespace <#= Namespace #>
         <# if (property.Type.Equals(TypeofDouble, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxDoubleAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxDoubleAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
         }        
         <# } else if (property.Type.Equals(TypeofFloat, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxFloatAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxFloatAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
         }        
         <# } else if (property.Type.Equals(TypeofRect, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxRectAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleRectAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
         }        
         <# } else if (property.Type.Equals(TypeofPoint, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxPointAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimplePointAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
         }        
         <# } else if (property.Type.Equals(TypeofPointF, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxPointFAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimplePointFAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
         }        
         <# } else if (property.Type.Equals(TypeofThickness, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
         }                
         <# } else if (property.Type.Equals(TypeofThicknessF, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxThicknessFAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessFAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
         }                
         <# } else if (property.Type.Equals(TypeofCornerRadiusF, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxCornerRadiusFAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusFAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
         }              
         <# } else if (property.Type.Equals(TypeofCornerRadius, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxCornerRadiusAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
         }
         <# } else { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>) where T : <#= InterfaceName #>
         {
+            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }       
         <# } #>
 
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<<#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #>> <#= property.Name.CamelCase() #>Func) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func));
+            <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
         <# if (property.Type.Name == "Thickness") { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new Microsoft.Maui.Thickness(leftRight, topBottom);
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new Microsoft.Maui.Thickness(leftRight, topBottom);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new Microsoft.Maui.Thickness(leftRight, topBottom));
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Microsoft.Maui.Thickness(leftRight, topBottom)));
             return <#= TypeName.ToLocalVariableName() #>;
         }
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double uniformSize, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new Microsoft.Maui.Thickness(uniformSize);
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new Microsoft.Maui.Thickness(uniformSize);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new Microsoft.Maui.Thickness(uniformSize));
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Microsoft.Maui.Thickness(uniformSize)));
             return <#= TypeName.ToLocalVariableName() #>;
         }
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new Microsoft.Maui.Thickness(left, top, right, bottom);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new Microsoft.Maui.Thickness(left, top, right, bottom));
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Microsoft.Maui.Thickness(left, top, right, bottom)));
             return <#= TypeName.ToLocalVariableName() #>;
         }
@@ -645,19 +714,31 @@ namespace <#= Namespace #>
         <# if (property.Type.Name == "ThicknessF") { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, float leftRight, float topBottom, RxThicknessFAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new ThicknessF(leftRight, topBottom);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new ThicknessF(leftRight, topBottom));
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessFAnimation(new ThicknessF(leftRight, topBottom)));
             return <#= TypeName.ToLocalVariableName() #>;
         }
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, float uniformSize, RxThicknessFAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new ThicknessF(uniformSize);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new ThicknessF(uniformSize));
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessFAnimation(new ThicknessF(uniformSize)));
             return <#= TypeName.ToLocalVariableName() #>;
         }
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, float left, float top, float right, float bottom, RxThicknessFAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new ThicknessF(left, top, right, bottom);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new ThicknessF(left, top, right, bottom));
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessFAnimation(new ThicknessF(left, top, right, bottom)));
             return <#= TypeName.ToLocalVariableName() #>;
         }
@@ -666,13 +747,21 @@ namespace <#= Namespace #>
         <# if (property.Type.Name == "CornerRadius") { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, float uniformSize, RxCornerRadiusAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new CornerRadius(uniformSize);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadius(uniformSize));
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(uniformSize)));
             return <#= TypeName.ToLocalVariableName() #>;
         }
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>,float topLeft, float topRight, float bottomRight, float bottomLeft, RxCornerRadiusAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new CornerRadius(topLeft, topRight, bottomRight, bottomLeft);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadius(topLeft, topRight, bottomRight, bottomLeft));
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(topLeft, topRight, bottomRight, bottomLeft)));
             return <#= TypeName.ToLocalVariableName() #>;
         }
@@ -681,13 +770,21 @@ namespace <#= Namespace #>
         <# if (property.Type.Name == "CornerRadiusF") { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, float uniformSize, RxCornerRadiusFAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new CornerRadiusF(uniformSize);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadiusF(uniformSize));
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusFAnimation(new CornerRadiusF(uniformSize)));
             return <#= TypeName.ToLocalVariableName() #>;
         }
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>,float topLeft, float topRight, float bottomRight, float bottomLeft, RxCornerRadiusFAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft));
+            <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusFAnimation(new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft)));
             return <#= TypeName.ToLocalVariableName() #>;
         }
@@ -697,7 +794,11 @@ namespace <#= Namespace #>
         <# if (property.Type.GetFullyQualifiedName() == "Microsoft.Maui.Graphics.Point") { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double x, double y) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new Microsoft.Maui.Graphics.Point(x, y);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new Microsoft.Maui.Graphics.Point(x, y));
+            <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
         <# } #>
@@ -706,12 +807,20 @@ namespace <#= Namespace #>
         <# if (property.Type.Name == "CornerRadius") { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double uniformRadius) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new CornerRadius(uniformRadius);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadius(uniformRadius));
+            <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double topLeft, double topRight, double bottomLeft, double bottomRight) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new CornerRadius(topLeft, topRight, bottomLeft, bottomRight);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadius(topLeft, topRight, bottomLeft, bottomRight));
+            <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
         <# } #>
@@ -719,32 +828,54 @@ namespace <#= Namespace #>
         var propertyName = property.Name; #>
         public static T <#= propertyName #><T>(this T <#= TypeName.ToLocalVariableName() #>, string file) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromFile(file);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, Microsoft.Maui.Controls.ImageSource.FromFile(file));
+            <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
         public static T <#= propertyName #><T>(this T <#= TypeName.ToLocalVariableName() #>, string resourceName, Assembly sourceAssembly) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
+            <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
         public static T <#= propertyName #><T>(this T <#= TypeName.ToLocalVariableName() #>, Uri imageUri) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
+            <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
         public static T <#= propertyName #><T>(this T <#= TypeName.ToLocalVariableName() #>, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : <#= InterfaceName #>
         {
-            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new Microsoft.Maui.Controls.UriImageSource
+            var propertyValue = new Microsoft.Maui.Controls.UriImageSource
             {
                 Uri = imageUri,
                 CachingEnabled = cachingEnabled,
                 CacheValidity = cacheValidity
             };
+            <# if (IsGenericType) { #>
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = propertyValue;
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, propertyValue);
+            <# } #>
+
             return <#= TypeName.ToLocalVariableName() #>;
         }
         public static T <#= propertyName #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<System.IO.Stream> imageStream) where T : <#= InterfaceName #>
         {
+            <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
+            <# } else { #>
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
+            <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
         <# } #>

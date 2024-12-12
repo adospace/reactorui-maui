@@ -20,7 +20,7 @@ public static partial class DropShadowExtensions
 {
     public static T Size<T>(this T node, float x, float y, RxSizeFAnimation? customAnimation = null) where T : IDropShadow
     {
-        node.Size = new SizeF(x, y);
+        node.Size(new SizeF(x, y));
         node.AppendAnimatable(Internals.DropShadow.SizeProperty, customAnimation ?? new RxSimpleSizeFAnimation(new SizeF(x, y)));
         return node;
     }
