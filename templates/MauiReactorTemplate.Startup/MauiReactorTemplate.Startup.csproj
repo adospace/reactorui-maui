@@ -59,6 +59,10 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="MauiReactor.HotReload" Value="true" Trim="true" />
+  </ItemGroup>  
+  
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.14" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
