@@ -6,9 +6,9 @@ namespace MauiReactor.Internals;
 
 internal static class ServiceCollectionProvider
 {
-    static IServiceProvider _serviceProvider = null!;
+    static IServiceProvider? _serviceProvider = null!;
 
-    public static IServiceProvider ServiceProvider
+    public static IServiceProvider? ServiceProvider
     { 
         get => _serviceProvider;
         set

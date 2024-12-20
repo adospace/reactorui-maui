@@ -57,6 +57,8 @@ public partial class ScaffoldTypeGenerator
             .Where(_ => !_.Name.Contains("Command"))
             .Where(_ => _.Type.GetFullyQualifiedName() != "Microsoft.Maui.Controls.DataTemplate")
             .Where(_ => _.Type.GetFullyQualifiedName() != "Microsoft.Maui.Controls.DataTemplate?")
+            .Where(_ => _.Type.GetFullyQualifiedName() != "Microsoft.Maui.Controls.ControlTemplate")
+            .Where(_ => _.Type.GetFullyQualifiedName() != "Microsoft.Maui.Controls.ControlTemplate?")
             .Where(_ => _.Name != "ItemsSource")
             .Where(_ => _.Type.GetFullyQualifiedName() != "Microsoft.Maui.Controls.IItemsLayout")
             .Where(_ => _.Type.GetFullyQualifiedName() != "Microsoft.Maui.Controls.LinearItemsLayout")

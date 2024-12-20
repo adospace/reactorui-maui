@@ -1,5 +1,6 @@
 ﻿using MauiReactor.HotReload;
 using MauiReactor.Internals;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Dispatching;
 using System;
 using System.Collections.Generic;
@@ -344,7 +345,22 @@ namespace MauiReactor
         {
             try
             {
-                Layout();
+                var logger = ServiceCollectionProvider
+                    .ServiceProvider?
+                    .GetService<ILogger<PageHost<T>>>();
+
+                if (logger != null &&
+                    logger.IsEnabled(LogLevel.Debug))
+                {
+                    DateTime now = DateTime.Now;
+                    Layout();
+                    logger.LogDebug("Layout time: {elapsedMilliseconds}ms", (DateTime.Now - now).TotalMilliseconds);
+                }
+                else
+                {
+                    Layout();
+                }
+
                 SetupAnimationTimer();
 
                 if (_unloading)
@@ -379,14 +395,28 @@ namespace MauiReactor
         
         private void AnimationCallback()
         {
-            if (_sleeping)
+            if (_sleeping || Application.Current == null)
             {
                 return;
             }
 
-            if (Application.Current != null && AnimateVisuals())
+            DateTime now = DateTime.Now;
+            if (AnimateVisuals())
             {
-                Application.Current.Dispatcher.Dispatch(AnimationCallback);
+                var elapsedMilliseconds = (DateTime.Now - now).TotalMilliseconds;
+
+                if (elapsedMilliseconds > 16)
+                {
+                    ServiceCollectionProvider
+                        .ServiceProvider?
+                        .GetService<ILogger<PageHost<T>>>()?
+                        .LogWarning("FPS drop: {elapsedMilliseconds}ms to render a frame", elapsedMilliseconds);
+                    Application.Current.Dispatcher.Dispatch(AnimationCallback);
+                }
+                else
+                {
+                    Application.Current.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(16 - elapsedMilliseconds), AnimationCallback);
+                }
             }
         }
 

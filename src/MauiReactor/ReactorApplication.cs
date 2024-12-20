@@ -1,6 +1,8 @@
 ﻿using MauiReactor.HotReload;
 using MauiReactor.Internals;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Dispatching;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace MauiReactor;
@@ -8,8 +10,6 @@ namespace MauiReactor;
 internal abstract class ReactorApplicationHost : VisualNode, IHostElement, IVisualNode, ITypeLoaderEventConsumer
 {
     protected readonly ReactorApplication _application;
-
-    //internal static bool _showFrameRate = false;
 
     protected ReactorApplicationHost(ReactorApplication application)
     {
@@ -94,7 +94,7 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
         }
         else
         {
-            throw new NotSupportedException($"Invalid root component ({nativeControl.GetType()}): must be a page (i.e. RxContentPage, RxShell etc)");
+            throw new NotSupportedException($"Invalid root component ({nativeControl.GetType()}): must be a page (i.e. ContentPage, Shell etc)");
         }
     }
 
@@ -195,29 +195,45 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
     {
         if (_started && !_sleeping && Application.Current != null)
         {
-            if (_layoutCallEnqueued)
+            //var logger = ServiceCollectionProvider
+            //    .ServiceProvider
+            //    .GetService<ILogger<ReactorApplication>>();
+            if (!_layoutCallEnqueued)
             {
-                System.Diagnostics.Debug.WriteLine("_layoutCallEnqueued");
-            }
-            else
-            {
+                //logger?.LogDebug("Dispatch layout callback");
                 _layoutCallEnqueued = true;
                 Application.Current.Dispatcher.Dispatch(OnLayout);
             }
+            //else
+            //{
+            //    logger?.LogDebug("Queued layout callback");
+            //}
         }
 
         base.OnLayoutCycleRequested();
     }
 
-    private void OnLayout() => OnLayout(false);
-
-    private void OnLayout(bool forceLayout)
+    private void OnLayout()
     {
         _layoutCallEnqueued = false;
 
         try
         {
-            Layout();
+            var logger = ServiceCollectionProvider
+                .ServiceProvider?
+                .GetService<ILogger<ReactorApplication>>();
+                
+            if (logger != null &&
+                logger.IsEnabled(LogLevel.Debug))
+            {
+                DateTime now = DateTime.Now;
+                Layout();
+                logger.LogDebug("Layout time: {elapsedMilliseconds}ms", (DateTime.Now - now).TotalMilliseconds);
+            }
+            else
+            {
+                Layout();
+            }
 
             if (_listOfVisualsToAnimate.Count > 0)
             {
@@ -256,7 +272,11 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
 
             if (elapsedMilliseconds > 16)
             {
-                System.Diagnostics.Debug.WriteLine($"[MauiReactor] FPS WARNING {elapsedMilliseconds}ms");
+                //System.Diagnostics.Debug.WriteLine($"[MauiReactor] FPS WARNING {elapsedMilliseconds}ms");
+                ServiceCollectionProvider
+                    .ServiceProvider?
+                    .GetService<ILogger<ReactorApplication>>()?
+                    .LogWarning("FPS drop: {elapsedMilliseconds}ms to render a frame", elapsedMilliseconds);
                 Application.Current.Dispatcher.Dispatch(AnimationCallback);
             }
             else

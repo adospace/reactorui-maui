@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using MauiReactor.Internals;
 using MauiReactor.Parameters;
+using Microsoft.Extensions.Logging;
 
 namespace MauiReactor
 {
@@ -71,6 +72,10 @@ namespace MauiReactor
 
         protected sealed override IEnumerable<VisualNode> RenderChildren()
         {
+            ServiceCollectionProvider
+                .ServiceProvider?
+                .GetService<ILogger<Component>>()?
+                .LogDebug("Rendering {Type}", GetType());
             yield return Render();
         }
 
@@ -146,27 +151,24 @@ namespace MauiReactor
         }
 
         public INavigation Navigation
-            => (IsContainerPageAvailable ? ContainerPage.Navigation : null) ?? NavigationProvider.Navigation ?? throw new InvalidOperationException("Navigation not available");
+            => ContainerPage?.Navigation ?? NavigationProvider.Navigation ?? throw new InvalidOperationException("Navigation not available");
 
         public bool IsNavigationAvailable
-            => (IsContainerPageAvailable && ContainerPage.Navigation != null) || NavigationProvider.Navigation != null;
+            => ContainerPage?.Navigation != null || NavigationProvider.Navigation != null;
 
         private Microsoft.Maui.Controls.Page? _containerPage;
 
-        public Microsoft.Maui.Controls.Page ContainerPage
+        public Microsoft.Maui.Controls.Page? ContainerPage
         {
             get
             {
                 _containerPage ??= ((IVisualNode)this).GetContainerPage();
-                return _containerPage ?? throw new InvalidOperationException("ContainerPage not available");
+                return _containerPage;
             }
         }
 
-        public bool IsContainerPageAvailable
-            => _containerPage != null || ((IVisualNode)this).GetContainerPage() != null;
-
         public static IServiceProvider Services
-            => ServiceCollectionProvider.ServiceProvider;
+            => ServiceCollectionProvider.ServiceProvider ?? throw new InvalidOperationException("Services not available");
 
         internal void InvalidateComponent() => Invalidate();
 
