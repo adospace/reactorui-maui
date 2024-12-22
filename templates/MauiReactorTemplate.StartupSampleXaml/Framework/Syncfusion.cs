@@ -28,6 +28,18 @@ partial class SfPullToRefresh
 
         base.OnAddChild(widget, childControl);
     }
+
+    protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
+    {
+        Validate.EnsureNotNull(NativeControl);
+
+        if (childControl is View _)
+        {
+            NativeControl.PullableContent = null!;
+        }
+
+        base.OnRemoveChild(widget, childControl);
+    }
 }
 
 [Scaffold(typeof(Syncfusion.Maui.Toolkit.SfContentView))]
@@ -44,7 +56,20 @@ partial class SfContentView<T>
         {
             NativeControl.Content = view;
         }
+
         base.OnAddChild(widget, childControl);
+    }
+
+    protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
+    {
+        Validate.EnsureNotNull(NativeControl);
+
+        if (childControl is MauiControls.View)
+        {
+            NativeControl.Content = null!;
+        }
+
+        base.OnRemoveChild(widget, childControl);
     }
 }
 
@@ -96,6 +121,22 @@ partial class SfShimmer<T>
             base.OnAddChild(widget, childControl);
         }
     }
+
+    protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
+    {
+        Validate.EnsureNotNull(NativeControl);
+
+        var thisAsISfShimmer = (ISfShimmer)this;
+
+        if (widget == thisAsISfShimmer.CustomView)
+        {
+            NativeControl.CustomView = null!;
+        }
+        else
+        {
+            base.OnRemoveChild(widget, childControl);
+        }
+    }
 }
 
 partial class SfShimmerExtensions
@@ -140,6 +181,21 @@ partial class SfSegmentedControl
 
         base.OnAddChild(widget, childControl);
     }
+
+    protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
+    {
+        Validate.EnsureNotNull(NativeControl);
+
+        if (childControl is Syncfusion.Maui.Toolkit.SegmentedControl.SfSegmentItem segmentItem)
+        {
+            if (NativeControl.ItemsSource is IList<Syncfusion.Maui.Toolkit.SegmentedControl.SfSegmentItem> existingList)
+            {
+                existingList.Remove(segmentItem);
+            }
+        }
+
+        base.OnRemoveChild(widget, childControl);
+    }
 }
 
 [Scaffold(typeof(Syncfusion.Maui.Toolkit.SegmentedControl.SfSegmentItem))]
@@ -171,6 +227,22 @@ partial class SfCircularChart
         }
 
         base.OnAddChild(widget, childControl);
+    }
+
+    protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
+    {
+        Validate.EnsureNotNull(NativeControl);
+
+        if (childControl is Syncfusion.Maui.Toolkit.Charts.ChartLegend)
+        {
+            NativeControl.Legend = null!;
+        }
+        else if (childControl is Syncfusion.Maui.Toolkit.Charts.ChartSeries chartSeries)
+        {
+            NativeControl.Series.Remove(chartSeries);
+        }
+
+        base.OnRemoveChild(widget, childControl);
     }
 }
 

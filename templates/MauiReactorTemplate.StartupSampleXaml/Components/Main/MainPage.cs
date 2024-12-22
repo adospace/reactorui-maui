@@ -47,12 +47,12 @@ partial class MainPage : Component<MainPageState>
 
     public override VisualNode Render()
     {
-        return ContentPage(DateTime.Now.ToLongDateString(),
+        return ContentPage(DateTime.Today.ToLongDateString(),
             Grid(
                 new SfPullToRefresh(
                     RenderBody()
                 )
-                .IsRefreshing(State.IsRefreshing)
+                .IsRefreshing(() => State.IsRefreshing)
                 .OnRefreshing(Refresh),
 
                 Button()
@@ -86,14 +86,14 @@ partial class MainPage : Component<MainPageState>
                         ).ToArray()
                     )
                     .Spacing(15)
-                    .Padding(new Thickness(30, 0))
+                    .Padding(30, 0)
                 )
-                .Margin(new Thickness(-30, 0)),
+                .Margin(-30, 0),
 
                 Grid(
                     Label("Tasks")
-                            .Style(ResourceHelper.GetResource<Style>("Title2"))
-                            .VerticalOptions(LayoutOptions.Center),
+                        .Style(ResourceHelper.GetResource<Style>("Title2"))
+                        .VerticalOptions(LayoutOptions.Center),
                     ImageButton()
                         .Source(ResourceHelper.GetResource<ImageSource>("IconClean"))
                         .HorizontalOptions(LayoutOptions.End)
@@ -111,7 +111,7 @@ partial class MainPage : Component<MainPageState>
                         .Task(task)
                         .IsBusy(State.IsBusy)
                         .OnTaskCompletionChanged(Invalidate)
-                    ).ToArray()
+                    )
                 )
                 .Spacing(15)
 

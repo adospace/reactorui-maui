@@ -58,8 +58,11 @@
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 
-  <ItemGroup>
-    <RuntimeHostConfigurationOption Include="MauiReactor.HotReload" Value="true" Trim="true" />
+  <ItemGroup Condition="'$(Configuration)'=='Debug'">
+    <RuntimeHostConfigurationOption Include="MauiReactor.HotReload" Value="true" Trim="false" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net9.0-ios'">
+    <RuntimeHostConfigurationOption Include="MauiReactor.HotReload" Value="false" Trim="true" />
   </ItemGroup>
 
   <ItemGroup>
@@ -69,7 +72,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Maui" Version="9.1.1" />
+    <PackageReference Include="CommunityToolkit.Maui" Version="10.0.0" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.0" />
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.10" />
     <PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.3" />
