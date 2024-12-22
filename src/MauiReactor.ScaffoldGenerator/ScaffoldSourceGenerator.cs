@@ -29,8 +29,15 @@ namespace MauiReactor
             ImplementItemTemplate = implementItemTemplate;
         }
 
+        public ScaffoldAttribute(string nativeControlTypeName, bool implementItemTemplate = false, string baseTypeNamespace = null) 
+        {
+            NativeControlTypeName = nativeControlTypeName;
+            ImplementItemTemplate = implementItemTemplate;
+        }
+
         public Type NativeControlType { get; }
         public bool ImplementItemTemplate { get; }
+        public string NativeControlTypeName { get; }
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
@@ -67,8 +74,8 @@ namespace MauiReactor
                 throw new InvalidOperationException("Invalid ScaffoldAttribute arguments");
             }
 
-            var typeMetadataName = ((ISymbol)scaffoldAttribute.ConstructorArguments[0].Value.EnsureNotNull())
-                .GetFullyQualifiedName();
+            var firstArgument = scaffoldAttribute.ConstructorArguments[0].Value.EnsureNotNull();
+            var typeMetadataName = firstArgument is ISymbol symbol ? symbol.GetFullyQualifiedName() : firstArgument.ToString();
 
             var implementItemTemplateFlag = (bool)scaffoldAttribute.ConstructorArguments[1].Value.EnsureNotNull();
 

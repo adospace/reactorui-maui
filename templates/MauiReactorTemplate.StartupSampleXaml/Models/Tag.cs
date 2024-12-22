@@ -3,11 +3,11 @@ using CommunityToolkit.Maui.Core.Extensions;
 
 namespace MauiReactorTemplate.StartupSampleXaml.Models;
 
-public record Tag
+public class Tag
 {
 	public int ID { get; set; }
-	public string Title { get; init; } = string.Empty;
-	public string Color { get; init; } = "#FF0000";
+	public string Title { get; set; } = string.Empty;
+	public string Color { get; set; } = "#FF0000";
 
 	//[JsonIgnore]
 	//public Brush ColorBrush

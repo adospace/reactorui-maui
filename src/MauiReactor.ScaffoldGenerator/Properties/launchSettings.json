@@ -2,7 +2,7 @@
   "profiles": {
     "Profile 1": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "..\\..\\..\\..\\rtr\\fws-borg\\src\\FwsBorgApp\\FwsBorgApp.csproj"
+      "targetProject": "..\\..\\templates\\MauiReactorTemplate.StartupSampleXaml\\MauiReactorTemplate.StartupSampleXaml.csproj"
     }
   }
 }
