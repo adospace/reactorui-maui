@@ -37,10 +37,10 @@ partial class CategoryChart : Component
 
                     //Series
                     new RadialBarSeries()
-                        .ItemsSource(_todoCategoryData)
                         .PaletteBrushes(_todoCategoryColors ?? [])
                         .XBindingPath("Title")
                         .YBindingPath("Count")
+                        .ItemsSource(_todoCategoryData)
                         .ShowDataLabels(true)
                         .EnableTooltip(true)
                         .TrackFill(Theme.IsLightTheme ?

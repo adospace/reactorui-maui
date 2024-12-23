@@ -52,7 +52,7 @@ partial class MainPage : Component<MainPageState>
                 new SfPullToRefresh(
                     RenderBody()
                 )
-                .IsRefreshing(() => State.IsRefreshing)
+                .IsRefreshing(State.IsRefreshing)
                 .OnRefreshing(Refresh),
 
                 Button()
@@ -61,9 +61,9 @@ partial class MainPage : Component<MainPageState>
                     .OnClicked(AddTask)
             )
         )
-        .OnNavigatedTo(() => State.IsNavigatingTo = true)  
+        .OnNavigatedTo(() => State.IsNavigatingTo = true)
         .OnNavigatedFrom(() => State.IsNavigatingTo = false)
-        .OnAppearing(LoadOrRefreshData);  
+        .OnAppearing(LoadOrRefreshData);
     }  
 
     VisualNode RenderBody()
@@ -149,7 +149,7 @@ partial class MainPage : Component<MainPageState>
         {
             SetState(s => s.IsBusy = true);
 
-            State.Projects = await _projectRepository.ListAsync();
+            var projects = await _projectRepository.ListAsync();
 
             var chartData = new List<CategoryChartData>();
             var chartColors = new List<Brush>();
@@ -159,16 +159,24 @@ partial class MainPage : Component<MainPageState>
             {
                 chartColors.Add(category.ColorBrush);
 
-                var ps = State.Projects.Where(p => p.CategoryID == category.ID).ToList();
+                var ps = projects.Where(p => p.CategoryID == category.ID).ToList();
                 int tasksCount = ps.SelectMany(p => p.Tasks).Count();
 
                 chartData.Add(new(category.Title, tasksCount));
             }
 
-            State.TodoCategoryData = chartData;
-            State.TodoCategoryColors = chartColors;
+            var todoCategoryData = chartData;
+            var todoCategoryColors = chartColors;
 
-            State.Tasks = await _taskRepository.ListAsync();
+            var tasks = await _taskRepository.ListAsync();
+
+            SetState(s => 
+            {
+                s.Projects = projects;
+                s.TodoCategoryData = chartData;
+                s.TodoCategoryColors = chartColors;
+                s.Tasks = tasks;
+            });
         }
         finally
         {
@@ -181,6 +189,8 @@ partial class MainPage : Component<MainPageState>
         try
         {
             SetState(s => s.IsRefreshing = true);
+
+            await Task.Delay(100);
 
             await LoadData();
         }
