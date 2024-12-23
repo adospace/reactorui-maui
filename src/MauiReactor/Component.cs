@@ -274,9 +274,14 @@ namespace MauiReactor
                 {
                     newComponentWithProps.Props = Props;
                 }
-                else
+                else if (MauiReactorFeatures.HotReloadIsEnabled)
                 {
                     CopyObjectExtensions.CopyProperties(Props, newComponentWithProps.Props);
+                }
+                else
+                {
+                    var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
+                    logger?.LogWarning("Unable to tranfser component Props from type {thisComponent} to {newComponent}", GetType(), newNode.GetType());
                 }
             }
 
@@ -348,9 +353,15 @@ namespace MauiReactor
             { 
                 _state = (S)stateFromOldComponent;
             }
-            else if (stateFromOldComponent.GetType().FullName == typeof(S).FullName)
-            { 
+            else if (MauiReactorFeatures.HotReloadIsEnabled && stateFromOldComponent.GetType().FullName == typeof(S).FullName)
+            {
                 CopyObjectExtensions.CopyProperties(stateFromOldComponent, State);
+            }
+            else
+            {
+                var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
+                logger?.LogWarning("Unable to forward component State from type {State}", 
+                    stateFromOldComponent.GetType().FullName);
             }
 
             if (_actionsRegisteredOnStateChange != null)
@@ -484,11 +495,20 @@ namespace MauiReactor
                 {
                     newComponentWithState.State = State;
                 }
-                else if (newNode.GetType().FullName == this.GetType().FullName)
+                else if (MauiReactorFeatures.HotReloadIsEnabled && newNode.GetType().FullName == this.GetType().FullName)
                 {
-                    System.Diagnostics.Debug.WriteLine("WARNING: State copied!");
+                    var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
+                    logger?.LogWarning("State {State} copied to new instance of component {Component}", 
+                        State.GetType().FullName, newNode.GetType().FullName);
                     CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
                 }
+                else
+                {
+                    var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
+                    logger?.LogWarning("Unable to copy state {State} copied to new instance of component {Component}", 
+                        State.GetType().FullName, newNode.GetType().FullName);
+                }
+
             }
 
             base.MergeWith(newNode);

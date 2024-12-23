@@ -1,4 +1,5 @@
 ﻿using MauiReactor.Internals;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 
 namespace MauiReactor.Parameters
@@ -108,14 +109,22 @@ namespace MauiReactor.Parameters
                 }
 
                 var newParameterT = new Parameter<T>(name);
-
                 _parameters[newParameterT.Name] = newParameterT;
 
-                CopyObjectExtensions.CopyProperties(parameter.GetValue(), newParameterT.Value!);
+                if (MauiReactorFeatures.HotReloadIsEnabled)
+                {
+                    CopyObjectExtensions.CopyProperties(parameter.GetValue(), newParameterT.Value!);
+                }
+                else
+                {
+                    var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<ParameterContext>>();
+                    logger?.LogWarning("Unable to forward component Props from type {Props}", 
+                        parameter.GetValue().GetType().FullName);
+                }
 
                 newParameterT.RegisterReference(Component);
+                return newParameterT; 
 
-                return newParameterT;
             }
         }
 
@@ -138,7 +147,16 @@ namespace MauiReactor.Parameters
 
             _parameters[newParameterT.Name] = newParameterT;
 
-            CopyObjectExtensions.CopyProperties(parameter.GetValue(), newParameterT.Value!);
+            if (MauiReactorFeatures.HotReloadIsEnabled)
+            {
+                CopyObjectExtensions.CopyProperties(parameter.GetValue(), newParameterT.Value!);
+            }
+            else
+            {
+                var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<ParameterContext>>();
+                logger?.LogWarning("Unable to forward component Props from type {Props}", 
+                    parameter.GetValue().GetType().FullName);
+            }            
 
             newParameterT.RegisterReference(Component);
 

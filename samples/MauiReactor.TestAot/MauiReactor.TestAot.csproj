@@ -20,15 +20,15 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
-    <!-- enable trimming and AOT analyzers on all platforms -->
-    <IsAotCompatible>true</IsAotCompatible>
+		<!-- enable trimming and AOT analyzers on all platforms -->
+		<IsAotCompatible>true</IsAotCompatible>
 
-    <!-- select platforms to use with NativeAOT -->
-    <PublishAot Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">true</PublishAot>
-    <PublishAot Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">true</PublishAot>
+		<!-- select platforms to use with NativeAOT -->
+		<PublishAot Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">true</PublishAot>
+		<PublishAot Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">true</PublishAot>
 
 
-    <!-- Display name -->
+		<!-- Display name -->
 		<ApplicationTitle>MauiReactor.TestAot</ApplicationTitle>
 
 		<!-- App Identifier -->
@@ -73,17 +73,17 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 	</ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)'=='Debug'">
-    <RuntimeHostConfigurationOption Include="MauiReactor.HotReload" Value="true" Trim="false" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net9.0-ios'">
-    <RuntimeHostConfigurationOption Include="MauiReactor.HotReload" Value="false" Trim="true" />
-  </ItemGroup>
-  
-  <ItemGroup>
-	  <ProjectReference Include="..\..\src\MauiReactor.Canvas\MauiReactor.Canvas.csproj" />
-	  <ProjectReference Include="..\..\src\MauiReactor.ScaffoldGenerator\MauiReactor.ScaffoldGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
-	  <ProjectReference Include="..\..\src\MauiReactor\MauiReactor.csproj" />
+	<ItemGroup Condition="'$(Configuration)'=='Debug'">
+		<RuntimeHostConfigurationOption Include="MauiReactor.HotReload" Value="true" Trim="false" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(Configuration)'=='Release'">
+		<RuntimeHostConfigurationOption Include="MauiReactor.HotReload" Value="false" Trim="true" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\MauiReactor.Canvas\MauiReactor.Canvas.csproj" />
+		<ProjectReference Include="..\..\src\MauiReactor.ScaffoldGenerator\MauiReactor.ScaffoldGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
+		<ProjectReference Include="..\..\src\MauiReactor\MauiReactor.csproj" />
 	</ItemGroup>
 
 </Project>
