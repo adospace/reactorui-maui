@@ -168,24 +168,24 @@ public static partial class MultiPageExtensions
         return multiPage;
     }
 
-    public static T OnCurrentPageChanged<T>(this T multiPage, Func<Task>? currentPageChangedAction)
+    public static T OnCurrentPageChanged<T>(this T multiPage, Func<Task>? currentPageChangedAction, bool runInBackground = false)
         where T : IGenericMultiPage
     {
-        multiPage.CurrentPageChangedEvent = new AsyncEventCommand<EventArgs>(execute: currentPageChangedAction);
+        multiPage.CurrentPageChangedEvent = new AsyncEventCommand<EventArgs>(execute: currentPageChangedAction, runInBackground);
         return multiPage;
     }
 
-    public static T OnCurrentPageChanged<T>(this T multiPage, Func<EventArgs, Task>? currentPageChangedAction)
+    public static T OnCurrentPageChanged<T>(this T multiPage, Func<EventArgs, Task>? currentPageChangedAction, bool runInBackground = false)
         where T : IGenericMultiPage
     {
-        multiPage.CurrentPageChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: currentPageChangedAction);
+        multiPage.CurrentPageChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: currentPageChangedAction, runInBackground);
         return multiPage;
     }
 
-    public static T OnCurrentPageChanged<T>(this T multiPage, Func<object?, EventArgs, Task>? currentPageChangedAction)
+    public static T OnCurrentPageChanged<T>(this T multiPage, Func<object?, EventArgs, Task>? currentPageChangedAction, bool runInBackground = false)
         where T : IGenericMultiPage
     {
-        multiPage.CurrentPageChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: currentPageChangedAction);
+        multiPage.CurrentPageChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: currentPageChangedAction, runInBackground);
         return multiPage;
     }
 
@@ -210,24 +210,24 @@ public static partial class MultiPageExtensions
         return multiPage;
     }
 
-    public static T OnPagesChanged<T>(this T multiPage, Func<Task>? pagesChangedAction)
+    public static T OnPagesChanged<T>(this T multiPage, Func<Task>? pagesChangedAction, bool runInBackground = false)
         where T : IGenericMultiPage
     {
-        multiPage.PagesChangedEvent = new AsyncEventCommand<EventArgs>(execute: pagesChangedAction);
+        multiPage.PagesChangedEvent = new AsyncEventCommand<EventArgs>(execute: pagesChangedAction, runInBackground);
         return multiPage;
     }
 
-    public static T OnPagesChanged<T>(this T multiPage, Func<EventArgs, Task>? pagesChangedAction)
+    public static T OnPagesChanged<T>(this T multiPage, Func<EventArgs, Task>? pagesChangedAction, bool runInBackground = false)
         where T : IGenericMultiPage
     {
-        multiPage.PagesChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: pagesChangedAction);
+        multiPage.PagesChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: pagesChangedAction, runInBackground);
         return multiPage;
     }
 
-    public static T OnPagesChanged<T>(this T multiPage, Func<object?, EventArgs, Task>? pagesChangedAction)
+    public static T OnPagesChanged<T>(this T multiPage, Func<object?, EventArgs, Task>? pagesChangedAction, bool runInBackground = false)
         where T : IGenericMultiPage
     {
-        multiPage.PagesChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: pagesChangedAction);
+        multiPage.PagesChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: pagesChangedAction, runInBackground);
         return multiPage;
     }
 }

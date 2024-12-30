@@ -510,24 +510,24 @@ public static partial class ShellExtensions
         return shell;
     }
 
-    public static T OnNavigated<T>(this T shell, Func<Task>? navigatedAction)
+    public static T OnNavigated<T>(this T shell, Func<Task>? navigatedAction, bool runInBackground = false)
         where T : IShell
     {
-        shell.NavigatedEvent = new AsyncEventCommand<ShellNavigatedEventArgs>(execute: navigatedAction);
+        shell.NavigatedEvent = new AsyncEventCommand<ShellNavigatedEventArgs>(execute: navigatedAction, runInBackground);
         return shell;
     }
 
-    public static T OnNavigated<T>(this T shell, Func<ShellNavigatedEventArgs, Task>? navigatedAction)
+    public static T OnNavigated<T>(this T shell, Func<ShellNavigatedEventArgs, Task>? navigatedAction, bool runInBackground = false)
         where T : IShell
     {
-        shell.NavigatedEvent = new AsyncEventCommand<ShellNavigatedEventArgs>(executeWithArgs: navigatedAction);
+        shell.NavigatedEvent = new AsyncEventCommand<ShellNavigatedEventArgs>(executeWithArgs: navigatedAction, runInBackground);
         return shell;
     }
 
-    public static T OnNavigated<T>(this T shell, Func<object?, ShellNavigatedEventArgs, Task>? navigatedAction)
+    public static T OnNavigated<T>(this T shell, Func<object?, ShellNavigatedEventArgs, Task>? navigatedAction, bool runInBackground = false)
         where T : IShell
     {
-        shell.NavigatedEvent = new AsyncEventCommand<ShellNavigatedEventArgs>(executeWithFullArgs: navigatedAction);
+        shell.NavigatedEvent = new AsyncEventCommand<ShellNavigatedEventArgs>(executeWithFullArgs: navigatedAction, runInBackground);
         return shell;
     }
 
@@ -552,24 +552,24 @@ public static partial class ShellExtensions
         return shell;
     }
 
-    public static T OnNavigating<T>(this T shell, Func<Task>? navigatingAction)
+    public static T OnNavigating<T>(this T shell, Func<Task>? navigatingAction, bool runInBackground = false)
         where T : IShell
     {
-        shell.NavigatingEvent = new AsyncEventCommand<ShellNavigatingEventArgs>(execute: navigatingAction);
+        shell.NavigatingEvent = new AsyncEventCommand<ShellNavigatingEventArgs>(execute: navigatingAction, runInBackground);
         return shell;
     }
 
-    public static T OnNavigating<T>(this T shell, Func<ShellNavigatingEventArgs, Task>? navigatingAction)
+    public static T OnNavigating<T>(this T shell, Func<ShellNavigatingEventArgs, Task>? navigatingAction, bool runInBackground = false)
         where T : IShell
     {
-        shell.NavigatingEvent = new AsyncEventCommand<ShellNavigatingEventArgs>(executeWithArgs: navigatingAction);
+        shell.NavigatingEvent = new AsyncEventCommand<ShellNavigatingEventArgs>(executeWithArgs: navigatingAction, runInBackground);
         return shell;
     }
 
-    public static T OnNavigating<T>(this T shell, Func<object?, ShellNavigatingEventArgs, Task>? navigatingAction)
+    public static T OnNavigating<T>(this T shell, Func<object?, ShellNavigatingEventArgs, Task>? navigatingAction, bool runInBackground = false)
         where T : IShell
     {
-        shell.NavigatingEvent = new AsyncEventCommand<ShellNavigatingEventArgs>(executeWithFullArgs: navigatingAction);
+        shell.NavigatingEvent = new AsyncEventCommand<ShellNavigatingEventArgs>(executeWithFullArgs: navigatingAction, runInBackground);
         return shell;
     }
 }

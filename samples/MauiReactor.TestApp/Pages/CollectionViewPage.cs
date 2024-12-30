@@ -24,6 +24,7 @@ namespace MauiReactor.TestApp.Pages
             {
                 new CollectionView()
                     .AutomationId("list") //AutomationId used for test
+                    .ItemSizingStrategy(MauiControls.ItemSizingStrategy.MeasureFirstItem)
                     .SelectionMode(MauiControls.SelectionMode.Single)
                     .ItemsSource(ItemsSource, RenderItem)
                     .ItemVisualState(nameof(CommonStates), CommonStates.Normal, MauiControls.VisualElement.BackgroundColorProperty, Colors.Transparent)

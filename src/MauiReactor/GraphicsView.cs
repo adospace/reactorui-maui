@@ -312,24 +312,24 @@ public static partial class GraphicsViewExtensions
         return graphicsView;
     }
 
-    public static T OnStartHoverInteraction<T>(this T graphicsView, Func<Task>? startHoverInteractionAction)
+    public static T OnStartHoverInteraction<T>(this T graphicsView, Func<Task>? startHoverInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.StartHoverInteractionEvent = new AsyncEventCommand<TouchEventArgs>(execute: startHoverInteractionAction);
+        graphicsView.StartHoverInteractionEvent = new AsyncEventCommand<TouchEventArgs>(execute: startHoverInteractionAction, runInBackground);
         return graphicsView;
     }
 
-    public static T OnStartHoverInteraction<T>(this T graphicsView, Func<TouchEventArgs, Task>? startHoverInteractionAction)
+    public static T OnStartHoverInteraction<T>(this T graphicsView, Func<TouchEventArgs, Task>? startHoverInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.StartHoverInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithArgs: startHoverInteractionAction);
+        graphicsView.StartHoverInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithArgs: startHoverInteractionAction, runInBackground);
         return graphicsView;
     }
 
-    public static T OnStartHoverInteraction<T>(this T graphicsView, Func<object?, TouchEventArgs, Task>? startHoverInteractionAction)
+    public static T OnStartHoverInteraction<T>(this T graphicsView, Func<object?, TouchEventArgs, Task>? startHoverInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.StartHoverInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithFullArgs: startHoverInteractionAction);
+        graphicsView.StartHoverInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithFullArgs: startHoverInteractionAction, runInBackground);
         return graphicsView;
     }
 
@@ -354,24 +354,24 @@ public static partial class GraphicsViewExtensions
         return graphicsView;
     }
 
-    public static T OnMoveHoverInteraction<T>(this T graphicsView, Func<Task>? moveHoverInteractionAction)
+    public static T OnMoveHoverInteraction<T>(this T graphicsView, Func<Task>? moveHoverInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.MoveHoverInteractionEvent = new AsyncEventCommand<TouchEventArgs>(execute: moveHoverInteractionAction);
+        graphicsView.MoveHoverInteractionEvent = new AsyncEventCommand<TouchEventArgs>(execute: moveHoverInteractionAction, runInBackground);
         return graphicsView;
     }
 
-    public static T OnMoveHoverInteraction<T>(this T graphicsView, Func<TouchEventArgs, Task>? moveHoverInteractionAction)
+    public static T OnMoveHoverInteraction<T>(this T graphicsView, Func<TouchEventArgs, Task>? moveHoverInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.MoveHoverInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithArgs: moveHoverInteractionAction);
+        graphicsView.MoveHoverInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithArgs: moveHoverInteractionAction, runInBackground);
         return graphicsView;
     }
 
-    public static T OnMoveHoverInteraction<T>(this T graphicsView, Func<object?, TouchEventArgs, Task>? moveHoverInteractionAction)
+    public static T OnMoveHoverInteraction<T>(this T graphicsView, Func<object?, TouchEventArgs, Task>? moveHoverInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.MoveHoverInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithFullArgs: moveHoverInteractionAction);
+        graphicsView.MoveHoverInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithFullArgs: moveHoverInteractionAction, runInBackground);
         return graphicsView;
     }
 
@@ -396,24 +396,24 @@ public static partial class GraphicsViewExtensions
         return graphicsView;
     }
 
-    public static T OnEndHoverInteraction<T>(this T graphicsView, Func<Task>? endHoverInteractionAction)
+    public static T OnEndHoverInteraction<T>(this T graphicsView, Func<Task>? endHoverInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.EndHoverInteractionEvent = new AsyncEventCommand<EventArgs>(execute: endHoverInteractionAction);
+        graphicsView.EndHoverInteractionEvent = new AsyncEventCommand<EventArgs>(execute: endHoverInteractionAction, runInBackground);
         return graphicsView;
     }
 
-    public static T OnEndHoverInteraction<T>(this T graphicsView, Func<EventArgs, Task>? endHoverInteractionAction)
+    public static T OnEndHoverInteraction<T>(this T graphicsView, Func<EventArgs, Task>? endHoverInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.EndHoverInteractionEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: endHoverInteractionAction);
+        graphicsView.EndHoverInteractionEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: endHoverInteractionAction, runInBackground);
         return graphicsView;
     }
 
-    public static T OnEndHoverInteraction<T>(this T graphicsView, Func<object?, EventArgs, Task>? endHoverInteractionAction)
+    public static T OnEndHoverInteraction<T>(this T graphicsView, Func<object?, EventArgs, Task>? endHoverInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.EndHoverInteractionEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: endHoverInteractionAction);
+        graphicsView.EndHoverInteractionEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: endHoverInteractionAction, runInBackground);
         return graphicsView;
     }
 
@@ -438,24 +438,24 @@ public static partial class GraphicsViewExtensions
         return graphicsView;
     }
 
-    public static T OnStartInteraction<T>(this T graphicsView, Func<Task>? startInteractionAction)
+    public static T OnStartInteraction<T>(this T graphicsView, Func<Task>? startInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.StartInteractionEvent = new AsyncEventCommand<TouchEventArgs>(execute: startInteractionAction);
+        graphicsView.StartInteractionEvent = new AsyncEventCommand<TouchEventArgs>(execute: startInteractionAction, runInBackground);
         return graphicsView;
     }
 
-    public static T OnStartInteraction<T>(this T graphicsView, Func<TouchEventArgs, Task>? startInteractionAction)
+    public static T OnStartInteraction<T>(this T graphicsView, Func<TouchEventArgs, Task>? startInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.StartInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithArgs: startInteractionAction);
+        graphicsView.StartInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithArgs: startInteractionAction, runInBackground);
         return graphicsView;
     }
 
-    public static T OnStartInteraction<T>(this T graphicsView, Func<object?, TouchEventArgs, Task>? startInteractionAction)
+    public static T OnStartInteraction<T>(this T graphicsView, Func<object?, TouchEventArgs, Task>? startInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.StartInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithFullArgs: startInteractionAction);
+        graphicsView.StartInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithFullArgs: startInteractionAction, runInBackground);
         return graphicsView;
     }
 
@@ -480,24 +480,24 @@ public static partial class GraphicsViewExtensions
         return graphicsView;
     }
 
-    public static T OnDragInteraction<T>(this T graphicsView, Func<Task>? dragInteractionAction)
+    public static T OnDragInteraction<T>(this T graphicsView, Func<Task>? dragInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.DragInteractionEvent = new AsyncEventCommand<TouchEventArgs>(execute: dragInteractionAction);
+        graphicsView.DragInteractionEvent = new AsyncEventCommand<TouchEventArgs>(execute: dragInteractionAction, runInBackground);
         return graphicsView;
     }
 
-    public static T OnDragInteraction<T>(this T graphicsView, Func<TouchEventArgs, Task>? dragInteractionAction)
+    public static T OnDragInteraction<T>(this T graphicsView, Func<TouchEventArgs, Task>? dragInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.DragInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithArgs: dragInteractionAction);
+        graphicsView.DragInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithArgs: dragInteractionAction, runInBackground);
         return graphicsView;
     }
 
-    public static T OnDragInteraction<T>(this T graphicsView, Func<object?, TouchEventArgs, Task>? dragInteractionAction)
+    public static T OnDragInteraction<T>(this T graphicsView, Func<object?, TouchEventArgs, Task>? dragInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.DragInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithFullArgs: dragInteractionAction);
+        graphicsView.DragInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithFullArgs: dragInteractionAction, runInBackground);
         return graphicsView;
     }
 
@@ -522,24 +522,24 @@ public static partial class GraphicsViewExtensions
         return graphicsView;
     }
 
-    public static T OnEndInteraction<T>(this T graphicsView, Func<Task>? endInteractionAction)
+    public static T OnEndInteraction<T>(this T graphicsView, Func<Task>? endInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.EndInteractionEvent = new AsyncEventCommand<TouchEventArgs>(execute: endInteractionAction);
+        graphicsView.EndInteractionEvent = new AsyncEventCommand<TouchEventArgs>(execute: endInteractionAction, runInBackground);
         return graphicsView;
     }
 
-    public static T OnEndInteraction<T>(this T graphicsView, Func<TouchEventArgs, Task>? endInteractionAction)
+    public static T OnEndInteraction<T>(this T graphicsView, Func<TouchEventArgs, Task>? endInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.EndInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithArgs: endInteractionAction);
+        graphicsView.EndInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithArgs: endInteractionAction, runInBackground);
         return graphicsView;
     }
 
-    public static T OnEndInteraction<T>(this T graphicsView, Func<object?, TouchEventArgs, Task>? endInteractionAction)
+    public static T OnEndInteraction<T>(this T graphicsView, Func<object?, TouchEventArgs, Task>? endInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.EndInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithFullArgs: endInteractionAction);
+        graphicsView.EndInteractionEvent = new AsyncEventCommand<TouchEventArgs>(executeWithFullArgs: endInteractionAction, runInBackground);
         return graphicsView;
     }
 
@@ -564,24 +564,24 @@ public static partial class GraphicsViewExtensions
         return graphicsView;
     }
 
-    public static T OnCancelInteraction<T>(this T graphicsView, Func<Task>? cancelInteractionAction)
+    public static T OnCancelInteraction<T>(this T graphicsView, Func<Task>? cancelInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.CancelInteractionEvent = new AsyncEventCommand<EventArgs>(execute: cancelInteractionAction);
+        graphicsView.CancelInteractionEvent = new AsyncEventCommand<EventArgs>(execute: cancelInteractionAction, runInBackground);
         return graphicsView;
     }
 
-    public static T OnCancelInteraction<T>(this T graphicsView, Func<EventArgs, Task>? cancelInteractionAction)
+    public static T OnCancelInteraction<T>(this T graphicsView, Func<EventArgs, Task>? cancelInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.CancelInteractionEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: cancelInteractionAction);
+        graphicsView.CancelInteractionEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: cancelInteractionAction, runInBackground);
         return graphicsView;
     }
 
-    public static T OnCancelInteraction<T>(this T graphicsView, Func<object?, EventArgs, Task>? cancelInteractionAction)
+    public static T OnCancelInteraction<T>(this T graphicsView, Func<object?, EventArgs, Task>? cancelInteractionAction, bool runInBackground = false)
         where T : IGraphicsView
     {
-        graphicsView.CancelInteractionEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: cancelInteractionAction);
+        graphicsView.CancelInteractionEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: cancelInteractionAction, runInBackground);
         return graphicsView;
     }
 }

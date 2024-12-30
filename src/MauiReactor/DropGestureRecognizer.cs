@@ -208,24 +208,24 @@ public static partial class DropGestureRecognizerExtensions
         return dropGestureRecognizer;
     }
 
-    public static T OnDragLeave<T>(this T dropGestureRecognizer, Func<Task>? dragLeaveAction)
+    public static T OnDragLeave<T>(this T dropGestureRecognizer, Func<Task>? dragLeaveAction, bool runInBackground = false)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.DragLeaveEvent = new AsyncEventCommand<DragEventArgs>(execute: dragLeaveAction);
+        dropGestureRecognizer.DragLeaveEvent = new AsyncEventCommand<DragEventArgs>(execute: dragLeaveAction, runInBackground);
         return dropGestureRecognizer;
     }
 
-    public static T OnDragLeave<T>(this T dropGestureRecognizer, Func<DragEventArgs, Task>? dragLeaveAction)
+    public static T OnDragLeave<T>(this T dropGestureRecognizer, Func<DragEventArgs, Task>? dragLeaveAction, bool runInBackground = false)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.DragLeaveEvent = new AsyncEventCommand<DragEventArgs>(executeWithArgs: dragLeaveAction);
+        dropGestureRecognizer.DragLeaveEvent = new AsyncEventCommand<DragEventArgs>(executeWithArgs: dragLeaveAction, runInBackground);
         return dropGestureRecognizer;
     }
 
-    public static T OnDragLeave<T>(this T dropGestureRecognizer, Func<object?, DragEventArgs, Task>? dragLeaveAction)
+    public static T OnDragLeave<T>(this T dropGestureRecognizer, Func<object?, DragEventArgs, Task>? dragLeaveAction, bool runInBackground = false)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.DragLeaveEvent = new AsyncEventCommand<DragEventArgs>(executeWithFullArgs: dragLeaveAction);
+        dropGestureRecognizer.DragLeaveEvent = new AsyncEventCommand<DragEventArgs>(executeWithFullArgs: dragLeaveAction, runInBackground);
         return dropGestureRecognizer;
     }
 
@@ -250,24 +250,24 @@ public static partial class DropGestureRecognizerExtensions
         return dropGestureRecognizer;
     }
 
-    public static T OnDragOver<T>(this T dropGestureRecognizer, Func<Task>? dragOverAction)
+    public static T OnDragOver<T>(this T dropGestureRecognizer, Func<Task>? dragOverAction, bool runInBackground = false)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.DragOverEvent = new AsyncEventCommand<DragEventArgs>(execute: dragOverAction);
+        dropGestureRecognizer.DragOverEvent = new AsyncEventCommand<DragEventArgs>(execute: dragOverAction, runInBackground);
         return dropGestureRecognizer;
     }
 
-    public static T OnDragOver<T>(this T dropGestureRecognizer, Func<DragEventArgs, Task>? dragOverAction)
+    public static T OnDragOver<T>(this T dropGestureRecognizer, Func<DragEventArgs, Task>? dragOverAction, bool runInBackground = false)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.DragOverEvent = new AsyncEventCommand<DragEventArgs>(executeWithArgs: dragOverAction);
+        dropGestureRecognizer.DragOverEvent = new AsyncEventCommand<DragEventArgs>(executeWithArgs: dragOverAction, runInBackground);
         return dropGestureRecognizer;
     }
 
-    public static T OnDragOver<T>(this T dropGestureRecognizer, Func<object?, DragEventArgs, Task>? dragOverAction)
+    public static T OnDragOver<T>(this T dropGestureRecognizer, Func<object?, DragEventArgs, Task>? dragOverAction, bool runInBackground = false)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.DragOverEvent = new AsyncEventCommand<DragEventArgs>(executeWithFullArgs: dragOverAction);
+        dropGestureRecognizer.DragOverEvent = new AsyncEventCommand<DragEventArgs>(executeWithFullArgs: dragOverAction, runInBackground);
         return dropGestureRecognizer;
     }
 
@@ -292,24 +292,24 @@ public static partial class DropGestureRecognizerExtensions
         return dropGestureRecognizer;
     }
 
-    public static T OnDrop<T>(this T dropGestureRecognizer, Func<Task>? dropAction)
+    public static T OnDrop<T>(this T dropGestureRecognizer, Func<Task>? dropAction, bool runInBackground = false)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.DropEvent = new AsyncEventCommand<DropEventArgs>(execute: dropAction);
+        dropGestureRecognizer.DropEvent = new AsyncEventCommand<DropEventArgs>(execute: dropAction, runInBackground);
         return dropGestureRecognizer;
     }
 
-    public static T OnDrop<T>(this T dropGestureRecognizer, Func<DropEventArgs, Task>? dropAction)
+    public static T OnDrop<T>(this T dropGestureRecognizer, Func<DropEventArgs, Task>? dropAction, bool runInBackground = false)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.DropEvent = new AsyncEventCommand<DropEventArgs>(executeWithArgs: dropAction);
+        dropGestureRecognizer.DropEvent = new AsyncEventCommand<DropEventArgs>(executeWithArgs: dropAction, runInBackground);
         return dropGestureRecognizer;
     }
 
-    public static T OnDrop<T>(this T dropGestureRecognizer, Func<object?, DropEventArgs, Task>? dropAction)
+    public static T OnDrop<T>(this T dropGestureRecognizer, Func<object?, DropEventArgs, Task>? dropAction, bool runInBackground = false)
         where T : IDropGestureRecognizer
     {
-        dropGestureRecognizer.DropEvent = new AsyncEventCommand<DropEventArgs>(executeWithFullArgs: dropAction);
+        dropGestureRecognizer.DropEvent = new AsyncEventCommand<DropEventArgs>(executeWithFullArgs: dropAction, runInBackground);
         return dropGestureRecognizer;
     }
 }

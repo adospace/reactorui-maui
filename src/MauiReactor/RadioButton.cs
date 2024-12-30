@@ -387,24 +387,24 @@ public static partial class RadioButtonExtensions
         return radioButton;
     }
 
-    public static T OnCheckedChanged<T>(this T radioButton, Func<Task>? checkedChangedAction)
+    public static T OnCheckedChanged<T>(this T radioButton, Func<Task>? checkedChangedAction, bool runInBackground = false)
         where T : IRadioButton
     {
-        radioButton.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(execute: checkedChangedAction);
+        radioButton.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(execute: checkedChangedAction, runInBackground);
         return radioButton;
     }
 
-    public static T OnCheckedChanged<T>(this T radioButton, Func<CheckedChangedEventArgs, Task>? checkedChangedAction)
+    public static T OnCheckedChanged<T>(this T radioButton, Func<CheckedChangedEventArgs, Task>? checkedChangedAction, bool runInBackground = false)
         where T : IRadioButton
     {
-        radioButton.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(executeWithArgs: checkedChangedAction);
+        radioButton.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(executeWithArgs: checkedChangedAction, runInBackground);
         return radioButton;
     }
 
-    public static T OnCheckedChanged<T>(this T radioButton, Func<object?, CheckedChangedEventArgs, Task>? checkedChangedAction)
+    public static T OnCheckedChanged<T>(this T radioButton, Func<object?, CheckedChangedEventArgs, Task>? checkedChangedAction, bool runInBackground = false)
         where T : IRadioButton
     {
-        radioButton.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(executeWithFullArgs: checkedChangedAction);
+        radioButton.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(executeWithFullArgs: checkedChangedAction, runInBackground);
         return radioButton;
     }
 }

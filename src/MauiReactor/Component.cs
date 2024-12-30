@@ -477,7 +477,8 @@ namespace MauiReactor
 
             if (invalidateComponent && !_isMounted)
             {
-                System.Diagnostics.Debug.WriteLine($"WARNING: You are calling SetState on an unmounted component '{this.GetType().Name}'");
+                var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
+                logger?.LogWarning("You are calling SetState on an unmounted component '{Component}'", GetType().Name);
             }
 
             if (invalidateComponent && _isMounted)

@@ -174,24 +174,24 @@ public static partial class CheckBoxExtensions
         return checkBox;
     }
 
-    public static T OnCheckedChanged<T>(this T checkBox, Func<Task>? checkedChangedAction)
+    public static T OnCheckedChanged<T>(this T checkBox, Func<Task>? checkedChangedAction, bool runInBackground = false)
         where T : ICheckBox
     {
-        checkBox.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(execute: checkedChangedAction);
+        checkBox.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(execute: checkedChangedAction, runInBackground);
         return checkBox;
     }
 
-    public static T OnCheckedChanged<T>(this T checkBox, Func<CheckedChangedEventArgs, Task>? checkedChangedAction)
+    public static T OnCheckedChanged<T>(this T checkBox, Func<CheckedChangedEventArgs, Task>? checkedChangedAction, bool runInBackground = false)
         where T : ICheckBox
     {
-        checkBox.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(executeWithArgs: checkedChangedAction);
+        checkBox.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(executeWithArgs: checkedChangedAction, runInBackground);
         return checkBox;
     }
 
-    public static T OnCheckedChanged<T>(this T checkBox, Func<object?, CheckedChangedEventArgs, Task>? checkedChangedAction)
+    public static T OnCheckedChanged<T>(this T checkBox, Func<object?, CheckedChangedEventArgs, Task>? checkedChangedAction, bool runInBackground = false)
         where T : ICheckBox
     {
-        checkBox.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(executeWithFullArgs: checkedChangedAction);
+        checkBox.CheckedChangedEvent = new AsyncEventCommand<CheckedChangedEventArgs>(executeWithFullArgs: checkedChangedAction, runInBackground);
         return checkBox;
     }
 }

@@ -192,24 +192,24 @@ public static partial class SwitchExtensions
         return @switch;
     }
 
-    public static T OnToggled<T>(this T @switch, Func<Task>? toggledAction)
+    public static T OnToggled<T>(this T @switch, Func<Task>? toggledAction, bool runInBackground = false)
         where T : ISwitch
     {
-        @switch.ToggledEvent = new AsyncEventCommand<ToggledEventArgs>(execute: toggledAction);
+        @switch.ToggledEvent = new AsyncEventCommand<ToggledEventArgs>(execute: toggledAction, runInBackground);
         return @switch;
     }
 
-    public static T OnToggled<T>(this T @switch, Func<ToggledEventArgs, Task>? toggledAction)
+    public static T OnToggled<T>(this T @switch, Func<ToggledEventArgs, Task>? toggledAction, bool runInBackground = false)
         where T : ISwitch
     {
-        @switch.ToggledEvent = new AsyncEventCommand<ToggledEventArgs>(executeWithArgs: toggledAction);
+        @switch.ToggledEvent = new AsyncEventCommand<ToggledEventArgs>(executeWithArgs: toggledAction, runInBackground);
         return @switch;
     }
 
-    public static T OnToggled<T>(this T @switch, Func<object?, ToggledEventArgs, Task>? toggledAction)
+    public static T OnToggled<T>(this T @switch, Func<object?, ToggledEventArgs, Task>? toggledAction, bool runInBackground = false)
         where T : ISwitch
     {
-        @switch.ToggledEvent = new AsyncEventCommand<ToggledEventArgs>(executeWithFullArgs: toggledAction);
+        @switch.ToggledEvent = new AsyncEventCommand<ToggledEventArgs>(executeWithFullArgs: toggledAction, runInBackground);
         return @switch;
     }
 }

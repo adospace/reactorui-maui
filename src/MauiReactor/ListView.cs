@@ -484,24 +484,24 @@ public static partial class ListViewExtensions
         return listView;
     }
 
-    public static T OnItemAppearing<T>(this T listView, Func<Task>? itemAppearingAction)
+    public static T OnItemAppearing<T>(this T listView, Func<Task>? itemAppearingAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.ItemAppearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(execute: itemAppearingAction);
+        listView.ItemAppearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(execute: itemAppearingAction, runInBackground);
         return listView;
     }
 
-    public static T OnItemAppearing<T>(this T listView, Func<ItemVisibilityEventArgs, Task>? itemAppearingAction)
+    public static T OnItemAppearing<T>(this T listView, Func<ItemVisibilityEventArgs, Task>? itemAppearingAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.ItemAppearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(executeWithArgs: itemAppearingAction);
+        listView.ItemAppearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(executeWithArgs: itemAppearingAction, runInBackground);
         return listView;
     }
 
-    public static T OnItemAppearing<T>(this T listView, Func<object?, ItemVisibilityEventArgs, Task>? itemAppearingAction)
+    public static T OnItemAppearing<T>(this T listView, Func<object?, ItemVisibilityEventArgs, Task>? itemAppearingAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.ItemAppearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(executeWithFullArgs: itemAppearingAction);
+        listView.ItemAppearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(executeWithFullArgs: itemAppearingAction, runInBackground);
         return listView;
     }
 
@@ -526,24 +526,24 @@ public static partial class ListViewExtensions
         return listView;
     }
 
-    public static T OnItemDisappearing<T>(this T listView, Func<Task>? itemDisappearingAction)
+    public static T OnItemDisappearing<T>(this T listView, Func<Task>? itemDisappearingAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.ItemDisappearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(execute: itemDisappearingAction);
+        listView.ItemDisappearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(execute: itemDisappearingAction, runInBackground);
         return listView;
     }
 
-    public static T OnItemDisappearing<T>(this T listView, Func<ItemVisibilityEventArgs, Task>? itemDisappearingAction)
+    public static T OnItemDisappearing<T>(this T listView, Func<ItemVisibilityEventArgs, Task>? itemDisappearingAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.ItemDisappearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(executeWithArgs: itemDisappearingAction);
+        listView.ItemDisappearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(executeWithArgs: itemDisappearingAction, runInBackground);
         return listView;
     }
 
-    public static T OnItemDisappearing<T>(this T listView, Func<object?, ItemVisibilityEventArgs, Task>? itemDisappearingAction)
+    public static T OnItemDisappearing<T>(this T listView, Func<object?, ItemVisibilityEventArgs, Task>? itemDisappearingAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.ItemDisappearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(executeWithFullArgs: itemDisappearingAction);
+        listView.ItemDisappearingEvent = new AsyncEventCommand<ItemVisibilityEventArgs>(executeWithFullArgs: itemDisappearingAction, runInBackground);
         return listView;
     }
 
@@ -568,24 +568,24 @@ public static partial class ListViewExtensions
         return listView;
     }
 
-    public static T OnItemSelected<T>(this T listView, Func<Task>? itemSelectedAction)
+    public static T OnItemSelected<T>(this T listView, Func<Task>? itemSelectedAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.ItemSelectedEvent = new AsyncEventCommand<SelectedItemChangedEventArgs>(execute: itemSelectedAction);
+        listView.ItemSelectedEvent = new AsyncEventCommand<SelectedItemChangedEventArgs>(execute: itemSelectedAction, runInBackground);
         return listView;
     }
 
-    public static T OnItemSelected<T>(this T listView, Func<SelectedItemChangedEventArgs, Task>? itemSelectedAction)
+    public static T OnItemSelected<T>(this T listView, Func<SelectedItemChangedEventArgs, Task>? itemSelectedAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.ItemSelectedEvent = new AsyncEventCommand<SelectedItemChangedEventArgs>(executeWithArgs: itemSelectedAction);
+        listView.ItemSelectedEvent = new AsyncEventCommand<SelectedItemChangedEventArgs>(executeWithArgs: itemSelectedAction, runInBackground);
         return listView;
     }
 
-    public static T OnItemSelected<T>(this T listView, Func<object?, SelectedItemChangedEventArgs, Task>? itemSelectedAction)
+    public static T OnItemSelected<T>(this T listView, Func<object?, SelectedItemChangedEventArgs, Task>? itemSelectedAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.ItemSelectedEvent = new AsyncEventCommand<SelectedItemChangedEventArgs>(executeWithFullArgs: itemSelectedAction);
+        listView.ItemSelectedEvent = new AsyncEventCommand<SelectedItemChangedEventArgs>(executeWithFullArgs: itemSelectedAction, runInBackground);
         return listView;
     }
 
@@ -610,24 +610,24 @@ public static partial class ListViewExtensions
         return listView;
     }
 
-    public static T OnItemTapped<T>(this T listView, Func<Task>? itemTappedAction)
+    public static T OnItemTapped<T>(this T listView, Func<Task>? itemTappedAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.ItemTappedEvent = new AsyncEventCommand<ItemTappedEventArgs>(execute: itemTappedAction);
+        listView.ItemTappedEvent = new AsyncEventCommand<ItemTappedEventArgs>(execute: itemTappedAction, runInBackground);
         return listView;
     }
 
-    public static T OnItemTapped<T>(this T listView, Func<ItemTappedEventArgs, Task>? itemTappedAction)
+    public static T OnItemTapped<T>(this T listView, Func<ItemTappedEventArgs, Task>? itemTappedAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.ItemTappedEvent = new AsyncEventCommand<ItemTappedEventArgs>(executeWithArgs: itemTappedAction);
+        listView.ItemTappedEvent = new AsyncEventCommand<ItemTappedEventArgs>(executeWithArgs: itemTappedAction, runInBackground);
         return listView;
     }
 
-    public static T OnItemTapped<T>(this T listView, Func<object?, ItemTappedEventArgs, Task>? itemTappedAction)
+    public static T OnItemTapped<T>(this T listView, Func<object?, ItemTappedEventArgs, Task>? itemTappedAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.ItemTappedEvent = new AsyncEventCommand<ItemTappedEventArgs>(executeWithFullArgs: itemTappedAction);
+        listView.ItemTappedEvent = new AsyncEventCommand<ItemTappedEventArgs>(executeWithFullArgs: itemTappedAction, runInBackground);
         return listView;
     }
 
@@ -652,24 +652,24 @@ public static partial class ListViewExtensions
         return listView;
     }
 
-    public static T OnScrolled<T>(this T listView, Func<Task>? scrolledAction)
+    public static T OnScrolled<T>(this T listView, Func<Task>? scrolledAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(execute: scrolledAction);
+        listView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(execute: scrolledAction, runInBackground);
         return listView;
     }
 
-    public static T OnScrolled<T>(this T listView, Func<ScrolledEventArgs, Task>? scrolledAction)
+    public static T OnScrolled<T>(this T listView, Func<ScrolledEventArgs, Task>? scrolledAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(executeWithArgs: scrolledAction);
+        listView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(executeWithArgs: scrolledAction, runInBackground);
         return listView;
     }
 
-    public static T OnScrolled<T>(this T listView, Func<object?, ScrolledEventArgs, Task>? scrolledAction)
+    public static T OnScrolled<T>(this T listView, Func<object?, ScrolledEventArgs, Task>? scrolledAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(executeWithFullArgs: scrolledAction);
+        listView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(executeWithFullArgs: scrolledAction, runInBackground);
         return listView;
     }
 
@@ -694,24 +694,24 @@ public static partial class ListViewExtensions
         return listView;
     }
 
-    public static T OnRefreshing<T>(this T listView, Func<Task>? refreshingAction)
+    public static T OnRefreshing<T>(this T listView, Func<Task>? refreshingAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.RefreshingEvent = new AsyncEventCommand<EventArgs>(execute: refreshingAction);
+        listView.RefreshingEvent = new AsyncEventCommand<EventArgs>(execute: refreshingAction, runInBackground);
         return listView;
     }
 
-    public static T OnRefreshing<T>(this T listView, Func<EventArgs, Task>? refreshingAction)
+    public static T OnRefreshing<T>(this T listView, Func<EventArgs, Task>? refreshingAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.RefreshingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: refreshingAction);
+        listView.RefreshingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: refreshingAction, runInBackground);
         return listView;
     }
 
-    public static T OnRefreshing<T>(this T listView, Func<object?, EventArgs, Task>? refreshingAction)
+    public static T OnRefreshing<T>(this T listView, Func<object?, EventArgs, Task>? refreshingAction, bool runInBackground = false)
         where T : IListView
     {
-        listView.RefreshingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: refreshingAction);
+        listView.RefreshingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: refreshingAction, runInBackground);
         return listView;
     }
 }

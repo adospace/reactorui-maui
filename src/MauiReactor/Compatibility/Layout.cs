@@ -208,24 +208,24 @@ public static partial class LayoutExtensions
         return layout;
     }
 
-    public static T OnLayoutChanged<T>(this T layout, Func<Task>? layoutChangedAction)
+    public static T OnLayoutChanged<T>(this T layout, Func<Task>? layoutChangedAction, bool runInBackground = false)
         where T : ILayout
     {
-        layout.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(execute: layoutChangedAction);
+        layout.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(execute: layoutChangedAction, runInBackground);
         return layout;
     }
 
-    public static T OnLayoutChanged<T>(this T layout, Func<EventArgs, Task>? layoutChangedAction)
+    public static T OnLayoutChanged<T>(this T layout, Func<EventArgs, Task>? layoutChangedAction, bool runInBackground = false)
         where T : ILayout
     {
-        layout.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: layoutChangedAction);
+        layout.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: layoutChangedAction, runInBackground);
         return layout;
     }
 
-    public static T OnLayoutChanged<T>(this T layout, Func<object?, EventArgs, Task>? layoutChangedAction)
+    public static T OnLayoutChanged<T>(this T layout, Func<object?, EventArgs, Task>? layoutChangedAction, bool runInBackground = false)
         where T : ILayout
     {
-        layout.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: layoutChangedAction);
+        layout.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: layoutChangedAction, runInBackground);
         return layout;
     }
 }

@@ -566,21 +566,21 @@ public static partial class <#= TypeName() #>Extensions
 
 
     
-    public static T On<#= ev.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, Func<Task>? <#= ev.Name.ToLocalVariableName() #>Action) where T : <#= InterfaceName() #>
+    public static T On<#= ev.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, Func<Task>? <#= ev.Name.ToLocalVariableName() #>Action, bool runInBackground = false) where T : <#= InterfaceName() #>
     {
-        <#= TypeName().ToLocalVariableName() #>.<#= ev.Name #>Event = new AsyncEventCommand<<#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>>(execute: <#= ev.Name.ToLocalVariableName() #>Action);
+        <#= TypeName().ToLocalVariableName() #>.<#= ev.Name #>Event = new AsyncEventCommand<<#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>>(execute: <#= ev.Name.ToLocalVariableName() #>Action, runInBackground);
         return <#= TypeName().ToLocalVariableName() #>;
     }
 
-    public static T On<#= ev.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, Func<<#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>, Task>? <#= ev.Name.ToLocalVariableName() #>Action) where T : <#= InterfaceName() #>
+    public static T On<#= ev.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, Func<<#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>, Task>? <#= ev.Name.ToLocalVariableName() #>Action, bool runInBackground = false) where T : <#= InterfaceName() #>
     {
-        <#= TypeName().ToLocalVariableName() #>.<#= ev.Name #>Event = new AsyncEventCommand<<#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>>(executeWithArgs: <#= ev.Name.ToLocalVariableName() #>Action);
+        <#= TypeName().ToLocalVariableName() #>.<#= ev.Name #>Event = new AsyncEventCommand<<#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>>(executeWithArgs: <#= ev.Name.ToLocalVariableName() #>Action, runInBackground);
         return <#= TypeName().ToLocalVariableName() #>;
     }
 
-    public static T On<#= ev.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, Func<object?, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>, Task>? <#= ev.Name.ToLocalVariableName() #>Action) where T : <#= InterfaceName() #>
+    public static T On<#= ev.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, Func<object?, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>, Task>? <#= ev.Name.ToLocalVariableName() #>Action, bool runInBackground = false) where T : <#= InterfaceName() #>
     {
-        <#= TypeName().ToLocalVariableName() #>.<#= ev.Name #>Event = new AsyncEventCommand<<#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>>(executeWithFullArgs: <#= ev.Name.ToLocalVariableName() #>Action);
+        <#= TypeName().ToLocalVariableName() #>.<#= ev.Name #>Event = new AsyncEventCommand<<#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #>>(executeWithFullArgs: <#= ev.Name.ToLocalVariableName() #>Action, runInBackground);
         return <#= TypeName().ToLocalVariableName() #>;
     }
 

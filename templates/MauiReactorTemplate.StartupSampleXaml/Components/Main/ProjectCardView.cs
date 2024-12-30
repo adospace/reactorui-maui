@@ -1,4 +1,5 @@
-﻿using MauiReactorTemplate.StartupSampleXaml.Framework;
+﻿using MauiReactorTemplate.StartupSampleXaml.Components.Projects;
+using MauiReactorTemplate.StartupSampleXaml.Framework;
 using MauiReactorTemplate.StartupSampleXaml.Models;
 using MauiReactorTemplate.StartupSampleXaml.Resources.Styles;
 
@@ -15,15 +16,15 @@ partial class ProjectCardView : Component
     public override VisualNode Render()
     {
         return Border(
-            new SfShimmer
-            {
+            new SfShimmer(
                 RenderContent()
-            }
+             )
             .IsActive(_isBusy)
             .CustomView(RenderCustomView())
             .BackgroundColor(Colors.Transparent)
             .VFill()
         )
+        .OnTapped(() => Navigation.PushAsync<ProjectDetailPage, ProjectDetailPageProps>(props => props.ProjectID = _project.ID))
         .Style(ResourceHelper.GetResource<Style>("CardStyle"))
         .WidthRequest(200);
     }
@@ -42,7 +43,7 @@ partial class ProjectCardView : Component
             Label(_project.Description)
                 .LineBreakMode(LineBreakMode.WordWrap),
             HStack(spacing: 15,
-                RenderTags().ToArray()
+                RenderTags()
             )
         );
     }

@@ -174,24 +174,24 @@ public static partial class HybridWebViewExtensions
         return hybridWebView;
     }
 
-    public static T OnRawMessageReceived<T>(this T hybridWebView, Func<Task>? rawMessageReceivedAction)
+    public static T OnRawMessageReceived<T>(this T hybridWebView, Func<Task>? rawMessageReceivedAction, bool runInBackground = false)
         where T : IHybridWebView
     {
-        hybridWebView.RawMessageReceivedEvent = new AsyncEventCommand<HybridWebViewRawMessageReceivedEventArgs>(execute: rawMessageReceivedAction);
+        hybridWebView.RawMessageReceivedEvent = new AsyncEventCommand<HybridWebViewRawMessageReceivedEventArgs>(execute: rawMessageReceivedAction, runInBackground);
         return hybridWebView;
     }
 
-    public static T OnRawMessageReceived<T>(this T hybridWebView, Func<HybridWebViewRawMessageReceivedEventArgs, Task>? rawMessageReceivedAction)
+    public static T OnRawMessageReceived<T>(this T hybridWebView, Func<HybridWebViewRawMessageReceivedEventArgs, Task>? rawMessageReceivedAction, bool runInBackground = false)
         where T : IHybridWebView
     {
-        hybridWebView.RawMessageReceivedEvent = new AsyncEventCommand<HybridWebViewRawMessageReceivedEventArgs>(executeWithArgs: rawMessageReceivedAction);
+        hybridWebView.RawMessageReceivedEvent = new AsyncEventCommand<HybridWebViewRawMessageReceivedEventArgs>(executeWithArgs: rawMessageReceivedAction, runInBackground);
         return hybridWebView;
     }
 
-    public static T OnRawMessageReceived<T>(this T hybridWebView, Func<object?, HybridWebViewRawMessageReceivedEventArgs, Task>? rawMessageReceivedAction)
+    public static T OnRawMessageReceived<T>(this T hybridWebView, Func<object?, HybridWebViewRawMessageReceivedEventArgs, Task>? rawMessageReceivedAction, bool runInBackground = false)
         where T : IHybridWebView
     {
-        hybridWebView.RawMessageReceivedEvent = new AsyncEventCommand<HybridWebViewRawMessageReceivedEventArgs>(executeWithFullArgs: rawMessageReceivedAction);
+        hybridWebView.RawMessageReceivedEvent = new AsyncEventCommand<HybridWebViewRawMessageReceivedEventArgs>(executeWithFullArgs: rawMessageReceivedAction, runInBackground);
         return hybridWebView;
     }
 }

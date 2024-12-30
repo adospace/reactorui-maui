@@ -228,24 +228,24 @@ public static partial class EntryExtensions
         return entry;
     }
 
-    public static T OnCompleted<T>(this T entry, Func<Task>? completedAction)
+    public static T OnCompleted<T>(this T entry, Func<Task>? completedAction, bool runInBackground = false)
         where T : IEntry
     {
-        entry.CompletedEvent = new AsyncEventCommand<EventArgs>(execute: completedAction);
+        entry.CompletedEvent = new AsyncEventCommand<EventArgs>(execute: completedAction, runInBackground);
         return entry;
     }
 
-    public static T OnCompleted<T>(this T entry, Func<EventArgs, Task>? completedAction)
+    public static T OnCompleted<T>(this T entry, Func<EventArgs, Task>? completedAction, bool runInBackground = false)
         where T : IEntry
     {
-        entry.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: completedAction);
+        entry.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: completedAction, runInBackground);
         return entry;
     }
 
-    public static T OnCompleted<T>(this T entry, Func<object?, EventArgs, Task>? completedAction)
+    public static T OnCompleted<T>(this T entry, Func<object?, EventArgs, Task>? completedAction, bool runInBackground = false)
         where T : IEntry
     {
-        entry.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: completedAction);
+        entry.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: completedAction, runInBackground);
         return entry;
     }
 }

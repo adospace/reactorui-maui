@@ -392,24 +392,24 @@ public static partial class BaseShellItemExtensions
         return baseShellItem;
     }
 
-    public static T OnAppearing<T>(this T baseShellItem, Func<Task>? appearingAction)
+    public static T OnAppearing<T>(this T baseShellItem, Func<Task>? appearingAction, bool runInBackground = false)
         where T : IBaseShellItem
     {
-        baseShellItem.AppearingEvent = new AsyncEventCommand<EventArgs>(execute: appearingAction);
+        baseShellItem.AppearingEvent = new AsyncEventCommand<EventArgs>(execute: appearingAction, runInBackground);
         return baseShellItem;
     }
 
-    public static T OnAppearing<T>(this T baseShellItem, Func<EventArgs, Task>? appearingAction)
+    public static T OnAppearing<T>(this T baseShellItem, Func<EventArgs, Task>? appearingAction, bool runInBackground = false)
         where T : IBaseShellItem
     {
-        baseShellItem.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: appearingAction);
+        baseShellItem.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: appearingAction, runInBackground);
         return baseShellItem;
     }
 
-    public static T OnAppearing<T>(this T baseShellItem, Func<object?, EventArgs, Task>? appearingAction)
+    public static T OnAppearing<T>(this T baseShellItem, Func<object?, EventArgs, Task>? appearingAction, bool runInBackground = false)
         where T : IBaseShellItem
     {
-        baseShellItem.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: appearingAction);
+        baseShellItem.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: appearingAction, runInBackground);
         return baseShellItem;
     }
 
@@ -434,24 +434,24 @@ public static partial class BaseShellItemExtensions
         return baseShellItem;
     }
 
-    public static T OnDisappearing<T>(this T baseShellItem, Func<Task>? disappearingAction)
+    public static T OnDisappearing<T>(this T baseShellItem, Func<Task>? disappearingAction, bool runInBackground = false)
         where T : IBaseShellItem
     {
-        baseShellItem.DisappearingEvent = new AsyncEventCommand<EventArgs>(execute: disappearingAction);
+        baseShellItem.DisappearingEvent = new AsyncEventCommand<EventArgs>(execute: disappearingAction, runInBackground);
         return baseShellItem;
     }
 
-    public static T OnDisappearing<T>(this T baseShellItem, Func<EventArgs, Task>? disappearingAction)
+    public static T OnDisappearing<T>(this T baseShellItem, Func<EventArgs, Task>? disappearingAction, bool runInBackground = false)
         where T : IBaseShellItem
     {
-        baseShellItem.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: disappearingAction);
+        baseShellItem.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: disappearingAction, runInBackground);
         return baseShellItem;
     }
 
-    public static T OnDisappearing<T>(this T baseShellItem, Func<object?, EventArgs, Task>? disappearingAction)
+    public static T OnDisappearing<T>(this T baseShellItem, Func<object?, EventArgs, Task>? disappearingAction, bool runInBackground = false)
         where T : IBaseShellItem
     {
-        baseShellItem.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: disappearingAction);
+        baseShellItem.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: disappearingAction, runInBackground);
         return baseShellItem;
     }
 }

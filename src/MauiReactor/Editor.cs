@@ -192,24 +192,24 @@ public static partial class EditorExtensions
         return editor;
     }
 
-    public static T OnCompleted<T>(this T editor, Func<Task>? completedAction)
+    public static T OnCompleted<T>(this T editor, Func<Task>? completedAction, bool runInBackground = false)
         where T : IEditor
     {
-        editor.CompletedEvent = new AsyncEventCommand<EventArgs>(execute: completedAction);
+        editor.CompletedEvent = new AsyncEventCommand<EventArgs>(execute: completedAction, runInBackground);
         return editor;
     }
 
-    public static T OnCompleted<T>(this T editor, Func<EventArgs, Task>? completedAction)
+    public static T OnCompleted<T>(this T editor, Func<EventArgs, Task>? completedAction, bool runInBackground = false)
         where T : IEditor
     {
-        editor.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: completedAction);
+        editor.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: completedAction, runInBackground);
         return editor;
     }
 
-    public static T OnCompleted<T>(this T editor, Func<object?, EventArgs, Task>? completedAction)
+    public static T OnCompleted<T>(this T editor, Func<object?, EventArgs, Task>? completedAction, bool runInBackground = false)
         where T : IEditor
     {
-        editor.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: completedAction);
+        editor.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: completedAction, runInBackground);
         return editor;
     }
 }

@@ -60,7 +60,6 @@
             if (left is Microsoft.Maui.Controls.FontImageSource leftFontImageSource &&
                 right is Microsoft.Maui.Controls.FontImageSource rightFontImageSource)
             {
-                //compare using uri equals
                 return leftFontImageSource.IsEmpty == rightFontImageSource.IsEmpty ||
                     (leftFontImageSource.Color == rightFontImageSource.Color && 
                     leftFontImageSource.FontFamily == rightFontImageSource.FontFamily &&

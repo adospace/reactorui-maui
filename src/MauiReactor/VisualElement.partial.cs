@@ -176,6 +176,23 @@ public static partial class VisualElementExtensions
 
         return itemsview;
     }
+
+    public static T Width<T>(this T itemsview, double width) where T : IVisualElement
+    {
+        itemsview.WidthRequest(width);
+
+        return itemsview;
+    }
+
+
+    public static T Height<T>(this T itemsview, double height) where T : IVisualElement
+    {
+        itemsview.HeightRequest(height);
+
+        return itemsview;
+    }
+
+
 }
 
 public static class VisualElementNativeExtensions

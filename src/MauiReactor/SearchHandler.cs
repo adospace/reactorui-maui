@@ -886,24 +886,24 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
-    public static T OnFocused<T>(this T searchHandler, Func<Task>? focusedAction)
+    public static T OnFocused<T>(this T searchHandler, Func<Task>? focusedAction, bool runInBackground = false)
         where T : ISearchHandler
     {
-        searchHandler.FocusedEvent = new AsyncEventCommand<EventArgs>(execute: focusedAction);
+        searchHandler.FocusedEvent = new AsyncEventCommand<EventArgs>(execute: focusedAction, runInBackground);
         return searchHandler;
     }
 
-    public static T OnFocused<T>(this T searchHandler, Func<EventArgs, Task>? focusedAction)
+    public static T OnFocused<T>(this T searchHandler, Func<EventArgs, Task>? focusedAction, bool runInBackground = false)
         where T : ISearchHandler
     {
-        searchHandler.FocusedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: focusedAction);
+        searchHandler.FocusedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: focusedAction, runInBackground);
         return searchHandler;
     }
 
-    public static T OnFocused<T>(this T searchHandler, Func<object?, EventArgs, Task>? focusedAction)
+    public static T OnFocused<T>(this T searchHandler, Func<object?, EventArgs, Task>? focusedAction, bool runInBackground = false)
         where T : ISearchHandler
     {
-        searchHandler.FocusedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: focusedAction);
+        searchHandler.FocusedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: focusedAction, runInBackground);
         return searchHandler;
     }
 
@@ -928,24 +928,24 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
-    public static T OnUnfocused<T>(this T searchHandler, Func<Task>? unfocusedAction)
+    public static T OnUnfocused<T>(this T searchHandler, Func<Task>? unfocusedAction, bool runInBackground = false)
         where T : ISearchHandler
     {
-        searchHandler.UnfocusedEvent = new AsyncEventCommand<EventArgs>(execute: unfocusedAction);
+        searchHandler.UnfocusedEvent = new AsyncEventCommand<EventArgs>(execute: unfocusedAction, runInBackground);
         return searchHandler;
     }
 
-    public static T OnUnfocused<T>(this T searchHandler, Func<EventArgs, Task>? unfocusedAction)
+    public static T OnUnfocused<T>(this T searchHandler, Func<EventArgs, Task>? unfocusedAction, bool runInBackground = false)
         where T : ISearchHandler
     {
-        searchHandler.UnfocusedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: unfocusedAction);
+        searchHandler.UnfocusedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: unfocusedAction, runInBackground);
         return searchHandler;
     }
 
-    public static T OnUnfocused<T>(this T searchHandler, Func<object?, EventArgs, Task>? unfocusedAction)
+    public static T OnUnfocused<T>(this T searchHandler, Func<object?, EventArgs, Task>? unfocusedAction, bool runInBackground = false)
         where T : ISearchHandler
     {
-        searchHandler.UnfocusedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: unfocusedAction);
+        searchHandler.UnfocusedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: unfocusedAction, runInBackground);
         return searchHandler;
     }
 }

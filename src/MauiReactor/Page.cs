@@ -510,24 +510,24 @@ public static partial class PageExtensions
         return page;
     }
 
-    public static T OnLayoutChanged<T>(this T page, Func<Task>? layoutChangedAction)
+    public static T OnLayoutChanged<T>(this T page, Func<Task>? layoutChangedAction, bool runInBackground = false)
         where T : IPage
     {
-        page.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(execute: layoutChangedAction);
+        page.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(execute: layoutChangedAction, runInBackground);
         return page;
     }
 
-    public static T OnLayoutChanged<T>(this T page, Func<EventArgs, Task>? layoutChangedAction)
+    public static T OnLayoutChanged<T>(this T page, Func<EventArgs, Task>? layoutChangedAction, bool runInBackground = false)
         where T : IPage
     {
-        page.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: layoutChangedAction);
+        page.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: layoutChangedAction, runInBackground);
         return page;
     }
 
-    public static T OnLayoutChanged<T>(this T page, Func<object?, EventArgs, Task>? layoutChangedAction)
+    public static T OnLayoutChanged<T>(this T page, Func<object?, EventArgs, Task>? layoutChangedAction, bool runInBackground = false)
         where T : IPage
     {
-        page.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: layoutChangedAction);
+        page.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: layoutChangedAction, runInBackground);
         return page;
     }
 
@@ -552,24 +552,24 @@ public static partial class PageExtensions
         return page;
     }
 
-    public static T OnAppearing<T>(this T page, Func<Task>? appearingAction)
+    public static T OnAppearing<T>(this T page, Func<Task>? appearingAction, bool runInBackground = false)
         where T : IPage
     {
-        page.AppearingEvent = new AsyncEventCommand<EventArgs>(execute: appearingAction);
+        page.AppearingEvent = new AsyncEventCommand<EventArgs>(execute: appearingAction, runInBackground);
         return page;
     }
 
-    public static T OnAppearing<T>(this T page, Func<EventArgs, Task>? appearingAction)
+    public static T OnAppearing<T>(this T page, Func<EventArgs, Task>? appearingAction, bool runInBackground = false)
         where T : IPage
     {
-        page.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: appearingAction);
+        page.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: appearingAction, runInBackground);
         return page;
     }
 
-    public static T OnAppearing<T>(this T page, Func<object?, EventArgs, Task>? appearingAction)
+    public static T OnAppearing<T>(this T page, Func<object?, EventArgs, Task>? appearingAction, bool runInBackground = false)
         where T : IPage
     {
-        page.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: appearingAction);
+        page.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: appearingAction, runInBackground);
         return page;
     }
 
@@ -594,24 +594,24 @@ public static partial class PageExtensions
         return page;
     }
 
-    public static T OnDisappearing<T>(this T page, Func<Task>? disappearingAction)
+    public static T OnDisappearing<T>(this T page, Func<Task>? disappearingAction, bool runInBackground = false)
         where T : IPage
     {
-        page.DisappearingEvent = new AsyncEventCommand<EventArgs>(execute: disappearingAction);
+        page.DisappearingEvent = new AsyncEventCommand<EventArgs>(execute: disappearingAction, runInBackground);
         return page;
     }
 
-    public static T OnDisappearing<T>(this T page, Func<EventArgs, Task>? disappearingAction)
+    public static T OnDisappearing<T>(this T page, Func<EventArgs, Task>? disappearingAction, bool runInBackground = false)
         where T : IPage
     {
-        page.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: disappearingAction);
+        page.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: disappearingAction, runInBackground);
         return page;
     }
 
-    public static T OnDisappearing<T>(this T page, Func<object?, EventArgs, Task>? disappearingAction)
+    public static T OnDisappearing<T>(this T page, Func<object?, EventArgs, Task>? disappearingAction, bool runInBackground = false)
         where T : IPage
     {
-        page.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: disappearingAction);
+        page.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: disappearingAction, runInBackground);
         return page;
     }
 
@@ -636,24 +636,24 @@ public static partial class PageExtensions
         return page;
     }
 
-    public static T OnNavigatedTo<T>(this T page, Func<Task>? navigatedToAction)
+    public static T OnNavigatedTo<T>(this T page, Func<Task>? navigatedToAction, bool runInBackground = false)
         where T : IPage
     {
-        page.NavigatedToEvent = new AsyncEventCommand<NavigatedToEventArgs>(execute: navigatedToAction);
+        page.NavigatedToEvent = new AsyncEventCommand<NavigatedToEventArgs>(execute: navigatedToAction, runInBackground);
         return page;
     }
 
-    public static T OnNavigatedTo<T>(this T page, Func<NavigatedToEventArgs, Task>? navigatedToAction)
+    public static T OnNavigatedTo<T>(this T page, Func<NavigatedToEventArgs, Task>? navigatedToAction, bool runInBackground = false)
         where T : IPage
     {
-        page.NavigatedToEvent = new AsyncEventCommand<NavigatedToEventArgs>(executeWithArgs: navigatedToAction);
+        page.NavigatedToEvent = new AsyncEventCommand<NavigatedToEventArgs>(executeWithArgs: navigatedToAction, runInBackground);
         return page;
     }
 
-    public static T OnNavigatedTo<T>(this T page, Func<object?, NavigatedToEventArgs, Task>? navigatedToAction)
+    public static T OnNavigatedTo<T>(this T page, Func<object?, NavigatedToEventArgs, Task>? navigatedToAction, bool runInBackground = false)
         where T : IPage
     {
-        page.NavigatedToEvent = new AsyncEventCommand<NavigatedToEventArgs>(executeWithFullArgs: navigatedToAction);
+        page.NavigatedToEvent = new AsyncEventCommand<NavigatedToEventArgs>(executeWithFullArgs: navigatedToAction, runInBackground);
         return page;
     }
 
@@ -678,24 +678,24 @@ public static partial class PageExtensions
         return page;
     }
 
-    public static T OnNavigatingFrom<T>(this T page, Func<Task>? navigatingFromAction)
+    public static T OnNavigatingFrom<T>(this T page, Func<Task>? navigatingFromAction, bool runInBackground = false)
         where T : IPage
     {
-        page.NavigatingFromEvent = new AsyncEventCommand<NavigatingFromEventArgs>(execute: navigatingFromAction);
+        page.NavigatingFromEvent = new AsyncEventCommand<NavigatingFromEventArgs>(execute: navigatingFromAction, runInBackground);
         return page;
     }
 
-    public static T OnNavigatingFrom<T>(this T page, Func<NavigatingFromEventArgs, Task>? navigatingFromAction)
+    public static T OnNavigatingFrom<T>(this T page, Func<NavigatingFromEventArgs, Task>? navigatingFromAction, bool runInBackground = false)
         where T : IPage
     {
-        page.NavigatingFromEvent = new AsyncEventCommand<NavigatingFromEventArgs>(executeWithArgs: navigatingFromAction);
+        page.NavigatingFromEvent = new AsyncEventCommand<NavigatingFromEventArgs>(executeWithArgs: navigatingFromAction, runInBackground);
         return page;
     }
 
-    public static T OnNavigatingFrom<T>(this T page, Func<object?, NavigatingFromEventArgs, Task>? navigatingFromAction)
+    public static T OnNavigatingFrom<T>(this T page, Func<object?, NavigatingFromEventArgs, Task>? navigatingFromAction, bool runInBackground = false)
         where T : IPage
     {
-        page.NavigatingFromEvent = new AsyncEventCommand<NavigatingFromEventArgs>(executeWithFullArgs: navigatingFromAction);
+        page.NavigatingFromEvent = new AsyncEventCommand<NavigatingFromEventArgs>(executeWithFullArgs: navigatingFromAction, runInBackground);
         return page;
     }
 
@@ -720,24 +720,24 @@ public static partial class PageExtensions
         return page;
     }
 
-    public static T OnNavigatedFrom<T>(this T page, Func<Task>? navigatedFromAction)
+    public static T OnNavigatedFrom<T>(this T page, Func<Task>? navigatedFromAction, bool runInBackground = false)
         where T : IPage
     {
-        page.NavigatedFromEvent = new AsyncEventCommand<NavigatedFromEventArgs>(execute: navigatedFromAction);
+        page.NavigatedFromEvent = new AsyncEventCommand<NavigatedFromEventArgs>(execute: navigatedFromAction, runInBackground);
         return page;
     }
 
-    public static T OnNavigatedFrom<T>(this T page, Func<NavigatedFromEventArgs, Task>? navigatedFromAction)
+    public static T OnNavigatedFrom<T>(this T page, Func<NavigatedFromEventArgs, Task>? navigatedFromAction, bool runInBackground = false)
         where T : IPage
     {
-        page.NavigatedFromEvent = new AsyncEventCommand<NavigatedFromEventArgs>(executeWithArgs: navigatedFromAction);
+        page.NavigatedFromEvent = new AsyncEventCommand<NavigatedFromEventArgs>(executeWithArgs: navigatedFromAction, runInBackground);
         return page;
     }
 
-    public static T OnNavigatedFrom<T>(this T page, Func<object?, NavigatedFromEventArgs, Task>? navigatedFromAction)
+    public static T OnNavigatedFrom<T>(this T page, Func<object?, NavigatedFromEventArgs, Task>? navigatedFromAction, bool runInBackground = false)
         where T : IPage
     {
-        page.NavigatedFromEvent = new AsyncEventCommand<NavigatedFromEventArgs>(executeWithFullArgs: navigatedFromAction);
+        page.NavigatedFromEvent = new AsyncEventCommand<NavigatedFromEventArgs>(executeWithFullArgs: navigatedFromAction, runInBackground);
         return page;
     }
 }

@@ -155,24 +155,24 @@ public static partial class SwipeGestureRecognizerExtensions
         return swipeGestureRecognizer;
     }
 
-    public static T OnSwiped<T>(this T swipeGestureRecognizer, Func<Task>? swipedAction)
+    public static T OnSwiped<T>(this T swipeGestureRecognizer, Func<Task>? swipedAction, bool runInBackground = false)
         where T : ISwipeGestureRecognizer
     {
-        swipeGestureRecognizer.SwipedEvent = new AsyncEventCommand<SwipedEventArgs>(execute: swipedAction);
+        swipeGestureRecognizer.SwipedEvent = new AsyncEventCommand<SwipedEventArgs>(execute: swipedAction, runInBackground);
         return swipeGestureRecognizer;
     }
 
-    public static T OnSwiped<T>(this T swipeGestureRecognizer, Func<SwipedEventArgs, Task>? swipedAction)
+    public static T OnSwiped<T>(this T swipeGestureRecognizer, Func<SwipedEventArgs, Task>? swipedAction, bool runInBackground = false)
         where T : ISwipeGestureRecognizer
     {
-        swipeGestureRecognizer.SwipedEvent = new AsyncEventCommand<SwipedEventArgs>(executeWithArgs: swipedAction);
+        swipeGestureRecognizer.SwipedEvent = new AsyncEventCommand<SwipedEventArgs>(executeWithArgs: swipedAction, runInBackground);
         return swipeGestureRecognizer;
     }
 
-    public static T OnSwiped<T>(this T swipeGestureRecognizer, Func<object?, SwipedEventArgs, Task>? swipedAction)
+    public static T OnSwiped<T>(this T swipeGestureRecognizer, Func<object?, SwipedEventArgs, Task>? swipedAction, bool runInBackground = false)
         where T : ISwipeGestureRecognizer
     {
-        swipeGestureRecognizer.SwipedEvent = new AsyncEventCommand<SwipedEventArgs>(executeWithFullArgs: swipedAction);
+        swipeGestureRecognizer.SwipedEvent = new AsyncEventCommand<SwipedEventArgs>(executeWithFullArgs: swipedAction, runInBackground);
         return swipeGestureRecognizer;
     }
 }

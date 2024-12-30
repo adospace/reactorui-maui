@@ -252,24 +252,24 @@ public static partial class MenuItemExtensions
         return menuItem;
     }
 
-    public static T OnClicked<T>(this T menuItem, Func<Task>? clickedAction)
+    public static T OnClicked<T>(this T menuItem, Func<Task>? clickedAction, bool runInBackground = false)
         where T : IMenuItem
     {
-        menuItem.ClickedEvent = new AsyncEventCommand<EventArgs>(execute: clickedAction);
+        menuItem.ClickedEvent = new AsyncEventCommand<EventArgs>(execute: clickedAction, runInBackground);
         return menuItem;
     }
 
-    public static T OnClicked<T>(this T menuItem, Func<EventArgs, Task>? clickedAction)
+    public static T OnClicked<T>(this T menuItem, Func<EventArgs, Task>? clickedAction, bool runInBackground = false)
         where T : IMenuItem
     {
-        menuItem.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: clickedAction);
+        menuItem.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: clickedAction, runInBackground);
         return menuItem;
     }
 
-    public static T OnClicked<T>(this T menuItem, Func<object?, EventArgs, Task>? clickedAction)
+    public static T OnClicked<T>(this T menuItem, Func<object?, EventArgs, Task>? clickedAction, bool runInBackground = false)
         where T : IMenuItem
     {
-        menuItem.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: clickedAction);
+        menuItem.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: clickedAction, runInBackground);
         return menuItem;
     }
 }

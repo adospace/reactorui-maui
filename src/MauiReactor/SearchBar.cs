@@ -192,24 +192,24 @@ public static partial class SearchBarExtensions
         return searchBar;
     }
 
-    public static T OnSearchButtonPressed<T>(this T searchBar, Func<Task>? searchButtonPressedAction)
+    public static T OnSearchButtonPressed<T>(this T searchBar, Func<Task>? searchButtonPressedAction, bool runInBackground = false)
         where T : ISearchBar
     {
-        searchBar.SearchButtonPressedEvent = new AsyncEventCommand<EventArgs>(execute: searchButtonPressedAction);
+        searchBar.SearchButtonPressedEvent = new AsyncEventCommand<EventArgs>(execute: searchButtonPressedAction, runInBackground);
         return searchBar;
     }
 
-    public static T OnSearchButtonPressed<T>(this T searchBar, Func<EventArgs, Task>? searchButtonPressedAction)
+    public static T OnSearchButtonPressed<T>(this T searchBar, Func<EventArgs, Task>? searchButtonPressedAction, bool runInBackground = false)
         where T : ISearchBar
     {
-        searchBar.SearchButtonPressedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: searchButtonPressedAction);
+        searchBar.SearchButtonPressedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: searchButtonPressedAction, runInBackground);
         return searchBar;
     }
 
-    public static T OnSearchButtonPressed<T>(this T searchBar, Func<object?, EventArgs, Task>? searchButtonPressedAction)
+    public static T OnSearchButtonPressed<T>(this T searchBar, Func<object?, EventArgs, Task>? searchButtonPressedAction, bool runInBackground = false)
         where T : ISearchBar
     {
-        searchBar.SearchButtonPressedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: searchButtonPressedAction);
+        searchBar.SearchButtonPressedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: searchButtonPressedAction, runInBackground);
         return searchBar;
     }
 }

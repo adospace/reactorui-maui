@@ -174,24 +174,24 @@ public static partial class SwipeItemsExtensions
         return swipeItems;
     }
 
-    public static T OnCollectionChanged<T>(this T swipeItems, Func<Task>? collectionChangedAction)
+    public static T OnCollectionChanged<T>(this T swipeItems, Func<Task>? collectionChangedAction, bool runInBackground = false)
         where T : ISwipeItems
     {
-        swipeItems.CollectionChangedEvent = new AsyncEventCommand<EventArgs>(execute: collectionChangedAction);
+        swipeItems.CollectionChangedEvent = new AsyncEventCommand<EventArgs>(execute: collectionChangedAction, runInBackground);
         return swipeItems;
     }
 
-    public static T OnCollectionChanged<T>(this T swipeItems, Func<EventArgs, Task>? collectionChangedAction)
+    public static T OnCollectionChanged<T>(this T swipeItems, Func<EventArgs, Task>? collectionChangedAction, bool runInBackground = false)
         where T : ISwipeItems
     {
-        swipeItems.CollectionChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: collectionChangedAction);
+        swipeItems.CollectionChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: collectionChangedAction, runInBackground);
         return swipeItems;
     }
 
-    public static T OnCollectionChanged<T>(this T swipeItems, Func<object?, EventArgs, Task>? collectionChangedAction)
+    public static T OnCollectionChanged<T>(this T swipeItems, Func<object?, EventArgs, Task>? collectionChangedAction, bool runInBackground = false)
         where T : ISwipeItems
     {
-        swipeItems.CollectionChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: collectionChangedAction);
+        swipeItems.CollectionChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: collectionChangedAction, runInBackground);
         return swipeItems;
     }
 }

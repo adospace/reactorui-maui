@@ -112,7 +112,7 @@ namespace MauiReactor.HotReloadConsole
                 }
             }
 
-            Task.WaitAll(new Task[] { ConnectionLoop(cancellationToken), FolderMonitorLoop(cancellationToken) }, cancellationToken: cancellationToken);
+            Task.WaitAll([ConnectionLoop(cancellationToken), FolderMonitorLoop(cancellationToken)], cancellationToken: cancellationToken);
 
             return Task.CompletedTask;
         }
@@ -375,15 +375,19 @@ namespace MauiReactor.HotReloadConsole
                 process.Start();
 
                 var adb_output = process.StandardOutput.ReadToEnd();
+                var adb_error = process.StandardError.ReadToEnd();
+
+                if (adb_error != null && adb_error.Length > 0)
+                    throw new InvalidOperationException($"Unable to forward tcp port from emulator (executing '{adbPath} forward tcp:45820 tcp:45820' adb tool returned '{adb_error}')");
 
                 if (adb_output.Length > 0 && adb_output != "45820" + Environment.NewLine)
                     throw new InvalidOperationException($"Unable to forward tcp port from emulator (executing '{adbPath} forward tcp:45820 tcp:45820' adb tool returned '{adb_output}')");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(process.StandardOutput.ReadToEnd());
-                Console.WriteLine(process.StandardError.ReadToEnd());
-                Console.WriteLine(ex.ToString());
+                //Console.WriteLine(process.StandardOutput.ReadToEnd());
+                //Console.WriteLine(process.StandardError.ReadToEnd());
+                Console.WriteLine(ex.Message);
                 return false;
             }
 

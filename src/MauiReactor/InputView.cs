@@ -435,24 +435,24 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T OnTextChanged<T>(this T inputView, Func<Task>? textChangedAction)
+    public static T OnTextChanged<T>(this T inputView, Func<Task>? textChangedAction, bool runInBackground = false)
         where T : IInputView
     {
-        inputView.TextChangedEvent = new AsyncEventCommand<TextChangedEventArgs>(execute: textChangedAction);
+        inputView.TextChangedEvent = new AsyncEventCommand<TextChangedEventArgs>(execute: textChangedAction, runInBackground);
         return inputView;
     }
 
-    public static T OnTextChanged<T>(this T inputView, Func<TextChangedEventArgs, Task>? textChangedAction)
+    public static T OnTextChanged<T>(this T inputView, Func<TextChangedEventArgs, Task>? textChangedAction, bool runInBackground = false)
         where T : IInputView
     {
-        inputView.TextChangedEvent = new AsyncEventCommand<TextChangedEventArgs>(executeWithArgs: textChangedAction);
+        inputView.TextChangedEvent = new AsyncEventCommand<TextChangedEventArgs>(executeWithArgs: textChangedAction, runInBackground);
         return inputView;
     }
 
-    public static T OnTextChanged<T>(this T inputView, Func<object?, TextChangedEventArgs, Task>? textChangedAction)
+    public static T OnTextChanged<T>(this T inputView, Func<object?, TextChangedEventArgs, Task>? textChangedAction, bool runInBackground = false)
         where T : IInputView
     {
-        inputView.TextChangedEvent = new AsyncEventCommand<TextChangedEventArgs>(executeWithFullArgs: textChangedAction);
+        inputView.TextChangedEvent = new AsyncEventCommand<TextChangedEventArgs>(executeWithFullArgs: textChangedAction, runInBackground);
         return inputView;
     }
 }

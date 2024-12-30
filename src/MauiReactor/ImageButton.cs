@@ -413,24 +413,24 @@ public static partial class ImageButtonExtensions
         return imageButton;
     }
 
-    public static T OnClicked<T>(this T imageButton, Func<Task>? clickedAction)
+    public static T OnClicked<T>(this T imageButton, Func<Task>? clickedAction, bool runInBackground = false)
         where T : IImageButton
     {
-        imageButton.ClickedEvent = new AsyncEventCommand<EventArgs>(execute: clickedAction);
+        imageButton.ClickedEvent = new AsyncEventCommand<EventArgs>(execute: clickedAction, runInBackground);
         return imageButton;
     }
 
-    public static T OnClicked<T>(this T imageButton, Func<EventArgs, Task>? clickedAction)
+    public static T OnClicked<T>(this T imageButton, Func<EventArgs, Task>? clickedAction, bool runInBackground = false)
         where T : IImageButton
     {
-        imageButton.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: clickedAction);
+        imageButton.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: clickedAction, runInBackground);
         return imageButton;
     }
 
-    public static T OnClicked<T>(this T imageButton, Func<object?, EventArgs, Task>? clickedAction)
+    public static T OnClicked<T>(this T imageButton, Func<object?, EventArgs, Task>? clickedAction, bool runInBackground = false)
         where T : IImageButton
     {
-        imageButton.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: clickedAction);
+        imageButton.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: clickedAction, runInBackground);
         return imageButton;
     }
 
@@ -455,24 +455,24 @@ public static partial class ImageButtonExtensions
         return imageButton;
     }
 
-    public static T OnPressed<T>(this T imageButton, Func<Task>? pressedAction)
+    public static T OnPressed<T>(this T imageButton, Func<Task>? pressedAction, bool runInBackground = false)
         where T : IImageButton
     {
-        imageButton.PressedEvent = new AsyncEventCommand<EventArgs>(execute: pressedAction);
+        imageButton.PressedEvent = new AsyncEventCommand<EventArgs>(execute: pressedAction, runInBackground);
         return imageButton;
     }
 
-    public static T OnPressed<T>(this T imageButton, Func<EventArgs, Task>? pressedAction)
+    public static T OnPressed<T>(this T imageButton, Func<EventArgs, Task>? pressedAction, bool runInBackground = false)
         where T : IImageButton
     {
-        imageButton.PressedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: pressedAction);
+        imageButton.PressedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: pressedAction, runInBackground);
         return imageButton;
     }
 
-    public static T OnPressed<T>(this T imageButton, Func<object?, EventArgs, Task>? pressedAction)
+    public static T OnPressed<T>(this T imageButton, Func<object?, EventArgs, Task>? pressedAction, bool runInBackground = false)
         where T : IImageButton
     {
-        imageButton.PressedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: pressedAction);
+        imageButton.PressedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: pressedAction, runInBackground);
         return imageButton;
     }
 
@@ -497,24 +497,24 @@ public static partial class ImageButtonExtensions
         return imageButton;
     }
 
-    public static T OnReleased<T>(this T imageButton, Func<Task>? releasedAction)
+    public static T OnReleased<T>(this T imageButton, Func<Task>? releasedAction, bool runInBackground = false)
         where T : IImageButton
     {
-        imageButton.ReleasedEvent = new AsyncEventCommand<EventArgs>(execute: releasedAction);
+        imageButton.ReleasedEvent = new AsyncEventCommand<EventArgs>(execute: releasedAction, runInBackground);
         return imageButton;
     }
 
-    public static T OnReleased<T>(this T imageButton, Func<EventArgs, Task>? releasedAction)
+    public static T OnReleased<T>(this T imageButton, Func<EventArgs, Task>? releasedAction, bool runInBackground = false)
         where T : IImageButton
     {
-        imageButton.ReleasedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: releasedAction);
+        imageButton.ReleasedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: releasedAction, runInBackground);
         return imageButton;
     }
 
-    public static T OnReleased<T>(this T imageButton, Func<object?, EventArgs, Task>? releasedAction)
+    public static T OnReleased<T>(this T imageButton, Func<object?, EventArgs, Task>? releasedAction, bool runInBackground = false)
         where T : IImageButton
     {
-        imageButton.ReleasedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: releasedAction);
+        imageButton.ReleasedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: releasedAction, runInBackground);
         return imageButton;
     }
 }

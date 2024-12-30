@@ -346,24 +346,24 @@ public static partial class PickerExtensions
         return picker;
     }
 
-    public static T OnSelectedIndexChanged<T>(this T picker, Func<Task>? selectedIndexChangedAction)
+    public static T OnSelectedIndexChanged<T>(this T picker, Func<Task>? selectedIndexChangedAction, bool runInBackground = false)
         where T : IPicker
     {
-        picker.SelectedIndexChangedEvent = new AsyncEventCommand<EventArgs>(execute: selectedIndexChangedAction);
+        picker.SelectedIndexChangedEvent = new AsyncEventCommand<EventArgs>(execute: selectedIndexChangedAction, runInBackground);
         return picker;
     }
 
-    public static T OnSelectedIndexChanged<T>(this T picker, Func<EventArgs, Task>? selectedIndexChangedAction)
+    public static T OnSelectedIndexChanged<T>(this T picker, Func<EventArgs, Task>? selectedIndexChangedAction, bool runInBackground = false)
         where T : IPicker
     {
-        picker.SelectedIndexChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: selectedIndexChangedAction);
+        picker.SelectedIndexChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: selectedIndexChangedAction, runInBackground);
         return picker;
     }
 
-    public static T OnSelectedIndexChanged<T>(this T picker, Func<object?, EventArgs, Task>? selectedIndexChangedAction)
+    public static T OnSelectedIndexChanged<T>(this T picker, Func<object?, EventArgs, Task>? selectedIndexChangedAction, bool runInBackground = false)
         where T : IPicker
     {
-        picker.SelectedIndexChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: selectedIndexChangedAction);
+        picker.SelectedIndexChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: selectedIndexChangedAction, runInBackground);
         return picker;
     }
 }

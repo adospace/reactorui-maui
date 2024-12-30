@@ -174,24 +174,24 @@ public static partial class SwipeItemExtensions
         return swipeItem;
     }
 
-    public static T OnInvoked<T>(this T swipeItem, Func<Task>? invokedAction)
+    public static T OnInvoked<T>(this T swipeItem, Func<Task>? invokedAction, bool runInBackground = false)
         where T : ISwipeItem
     {
-        swipeItem.InvokedEvent = new AsyncEventCommand<EventArgs>(execute: invokedAction);
+        swipeItem.InvokedEvent = new AsyncEventCommand<EventArgs>(execute: invokedAction, runInBackground);
         return swipeItem;
     }
 
-    public static T OnInvoked<T>(this T swipeItem, Func<EventArgs, Task>? invokedAction)
+    public static T OnInvoked<T>(this T swipeItem, Func<EventArgs, Task>? invokedAction, bool runInBackground = false)
         where T : ISwipeItem
     {
-        swipeItem.InvokedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: invokedAction);
+        swipeItem.InvokedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: invokedAction, runInBackground);
         return swipeItem;
     }
 
-    public static T OnInvoked<T>(this T swipeItem, Func<object?, EventArgs, Task>? invokedAction)
+    public static T OnInvoked<T>(this T swipeItem, Func<object?, EventArgs, Task>? invokedAction, bool runInBackground = false)
         where T : ISwipeItem
     {
-        swipeItem.InvokedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: invokedAction);
+        swipeItem.InvokedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: invokedAction, runInBackground);
         return swipeItem;
     }
 }

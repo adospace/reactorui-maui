@@ -4115,7 +4115,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("Action) where T : ");
+            this.Write("Action, bool runInBackground = false) where T : ");
             
             #line 569 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
@@ -4150,7 +4150,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("Action);\r\n        return ");
+            this.Write("Action, runInBackground);\r\n        return ");
             
             #line 572 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
@@ -4185,7 +4185,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("Action) where T : ");
+            this.Write("Action, bool runInBackground = false) where T : ");
             
             #line 575 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
@@ -4220,7 +4220,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("Action);\r\n        return ");
+            this.Write("Action, runInBackground);\r\n        return ");
             
             #line 578 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));
@@ -4255,7 +4255,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("Action) where T : ");
+            this.Write("Action, bool runInBackground = false) where T : ");
             
             #line 581 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName()));
@@ -4290,7 +4290,7 @@ var genericArgs = ev.EventHandlerType.GetGenericArguments();
             
             #line default
             #line hidden
-            this.Write("Action);\r\n        return ");
+            this.Write("Action, runInBackground);\r\n        return ");
             
             #line 584 "C:\Source\github\reactorui-maui\src\MauiReactor.Scaffold\TypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName().ToLocalVariableName()));

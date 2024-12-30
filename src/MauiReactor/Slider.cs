@@ -391,24 +391,24 @@ public static partial class SliderExtensions
         return slider;
     }
 
-    public static T OnValueChanged<T>(this T slider, Func<Task>? valueChangedAction)
+    public static T OnValueChanged<T>(this T slider, Func<Task>? valueChangedAction, bool runInBackground = false)
         where T : ISlider
     {
-        slider.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(execute: valueChangedAction);
+        slider.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(execute: valueChangedAction, runInBackground);
         return slider;
     }
 
-    public static T OnValueChanged<T>(this T slider, Func<ValueChangedEventArgs, Task>? valueChangedAction)
+    public static T OnValueChanged<T>(this T slider, Func<ValueChangedEventArgs, Task>? valueChangedAction, bool runInBackground = false)
         where T : ISlider
     {
-        slider.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(executeWithArgs: valueChangedAction);
+        slider.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(executeWithArgs: valueChangedAction, runInBackground);
         return slider;
     }
 
-    public static T OnValueChanged<T>(this T slider, Func<object?, ValueChangedEventArgs, Task>? valueChangedAction)
+    public static T OnValueChanged<T>(this T slider, Func<object?, ValueChangedEventArgs, Task>? valueChangedAction, bool runInBackground = false)
         where T : ISlider
     {
-        slider.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(executeWithFullArgs: valueChangedAction);
+        slider.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(executeWithFullArgs: valueChangedAction, runInBackground);
         return slider;
     }
 
@@ -433,24 +433,24 @@ public static partial class SliderExtensions
         return slider;
     }
 
-    public static T OnDragStarted<T>(this T slider, Func<Task>? dragStartedAction)
+    public static T OnDragStarted<T>(this T slider, Func<Task>? dragStartedAction, bool runInBackground = false)
         where T : ISlider
     {
-        slider.DragStartedEvent = new AsyncEventCommand<EventArgs>(execute: dragStartedAction);
+        slider.DragStartedEvent = new AsyncEventCommand<EventArgs>(execute: dragStartedAction, runInBackground);
         return slider;
     }
 
-    public static T OnDragStarted<T>(this T slider, Func<EventArgs, Task>? dragStartedAction)
+    public static T OnDragStarted<T>(this T slider, Func<EventArgs, Task>? dragStartedAction, bool runInBackground = false)
         where T : ISlider
     {
-        slider.DragStartedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: dragStartedAction);
+        slider.DragStartedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: dragStartedAction, runInBackground);
         return slider;
     }
 
-    public static T OnDragStarted<T>(this T slider, Func<object?, EventArgs, Task>? dragStartedAction)
+    public static T OnDragStarted<T>(this T slider, Func<object?, EventArgs, Task>? dragStartedAction, bool runInBackground = false)
         where T : ISlider
     {
-        slider.DragStartedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: dragStartedAction);
+        slider.DragStartedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: dragStartedAction, runInBackground);
         return slider;
     }
 
@@ -475,24 +475,24 @@ public static partial class SliderExtensions
         return slider;
     }
 
-    public static T OnDragCompleted<T>(this T slider, Func<Task>? dragCompletedAction)
+    public static T OnDragCompleted<T>(this T slider, Func<Task>? dragCompletedAction, bool runInBackground = false)
         where T : ISlider
     {
-        slider.DragCompletedEvent = new AsyncEventCommand<EventArgs>(execute: dragCompletedAction);
+        slider.DragCompletedEvent = new AsyncEventCommand<EventArgs>(execute: dragCompletedAction, runInBackground);
         return slider;
     }
 
-    public static T OnDragCompleted<T>(this T slider, Func<EventArgs, Task>? dragCompletedAction)
+    public static T OnDragCompleted<T>(this T slider, Func<EventArgs, Task>? dragCompletedAction, bool runInBackground = false)
         where T : ISlider
     {
-        slider.DragCompletedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: dragCompletedAction);
+        slider.DragCompletedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: dragCompletedAction, runInBackground);
         return slider;
     }
 
-    public static T OnDragCompleted<T>(this T slider, Func<object?, EventArgs, Task>? dragCompletedAction)
+    public static T OnDragCompleted<T>(this T slider, Func<object?, EventArgs, Task>? dragCompletedAction, bool runInBackground = false)
         where T : ISlider
     {
-        slider.DragCompletedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: dragCompletedAction);
+        slider.DragCompletedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: dragCompletedAction, runInBackground);
         return slider;
     }
 }

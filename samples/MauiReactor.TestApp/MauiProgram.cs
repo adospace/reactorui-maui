@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MauiReactor.TestApp.Pages;
 using MauiReactor.TestApp.Resources.Styles;
 using Microsoft.Maui.Controls.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace MauiReactor.TestApp;
 
@@ -21,6 +22,9 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<Services.IncrementService>();
 
+#if DEBUG
+        builder.Logging.AddDebug().AddFilter(logLevel => logLevel >= LogLevel.Debug);
+#endif
 
         return builder.Build();
     }

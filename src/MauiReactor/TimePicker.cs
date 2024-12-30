@@ -292,24 +292,24 @@ public static partial class TimePickerExtensions
         return timePicker;
     }
 
-    public static T OnTimeSelected<T>(this T timePicker, Func<Task>? timeSelectedAction)
+    public static T OnTimeSelected<T>(this T timePicker, Func<Task>? timeSelectedAction, bool runInBackground = false)
         where T : ITimePicker
     {
-        timePicker.TimeSelectedEvent = new AsyncEventCommand<TimeChangedEventArgs>(execute: timeSelectedAction);
+        timePicker.TimeSelectedEvent = new AsyncEventCommand<TimeChangedEventArgs>(execute: timeSelectedAction, runInBackground);
         return timePicker;
     }
 
-    public static T OnTimeSelected<T>(this T timePicker, Func<TimeChangedEventArgs, Task>? timeSelectedAction)
+    public static T OnTimeSelected<T>(this T timePicker, Func<TimeChangedEventArgs, Task>? timeSelectedAction, bool runInBackground = false)
         where T : ITimePicker
     {
-        timePicker.TimeSelectedEvent = new AsyncEventCommand<TimeChangedEventArgs>(executeWithArgs: timeSelectedAction);
+        timePicker.TimeSelectedEvent = new AsyncEventCommand<TimeChangedEventArgs>(executeWithArgs: timeSelectedAction, runInBackground);
         return timePicker;
     }
 
-    public static T OnTimeSelected<T>(this T timePicker, Func<object?, TimeChangedEventArgs, Task>? timeSelectedAction)
+    public static T OnTimeSelected<T>(this T timePicker, Func<object?, TimeChangedEventArgs, Task>? timeSelectedAction, bool runInBackground = false)
         where T : ITimePicker
     {
-        timePicker.TimeSelectedEvent = new AsyncEventCommand<TimeChangedEventArgs>(executeWithFullArgs: timeSelectedAction);
+        timePicker.TimeSelectedEvent = new AsyncEventCommand<TimeChangedEventArgs>(executeWithFullArgs: timeSelectedAction, runInBackground);
         return timePicker;
     }
 }

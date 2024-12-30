@@ -55,42 +55,61 @@ public class AsyncEventCommand<TArgs> : EventCommand<TArgs>
     private readonly Func<Task>? _execute;
     private readonly Func<TArgs, Task>? _executeWithArgs;
     private readonly Func<object?, TArgs, Task>? _executeWithFullArgs;
-    private Task? _excutingTask;
+    private readonly bool _runInBackground;
+    private Task? _executingTask;
 
     public AsyncEventCommand(
-        Func<Task>? execute)
+        Func<Task>? execute,
+        bool runInBackground = false)
     {
         _execute = execute;
+        _runInBackground = runInBackground;
     }
 
     public AsyncEventCommand(
-        Func<TArgs, Task>? executeWithArgs)
+        Func<TArgs, Task>? executeWithArgs,
+        bool runInBackground = false)
     {
         _executeWithArgs = executeWithArgs;
+        _runInBackground = runInBackground;
     }
 
     public AsyncEventCommand(
-        Func<object?, TArgs, Task>? executeWithFullArgs)
+        Func<object?, TArgs, Task>? executeWithFullArgs,
+        bool runInBackground = false)
     {
         _executeWithFullArgs = executeWithFullArgs;
+        _runInBackground = runInBackground;
     }
 
-    public override bool IsCompleted => _excutingTask?.IsCompleted ?? true;
+    public override bool IsCompleted => _executingTask?.IsCompleted ?? true;
 
     public override void Execute(object? sender, TArgs args)
     {
         if (_execute is not null)
         {
-            AwaitAndThrowIfFailed(_excutingTask = _execute());
+            AwaitAndThrowIfFailed(_executingTask = _execute());
         }
-        if (_executeWithArgs is not null)
+        else if (_executeWithArgs is not null)
         {
-            AwaitAndThrowIfFailed(_excutingTask = _executeWithArgs(args));
+            AwaitAndThrowIfFailed(_executingTask = _executeWithArgs(args));
         }
-        if (_executeWithFullArgs is not null)
+        else if (_executeWithFullArgs is not null)
         {
-            AwaitAndThrowIfFailed(_excutingTask = _executeWithFullArgs(sender, args));
+            AwaitAndThrowIfFailed(_executingTask = _executeWithFullArgs(sender, args));
         }
+
+        Validate.EnsureNotNull(_executingTask);
+
+        if (_runInBackground)
+        {
+            Task.Run(async () => await _executingTask);
+        }
+        else
+        {
+            AwaitAndThrowIfFailed(_executingTask);
+        }
+        
     }
 
     /// <inheritdoc/>
@@ -103,5 +122,4 @@ public class AsyncEventCommand<TArgs> : EventCommand<TArgs>
         // Note: this method is borrowed from the Microsoft MVVM Toolkit
         await executionTask;
     }
-
 }

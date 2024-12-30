@@ -3,6 +3,7 @@ using MauiReactor.TestApp.Resources.Styles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,11 +41,11 @@ class AnimatinLabelState
 {
     public bool AnimationCompleted { get; set; } = true;
 
-    public double Height { get; set; }
-
     public string CurrentText = string.Empty;
 
     public string NewText = string.Empty;
+
+    public Dictionary<int, double> CharactersOffsets = [];
 }
 
 partial class AnimatingLabel : Component<AnimatinLabelState>
@@ -55,16 +56,7 @@ partial class AnimatingLabel : Component<AnimatinLabelState>
     protected override void OnMountedOrPropsChanged()
     {
         State.NewText = _text;
-
-        if (State.AnimationCompleted && State.NewText != State.CurrentText)
-        {
-            State.AnimationCompleted = false;
-            SetState(s =>
-            {
-                s.AnimationCompleted = true;
-                s.CurrentText = s.NewText;
-            }, 2400);
-        }
+        State.AnimationCompleted = false;
 
         base.OnMountedOrPropsChanged();
     }
@@ -80,40 +72,57 @@ partial class AnimatingLabel : Component<AnimatinLabelState>
             ),
 
             Grid()
-                .Background(new LinearGradient(0, 
-                    (AppTheme.IsDarkTheme ? AppTheme.DarkBackground : AppTheme.LightBackground, 0.0f), 
-                    (Colors.Transparent, 0.2f), 
-                    (Colors.Transparent, 0.8f), 
-                    (AppTheme.IsDarkTheme ? AppTheme.DarkBackground : AppTheme.LightBackground, 1.0f)))
+                .Background(new LinearGradient(0,
+                    (Theme.IsDarkTheme ? AppTheme.DarkBackground : AppTheme.LightBackground, 0.0f),
+                    (Colors.Transparent, 0.2f),
+                    (Colors.Transparent, 0.8f),
+                    (Theme.IsDarkTheme ? AppTheme.DarkBackground : AppTheme.LightBackground, 1.0f))),
+
+            new AnimationController
+            {
+                Enumerable.Range(0, State.NewText.Length)
+                    .Select(index =>
+                        new ParallelAnimation
+                        {
+                            new DoubleAnimation()
+                                .StartValue(0.0)
+                                .TargetValue(1.0)
+                                .Duration(400)
+                                .Easing(ExtendedEasing.OutQuint)
+                                .OnTick(v => SetState(s => s.CharactersOffsets[index] = v, false))
+                        }
+                        .InitialDelay(Math.Sin(index / (double)State.NewText.Length * Math.PI / 2) * 1000))
+            }
+            .IsEnabled(!State.AnimationCompleted)
+            .OnIsEnabledChanged((isEnabled) => SetState(s =>
+            {
+                if (!isEnabled)
+                {
+                    s.AnimationCompleted = true;
+                    s.CurrentText = s.NewText;
+                }
+            }))
         )
         .IsClippedToBounds(true)
         .HCenter();
     }
 
-    Label RenderCharToTop(char character, int index)
-    {
-        return Label($"{character}")
-            .FontSize(24)
-            .TranslationY(State.AnimationCompleted ? 0.0 : -15)
-            .Opacity(State.AnimationCompleted ? 1.0 : 0.0)
-            .ScaleY(State.AnimationCompleted ? 1.0 : 0.0)
-            .WithAnimation(
-                duration: State.AnimationCompleted ? 0 : 700,
-                easing: ExtendedEasing.OutQuint,
-                initialDelay: Math.Sin((index / (double)_text.Length) * Math.PI / 2) * 1000);
-    }
-
     Label RenderCharFromBottom(char character, int index)
     {
         return Label($"{character}")
-            .FontSize(24)
-            .TranslationY(State.AnimationCompleted ? 15 : 0.0)
-            .Opacity(State.AnimationCompleted ? 0.0 : 1.0)
-            .ScaleY(State.AnimationCompleted ? 0.0 : 1.0)
-            .WithAnimation(
-                duration: State.AnimationCompleted ? 0 : 700,
-                easing: ExtendedEasing.OutQuint,
-                initialDelay: Math.Sin((index / (double)_text.Length) * Math.PI / 2) * 1000);
+            .FontSize(36)
+            .TranslationY(() => (1.0-State.CharactersOffsets.GetValueOrDefault(index, 0.0)) * -20.0)
+            .Opacity(() => State.CharactersOffsets.GetValueOrDefault(index, 0.0))
+            .ScaleY(() => State.CharactersOffsets.GetValueOrDefault(index, 0.0));
+    }
+
+    Label RenderCharToTop(char character, int index)
+    {
+        return Label($"{character}")
+            .FontSize(36)
+            .TranslationY(() => State.CharactersOffsets.GetValueOrDefault(index, 0.0) * 20.0)
+            .Opacity(() => 1.0 - State.CharactersOffsets.GetValueOrDefault(index, 1.0))
+            .ScaleY(() => 1.0 - State.CharactersOffsets.GetValueOrDefault(index, 1.0));
     }
 
 }

@@ -328,24 +328,24 @@ public static partial class DatePickerExtensions
         return datePicker;
     }
 
-    public static T OnDateSelected<T>(this T datePicker, Func<Task>? dateSelectedAction)
+    public static T OnDateSelected<T>(this T datePicker, Func<Task>? dateSelectedAction, bool runInBackground = false)
         where T : IDatePicker
     {
-        datePicker.DateSelectedEvent = new AsyncEventCommand<DateChangedEventArgs>(execute: dateSelectedAction);
+        datePicker.DateSelectedEvent = new AsyncEventCommand<DateChangedEventArgs>(execute: dateSelectedAction, runInBackground);
         return datePicker;
     }
 
-    public static T OnDateSelected<T>(this T datePicker, Func<DateChangedEventArgs, Task>? dateSelectedAction)
+    public static T OnDateSelected<T>(this T datePicker, Func<DateChangedEventArgs, Task>? dateSelectedAction, bool runInBackground = false)
         where T : IDatePicker
     {
-        datePicker.DateSelectedEvent = new AsyncEventCommand<DateChangedEventArgs>(executeWithArgs: dateSelectedAction);
+        datePicker.DateSelectedEvent = new AsyncEventCommand<DateChangedEventArgs>(executeWithArgs: dateSelectedAction, runInBackground);
         return datePicker;
     }
 
-    public static T OnDateSelected<T>(this T datePicker, Func<object?, DateChangedEventArgs, Task>? dateSelectedAction)
+    public static T OnDateSelected<T>(this T datePicker, Func<object?, DateChangedEventArgs, Task>? dateSelectedAction, bool runInBackground = false)
         where T : IDatePicker
     {
-        datePicker.DateSelectedEvent = new AsyncEventCommand<DateChangedEventArgs>(executeWithFullArgs: dateSelectedAction);
+        datePicker.DateSelectedEvent = new AsyncEventCommand<DateChangedEventArgs>(executeWithFullArgs: dateSelectedAction, runInBackground);
         return datePicker;
     }
 }

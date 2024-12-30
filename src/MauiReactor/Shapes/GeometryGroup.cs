@@ -166,24 +166,24 @@ public static partial class GeometryGroupExtensions
         return geometryGroup;
     }
 
-    public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Func<Task>? invalidateGeometryRequestedAction)
+    public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Func<Task>? invalidateGeometryRequestedAction, bool runInBackground = false)
         where T : IGeometryGroup
     {
-        geometryGroup.InvalidateGeometryRequestedEvent = new AsyncEventCommand<EventArgs>(execute: invalidateGeometryRequestedAction);
+        geometryGroup.InvalidateGeometryRequestedEvent = new AsyncEventCommand<EventArgs>(execute: invalidateGeometryRequestedAction, runInBackground);
         return geometryGroup;
     }
 
-    public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Func<EventArgs, Task>? invalidateGeometryRequestedAction)
+    public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Func<EventArgs, Task>? invalidateGeometryRequestedAction, bool runInBackground = false)
         where T : IGeometryGroup
     {
-        geometryGroup.InvalidateGeometryRequestedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: invalidateGeometryRequestedAction);
+        geometryGroup.InvalidateGeometryRequestedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: invalidateGeometryRequestedAction, runInBackground);
         return geometryGroup;
     }
 
-    public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Func<object?, EventArgs, Task>? invalidateGeometryRequestedAction)
+    public static T OnInvalidateGeometryRequested<T>(this T geometryGroup, Func<object?, EventArgs, Task>? invalidateGeometryRequestedAction, bool runInBackground = false)
         where T : IGeometryGroup
     {
-        geometryGroup.InvalidateGeometryRequestedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: invalidateGeometryRequestedAction);
+        geometryGroup.InvalidateGeometryRequestedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: invalidateGeometryRequestedAction, runInBackground);
         return geometryGroup;
     }
 }

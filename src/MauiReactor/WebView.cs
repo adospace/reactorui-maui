@@ -244,24 +244,24 @@ public static partial class WebViewExtensions
         return webView;
     }
 
-    public static T OnNavigated<T>(this T webView, Func<Task>? navigatedAction)
+    public static T OnNavigated<T>(this T webView, Func<Task>? navigatedAction, bool runInBackground = false)
         where T : IWebView
     {
-        webView.NavigatedEvent = new AsyncEventCommand<WebNavigatedEventArgs>(execute: navigatedAction);
+        webView.NavigatedEvent = new AsyncEventCommand<WebNavigatedEventArgs>(execute: navigatedAction, runInBackground);
         return webView;
     }
 
-    public static T OnNavigated<T>(this T webView, Func<WebNavigatedEventArgs, Task>? navigatedAction)
+    public static T OnNavigated<T>(this T webView, Func<WebNavigatedEventArgs, Task>? navigatedAction, bool runInBackground = false)
         where T : IWebView
     {
-        webView.NavigatedEvent = new AsyncEventCommand<WebNavigatedEventArgs>(executeWithArgs: navigatedAction);
+        webView.NavigatedEvent = new AsyncEventCommand<WebNavigatedEventArgs>(executeWithArgs: navigatedAction, runInBackground);
         return webView;
     }
 
-    public static T OnNavigated<T>(this T webView, Func<object?, WebNavigatedEventArgs, Task>? navigatedAction)
+    public static T OnNavigated<T>(this T webView, Func<object?, WebNavigatedEventArgs, Task>? navigatedAction, bool runInBackground = false)
         where T : IWebView
     {
-        webView.NavigatedEvent = new AsyncEventCommand<WebNavigatedEventArgs>(executeWithFullArgs: navigatedAction);
+        webView.NavigatedEvent = new AsyncEventCommand<WebNavigatedEventArgs>(executeWithFullArgs: navigatedAction, runInBackground);
         return webView;
     }
 
@@ -286,24 +286,24 @@ public static partial class WebViewExtensions
         return webView;
     }
 
-    public static T OnNavigating<T>(this T webView, Func<Task>? navigatingAction)
+    public static T OnNavigating<T>(this T webView, Func<Task>? navigatingAction, bool runInBackground = false)
         where T : IWebView
     {
-        webView.NavigatingEvent = new AsyncEventCommand<WebNavigatingEventArgs>(execute: navigatingAction);
+        webView.NavigatingEvent = new AsyncEventCommand<WebNavigatingEventArgs>(execute: navigatingAction, runInBackground);
         return webView;
     }
 
-    public static T OnNavigating<T>(this T webView, Func<WebNavigatingEventArgs, Task>? navigatingAction)
+    public static T OnNavigating<T>(this T webView, Func<WebNavigatingEventArgs, Task>? navigatingAction, bool runInBackground = false)
         where T : IWebView
     {
-        webView.NavigatingEvent = new AsyncEventCommand<WebNavigatingEventArgs>(executeWithArgs: navigatingAction);
+        webView.NavigatingEvent = new AsyncEventCommand<WebNavigatingEventArgs>(executeWithArgs: navigatingAction, runInBackground);
         return webView;
     }
 
-    public static T OnNavigating<T>(this T webView, Func<object?, WebNavigatingEventArgs, Task>? navigatingAction)
+    public static T OnNavigating<T>(this T webView, Func<object?, WebNavigatingEventArgs, Task>? navigatingAction, bool runInBackground = false)
         where T : IWebView
     {
-        webView.NavigatingEvent = new AsyncEventCommand<WebNavigatingEventArgs>(executeWithFullArgs: navigatingAction);
+        webView.NavigatingEvent = new AsyncEventCommand<WebNavigatingEventArgs>(executeWithFullArgs: navigatingAction, runInBackground);
         return webView;
     }
 
@@ -328,24 +328,24 @@ public static partial class WebViewExtensions
         return webView;
     }
 
-    public static T OnProcessTerminated<T>(this T webView, Func<Task>? processTerminatedAction)
+    public static T OnProcessTerminated<T>(this T webView, Func<Task>? processTerminatedAction, bool runInBackground = false)
         where T : IWebView
     {
-        webView.ProcessTerminatedEvent = new AsyncEventCommand<WebViewProcessTerminatedEventArgs>(execute: processTerminatedAction);
+        webView.ProcessTerminatedEvent = new AsyncEventCommand<WebViewProcessTerminatedEventArgs>(execute: processTerminatedAction, runInBackground);
         return webView;
     }
 
-    public static T OnProcessTerminated<T>(this T webView, Func<WebViewProcessTerminatedEventArgs, Task>? processTerminatedAction)
+    public static T OnProcessTerminated<T>(this T webView, Func<WebViewProcessTerminatedEventArgs, Task>? processTerminatedAction, bool runInBackground = false)
         where T : IWebView
     {
-        webView.ProcessTerminatedEvent = new AsyncEventCommand<WebViewProcessTerminatedEventArgs>(executeWithArgs: processTerminatedAction);
+        webView.ProcessTerminatedEvent = new AsyncEventCommand<WebViewProcessTerminatedEventArgs>(executeWithArgs: processTerminatedAction, runInBackground);
         return webView;
     }
 
-    public static T OnProcessTerminated<T>(this T webView, Func<object?, WebViewProcessTerminatedEventArgs, Task>? processTerminatedAction)
+    public static T OnProcessTerminated<T>(this T webView, Func<object?, WebViewProcessTerminatedEventArgs, Task>? processTerminatedAction, bool runInBackground = false)
         where T : IWebView
     {
-        webView.ProcessTerminatedEvent = new AsyncEventCommand<WebViewProcessTerminatedEventArgs>(executeWithFullArgs: processTerminatedAction);
+        webView.ProcessTerminatedEvent = new AsyncEventCommand<WebViewProcessTerminatedEventArgs>(executeWithFullArgs: processTerminatedAction, runInBackground);
         return webView;
     }
 }

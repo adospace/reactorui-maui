@@ -213,24 +213,24 @@ public static partial class SwipeViewExtensions
         return swipeView;
     }
 
-    public static T OnSwipeStarted<T>(this T swipeView, Func<Task>? swipeStartedAction)
+    public static T OnSwipeStarted<T>(this T swipeView, Func<Task>? swipeStartedAction, bool runInBackground = false)
         where T : ISwipeView
     {
-        swipeView.SwipeStartedEvent = new AsyncEventCommand<SwipeStartedEventArgs>(execute: swipeStartedAction);
+        swipeView.SwipeStartedEvent = new AsyncEventCommand<SwipeStartedEventArgs>(execute: swipeStartedAction, runInBackground);
         return swipeView;
     }
 
-    public static T OnSwipeStarted<T>(this T swipeView, Func<SwipeStartedEventArgs, Task>? swipeStartedAction)
+    public static T OnSwipeStarted<T>(this T swipeView, Func<SwipeStartedEventArgs, Task>? swipeStartedAction, bool runInBackground = false)
         where T : ISwipeView
     {
-        swipeView.SwipeStartedEvent = new AsyncEventCommand<SwipeStartedEventArgs>(executeWithArgs: swipeStartedAction);
+        swipeView.SwipeStartedEvent = new AsyncEventCommand<SwipeStartedEventArgs>(executeWithArgs: swipeStartedAction, runInBackground);
         return swipeView;
     }
 
-    public static T OnSwipeStarted<T>(this T swipeView, Func<object?, SwipeStartedEventArgs, Task>? swipeStartedAction)
+    public static T OnSwipeStarted<T>(this T swipeView, Func<object?, SwipeStartedEventArgs, Task>? swipeStartedAction, bool runInBackground = false)
         where T : ISwipeView
     {
-        swipeView.SwipeStartedEvent = new AsyncEventCommand<SwipeStartedEventArgs>(executeWithFullArgs: swipeStartedAction);
+        swipeView.SwipeStartedEvent = new AsyncEventCommand<SwipeStartedEventArgs>(executeWithFullArgs: swipeStartedAction, runInBackground);
         return swipeView;
     }
 
@@ -255,24 +255,24 @@ public static partial class SwipeViewExtensions
         return swipeView;
     }
 
-    public static T OnSwipeChanging<T>(this T swipeView, Func<Task>? swipeChangingAction)
+    public static T OnSwipeChanging<T>(this T swipeView, Func<Task>? swipeChangingAction, bool runInBackground = false)
         where T : ISwipeView
     {
-        swipeView.SwipeChangingEvent = new AsyncEventCommand<SwipeChangingEventArgs>(execute: swipeChangingAction);
+        swipeView.SwipeChangingEvent = new AsyncEventCommand<SwipeChangingEventArgs>(execute: swipeChangingAction, runInBackground);
         return swipeView;
     }
 
-    public static T OnSwipeChanging<T>(this T swipeView, Func<SwipeChangingEventArgs, Task>? swipeChangingAction)
+    public static T OnSwipeChanging<T>(this T swipeView, Func<SwipeChangingEventArgs, Task>? swipeChangingAction, bool runInBackground = false)
         where T : ISwipeView
     {
-        swipeView.SwipeChangingEvent = new AsyncEventCommand<SwipeChangingEventArgs>(executeWithArgs: swipeChangingAction);
+        swipeView.SwipeChangingEvent = new AsyncEventCommand<SwipeChangingEventArgs>(executeWithArgs: swipeChangingAction, runInBackground);
         return swipeView;
     }
 
-    public static T OnSwipeChanging<T>(this T swipeView, Func<object?, SwipeChangingEventArgs, Task>? swipeChangingAction)
+    public static T OnSwipeChanging<T>(this T swipeView, Func<object?, SwipeChangingEventArgs, Task>? swipeChangingAction, bool runInBackground = false)
         where T : ISwipeView
     {
-        swipeView.SwipeChangingEvent = new AsyncEventCommand<SwipeChangingEventArgs>(executeWithFullArgs: swipeChangingAction);
+        swipeView.SwipeChangingEvent = new AsyncEventCommand<SwipeChangingEventArgs>(executeWithFullArgs: swipeChangingAction, runInBackground);
         return swipeView;
     }
 
@@ -297,24 +297,24 @@ public static partial class SwipeViewExtensions
         return swipeView;
     }
 
-    public static T OnSwipeEnded<T>(this T swipeView, Func<Task>? swipeEndedAction)
+    public static T OnSwipeEnded<T>(this T swipeView, Func<Task>? swipeEndedAction, bool runInBackground = false)
         where T : ISwipeView
     {
-        swipeView.SwipeEndedEvent = new AsyncEventCommand<SwipeEndedEventArgs>(execute: swipeEndedAction);
+        swipeView.SwipeEndedEvent = new AsyncEventCommand<SwipeEndedEventArgs>(execute: swipeEndedAction, runInBackground);
         return swipeView;
     }
 
-    public static T OnSwipeEnded<T>(this T swipeView, Func<SwipeEndedEventArgs, Task>? swipeEndedAction)
+    public static T OnSwipeEnded<T>(this T swipeView, Func<SwipeEndedEventArgs, Task>? swipeEndedAction, bool runInBackground = false)
         where T : ISwipeView
     {
-        swipeView.SwipeEndedEvent = new AsyncEventCommand<SwipeEndedEventArgs>(executeWithArgs: swipeEndedAction);
+        swipeView.SwipeEndedEvent = new AsyncEventCommand<SwipeEndedEventArgs>(executeWithArgs: swipeEndedAction, runInBackground);
         return swipeView;
     }
 
-    public static T OnSwipeEnded<T>(this T swipeView, Func<object?, SwipeEndedEventArgs, Task>? swipeEndedAction)
+    public static T OnSwipeEnded<T>(this T swipeView, Func<object?, SwipeEndedEventArgs, Task>? swipeEndedAction, bool runInBackground = false)
         where T : ISwipeView
     {
-        swipeView.SwipeEndedEvent = new AsyncEventCommand<SwipeEndedEventArgs>(executeWithFullArgs: swipeEndedAction);
+        swipeView.SwipeEndedEvent = new AsyncEventCommand<SwipeEndedEventArgs>(executeWithFullArgs: swipeEndedAction, runInBackground);
         return swipeView;
     }
 }

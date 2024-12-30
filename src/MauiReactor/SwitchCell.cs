@@ -192,24 +192,24 @@ public static partial class SwitchCellExtensions
         return switchCell;
     }
 
-    public static T OnOnChanged<T>(this T switchCell, Func<Task>? onChangedAction)
+    public static T OnOnChanged<T>(this T switchCell, Func<Task>? onChangedAction, bool runInBackground = false)
         where T : ISwitchCell
     {
-        switchCell.OnChangedEvent = new AsyncEventCommand<ToggledEventArgs>(execute: onChangedAction);
+        switchCell.OnChangedEvent = new AsyncEventCommand<ToggledEventArgs>(execute: onChangedAction, runInBackground);
         return switchCell;
     }
 
-    public static T OnOnChanged<T>(this T switchCell, Func<ToggledEventArgs, Task>? onChangedAction)
+    public static T OnOnChanged<T>(this T switchCell, Func<ToggledEventArgs, Task>? onChangedAction, bool runInBackground = false)
         where T : ISwitchCell
     {
-        switchCell.OnChangedEvent = new AsyncEventCommand<ToggledEventArgs>(executeWithArgs: onChangedAction);
+        switchCell.OnChangedEvent = new AsyncEventCommand<ToggledEventArgs>(executeWithArgs: onChangedAction, runInBackground);
         return switchCell;
     }
 
-    public static T OnOnChanged<T>(this T switchCell, Func<object?, ToggledEventArgs, Task>? onChangedAction)
+    public static T OnOnChanged<T>(this T switchCell, Func<object?, ToggledEventArgs, Task>? onChangedAction, bool runInBackground = false)
         where T : ISwitchCell
     {
-        switchCell.OnChangedEvent = new AsyncEventCommand<ToggledEventArgs>(executeWithFullArgs: onChangedAction);
+        switchCell.OnChangedEvent = new AsyncEventCommand<ToggledEventArgs>(executeWithFullArgs: onChangedAction, runInBackground);
         return switchCell;
     }
 }

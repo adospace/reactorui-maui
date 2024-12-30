@@ -155,24 +155,24 @@ public static partial class TapGestureRecognizerExtensions
         return tapGestureRecognizer;
     }
 
-    public static T OnTapped<T>(this T tapGestureRecognizer, Func<Task>? tappedAction)
+    public static T OnTapped<T>(this T tapGestureRecognizer, Func<Task>? tappedAction, bool runInBackground = false)
         where T : ITapGestureRecognizer
     {
-        tapGestureRecognizer.TappedEvent = new AsyncEventCommand<TappedEventArgs>(execute: tappedAction);
+        tapGestureRecognizer.TappedEvent = new AsyncEventCommand<TappedEventArgs>(execute: tappedAction, runInBackground);
         return tapGestureRecognizer;
     }
 
-    public static T OnTapped<T>(this T tapGestureRecognizer, Func<TappedEventArgs, Task>? tappedAction)
+    public static T OnTapped<T>(this T tapGestureRecognizer, Func<TappedEventArgs, Task>? tappedAction, bool runInBackground = false)
         where T : ITapGestureRecognizer
     {
-        tapGestureRecognizer.TappedEvent = new AsyncEventCommand<TappedEventArgs>(executeWithArgs: tappedAction);
+        tapGestureRecognizer.TappedEvent = new AsyncEventCommand<TappedEventArgs>(executeWithArgs: tappedAction, runInBackground);
         return tapGestureRecognizer;
     }
 
-    public static T OnTapped<T>(this T tapGestureRecognizer, Func<object?, TappedEventArgs, Task>? tappedAction)
+    public static T OnTapped<T>(this T tapGestureRecognizer, Func<object?, TappedEventArgs, Task>? tappedAction, bool runInBackground = false)
         where T : ITapGestureRecognizer
     {
-        tapGestureRecognizer.TappedEvent = new AsyncEventCommand<TappedEventArgs>(executeWithFullArgs: tappedAction);
+        tapGestureRecognizer.TappedEvent = new AsyncEventCommand<TappedEventArgs>(executeWithFullArgs: tappedAction, runInBackground);
         return tapGestureRecognizer;
     }
 }

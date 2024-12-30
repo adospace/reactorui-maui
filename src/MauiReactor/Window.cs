@@ -714,24 +714,24 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T OnSizeChanged<T>(this T window, Func<Task>? sizeChangedAction)
+    public static T OnSizeChanged<T>(this T window, Func<Task>? sizeChangedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.SizeChangedEvent = new AsyncEventCommand<EventArgs>(execute: sizeChangedAction);
+        window.SizeChangedEvent = new AsyncEventCommand<EventArgs>(execute: sizeChangedAction, runInBackground);
         return window;
     }
 
-    public static T OnSizeChanged<T>(this T window, Func<EventArgs, Task>? sizeChangedAction)
+    public static T OnSizeChanged<T>(this T window, Func<EventArgs, Task>? sizeChangedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.SizeChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: sizeChangedAction);
+        window.SizeChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: sizeChangedAction, runInBackground);
         return window;
     }
 
-    public static T OnSizeChanged<T>(this T window, Func<object?, EventArgs, Task>? sizeChangedAction)
+    public static T OnSizeChanged<T>(this T window, Func<object?, EventArgs, Task>? sizeChangedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.SizeChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: sizeChangedAction);
+        window.SizeChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: sizeChangedAction, runInBackground);
         return window;
     }
 
@@ -756,24 +756,24 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T OnModalPopped<T>(this T window, Func<Task>? modalPoppedAction)
+    public static T OnModalPopped<T>(this T window, Func<Task>? modalPoppedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ModalPoppedEvent = new AsyncEventCommand<ModalPoppedEventArgs>(execute: modalPoppedAction);
+        window.ModalPoppedEvent = new AsyncEventCommand<ModalPoppedEventArgs>(execute: modalPoppedAction, runInBackground);
         return window;
     }
 
-    public static T OnModalPopped<T>(this T window, Func<ModalPoppedEventArgs, Task>? modalPoppedAction)
+    public static T OnModalPopped<T>(this T window, Func<ModalPoppedEventArgs, Task>? modalPoppedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ModalPoppedEvent = new AsyncEventCommand<ModalPoppedEventArgs>(executeWithArgs: modalPoppedAction);
+        window.ModalPoppedEvent = new AsyncEventCommand<ModalPoppedEventArgs>(executeWithArgs: modalPoppedAction, runInBackground);
         return window;
     }
 
-    public static T OnModalPopped<T>(this T window, Func<object?, ModalPoppedEventArgs, Task>? modalPoppedAction)
+    public static T OnModalPopped<T>(this T window, Func<object?, ModalPoppedEventArgs, Task>? modalPoppedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ModalPoppedEvent = new AsyncEventCommand<ModalPoppedEventArgs>(executeWithFullArgs: modalPoppedAction);
+        window.ModalPoppedEvent = new AsyncEventCommand<ModalPoppedEventArgs>(executeWithFullArgs: modalPoppedAction, runInBackground);
         return window;
     }
 
@@ -798,24 +798,24 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T OnModalPopping<T>(this T window, Func<Task>? modalPoppingAction)
+    public static T OnModalPopping<T>(this T window, Func<Task>? modalPoppingAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ModalPoppingEvent = new AsyncEventCommand<ModalPoppingEventArgs>(execute: modalPoppingAction);
+        window.ModalPoppingEvent = new AsyncEventCommand<ModalPoppingEventArgs>(execute: modalPoppingAction, runInBackground);
         return window;
     }
 
-    public static T OnModalPopping<T>(this T window, Func<ModalPoppingEventArgs, Task>? modalPoppingAction)
+    public static T OnModalPopping<T>(this T window, Func<ModalPoppingEventArgs, Task>? modalPoppingAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ModalPoppingEvent = new AsyncEventCommand<ModalPoppingEventArgs>(executeWithArgs: modalPoppingAction);
+        window.ModalPoppingEvent = new AsyncEventCommand<ModalPoppingEventArgs>(executeWithArgs: modalPoppingAction, runInBackground);
         return window;
     }
 
-    public static T OnModalPopping<T>(this T window, Func<object?, ModalPoppingEventArgs, Task>? modalPoppingAction)
+    public static T OnModalPopping<T>(this T window, Func<object?, ModalPoppingEventArgs, Task>? modalPoppingAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ModalPoppingEvent = new AsyncEventCommand<ModalPoppingEventArgs>(executeWithFullArgs: modalPoppingAction);
+        window.ModalPoppingEvent = new AsyncEventCommand<ModalPoppingEventArgs>(executeWithFullArgs: modalPoppingAction, runInBackground);
         return window;
     }
 
@@ -840,24 +840,24 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T OnModalPushed<T>(this T window, Func<Task>? modalPushedAction)
+    public static T OnModalPushed<T>(this T window, Func<Task>? modalPushedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ModalPushedEvent = new AsyncEventCommand<ModalPushedEventArgs>(execute: modalPushedAction);
+        window.ModalPushedEvent = new AsyncEventCommand<ModalPushedEventArgs>(execute: modalPushedAction, runInBackground);
         return window;
     }
 
-    public static T OnModalPushed<T>(this T window, Func<ModalPushedEventArgs, Task>? modalPushedAction)
+    public static T OnModalPushed<T>(this T window, Func<ModalPushedEventArgs, Task>? modalPushedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ModalPushedEvent = new AsyncEventCommand<ModalPushedEventArgs>(executeWithArgs: modalPushedAction);
+        window.ModalPushedEvent = new AsyncEventCommand<ModalPushedEventArgs>(executeWithArgs: modalPushedAction, runInBackground);
         return window;
     }
 
-    public static T OnModalPushed<T>(this T window, Func<object?, ModalPushedEventArgs, Task>? modalPushedAction)
+    public static T OnModalPushed<T>(this T window, Func<object?, ModalPushedEventArgs, Task>? modalPushedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ModalPushedEvent = new AsyncEventCommand<ModalPushedEventArgs>(executeWithFullArgs: modalPushedAction);
+        window.ModalPushedEvent = new AsyncEventCommand<ModalPushedEventArgs>(executeWithFullArgs: modalPushedAction, runInBackground);
         return window;
     }
 
@@ -882,24 +882,24 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T OnModalPushing<T>(this T window, Func<Task>? modalPushingAction)
+    public static T OnModalPushing<T>(this T window, Func<Task>? modalPushingAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ModalPushingEvent = new AsyncEventCommand<ModalPushingEventArgs>(execute: modalPushingAction);
+        window.ModalPushingEvent = new AsyncEventCommand<ModalPushingEventArgs>(execute: modalPushingAction, runInBackground);
         return window;
     }
 
-    public static T OnModalPushing<T>(this T window, Func<ModalPushingEventArgs, Task>? modalPushingAction)
+    public static T OnModalPushing<T>(this T window, Func<ModalPushingEventArgs, Task>? modalPushingAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ModalPushingEvent = new AsyncEventCommand<ModalPushingEventArgs>(executeWithArgs: modalPushingAction);
+        window.ModalPushingEvent = new AsyncEventCommand<ModalPushingEventArgs>(executeWithArgs: modalPushingAction, runInBackground);
         return window;
     }
 
-    public static T OnModalPushing<T>(this T window, Func<object?, ModalPushingEventArgs, Task>? modalPushingAction)
+    public static T OnModalPushing<T>(this T window, Func<object?, ModalPushingEventArgs, Task>? modalPushingAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ModalPushingEvent = new AsyncEventCommand<ModalPushingEventArgs>(executeWithFullArgs: modalPushingAction);
+        window.ModalPushingEvent = new AsyncEventCommand<ModalPushingEventArgs>(executeWithFullArgs: modalPushingAction, runInBackground);
         return window;
     }
 
@@ -924,24 +924,24 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T OnPopCanceled<T>(this T window, Func<Task>? popCanceledAction)
+    public static T OnPopCanceled<T>(this T window, Func<Task>? popCanceledAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.PopCanceledEvent = new AsyncEventCommand<EventArgs>(execute: popCanceledAction);
+        window.PopCanceledEvent = new AsyncEventCommand<EventArgs>(execute: popCanceledAction, runInBackground);
         return window;
     }
 
-    public static T OnPopCanceled<T>(this T window, Func<EventArgs, Task>? popCanceledAction)
+    public static T OnPopCanceled<T>(this T window, Func<EventArgs, Task>? popCanceledAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.PopCanceledEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: popCanceledAction);
+        window.PopCanceledEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: popCanceledAction, runInBackground);
         return window;
     }
 
-    public static T OnPopCanceled<T>(this T window, Func<object?, EventArgs, Task>? popCanceledAction)
+    public static T OnPopCanceled<T>(this T window, Func<object?, EventArgs, Task>? popCanceledAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.PopCanceledEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: popCanceledAction);
+        window.PopCanceledEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: popCanceledAction, runInBackground);
         return window;
     }
 
@@ -966,24 +966,24 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T OnCreated<T>(this T window, Func<Task>? createdAction)
+    public static T OnCreated<T>(this T window, Func<Task>? createdAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.CreatedEvent = new AsyncEventCommand<EventArgs>(execute: createdAction);
+        window.CreatedEvent = new AsyncEventCommand<EventArgs>(execute: createdAction, runInBackground);
         return window;
     }
 
-    public static T OnCreated<T>(this T window, Func<EventArgs, Task>? createdAction)
+    public static T OnCreated<T>(this T window, Func<EventArgs, Task>? createdAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.CreatedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: createdAction);
+        window.CreatedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: createdAction, runInBackground);
         return window;
     }
 
-    public static T OnCreated<T>(this T window, Func<object?, EventArgs, Task>? createdAction)
+    public static T OnCreated<T>(this T window, Func<object?, EventArgs, Task>? createdAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.CreatedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: createdAction);
+        window.CreatedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: createdAction, runInBackground);
         return window;
     }
 
@@ -1008,24 +1008,24 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T OnResumed<T>(this T window, Func<Task>? resumedAction)
+    public static T OnResumed<T>(this T window, Func<Task>? resumedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ResumedEvent = new AsyncEventCommand<EventArgs>(execute: resumedAction);
+        window.ResumedEvent = new AsyncEventCommand<EventArgs>(execute: resumedAction, runInBackground);
         return window;
     }
 
-    public static T OnResumed<T>(this T window, Func<EventArgs, Task>? resumedAction)
+    public static T OnResumed<T>(this T window, Func<EventArgs, Task>? resumedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ResumedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: resumedAction);
+        window.ResumedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: resumedAction, runInBackground);
         return window;
     }
 
-    public static T OnResumed<T>(this T window, Func<object?, EventArgs, Task>? resumedAction)
+    public static T OnResumed<T>(this T window, Func<object?, EventArgs, Task>? resumedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ResumedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: resumedAction);
+        window.ResumedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: resumedAction, runInBackground);
         return window;
     }
 
@@ -1050,24 +1050,24 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T OnActivated<T>(this T window, Func<Task>? activatedAction)
+    public static T OnActivated<T>(this T window, Func<Task>? activatedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ActivatedEvent = new AsyncEventCommand<EventArgs>(execute: activatedAction);
+        window.ActivatedEvent = new AsyncEventCommand<EventArgs>(execute: activatedAction, runInBackground);
         return window;
     }
 
-    public static T OnActivated<T>(this T window, Func<EventArgs, Task>? activatedAction)
+    public static T OnActivated<T>(this T window, Func<EventArgs, Task>? activatedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ActivatedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: activatedAction);
+        window.ActivatedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: activatedAction, runInBackground);
         return window;
     }
 
-    public static T OnActivated<T>(this T window, Func<object?, EventArgs, Task>? activatedAction)
+    public static T OnActivated<T>(this T window, Func<object?, EventArgs, Task>? activatedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.ActivatedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: activatedAction);
+        window.ActivatedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: activatedAction, runInBackground);
         return window;
     }
 
@@ -1092,24 +1092,24 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T OnDeactivated<T>(this T window, Func<Task>? deactivatedAction)
+    public static T OnDeactivated<T>(this T window, Func<Task>? deactivatedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.DeactivatedEvent = new AsyncEventCommand<EventArgs>(execute: deactivatedAction);
+        window.DeactivatedEvent = new AsyncEventCommand<EventArgs>(execute: deactivatedAction, runInBackground);
         return window;
     }
 
-    public static T OnDeactivated<T>(this T window, Func<EventArgs, Task>? deactivatedAction)
+    public static T OnDeactivated<T>(this T window, Func<EventArgs, Task>? deactivatedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.DeactivatedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: deactivatedAction);
+        window.DeactivatedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: deactivatedAction, runInBackground);
         return window;
     }
 
-    public static T OnDeactivated<T>(this T window, Func<object?, EventArgs, Task>? deactivatedAction)
+    public static T OnDeactivated<T>(this T window, Func<object?, EventArgs, Task>? deactivatedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.DeactivatedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: deactivatedAction);
+        window.DeactivatedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: deactivatedAction, runInBackground);
         return window;
     }
 
@@ -1134,24 +1134,24 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T OnStopped<T>(this T window, Func<Task>? stoppedAction)
+    public static T OnStopped<T>(this T window, Func<Task>? stoppedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.StoppedEvent = new AsyncEventCommand<EventArgs>(execute: stoppedAction);
+        window.StoppedEvent = new AsyncEventCommand<EventArgs>(execute: stoppedAction, runInBackground);
         return window;
     }
 
-    public static T OnStopped<T>(this T window, Func<EventArgs, Task>? stoppedAction)
+    public static T OnStopped<T>(this T window, Func<EventArgs, Task>? stoppedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.StoppedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: stoppedAction);
+        window.StoppedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: stoppedAction, runInBackground);
         return window;
     }
 
-    public static T OnStopped<T>(this T window, Func<object?, EventArgs, Task>? stoppedAction)
+    public static T OnStopped<T>(this T window, Func<object?, EventArgs, Task>? stoppedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.StoppedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: stoppedAction);
+        window.StoppedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: stoppedAction, runInBackground);
         return window;
     }
 
@@ -1176,24 +1176,24 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T OnDestroying<T>(this T window, Func<Task>? destroyingAction)
+    public static T OnDestroying<T>(this T window, Func<Task>? destroyingAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.DestroyingEvent = new AsyncEventCommand<EventArgs>(execute: destroyingAction);
+        window.DestroyingEvent = new AsyncEventCommand<EventArgs>(execute: destroyingAction, runInBackground);
         return window;
     }
 
-    public static T OnDestroying<T>(this T window, Func<EventArgs, Task>? destroyingAction)
+    public static T OnDestroying<T>(this T window, Func<EventArgs, Task>? destroyingAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.DestroyingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: destroyingAction);
+        window.DestroyingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: destroyingAction, runInBackground);
         return window;
     }
 
-    public static T OnDestroying<T>(this T window, Func<object?, EventArgs, Task>? destroyingAction)
+    public static T OnDestroying<T>(this T window, Func<object?, EventArgs, Task>? destroyingAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.DestroyingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: destroyingAction);
+        window.DestroyingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: destroyingAction, runInBackground);
         return window;
     }
 
@@ -1218,24 +1218,24 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T OnBackgrounding<T>(this T window, Func<Task>? backgroundingAction)
+    public static T OnBackgrounding<T>(this T window, Func<Task>? backgroundingAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.BackgroundingEvent = new AsyncEventCommand<BackgroundingEventArgs>(execute: backgroundingAction);
+        window.BackgroundingEvent = new AsyncEventCommand<BackgroundingEventArgs>(execute: backgroundingAction, runInBackground);
         return window;
     }
 
-    public static T OnBackgrounding<T>(this T window, Func<BackgroundingEventArgs, Task>? backgroundingAction)
+    public static T OnBackgrounding<T>(this T window, Func<BackgroundingEventArgs, Task>? backgroundingAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.BackgroundingEvent = new AsyncEventCommand<BackgroundingEventArgs>(executeWithArgs: backgroundingAction);
+        window.BackgroundingEvent = new AsyncEventCommand<BackgroundingEventArgs>(executeWithArgs: backgroundingAction, runInBackground);
         return window;
     }
 
-    public static T OnBackgrounding<T>(this T window, Func<object?, BackgroundingEventArgs, Task>? backgroundingAction)
+    public static T OnBackgrounding<T>(this T window, Func<object?, BackgroundingEventArgs, Task>? backgroundingAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.BackgroundingEvent = new AsyncEventCommand<BackgroundingEventArgs>(executeWithFullArgs: backgroundingAction);
+        window.BackgroundingEvent = new AsyncEventCommand<BackgroundingEventArgs>(executeWithFullArgs: backgroundingAction, runInBackground);
         return window;
     }
 
@@ -1260,24 +1260,24 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T OnDisplayDensityChanged<T>(this T window, Func<Task>? displayDensityChangedAction)
+    public static T OnDisplayDensityChanged<T>(this T window, Func<Task>? displayDensityChangedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.DisplayDensityChangedEvent = new AsyncEventCommand<DisplayDensityChangedEventArgs>(execute: displayDensityChangedAction);
+        window.DisplayDensityChangedEvent = new AsyncEventCommand<DisplayDensityChangedEventArgs>(execute: displayDensityChangedAction, runInBackground);
         return window;
     }
 
-    public static T OnDisplayDensityChanged<T>(this T window, Func<DisplayDensityChangedEventArgs, Task>? displayDensityChangedAction)
+    public static T OnDisplayDensityChanged<T>(this T window, Func<DisplayDensityChangedEventArgs, Task>? displayDensityChangedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.DisplayDensityChangedEvent = new AsyncEventCommand<DisplayDensityChangedEventArgs>(executeWithArgs: displayDensityChangedAction);
+        window.DisplayDensityChangedEvent = new AsyncEventCommand<DisplayDensityChangedEventArgs>(executeWithArgs: displayDensityChangedAction, runInBackground);
         return window;
     }
 
-    public static T OnDisplayDensityChanged<T>(this T window, Func<object?, DisplayDensityChangedEventArgs, Task>? displayDensityChangedAction)
+    public static T OnDisplayDensityChanged<T>(this T window, Func<object?, DisplayDensityChangedEventArgs, Task>? displayDensityChangedAction, bool runInBackground = false)
         where T : IWindow
     {
-        window.DisplayDensityChangedEvent = new AsyncEventCommand<DisplayDensityChangedEventArgs>(executeWithFullArgs: displayDensityChangedAction);
+        window.DisplayDensityChangedEvent = new AsyncEventCommand<DisplayDensityChangedEventArgs>(executeWithFullArgs: displayDensityChangedAction, runInBackground);
         return window;
     }
 }

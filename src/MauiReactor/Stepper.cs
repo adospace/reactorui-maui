@@ -230,24 +230,24 @@ public static partial class StepperExtensions
         return stepper;
     }
 
-    public static T OnValueChanged<T>(this T stepper, Func<Task>? valueChangedAction)
+    public static T OnValueChanged<T>(this T stepper, Func<Task>? valueChangedAction, bool runInBackground = false)
         where T : IStepper
     {
-        stepper.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(execute: valueChangedAction);
+        stepper.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(execute: valueChangedAction, runInBackground);
         return stepper;
     }
 
-    public static T OnValueChanged<T>(this T stepper, Func<ValueChangedEventArgs, Task>? valueChangedAction)
+    public static T OnValueChanged<T>(this T stepper, Func<ValueChangedEventArgs, Task>? valueChangedAction, bool runInBackground = false)
         where T : IStepper
     {
-        stepper.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(executeWithArgs: valueChangedAction);
+        stepper.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(executeWithArgs: valueChangedAction, runInBackground);
         return stepper;
     }
 
-    public static T OnValueChanged<T>(this T stepper, Func<object?, ValueChangedEventArgs, Task>? valueChangedAction)
+    public static T OnValueChanged<T>(this T stepper, Func<object?, ValueChangedEventArgs, Task>? valueChangedAction, bool runInBackground = false)
         where T : IStepper
     {
-        stepper.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(executeWithFullArgs: valueChangedAction);
+        stepper.ValueChangedEvent = new AsyncEventCommand<ValueChangedEventArgs>(executeWithFullArgs: valueChangedAction, runInBackground);
         return stepper;
     }
 }

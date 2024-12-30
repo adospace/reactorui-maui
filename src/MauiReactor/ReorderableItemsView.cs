@@ -174,24 +174,24 @@ public static partial class ReorderableItemsViewExtensions
         return reorderableItemsView;
     }
 
-    public static T OnReorderCompleted<T>(this T reorderableItemsView, Func<Task>? reorderCompletedAction)
+    public static T OnReorderCompleted<T>(this T reorderableItemsView, Func<Task>? reorderCompletedAction, bool runInBackground = false)
         where T : IReorderableItemsView
     {
-        reorderableItemsView.ReorderCompletedEvent = new AsyncEventCommand<EventArgs>(execute: reorderCompletedAction);
+        reorderableItemsView.ReorderCompletedEvent = new AsyncEventCommand<EventArgs>(execute: reorderCompletedAction, runInBackground);
         return reorderableItemsView;
     }
 
-    public static T OnReorderCompleted<T>(this T reorderableItemsView, Func<EventArgs, Task>? reorderCompletedAction)
+    public static T OnReorderCompleted<T>(this T reorderableItemsView, Func<EventArgs, Task>? reorderCompletedAction, bool runInBackground = false)
         where T : IReorderableItemsView
     {
-        reorderableItemsView.ReorderCompletedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: reorderCompletedAction);
+        reorderableItemsView.ReorderCompletedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: reorderCompletedAction, runInBackground);
         return reorderableItemsView;
     }
 
-    public static T OnReorderCompleted<T>(this T reorderableItemsView, Func<object?, EventArgs, Task>? reorderCompletedAction)
+    public static T OnReorderCompleted<T>(this T reorderableItemsView, Func<object?, EventArgs, Task>? reorderCompletedAction, bool runInBackground = false)
         where T : IReorderableItemsView
     {
-        reorderableItemsView.ReorderCompletedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: reorderCompletedAction);
+        reorderableItemsView.ReorderCompletedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: reorderCompletedAction, runInBackground);
         return reorderableItemsView;
     }
 }

@@ -56,7 +56,7 @@ namespace MauiReactor.HotReloadConsole
                 .WithStandardOutputPipe(PipeTarget.ToStream(stdOut))
                 .WithStandardErrorPipe(PipeTarget.ToStream(stdErr))
                 .WithValidation(CommandResultValidation.None)
-                .ExecuteAsync();
+                .ExecuteAsync(cancellationToken);
 
 
             if (result.ExitCode != 0)

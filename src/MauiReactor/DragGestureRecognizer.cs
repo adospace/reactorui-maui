@@ -182,24 +182,24 @@ public static partial class DragGestureRecognizerExtensions
         return dragGestureRecognizer;
     }
 
-    public static T OnDropCompleted<T>(this T dragGestureRecognizer, Func<Task>? dropCompletedAction)
+    public static T OnDropCompleted<T>(this T dragGestureRecognizer, Func<Task>? dropCompletedAction, bool runInBackground = false)
         where T : IDragGestureRecognizer
     {
-        dragGestureRecognizer.DropCompletedEvent = new AsyncEventCommand<DropCompletedEventArgs>(execute: dropCompletedAction);
+        dragGestureRecognizer.DropCompletedEvent = new AsyncEventCommand<DropCompletedEventArgs>(execute: dropCompletedAction, runInBackground);
         return dragGestureRecognizer;
     }
 
-    public static T OnDropCompleted<T>(this T dragGestureRecognizer, Func<DropCompletedEventArgs, Task>? dropCompletedAction)
+    public static T OnDropCompleted<T>(this T dragGestureRecognizer, Func<DropCompletedEventArgs, Task>? dropCompletedAction, bool runInBackground = false)
         where T : IDragGestureRecognizer
     {
-        dragGestureRecognizer.DropCompletedEvent = new AsyncEventCommand<DropCompletedEventArgs>(executeWithArgs: dropCompletedAction);
+        dragGestureRecognizer.DropCompletedEvent = new AsyncEventCommand<DropCompletedEventArgs>(executeWithArgs: dropCompletedAction, runInBackground);
         return dragGestureRecognizer;
     }
 
-    public static T OnDropCompleted<T>(this T dragGestureRecognizer, Func<object?, DropCompletedEventArgs, Task>? dropCompletedAction)
+    public static T OnDropCompleted<T>(this T dragGestureRecognizer, Func<object?, DropCompletedEventArgs, Task>? dropCompletedAction, bool runInBackground = false)
         where T : IDragGestureRecognizer
     {
-        dragGestureRecognizer.DropCompletedEvent = new AsyncEventCommand<DropCompletedEventArgs>(executeWithFullArgs: dropCompletedAction);
+        dragGestureRecognizer.DropCompletedEvent = new AsyncEventCommand<DropCompletedEventArgs>(executeWithFullArgs: dropCompletedAction, runInBackground);
         return dragGestureRecognizer;
     }
 
@@ -224,24 +224,24 @@ public static partial class DragGestureRecognizerExtensions
         return dragGestureRecognizer;
     }
 
-    public static T OnDragStarting<T>(this T dragGestureRecognizer, Func<Task>? dragStartingAction)
+    public static T OnDragStarting<T>(this T dragGestureRecognizer, Func<Task>? dragStartingAction, bool runInBackground = false)
         where T : IDragGestureRecognizer
     {
-        dragGestureRecognizer.DragStartingEvent = new AsyncEventCommand<DragStartingEventArgs>(execute: dragStartingAction);
+        dragGestureRecognizer.DragStartingEvent = new AsyncEventCommand<DragStartingEventArgs>(execute: dragStartingAction, runInBackground);
         return dragGestureRecognizer;
     }
 
-    public static T OnDragStarting<T>(this T dragGestureRecognizer, Func<DragStartingEventArgs, Task>? dragStartingAction)
+    public static T OnDragStarting<T>(this T dragGestureRecognizer, Func<DragStartingEventArgs, Task>? dragStartingAction, bool runInBackground = false)
         where T : IDragGestureRecognizer
     {
-        dragGestureRecognizer.DragStartingEvent = new AsyncEventCommand<DragStartingEventArgs>(executeWithArgs: dragStartingAction);
+        dragGestureRecognizer.DragStartingEvent = new AsyncEventCommand<DragStartingEventArgs>(executeWithArgs: dragStartingAction, runInBackground);
         return dragGestureRecognizer;
     }
 
-    public static T OnDragStarting<T>(this T dragGestureRecognizer, Func<object?, DragStartingEventArgs, Task>? dragStartingAction)
+    public static T OnDragStarting<T>(this T dragGestureRecognizer, Func<object?, DragStartingEventArgs, Task>? dragStartingAction, bool runInBackground = false)
         where T : IDragGestureRecognizer
     {
-        dragGestureRecognizer.DragStartingEvent = new AsyncEventCommand<DragStartingEventArgs>(executeWithFullArgs: dragStartingAction);
+        dragGestureRecognizer.DragStartingEvent = new AsyncEventCommand<DragStartingEventArgs>(executeWithFullArgs: dragStartingAction, runInBackground);
         return dragGestureRecognizer;
     }
 }

@@ -192,24 +192,24 @@ public static partial class FlyoutPageExtensions
         return flyoutPage;
     }
 
-    public static T OnIsPresentedChanged<T>(this T flyoutPage, Func<Task>? isPresentedChangedAction)
+    public static T OnIsPresentedChanged<T>(this T flyoutPage, Func<Task>? isPresentedChangedAction, bool runInBackground = false)
         where T : IFlyoutPage
     {
-        flyoutPage.IsPresentedChangedEvent = new AsyncEventCommand<EventArgs>(execute: isPresentedChangedAction);
+        flyoutPage.IsPresentedChangedEvent = new AsyncEventCommand<EventArgs>(execute: isPresentedChangedAction, runInBackground);
         return flyoutPage;
     }
 
-    public static T OnIsPresentedChanged<T>(this T flyoutPage, Func<EventArgs, Task>? isPresentedChangedAction)
+    public static T OnIsPresentedChanged<T>(this T flyoutPage, Func<EventArgs, Task>? isPresentedChangedAction, bool runInBackground = false)
         where T : IFlyoutPage
     {
-        flyoutPage.IsPresentedChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: isPresentedChangedAction);
+        flyoutPage.IsPresentedChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: isPresentedChangedAction, runInBackground);
         return flyoutPage;
     }
 
-    public static T OnIsPresentedChanged<T>(this T flyoutPage, Func<object?, EventArgs, Task>? isPresentedChangedAction)
+    public static T OnIsPresentedChanged<T>(this T flyoutPage, Func<object?, EventArgs, Task>? isPresentedChangedAction, bool runInBackground = false)
         where T : IFlyoutPage
     {
-        flyoutPage.IsPresentedChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: isPresentedChangedAction);
+        flyoutPage.IsPresentedChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: isPresentedChangedAction, runInBackground);
         return flyoutPage;
     }
 }

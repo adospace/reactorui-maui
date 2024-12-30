@@ -174,24 +174,24 @@ public static partial class RefreshViewExtensions
         return refreshView;
     }
 
-    public static T OnRefreshing<T>(this T refreshView, Func<Task>? refreshingAction)
+    public static T OnRefreshing<T>(this T refreshView, Func<Task>? refreshingAction, bool runInBackground = false)
         where T : IRefreshView
     {
-        refreshView.RefreshingEvent = new AsyncEventCommand<EventArgs>(execute: refreshingAction);
+        refreshView.RefreshingEvent = new AsyncEventCommand<EventArgs>(execute: refreshingAction, runInBackground);
         return refreshView;
     }
 
-    public static T OnRefreshing<T>(this T refreshView, Func<EventArgs, Task>? refreshingAction)
+    public static T OnRefreshing<T>(this T refreshView, Func<EventArgs, Task>? refreshingAction, bool runInBackground = false)
         where T : IRefreshView
     {
-        refreshView.RefreshingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: refreshingAction);
+        refreshView.RefreshingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: refreshingAction, runInBackground);
         return refreshView;
     }
 
-    public static T OnRefreshing<T>(this T refreshView, Func<object?, EventArgs, Task>? refreshingAction)
+    public static T OnRefreshing<T>(this T refreshView, Func<object?, EventArgs, Task>? refreshingAction, bool runInBackground = false)
         where T : IRefreshView
     {
-        refreshView.RefreshingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: refreshingAction);
+        refreshView.RefreshingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: refreshingAction, runInBackground);
         return refreshView;
     }
 }

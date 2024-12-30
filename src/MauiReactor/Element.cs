@@ -337,24 +337,24 @@ public static partial class ElementExtensions
         return element;
     }
 
-    public static T OnChildAdded<T>(this T element, Func<Task>? childAddedAction)
+    public static T OnChildAdded<T>(this T element, Func<Task>? childAddedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.ChildAddedEvent = new AsyncEventCommand<ElementEventArgs>(execute: childAddedAction);
+        element.ChildAddedEvent = new AsyncEventCommand<ElementEventArgs>(execute: childAddedAction, runInBackground);
         return element;
     }
 
-    public static T OnChildAdded<T>(this T element, Func<ElementEventArgs, Task>? childAddedAction)
+    public static T OnChildAdded<T>(this T element, Func<ElementEventArgs, Task>? childAddedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.ChildAddedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithArgs: childAddedAction);
+        element.ChildAddedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithArgs: childAddedAction, runInBackground);
         return element;
     }
 
-    public static T OnChildAdded<T>(this T element, Func<object?, ElementEventArgs, Task>? childAddedAction)
+    public static T OnChildAdded<T>(this T element, Func<object?, ElementEventArgs, Task>? childAddedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.ChildAddedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithFullArgs: childAddedAction);
+        element.ChildAddedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithFullArgs: childAddedAction, runInBackground);
         return element;
     }
 
@@ -379,24 +379,24 @@ public static partial class ElementExtensions
         return element;
     }
 
-    public static T OnChildRemoved<T>(this T element, Func<Task>? childRemovedAction)
+    public static T OnChildRemoved<T>(this T element, Func<Task>? childRemovedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.ChildRemovedEvent = new AsyncEventCommand<ElementEventArgs>(execute: childRemovedAction);
+        element.ChildRemovedEvent = new AsyncEventCommand<ElementEventArgs>(execute: childRemovedAction, runInBackground);
         return element;
     }
 
-    public static T OnChildRemoved<T>(this T element, Func<ElementEventArgs, Task>? childRemovedAction)
+    public static T OnChildRemoved<T>(this T element, Func<ElementEventArgs, Task>? childRemovedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.ChildRemovedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithArgs: childRemovedAction);
+        element.ChildRemovedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithArgs: childRemovedAction, runInBackground);
         return element;
     }
 
-    public static T OnChildRemoved<T>(this T element, Func<object?, ElementEventArgs, Task>? childRemovedAction)
+    public static T OnChildRemoved<T>(this T element, Func<object?, ElementEventArgs, Task>? childRemovedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.ChildRemovedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithFullArgs: childRemovedAction);
+        element.ChildRemovedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithFullArgs: childRemovedAction, runInBackground);
         return element;
     }
 
@@ -421,24 +421,24 @@ public static partial class ElementExtensions
         return element;
     }
 
-    public static T OnDescendantAdded<T>(this T element, Func<Task>? descendantAddedAction)
+    public static T OnDescendantAdded<T>(this T element, Func<Task>? descendantAddedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.DescendantAddedEvent = new AsyncEventCommand<ElementEventArgs>(execute: descendantAddedAction);
+        element.DescendantAddedEvent = new AsyncEventCommand<ElementEventArgs>(execute: descendantAddedAction, runInBackground);
         return element;
     }
 
-    public static T OnDescendantAdded<T>(this T element, Func<ElementEventArgs, Task>? descendantAddedAction)
+    public static T OnDescendantAdded<T>(this T element, Func<ElementEventArgs, Task>? descendantAddedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.DescendantAddedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithArgs: descendantAddedAction);
+        element.DescendantAddedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithArgs: descendantAddedAction, runInBackground);
         return element;
     }
 
-    public static T OnDescendantAdded<T>(this T element, Func<object?, ElementEventArgs, Task>? descendantAddedAction)
+    public static T OnDescendantAdded<T>(this T element, Func<object?, ElementEventArgs, Task>? descendantAddedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.DescendantAddedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithFullArgs: descendantAddedAction);
+        element.DescendantAddedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithFullArgs: descendantAddedAction, runInBackground);
         return element;
     }
 
@@ -463,24 +463,24 @@ public static partial class ElementExtensions
         return element;
     }
 
-    public static T OnDescendantRemoved<T>(this T element, Func<Task>? descendantRemovedAction)
+    public static T OnDescendantRemoved<T>(this T element, Func<Task>? descendantRemovedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.DescendantRemovedEvent = new AsyncEventCommand<ElementEventArgs>(execute: descendantRemovedAction);
+        element.DescendantRemovedEvent = new AsyncEventCommand<ElementEventArgs>(execute: descendantRemovedAction, runInBackground);
         return element;
     }
 
-    public static T OnDescendantRemoved<T>(this T element, Func<ElementEventArgs, Task>? descendantRemovedAction)
+    public static T OnDescendantRemoved<T>(this T element, Func<ElementEventArgs, Task>? descendantRemovedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.DescendantRemovedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithArgs: descendantRemovedAction);
+        element.DescendantRemovedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithArgs: descendantRemovedAction, runInBackground);
         return element;
     }
 
-    public static T OnDescendantRemoved<T>(this T element, Func<object?, ElementEventArgs, Task>? descendantRemovedAction)
+    public static T OnDescendantRemoved<T>(this T element, Func<object?, ElementEventArgs, Task>? descendantRemovedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.DescendantRemovedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithFullArgs: descendantRemovedAction);
+        element.DescendantRemovedEvent = new AsyncEventCommand<ElementEventArgs>(executeWithFullArgs: descendantRemovedAction, runInBackground);
         return element;
     }
 
@@ -505,24 +505,24 @@ public static partial class ElementExtensions
         return element;
     }
 
-    public static T OnParentChanging<T>(this T element, Func<Task>? parentChangingAction)
+    public static T OnParentChanging<T>(this T element, Func<Task>? parentChangingAction, bool runInBackground = false)
         where T : IElement
     {
-        element.ParentChangingEvent = new AsyncEventCommand<ParentChangingEventArgs>(execute: parentChangingAction);
+        element.ParentChangingEvent = new AsyncEventCommand<ParentChangingEventArgs>(execute: parentChangingAction, runInBackground);
         return element;
     }
 
-    public static T OnParentChanging<T>(this T element, Func<ParentChangingEventArgs, Task>? parentChangingAction)
+    public static T OnParentChanging<T>(this T element, Func<ParentChangingEventArgs, Task>? parentChangingAction, bool runInBackground = false)
         where T : IElement
     {
-        element.ParentChangingEvent = new AsyncEventCommand<ParentChangingEventArgs>(executeWithArgs: parentChangingAction);
+        element.ParentChangingEvent = new AsyncEventCommand<ParentChangingEventArgs>(executeWithArgs: parentChangingAction, runInBackground);
         return element;
     }
 
-    public static T OnParentChanging<T>(this T element, Func<object?, ParentChangingEventArgs, Task>? parentChangingAction)
+    public static T OnParentChanging<T>(this T element, Func<object?, ParentChangingEventArgs, Task>? parentChangingAction, bool runInBackground = false)
         where T : IElement
     {
-        element.ParentChangingEvent = new AsyncEventCommand<ParentChangingEventArgs>(executeWithFullArgs: parentChangingAction);
+        element.ParentChangingEvent = new AsyncEventCommand<ParentChangingEventArgs>(executeWithFullArgs: parentChangingAction, runInBackground);
         return element;
     }
 
@@ -547,24 +547,24 @@ public static partial class ElementExtensions
         return element;
     }
 
-    public static T OnParentChanged<T>(this T element, Func<Task>? parentChangedAction)
+    public static T OnParentChanged<T>(this T element, Func<Task>? parentChangedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.ParentChangedEvent = new AsyncEventCommand<EventArgs>(execute: parentChangedAction);
+        element.ParentChangedEvent = new AsyncEventCommand<EventArgs>(execute: parentChangedAction, runInBackground);
         return element;
     }
 
-    public static T OnParentChanged<T>(this T element, Func<EventArgs, Task>? parentChangedAction)
+    public static T OnParentChanged<T>(this T element, Func<EventArgs, Task>? parentChangedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.ParentChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: parentChangedAction);
+        element.ParentChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: parentChangedAction, runInBackground);
         return element;
     }
 
-    public static T OnParentChanged<T>(this T element, Func<object?, EventArgs, Task>? parentChangedAction)
+    public static T OnParentChanged<T>(this T element, Func<object?, EventArgs, Task>? parentChangedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.ParentChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: parentChangedAction);
+        element.ParentChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: parentChangedAction, runInBackground);
         return element;
     }
 
@@ -589,24 +589,24 @@ public static partial class ElementExtensions
         return element;
     }
 
-    public static T OnHandlerChanging<T>(this T element, Func<Task>? handlerChangingAction)
+    public static T OnHandlerChanging<T>(this T element, Func<Task>? handlerChangingAction, bool runInBackground = false)
         where T : IElement
     {
-        element.HandlerChangingEvent = new AsyncEventCommand<HandlerChangingEventArgs>(execute: handlerChangingAction);
+        element.HandlerChangingEvent = new AsyncEventCommand<HandlerChangingEventArgs>(execute: handlerChangingAction, runInBackground);
         return element;
     }
 
-    public static T OnHandlerChanging<T>(this T element, Func<HandlerChangingEventArgs, Task>? handlerChangingAction)
+    public static T OnHandlerChanging<T>(this T element, Func<HandlerChangingEventArgs, Task>? handlerChangingAction, bool runInBackground = false)
         where T : IElement
     {
-        element.HandlerChangingEvent = new AsyncEventCommand<HandlerChangingEventArgs>(executeWithArgs: handlerChangingAction);
+        element.HandlerChangingEvent = new AsyncEventCommand<HandlerChangingEventArgs>(executeWithArgs: handlerChangingAction, runInBackground);
         return element;
     }
 
-    public static T OnHandlerChanging<T>(this T element, Func<object?, HandlerChangingEventArgs, Task>? handlerChangingAction)
+    public static T OnHandlerChanging<T>(this T element, Func<object?, HandlerChangingEventArgs, Task>? handlerChangingAction, bool runInBackground = false)
         where T : IElement
     {
-        element.HandlerChangingEvent = new AsyncEventCommand<HandlerChangingEventArgs>(executeWithFullArgs: handlerChangingAction);
+        element.HandlerChangingEvent = new AsyncEventCommand<HandlerChangingEventArgs>(executeWithFullArgs: handlerChangingAction, runInBackground);
         return element;
     }
 
@@ -631,24 +631,24 @@ public static partial class ElementExtensions
         return element;
     }
 
-    public static T OnHandlerChanged<T>(this T element, Func<Task>? handlerChangedAction)
+    public static T OnHandlerChanged<T>(this T element, Func<Task>? handlerChangedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.HandlerChangedEvent = new AsyncEventCommand<EventArgs>(execute: handlerChangedAction);
+        element.HandlerChangedEvent = new AsyncEventCommand<EventArgs>(execute: handlerChangedAction, runInBackground);
         return element;
     }
 
-    public static T OnHandlerChanged<T>(this T element, Func<EventArgs, Task>? handlerChangedAction)
+    public static T OnHandlerChanged<T>(this T element, Func<EventArgs, Task>? handlerChangedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.HandlerChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: handlerChangedAction);
+        element.HandlerChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: handlerChangedAction, runInBackground);
         return element;
     }
 
-    public static T OnHandlerChanged<T>(this T element, Func<object?, EventArgs, Task>? handlerChangedAction)
+    public static T OnHandlerChanged<T>(this T element, Func<object?, EventArgs, Task>? handlerChangedAction, bool runInBackground = false)
         where T : IElement
     {
-        element.HandlerChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: handlerChangedAction);
+        element.HandlerChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: handlerChangedAction, runInBackground);
         return element;
     }
 }

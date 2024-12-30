@@ -192,24 +192,24 @@ public static partial class ScrollViewExtensions
         return scrollView;
     }
 
-    public static T OnScrolled<T>(this T scrollView, Func<Task>? scrolledAction)
+    public static T OnScrolled<T>(this T scrollView, Func<Task>? scrolledAction, bool runInBackground = false)
         where T : IScrollView
     {
-        scrollView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(execute: scrolledAction);
+        scrollView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(execute: scrolledAction, runInBackground);
         return scrollView;
     }
 
-    public static T OnScrolled<T>(this T scrollView, Func<ScrolledEventArgs, Task>? scrolledAction)
+    public static T OnScrolled<T>(this T scrollView, Func<ScrolledEventArgs, Task>? scrolledAction, bool runInBackground = false)
         where T : IScrollView
     {
-        scrollView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(executeWithArgs: scrolledAction);
+        scrollView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(executeWithArgs: scrolledAction, runInBackground);
         return scrollView;
     }
 
-    public static T OnScrolled<T>(this T scrollView, Func<object?, ScrolledEventArgs, Task>? scrolledAction)
+    public static T OnScrolled<T>(this T scrollView, Func<object?, ScrolledEventArgs, Task>? scrolledAction, bool runInBackground = false)
         where T : IScrollView
     {
-        scrollView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(executeWithFullArgs: scrolledAction);
+        scrollView.ScrolledEvent = new AsyncEventCommand<ScrolledEventArgs>(executeWithFullArgs: scrolledAction, runInBackground);
         return scrollView;
     }
 }

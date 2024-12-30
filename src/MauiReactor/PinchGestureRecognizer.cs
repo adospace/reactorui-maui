@@ -119,24 +119,24 @@ public static partial class PinchGestureRecognizerExtensions
         return pinchGestureRecognizer;
     }
 
-    public static T OnPinchUpdated<T>(this T pinchGestureRecognizer, Func<Task>? pinchUpdatedAction)
+    public static T OnPinchUpdated<T>(this T pinchGestureRecognizer, Func<Task>? pinchUpdatedAction, bool runInBackground = false)
         where T : IPinchGestureRecognizer
     {
-        pinchGestureRecognizer.PinchUpdatedEvent = new AsyncEventCommand<PinchGestureUpdatedEventArgs>(execute: pinchUpdatedAction);
+        pinchGestureRecognizer.PinchUpdatedEvent = new AsyncEventCommand<PinchGestureUpdatedEventArgs>(execute: pinchUpdatedAction, runInBackground);
         return pinchGestureRecognizer;
     }
 
-    public static T OnPinchUpdated<T>(this T pinchGestureRecognizer, Func<PinchGestureUpdatedEventArgs, Task>? pinchUpdatedAction)
+    public static T OnPinchUpdated<T>(this T pinchGestureRecognizer, Func<PinchGestureUpdatedEventArgs, Task>? pinchUpdatedAction, bool runInBackground = false)
         where T : IPinchGestureRecognizer
     {
-        pinchGestureRecognizer.PinchUpdatedEvent = new AsyncEventCommand<PinchGestureUpdatedEventArgs>(executeWithArgs: pinchUpdatedAction);
+        pinchGestureRecognizer.PinchUpdatedEvent = new AsyncEventCommand<PinchGestureUpdatedEventArgs>(executeWithArgs: pinchUpdatedAction, runInBackground);
         return pinchGestureRecognizer;
     }
 
-    public static T OnPinchUpdated<T>(this T pinchGestureRecognizer, Func<object?, PinchGestureUpdatedEventArgs, Task>? pinchUpdatedAction)
+    public static T OnPinchUpdated<T>(this T pinchGestureRecognizer, Func<object?, PinchGestureUpdatedEventArgs, Task>? pinchUpdatedAction, bool runInBackground = false)
         where T : IPinchGestureRecognizer
     {
-        pinchGestureRecognizer.PinchUpdatedEvent = new AsyncEventCommand<PinchGestureUpdatedEventArgs>(executeWithFullArgs: pinchUpdatedAction);
+        pinchGestureRecognizer.PinchUpdatedEvent = new AsyncEventCommand<PinchGestureUpdatedEventArgs>(executeWithFullArgs: pinchUpdatedAction, runInBackground);
         return pinchGestureRecognizer;
     }
 }

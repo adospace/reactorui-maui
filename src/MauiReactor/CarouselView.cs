@@ -322,24 +322,24 @@ public static partial class CarouselViewExtensions
         return carouselView;
     }
 
-    public static T OnCurrentItemChanged<T>(this T carouselView, Func<Task>? currentItemChangedAction)
+    public static T OnCurrentItemChanged<T>(this T carouselView, Func<Task>? currentItemChangedAction, bool runInBackground = false)
         where T : ICarouselView
     {
-        carouselView.CurrentItemChangedEvent = new AsyncEventCommand<CurrentItemChangedEventArgs>(execute: currentItemChangedAction);
+        carouselView.CurrentItemChangedEvent = new AsyncEventCommand<CurrentItemChangedEventArgs>(execute: currentItemChangedAction, runInBackground);
         return carouselView;
     }
 
-    public static T OnCurrentItemChanged<T>(this T carouselView, Func<CurrentItemChangedEventArgs, Task>? currentItemChangedAction)
+    public static T OnCurrentItemChanged<T>(this T carouselView, Func<CurrentItemChangedEventArgs, Task>? currentItemChangedAction, bool runInBackground = false)
         where T : ICarouselView
     {
-        carouselView.CurrentItemChangedEvent = new AsyncEventCommand<CurrentItemChangedEventArgs>(executeWithArgs: currentItemChangedAction);
+        carouselView.CurrentItemChangedEvent = new AsyncEventCommand<CurrentItemChangedEventArgs>(executeWithArgs: currentItemChangedAction, runInBackground);
         return carouselView;
     }
 
-    public static T OnCurrentItemChanged<T>(this T carouselView, Func<object?, CurrentItemChangedEventArgs, Task>? currentItemChangedAction)
+    public static T OnCurrentItemChanged<T>(this T carouselView, Func<object?, CurrentItemChangedEventArgs, Task>? currentItemChangedAction, bool runInBackground = false)
         where T : ICarouselView
     {
-        carouselView.CurrentItemChangedEvent = new AsyncEventCommand<CurrentItemChangedEventArgs>(executeWithFullArgs: currentItemChangedAction);
+        carouselView.CurrentItemChangedEvent = new AsyncEventCommand<CurrentItemChangedEventArgs>(executeWithFullArgs: currentItemChangedAction, runInBackground);
         return carouselView;
     }
 
@@ -364,24 +364,24 @@ public static partial class CarouselViewExtensions
         return carouselView;
     }
 
-    public static T OnPositionChanged<T>(this T carouselView, Func<Task>? positionChangedAction)
+    public static T OnPositionChanged<T>(this T carouselView, Func<Task>? positionChangedAction, bool runInBackground = false)
         where T : ICarouselView
     {
-        carouselView.PositionChangedEvent = new AsyncEventCommand<PositionChangedEventArgs>(execute: positionChangedAction);
+        carouselView.PositionChangedEvent = new AsyncEventCommand<PositionChangedEventArgs>(execute: positionChangedAction, runInBackground);
         return carouselView;
     }
 
-    public static T OnPositionChanged<T>(this T carouselView, Func<PositionChangedEventArgs, Task>? positionChangedAction)
+    public static T OnPositionChanged<T>(this T carouselView, Func<PositionChangedEventArgs, Task>? positionChangedAction, bool runInBackground = false)
         where T : ICarouselView
     {
-        carouselView.PositionChangedEvent = new AsyncEventCommand<PositionChangedEventArgs>(executeWithArgs: positionChangedAction);
+        carouselView.PositionChangedEvent = new AsyncEventCommand<PositionChangedEventArgs>(executeWithArgs: positionChangedAction, runInBackground);
         return carouselView;
     }
 
-    public static T OnPositionChanged<T>(this T carouselView, Func<object?, PositionChangedEventArgs, Task>? positionChangedAction)
+    public static T OnPositionChanged<T>(this T carouselView, Func<object?, PositionChangedEventArgs, Task>? positionChangedAction, bool runInBackground = false)
         where T : ICarouselView
     {
-        carouselView.PositionChangedEvent = new AsyncEventCommand<PositionChangedEventArgs>(executeWithFullArgs: positionChangedAction);
+        carouselView.PositionChangedEvent = new AsyncEventCommand<PositionChangedEventArgs>(executeWithFullArgs: positionChangedAction, runInBackground);
         return carouselView;
     }
 }

@@ -244,24 +244,24 @@ public static partial class NavigationPageExtensions
         return navigationPage;
     }
 
-    public static T OnPopped<T>(this T navigationPage, Func<Task>? poppedAction)
+    public static T OnPopped<T>(this T navigationPage, Func<Task>? poppedAction, bool runInBackground = false)
         where T : INavigationPage
     {
-        navigationPage.PoppedEvent = new AsyncEventCommand<NavigationEventArgs>(execute: poppedAction);
+        navigationPage.PoppedEvent = new AsyncEventCommand<NavigationEventArgs>(execute: poppedAction, runInBackground);
         return navigationPage;
     }
 
-    public static T OnPopped<T>(this T navigationPage, Func<NavigationEventArgs, Task>? poppedAction)
+    public static T OnPopped<T>(this T navigationPage, Func<NavigationEventArgs, Task>? poppedAction, bool runInBackground = false)
         where T : INavigationPage
     {
-        navigationPage.PoppedEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithArgs: poppedAction);
+        navigationPage.PoppedEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithArgs: poppedAction, runInBackground);
         return navigationPage;
     }
 
-    public static T OnPopped<T>(this T navigationPage, Func<object?, NavigationEventArgs, Task>? poppedAction)
+    public static T OnPopped<T>(this T navigationPage, Func<object?, NavigationEventArgs, Task>? poppedAction, bool runInBackground = false)
         where T : INavigationPage
     {
-        navigationPage.PoppedEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithFullArgs: poppedAction);
+        navigationPage.PoppedEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithFullArgs: poppedAction, runInBackground);
         return navigationPage;
     }
 
@@ -286,24 +286,24 @@ public static partial class NavigationPageExtensions
         return navigationPage;
     }
 
-    public static T OnPoppedToRoot<T>(this T navigationPage, Func<Task>? poppedToRootAction)
+    public static T OnPoppedToRoot<T>(this T navigationPage, Func<Task>? poppedToRootAction, bool runInBackground = false)
         where T : INavigationPage
     {
-        navigationPage.PoppedToRootEvent = new AsyncEventCommand<NavigationEventArgs>(execute: poppedToRootAction);
+        navigationPage.PoppedToRootEvent = new AsyncEventCommand<NavigationEventArgs>(execute: poppedToRootAction, runInBackground);
         return navigationPage;
     }
 
-    public static T OnPoppedToRoot<T>(this T navigationPage, Func<NavigationEventArgs, Task>? poppedToRootAction)
+    public static T OnPoppedToRoot<T>(this T navigationPage, Func<NavigationEventArgs, Task>? poppedToRootAction, bool runInBackground = false)
         where T : INavigationPage
     {
-        navigationPage.PoppedToRootEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithArgs: poppedToRootAction);
+        navigationPage.PoppedToRootEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithArgs: poppedToRootAction, runInBackground);
         return navigationPage;
     }
 
-    public static T OnPoppedToRoot<T>(this T navigationPage, Func<object?, NavigationEventArgs, Task>? poppedToRootAction)
+    public static T OnPoppedToRoot<T>(this T navigationPage, Func<object?, NavigationEventArgs, Task>? poppedToRootAction, bool runInBackground = false)
         where T : INavigationPage
     {
-        navigationPage.PoppedToRootEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithFullArgs: poppedToRootAction);
+        navigationPage.PoppedToRootEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithFullArgs: poppedToRootAction, runInBackground);
         return navigationPage;
     }
 
@@ -328,24 +328,24 @@ public static partial class NavigationPageExtensions
         return navigationPage;
     }
 
-    public static T OnPushed<T>(this T navigationPage, Func<Task>? pushedAction)
+    public static T OnPushed<T>(this T navigationPage, Func<Task>? pushedAction, bool runInBackground = false)
         where T : INavigationPage
     {
-        navigationPage.PushedEvent = new AsyncEventCommand<NavigationEventArgs>(execute: pushedAction);
+        navigationPage.PushedEvent = new AsyncEventCommand<NavigationEventArgs>(execute: pushedAction, runInBackground);
         return navigationPage;
     }
 
-    public static T OnPushed<T>(this T navigationPage, Func<NavigationEventArgs, Task>? pushedAction)
+    public static T OnPushed<T>(this T navigationPage, Func<NavigationEventArgs, Task>? pushedAction, bool runInBackground = false)
         where T : INavigationPage
     {
-        navigationPage.PushedEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithArgs: pushedAction);
+        navigationPage.PushedEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithArgs: pushedAction, runInBackground);
         return navigationPage;
     }
 
-    public static T OnPushed<T>(this T navigationPage, Func<object?, NavigationEventArgs, Task>? pushedAction)
+    public static T OnPushed<T>(this T navigationPage, Func<object?, NavigationEventArgs, Task>? pushedAction, bool runInBackground = false)
         where T : INavigationPage
     {
-        navigationPage.PushedEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithFullArgs: pushedAction);
+        navigationPage.PushedEvent = new AsyncEventCommand<NavigationEventArgs>(executeWithFullArgs: pushedAction, runInBackground);
         return navigationPage;
     }
 }

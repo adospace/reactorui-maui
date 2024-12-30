@@ -264,24 +264,24 @@ public static partial class EntryCellExtensions
         return entryCell;
     }
 
-    public static T OnCompleted<T>(this T entryCell, Func<Task>? completedAction)
+    public static T OnCompleted<T>(this T entryCell, Func<Task>? completedAction, bool runInBackground = false)
         where T : IEntryCell
     {
-        entryCell.CompletedEvent = new AsyncEventCommand<EventArgs>(execute: completedAction);
+        entryCell.CompletedEvent = new AsyncEventCommand<EventArgs>(execute: completedAction, runInBackground);
         return entryCell;
     }
 
-    public static T OnCompleted<T>(this T entryCell, Func<EventArgs, Task>? completedAction)
+    public static T OnCompleted<T>(this T entryCell, Func<EventArgs, Task>? completedAction, bool runInBackground = false)
         where T : IEntryCell
     {
-        entryCell.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: completedAction);
+        entryCell.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: completedAction, runInBackground);
         return entryCell;
     }
 
-    public static T OnCompleted<T>(this T entryCell, Func<object?, EventArgs, Task>? completedAction)
+    public static T OnCompleted<T>(this T entryCell, Func<object?, EventArgs, Task>? completedAction, bool runInBackground = false)
         where T : IEntryCell
     {
-        entryCell.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: completedAction);
+        entryCell.CompletedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: completedAction, runInBackground);
         return entryCell;
     }
 }

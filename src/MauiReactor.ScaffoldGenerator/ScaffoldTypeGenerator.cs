@@ -6029,7 +6029,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(", Func<Task>? action) where T : ");
+            this.Write(", Func<Task>? action, bool runInBackground = false) where T : ");
             
             #line 906 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName));
@@ -6057,7 +6057,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(">(action);\r\n            return ");
+            this.Write(">(action, runInBackground);\r\n            return ");
             
             #line 909 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -6085,7 +6085,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(", Task>? action) where T : ");
+            this.Write(", Task>? action, bool runInBackground = false) where T : ");
             
             #line 912 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName));
@@ -6113,7 +6113,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(">(action);\r\n            return ");
+            this.Write(">(action, runInBackground);\r\n            return ");
             
             #line 915 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));
@@ -6141,7 +6141,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(", Task>? action) where T : ");
+            this.Write(", Task>? action, bool runInBackground = false) where T : ");
             
             #line 918 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(InterfaceName));
@@ -6169,7 +6169,7 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write(">(action);\r\n            return ");
+            this.Write(">(action, runInBackground);\r\n            return ");
             
             #line 921 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(TypeName.ToLocalVariableName()));

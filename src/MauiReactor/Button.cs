@@ -567,24 +567,24 @@ public static partial class ButtonExtensions
         return button;
     }
 
-    public static T OnClicked<T>(this T button, Func<Task>? clickedAction)
+    public static T OnClicked<T>(this T button, Func<Task>? clickedAction, bool runInBackground = false)
         where T : IButton
     {
-        button.ClickedEvent = new AsyncEventCommand<EventArgs>(execute: clickedAction);
+        button.ClickedEvent = new AsyncEventCommand<EventArgs>(execute: clickedAction, runInBackground);
         return button;
     }
 
-    public static T OnClicked<T>(this T button, Func<EventArgs, Task>? clickedAction)
+    public static T OnClicked<T>(this T button, Func<EventArgs, Task>? clickedAction, bool runInBackground = false)
         where T : IButton
     {
-        button.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: clickedAction);
+        button.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: clickedAction, runInBackground);
         return button;
     }
 
-    public static T OnClicked<T>(this T button, Func<object?, EventArgs, Task>? clickedAction)
+    public static T OnClicked<T>(this T button, Func<object?, EventArgs, Task>? clickedAction, bool runInBackground = false)
         where T : IButton
     {
-        button.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: clickedAction);
+        button.ClickedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: clickedAction, runInBackground);
         return button;
     }
 
@@ -609,24 +609,24 @@ public static partial class ButtonExtensions
         return button;
     }
 
-    public static T OnPressed<T>(this T button, Func<Task>? pressedAction)
+    public static T OnPressed<T>(this T button, Func<Task>? pressedAction, bool runInBackground = false)
         where T : IButton
     {
-        button.PressedEvent = new AsyncEventCommand<EventArgs>(execute: pressedAction);
+        button.PressedEvent = new AsyncEventCommand<EventArgs>(execute: pressedAction, runInBackground);
         return button;
     }
 
-    public static T OnPressed<T>(this T button, Func<EventArgs, Task>? pressedAction)
+    public static T OnPressed<T>(this T button, Func<EventArgs, Task>? pressedAction, bool runInBackground = false)
         where T : IButton
     {
-        button.PressedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: pressedAction);
+        button.PressedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: pressedAction, runInBackground);
         return button;
     }
 
-    public static T OnPressed<T>(this T button, Func<object?, EventArgs, Task>? pressedAction)
+    public static T OnPressed<T>(this T button, Func<object?, EventArgs, Task>? pressedAction, bool runInBackground = false)
         where T : IButton
     {
-        button.PressedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: pressedAction);
+        button.PressedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: pressedAction, runInBackground);
         return button;
     }
 
@@ -651,24 +651,24 @@ public static partial class ButtonExtensions
         return button;
     }
 
-    public static T OnReleased<T>(this T button, Func<Task>? releasedAction)
+    public static T OnReleased<T>(this T button, Func<Task>? releasedAction, bool runInBackground = false)
         where T : IButton
     {
-        button.ReleasedEvent = new AsyncEventCommand<EventArgs>(execute: releasedAction);
+        button.ReleasedEvent = new AsyncEventCommand<EventArgs>(execute: releasedAction, runInBackground);
         return button;
     }
 
-    public static T OnReleased<T>(this T button, Func<EventArgs, Task>? releasedAction)
+    public static T OnReleased<T>(this T button, Func<EventArgs, Task>? releasedAction, bool runInBackground = false)
         where T : IButton
     {
-        button.ReleasedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: releasedAction);
+        button.ReleasedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: releasedAction, runInBackground);
         return button;
     }
 
-    public static T OnReleased<T>(this T button, Func<object?, EventArgs, Task>? releasedAction)
+    public static T OnReleased<T>(this T button, Func<object?, EventArgs, Task>? releasedAction, bool runInBackground = false)
         where T : IButton
     {
-        button.ReleasedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: releasedAction);
+        button.ReleasedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: releasedAction, runInBackground);
         return button;
     }
 }

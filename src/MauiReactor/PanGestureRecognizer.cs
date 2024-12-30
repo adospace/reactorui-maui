@@ -156,24 +156,24 @@ public static partial class PanGestureRecognizerExtensions
         return panGestureRecognizer;
     }
 
-    public static T OnPanUpdated<T>(this T panGestureRecognizer, Func<Task>? panUpdatedAction)
+    public static T OnPanUpdated<T>(this T panGestureRecognizer, Func<Task>? panUpdatedAction, bool runInBackground = false)
         where T : IPanGestureRecognizer
     {
-        panGestureRecognizer.PanUpdatedEvent = new AsyncEventCommand<PanUpdatedEventArgs>(execute: panUpdatedAction);
+        panGestureRecognizer.PanUpdatedEvent = new AsyncEventCommand<PanUpdatedEventArgs>(execute: panUpdatedAction, runInBackground);
         return panGestureRecognizer;
     }
 
-    public static T OnPanUpdated<T>(this T panGestureRecognizer, Func<PanUpdatedEventArgs, Task>? panUpdatedAction)
+    public static T OnPanUpdated<T>(this T panGestureRecognizer, Func<PanUpdatedEventArgs, Task>? panUpdatedAction, bool runInBackground = false)
         where T : IPanGestureRecognizer
     {
-        panGestureRecognizer.PanUpdatedEvent = new AsyncEventCommand<PanUpdatedEventArgs>(executeWithArgs: panUpdatedAction);
+        panGestureRecognizer.PanUpdatedEvent = new AsyncEventCommand<PanUpdatedEventArgs>(executeWithArgs: panUpdatedAction, runInBackground);
         return panGestureRecognizer;
     }
 
-    public static T OnPanUpdated<T>(this T panGestureRecognizer, Func<object?, PanUpdatedEventArgs, Task>? panUpdatedAction)
+    public static T OnPanUpdated<T>(this T panGestureRecognizer, Func<object?, PanUpdatedEventArgs, Task>? panUpdatedAction, bool runInBackground = false)
         where T : IPanGestureRecognizer
     {
-        panGestureRecognizer.PanUpdatedEvent = new AsyncEventCommand<PanUpdatedEventArgs>(executeWithFullArgs: panUpdatedAction);
+        panGestureRecognizer.PanUpdatedEvent = new AsyncEventCommand<PanUpdatedEventArgs>(executeWithFullArgs: panUpdatedAction, runInBackground);
         return panGestureRecognizer;
     }
 }

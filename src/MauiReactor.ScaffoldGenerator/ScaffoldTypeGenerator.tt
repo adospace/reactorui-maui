@@ -903,21 +903,21 @@ namespace <#= Namespace #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
         
-        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<Task>? action) where T : <#= InterfaceName #>
+        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<Task>? action, bool runInBackground = false) where T : <#= InterfaceName #>
         {
-            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>Event = new AsyncEventCommand<<#= GetActionWithArgsParameters(ev) #>>(action);
+            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>Event = new AsyncEventCommand<<#= GetActionWithArgsParameters(ev) #>>(action, runInBackground);
             return <#= TypeName.ToLocalVariableName() #>;
         }
 
-        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<<#= GetActionWithArgsParameters(ev) #>, Task>? action) where T : <#= InterfaceName #>
+        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<<#= GetActionWithArgsParameters(ev) #>, Task>? action, bool runInBackground = false) where T : <#= InterfaceName #>
         {
-            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>Event = new AsyncEventCommand<<#= GetActionWithArgsParameters(ev) #>>(action);
+            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>Event = new AsyncEventCommand<<#= GetActionWithArgsParameters(ev) #>>(action, runInBackground);
             return <#= TypeName.ToLocalVariableName() #>;
         }
 
-        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<object?, <#= GetActionWithArgsParameters(ev) #>, Task>? action) where T : <#= InterfaceName #>
+        public static T On<#= ev.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<object?, <#= GetActionWithArgsParameters(ev) #>, Task>? action, bool runInBackground = false) where T : <#= InterfaceName #>
         {
-            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>Event = new AsyncEventCommand<<#= GetActionWithArgsParameters(ev) #>>(action);
+            <#= TypeName.ToLocalVariableName() #>.<#= ev.Name #>Event = new AsyncEventCommand<<#= GetActionWithArgsParameters(ev) #>>(action, runInBackground);
             return <#= TypeName.ToLocalVariableName() #>;
         }
 

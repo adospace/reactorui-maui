@@ -174,24 +174,24 @@ public static partial class SelectableItemsViewExtensions
         return selectableItemsView;
     }
 
-    public static T OnSelectionChanged<T>(this T selectableItemsView, Func<Task>? selectionChangedAction)
+    public static T OnSelectionChanged<T>(this T selectableItemsView, Func<Task>? selectionChangedAction, bool runInBackground = false)
         where T : ISelectableItemsView
     {
-        selectableItemsView.SelectionChangedEvent = new AsyncEventCommand<SelectionChangedEventArgs>(execute: selectionChangedAction);
+        selectableItemsView.SelectionChangedEvent = new AsyncEventCommand<SelectionChangedEventArgs>(execute: selectionChangedAction, runInBackground);
         return selectableItemsView;
     }
 
-    public static T OnSelectionChanged<T>(this T selectableItemsView, Func<SelectionChangedEventArgs, Task>? selectionChangedAction)
+    public static T OnSelectionChanged<T>(this T selectableItemsView, Func<SelectionChangedEventArgs, Task>? selectionChangedAction, bool runInBackground = false)
         where T : ISelectableItemsView
     {
-        selectableItemsView.SelectionChangedEvent = new AsyncEventCommand<SelectionChangedEventArgs>(executeWithArgs: selectionChangedAction);
+        selectableItemsView.SelectionChangedEvent = new AsyncEventCommand<SelectionChangedEventArgs>(executeWithArgs: selectionChangedAction, runInBackground);
         return selectableItemsView;
     }
 
-    public static T OnSelectionChanged<T>(this T selectableItemsView, Func<object?, SelectionChangedEventArgs, Task>? selectionChangedAction)
+    public static T OnSelectionChanged<T>(this T selectableItemsView, Func<object?, SelectionChangedEventArgs, Task>? selectionChangedAction, bool runInBackground = false)
         where T : ISelectableItemsView
     {
-        selectableItemsView.SelectionChangedEvent = new AsyncEventCommand<SelectionChangedEventArgs>(executeWithFullArgs: selectionChangedAction);
+        selectableItemsView.SelectionChangedEvent = new AsyncEventCommand<SelectionChangedEventArgs>(executeWithFullArgs: selectionChangedAction, runInBackground);
         return selectableItemsView;
     }
 }

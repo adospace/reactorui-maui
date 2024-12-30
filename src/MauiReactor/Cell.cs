@@ -189,24 +189,24 @@ public static partial class CellExtensions
         return cell;
     }
 
-    public static T OnAppearing<T>(this T cell, Func<Task>? appearingAction)
+    public static T OnAppearing<T>(this T cell, Func<Task>? appearingAction, bool runInBackground = false)
         where T : ICell
     {
-        cell.AppearingEvent = new AsyncEventCommand<EventArgs>(execute: appearingAction);
+        cell.AppearingEvent = new AsyncEventCommand<EventArgs>(execute: appearingAction, runInBackground);
         return cell;
     }
 
-    public static T OnAppearing<T>(this T cell, Func<EventArgs, Task>? appearingAction)
+    public static T OnAppearing<T>(this T cell, Func<EventArgs, Task>? appearingAction, bool runInBackground = false)
         where T : ICell
     {
-        cell.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: appearingAction);
+        cell.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: appearingAction, runInBackground);
         return cell;
     }
 
-    public static T OnAppearing<T>(this T cell, Func<object?, EventArgs, Task>? appearingAction)
+    public static T OnAppearing<T>(this T cell, Func<object?, EventArgs, Task>? appearingAction, bool runInBackground = false)
         where T : ICell
     {
-        cell.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: appearingAction);
+        cell.AppearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: appearingAction, runInBackground);
         return cell;
     }
 
@@ -231,24 +231,24 @@ public static partial class CellExtensions
         return cell;
     }
 
-    public static T OnDisappearing<T>(this T cell, Func<Task>? disappearingAction)
+    public static T OnDisappearing<T>(this T cell, Func<Task>? disappearingAction, bool runInBackground = false)
         where T : ICell
     {
-        cell.DisappearingEvent = new AsyncEventCommand<EventArgs>(execute: disappearingAction);
+        cell.DisappearingEvent = new AsyncEventCommand<EventArgs>(execute: disappearingAction, runInBackground);
         return cell;
     }
 
-    public static T OnDisappearing<T>(this T cell, Func<EventArgs, Task>? disappearingAction)
+    public static T OnDisappearing<T>(this T cell, Func<EventArgs, Task>? disappearingAction, bool runInBackground = false)
         where T : ICell
     {
-        cell.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: disappearingAction);
+        cell.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: disappearingAction, runInBackground);
         return cell;
     }
 
-    public static T OnDisappearing<T>(this T cell, Func<object?, EventArgs, Task>? disappearingAction)
+    public static T OnDisappearing<T>(this T cell, Func<object?, EventArgs, Task>? disappearingAction, bool runInBackground = false)
         where T : ICell
     {
-        cell.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: disappearingAction);
+        cell.DisappearingEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: disappearingAction, runInBackground);
         return cell;
     }
 
@@ -273,24 +273,24 @@ public static partial class CellExtensions
         return cell;
     }
 
-    public static T OnTapped<T>(this T cell, Func<Task>? tappedAction)
+    public static T OnTapped<T>(this T cell, Func<Task>? tappedAction, bool runInBackground = false)
         where T : ICell
     {
-        cell.TappedEvent = new AsyncEventCommand<EventArgs>(execute: tappedAction);
+        cell.TappedEvent = new AsyncEventCommand<EventArgs>(execute: tappedAction, runInBackground);
         return cell;
     }
 
-    public static T OnTapped<T>(this T cell, Func<EventArgs, Task>? tappedAction)
+    public static T OnTapped<T>(this T cell, Func<EventArgs, Task>? tappedAction, bool runInBackground = false)
         where T : ICell
     {
-        cell.TappedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: tappedAction);
+        cell.TappedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: tappedAction, runInBackground);
         return cell;
     }
 
-    public static T OnTapped<T>(this T cell, Func<object?, EventArgs, Task>? tappedAction)
+    public static T OnTapped<T>(this T cell, Func<object?, EventArgs, Task>? tappedAction, bool runInBackground = false)
         where T : ICell
     {
-        cell.TappedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: tappedAction);
+        cell.TappedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: tappedAction, runInBackground);
         return cell;
     }
 }

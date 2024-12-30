@@ -243,24 +243,24 @@ public static partial class ItemsViewExtensions
         return itemsView;
     }
 
-    public static T OnScrollToRequested<T>(this T itemsView, Func<Task>? scrollToRequestedAction)
+    public static T OnScrollToRequested<T>(this T itemsView, Func<Task>? scrollToRequestedAction, bool runInBackground = false)
         where T : IItemsView
     {
-        itemsView.ScrollToRequestedEvent = new AsyncEventCommand<ScrollToRequestEventArgs>(execute: scrollToRequestedAction);
+        itemsView.ScrollToRequestedEvent = new AsyncEventCommand<ScrollToRequestEventArgs>(execute: scrollToRequestedAction, runInBackground);
         return itemsView;
     }
 
-    public static T OnScrollToRequested<T>(this T itemsView, Func<ScrollToRequestEventArgs, Task>? scrollToRequestedAction)
+    public static T OnScrollToRequested<T>(this T itemsView, Func<ScrollToRequestEventArgs, Task>? scrollToRequestedAction, bool runInBackground = false)
         where T : IItemsView
     {
-        itemsView.ScrollToRequestedEvent = new AsyncEventCommand<ScrollToRequestEventArgs>(executeWithArgs: scrollToRequestedAction);
+        itemsView.ScrollToRequestedEvent = new AsyncEventCommand<ScrollToRequestEventArgs>(executeWithArgs: scrollToRequestedAction, runInBackground);
         return itemsView;
     }
 
-    public static T OnScrollToRequested<T>(this T itemsView, Func<object?, ScrollToRequestEventArgs, Task>? scrollToRequestedAction)
+    public static T OnScrollToRequested<T>(this T itemsView, Func<object?, ScrollToRequestEventArgs, Task>? scrollToRequestedAction, bool runInBackground = false)
         where T : IItemsView
     {
-        itemsView.ScrollToRequestedEvent = new AsyncEventCommand<ScrollToRequestEventArgs>(executeWithFullArgs: scrollToRequestedAction);
+        itemsView.ScrollToRequestedEvent = new AsyncEventCommand<ScrollToRequestEventArgs>(executeWithFullArgs: scrollToRequestedAction, runInBackground);
         return itemsView;
     }
 
@@ -285,24 +285,24 @@ public static partial class ItemsViewExtensions
         return itemsView;
     }
 
-    public static T OnScrolled<T>(this T itemsView, Func<Task>? scrolledAction)
+    public static T OnScrolled<T>(this T itemsView, Func<Task>? scrolledAction, bool runInBackground = false)
         where T : IItemsView
     {
-        itemsView.ScrolledEvent = new AsyncEventCommand<ItemsViewScrolledEventArgs>(execute: scrolledAction);
+        itemsView.ScrolledEvent = new AsyncEventCommand<ItemsViewScrolledEventArgs>(execute: scrolledAction, runInBackground);
         return itemsView;
     }
 
-    public static T OnScrolled<T>(this T itemsView, Func<ItemsViewScrolledEventArgs, Task>? scrolledAction)
+    public static T OnScrolled<T>(this T itemsView, Func<ItemsViewScrolledEventArgs, Task>? scrolledAction, bool runInBackground = false)
         where T : IItemsView
     {
-        itemsView.ScrolledEvent = new AsyncEventCommand<ItemsViewScrolledEventArgs>(executeWithArgs: scrolledAction);
+        itemsView.ScrolledEvent = new AsyncEventCommand<ItemsViewScrolledEventArgs>(executeWithArgs: scrolledAction, runInBackground);
         return itemsView;
     }
 
-    public static T OnScrolled<T>(this T itemsView, Func<object?, ItemsViewScrolledEventArgs, Task>? scrolledAction)
+    public static T OnScrolled<T>(this T itemsView, Func<object?, ItemsViewScrolledEventArgs, Task>? scrolledAction, bool runInBackground = false)
         where T : IItemsView
     {
-        itemsView.ScrolledEvent = new AsyncEventCommand<ItemsViewScrolledEventArgs>(executeWithFullArgs: scrolledAction);
+        itemsView.ScrolledEvent = new AsyncEventCommand<ItemsViewScrolledEventArgs>(executeWithFullArgs: scrolledAction, runInBackground);
         return itemsView;
     }
 
@@ -327,24 +327,24 @@ public static partial class ItemsViewExtensions
         return itemsView;
     }
 
-    public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Func<Task>? remainingItemsThresholdReachedAction)
+    public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Func<Task>? remainingItemsThresholdReachedAction, bool runInBackground = false)
         where T : IItemsView
     {
-        itemsView.RemainingItemsThresholdReachedEvent = new AsyncEventCommand<EventArgs>(execute: remainingItemsThresholdReachedAction);
+        itemsView.RemainingItemsThresholdReachedEvent = new AsyncEventCommand<EventArgs>(execute: remainingItemsThresholdReachedAction, runInBackground);
         return itemsView;
     }
 
-    public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Func<EventArgs, Task>? remainingItemsThresholdReachedAction)
+    public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Func<EventArgs, Task>? remainingItemsThresholdReachedAction, bool runInBackground = false)
         where T : IItemsView
     {
-        itemsView.RemainingItemsThresholdReachedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: remainingItemsThresholdReachedAction);
+        itemsView.RemainingItemsThresholdReachedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: remainingItemsThresholdReachedAction, runInBackground);
         return itemsView;
     }
 
-    public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Func<object?, EventArgs, Task>? remainingItemsThresholdReachedAction)
+    public static T OnRemainingItemsThresholdReached<T>(this T itemsView, Func<object?, EventArgs, Task>? remainingItemsThresholdReachedAction, bool runInBackground = false)
         where T : IItemsView
     {
-        itemsView.RemainingItemsThresholdReachedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: remainingItemsThresholdReachedAction);
+        itemsView.RemainingItemsThresholdReachedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: remainingItemsThresholdReachedAction, runInBackground);
         return itemsView;
     }
 }

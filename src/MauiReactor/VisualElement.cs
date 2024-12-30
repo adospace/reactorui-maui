@@ -810,24 +810,24 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T OnChildrenReordered<T>(this T visualElement, Func<Task>? childrenReorderedAction)
+    public static T OnChildrenReordered<T>(this T visualElement, Func<Task>? childrenReorderedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.ChildrenReorderedEvent = new AsyncEventCommand<EventArgs>(execute: childrenReorderedAction);
+        visualElement.ChildrenReorderedEvent = new AsyncEventCommand<EventArgs>(execute: childrenReorderedAction, runInBackground);
         return visualElement;
     }
 
-    public static T OnChildrenReordered<T>(this T visualElement, Func<EventArgs, Task>? childrenReorderedAction)
+    public static T OnChildrenReordered<T>(this T visualElement, Func<EventArgs, Task>? childrenReorderedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.ChildrenReorderedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: childrenReorderedAction);
+        visualElement.ChildrenReorderedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: childrenReorderedAction, runInBackground);
         return visualElement;
     }
 
-    public static T OnChildrenReordered<T>(this T visualElement, Func<object?, EventArgs, Task>? childrenReorderedAction)
+    public static T OnChildrenReordered<T>(this T visualElement, Func<object?, EventArgs, Task>? childrenReorderedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.ChildrenReorderedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: childrenReorderedAction);
+        visualElement.ChildrenReorderedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: childrenReorderedAction, runInBackground);
         return visualElement;
     }
 
@@ -852,24 +852,24 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T OnFocused<T>(this T visualElement, Func<Task>? focusedAction)
+    public static T OnFocused<T>(this T visualElement, Func<Task>? focusedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.FocusedEvent = new AsyncEventCommand<FocusEventArgs>(execute: focusedAction);
+        visualElement.FocusedEvent = new AsyncEventCommand<FocusEventArgs>(execute: focusedAction, runInBackground);
         return visualElement;
     }
 
-    public static T OnFocused<T>(this T visualElement, Func<FocusEventArgs, Task>? focusedAction)
+    public static T OnFocused<T>(this T visualElement, Func<FocusEventArgs, Task>? focusedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.FocusedEvent = new AsyncEventCommand<FocusEventArgs>(executeWithArgs: focusedAction);
+        visualElement.FocusedEvent = new AsyncEventCommand<FocusEventArgs>(executeWithArgs: focusedAction, runInBackground);
         return visualElement;
     }
 
-    public static T OnFocused<T>(this T visualElement, Func<object?, FocusEventArgs, Task>? focusedAction)
+    public static T OnFocused<T>(this T visualElement, Func<object?, FocusEventArgs, Task>? focusedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.FocusedEvent = new AsyncEventCommand<FocusEventArgs>(executeWithFullArgs: focusedAction);
+        visualElement.FocusedEvent = new AsyncEventCommand<FocusEventArgs>(executeWithFullArgs: focusedAction, runInBackground);
         return visualElement;
     }
 
@@ -894,24 +894,24 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T OnMeasureInvalidated<T>(this T visualElement, Func<Task>? measureInvalidatedAction)
+    public static T OnMeasureInvalidated<T>(this T visualElement, Func<Task>? measureInvalidatedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.MeasureInvalidatedEvent = new AsyncEventCommand<EventArgs>(execute: measureInvalidatedAction);
+        visualElement.MeasureInvalidatedEvent = new AsyncEventCommand<EventArgs>(execute: measureInvalidatedAction, runInBackground);
         return visualElement;
     }
 
-    public static T OnMeasureInvalidated<T>(this T visualElement, Func<EventArgs, Task>? measureInvalidatedAction)
+    public static T OnMeasureInvalidated<T>(this T visualElement, Func<EventArgs, Task>? measureInvalidatedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.MeasureInvalidatedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: measureInvalidatedAction);
+        visualElement.MeasureInvalidatedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: measureInvalidatedAction, runInBackground);
         return visualElement;
     }
 
-    public static T OnMeasureInvalidated<T>(this T visualElement, Func<object?, EventArgs, Task>? measureInvalidatedAction)
+    public static T OnMeasureInvalidated<T>(this T visualElement, Func<object?, EventArgs, Task>? measureInvalidatedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.MeasureInvalidatedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: measureInvalidatedAction);
+        visualElement.MeasureInvalidatedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: measureInvalidatedAction, runInBackground);
         return visualElement;
     }
 
@@ -936,24 +936,24 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T OnSizeChanged<T>(this T visualElement, Func<Task>? sizeChangedAction)
+    public static T OnSizeChanged<T>(this T visualElement, Func<Task>? sizeChangedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.SizeChangedEvent = new AsyncEventCommand<EventArgs>(execute: sizeChangedAction);
+        visualElement.SizeChangedEvent = new AsyncEventCommand<EventArgs>(execute: sizeChangedAction, runInBackground);
         return visualElement;
     }
 
-    public static T OnSizeChanged<T>(this T visualElement, Func<EventArgs, Task>? sizeChangedAction)
+    public static T OnSizeChanged<T>(this T visualElement, Func<EventArgs, Task>? sizeChangedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.SizeChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: sizeChangedAction);
+        visualElement.SizeChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: sizeChangedAction, runInBackground);
         return visualElement;
     }
 
-    public static T OnSizeChanged<T>(this T visualElement, Func<object?, EventArgs, Task>? sizeChangedAction)
+    public static T OnSizeChanged<T>(this T visualElement, Func<object?, EventArgs, Task>? sizeChangedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.SizeChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: sizeChangedAction);
+        visualElement.SizeChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: sizeChangedAction, runInBackground);
         return visualElement;
     }
 
@@ -978,24 +978,24 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T OnUnfocused<T>(this T visualElement, Func<Task>? unfocusedAction)
+    public static T OnUnfocused<T>(this T visualElement, Func<Task>? unfocusedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.UnfocusedEvent = new AsyncEventCommand<FocusEventArgs>(execute: unfocusedAction);
+        visualElement.UnfocusedEvent = new AsyncEventCommand<FocusEventArgs>(execute: unfocusedAction, runInBackground);
         return visualElement;
     }
 
-    public static T OnUnfocused<T>(this T visualElement, Func<FocusEventArgs, Task>? unfocusedAction)
+    public static T OnUnfocused<T>(this T visualElement, Func<FocusEventArgs, Task>? unfocusedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.UnfocusedEvent = new AsyncEventCommand<FocusEventArgs>(executeWithArgs: unfocusedAction);
+        visualElement.UnfocusedEvent = new AsyncEventCommand<FocusEventArgs>(executeWithArgs: unfocusedAction, runInBackground);
         return visualElement;
     }
 
-    public static T OnUnfocused<T>(this T visualElement, Func<object?, FocusEventArgs, Task>? unfocusedAction)
+    public static T OnUnfocused<T>(this T visualElement, Func<object?, FocusEventArgs, Task>? unfocusedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.UnfocusedEvent = new AsyncEventCommand<FocusEventArgs>(executeWithFullArgs: unfocusedAction);
+        visualElement.UnfocusedEvent = new AsyncEventCommand<FocusEventArgs>(executeWithFullArgs: unfocusedAction, runInBackground);
         return visualElement;
     }
 
@@ -1020,24 +1020,24 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T OnLoaded<T>(this T visualElement, Func<Task>? loadedAction)
+    public static T OnLoaded<T>(this T visualElement, Func<Task>? loadedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.LoadedEvent = new AsyncEventCommand<EventArgs>(execute: loadedAction);
+        visualElement.LoadedEvent = new AsyncEventCommand<EventArgs>(execute: loadedAction, runInBackground);
         return visualElement;
     }
 
-    public static T OnLoaded<T>(this T visualElement, Func<EventArgs, Task>? loadedAction)
+    public static T OnLoaded<T>(this T visualElement, Func<EventArgs, Task>? loadedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.LoadedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: loadedAction);
+        visualElement.LoadedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: loadedAction, runInBackground);
         return visualElement;
     }
 
-    public static T OnLoaded<T>(this T visualElement, Func<object?, EventArgs, Task>? loadedAction)
+    public static T OnLoaded<T>(this T visualElement, Func<object?, EventArgs, Task>? loadedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.LoadedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: loadedAction);
+        visualElement.LoadedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: loadedAction, runInBackground);
         return visualElement;
     }
 
@@ -1062,24 +1062,24 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T OnUnloaded<T>(this T visualElement, Func<Task>? unloadedAction)
+    public static T OnUnloaded<T>(this T visualElement, Func<Task>? unloadedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.UnloadedEvent = new AsyncEventCommand<EventArgs>(execute: unloadedAction);
+        visualElement.UnloadedEvent = new AsyncEventCommand<EventArgs>(execute: unloadedAction, runInBackground);
         return visualElement;
     }
 
-    public static T OnUnloaded<T>(this T visualElement, Func<EventArgs, Task>? unloadedAction)
+    public static T OnUnloaded<T>(this T visualElement, Func<EventArgs, Task>? unloadedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.UnloadedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: unloadedAction);
+        visualElement.UnloadedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: unloadedAction, runInBackground);
         return visualElement;
     }
 
-    public static T OnUnloaded<T>(this T visualElement, Func<object?, EventArgs, Task>? unloadedAction)
+    public static T OnUnloaded<T>(this T visualElement, Func<object?, EventArgs, Task>? unloadedAction, bool runInBackground = false)
         where T : IVisualElement
     {
-        visualElement.UnloadedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: unloadedAction);
+        visualElement.UnloadedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: unloadedAction, runInBackground);
         return visualElement;
     }
 }
