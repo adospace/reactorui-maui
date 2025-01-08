@@ -125,6 +125,23 @@ public partial class PageExtensions
         return page;
     }
 
+    public static T OnBackButtonPressed<T>(this T page, Func<Task>? action, Func<bool>? canExecute = null) where T : IPage
+    {
+        if (action == null)
+        {
+            if (page.BackButtonBehavior != null)
+            {
+                page.BackButtonBehavior.Command = null;
+            }
+        }
+        else
+        {
+            page.BackButtonBehavior ??= new BackButtonBehavior();
+            page.BackButtonBehavior.Command = canExecute != null ? new AsyncCommand(action, canExecute) : new AsyncCommand(action);
+        }
+        return page;
+    }
+
     public static T BackButtonIsVisible<T>(this T page, bool isVisible) where T : IPage
     {
         page.BackButtonBehavior ??= new BackButtonBehavior();
