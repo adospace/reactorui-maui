@@ -30,24 +30,28 @@ public partial class ScrollView<T>
     }
 
 }
-public class HorizontalScrollView : ScrollView
-{
-    public HorizontalScrollView() => this.Orientation(ScrollOrientation.Horizontal);
-}
+//public class HorizontalScrollView : ScrollView
+//{
+//    public HorizontalScrollView() => this.Orientation(ScrollOrientation.Horizontal);
+//}
 
-public class VerticalScrollView : ScrollView
-{
-    public VerticalScrollView() => this.Orientation(ScrollOrientation.Vertical);
-}
+//public class VerticalScrollView : ScrollView
+//{
+//    public VerticalScrollView() => this.Orientation(ScrollOrientation.Vertical);
+//}
 
 public class HScrollView : ScrollView
 {
     public HScrollView() => this.Orientation(ScrollOrientation.Horizontal);
+    public HScrollView(Action<Microsoft.Maui.Controls.ScrollView?> componentRefAction)
+        : base(componentRefAction) => this.Orientation(ScrollOrientation.Horizontal);
 }
 
 public class VScrollView : ScrollView
 {
     public VScrollView() => this.Orientation(ScrollOrientation.Vertical);
+    public VScrollView(Action<Microsoft.Maui.Controls.ScrollView?> componentRefAction)
+        :base(componentRefAction) => this.Orientation(ScrollOrientation.Vertical);
 }
 
 
@@ -55,6 +59,10 @@ public partial class Component
 {
     public static ScrollView HScrollView(params IEnumerable<VisualNode?>? children)
         => ScrollView(children).Orientation(ScrollOrientation.Horizontal);
+    public static ScrollView HScrollView(Action<Microsoft.Maui.Controls.ScrollView?> componentRefAction, params IEnumerable<VisualNode?>? children)
+        => ScrollView(componentRefAction, children).Orientation(ScrollOrientation.Horizontal);
     public static ScrollView VScrollView(params IEnumerable<VisualNode?>? children) 
         => ScrollView(children).Orientation(ScrollOrientation.Vertical);
+    public static ScrollView VScrollView(Action<Microsoft.Maui.Controls.ScrollView?> componentRefAction, params IEnumerable<VisualNode?>? children)
+        => ScrollView(componentRefAction, children).Orientation(ScrollOrientation.Vertical);
 }
