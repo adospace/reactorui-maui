@@ -331,3 +331,34 @@ partial class RadialBarSeries
 {
 
 }
+
+
+
+[Scaffold(typeof(Syncfusion.Maui.Toolkit.BottomSheet.SfBottomSheet))]
+partial class SfBottomSheet
+{
+    protected override void OnAddChild(VisualNode widget, BindableObject childControl)
+    {
+        Validate.EnsureNotNull(NativeControl);
+
+        if (childControl is View view)
+        {
+            NativeControl.BottomSheetContent = view;
+        }
+
+        base.OnAddChild(widget, childControl);
+    }
+
+    protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
+    {
+        Validate.EnsureNotNull(NativeControl);
+
+        if (childControl is View)
+        {
+            NativeControl.BottomSheetContent = null!;
+        }
+
+        base.OnRemoveChild(widget, childControl);
+    }
+}
+

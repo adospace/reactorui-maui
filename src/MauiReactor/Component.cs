@@ -150,25 +150,25 @@ namespace MauiReactor
 
         }
 
-        public INavigation Navigation
-            => (_containerPage ??= ((IVisualNode)this).GetContainerPage())?.Navigation ?? NavigationProvider.Navigation ?? throw new InvalidOperationException("Navigation is not available, , check its availability with the property IsNavigationAvailable");
+        public INavigation? Navigation
+            => (_containerPage ??= ((IVisualNode)this).GetContainerPage())?.Navigation;// ?? NavigationProvider.Navigation ?? throw new InvalidOperationException("Navigation is not available, , check its availability with the property IsNavigationAvailable");
 
-        public bool IsNavigationAvailable
-            => (_containerPage ??= ((IVisualNode)this).GetContainerPage())?.Navigation != null || NavigationProvider.Navigation != null;
+        //public bool IsNavigationAvailable
+        //    => (_containerPage ??= ((IVisualNode)this).GetContainerPage())?.Navigation != null || NavigationProvider.Navigation != null;
 
         private Microsoft.Maui.Controls.Page? _containerPage;
 
-        public Microsoft.Maui.Controls.Page ContainerPage
+        public Microsoft.Maui.Controls.Page? ContainerPage
         {
             get
             {
                 _containerPage ??= ((IVisualNode)this).GetContainerPage();
-                return _containerPage ?? throw new InvalidCastException ("ContainerPage as been disconnected from the component, check its availability with the property IsContainerPageAvailable");
+                return _containerPage;// ?? throw new InvalidCastException ("ContainerPage as been disconnected from the component, check its availability with the property IsContainerPageAvailable");
             }
         }
 
-        public bool IsContainerPageAvailable
-            => (_containerPage ??= ((IVisualNode)this).GetContainerPage()) != null;
+        //public bool IsContainerPageAvailable
+        //    => (_containerPage ??= ((IVisualNode)this).GetContainerPage()) != null;
 
         public static IServiceProvider Services
             => ServiceCollectionProvider.ServiceProvider ?? throw new InvalidOperationException("Services not available");

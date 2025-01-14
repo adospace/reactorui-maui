@@ -46,8 +46,8 @@ partial class ManageMetaPage : Component<ManageMetaPageState>
 
                 VStack(
                     State.Categories.Select(RenderCategoryItem)
-                    )                    
-                    .Spacing(ResourceHelper.GetResource<OnIdiom<double>>("LayoutSpacing")),
+                )                    
+                .Spacing(ResourceHelper.GetResource<OnIdiom<double>>("LayoutSpacing")),
 
                 Grid("*", "*,Auto",
                     Button("Save")
@@ -188,7 +188,7 @@ partial class ManageMetaPage : Component<ManageMetaPageState>
                 .Text(category.Title)
                 .OnTextChanged(newText => category.Title = newText),
 
-            ColorEntryWithValidation(category.Color, newColor => category.Color = newColor),
+            ColorEntryWithValidation(category.Color, newColor => SetState(s => category.Color = newColor)),
 
             BoxView()
                 .HeightRequest(30)
@@ -213,7 +213,7 @@ partial class ManageMetaPage : Component<ManageMetaPageState>
                 .Text(tag.Title)
                 .OnTextChanged(newText => tag.Title = newText),
 
-            ColorEntryWithValidation(tag.Color, newColor => tag.Color = newColor),
+            ColorEntryWithValidation(tag.Color, newColor => SetState(s => tag.Color = newColor)),
 
             BoxView()
                 .HeightRequest(30)
@@ -243,14 +243,14 @@ partial class ManageMetaPage : Component<ManageMetaPageState>
                     if (colorRegex.IsMatch(newText))
                     {
                         onColorChanged(newText);
-                        state.Set(_=> (newText, true));
+                        state.Set(_ => (newText, true));
                     }
                     else
                     {
-                        state.Set(_ => (newText, true));
+                        state.Set(_ => (newText, false));
                     }
                 })
-                .When(!state.Value.Valid, _=>_.TextColor(Colors.Red))
+                .When(!state.Value.Valid, _ => _.TextColor(Colors.Red))
                 .GridColumn(1)
 
         , (color, true));
