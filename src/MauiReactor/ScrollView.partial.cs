@@ -30,15 +30,16 @@ public partial class ScrollView<T>
     }
 
 }
-//public class HorizontalScrollView : ScrollView
-//{
-//    public HorizontalScrollView() => this.Orientation(ScrollOrientation.Horizontal);
-//}
 
-//public class VerticalScrollView : ScrollView
-//{
-//    public VerticalScrollView() => this.Orientation(ScrollOrientation.Vertical);
-//}
+public class HorizontalScrollView : ScrollView
+{
+    public HorizontalScrollView() => this.Orientation(ScrollOrientation.Horizontal);
+}
+
+public class VerticalScrollView : ScrollView
+{
+    public VerticalScrollView() => this.Orientation(ScrollOrientation.Vertical);
+}
 
 public class HScrollView : ScrollView
 {

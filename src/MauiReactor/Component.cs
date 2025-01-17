@@ -151,7 +151,7 @@ namespace MauiReactor
         }
 
         public INavigation? Navigation
-            => (_containerPage ??= ((IVisualNode)this).GetContainerPage())?.Navigation;// ?? NavigationProvider.Navigation ?? throw new InvalidOperationException("Navigation is not available, , check its availability with the property IsNavigationAvailable");
+            => ContainerPage?.Navigation ?? NavigationProvider.Navigation;// ?? NavigationProvider.Navigation ?? throw new InvalidOperationException("Navigation is not available, , check its availability with the property IsNavigationAvailable");
 
         //public bool IsNavigationAvailable
         //    => (_containerPage ??= ((IVisualNode)this).GetContainerPage())?.Navigation != null || NavigationProvider.Navigation != null;

@@ -48,6 +48,11 @@ public class NavigationMainPage : Component<NavigationMainPageState>
 
     private async Task OpenChildPage()
     {
+        if (Navigation == null)
+        {
+            return;
+        }
+
         await Navigation.PushAsync<ChildPage, ChildPageProps>(_ =>
         {
             _.InitialValue = State.Value;

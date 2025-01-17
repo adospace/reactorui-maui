@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -86,28 +87,46 @@ public class AsyncEventCommand<TArgs> : EventCommand<TArgs>
 
     public override void Execute(object? sender, TArgs args)
     {
-        if (_execute is not null)
-        {
-            AwaitAndThrowIfFailed(_executingTask = _execute());
-        }
-        else if (_executeWithArgs is not null)
-        {
-            AwaitAndThrowIfFailed(_executingTask = _executeWithArgs(args));
-        }
-        else if (_executeWithFullArgs is not null)
-        {
-            AwaitAndThrowIfFailed(_executingTask = _executeWithFullArgs(sender, args));
-        }
-
-        Validate.EnsureNotNull(_executingTask);
-
         if (_runInBackground)
         {
-            Task.Run(async () => await _executingTask);
+            Task.Run(async () =>
+            {
+                try
+                {
+                    if (_execute is not null)
+                    {
+                        await _execute();
+                    }
+                    else if (_executeWithArgs is not null)
+                    {
+                        await _executeWithArgs(args);
+                    }
+                    else if (_executeWithFullArgs is not null)
+                    {
+                        await _executeWithFullArgs(sender, args);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<AsyncEventCommand<TArgs>>>()?
+                        .LogError(ex, "An error occurred while executing the command.");
+                }
+            });
         }
         else
         {
-            AwaitAndThrowIfFailed(_executingTask);
+            if (_execute is not null)
+            {
+                AwaitAndThrowIfFailed(_executingTask = _execute());
+            }
+            else if (_executeWithArgs is not null)
+            {
+                AwaitAndThrowIfFailed(_executingTask = _executeWithArgs(args));
+            }
+            else if (_executeWithFullArgs is not null)
+            {
+                AwaitAndThrowIfFailed(_executingTask = _executeWithFullArgs(sender, args));
+            }
         }
         
     }

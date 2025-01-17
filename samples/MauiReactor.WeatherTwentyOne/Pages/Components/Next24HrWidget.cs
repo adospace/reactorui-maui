@@ -165,7 +165,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
                     .Margin(DeviceInfo.Current.Idiom == DeviceIdiom.Phone ? new Thickness(15,0) : new Thickness(25,0))
                     .Class("SectionTitle"),
 
-                new HorizontalScrollView
+                new HScrollView
                 {
                     new HorizontalStackLayout
                     {
