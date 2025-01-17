@@ -104,7 +104,7 @@ internal class HotReloadTypeLoader
     static void UpdateApplication(Type[]? _)
 #pragma warning restore IDE0051 // Remove unused private members
     {
-        if (Instance == null)
+        if (!MauiReactorFeatures.HotReloadIsEnabled)
         {
             Debug.WriteLine($"[MauiReactor] Hot-Reload is not enabled, please call EnableMauiReactorHotReload() on your AppBuilder");
             return;

@@ -313,7 +313,7 @@ namespace MauiReactor
 
         public void Stop()
         {
-            if (!MauiReactorFeatures.HotReloadIsEnabled)
+            if (MauiReactorFeatures.HotReloadIsEnabled)
             {
                 HotReloadTypeLoader.Instance.AssemblyChangedEvent?.RemoveListener(this);
             }                
