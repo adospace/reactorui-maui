@@ -19,12 +19,7 @@ public partial interface ICarouselView : IItemsView
 
 public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Microsoft.Maui.Controls.CarouselView, new()
 {
-    public CarouselView()
-    {
-        CarouselViewStyles.Default?.Invoke(this);
-    }
-
-    public CarouselView(Action<T?> componentRefAction) : base(componentRefAction)
+    public CarouselView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         CarouselViewStyles.Default?.Invoke(this);
     }
@@ -122,11 +117,7 @@ public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Mic
 
 public partial class CarouselView : CarouselView<Microsoft.Maui.Controls.CarouselView>
 {
-    public CarouselView()
-    {
-    }
-
-    public CarouselView(Action<Microsoft.Maui.Controls.CarouselView?> componentRefAction) : base(componentRefAction)
+    public CarouselView(Action<Microsoft.Maui.Controls.CarouselView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -141,26 +132,6 @@ public partial class CarouselView : CarouselView<Microsoft.Maui.Controls.Carouse
 
 public static partial class CarouselViewExtensions
 {
-    /*
-    
-    
-    
-            
-    static object? SetPeekAreaInsets(object carouselView, RxAnimation animation)
-        => ((ICarouselView)carouselView).PeekAreaInsets = ((RxThicknessAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    */
     public static T Loop<T>(this T carouselView, bool loop)
         where T : ICarouselView
     {

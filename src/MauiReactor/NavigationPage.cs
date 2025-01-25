@@ -21,12 +21,7 @@ public partial interface INavigationPage : IPage
 
 public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Microsoft.Maui.Controls.NavigationPage, new()
 {
-    public NavigationPage()
-    {
-        NavigationPageStyles.Default?.Invoke(this);
-    }
-
-    public NavigationPage(Action<T?> componentRefAction) : base(componentRefAction)
+    public NavigationPage(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         NavigationPageStyles.Default?.Invoke(this);
     }
@@ -148,11 +143,7 @@ public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Micr
 
 public partial class NavigationPage : NavigationPage<Microsoft.Maui.Controls.NavigationPage>
 {
-    public NavigationPage()
-    {
-    }
-
-    public NavigationPage(Action<Microsoft.Maui.Controls.NavigationPage?> componentRefAction) : base(componentRefAction)
+    public NavigationPage(Action<Microsoft.Maui.Controls.NavigationPage?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -167,14 +158,6 @@ public partial class NavigationPage : NavigationPage<Microsoft.Maui.Controls.Nav
 
 public static partial class NavigationPageExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    */
     public static T BarBackgroundColor<T>(this T navigationPage, Microsoft.Maui.Graphics.Color barBackgroundColor)
         where T : INavigationPage
     {

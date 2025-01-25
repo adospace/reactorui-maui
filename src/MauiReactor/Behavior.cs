@@ -16,12 +16,7 @@ public partial interface IBehavior : IVisualNodeWithNativeControl
 
 public abstract partial class Behavior<T> : VisualNode<T>, IBehavior where T : Microsoft.Maui.Controls.Behavior, new()
 {
-    protected Behavior()
-    {
-        BehaviorStyles.Default?.Invoke(this);
-    }
-
-    protected Behavior(Action<T?> componentRefAction) : base(componentRefAction)
+    protected Behavior(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         BehaviorStyles.Default?.Invoke(this);
     }
@@ -48,8 +43,6 @@ public abstract partial class Behavior<T> : VisualNode<T>, IBehavior where T : M
 
 public static partial class BehaviorExtensions
 {
-/*
-    */
 }
 
 public static partial class BehaviorStyles

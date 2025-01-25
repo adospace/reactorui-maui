@@ -16,12 +16,7 @@ public partial interface IView : IVisualElement
 
 public abstract partial class View<T> : VisualElement<T>, IView where T : Microsoft.Maui.Controls.View, new()
 {
-    protected View()
-    {
-        ViewStyles.Default?.Invoke(this);
-    }
-
-    protected View(Action<T?> componentRefAction) : base(componentRefAction)
+    protected View(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ViewStyles.Default?.Invoke(this);
     }
@@ -48,18 +43,6 @@ public abstract partial class View<T> : VisualElement<T>, IView where T : Micros
 
 public static partial class ViewExtensions
 {
-    /*
-    
-    
-    
-    
-    
-            
-    static object? SetMargin(object view, RxAnimation animation)
-        => ((IView)view).Margin = ((RxThicknessAnimation)animation).CurrentValue();
-
-    
-    */
     public static T VerticalOptions<T>(this T view, Microsoft.Maui.Controls.LayoutOptions verticalOptions)
         where T : IView
     {

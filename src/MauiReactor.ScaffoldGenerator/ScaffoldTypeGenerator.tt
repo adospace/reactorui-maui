@@ -54,12 +54,7 @@ namespace <#= Namespace #>
     <# if (IsBaseGenericType) { #>
     public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T, <#= GenericArgumentBaseFullBaseTypeName #>>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #> where T : global::<#= FullTypeName #>, new()
     {
-        public <#= TypeName #>()
-        { 
-            <#= TypeName #>Styles.Default?.Invoke(this);
-        }
-
-        public <#= TypeName #>(Action<T?> componentRefAction)
+        public <#= TypeName #>(Action<T?>? componentRefAction = null)
             : base(componentRefAction)
         {
             <#= TypeName #>Styles.Default?.Invoke(this);
@@ -67,23 +62,14 @@ namespace <#= Namespace #>
     <# } else if (IsGenericType) { #>
     public abstract partial class <#= TypeName #><T, TChild> : <#= BaseTypeName() #><T>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner" : string.Empty #> where T : global::<#= FullTypeName #><TChild>, new() where TChild : <#= GenericArgumentBaseFullTypeName #>
     {
-        public <#= TypeName #>()
-        { 
-        }
-
-        public <#= TypeName #>(Action<T?> componentRefAction)
+        public <#= TypeName #>(Action<T?>? componentRefAction = null)
             : base(componentRefAction)
         {
         }
     <# } else if (IsTypeSealed) { #>
     public sealed partial class <#= TypeName #> : <#= BaseTypeName() #><<#= FullTypeName #>>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #>
     {
-        public <#= TypeName #>()
-        { 
-            <#= TypeName #>Styles.Default?.Invoke(this);
-        }
-
-        public <#= TypeName #>(Action<<#= FullTypeName #>?> componentRefAction)
+        public <#= TypeName #>(Action<<#= FullTypeName #>?>? componentRefAction = null)
             : base(componentRefAction)
         {
             <#= TypeName #>Styles.Default?.Invoke(this);
@@ -91,12 +77,7 @@ namespace <#= Namespace #>
     <# } else if (IsTypeNotAbstractWithEmptyConstructor) { #>
     public partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #> where T : global::<#= FullTypeName #>, new()
     {
-        public <#= TypeName #>()
-        { 
-            <#= TypeName #>Styles.Default?.Invoke(this);
-        }
-
-        public <#= TypeName #>(Action<T?> componentRefAction)
+        public <#= TypeName #>(Action<T?>? componentRefAction = null)
             : base(componentRefAction)
         {
             <#= TypeName #>Styles.Default?.Invoke(this);
@@ -104,12 +85,7 @@ namespace <#= Namespace #>
     <# } else { #>
     public abstract partial class <#= TypeName #><T> : <#= BaseTypeName() #><T>, <#= InterfaceName #> <#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #> where T : global::<#= FullTypeName #>, new()
     {
-        protected <#= TypeName #>()
-        { 
-            <#= TypeName #>Styles.Default?.Invoke(this);
-        }
-
-        protected <#= TypeName #>(Action<T?> componentRefAction)
+        protected <#= TypeName #>(Action<T?>? componentRefAction = null)
             : base(componentRefAction)
         {
             <#= TypeName #>Styles.Default?.Invoke(this);
@@ -426,12 +402,7 @@ namespace <#= Namespace #>
     <# if (IsTypeNotAbstractWithEmptyConstructor && !IsTypeSealed) { #>
     public partial class <#= TypeName #> : <#= TypeName #><global::<#= FullTypeName #>>
     {
-        public <#= TypeName #>()
-        { 
-        
-        }
-
-        public <#= TypeName #>(Action<global::<#= FullTypeName #>?> componentRefAction)
+        public <#= TypeName #>(Action<global::<#= FullTypeName #>?>? componentRefAction = null)
             : base(componentRefAction)
         {
 
@@ -452,12 +423,7 @@ namespace <#= Namespace #>
     <# if (GeneratorType.Name != TypeName) { #>
     public partial class <#= GeneratorType.Name #> : <#= TypeName #>
     {
-        public <#= GeneratorType.Name #>()
-        { 
-        
-        }
-
-        public <#= GeneratorType.Name #>(Action<global::<#= FullTypeName #>?> componentRefAction)
+        public <#= GeneratorType.Name #>(Action<global::<#= FullTypeName #>?>? componentRefAction = null)
             : base(componentRefAction)
         {
 

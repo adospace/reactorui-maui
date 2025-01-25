@@ -21,12 +21,7 @@ public partial interface IButton : IView
 
 public partial class Button<T> : View<T>, IButton where T : Microsoft.Maui.Controls.Button, new()
 {
-    public Button()
-    {
-        ButtonStyles.Default?.Invoke(this);
-    }
-
-    public Button(Action<T?> componentRefAction) : base(componentRefAction)
+    public Button(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ButtonStyles.Default?.Invoke(this);
     }
@@ -148,11 +143,7 @@ public partial class Button<T> : View<T>, IButton where T : Microsoft.Maui.Contr
 
 public partial class Button : Button<Microsoft.Maui.Controls.Button>
 {
-    public Button()
-    {
-    }
-
-    public Button(Action<Microsoft.Maui.Controls.Button?> componentRefAction) : base(componentRefAction)
+    public Button(Action<Microsoft.Maui.Controls.Button?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -167,54 +158,6 @@ public partial class Button : Button<Microsoft.Maui.Controls.Button>
 
 public static partial class ButtonExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    static object? SetCharacterSpacing(object button, RxAnimation animation)
-        => ((IButton)button).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    static object? SetFontSize(object button, RxAnimation animation)
-        => ((IButton)button).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    static object? SetBorderWidth(object button, RxAnimation animation)
-        => ((IButton)button).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    
-            
-    static object? SetPadding(object button, RxAnimation animation)
-        => ((IButton)button).Padding = ((RxThicknessAnimation)animation).CurrentValue();
-
-    
-    
-    
-    */
     public static T ContentLayout<T>(this T button, Microsoft.Maui.Controls.Button.ButtonContentLayout contentLayout)
         where T : IButton
     {

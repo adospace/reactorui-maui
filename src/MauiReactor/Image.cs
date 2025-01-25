@@ -16,12 +16,7 @@ public partial interface IImage : IView
 
 public partial class Image<T> : View<T>, IImage where T : Microsoft.Maui.Controls.Image, new()
 {
-    public Image()
-    {
-        ImageStyles.Default?.Invoke(this);
-    }
-
-    public Image(Action<T?> componentRefAction) : base(componentRefAction)
+    public Image(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ImageStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class Image<T> : View<T>, IImage where T : Microsoft.Maui.Control
 
 public partial class Image : Image<Microsoft.Maui.Controls.Image>
 {
-    public Image()
-    {
-    }
-
-    public Image(Action<Microsoft.Maui.Controls.Image?> componentRefAction) : base(componentRefAction)
+    public Image(Action<Microsoft.Maui.Controls.Image?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,16 +58,6 @@ public partial class Image : Image<Microsoft.Maui.Controls.Image>
 
 public static partial class ImageExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    */
     public static T Source<T>(this T image, Microsoft.Maui.Controls.ImageSource source)
         where T : IImage
     {

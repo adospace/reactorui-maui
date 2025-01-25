@@ -16,12 +16,7 @@ public partial interface IShellSection : IShellGroupItem
 
 public partial class ShellSection<T> : ShellGroupItem<T>, IShellSection where T : Microsoft.Maui.Controls.ShellSection, new()
 {
-    public ShellSection()
-    {
-        ShellSectionStyles.Default?.Invoke(this);
-    }
-
-    public ShellSection(Action<T?> componentRefAction) : base(componentRefAction)
+    public ShellSection(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ShellSectionStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class ShellSection<T> : ShellGroupItem<T>, IShellSection where T 
 
 public partial class ShellSection : ShellSection<Microsoft.Maui.Controls.ShellSection>
 {
-    public ShellSection()
-    {
-    }
-
-    public ShellSection(Action<Microsoft.Maui.Controls.ShellSection?> componentRefAction) : base(componentRefAction)
+    public ShellSection(Action<Microsoft.Maui.Controls.ShellSection?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class ShellSection : ShellSection<Microsoft.Maui.Controls.ShellSe
 
 public static partial class ShellSectionExtensions
 {
-/*
-    */
 }
 
 public static partial class ShellSectionStyles

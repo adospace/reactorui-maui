@@ -17,12 +17,7 @@ public partial interface IScrollView : Compatibility.ILayout
 
 public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where T : Microsoft.Maui.Controls.ScrollView, new()
 {
-    public ScrollView()
-    {
-        ScrollViewStyles.Default?.Invoke(this);
-    }
-
-    public ScrollView(Action<T?> componentRefAction) : base(componentRefAction)
+    public ScrollView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ScrollViewStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where 
 
 public partial class ScrollView : ScrollView<Microsoft.Maui.Controls.ScrollView>
 {
-    public ScrollView()
-    {
-    }
-
-    public ScrollView(Action<Microsoft.Maui.Controls.ScrollView?> componentRefAction) : base(componentRefAction)
+    public ScrollView(Action<Microsoft.Maui.Controls.ScrollView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,14 +106,6 @@ public partial class ScrollView : ScrollView<Microsoft.Maui.Controls.ScrollView>
 
 public static partial class ScrollViewExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    */
     public static T Orientation<T>(this T scrollView, Microsoft.Maui.ScrollOrientation orientation)
         where T : IScrollView
     {

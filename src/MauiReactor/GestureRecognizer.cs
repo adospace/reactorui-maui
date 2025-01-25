@@ -16,12 +16,7 @@ public partial interface IGestureRecognizer : IElement
 
 public partial class GestureRecognizer<T> : Element<T>, IGestureRecognizer where T : Microsoft.Maui.Controls.GestureRecognizer, new()
 {
-    public GestureRecognizer()
-    {
-        GestureRecognizerStyles.Default?.Invoke(this);
-    }
-
-    public GestureRecognizer(Action<T?> componentRefAction) : base(componentRefAction)
+    public GestureRecognizer(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         GestureRecognizerStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class GestureRecognizer<T> : Element<T>, IGestureRecognizer where
 
 public partial class GestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.GestureRecognizer>
 {
-    public GestureRecognizer()
-    {
-    }
-
-    public GestureRecognizer(Action<Microsoft.Maui.Controls.GestureRecognizer?> componentRefAction) : base(componentRefAction)
+    public GestureRecognizer(Action<Microsoft.Maui.Controls.GestureRecognizer?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class GestureRecognizer : GestureRecognizer<Microsoft.Maui.Contro
 
 public static partial class GestureRecognizerExtensions
 {
-/*
-    */
 }
 
 public static partial class GestureRecognizerStyles

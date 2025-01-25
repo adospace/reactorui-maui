@@ -16,12 +16,7 @@ public partial interface IImageCell : ITextCell
 
 public partial class ImageCell<T> : TextCell<T>, IImageCell where T : Microsoft.Maui.Controls.ImageCell, new()
 {
-    public ImageCell()
-    {
-        ImageCellStyles.Default?.Invoke(this);
-    }
-
-    public ImageCell(Action<T?> componentRefAction) : base(componentRefAction)
+    public ImageCell(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ImageCellStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class ImageCell<T> : TextCell<T>, IImageCell where T : Microsoft.
 
 public partial class ImageCell : ImageCell<Microsoft.Maui.Controls.ImageCell>
 {
-    public ImageCell()
-    {
-    }
-
-    public ImageCell(Action<Microsoft.Maui.Controls.ImageCell?> componentRefAction) : base(componentRefAction)
+    public ImageCell(Action<Microsoft.Maui.Controls.ImageCell?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,10 +58,6 @@ public partial class ImageCell : ImageCell<Microsoft.Maui.Controls.ImageCell>
 
 public static partial class ImageCellExtensions
 {
-    /*
-    
-    
-    */
     public static T ImageSource<T>(this T imageCell, Microsoft.Maui.Controls.ImageSource imageSource)
         where T : IImageCell
     {

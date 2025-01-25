@@ -19,12 +19,7 @@ public partial interface ISearchHandler : IVisualNodeWithNativeControl
 
 public partial class SearchHandler<T> : VisualNode<T>, ISearchHandler where T : Microsoft.Maui.Controls.SearchHandler, new()
 {
-    public SearchHandler()
-    {
-        SearchHandlerStyles.Default?.Invoke(this);
-    }
-
-    public SearchHandler(Action<T?> componentRefAction) : base(componentRefAction)
+    public SearchHandler(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         SearchHandlerStyles.Default?.Invoke(this);
     }
@@ -122,87 +117,13 @@ public partial class SearchHandler<T> : VisualNode<T>, ISearchHandler where T : 
 
 public partial class SearchHandler : SearchHandler<Microsoft.Maui.Controls.SearchHandler>
 {
-    public SearchHandler()
-    {
-    }
-
-    public SearchHandler(Action<Microsoft.Maui.Controls.SearchHandler?> componentRefAction) : base(componentRefAction)
+    public SearchHandler(Action<Microsoft.Maui.Controls.SearchHandler?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 }
 
 public static partial class SearchHandlerExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    static object? SetCharacterSpacing(object searchHandler, RxAnimation animation)
-        => ((ISearchHandler)searchHandler).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    static object? SetFontSize(object searchHandler, RxAnimation animation)
-        => ((ISearchHandler)searchHandler).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    */
     public static T Keyboard<T>(this T searchHandler, Microsoft.Maui.Keyboard keyboard)
         where T : ISearchHandler
     {

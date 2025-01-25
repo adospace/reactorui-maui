@@ -16,12 +16,7 @@ public partial interface IMenuFlyoutSubItem : IMenuFlyoutItem
 
 public partial class MenuFlyoutSubItem<T> : MenuFlyoutItem<T>, IMenuFlyoutSubItem where T : Microsoft.Maui.Controls.MenuFlyoutSubItem, new()
 {
-    public MenuFlyoutSubItem()
-    {
-        MenuFlyoutSubItemStyles.Default?.Invoke(this);
-    }
-
-    public MenuFlyoutSubItem(Action<T?> componentRefAction) : base(componentRefAction)
+    public MenuFlyoutSubItem(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         MenuFlyoutSubItemStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class MenuFlyoutSubItem<T> : MenuFlyoutItem<T>, IMenuFlyoutSubIte
 
 public partial class MenuFlyoutSubItem : MenuFlyoutSubItem<Microsoft.Maui.Controls.MenuFlyoutSubItem>
 {
-    public MenuFlyoutSubItem()
-    {
-    }
-
-    public MenuFlyoutSubItem(Action<Microsoft.Maui.Controls.MenuFlyoutSubItem?> componentRefAction) : base(componentRefAction)
+    public MenuFlyoutSubItem(Action<Microsoft.Maui.Controls.MenuFlyoutSubItem?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class MenuFlyoutSubItem : MenuFlyoutSubItem<Microsoft.Maui.Contro
 
 public static partial class MenuFlyoutSubItemExtensions
 {
-/*
-    */
 }
 
 public static partial class MenuFlyoutSubItemStyles

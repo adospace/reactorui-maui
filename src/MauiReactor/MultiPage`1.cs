@@ -22,11 +22,7 @@ public partial interface IGenericMultiPage : IPage
 public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage where T : Microsoft.Maui.Controls.MultiPage<TChild>, new()
     where TChild : Microsoft.Maui.Controls.Page
 {
-    public MultiPage()
-    {
-    }
-
-    public MultiPage(Action<T?> componentRefAction) : base(componentRefAction)
+    public MultiPage(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -127,10 +123,6 @@ public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage 
 
 public static partial class MultiPageExtensions
 {
-    /*
-    
-    
-    */
     public static T SelectedItem<T>(this T multiPage, object? selectedItem)
         where T : IGenericMultiPage
     {

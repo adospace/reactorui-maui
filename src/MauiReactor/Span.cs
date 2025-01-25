@@ -16,12 +16,7 @@ public partial interface ISpan : IGestureElement
 
 public partial class Span<T> : GestureElement<T>, ISpan where T : Microsoft.Maui.Controls.Span, new()
 {
-    public Span()
-    {
-        SpanStyles.Default?.Invoke(this);
-    }
-
-    public Span(Action<T?> componentRefAction) : base(componentRefAction)
+    public Span(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         SpanStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class Span<T> : GestureElement<T>, ISpan where T : Microsoft.Maui
 
 public partial class Span : Span<Microsoft.Maui.Controls.Span>
 {
-    public Span()
-    {
-    }
-
-    public Span(Action<Microsoft.Maui.Controls.Span?> componentRefAction) : base(componentRefAction)
+    public Span(Action<Microsoft.Maui.Controls.Span?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,44 +58,6 @@ public partial class Span : Span<Microsoft.Maui.Controls.Span>
 
 public static partial class SpanExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    static object? SetCharacterSpacing(object span, RxAnimation animation)
-        => ((ISpan)span).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    static object? SetFontSize(object span, RxAnimation animation)
-        => ((ISpan)span).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    static object? SetLineHeight(object span, RxAnimation animation)
-        => ((ISpan)span).LineHeight = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    */
     public static T Style<T>(this T span, Microsoft.Maui.Controls.Style style)
         where T : ISpan
     {

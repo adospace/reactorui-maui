@@ -16,12 +16,7 @@ public partial interface ITab : IShellSection
 
 public partial class Tab<T> : ShellSection<T>, ITab where T : Microsoft.Maui.Controls.Tab, new()
 {
-    public Tab()
-    {
-        TabStyles.Default?.Invoke(this);
-    }
-
-    public Tab(Action<T?> componentRefAction) : base(componentRefAction)
+    public Tab(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         TabStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class Tab<T> : ShellSection<T>, ITab where T : Microsoft.Maui.Con
 
 public partial class Tab : Tab<Microsoft.Maui.Controls.Tab>
 {
-    public Tab()
-    {
-    }
-
-    public Tab(Action<Microsoft.Maui.Controls.Tab?> componentRefAction) : base(componentRefAction)
+    public Tab(Action<Microsoft.Maui.Controls.Tab?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class Tab : Tab<Microsoft.Maui.Controls.Tab>
 
 public static partial class TabExtensions
 {
-/*
-    */
 }
 
 public static partial class TabStyles

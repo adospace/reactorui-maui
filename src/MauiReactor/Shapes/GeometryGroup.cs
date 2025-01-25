@@ -17,12 +17,7 @@ public partial interface IGeometryGroup : Shapes.IGeometry
 
 public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where T : Microsoft.Maui.Controls.Shapes.GeometryGroup, new()
 {
-    public GeometryGroup()
-    {
-        GeometryGroupStyles.Default?.Invoke(this);
-    }
-
-    public GeometryGroup(Action<T?> componentRefAction) : base(componentRefAction)
+    public GeometryGroup(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         GeometryGroupStyles.Default?.Invoke(this);
     }
@@ -96,23 +91,13 @@ public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where
 
 public partial class GeometryGroup : GeometryGroup<Microsoft.Maui.Controls.Shapes.GeometryGroup>
 {
-    public GeometryGroup()
-    {
-    }
-
-    public GeometryGroup(Action<Microsoft.Maui.Controls.Shapes.GeometryGroup?> componentRefAction) : base(componentRefAction)
+    public GeometryGroup(Action<Microsoft.Maui.Controls.Shapes.GeometryGroup?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 }
 
 public static partial class GeometryGroupExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T Children<T>(this T geometryGroup, Microsoft.Maui.Controls.Shapes.GeometryCollection children)
         where T : IGeometryGroup
     {

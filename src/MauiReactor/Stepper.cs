@@ -17,12 +17,7 @@ public partial interface IStepper : IView
 
 public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Controls.Stepper, new()
 {
-    public Stepper()
-    {
-        StepperStyles.Default?.Invoke(this);
-    }
-
-    public Stepper(Action<T?> componentRefAction) : base(componentRefAction)
+    public Stepper(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         StepperStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Con
 
 public partial class Stepper : Stepper<Microsoft.Maui.Controls.Stepper>
 {
-    public Stepper()
-    {
-    }
-
-    public Stepper(Action<Microsoft.Maui.Controls.Stepper?> componentRefAction) : base(componentRefAction)
+    public Stepper(Action<Microsoft.Maui.Controls.Stepper?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,32 +106,6 @@ public partial class Stepper : Stepper<Microsoft.Maui.Controls.Stepper>
 
 public static partial class StepperExtensions
 {
-    /*
-    
-    
-    static object? SetMaximum(object stepper, RxAnimation animation)
-        => ((IStepper)stepper).Maximum = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    static object? SetMinimum(object stepper, RxAnimation animation)
-        => ((IStepper)stepper).Minimum = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    static object? SetValue(object stepper, RxAnimation animation)
-        => ((IStepper)stepper).Value = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    static object? SetIncrement(object stepper, RxAnimation animation)
-        => ((IStepper)stepper).Increment = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    */
     public static T Maximum<T>(this T stepper, double maximum, RxDoubleAnimation? customAnimation = null)
         where T : IStepper
     {

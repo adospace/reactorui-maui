@@ -16,12 +16,7 @@ public partial interface IShellGroupItem : IBaseShellItem
 
 public partial class ShellGroupItem<T> : BaseShellItem<T>, IShellGroupItem where T : Microsoft.Maui.Controls.ShellGroupItem, new()
 {
-    public ShellGroupItem()
-    {
-        ShellGroupItemStyles.Default?.Invoke(this);
-    }
-
-    public ShellGroupItem(Action<T?> componentRefAction) : base(componentRefAction)
+    public ShellGroupItem(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ShellGroupItemStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class ShellGroupItem<T> : BaseShellItem<T>, IShellGroupItem where
 
 public partial class ShellGroupItem : ShellGroupItem<Microsoft.Maui.Controls.ShellGroupItem>
 {
-    public ShellGroupItem()
-    {
-    }
-
-    public ShellGroupItem(Action<Microsoft.Maui.Controls.ShellGroupItem?> componentRefAction) : base(componentRefAction)
+    public ShellGroupItem(Action<Microsoft.Maui.Controls.ShellGroupItem?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,10 +58,6 @@ public partial class ShellGroupItem : ShellGroupItem<Microsoft.Maui.Controls.She
 
 public static partial class ShellGroupItemExtensions
 {
-    /*
-    
-    
-    */
     public static T FlyoutDisplayOptions<T>(this T shellGroupItem, Microsoft.Maui.Controls.FlyoutDisplayOptions flyoutDisplayOptions)
         where T : IShellGroupItem
     {

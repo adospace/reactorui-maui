@@ -21,12 +21,7 @@ public partial interface IItemsView : IView
 
 public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Microsoft.Maui.Controls.ItemsView, new()
 {
-    protected ItemsView()
-    {
-        ItemsViewStyles.Default?.Invoke(this);
-    }
-
-    protected ItemsView(Action<T?> componentRefAction) : base(componentRefAction)
+    protected ItemsView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ItemsViewStyles.Default?.Invoke(this);
     }
@@ -148,16 +143,6 @@ public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Micro
 
 public static partial class ItemsViewExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    */
     public static T HorizontalScrollBarVisibility<T>(this T itemsView, Microsoft.Maui.ScrollBarVisibility horizontalScrollBarVisibility)
         where T : IItemsView
     {

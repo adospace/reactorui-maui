@@ -16,12 +16,7 @@ public partial interface ITabbedPage : IGenericMultiPage
 
 public abstract partial class TabbedPage<T> : MultiPage<T, Microsoft.Maui.Controls.Page>, ITabbedPage where T : Microsoft.Maui.Controls.TabbedPage, new()
 {
-    public TabbedPage()
-    {
-        TabbedPageStyles.Default?.Invoke(this);
-    }
-
-    public TabbedPage(Action<T?> componentRefAction) : base(componentRefAction)
+    public TabbedPage(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         TabbedPageStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public abstract partial class TabbedPage<T> : MultiPage<T, Microsoft.Maui.Contro
 
 public partial class TabbedPage : TabbedPage<Microsoft.Maui.Controls.TabbedPage>
 {
-    public TabbedPage()
-    {
-    }
-
-    public TabbedPage(Action<Microsoft.Maui.Controls.TabbedPage?> componentRefAction) : base(componentRefAction)
+    public TabbedPage(Action<Microsoft.Maui.Controls.TabbedPage?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,18 +58,6 @@ public partial class TabbedPage : TabbedPage<Microsoft.Maui.Controls.TabbedPage>
 
 public static partial class TabbedPageExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    */
     public static T BarBackgroundColor<T>(this T tabbedPage, Microsoft.Maui.Graphics.Color barBackgroundColor)
         where T : ITabbedPage
     {

@@ -17,12 +17,7 @@ public partial interface ISwipeItem : IMenuItem
 
 public partial class SwipeItem<T> : MenuItem<T>, ISwipeItem where T : Microsoft.Maui.Controls.SwipeItem, new()
 {
-    public SwipeItem()
-    {
-        SwipeItemStyles.Default?.Invoke(this);
-    }
-
-    public SwipeItem(Action<T?> componentRefAction) : base(componentRefAction)
+    public SwipeItem(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         SwipeItemStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class SwipeItem<T> : MenuItem<T>, ISwipeItem where T : Microsoft.
 
 public partial class SwipeItem : SwipeItem<Microsoft.Maui.Controls.SwipeItem>
 {
-    public SwipeItem()
-    {
-    }
-
-    public SwipeItem(Action<Microsoft.Maui.Controls.SwipeItem?> componentRefAction) : base(componentRefAction)
+    public SwipeItem(Action<Microsoft.Maui.Controls.SwipeItem?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,12 +106,6 @@ public partial class SwipeItem : SwipeItem<Microsoft.Maui.Controls.SwipeItem>
 
 public static partial class SwipeItemExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T BackgroundColor<T>(this T swipeItem, Microsoft.Maui.Graphics.Color backgroundColor)
         where T : ISwipeItem
     {

@@ -16,12 +16,7 @@ public partial interface IMenuFlyoutSeparator : IMenuFlyoutItem
 
 public partial class MenuFlyoutSeparator<T> : MenuFlyoutItem<T>, IMenuFlyoutSeparator where T : Microsoft.Maui.Controls.MenuFlyoutSeparator, new()
 {
-    public MenuFlyoutSeparator()
-    {
-        MenuFlyoutSeparatorStyles.Default?.Invoke(this);
-    }
-
-    public MenuFlyoutSeparator(Action<T?> componentRefAction) : base(componentRefAction)
+    public MenuFlyoutSeparator(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         MenuFlyoutSeparatorStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class MenuFlyoutSeparator<T> : MenuFlyoutItem<T>, IMenuFlyoutSepa
 
 public partial class MenuFlyoutSeparator : MenuFlyoutSeparator<Microsoft.Maui.Controls.MenuFlyoutSeparator>
 {
-    public MenuFlyoutSeparator()
-    {
-    }
-
-    public MenuFlyoutSeparator(Action<Microsoft.Maui.Controls.MenuFlyoutSeparator?> componentRefAction) : base(componentRefAction)
+    public MenuFlyoutSeparator(Action<Microsoft.Maui.Controls.MenuFlyoutSeparator?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class MenuFlyoutSeparator : MenuFlyoutSeparator<Microsoft.Maui.Co
 
 public static partial class MenuFlyoutSeparatorExtensions
 {
-/*
-    */
 }
 
 public static partial class MenuFlyoutSeparatorStyles

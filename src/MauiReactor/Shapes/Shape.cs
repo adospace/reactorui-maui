@@ -16,12 +16,7 @@ public partial interface IShape : IView
 
 public abstract partial class Shape<T> : View<T>, IShape where T : Microsoft.Maui.Controls.Shapes.Shape, new()
 {
-    protected Shape()
-    {
-        ShapeStyles.Default?.Invoke(this);
-    }
-
-    protected Shape(Action<T?> componentRefAction) : base(componentRefAction)
+    protected Shape(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ShapeStyles.Default?.Invoke(this);
     }
@@ -48,38 +43,6 @@ public abstract partial class Shape<T> : View<T>, IShape where T : Microsoft.Mau
 
 public static partial class ShapeExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    static object? SetStrokeThickness(object shape, RxAnimation animation)
-        => ((IShape)shape).StrokeThickness = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    static object? SetStrokeDashOffset(object shape, RxAnimation animation)
-        => ((IShape)shape).StrokeDashOffset = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    static object? SetStrokeMiterLimit(object shape, RxAnimation animation)
-        => ((IShape)shape).StrokeMiterLimit = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    */
     public static T Fill<T>(this T shape, Microsoft.Maui.Controls.Brush fill)
         where T : IShape
     {

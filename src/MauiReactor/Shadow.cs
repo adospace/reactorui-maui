@@ -16,12 +16,7 @@ public partial interface IShadow : IElement
 
 public partial class Shadow<T> : Element<T>, IShadow where T : Microsoft.Maui.Controls.Shadow, new()
 {
-    public Shadow()
-    {
-        ShadowStyles.Default?.Invoke(this);
-    }
-
-    public Shadow(Action<T?> componentRefAction) : base(componentRefAction)
+    public Shadow(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ShadowStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class Shadow<T> : Element<T>, IShadow where T : Microsoft.Maui.Co
 
 public partial class Shadow : Shadow<Microsoft.Maui.Controls.Shadow>
 {
-    public Shadow()
-    {
-    }
-
-    public Shadow(Action<Microsoft.Maui.Controls.Shadow?> componentRefAction) : base(componentRefAction)
+    public Shadow(Action<Microsoft.Maui.Controls.Shadow?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,20 +58,6 @@ public partial class Shadow : Shadow<Microsoft.Maui.Controls.Shadow>
 
 public static partial class ShadowExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-        
-    static object? SetOffset(object shadow, RxAnimation animation)
-        => ((IShadow)shadow).Offset = ((RxPointAnimation)animation).CurrentValue();
-
-    
-    */
     public static T Radius<T>(this T shadow, float radius)
         where T : IShadow
     {

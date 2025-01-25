@@ -16,12 +16,7 @@ public partial interface IStructuredItemsView : IItemsView
 
 public partial class StructuredItemsView<T> : ItemsView<T>, IStructuredItemsView where T : Microsoft.Maui.Controls.StructuredItemsView, new()
 {
-    public StructuredItemsView()
-    {
-        StructuredItemsViewStyles.Default?.Invoke(this);
-    }
-
-    public StructuredItemsView(Action<T?> componentRefAction) : base(componentRefAction)
+    public StructuredItemsView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         StructuredItemsViewStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class StructuredItemsView<T> : ItemsView<T>, IStructuredItemsView
 
 public partial class StructuredItemsView : StructuredItemsView<Microsoft.Maui.Controls.StructuredItemsView>
 {
-    public StructuredItemsView()
-    {
-    }
-
-    public StructuredItemsView(Action<Microsoft.Maui.Controls.StructuredItemsView?> componentRefAction) : base(componentRefAction)
+    public StructuredItemsView(Action<Microsoft.Maui.Controls.StructuredItemsView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,10 +58,6 @@ public partial class StructuredItemsView : StructuredItemsView<Microsoft.Maui.Co
 
 public static partial class StructuredItemsViewExtensions
 {
-    /*
-    
-    
-    */
     public static T ItemSizingStrategy<T>(this T structuredItemsView, Microsoft.Maui.Controls.ItemSizingStrategy itemSizingStrategy)
         where T : IStructuredItemsView
     {

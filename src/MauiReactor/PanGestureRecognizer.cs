@@ -17,12 +17,7 @@ public partial interface IPanGestureRecognizer : IGestureRecognizer
 
 public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGestureRecognizer where T : Microsoft.Maui.Controls.PanGestureRecognizer, new()
 {
-    public PanGestureRecognizer()
-    {
-        PanGestureRecognizerStyles.Default?.Invoke(this);
-    }
-
-    public PanGestureRecognizer(Action<T?> componentRefAction) : base(componentRefAction)
+    public PanGestureRecognizer(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         PanGestureRecognizerStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGesture
 
 public partial class PanGestureRecognizer : PanGestureRecognizer<Microsoft.Maui.Controls.PanGestureRecognizer>
 {
-    public PanGestureRecognizer()
-    {
-    }
-
-    public PanGestureRecognizer(Action<Microsoft.Maui.Controls.PanGestureRecognizer?> componentRefAction) : base(componentRefAction)
+    public PanGestureRecognizer(Action<Microsoft.Maui.Controls.PanGestureRecognizer?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,10 +106,6 @@ public partial class PanGestureRecognizer : PanGestureRecognizer<Microsoft.Maui.
 
 public static partial class PanGestureRecognizerExtensions
 {
-    /*
-    
-    
-    */
     public static T TouchPoints<T>(this T panGestureRecognizer, int touchPoints)
         where T : IPanGestureRecognizer
     {

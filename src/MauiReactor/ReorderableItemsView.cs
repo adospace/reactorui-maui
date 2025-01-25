@@ -17,12 +17,7 @@ public partial interface IReorderableItemsView : IGroupableItemsView
 
 public partial class ReorderableItemsView<T> : GroupableItemsView<T>, IReorderableItemsView where T : Microsoft.Maui.Controls.ReorderableItemsView, new()
 {
-    public ReorderableItemsView()
-    {
-        ReorderableItemsViewStyles.Default?.Invoke(this);
-    }
-
-    public ReorderableItemsView(Action<T?> componentRefAction) : base(componentRefAction)
+    public ReorderableItemsView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ReorderableItemsViewStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class ReorderableItemsView<T> : GroupableItemsView<T>, IReorderab
 
 public partial class ReorderableItemsView : ReorderableItemsView<Microsoft.Maui.Controls.ReorderableItemsView>
 {
-    public ReorderableItemsView()
-    {
-    }
-
-    public ReorderableItemsView(Action<Microsoft.Maui.Controls.ReorderableItemsView?> componentRefAction) : base(componentRefAction)
+    public ReorderableItemsView(Action<Microsoft.Maui.Controls.ReorderableItemsView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,12 +106,6 @@ public partial class ReorderableItemsView : ReorderableItemsView<Microsoft.Maui.
 
 public static partial class ReorderableItemsViewExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T CanMixGroups<T>(this T reorderableItemsView, bool canMixGroups)
         where T : IReorderableItemsView
     {

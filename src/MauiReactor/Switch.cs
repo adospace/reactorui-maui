@@ -17,12 +17,7 @@ public partial interface ISwitch : IView
 
 public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Controls.Switch, new()
 {
-    public Switch()
-    {
-        SwitchStyles.Default?.Invoke(this);
-    }
-
-    public Switch(Action<T?> componentRefAction) : base(componentRefAction)
+    public Switch(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         SwitchStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Contr
 
 public partial class Switch : Switch<Microsoft.Maui.Controls.Switch>
 {
-    public Switch()
-    {
-    }
-
-    public Switch(Action<Microsoft.Maui.Controls.Switch?> componentRefAction) : base(componentRefAction)
+    public Switch(Action<Microsoft.Maui.Controls.Switch?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,14 +106,6 @@ public partial class Switch : Switch<Microsoft.Maui.Controls.Switch>
 
 public static partial class SwitchExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    */
     public static T IsToggled<T>(this T @switch, bool isToggled)
         where T : ISwitch
     {

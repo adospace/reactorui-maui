@@ -16,12 +16,7 @@ public partial interface IContentView : ITemplatedView
 
 public partial class ContentView<T> : TemplatedView<T>, IContentView where T : Microsoft.Maui.Controls.ContentView, new()
 {
-    public ContentView()
-    {
-        ContentViewStyles.Default?.Invoke(this);
-    }
-
-    public ContentView(Action<T?> componentRefAction) : base(componentRefAction)
+    public ContentView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ContentViewStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class ContentView<T> : TemplatedView<T>, IContentView where T : M
 
 public partial class ContentView : ContentView<Microsoft.Maui.Controls.ContentView>
 {
-    public ContentView()
-    {
-    }
-
-    public ContentView(Action<Microsoft.Maui.Controls.ContentView?> componentRefAction) : base(componentRefAction)
+    public ContentView(Action<Microsoft.Maui.Controls.ContentView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class ContentView : ContentView<Microsoft.Maui.Controls.ContentVi
 
 public static partial class ContentViewExtensions
 {
-/*
-    */
 }
 
 public static partial class ContentViewStyles

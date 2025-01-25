@@ -16,12 +16,7 @@ public partial interface IRoundRectangle : Shapes.IShape
 
 public sealed partial class RoundRectangle : Shapes.Shape<Microsoft.Maui.Controls.Shapes.RoundRectangle>, IRoundRectangle
 {
-    public RoundRectangle()
-    {
-        RoundRectangleStyles.Default?.Invoke(this);
-    }
-
-    public RoundRectangle(Action<Microsoft.Maui.Controls.Shapes.RoundRectangle?> componentRefAction) : base(componentRefAction)
+    public RoundRectangle(Action<Microsoft.Maui.Controls.Shapes.RoundRectangle?>? componentRefAction = null) : base(componentRefAction)
     {
         RoundRectangleStyles.Default?.Invoke(this);
     }
@@ -48,14 +43,6 @@ public sealed partial class RoundRectangle : Shapes.Shape<Microsoft.Maui.Control
 
 public static partial class RoundRectangleExtensions
 {
-    /*
-    
-            
-    static object? SetCornerRadius(object roundRectangle, RxAnimation animation)
-        => ((IRoundRectangle)roundRectangle).CornerRadius = ((RxCornerRadiusAnimation)animation).CurrentValue();
-
-    
-    */
     public static T CornerRadius<T>(this T roundRectangle, Microsoft.Maui.CornerRadius cornerRadius, RxCornerRadiusAnimation? customAnimation = null)
         where T : IRoundRectangle
     {

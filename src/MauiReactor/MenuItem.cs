@@ -17,12 +17,7 @@ public partial interface IMenuItem : IBaseMenuItem
 
 public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsoft.Maui.Controls.MenuItem, new()
 {
-    public MenuItem()
-    {
-        MenuItemStyles.Default?.Invoke(this);
-    }
-
-    public MenuItem(Action<T?> componentRefAction) : base(componentRefAction)
+    public MenuItem(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         MenuItemStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsof
 
 public partial class MenuItem : MenuItem<Microsoft.Maui.Controls.MenuItem>
 {
-    public MenuItem()
-    {
-    }
-
-    public MenuItem(Action<Microsoft.Maui.Controls.MenuItem?> componentRefAction) : base(componentRefAction)
+    public MenuItem(Action<Microsoft.Maui.Controls.MenuItem?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,14 +106,6 @@ public partial class MenuItem : MenuItem<Microsoft.Maui.Controls.MenuItem>
 
 public static partial class MenuItemExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    */
     public static T IsDestructive<T>(this T menuItem, bool isDestructive)
         where T : IMenuItem
     {

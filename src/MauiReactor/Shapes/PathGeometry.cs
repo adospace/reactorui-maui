@@ -16,12 +16,7 @@ public partial interface IPathGeometry : Shapes.IGeometry
 
 public sealed partial class PathGeometry : Shapes.Geometry<Microsoft.Maui.Controls.Shapes.PathGeometry>, IPathGeometry
 {
-    public PathGeometry()
-    {
-        PathGeometryStyles.Default?.Invoke(this);
-    }
-
-    public PathGeometry(Action<Microsoft.Maui.Controls.Shapes.PathGeometry?> componentRefAction) : base(componentRefAction)
+    public PathGeometry(Action<Microsoft.Maui.Controls.Shapes.PathGeometry?>? componentRefAction = null) : base(componentRefAction)
     {
         PathGeometryStyles.Default?.Invoke(this);
     }
@@ -48,12 +43,6 @@ public sealed partial class PathGeometry : Shapes.Geometry<Microsoft.Maui.Contro
 
 public static partial class PathGeometryExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T Figures<T>(this T pathGeometry, Microsoft.Maui.Controls.Shapes.PathFigureCollection figures)
         where T : IPathGeometry
     {

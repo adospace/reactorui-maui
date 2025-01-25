@@ -17,12 +17,7 @@ public partial interface IEditor : IInputView
 
 public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.Controls.Editor, new()
 {
-    public Editor()
-    {
-        EditorStyles.Default?.Invoke(this);
-    }
-
-    public Editor(Action<T?> componentRefAction) : base(componentRefAction)
+    public Editor(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         EditorStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class Editor<T> : InputView<T>, IEditor where T : Microsoft.Maui.
 
 public partial class Editor : Editor<Microsoft.Maui.Controls.Editor>
 {
-    public Editor()
-    {
-    }
-
-    public Editor(Action<Microsoft.Maui.Controls.Editor?> componentRefAction) : base(componentRefAction)
+    public Editor(Action<Microsoft.Maui.Controls.Editor?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,14 +106,6 @@ public partial class Editor : Editor<Microsoft.Maui.Controls.Editor>
 
 public static partial class EditorExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    */
     public static T AutoSize<T>(this T editor, Microsoft.Maui.Controls.EditorAutoSizeOption autoSize)
         where T : IEditor
     {

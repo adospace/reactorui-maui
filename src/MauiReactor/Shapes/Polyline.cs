@@ -16,12 +16,7 @@ public partial interface IPolyline : Shapes.IShape
 
 public sealed partial class Polyline : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Polyline>, IPolyline
 {
-    public Polyline()
-    {
-        PolylineStyles.Default?.Invoke(this);
-    }
-
-    public Polyline(Action<Microsoft.Maui.Controls.Shapes.Polyline?> componentRefAction) : base(componentRefAction)
+    public Polyline(Action<Microsoft.Maui.Controls.Shapes.Polyline?>? componentRefAction = null) : base(componentRefAction)
     {
         PolylineStyles.Default?.Invoke(this);
     }
@@ -48,12 +43,6 @@ public sealed partial class Polyline : Shapes.Shape<Microsoft.Maui.Controls.Shap
 
 public static partial class PolylineExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T Points<T>(this T polyline, Microsoft.Maui.Controls.PointCollection points)
         where T : IPolyline
     {

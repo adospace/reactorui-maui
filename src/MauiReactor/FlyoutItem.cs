@@ -16,12 +16,7 @@ public partial interface IFlyoutItem : IShellItem
 
 public partial class FlyoutItem<T> : ShellItem<T>, IFlyoutItem where T : Microsoft.Maui.Controls.FlyoutItem, new()
 {
-    public FlyoutItem()
-    {
-        FlyoutItemStyles.Default?.Invoke(this);
-    }
-
-    public FlyoutItem(Action<T?> componentRefAction) : base(componentRefAction)
+    public FlyoutItem(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         FlyoutItemStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class FlyoutItem<T> : ShellItem<T>, IFlyoutItem where T : Microso
 
 public partial class FlyoutItem : FlyoutItem<Microsoft.Maui.Controls.FlyoutItem>
 {
-    public FlyoutItem()
-    {
-    }
-
-    public FlyoutItem(Action<Microsoft.Maui.Controls.FlyoutItem?> componentRefAction) : base(componentRefAction)
+    public FlyoutItem(Action<Microsoft.Maui.Controls.FlyoutItem?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class FlyoutItem : FlyoutItem<Microsoft.Maui.Controls.FlyoutItem>
 
 public static partial class FlyoutItemExtensions
 {
-/*
-    */
 }
 
 public static partial class FlyoutItemStyles

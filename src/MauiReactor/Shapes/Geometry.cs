@@ -16,12 +16,7 @@ public partial interface IGeometry : IVisualNodeWithNativeControl
 
 public abstract partial class Geometry<T> : VisualNode<T>, IGeometry where T : Microsoft.Maui.Controls.Shapes.Geometry, new()
 {
-    protected Geometry()
-    {
-        GeometryStyles.Default?.Invoke(this);
-    }
-
-    protected Geometry(Action<T?> componentRefAction) : base(componentRefAction)
+    protected Geometry(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         GeometryStyles.Default?.Invoke(this);
     }
@@ -48,8 +43,6 @@ public abstract partial class Geometry<T> : VisualNode<T>, IGeometry where T : M
 
 public static partial class GeometryExtensions
 {
-/*
-    */
 }
 
 public static partial class GeometryStyles

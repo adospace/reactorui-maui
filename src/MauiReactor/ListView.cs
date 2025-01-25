@@ -27,12 +27,7 @@ public partial interface IListView : IGenericItemsView
 
 public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls.Cell>, IListView where T : Microsoft.Maui.Controls.ListView, new()
 {
-    public ListView()
-    {
-        ListViewStyles.Default?.Invoke(this);
-    }
-
-    public ListView(Action<T?> componentRefAction) : base(componentRefAction)
+    public ListView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ListViewStyles.Default?.Invoke(this);
     }
@@ -226,11 +221,7 @@ public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls
 
 public partial class ListView : ListView<Microsoft.Maui.Controls.ListView>
 {
-    public ListView()
-    {
-    }
-
-    public ListView(Action<Microsoft.Maui.Controls.ListView?> componentRefAction) : base(componentRefAction)
+    public ListView(Action<Microsoft.Maui.Controls.ListView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -245,32 +236,6 @@ public partial class ListView : ListView<Microsoft.Maui.Controls.ListView>
 
 public static partial class ListViewExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    */
     public static T IsPullToRefreshEnabled<T>(this T listView, bool isPullToRefreshEnabled)
         where T : IListView
     {

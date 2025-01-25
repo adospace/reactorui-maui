@@ -17,12 +17,7 @@ public partial interface IPicker : IView
 
 public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Controls.Picker, new()
 {
-    public Picker()
-    {
-        PickerStyles.Default?.Invoke(this);
-    }
-
-    public Picker(Action<T?> componentRefAction) : base(componentRefAction)
+    public Picker(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         PickerStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
 
 public partial class Picker : Picker<Microsoft.Maui.Controls.Picker>
 {
-    public Picker()
-    {
-    }
-
-    public Picker(Action<Microsoft.Maui.Controls.Picker?> componentRefAction) : base(componentRefAction)
+    public Picker(Action<Microsoft.Maui.Controls.Picker?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,38 +106,6 @@ public partial class Picker : Picker<Microsoft.Maui.Controls.Picker>
 
 public static partial class PickerExtensions
 {
-    /*
-    
-    
-    
-    
-    static object? SetCharacterSpacing(object picker, RxAnimation animation)
-        => ((IPicker)picker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    static object? SetFontSize(object picker, RxAnimation animation)
-        => ((IPicker)picker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    */
     public static T TextColor<T>(this T picker, Microsoft.Maui.Graphics.Color textColor)
         where T : IPicker
     {

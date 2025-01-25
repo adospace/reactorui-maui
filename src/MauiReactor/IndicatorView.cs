@@ -16,12 +16,7 @@ public partial interface IIndicatorView : ITemplatedView
 
 public partial class IndicatorView<T> : TemplatedView<T>, IIndicatorView where T : Microsoft.Maui.Controls.IndicatorView, new()
 {
-    public IndicatorView()
-    {
-        IndicatorViewStyles.Default?.Invoke(this);
-    }
-
-    public IndicatorView(Action<T?> componentRefAction) : base(componentRefAction)
+    public IndicatorView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         IndicatorViewStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class IndicatorView<T> : TemplatedView<T>, IIndicatorView where T
 
 public partial class IndicatorView : IndicatorView<Microsoft.Maui.Controls.IndicatorView>
 {
-    public IndicatorView()
-    {
-    }
-
-    public IndicatorView(Action<Microsoft.Maui.Controls.IndicatorView?> componentRefAction) : base(componentRefAction)
+    public IndicatorView(Action<Microsoft.Maui.Controls.IndicatorView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,28 +58,6 @@ public partial class IndicatorView : IndicatorView<Microsoft.Maui.Controls.Indic
 
 public static partial class IndicatorViewExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    static object? SetIndicatorSize(object indicatorView, RxAnimation animation)
-        => ((IIndicatorView)indicatorView).IndicatorSize = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    */
     public static T IndicatorsShape<T>(this T indicatorView, Microsoft.Maui.Controls.IndicatorShape indicatorsShape)
         where T : IIndicatorView
     {

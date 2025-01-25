@@ -17,12 +17,7 @@ public partial interface IEntry : IInputView
 
 public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Controls.Entry, new()
 {
-    public Entry()
-    {
-        EntryStyles.Default?.Invoke(this);
-    }
-
-    public Entry(Action<T?> componentRefAction) : base(componentRefAction)
+    public Entry(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         EntryStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Co
 
 public partial class Entry : Entry<Microsoft.Maui.Controls.Entry>
 {
-    public Entry()
-    {
-    }
-
-    public Entry(Action<Microsoft.Maui.Controls.Entry?> componentRefAction) : base(componentRefAction)
+    public Entry(Action<Microsoft.Maui.Controls.Entry?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,18 +106,6 @@ public partial class Entry : Entry<Microsoft.Maui.Controls.Entry>
 
 public static partial class EntryExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    */
     public static T ReturnType<T>(this T entry, Microsoft.Maui.ReturnType returnType)
         where T : IEntry
     {

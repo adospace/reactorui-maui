@@ -162,10 +162,15 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
             else
             {
                 System.Diagnostics.Debug.WriteLine($"Unable to hot-reload component {typeof(T).FullName}: type not found in received assembly");
+                var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<ReactorApplicationHost<T>>>();
+                logger?.LogError("Unable to hot reload component {Type}: type not found in received assembly", typeof(T).FullName);
             }
         }
         catch (Exception ex)
         {
+            var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<ReactorApplicationHost<T>>>();
+            logger?.LogError(ex, "Unable to hot reload component {Type}: type not found in received assembly", typeof(T).FullName);
+
             FireUnhandledExceptionEvent(
                 new InvalidOperationException($"Unable to hot reload component {typeof(T).FullName}: type not found in received assembly", ex));
 
@@ -242,6 +247,9 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
         }
         catch (Exception ex)
         {
+            var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<ReactorApplicationHost<T>>>();
+            logger?.LogError(ex, "Unable to layout component {Type}", typeof(T).FullName);
+
             FireUnhandledExceptionEvent(ex);
             System.Diagnostics.Debug.WriteLine(ex);
         }

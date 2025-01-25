@@ -16,12 +16,7 @@ public partial interface ILineGeometry : Shapes.IGeometry
 
 public partial class LineGeometry<T> : Shapes.Geometry<T>, ILineGeometry where T : Microsoft.Maui.Controls.Shapes.LineGeometry, new()
 {
-    public LineGeometry()
-    {
-        LineGeometryStyles.Default?.Invoke(this);
-    }
-
-    public LineGeometry(Action<T?> componentRefAction) : base(componentRefAction)
+    public LineGeometry(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         LineGeometryStyles.Default?.Invoke(this);
     }
@@ -48,31 +43,13 @@ public partial class LineGeometry<T> : Shapes.Geometry<T>, ILineGeometry where T
 
 public partial class LineGeometry : LineGeometry<Microsoft.Maui.Controls.Shapes.LineGeometry>
 {
-    public LineGeometry()
-    {
-    }
-
-    public LineGeometry(Action<Microsoft.Maui.Controls.Shapes.LineGeometry?> componentRefAction) : base(componentRefAction)
+    public LineGeometry(Action<Microsoft.Maui.Controls.Shapes.LineGeometry?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 }
 
 public static partial class LineGeometryExtensions
 {
-    /*
-    
-        
-    static object? SetStartPoint(object lineGeometry, RxAnimation animation)
-        => ((ILineGeometry)lineGeometry).StartPoint = ((RxPointAnimation)animation).CurrentValue();
-
-    
-    
-        
-    static object? SetEndPoint(object lineGeometry, RxAnimation animation)
-        => ((ILineGeometry)lineGeometry).EndPoint = ((RxPointAnimation)animation).CurrentValue();
-
-    
-    */
     public static T StartPoint<T>(this T lineGeometry, Microsoft.Maui.Graphics.Point startPoint, RxPointAnimation? customAnimation = null)
         where T : ILineGeometry
     {

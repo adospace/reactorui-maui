@@ -16,12 +16,7 @@ public partial interface IGestureElement : IElement
 
 public partial class GestureElement<T> : Element<T>, IGestureElement where T : Microsoft.Maui.Controls.GestureElement, new()
 {
-    public GestureElement()
-    {
-        GestureElementStyles.Default?.Invoke(this);
-    }
-
-    public GestureElement(Action<T?> componentRefAction) : base(componentRefAction)
+    public GestureElement(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         GestureElementStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class GestureElement<T> : Element<T>, IGestureElement where T : M
 
 public partial class GestureElement : GestureElement<Microsoft.Maui.Controls.GestureElement>
 {
-    public GestureElement()
-    {
-    }
-
-    public GestureElement(Action<Microsoft.Maui.Controls.GestureElement?> componentRefAction) : base(componentRefAction)
+    public GestureElement(Action<Microsoft.Maui.Controls.GestureElement?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class GestureElement : GestureElement<Microsoft.Maui.Controls.Ges
 
 public static partial class GestureElementExtensions
 {
-/*
-    */
 }
 
 public static partial class GestureElementStyles

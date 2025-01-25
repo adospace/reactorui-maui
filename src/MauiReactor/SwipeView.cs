@@ -21,12 +21,7 @@ public partial interface ISwipeView : IContentView
 
 public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microsoft.Maui.Controls.SwipeView, new()
 {
-    public SwipeView()
-    {
-        SwipeViewStyles.Default?.Invoke(this);
-    }
-
-    public SwipeView(Action<T?> componentRefAction) : base(componentRefAction)
+    public SwipeView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         SwipeViewStyles.Default?.Invoke(this);
     }
@@ -148,11 +143,7 @@ public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microso
 
 public partial class SwipeView : SwipeView<Microsoft.Maui.Controls.SwipeView>
 {
-    public SwipeView()
-    {
-    }
-
-    public SwipeView(Action<Microsoft.Maui.Controls.SwipeView?> componentRefAction) : base(componentRefAction)
+    public SwipeView(Action<Microsoft.Maui.Controls.SwipeView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -167,14 +158,6 @@ public partial class SwipeView : SwipeView<Microsoft.Maui.Controls.SwipeView>
 
 public static partial class SwipeViewExtensions
 {
-    /*
-    
-    
-    static object? SetThreshold(object swipeView, RxAnimation animation)
-        => ((ISwipeView)swipeView).Threshold = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    */
     public static T Threshold<T>(this T swipeView, double threshold, RxDoubleAnimation? customAnimation = null)
         where T : ISwipeView
     {

@@ -16,12 +16,7 @@ public partial interface IProgressBar : IView
 
 public partial class ProgressBar<T> : View<T>, IProgressBar where T : Microsoft.Maui.Controls.ProgressBar, new()
 {
-    public ProgressBar()
-    {
-        ProgressBarStyles.Default?.Invoke(this);
-    }
-
-    public ProgressBar(Action<T?> componentRefAction) : base(componentRefAction)
+    public ProgressBar(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ProgressBarStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class ProgressBar<T> : View<T>, IProgressBar where T : Microsoft.
 
 public partial class ProgressBar : ProgressBar<Microsoft.Maui.Controls.ProgressBar>
 {
-    public ProgressBar()
-    {
-    }
-
-    public ProgressBar(Action<Microsoft.Maui.Controls.ProgressBar?> componentRefAction) : base(componentRefAction)
+    public ProgressBar(Action<Microsoft.Maui.Controls.ProgressBar?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,16 +58,6 @@ public partial class ProgressBar : ProgressBar<Microsoft.Maui.Controls.ProgressB
 
 public static partial class ProgressBarExtensions
 {
-    /*
-    
-    
-    
-    
-    static object? SetProgress(object progressBar, RxAnimation animation)
-        => ((IProgressBar)progressBar).Progress = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    */
     public static T ProgressColor<T>(this T progressBar, Microsoft.Maui.Graphics.Color progressColor)
         where T : IProgressBar
     {

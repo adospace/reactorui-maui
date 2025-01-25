@@ -17,12 +17,7 @@ public partial interface ISelectableItemsView : IStructuredItemsView
 
 public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectableItemsView where T : Microsoft.Maui.Controls.SelectableItemsView, new()
 {
-    public SelectableItemsView()
-    {
-        SelectableItemsViewStyles.Default?.Invoke(this);
-    }
-
-    public SelectableItemsView(Action<T?> componentRefAction) : base(componentRefAction)
+    public SelectableItemsView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         SelectableItemsViewStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectabl
 
 public partial class SelectableItemsView : SelectableItemsView<Microsoft.Maui.Controls.SelectableItemsView>
 {
-    public SelectableItemsView()
-    {
-    }
-
-    public SelectableItemsView(Action<Microsoft.Maui.Controls.SelectableItemsView?> componentRefAction) : base(componentRefAction)
+    public SelectableItemsView(Action<Microsoft.Maui.Controls.SelectableItemsView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,12 +106,6 @@ public partial class SelectableItemsView : SelectableItemsView<Microsoft.Maui.Co
 
 public static partial class SelectableItemsViewExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T SelectionMode<T>(this T selectableItemsView, Microsoft.Maui.Controls.SelectionMode selectionMode)
         where T : ISelectableItemsView
     {

@@ -754,10 +754,7 @@ namespace MauiReactor
 
         private Action<T?>? _componentRefAction;
 
-        protected VisualNode()
-        { }
-
-        protected VisualNode(Action<T?> componentRefAction)
+        protected VisualNode(Action<T?>? componentRefAction = null)
         {
             _componentRefAction = componentRefAction;
         }

@@ -16,12 +16,7 @@ public partial interface ITabBar : IShellItem
 
 public partial class TabBar<T> : ShellItem<T>, ITabBar where T : Microsoft.Maui.Controls.TabBar, new()
 {
-    public TabBar()
-    {
-        TabBarStyles.Default?.Invoke(this);
-    }
-
-    public TabBar(Action<T?> componentRefAction) : base(componentRefAction)
+    public TabBar(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         TabBarStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class TabBar<T> : ShellItem<T>, ITabBar where T : Microsoft.Maui.
 
 public partial class TabBar : TabBar<Microsoft.Maui.Controls.TabBar>
 {
-    public TabBar()
-    {
-    }
-
-    public TabBar(Action<Microsoft.Maui.Controls.TabBar?> componentRefAction) : base(componentRefAction)
+    public TabBar(Action<Microsoft.Maui.Controls.TabBar?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class TabBar : TabBar<Microsoft.Maui.Controls.TabBar>
 
 public static partial class TabBarExtensions
 {
-/*
-    */
 }
 
 public static partial class TabBarStyles

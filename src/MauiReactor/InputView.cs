@@ -17,12 +17,7 @@ public partial interface IInputView : IView
 
 public abstract partial class InputView<T> : View<T>, IInputView where T : Microsoft.Maui.Controls.InputView, new()
 {
-    protected InputView()
-    {
-        InputViewStyles.Default?.Invoke(this);
-    }
-
-    protected InputView(Action<T?> componentRefAction) : base(componentRefAction)
+    protected InputView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         InputViewStyles.Default?.Invoke(this);
     }
@@ -96,50 +91,6 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
 
 public static partial class InputViewExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    static object? SetCharacterSpacing(object inputView, RxAnimation animation)
-        => ((IInputView)inputView).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    static object? SetFontSize(object inputView, RxAnimation animation)
-        => ((IInputView)inputView).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    */
     public static T Text<T>(this T inputView, string text)
         where T : IInputView
     {

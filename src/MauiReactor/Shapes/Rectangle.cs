@@ -16,12 +16,7 @@ public partial interface IRectangle : Shapes.IShape
 
 public sealed partial class Rectangle : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Rectangle>, IRectangle
 {
-    public Rectangle()
-    {
-        RectangleStyles.Default?.Invoke(this);
-    }
-
-    public Rectangle(Action<Microsoft.Maui.Controls.Shapes.Rectangle?> componentRefAction) : base(componentRefAction)
+    public Rectangle(Action<Microsoft.Maui.Controls.Shapes.Rectangle?>? componentRefAction = null) : base(componentRefAction)
     {
         RectangleStyles.Default?.Invoke(this);
     }
@@ -48,20 +43,6 @@ public sealed partial class Rectangle : Shapes.Shape<Microsoft.Maui.Controls.Sha
 
 public static partial class RectangleExtensions
 {
-    /*
-    
-    
-    static object? SetRadiusX(object rectangle, RxAnimation animation)
-        => ((IRectangle)rectangle).RadiusX = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    static object? SetRadiusY(object rectangle, RxAnimation animation)
-        => ((IRectangle)rectangle).RadiusY = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    */
     public static T RadiusX<T>(this T rectangle, double radiusX, RxDoubleAnimation? customAnimation = null)
         where T : IRectangle
     {

@@ -16,12 +16,7 @@ public partial interface ILinearItemsLayout : IItemsLayout
 
 public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItemsLayout where T : Microsoft.Maui.Controls.LinearItemsLayout, new()
 {
-    protected LinearItemsLayout()
-    {
-        LinearItemsLayoutStyles.Default?.Invoke(this);
-    }
-
-    protected LinearItemsLayout(Action<T?> componentRefAction) : base(componentRefAction)
+    protected LinearItemsLayout(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         LinearItemsLayoutStyles.Default?.Invoke(this);
     }
@@ -48,14 +43,6 @@ public abstract partial class LinearItemsLayout<T> : ItemsLayout<T>, ILinearItem
 
 public static partial class LinearItemsLayoutExtensions
 {
-    /*
-    
-    
-    static object? SetItemSpacing(object linearItemsLayout, RxAnimation animation)
-        => ((ILinearItemsLayout)linearItemsLayout).ItemSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    */
     public static T ItemSpacing<T>(this T linearItemsLayout, double itemSpacing, RxDoubleAnimation? customAnimation = null)
         where T : ILinearItemsLayout
     {

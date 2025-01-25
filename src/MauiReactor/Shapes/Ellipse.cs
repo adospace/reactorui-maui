@@ -16,12 +16,7 @@ public partial interface IEllipse : Shapes.IShape
 
 public sealed partial class Ellipse : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Ellipse>, IEllipse
 {
-    public Ellipse()
-    {
-        EllipseStyles.Default?.Invoke(this);
-    }
-
-    public Ellipse(Action<Microsoft.Maui.Controls.Shapes.Ellipse?> componentRefAction) : base(componentRefAction)
+    public Ellipse(Action<Microsoft.Maui.Controls.Shapes.Ellipse?>? componentRefAction = null) : base(componentRefAction)
     {
         EllipseStyles.Default?.Invoke(this);
     }
@@ -48,8 +43,6 @@ public sealed partial class Ellipse : Shapes.Shape<Microsoft.Maui.Controls.Shape
 
 public static partial class EllipseExtensions
 {
-/*
-    */
 }
 
 public static partial class EllipseStyles

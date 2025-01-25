@@ -16,12 +16,7 @@ public partial interface ITitleBar : ITemplatedView
 
 public partial class TitleBar<T> : TemplatedView<T>, ITitleBar where T : Microsoft.Maui.Controls.TitleBar, new()
 {
-    public TitleBar()
-    {
-        TitleBarStyles.Default?.Invoke(this);
-    }
-
-    public TitleBar(Action<T?> componentRefAction) : base(componentRefAction)
+    public TitleBar(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         TitleBarStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class TitleBar<T> : TemplatedView<T>, ITitleBar where T : Microso
 
 public partial class TitleBar : TitleBar<Microsoft.Maui.Controls.TitleBar>
 {
-    public TitleBar()
-    {
-    }
-
-    public TitleBar(Action<Microsoft.Maui.Controls.TitleBar?> componentRefAction) : base(componentRefAction)
+    public TitleBar(Action<Microsoft.Maui.Controls.TitleBar?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,16 +58,6 @@ public partial class TitleBar : TitleBar<Microsoft.Maui.Controls.TitleBar>
 
 public static partial class TitleBarExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    */
     public static T Icon<T>(this T titleBar, Microsoft.Maui.Controls.ImageSource icon)
         where T : ITitleBar
     {

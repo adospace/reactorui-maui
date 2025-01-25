@@ -16,12 +16,7 @@ public partial interface IItemsLayout : IVisualNodeWithNativeControl
 
 public abstract partial class ItemsLayout<T> : VisualNode<T>, IItemsLayout where T : Microsoft.Maui.Controls.ItemsLayout, new()
 {
-    protected ItemsLayout()
-    {
-        ItemsLayoutStyles.Default?.Invoke(this);
-    }
-
-    protected ItemsLayout(Action<T?> componentRefAction) : base(componentRefAction)
+    protected ItemsLayout(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ItemsLayoutStyles.Default?.Invoke(this);
     }
@@ -48,12 +43,6 @@ public abstract partial class ItemsLayout<T> : VisualNode<T>, IItemsLayout where
 
 public static partial class ItemsLayoutExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T SnapPointsAlignment<T>(this T itemsLayout, Microsoft.Maui.Controls.SnapPointsAlignment snapPointsAlignment)
         where T : IItemsLayout
     {

@@ -27,12 +27,7 @@ public partial interface IPage : IVisualElement
 
 public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.Controls.Page, new()
 {
-    public Page()
-    {
-        PageStyles.Default?.Invoke(this);
-    }
-
-    public Page(Action<T?> componentRefAction) : base(componentRefAction)
+    public Page(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         PageStyles.Default?.Invoke(this);
     }
@@ -226,11 +221,7 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
 
 public partial class Page : Page<Microsoft.Maui.Controls.Page>
 {
-    public Page()
-    {
-    }
-
-    public Page(Action<Microsoft.Maui.Controls.Page?> componentRefAction) : base(componentRefAction)
+    public Page(Action<Microsoft.Maui.Controls.Page?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -245,22 +236,6 @@ public partial class Page : Page<Microsoft.Maui.Controls.Page>
 
 public static partial class PageExtensions
 {
-    /*
-    
-    
-    
-    
-    
-            
-    static object? SetPadding(object page, RxAnimation animation)
-        => ((IPage)page).Padding = ((RxThicknessAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    */
     public static T BackgroundImageSource<T>(this T page, Microsoft.Maui.Controls.ImageSource backgroundImageSource)
         where T : IPage
     {

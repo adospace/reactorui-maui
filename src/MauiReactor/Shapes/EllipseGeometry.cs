@@ -16,12 +16,7 @@ public partial interface IEllipseGeometry : Shapes.IGeometry
 
 public partial class EllipseGeometry<T> : Shapes.Geometry<T>, IEllipseGeometry where T : Microsoft.Maui.Controls.Shapes.EllipseGeometry, new()
 {
-    public EllipseGeometry()
-    {
-        EllipseGeometryStyles.Default?.Invoke(this);
-    }
-
-    public EllipseGeometry(Action<T?> componentRefAction) : base(componentRefAction)
+    public EllipseGeometry(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         EllipseGeometryStyles.Default?.Invoke(this);
     }
@@ -48,37 +43,13 @@ public partial class EllipseGeometry<T> : Shapes.Geometry<T>, IEllipseGeometry w
 
 public partial class EllipseGeometry : EllipseGeometry<Microsoft.Maui.Controls.Shapes.EllipseGeometry>
 {
-    public EllipseGeometry()
-    {
-    }
-
-    public EllipseGeometry(Action<Microsoft.Maui.Controls.Shapes.EllipseGeometry?> componentRefAction) : base(componentRefAction)
+    public EllipseGeometry(Action<Microsoft.Maui.Controls.Shapes.EllipseGeometry?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 }
 
 public static partial class EllipseGeometryExtensions
 {
-    /*
-    
-        
-    static object? SetCenter(object ellipseGeometry, RxAnimation animation)
-        => ((IEllipseGeometry)ellipseGeometry).Center = ((RxPointAnimation)animation).CurrentValue();
-
-    
-    
-    
-    static object? SetRadiusX(object ellipseGeometry, RxAnimation animation)
-        => ((IEllipseGeometry)ellipseGeometry).RadiusX = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    static object? SetRadiusY(object ellipseGeometry, RxAnimation animation)
-        => ((IEllipseGeometry)ellipseGeometry).RadiusY = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    */
     public static T Center<T>(this T ellipseGeometry, Microsoft.Maui.Graphics.Point center, RxPointAnimation? customAnimation = null)
         where T : IEllipseGeometry
     {

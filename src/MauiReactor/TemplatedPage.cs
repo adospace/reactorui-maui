@@ -16,12 +16,7 @@ public partial interface ITemplatedPage : IPage
 
 public partial class TemplatedPage<T> : Page<T>, ITemplatedPage where T : Microsoft.Maui.Controls.TemplatedPage, new()
 {
-    public TemplatedPage()
-    {
-        TemplatedPageStyles.Default?.Invoke(this);
-    }
-
-    public TemplatedPage(Action<T?> componentRefAction) : base(componentRefAction)
+    public TemplatedPage(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         TemplatedPageStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class TemplatedPage<T> : Page<T>, ITemplatedPage where T : Micros
 
 public partial class TemplatedPage : TemplatedPage<Microsoft.Maui.Controls.TemplatedPage>
 {
-    public TemplatedPage()
-    {
-    }
-
-    public TemplatedPage(Action<Microsoft.Maui.Controls.TemplatedPage?> componentRefAction) : base(componentRefAction)
+    public TemplatedPage(Action<Microsoft.Maui.Controls.TemplatedPage?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class TemplatedPage : TemplatedPage<Microsoft.Maui.Controls.Templ
 
 public static partial class TemplatedPageExtensions
 {
-/*
-    */
 }
 
 public static partial class TemplatedPageStyles

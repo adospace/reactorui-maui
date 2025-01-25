@@ -19,12 +19,7 @@ public partial interface IBaseShellItem : INavigableElement
 
 public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem where T : Microsoft.Maui.Controls.BaseShellItem, new()
 {
-    public BaseShellItem()
-    {
-        BaseShellItemStyles.Default?.Invoke(this);
-    }
-
-    public BaseShellItem(Action<T?> componentRefAction) : base(componentRefAction)
+    public BaseShellItem(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         BaseShellItemStyles.Default?.Invoke(this);
     }
@@ -122,11 +117,7 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
 
 public partial class BaseShellItem : BaseShellItem<Microsoft.Maui.Controls.BaseShellItem>
 {
-    public BaseShellItem()
-    {
-    }
-
-    public BaseShellItem(Action<Microsoft.Maui.Controls.BaseShellItem?> componentRefAction) : base(componentRefAction)
+    public BaseShellItem(Action<Microsoft.Maui.Controls.BaseShellItem?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -141,20 +132,6 @@ public partial class BaseShellItem : BaseShellItem<Microsoft.Maui.Controls.BaseS
 
 public static partial class BaseShellItemExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    */
     public static T FlyoutIcon<T>(this T baseShellItem, Microsoft.Maui.Controls.ImageSource flyoutIcon)
         where T : IBaseShellItem
     {

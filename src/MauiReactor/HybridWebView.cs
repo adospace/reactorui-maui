@@ -17,12 +17,7 @@ public partial interface IHybridWebView : IView
 
 public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Microsoft.Maui.Controls.HybridWebView, new()
 {
-    public HybridWebView()
-    {
-        HybridWebViewStyles.Default?.Invoke(this);
-    }
-
-    public HybridWebView(Action<T?> componentRefAction) : base(componentRefAction)
+    public HybridWebView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         HybridWebViewStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Micros
 
 public partial class HybridWebView : HybridWebView<Microsoft.Maui.Controls.HybridWebView>
 {
-    public HybridWebView()
-    {
-    }
-
-    public HybridWebView(Action<Microsoft.Maui.Controls.HybridWebView?> componentRefAction) : base(componentRefAction)
+    public HybridWebView(Action<Microsoft.Maui.Controls.HybridWebView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,12 +106,6 @@ public partial class HybridWebView : HybridWebView<Microsoft.Maui.Controls.Hybri
 
 public static partial class HybridWebViewExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T DefaultFile<T>(this T hybridWebView, string defaultFile)
         where T : IHybridWebView
     {

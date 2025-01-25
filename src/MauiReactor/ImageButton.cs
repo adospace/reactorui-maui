@@ -21,12 +21,7 @@ public partial interface IImageButton : IView
 
 public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.Maui.Controls.ImageButton, new()
 {
-    public ImageButton()
-    {
-        ImageButtonStyles.Default?.Invoke(this);
-    }
-
-    public ImageButton(Action<T?> componentRefAction) : base(componentRefAction)
+    public ImageButton(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ImageButtonStyles.Default?.Invoke(this);
     }
@@ -148,11 +143,7 @@ public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.
 
 public partial class ImageButton : ImageButton<Microsoft.Maui.Controls.ImageButton>
 {
-    public ImageButton()
-    {
-    }
-
-    public ImageButton(Action<Microsoft.Maui.Controls.ImageButton?> componentRefAction) : base(componentRefAction)
+    public ImageButton(Action<Microsoft.Maui.Controls.ImageButton?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -167,30 +158,6 @@ public partial class ImageButton : ImageButton<Microsoft.Maui.Controls.ImageButt
 
 public static partial class ImageButtonExtensions
 {
-    /*
-    
-    
-    
-    
-    static object? SetBorderWidth(object imageButton, RxAnimation animation)
-        => ((IImageButton)imageButton).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-            
-    static object? SetPadding(object imageButton, RxAnimation animation)
-        => ((IImageButton)imageButton).Padding = ((RxThicknessAnimation)animation).CurrentValue();
-
-    
-    */
     public static T CornerRadius<T>(this T imageButton, int cornerRadius)
         where T : IImageButton
     {

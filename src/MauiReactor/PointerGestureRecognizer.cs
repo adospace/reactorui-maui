@@ -25,12 +25,7 @@ public partial interface IPointerGestureRecognizer : IGestureRecognizer
 
 public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.PointerGestureRecognizer>, IPointerGestureRecognizer
 {
-    public PointerGestureRecognizer()
-    {
-        PointerGestureRecognizerStyles.Default?.Invoke(this);
-    }
-
-    public PointerGestureRecognizer(Action<Microsoft.Maui.Controls.PointerGestureRecognizer?> componentRefAction) : base(componentRefAction)
+    public PointerGestureRecognizer(Action<Microsoft.Maui.Controls.PointerGestureRecognizer?>? componentRefAction = null) : base(componentRefAction)
     {
         PointerGestureRecognizerStyles.Default?.Invoke(this);
     }
@@ -200,8 +195,6 @@ public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microso
 
 public static partial class PointerGestureRecognizerExtensions
 {
-    /*
-    */
     public static T OnPointerEntered<T>(this T pointerGestureRecognizer, Action? pointerEnteredAction)
         where T : IPointerGestureRecognizer
     {

@@ -20,12 +20,7 @@ public partial interface ILayout : IView
 
 public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.Maui.Controls.Compatibility.Layout, new()
 {
-    protected Layout()
-    {
-        LayoutStyles.Default?.Invoke(this);
-    }
-
-    protected Layout(Action<T?> componentRefAction) : base(componentRefAction)
+    protected Layout(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         LayoutStyles.Default?.Invoke(this);
     }
@@ -99,18 +94,6 @@ public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.M
 
 public static partial class LayoutExtensions
 {
-    /*
-    
-    
-    
-    
-    
-            
-    static object? SetPadding(object layout, RxAnimation animation)
-        => ((ILayout)layout).Padding = ((RxThicknessAnimation)animation).CurrentValue();
-
-    
-    */
     public static T IsClippedToBounds<T>(this T layout, bool isClippedToBounds)
         where T : ILayout
     {

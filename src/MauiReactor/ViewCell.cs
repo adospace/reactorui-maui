@@ -16,12 +16,7 @@ public partial interface IViewCell : ICell
 
 public partial class ViewCell<T> : Cell<T>, IViewCell where T : Microsoft.Maui.Controls.ViewCell, new()
 {
-    public ViewCell()
-    {
-        ViewCellStyles.Default?.Invoke(this);
-    }
-
-    public ViewCell(Action<T?> componentRefAction) : base(componentRefAction)
+    public ViewCell(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ViewCellStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class ViewCell<T> : Cell<T>, IViewCell where T : Microsoft.Maui.C
 
 public partial class ViewCell : ViewCell<Microsoft.Maui.Controls.ViewCell>
 {
-    public ViewCell()
-    {
-    }
-
-    public ViewCell(Action<Microsoft.Maui.Controls.ViewCell?> componentRefAction) : base(componentRefAction)
+    public ViewCell(Action<Microsoft.Maui.Controls.ViewCell?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class ViewCell : ViewCell<Microsoft.Maui.Controls.ViewCell>
 
 public static partial class ViewCellExtensions
 {
-/*
-    */
 }
 
 public static partial class ViewCellStyles

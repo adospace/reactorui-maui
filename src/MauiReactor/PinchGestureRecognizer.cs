@@ -17,12 +17,7 @@ public partial interface IPinchGestureRecognizer : IGestureRecognizer
 
 public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.PinchGestureRecognizer>, IPinchGestureRecognizer
 {
-    public PinchGestureRecognizer()
-    {
-        PinchGestureRecognizerStyles.Default?.Invoke(this);
-    }
-
-    public PinchGestureRecognizer(Action<Microsoft.Maui.Controls.PinchGestureRecognizer?> componentRefAction) : base(componentRefAction)
+    public PinchGestureRecognizer(Action<Microsoft.Maui.Controls.PinchGestureRecognizer?>? componentRefAction = null) : base(componentRefAction)
     {
         PinchGestureRecognizerStyles.Default?.Invoke(this);
     }
@@ -96,8 +91,6 @@ public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft
 
 public static partial class PinchGestureRecognizerExtensions
 {
-    /*
-    */
     public static T OnPinchUpdated<T>(this T pinchGestureRecognizer, Action? pinchUpdatedAction)
         where T : IPinchGestureRecognizer
     {

@@ -21,12 +21,7 @@ public partial interface IWebView : IView
 
 public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Controls.WebView, new()
 {
-    public WebView()
-    {
-        WebViewStyles.Default?.Invoke(this);
-    }
-
-    public WebView(Action<T?> componentRefAction) : base(componentRefAction)
+    public WebView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         WebViewStyles.Default?.Invoke(this);
     }
@@ -148,11 +143,7 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
 
 public partial class WebView : WebView<Microsoft.Maui.Controls.WebView>
 {
-    public WebView()
-    {
-    }
-
-    public WebView(Action<Microsoft.Maui.Controls.WebView?> componentRefAction) : base(componentRefAction)
+    public WebView(Action<Microsoft.Maui.Controls.WebView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -167,14 +158,6 @@ public partial class WebView : WebView<Microsoft.Maui.Controls.WebView>
 
 public static partial class WebViewExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    */
     public static T Source<T>(this T webView, Microsoft.Maui.Controls.WebViewSource source)
         where T : IWebView
     {

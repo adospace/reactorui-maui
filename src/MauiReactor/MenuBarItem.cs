@@ -16,12 +16,7 @@ public partial interface IMenuBarItem : IBaseMenuItem
 
 public partial class MenuBarItem<T> : BaseMenuItem<T>, IMenuBarItem where T : Microsoft.Maui.Controls.MenuBarItem, new()
 {
-    public MenuBarItem()
-    {
-        MenuBarItemStyles.Default?.Invoke(this);
-    }
-
-    public MenuBarItem(Action<T?> componentRefAction) : base(componentRefAction)
+    public MenuBarItem(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         MenuBarItemStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class MenuBarItem<T> : BaseMenuItem<T>, IMenuBarItem where T : Mi
 
 public partial class MenuBarItem : MenuBarItem<Microsoft.Maui.Controls.MenuBarItem>
 {
-    public MenuBarItem()
-    {
-    }
-
-    public MenuBarItem(Action<Microsoft.Maui.Controls.MenuBarItem?> componentRefAction) : base(componentRefAction)
+    public MenuBarItem(Action<Microsoft.Maui.Controls.MenuBarItem?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,12 +58,6 @@ public partial class MenuBarItem : MenuBarItem<Microsoft.Maui.Controls.MenuBarIt
 
 public static partial class MenuBarItemExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T Text<T>(this T menuBarItem, string text)
         where T : IMenuBarItem
     {

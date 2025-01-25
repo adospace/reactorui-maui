@@ -17,12 +17,7 @@ public partial interface IFrame : IContentView
 
 public partial class Frame<T> : ContentView<T>, IFrame where T : Microsoft.Maui.Controls.Frame, new()
 {
-    public Frame()
-    {
-        FrameStyles.Default?.Invoke(this);
-    }
-
-    public Frame(Action<T?> componentRefAction) : base(componentRefAction)
+    public Frame(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         FrameStyles.Default?.Invoke(this);
     }
@@ -49,11 +44,7 @@ public partial class Frame<T> : ContentView<T>, IFrame where T : Microsoft.Maui.
 
 public partial class Frame : Frame<Microsoft.Maui.Controls.Frame>
 {
-    public Frame()
-    {
-    }
-
-    public Frame(Action<Microsoft.Maui.Controls.Frame?> componentRefAction) : base(componentRefAction)
+    public Frame(Action<Microsoft.Maui.Controls.Frame?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -68,14 +59,6 @@ public partial class Frame : Frame<Microsoft.Maui.Controls.Frame>
 
 public static partial class FrameExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    */
     public static T BorderColor<T>(this T frame, Microsoft.Maui.Graphics.Color borderColor)
         where T : IFrame
     {

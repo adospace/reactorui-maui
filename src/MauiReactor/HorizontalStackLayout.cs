@@ -16,12 +16,7 @@ public partial interface IHorizontalStackLayout : IStackBase
 
 public partial class HorizontalStackLayout<T> : StackBase<T>, IHorizontalStackLayout where T : Microsoft.Maui.Controls.HorizontalStackLayout, new()
 {
-    public HorizontalStackLayout()
-    {
-        HorizontalStackLayoutStyles.Default?.Invoke(this);
-    }
-
-    public HorizontalStackLayout(Action<T?> componentRefAction) : base(componentRefAction)
+    public HorizontalStackLayout(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         HorizontalStackLayoutStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class HorizontalStackLayout<T> : StackBase<T>, IHorizontalStackLa
 
 public partial class HorizontalStackLayout : HorizontalStackLayout<Microsoft.Maui.Controls.HorizontalStackLayout>
 {
-    public HorizontalStackLayout()
-    {
-    }
-
-    public HorizontalStackLayout(Action<Microsoft.Maui.Controls.HorizontalStackLayout?> componentRefAction) : base(componentRefAction)
+    public HorizontalStackLayout(Action<Microsoft.Maui.Controls.HorizontalStackLayout?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class HorizontalStackLayout : HorizontalStackLayout<Microsoft.Mau
 
 public static partial class HorizontalStackLayoutExtensions
 {
-/*
-    */
 }
 
 public static partial class HorizontalStackLayoutStyles

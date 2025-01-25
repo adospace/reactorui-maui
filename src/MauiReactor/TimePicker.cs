@@ -17,12 +17,7 @@ public partial interface ITimePicker : IView
 
 public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Maui.Controls.TimePicker, new()
 {
-    public TimePicker()
-    {
-        TimePickerStyles.Default?.Invoke(this);
-    }
-
-    public TimePicker(Action<T?> componentRefAction) : base(componentRefAction)
+    public TimePicker(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         TimePickerStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
 
 public partial class TimePicker : TimePicker<Microsoft.Maui.Controls.TimePicker>
 {
-    public TimePicker()
-    {
-    }
-
-    public TimePicker(Action<Microsoft.Maui.Controls.TimePicker?> componentRefAction) : base(componentRefAction)
+    public TimePicker(Action<Microsoft.Maui.Controls.TimePicker?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,32 +106,6 @@ public partial class TimePicker : TimePicker<Microsoft.Maui.Controls.TimePicker>
 
 public static partial class TimePickerExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    static object? SetCharacterSpacing(object timePicker, RxAnimation animation)
-        => ((ITimePicker)timePicker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    static object? SetFontSize(object timePicker, RxAnimation animation)
-        => ((ITimePicker)timePicker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    */
     public static T Format<T>(this T timePicker, string format)
         where T : ITimePicker
     {

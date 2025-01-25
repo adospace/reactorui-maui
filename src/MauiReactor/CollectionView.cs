@@ -16,12 +16,7 @@ public partial interface ICollectionView : IReorderableItemsView
 
 public partial class CollectionView<T> : ReorderableItemsView<T>, ICollectionView where T : Microsoft.Maui.Controls.CollectionView, new()
 {
-    public CollectionView()
-    {
-        CollectionViewStyles.Default?.Invoke(this);
-    }
-
-    public CollectionView(Action<T?> componentRefAction) : base(componentRefAction)
+    public CollectionView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         CollectionViewStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class CollectionView<T> : ReorderableItemsView<T>, ICollectionVie
 
 public partial class CollectionView : CollectionView<Microsoft.Maui.Controls.CollectionView>
 {
-    public CollectionView()
-    {
-    }
-
-    public CollectionView(Action<Microsoft.Maui.Controls.CollectionView?> componentRefAction) : base(componentRefAction)
+    public CollectionView(Action<Microsoft.Maui.Controls.CollectionView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class CollectionView : CollectionView<Microsoft.Maui.Controls.Col
 
 public static partial class CollectionViewExtensions
 {
-/*
-    */
 }
 
 public static partial class CollectionViewStyles

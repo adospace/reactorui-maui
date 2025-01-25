@@ -17,11 +17,7 @@ public partial interface IGenericItemsView : IView
 public abstract partial class ItemsView<T, TChild> : View<T>, IGenericItemsView where T : Microsoft.Maui.Controls.ItemsView<TChild>, new()
     where TChild : Microsoft.Maui.Controls.BindableObject
 {
-    public ItemsView()
-    {
-    }
-
-    public ItemsView(Action<T?> componentRefAction) : base(componentRefAction)
+    public ItemsView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -46,6 +42,4 @@ public abstract partial class ItemsView<T, TChild> : View<T>, IGenericItemsView 
 
 public static partial class ItemsViewExtensions
 {
-/*
-    */
 }

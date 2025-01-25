@@ -16,12 +16,7 @@ public partial interface IBoxView : IView
 
 public partial class BoxView<T> : View<T>, IBoxView where T : Microsoft.Maui.Controls.BoxView, new()
 {
-    public BoxView()
-    {
-        BoxViewStyles.Default?.Invoke(this);
-    }
-
-    public BoxView(Action<T?> componentRefAction) : base(componentRefAction)
+    public BoxView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         BoxViewStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class BoxView<T> : View<T>, IBoxView where T : Microsoft.Maui.Con
 
 public partial class BoxView : BoxView<Microsoft.Maui.Controls.BoxView>
 {
-    public BoxView()
-    {
-    }
-
-    public BoxView(Action<Microsoft.Maui.Controls.BoxView?> componentRefAction) : base(componentRefAction)
+    public BoxView(Action<Microsoft.Maui.Controls.BoxView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,16 +58,6 @@ public partial class BoxView : BoxView<Microsoft.Maui.Controls.BoxView>
 
 public static partial class BoxViewExtensions
 {
-    /*
-    
-    
-    
-            
-    static object? SetCornerRadius(object boxView, RxAnimation animation)
-        => ((IBoxView)boxView).CornerRadius = ((RxCornerRadiusAnimation)animation).CurrentValue();
-
-    
-    */
     public static T Color<T>(this T boxView, Microsoft.Maui.Graphics.Color color)
         where T : IBoxView
     {

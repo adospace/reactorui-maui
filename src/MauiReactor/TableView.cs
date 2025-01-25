@@ -16,12 +16,7 @@ public partial interface ITableView : IView
 
 public partial class TableView<T> : View<T>, ITableView where T : Microsoft.Maui.Controls.TableView, new()
 {
-    public TableView()
-    {
-        TableViewStyles.Default?.Invoke(this);
-    }
-
-    public TableView(Action<T?> componentRefAction) : base(componentRefAction)
+    public TableView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         TableViewStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class TableView<T> : View<T>, ITableView where T : Microsoft.Maui
 
 public partial class TableView : TableView<Microsoft.Maui.Controls.TableView>
 {
-    public TableView()
-    {
-    }
-
-    public TableView(Action<Microsoft.Maui.Controls.TableView?> componentRefAction) : base(componentRefAction)
+    public TableView(Action<Microsoft.Maui.Controls.TableView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,12 +58,6 @@ public partial class TableView : TableView<Microsoft.Maui.Controls.TableView>
 
 public static partial class TableViewExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T RowHeight<T>(this T tableView, int rowHeight)
         where T : ITableView
     {

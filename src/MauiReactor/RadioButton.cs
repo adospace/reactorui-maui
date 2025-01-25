@@ -17,12 +17,7 @@ public partial interface IRadioButton : ITemplatedView
 
 public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : Microsoft.Maui.Controls.RadioButton, new()
 {
-    public RadioButton()
-    {
-        RadioButtonStyles.Default?.Invoke(this);
-    }
-
-    public RadioButton(Action<T?> componentRefAction) : base(componentRefAction)
+    public RadioButton(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         RadioButtonStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : M
 
 public partial class RadioButton : RadioButton<Microsoft.Maui.Controls.RadioButton>
 {
-    public RadioButton()
-    {
-    }
-
-    public RadioButton(Action<Microsoft.Maui.Controls.RadioButton?> componentRefAction) : base(componentRefAction)
+    public RadioButton(Action<Microsoft.Maui.Controls.RadioButton?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,46 +106,6 @@ public partial class RadioButton : RadioButton<Microsoft.Maui.Controls.RadioButt
 
 public static partial class RadioButtonExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    static object? SetCharacterSpacing(object radioButton, RxAnimation animation)
-        => ((IRadioButton)radioButton).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    static object? SetFontSize(object radioButton, RxAnimation animation)
-        => ((IRadioButton)radioButton).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    static object? SetBorderWidth(object radioButton, RxAnimation animation)
-        => ((IRadioButton)radioButton).BorderWidth = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    */
     public static T Value<T>(this T radioButton, object? value)
         where T : IRadioButton
     {

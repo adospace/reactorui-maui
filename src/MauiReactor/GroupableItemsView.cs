@@ -16,12 +16,7 @@ public partial interface IGroupableItemsView : ISelectableItemsView
 
 public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableItemsView where T : Microsoft.Maui.Controls.GroupableItemsView, new()
 {
-    public GroupableItemsView()
-    {
-        GroupableItemsViewStyles.Default?.Invoke(this);
-    }
-
-    public GroupableItemsView(Action<T?> componentRefAction) : base(componentRefAction)
+    public GroupableItemsView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         GroupableItemsViewStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class GroupableItemsView<T> : SelectableItemsView<T>, IGroupableI
 
 public partial class GroupableItemsView : GroupableItemsView<Microsoft.Maui.Controls.GroupableItemsView>
 {
-    public GroupableItemsView()
-    {
-    }
-
-    public GroupableItemsView(Action<Microsoft.Maui.Controls.GroupableItemsView?> componentRefAction) : base(componentRefAction)
+    public GroupableItemsView(Action<Microsoft.Maui.Controls.GroupableItemsView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,10 +58,6 @@ public partial class GroupableItemsView : GroupableItemsView<Microsoft.Maui.Cont
 
 public static partial class GroupableItemsViewExtensions
 {
-    /*
-    
-    
-    */
     public static T IsGrouped<T>(this T groupableItemsView, bool isGrouped)
         where T : IGroupableItemsView
     {

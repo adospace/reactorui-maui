@@ -16,12 +16,7 @@ public partial interface IContentPage : ITemplatedPage
 
 public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : Microsoft.Maui.Controls.ContentPage, new()
 {
-    public ContentPage()
-    {
-        ContentPageStyles.Default?.Invoke(this);
-    }
-
-    public ContentPage(Action<T?> componentRefAction) : base(componentRefAction)
+    public ContentPage(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ContentPageStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : M
 
 public partial class ContentPage : ContentPage<Microsoft.Maui.Controls.ContentPage>
 {
-    public ContentPage()
-    {
-    }
-
-    public ContentPage(Action<Microsoft.Maui.Controls.ContentPage?> componentRefAction) : base(componentRefAction)
+    public ContentPage(Action<Microsoft.Maui.Controls.ContentPage?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,10 +58,6 @@ public partial class ContentPage : ContentPage<Microsoft.Maui.Controls.ContentPa
 
 public static partial class ContentPageExtensions
 {
-    /*
-    
-    
-    */
     public static T HideSoftInputOnTapped<T>(this T contentPage, bool hideSoftInputOnTapped)
         where T : IContentPage
     {

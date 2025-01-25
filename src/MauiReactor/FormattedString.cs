@@ -16,12 +16,7 @@ public partial interface IFormattedString : IElement
 
 public partial class FormattedString<T> : Element<T>, IFormattedString where T : Microsoft.Maui.Controls.FormattedString, new()
 {
-    public FormattedString()
-    {
-        FormattedStringStyles.Default?.Invoke(this);
-    }
-
-    public FormattedString(Action<T?> componentRefAction) : base(componentRefAction)
+    public FormattedString(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         FormattedStringStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class FormattedString<T> : Element<T>, IFormattedString where T :
 
 public partial class FormattedString : FormattedString<Microsoft.Maui.Controls.FormattedString>
 {
-    public FormattedString()
-    {
-    }
-
-    public FormattedString(Action<Microsoft.Maui.Controls.FormattedString?> componentRefAction) : base(componentRefAction)
+    public FormattedString(Action<Microsoft.Maui.Controls.FormattedString?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class FormattedString : FormattedString<Microsoft.Maui.Controls.F
 
 public static partial class FormattedStringExtensions
 {
-/*
-    */
 }
 
 public static partial class FormattedStringStyles

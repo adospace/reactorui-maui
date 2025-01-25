@@ -16,12 +16,7 @@ public partial interface IGridItemsLayout : IItemsLayout
 
 public abstract partial class GridItemsLayout<T> : ItemsLayout<T>, IGridItemsLayout where T : Microsoft.Maui.Controls.GridItemsLayout, new()
 {
-    protected GridItemsLayout()
-    {
-        GridItemsLayoutStyles.Default?.Invoke(this);
-    }
-
-    protected GridItemsLayout(Action<T?> componentRefAction) : base(componentRefAction)
+    protected GridItemsLayout(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         GridItemsLayoutStyles.Default?.Invoke(this);
     }
@@ -48,22 +43,6 @@ public abstract partial class GridItemsLayout<T> : ItemsLayout<T>, IGridItemsLay
 
 public static partial class GridItemsLayoutExtensions
 {
-    /*
-    
-    
-    
-    
-    static object? SetVerticalItemSpacing(object gridItemsLayout, RxAnimation animation)
-        => ((IGridItemsLayout)gridItemsLayout).VerticalItemSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    static object? SetHorizontalItemSpacing(object gridItemsLayout, RxAnimation animation)
-        => ((IGridItemsLayout)gridItemsLayout).HorizontalItemSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    */
     public static T Span<T>(this T gridItemsLayout, int span)
         where T : IGridItemsLayout
     {

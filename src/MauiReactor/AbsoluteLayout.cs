@@ -16,12 +16,7 @@ public partial interface IAbsoluteLayout : ILayout
 
 public partial class AbsoluteLayout<T> : Layout<T>, IAbsoluteLayout where T : Microsoft.Maui.Controls.AbsoluteLayout, new()
 {
-    public AbsoluteLayout()
-    {
-        AbsoluteLayoutStyles.Default?.Invoke(this);
-    }
-
-    public AbsoluteLayout(Action<T?> componentRefAction) : base(componentRefAction)
+    public AbsoluteLayout(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         AbsoluteLayoutStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class AbsoluteLayout<T> : Layout<T>, IAbsoluteLayout where T : Mi
 
 public partial class AbsoluteLayout : AbsoluteLayout<Microsoft.Maui.Controls.AbsoluteLayout>
 {
-    public AbsoluteLayout()
-    {
-    }
-
-    public AbsoluteLayout(Action<Microsoft.Maui.Controls.AbsoluteLayout?> componentRefAction) : base(componentRefAction)
+    public AbsoluteLayout(Action<Microsoft.Maui.Controls.AbsoluteLayout?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class AbsoluteLayout : AbsoluteLayout<Microsoft.Maui.Controls.Abs
 
 public static partial class AbsoluteLayoutExtensions
 {
-/*
-    */
 }
 
 public static partial class AbsoluteLayoutStyles

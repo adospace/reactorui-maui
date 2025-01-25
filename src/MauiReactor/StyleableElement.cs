@@ -16,12 +16,7 @@ public partial interface IStyleableElement : IElement
 
 public abstract partial class StyleableElement<T> : Element<T>, IStyleableElement where T : Microsoft.Maui.Controls.StyleableElement, new()
 {
-    protected StyleableElement()
-    {
-        StyleableElementStyles.Default?.Invoke(this);
-    }
-
-    protected StyleableElement(Action<T?> componentRefAction) : base(componentRefAction)
+    protected StyleableElement(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         StyleableElementStyles.Default?.Invoke(this);
     }
@@ -48,10 +43,6 @@ public abstract partial class StyleableElement<T> : Element<T>, IStyleableElemen
 
 public static partial class StyleableElementExtensions
 {
-    /*
-    
-    
-    */
     public static T Style<T>(this T styleableElement, Microsoft.Maui.Controls.Style style)
         where T : IStyleableElement
     {

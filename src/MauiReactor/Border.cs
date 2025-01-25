@@ -16,12 +16,7 @@ public partial interface IBorder : IView
 
 public partial class Border<T> : View<T>, IBorder where T : Microsoft.Maui.Controls.Border, new()
 {
-    public Border()
-    {
-        BorderStyles.Default?.Invoke(this);
-    }
-
-    public Border(Action<T?> componentRefAction) : base(componentRefAction)
+    public Border(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         BorderStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class Border<T> : View<T>, IBorder where T : Microsoft.Maui.Contr
 
 public partial class Border : Border<Microsoft.Maui.Controls.Border>
 {
-    public Border()
-    {
-    }
-
-    public Border(Action<Microsoft.Maui.Controls.Border?> componentRefAction) : base(componentRefAction)
+    public Border(Action<Microsoft.Maui.Controls.Border?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,40 +58,6 @@ public partial class Border : Border<Microsoft.Maui.Controls.Border>
 
 public static partial class BorderExtensions
 {
-    /*
-    
-            
-    static object? SetPadding(object border, RxAnimation animation)
-        => ((IBorder)border).Padding = ((RxThicknessAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    static object? SetStrokeThickness(object border, RxAnimation animation)
-        => ((IBorder)border).StrokeThickness = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    static object? SetStrokeDashOffset(object border, RxAnimation animation)
-        => ((IBorder)border).StrokeDashOffset = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    static object? SetStrokeMiterLimit(object border, RxAnimation animation)
-        => ((IBorder)border).StrokeMiterLimit = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    */
     public static T Padding<T>(this T border, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
         where T : IBorder
     {

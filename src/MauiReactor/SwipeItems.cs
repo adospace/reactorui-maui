@@ -17,12 +17,7 @@ public partial interface ISwipeItems : IElement
 
 public partial class SwipeItems<T> : Element<T>, ISwipeItems where T : Microsoft.Maui.Controls.SwipeItems, new()
 {
-    public SwipeItems()
-    {
-        SwipeItemsStyles.Default?.Invoke(this);
-    }
-
-    public SwipeItems(Action<T?> componentRefAction) : base(componentRefAction)
+    public SwipeItems(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         SwipeItemsStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class SwipeItems<T> : Element<T>, ISwipeItems where T : Microsoft
 
 public partial class SwipeItems : SwipeItems<Microsoft.Maui.Controls.SwipeItems>
 {
-    public SwipeItems()
-    {
-    }
-
-    public SwipeItems(Action<Microsoft.Maui.Controls.SwipeItems?> componentRefAction) : base(componentRefAction)
+    public SwipeItems(Action<Microsoft.Maui.Controls.SwipeItems?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,12 +106,6 @@ public partial class SwipeItems : SwipeItems<Microsoft.Maui.Controls.SwipeItems>
 
 public static partial class SwipeItemsExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T Mode<T>(this T swipeItems, Microsoft.Maui.SwipeMode mode)
         where T : ISwipeItems
     {

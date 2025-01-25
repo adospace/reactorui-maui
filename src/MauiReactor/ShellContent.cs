@@ -16,12 +16,7 @@ public partial interface IShellContent : IBaseShellItem
 
 public partial class ShellContent<T> : BaseShellItem<T>, IShellContent where T : Microsoft.Maui.Controls.ShellContent, new()
 {
-    public ShellContent()
-    {
-        ShellContentStyles.Default?.Invoke(this);
-    }
-
-    public ShellContent(Action<T?> componentRefAction) : base(componentRefAction)
+    public ShellContent(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ShellContentStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class ShellContent<T> : BaseShellItem<T>, IShellContent where T :
 
 public partial class ShellContent : ShellContent<Microsoft.Maui.Controls.ShellContent>
 {
-    public ShellContent()
-    {
-    }
-
-    public ShellContent(Action<Microsoft.Maui.Controls.ShellContent?> componentRefAction) : base(componentRefAction)
+    public ShellContent(Action<Microsoft.Maui.Controls.ShellContent?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class ShellContent : ShellContent<Microsoft.Maui.Controls.ShellCo
 
 public static partial class ShellContentExtensions
 {
-/*
-    */
 }
 
 public static partial class ShellContentStyles

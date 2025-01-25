@@ -16,12 +16,7 @@ public partial interface ILine : Shapes.IShape
 
 public sealed partial class Line : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Line>, ILine
 {
-    public Line()
-    {
-        LineStyles.Default?.Invoke(this);
-    }
-
-    public Line(Action<Microsoft.Maui.Controls.Shapes.Line?> componentRefAction) : base(componentRefAction)
+    public Line(Action<Microsoft.Maui.Controls.Shapes.Line?>? componentRefAction = null) : base(componentRefAction)
     {
         LineStyles.Default?.Invoke(this);
     }
@@ -48,32 +43,6 @@ public sealed partial class Line : Shapes.Shape<Microsoft.Maui.Controls.Shapes.L
 
 public static partial class LineExtensions
 {
-    /*
-    
-    
-    static object? SetX1(object line, RxAnimation animation)
-        => ((ILine)line).X1 = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    static object? SetY1(object line, RxAnimation animation)
-        => ((ILine)line).Y1 = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    static object? SetX2(object line, RxAnimation animation)
-        => ((ILine)line).X2 = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    static object? SetY2(object line, RxAnimation animation)
-        => ((ILine)line).Y2 = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    */
     public static T X1<T>(this T line, double x1, RxDoubleAnimation? customAnimation = null)
         where T : ILine
     {

@@ -17,12 +17,7 @@ public partial interface ISearchBar : IInputView
 
 public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft.Maui.Controls.SearchBar, new()
 {
-    public SearchBar()
-    {
-        SearchBarStyles.Default?.Invoke(this);
-    }
-
-    public SearchBar(Action<T?> componentRefAction) : base(componentRefAction)
+    public SearchBar(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         SearchBarStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft
 
 public partial class SearchBar : SearchBar<Microsoft.Maui.Controls.SearchBar>
 {
-    public SearchBar()
-    {
-    }
-
-    public SearchBar(Action<Microsoft.Maui.Controls.SearchBar?> componentRefAction) : base(componentRefAction)
+    public SearchBar(Action<Microsoft.Maui.Controls.SearchBar?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,14 +106,6 @@ public partial class SearchBar : SearchBar<Microsoft.Maui.Controls.SearchBar>
 
 public static partial class SearchBarExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    */
     public static T CancelButtonColor<T>(this T searchBar, Microsoft.Maui.Graphics.Color cancelButtonColor)
         where T : ISearchBar
     {

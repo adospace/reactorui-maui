@@ -17,12 +17,7 @@ public partial interface IFlyoutPage : IPage
 
 public partial class FlyoutPage<T> : Page<T>, IFlyoutPage where T : Microsoft.Maui.Controls.FlyoutPage, new()
 {
-    public FlyoutPage()
-    {
-        FlyoutPageStyles.Default?.Invoke(this);
-    }
-
-    public FlyoutPage(Action<T?> componentRefAction) : base(componentRefAction)
+    public FlyoutPage(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         FlyoutPageStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class FlyoutPage<T> : Page<T>, IFlyoutPage where T : Microsoft.Ma
 
 public partial class FlyoutPage : FlyoutPage<Microsoft.Maui.Controls.FlyoutPage>
 {
-    public FlyoutPage()
-    {
-    }
-
-    public FlyoutPage(Action<Microsoft.Maui.Controls.FlyoutPage?> componentRefAction) : base(componentRefAction)
+    public FlyoutPage(Action<Microsoft.Maui.Controls.FlyoutPage?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,14 +106,6 @@ public partial class FlyoutPage : FlyoutPage<Microsoft.Maui.Controls.FlyoutPage>
 
 public static partial class FlyoutPageExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    */
     public static T IsGestureEnabled<T>(this T flyoutPage, bool isGestureEnabled)
         where T : IFlyoutPage
     {

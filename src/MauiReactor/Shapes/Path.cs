@@ -16,12 +16,7 @@ public partial interface IPath : Shapes.IShape
 
 public sealed partial class Path : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Path>, IPath
 {
-    public Path()
-    {
-        PathStyles.Default?.Invoke(this);
-    }
-
-    public Path(Action<Microsoft.Maui.Controls.Shapes.Path?> componentRefAction) : base(componentRefAction)
+    public Path(Action<Microsoft.Maui.Controls.Shapes.Path?>? componentRefAction = null) : base(componentRefAction)
     {
         PathStyles.Default?.Invoke(this);
     }
@@ -48,10 +43,6 @@ public sealed partial class Path : Shapes.Shape<Microsoft.Maui.Controls.Shapes.P
 
 public static partial class PathExtensions
 {
-    /*
-    
-    
-    */
     public static T RenderTransform<T>(this T path, Microsoft.Maui.Controls.Shapes.Transform renderTransform)
         where T : IPath
     {

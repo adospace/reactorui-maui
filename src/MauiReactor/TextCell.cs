@@ -16,12 +16,7 @@ public partial interface ITextCell : ICell
 
 public partial class TextCell<T> : Cell<T>, ITextCell where T : Microsoft.Maui.Controls.TextCell, new()
 {
-    public TextCell()
-    {
-        TextCellStyles.Default?.Invoke(this);
-    }
-
-    public TextCell(Action<T?> componentRefAction) : base(componentRefAction)
+    public TextCell(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         TextCellStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class TextCell<T> : Cell<T>, ITextCell where T : Microsoft.Maui.C
 
 public partial class TextCell : TextCell<Microsoft.Maui.Controls.TextCell>
 {
-    public TextCell()
-    {
-    }
-
-    public TextCell(Action<Microsoft.Maui.Controls.TextCell?> componentRefAction) : base(componentRefAction)
+    public TextCell(Action<Microsoft.Maui.Controls.TextCell?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,16 +58,6 @@ public partial class TextCell : TextCell<Microsoft.Maui.Controls.TextCell>
 
 public static partial class TextCellExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    */
     public static T Text<T>(this T textCell, string text)
         where T : ITextCell
     {

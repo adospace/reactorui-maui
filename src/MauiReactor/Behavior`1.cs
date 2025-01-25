@@ -17,11 +17,7 @@ public partial interface IGenericBehavior : IBehavior
 public abstract partial class Behavior<T, TChild> : Behavior<T>, IGenericBehavior where T : Microsoft.Maui.Controls.Behavior<TChild>, new()
     where TChild : Microsoft.Maui.Controls.BindableObject
 {
-    public Behavior()
-    {
-    }
-
-    public Behavior(Action<T?> componentRefAction) : base(componentRefAction)
+    public Behavior(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -46,6 +42,4 @@ public abstract partial class Behavior<T, TChild> : Behavior<T>, IGenericBehavio
 
 public static partial class BehaviorExtensions
 {
-/*
-    */
 }

@@ -16,12 +16,7 @@ public partial interface IActivityIndicator : IView
 
 public partial class ActivityIndicator<T> : View<T>, IActivityIndicator where T : Microsoft.Maui.Controls.ActivityIndicator, new()
 {
-    public ActivityIndicator()
-    {
-        ActivityIndicatorStyles.Default?.Invoke(this);
-    }
-
-    public ActivityIndicator(Action<T?> componentRefAction) : base(componentRefAction)
+    public ActivityIndicator(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ActivityIndicatorStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class ActivityIndicator<T> : View<T>, IActivityIndicator where T 
 
 public partial class ActivityIndicator : ActivityIndicator<Microsoft.Maui.Controls.ActivityIndicator>
 {
-    public ActivityIndicator()
-    {
-    }
-
-    public ActivityIndicator(Action<Microsoft.Maui.Controls.ActivityIndicator?> componentRefAction) : base(componentRefAction)
+    public ActivityIndicator(Action<Microsoft.Maui.Controls.ActivityIndicator?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,12 +58,6 @@ public partial class ActivityIndicator : ActivityIndicator<Microsoft.Maui.Contro
 
 public static partial class ActivityIndicatorExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T IsRunning<T>(this T activityIndicator, bool isRunning)
         where T : IActivityIndicator
     {

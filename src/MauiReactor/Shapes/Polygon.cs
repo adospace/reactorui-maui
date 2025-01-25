@@ -16,12 +16,7 @@ public partial interface IPolygon : Shapes.IShape
 
 public sealed partial class Polygon : Shapes.Shape<Microsoft.Maui.Controls.Shapes.Polygon>, IPolygon
 {
-    public Polygon()
-    {
-        PolygonStyles.Default?.Invoke(this);
-    }
-
-    public Polygon(Action<Microsoft.Maui.Controls.Shapes.Polygon?> componentRefAction) : base(componentRefAction)
+    public Polygon(Action<Microsoft.Maui.Controls.Shapes.Polygon?>? componentRefAction = null) : base(componentRefAction)
     {
         PolygonStyles.Default?.Invoke(this);
     }
@@ -48,12 +43,6 @@ public sealed partial class Polygon : Shapes.Shape<Microsoft.Maui.Controls.Shape
 
 public static partial class PolygonExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T Points<T>(this T polygon, Microsoft.Maui.Controls.PointCollection points)
         where T : IPolygon
     {

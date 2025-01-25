@@ -16,12 +16,7 @@ public partial interface IShellItem : IShellGroupItem
 
 public partial class ShellItem<T> : ShellGroupItem<T>, IShellItem where T : Microsoft.Maui.Controls.ShellItem, new()
 {
-    public ShellItem()
-    {
-        ShellItemStyles.Default?.Invoke(this);
-    }
-
-    public ShellItem(Action<T?> componentRefAction) : base(componentRefAction)
+    public ShellItem(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ShellItemStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class ShellItem<T> : ShellGroupItem<T>, IShellItem where T : Micr
 
 public partial class ShellItem : ShellItem<Microsoft.Maui.Controls.ShellItem>
 {
-    public ShellItem()
-    {
-    }
-
-    public ShellItem(Action<Microsoft.Maui.Controls.ShellItem?> componentRefAction) : base(componentRefAction)
+    public ShellItem(Action<Microsoft.Maui.Controls.ShellItem?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class ShellItem : ShellItem<Microsoft.Maui.Controls.ShellItem>
 
 public static partial class ShellItemExtensions
 {
-/*
-    */
 }
 
 public static partial class ShellItemStyles

@@ -19,12 +19,7 @@ public partial interface IShell : IPage
 
 public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Controls.Shell, new()
 {
-    public Shell()
-    {
-        ShellStyles.Default?.Invoke(this);
-    }
-
-    public Shell(Action<T?> componentRefAction) : base(componentRefAction)
+    public Shell(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ShellStyles.Default?.Invoke(this);
     }
@@ -122,11 +117,7 @@ public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Control
 
 public partial class Shell : Shell<Microsoft.Maui.Controls.Shell>
 {
-    public Shell()
-    {
-    }
-
-    public Shell(Action<Microsoft.Maui.Controls.Shell?> componentRefAction) : base(componentRefAction)
+    public Shell(Action<Microsoft.Maui.Controls.Shell?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -141,40 +132,6 @@ public partial class Shell : Shell<Microsoft.Maui.Controls.Shell>
 
 public static partial class ShellExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    static object? SetFlyoutWidth(object shell, RxAnimation animation)
-        => ((IShell)shell).FlyoutWidth = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    static object? SetFlyoutHeight(object shell, RxAnimation animation)
-        => ((IShell)shell).FlyoutHeight = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    */
     public static T FlyoutBehavior<T>(this T shell, Microsoft.Maui.FlyoutBehavior flyoutBehavior)
         where T : IShell
     {

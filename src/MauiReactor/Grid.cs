@@ -16,12 +16,7 @@ public partial interface IGrid : ILayout
 
 public partial class Grid<T> : Layout<T>, IGrid where T : Microsoft.Maui.Controls.Grid, new()
 {
-    public Grid()
-    {
-        GridStyles.Default?.Invoke(this);
-    }
-
-    public Grid(Action<T?> componentRefAction) : base(componentRefAction)
+    public Grid(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         GridStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class Grid<T> : Layout<T>, IGrid where T : Microsoft.Maui.Control
 
 public partial class Grid : Grid<Microsoft.Maui.Controls.Grid>
 {
-    public Grid()
-    {
-    }
-
-    public Grid(Action<Microsoft.Maui.Controls.Grid?> componentRefAction) : base(componentRefAction)
+    public Grid(Action<Microsoft.Maui.Controls.Grid?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,20 +58,6 @@ public partial class Grid : Grid<Microsoft.Maui.Controls.Grid>
 
 public static partial class GridExtensions
 {
-    /*
-    
-    
-    static object? SetRowSpacing(object grid, RxAnimation animation)
-        => ((IGrid)grid).RowSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    static object? SetColumnSpacing(object grid, RxAnimation animation)
-        => ((IGrid)grid).ColumnSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    */
     public static T RowSpacing<T>(this T grid, double rowSpacing, RxDoubleAnimation? customAnimation = null)
         where T : IGrid
     {

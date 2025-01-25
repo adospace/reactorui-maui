@@ -16,12 +16,7 @@ public partial interface ITemplatedView : Compatibility.ILayout
 
 public partial class TemplatedView<T> : Compatibility.Layout<T>, ITemplatedView where T : Microsoft.Maui.Controls.TemplatedView, new()
 {
-    public TemplatedView()
-    {
-        TemplatedViewStyles.Default?.Invoke(this);
-    }
-
-    public TemplatedView(Action<T?> componentRefAction) : base(componentRefAction)
+    public TemplatedView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         TemplatedViewStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class TemplatedView<T> : Compatibility.Layout<T>, ITemplatedView 
 
 public partial class TemplatedView : TemplatedView<Microsoft.Maui.Controls.TemplatedView>
 {
-    public TemplatedView()
-    {
-    }
-
-    public TemplatedView(Action<Microsoft.Maui.Controls.TemplatedView?> componentRefAction) : base(componentRefAction)
+    public TemplatedView(Action<Microsoft.Maui.Controls.TemplatedView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class TemplatedView : TemplatedView<Microsoft.Maui.Controls.Templ
 
 public static partial class TemplatedViewExtensions
 {
-/*
-    */
 }
 
 public static partial class TemplatedViewStyles

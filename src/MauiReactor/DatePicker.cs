@@ -17,12 +17,7 @@ public partial interface IDatePicker : IView
 
 public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Maui.Controls.DatePicker, new()
 {
-    public DatePicker()
-    {
-        DatePickerStyles.Default?.Invoke(this);
-    }
-
-    public DatePicker(Action<T?> componentRefAction) : base(componentRefAction)
+    public DatePicker(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         DatePickerStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Ma
 
 public partial class DatePicker : DatePicker<Microsoft.Maui.Controls.DatePicker>
 {
-    public DatePicker()
-    {
-    }
-
-    public DatePicker(Action<Microsoft.Maui.Controls.DatePicker?> componentRefAction) : base(componentRefAction)
+    public DatePicker(Action<Microsoft.Maui.Controls.DatePicker?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,36 +106,6 @@ public partial class DatePicker : DatePicker<Microsoft.Maui.Controls.DatePicker>
 
 public static partial class DatePickerExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    static object? SetCharacterSpacing(object datePicker, RxAnimation animation)
-        => ((IDatePicker)datePicker).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    static object? SetFontSize(object datePicker, RxAnimation animation)
-        => ((IDatePicker)datePicker).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    */
     public static T Format<T>(this T datePicker, string format)
         where T : IDatePicker
     {

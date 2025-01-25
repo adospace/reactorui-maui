@@ -17,12 +17,7 @@ public partial interface ICheckBox : IView
 
 public partial class CheckBox<T> : View<T>, ICheckBox where T : Microsoft.Maui.Controls.CheckBox, new()
 {
-    public CheckBox()
-    {
-        CheckBoxStyles.Default?.Invoke(this);
-    }
-
-    public CheckBox(Action<T?> componentRefAction) : base(componentRefAction)
+    public CheckBox(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         CheckBoxStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class CheckBox<T> : View<T>, ICheckBox where T : Microsoft.Maui.C
 
 public partial class CheckBox : CheckBox<Microsoft.Maui.Controls.CheckBox>
 {
-    public CheckBox()
-    {
-    }
-
-    public CheckBox(Action<Microsoft.Maui.Controls.CheckBox?> componentRefAction) : base(componentRefAction)
+    public CheckBox(Action<Microsoft.Maui.Controls.CheckBox?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,12 +106,6 @@ public partial class CheckBox : CheckBox<Microsoft.Maui.Controls.CheckBox>
 
 public static partial class CheckBoxExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T IsChecked<T>(this T checkBox, bool isChecked)
         where T : ICheckBox
     {

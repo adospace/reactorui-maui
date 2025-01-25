@@ -16,12 +16,7 @@ public partial interface IFlexLayout : ILayout
 
 public partial class FlexLayout<T> : Layout<T>, IFlexLayout where T : Microsoft.Maui.Controls.FlexLayout, new()
 {
-    public FlexLayout()
-    {
-        FlexLayoutStyles.Default?.Invoke(this);
-    }
-
-    public FlexLayout(Action<T?> componentRefAction) : base(componentRefAction)
+    public FlexLayout(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         FlexLayoutStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class FlexLayout<T> : Layout<T>, IFlexLayout where T : Microsoft.
 
 public partial class FlexLayout : FlexLayout<Microsoft.Maui.Controls.FlexLayout>
 {
-    public FlexLayout()
-    {
-    }
-
-    public FlexLayout(Action<Microsoft.Maui.Controls.FlexLayout?> componentRefAction) : base(componentRefAction)
+    public FlexLayout(Action<Microsoft.Maui.Controls.FlexLayout?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,20 +58,6 @@ public partial class FlexLayout : FlexLayout<Microsoft.Maui.Controls.FlexLayout>
 
 public static partial class FlexLayoutExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    */
     public static T Direction<T>(this T flexLayout, Microsoft.Maui.Layouts.FlexDirection direction)
         where T : IFlexLayout
     {

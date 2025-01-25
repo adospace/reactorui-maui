@@ -19,12 +19,7 @@ public partial interface IDragGestureRecognizer : IGestureRecognizer
 
 public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestureRecognizer where T : Microsoft.Maui.Controls.DragGestureRecognizer, new()
 {
-    public DragGestureRecognizer()
-    {
-        DragGestureRecognizerStyles.Default?.Invoke(this);
-    }
-
-    public DragGestureRecognizer(Action<T?> componentRefAction) : base(componentRefAction)
+    public DragGestureRecognizer(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         DragGestureRecognizerStyles.Default?.Invoke(this);
     }
@@ -122,11 +117,7 @@ public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestu
 
 public partial class DragGestureRecognizer : DragGestureRecognizer<Microsoft.Maui.Controls.DragGestureRecognizer>
 {
-    public DragGestureRecognizer()
-    {
-    }
-
-    public DragGestureRecognizer(Action<Microsoft.Maui.Controls.DragGestureRecognizer?> componentRefAction) : base(componentRefAction)
+    public DragGestureRecognizer(Action<Microsoft.Maui.Controls.DragGestureRecognizer?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -141,10 +132,6 @@ public partial class DragGestureRecognizer : DragGestureRecognizer<Microsoft.Mau
 
 public static partial class DragGestureRecognizerExtensions
 {
-    /*
-    
-    
-    */
     public static T CanDrag<T>(this T dragGestureRecognizer, bool canDrag)
         where T : IDragGestureRecognizer
     {

@@ -16,12 +16,7 @@ public partial interface INavigableElement : IStyleableElement
 
 public abstract partial class NavigableElement<T> : StyleableElement<T>, INavigableElement where T : Microsoft.Maui.Controls.NavigableElement, new()
 {
-    protected NavigableElement()
-    {
-        NavigableElementStyles.Default?.Invoke(this);
-    }
-
-    protected NavigableElement(Action<T?> componentRefAction) : base(componentRefAction)
+    protected NavigableElement(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         NavigableElementStyles.Default?.Invoke(this);
     }
@@ -48,8 +43,6 @@ public abstract partial class NavigableElement<T> : StyleableElement<T>, INaviga
 
 public static partial class NavigableElementExtensions
 {
-/*
-    */
 }
 
 public static partial class NavigableElementStyles

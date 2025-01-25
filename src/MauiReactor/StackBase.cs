@@ -16,12 +16,7 @@ public partial interface IStackBase : ILayout
 
 public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Microsoft.Maui.Controls.StackBase, new()
 {
-    protected StackBase()
-    {
-        StackBaseStyles.Default?.Invoke(this);
-    }
-
-    protected StackBase(Action<T?> componentRefAction) : base(componentRefAction)
+    protected StackBase(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         StackBaseStyles.Default?.Invoke(this);
     }
@@ -48,14 +43,6 @@ public abstract partial class StackBase<T> : Layout<T>, IStackBase where T : Mic
 
 public static partial class StackBaseExtensions
 {
-    /*
-    
-    
-    static object? SetSpacing(object stackBase, RxAnimation animation)
-        => ((IStackBase)stackBase).Spacing = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    */
     public static T Spacing<T>(this T stackBase, double spacing, RxDoubleAnimation? customAnimation = null)
         where T : IStackBase
     {

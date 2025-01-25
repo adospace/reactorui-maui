@@ -16,12 +16,7 @@ public partial interface IRectangleGeometry : Shapes.IGeometry
 
 public partial class RectangleGeometry<T> : Shapes.Geometry<T>, IRectangleGeometry where T : Microsoft.Maui.Controls.Shapes.RectangleGeometry, new()
 {
-    public RectangleGeometry()
-    {
-        RectangleGeometryStyles.Default?.Invoke(this);
-    }
-
-    public RectangleGeometry(Action<T?> componentRefAction) : base(componentRefAction)
+    public RectangleGeometry(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         RectangleGeometryStyles.Default?.Invoke(this);
     }
@@ -48,25 +43,13 @@ public partial class RectangleGeometry<T> : Shapes.Geometry<T>, IRectangleGeomet
 
 public partial class RectangleGeometry : RectangleGeometry<Microsoft.Maui.Controls.Shapes.RectangleGeometry>
 {
-    public RectangleGeometry()
-    {
-    }
-
-    public RectangleGeometry(Action<Microsoft.Maui.Controls.Shapes.RectangleGeometry?> componentRefAction) : base(componentRefAction)
+    public RectangleGeometry(Action<Microsoft.Maui.Controls.Shapes.RectangleGeometry?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 }
 
 public static partial class RectangleGeometryExtensions
 {
-    /*
-    
-    
-    static object? SetRect(object rectangleGeometry, RxAnimation animation)
-        => ((IRectangleGeometry)rectangleGeometry).Rect = ((RxRectAnimation)animation).CurrentValue();
-
-    
-    */
     public static T Rect<T>(this T rectangleGeometry, Microsoft.Maui.Graphics.Rect rect, RxRectAnimation? customAnimation = null)
         where T : IRectangleGeometry
     {

@@ -16,12 +16,7 @@ public partial interface IRoundRectangleGeometry : Shapes.IGeometryGroup
 
 public partial class RoundRectangleGeometry<T> : Shapes.GeometryGroup<T>, IRoundRectangleGeometry where T : Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry, new()
 {
-    public RoundRectangleGeometry()
-    {
-        RoundRectangleGeometryStyles.Default?.Invoke(this);
-    }
-
-    public RoundRectangleGeometry(Action<T?> componentRefAction) : base(componentRefAction)
+    public RoundRectangleGeometry(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         RoundRectangleGeometryStyles.Default?.Invoke(this);
     }
@@ -48,31 +43,13 @@ public partial class RoundRectangleGeometry<T> : Shapes.GeometryGroup<T>, IRound
 
 public partial class RoundRectangleGeometry : RoundRectangleGeometry<Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry>
 {
-    public RoundRectangleGeometry()
-    {
-    }
-
-    public RoundRectangleGeometry(Action<Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry?> componentRefAction) : base(componentRefAction)
+    public RoundRectangleGeometry(Action<Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 }
 
 public static partial class RoundRectangleGeometryExtensions
 {
-    /*
-    
-    
-    static object? SetRect(object roundRectangleGeometry, RxAnimation animation)
-        => ((IRoundRectangleGeometry)roundRectangleGeometry).Rect = ((RxRectAnimation)animation).CurrentValue();
-
-    
-    
-            
-    static object? SetCornerRadius(object roundRectangleGeometry, RxAnimation animation)
-        => ((IRoundRectangleGeometry)roundRectangleGeometry).CornerRadius = ((RxCornerRadiusAnimation)animation).CurrentValue();
-
-    
-    */
     public static T Rect<T>(this T roundRectangleGeometry, Microsoft.Maui.Graphics.Rect rect, RxRectAnimation? customAnimation = null)
         where T : IRoundRectangleGeometry
     {

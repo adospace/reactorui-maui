@@ -16,12 +16,7 @@ public partial interface IBaseMenuItem : IStyleableElement
 
 public abstract partial class BaseMenuItem<T> : StyleableElement<T>, IBaseMenuItem where T : Microsoft.Maui.Controls.BaseMenuItem, new()
 {
-    protected BaseMenuItem()
-    {
-        BaseMenuItemStyles.Default?.Invoke(this);
-    }
-
-    protected BaseMenuItem(Action<T?> componentRefAction) : base(componentRefAction)
+    protected BaseMenuItem(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         BaseMenuItemStyles.Default?.Invoke(this);
     }
@@ -48,8 +43,6 @@ public abstract partial class BaseMenuItem<T> : StyleableElement<T>, IBaseMenuIt
 
 public static partial class BaseMenuItemExtensions
 {
-/*
-    */
 }
 
 public static partial class BaseMenuItemStyles

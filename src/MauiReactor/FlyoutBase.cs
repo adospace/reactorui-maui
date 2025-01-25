@@ -16,12 +16,7 @@ public partial interface IFlyoutBase : IElement
 
 public abstract partial class FlyoutBase<T> : Element<T>, IFlyoutBase where T : Microsoft.Maui.Controls.FlyoutBase, new()
 {
-    protected FlyoutBase()
-    {
-        FlyoutBaseStyles.Default?.Invoke(this);
-    }
-
-    protected FlyoutBase(Action<T?> componentRefAction) : base(componentRefAction)
+    protected FlyoutBase(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         FlyoutBaseStyles.Default?.Invoke(this);
     }
@@ -48,8 +43,6 @@ public abstract partial class FlyoutBase<T> : Element<T>, IFlyoutBase where T : 
 
 public static partial class FlyoutBaseExtensions
 {
-/*
-    */
 }
 
 public static partial class FlyoutBaseStyles

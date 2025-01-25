@@ -17,12 +17,7 @@ public partial interface ISwipeGestureRecognizer : IGestureRecognizer
 
 public sealed partial class SwipeGestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.SwipeGestureRecognizer>, ISwipeGestureRecognizer
 {
-    public SwipeGestureRecognizer()
-    {
-        SwipeGestureRecognizerStyles.Default?.Invoke(this);
-    }
-
-    public SwipeGestureRecognizer(Action<Microsoft.Maui.Controls.SwipeGestureRecognizer?> componentRefAction) : base(componentRefAction)
+    public SwipeGestureRecognizer(Action<Microsoft.Maui.Controls.SwipeGestureRecognizer?>? componentRefAction = null) : base(componentRefAction)
     {
         SwipeGestureRecognizerStyles.Default?.Invoke(this);
     }
@@ -96,12 +91,6 @@ public sealed partial class SwipeGestureRecognizer : GestureRecognizer<Microsoft
 
 public static partial class SwipeGestureRecognizerExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T Direction<T>(this T swipeGestureRecognizer, Microsoft.Maui.SwipeDirection direction)
         where T : ISwipeGestureRecognizer
     {

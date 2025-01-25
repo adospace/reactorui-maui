@@ -17,12 +17,7 @@ public partial interface IEntryCell : ICell
 
 public partial class EntryCell<T> : Cell<T>, IEntryCell where T : Microsoft.Maui.Controls.EntryCell, new()
 {
-    public EntryCell()
-    {
-        EntryCellStyles.Default?.Invoke(this);
-    }
-
-    public EntryCell(Action<T?> componentRefAction) : base(componentRefAction)
+    public EntryCell(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         EntryCellStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class EntryCell<T> : Cell<T>, IEntryCell where T : Microsoft.Maui
 
 public partial class EntryCell : EntryCell<Microsoft.Maui.Controls.EntryCell>
 {
-    public EntryCell()
-    {
-    }
-
-    public EntryCell(Action<Microsoft.Maui.Controls.EntryCell?> componentRefAction) : base(componentRefAction)
+    public EntryCell(Action<Microsoft.Maui.Controls.EntryCell?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,22 +106,6 @@ public partial class EntryCell : EntryCell<Microsoft.Maui.Controls.EntryCell>
 
 public static partial class EntryCellExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    */
     public static T Text<T>(this T entryCell, string text)
         where T : IEntryCell
     {

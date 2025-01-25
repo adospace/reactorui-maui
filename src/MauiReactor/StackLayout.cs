@@ -16,12 +16,7 @@ public partial interface IStackLayout : IStackBase
 
 public partial class StackLayout<T> : StackBase<T>, IStackLayout where T : Microsoft.Maui.Controls.StackLayout, new()
 {
-    public StackLayout()
-    {
-        StackLayoutStyles.Default?.Invoke(this);
-    }
-
-    public StackLayout(Action<T?> componentRefAction) : base(componentRefAction)
+    public StackLayout(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         StackLayoutStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class StackLayout<T> : StackBase<T>, IStackLayout where T : Micro
 
 public partial class StackLayout : StackLayout<Microsoft.Maui.Controls.StackLayout>
 {
-    public StackLayout()
-    {
-    }
-
-    public StackLayout(Action<Microsoft.Maui.Controls.StackLayout?> componentRefAction) : base(componentRefAction)
+    public StackLayout(Action<Microsoft.Maui.Controls.StackLayout?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,10 +58,6 @@ public partial class StackLayout : StackLayout<Microsoft.Maui.Controls.StackLayo
 
 public static partial class StackLayoutExtensions
 {
-    /*
-    
-    
-    */
     public static T Orientation<T>(this T stackLayout, Microsoft.Maui.Controls.StackOrientation orientation)
         where T : IStackLayout
     {

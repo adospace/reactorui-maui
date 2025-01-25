@@ -16,12 +16,7 @@ public partial interface ILabel : IView
 
 public partial class Label<T> : View<T>, ILabel where T : Microsoft.Maui.Controls.Label, new()
 {
-    public Label()
-    {
-        LabelStyles.Default?.Invoke(this);
-    }
-
-    public Label(Action<T?> componentRefAction) : base(componentRefAction)
+    public Label(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         LabelStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class Label<T> : View<T>, ILabel where T : Microsoft.Maui.Control
 
 public partial class Label : Label<Microsoft.Maui.Controls.Label>
 {
-    public Label()
-    {
-    }
-
-    public Label(Action<Microsoft.Maui.Controls.Label?> componentRefAction) : base(componentRefAction)
+    public Label(Action<Microsoft.Maui.Controls.Label?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,58 +58,6 @@ public partial class Label : Label<Microsoft.Maui.Controls.Label>
 
 public static partial class LabelExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    
-    
-    static object? SetCharacterSpacing(object label, RxAnimation animation)
-        => ((ILabel)label).CharacterSpacing = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    static object? SetFontSize(object label, RxAnimation animation)
-        => ((ILabel)label).FontSize = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    static object? SetLineHeight(object label, RxAnimation animation)
-        => ((ILabel)label).LineHeight = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-            
-    static object? SetPadding(object label, RxAnimation animation)
-        => ((ILabel)label).Padding = ((RxThicknessAnimation)animation).CurrentValue();
-
-    
-    
-    
-    */
     public static T HorizontalTextAlignment<T>(this T label, Microsoft.Maui.TextAlignment horizontalTextAlignment)
         where T : ILabel
     {

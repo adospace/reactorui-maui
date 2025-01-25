@@ -21,12 +21,7 @@ public partial interface ISlider : IView
 
 public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Controls.Slider, new()
 {
-    public Slider()
-    {
-        SliderStyles.Default?.Invoke(this);
-    }
-
-    public Slider(Action<T?> componentRefAction) : base(componentRefAction)
+    public Slider(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         SliderStyles.Default?.Invoke(this);
     }
@@ -148,11 +143,7 @@ public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Contr
 
 public partial class Slider : Slider<Microsoft.Maui.Controls.Slider>
 {
-    public Slider()
-    {
-    }
-
-    public Slider(Action<Microsoft.Maui.Controls.Slider?> componentRefAction) : base(componentRefAction)
+    public Slider(Action<Microsoft.Maui.Controls.Slider?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -167,34 +158,6 @@ public partial class Slider : Slider<Microsoft.Maui.Controls.Slider>
 
 public static partial class SliderExtensions
 {
-    /*
-    
-    
-    static object? SetMinimum(object slider, RxAnimation animation)
-        => ((ISlider)slider).Minimum = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    static object? SetMaximum(object slider, RxAnimation animation)
-        => ((ISlider)slider).Maximum = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    static object? SetValue(object slider, RxAnimation animation)
-        => ((ISlider)slider).Value = ((RxDoubleAnimation)animation).CurrentValue();
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    */
     public static T Minimum<T>(this T slider, double minimum, RxDoubleAnimation? customAnimation = null)
         where T : ISlider
     {

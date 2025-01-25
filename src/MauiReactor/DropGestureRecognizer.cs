@@ -21,12 +21,7 @@ public partial interface IDropGestureRecognizer : IGestureRecognizer
 
 public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestureRecognizer where T : Microsoft.Maui.Controls.DropGestureRecognizer, new()
 {
-    public DropGestureRecognizer()
-    {
-        DropGestureRecognizerStyles.Default?.Invoke(this);
-    }
-
-    public DropGestureRecognizer(Action<T?> componentRefAction) : base(componentRefAction)
+    public DropGestureRecognizer(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         DropGestureRecognizerStyles.Default?.Invoke(this);
     }
@@ -148,11 +143,7 @@ public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestu
 
 public partial class DropGestureRecognizer : DropGestureRecognizer<Microsoft.Maui.Controls.DropGestureRecognizer>
 {
-    public DropGestureRecognizer()
-    {
-    }
-
-    public DropGestureRecognizer(Action<Microsoft.Maui.Controls.DropGestureRecognizer?> componentRefAction) : base(componentRefAction)
+    public DropGestureRecognizer(Action<Microsoft.Maui.Controls.DropGestureRecognizer?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -167,10 +158,6 @@ public partial class DropGestureRecognizer : DropGestureRecognizer<Microsoft.Mau
 
 public static partial class DropGestureRecognizerExtensions
 {
-    /*
-    
-    
-    */
     public static T AllowDrop<T>(this T dropGestureRecognizer, bool allowDrop)
         where T : IDropGestureRecognizer
     {

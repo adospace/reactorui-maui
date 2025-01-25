@@ -31,12 +31,7 @@ public partial interface IElement : IVisualNodeWithNativeControl
 
 public abstract partial class Element<T> : VisualNode<T>, IElement where T : Microsoft.Maui.Controls.Element, new()
 {
-    protected Element()
-    {
-        ElementStyles.Default?.Invoke(this);
-    }
-
-    protected Element(Action<T?> componentRefAction) : base(componentRefAction)
+    protected Element(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         ElementStyles.Default?.Invoke(this);
     }
@@ -278,12 +273,6 @@ public abstract partial class Element<T> : VisualNode<T>, IElement where T : Mic
 
 public static partial class ElementExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T AutomationId<T>(this T element, string automationId)
         where T : IElement
     {

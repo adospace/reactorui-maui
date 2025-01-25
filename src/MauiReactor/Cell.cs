@@ -21,12 +21,7 @@ public partial interface ICell : IElement
 
 public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Maui.Controls.Cell, new()
 {
-    protected Cell()
-    {
-        CellStyles.Default?.Invoke(this);
-    }
-
-    protected Cell(Action<T?> componentRefAction) : base(componentRefAction)
+    protected Cell(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         CellStyles.Default?.Invoke(this);
     }
@@ -148,10 +143,6 @@ public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Ma
 
 public static partial class CellExtensions
 {
-    /*
-    
-    
-    */
     public static T IsEnabled<T>(this T cell, bool isEnabled)
         where T : ICell
     {

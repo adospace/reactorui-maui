@@ -17,12 +17,7 @@ public partial interface ISwipeItemView : IContentView
 
 public partial class SwipeItemView<T> : ContentView<T>, ISwipeItemView where T : Microsoft.Maui.Controls.SwipeItemView, new()
 {
-    public SwipeItemView()
-    {
-        SwipeItemViewStyles.Default?.Invoke(this);
-    }
-
-    public SwipeItemView(Action<T?> componentRefAction) : base(componentRefAction)
+    public SwipeItemView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         SwipeItemViewStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class SwipeItemView<T> : ContentView<T>, ISwipeItemView where T :
 
 public partial class SwipeItemView : SwipeItemView<Microsoft.Maui.Controls.SwipeItemView>
 {
-    public SwipeItemView()
-    {
-    }
-
-    public SwipeItemView(Action<Microsoft.Maui.Controls.SwipeItemView?> componentRefAction) : base(componentRefAction)
+    public SwipeItemView(Action<Microsoft.Maui.Controls.SwipeItemView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,8 +106,6 @@ public partial class SwipeItemView : SwipeItemView<Microsoft.Maui.Controls.Swipe
 
 public static partial class SwipeItemViewExtensions
 {
-    /*
-    */
     public static T OnInvoked<T>(this T swipeItemView, Action? invokedAction)
         where T : ISwipeItemView
     {

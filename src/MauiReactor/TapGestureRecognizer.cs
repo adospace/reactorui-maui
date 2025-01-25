@@ -17,12 +17,7 @@ public partial interface ITapGestureRecognizer : IGestureRecognizer
 
 public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.Maui.Controls.TapGestureRecognizer>, ITapGestureRecognizer
 {
-    public TapGestureRecognizer()
-    {
-        TapGestureRecognizerStyles.Default?.Invoke(this);
-    }
-
-    public TapGestureRecognizer(Action<Microsoft.Maui.Controls.TapGestureRecognizer?> componentRefAction) : base(componentRefAction)
+    public TapGestureRecognizer(Action<Microsoft.Maui.Controls.TapGestureRecognizer?>? componentRefAction = null) : base(componentRefAction)
     {
         TapGestureRecognizerStyles.Default?.Invoke(this);
     }
@@ -96,12 +91,6 @@ public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.M
 
 public static partial class TapGestureRecognizerExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T NumberOfTapsRequired<T>(this T tapGestureRecognizer, int numberOfTapsRequired)
         where T : ITapGestureRecognizer
     {

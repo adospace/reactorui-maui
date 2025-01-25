@@ -17,12 +17,7 @@ public partial interface IRefreshView : IContentView
 
 public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Microsoft.Maui.Controls.RefreshView, new()
 {
-    public RefreshView()
-    {
-        RefreshViewStyles.Default?.Invoke(this);
-    }
-
-    public RefreshView(Action<T?> componentRefAction) : base(componentRefAction)
+    public RefreshView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         RefreshViewStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Mic
 
 public partial class RefreshView : RefreshView<Microsoft.Maui.Controls.RefreshView>
 {
-    public RefreshView()
-    {
-    }
-
-    public RefreshView(Action<Microsoft.Maui.Controls.RefreshView?> componentRefAction) : base(componentRefAction)
+    public RefreshView(Action<Microsoft.Maui.Controls.RefreshView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,12 +106,6 @@ public partial class RefreshView : RefreshView<Microsoft.Maui.Controls.RefreshVi
 
 public static partial class RefreshViewExtensions
 {
-    /*
-    
-    
-    
-    
-    */
     public static T IsRefreshing<T>(this T refreshView, bool isRefreshing)
         where T : IRefreshView
     {

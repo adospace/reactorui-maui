@@ -16,12 +16,7 @@ public partial interface IVerticalStackLayout : IStackBase
 
 public partial class VerticalStackLayout<T> : StackBase<T>, IVerticalStackLayout where T : Microsoft.Maui.Controls.VerticalStackLayout, new()
 {
-    public VerticalStackLayout()
-    {
-        VerticalStackLayoutStyles.Default?.Invoke(this);
-    }
-
-    public VerticalStackLayout(Action<T?> componentRefAction) : base(componentRefAction)
+    public VerticalStackLayout(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         VerticalStackLayoutStyles.Default?.Invoke(this);
     }
@@ -48,11 +43,7 @@ public partial class VerticalStackLayout<T> : StackBase<T>, IVerticalStackLayout
 
 public partial class VerticalStackLayout : VerticalStackLayout<Microsoft.Maui.Controls.VerticalStackLayout>
 {
-    public VerticalStackLayout()
-    {
-    }
-
-    public VerticalStackLayout(Action<Microsoft.Maui.Controls.VerticalStackLayout?> componentRefAction) : base(componentRefAction)
+    public VerticalStackLayout(Action<Microsoft.Maui.Controls.VerticalStackLayout?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -67,8 +58,6 @@ public partial class VerticalStackLayout : VerticalStackLayout<Microsoft.Maui.Co
 
 public static partial class VerticalStackLayoutExtensions
 {
-/*
-    */
 }
 
 public static partial class VerticalStackLayoutStyles

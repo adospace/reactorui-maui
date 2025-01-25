@@ -29,12 +29,7 @@ public partial interface IGraphicsView : IView
 
 public partial class GraphicsView<T> : View<T>, IGraphicsView where T : Microsoft.Maui.Controls.GraphicsView, new()
 {
-    public GraphicsView()
-    {
-        GraphicsViewStyles.Default?.Invoke(this);
-    }
-
-    public GraphicsView(Action<T?> componentRefAction) : base(componentRefAction)
+    public GraphicsView(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         GraphicsViewStyles.Default?.Invoke(this);
     }
@@ -252,11 +247,7 @@ public partial class GraphicsView<T> : View<T>, IGraphicsView where T : Microsof
 
 public partial class GraphicsView : GraphicsView<Microsoft.Maui.Controls.GraphicsView>
 {
-    public GraphicsView()
-    {
-    }
-
-    public GraphicsView(Action<Microsoft.Maui.Controls.GraphicsView?> componentRefAction) : base(componentRefAction)
+    public GraphicsView(Action<Microsoft.Maui.Controls.GraphicsView?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -271,10 +262,6 @@ public partial class GraphicsView : GraphicsView<Microsoft.Maui.Controls.Graphic
 
 public static partial class GraphicsViewExtensions
 {
-    /*
-    
-    
-    */
     public static T Drawable<T>(this T graphicsView, Microsoft.Maui.Graphics.IDrawable drawable)
         where T : IGraphicsView
     {

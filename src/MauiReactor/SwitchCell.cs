@@ -17,12 +17,7 @@ public partial interface ISwitchCell : ICell
 
 public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Maui.Controls.SwitchCell, new()
 {
-    public SwitchCell()
-    {
-        SwitchCellStyles.Default?.Invoke(this);
-    }
-
-    public SwitchCell(Action<T?> componentRefAction) : base(componentRefAction)
+    public SwitchCell(Action<T?>? componentRefAction = null) : base(componentRefAction)
     {
         SwitchCellStyles.Default?.Invoke(this);
     }
@@ -96,11 +91,7 @@ public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Ma
 
 public partial class SwitchCell : SwitchCell<Microsoft.Maui.Controls.SwitchCell>
 {
-    public SwitchCell()
-    {
-    }
-
-    public SwitchCell(Action<Microsoft.Maui.Controls.SwitchCell?> componentRefAction) : base(componentRefAction)
+    public SwitchCell(Action<Microsoft.Maui.Controls.SwitchCell?>? componentRefAction = null) : base(componentRefAction)
     {
     }
 
@@ -115,14 +106,6 @@ public partial class SwitchCell : SwitchCell<Microsoft.Maui.Controls.SwitchCell>
 
 public static partial class SwitchCellExtensions
 {
-    /*
-    
-    
-    
-    
-    
-    
-    */
     public static T On<T>(this T switchCell, bool on)
         where T : ISwitchCell
     {
