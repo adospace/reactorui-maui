@@ -362,6 +362,11 @@ public class ReactorApplication<T> : ReactorApplication where T : Component, new
 
         if (_host.ContainerPage != null)
         {
+            if (_host.ContainerPage.Parent is Microsoft.Maui.Controls.Window window)
+            {
+                return window;
+            }
+
             return new Microsoft.Maui.Controls.Window(_host.ContainerPage);
         }
 
