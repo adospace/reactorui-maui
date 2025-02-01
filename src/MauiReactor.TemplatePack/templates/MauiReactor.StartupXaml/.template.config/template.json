@@ -16,7 +16,7 @@
     "namespace": {
       "type": "parameter",
       "datatype": "string",
-      "replaces": "MauiReactor.StartupXaml"
+      "replaces": "MauiReactorTemplate.StartupXaml"
     }
   }
 }

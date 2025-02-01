@@ -15,6 +15,10 @@ namespace MauiReactorTemplate.Startup
                 .UseMauiReactorApp<HomePage>(app =>
                 {
                     app.UseTheme<ApplicationTheme>();
+                },
+                unhandledExceptionAction: e => 
+                {
+                    System.Diagnostics.Debug.WriteLine(e.ExceptionObject);
                 })
                 .ConfigureFonts(fonts =>
                 {
@@ -23,11 +27,6 @@ namespace MauiReactorTemplate.Startup
                 });
 
 #if DEBUG
-            builder.EnableMauiReactorHotReload();
-            builder.OnMauiReactorUnhandledException((e) =>
-            {
-                System.Diagnostics.Debug.WriteLine(e.ExceptionObject);
-            });
             builder.Logging.AddDebug();
 #endif
 

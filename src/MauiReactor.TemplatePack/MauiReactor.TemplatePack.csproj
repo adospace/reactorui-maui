@@ -29,9 +29,12 @@
     <TemplateFiles Include="..\..\Templates\MauiReactorTemplate.Startup\**\*" Exclude="..\..\Templates\MauiReactorTemplate.Startup\**\bin\**;..\..\Templates\MauiReactorTemplate.Startup\**\obj\**;..\..\Templates\MauiReactorTemplate.Startup\**\*.user">
       <Link>templates\MauiReactor.Startup\%(RecursiveDir)%(Filename)%(Extension)</Link>
     </TemplateFiles>
-    <TemplateFiles Include="..\..\Templates\MauiReactorTemplate.StartupXaml\**\*" Exclude="..\..\Templates\MauiReactorTemplate.StartupXaml\**\bin\**;..\..\Templates\MauiReactorTemplate.StartupXaml\**\obj\**;..\..\Templates\MauiReactorTemplate.StartupXaml\**\*.user">
+    <TemplateFilesXaml Include="..\..\Templates\MauiReactorTemplate.StartupXaml\**\*" Exclude="..\..\Templates\MauiReactorTemplate.StartupXaml\**\bin\**;..\..\Templates\MauiReactorTemplate.StartupXaml\**\obj\**;..\..\Templates\MauiReactorTemplate.StartupXaml\**\*.user">
       <Link>templates\MauiReactor.StartupXaml\%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </TemplateFiles>
+    </TemplateFilesXaml>
+    <TemplateFilesSampleXaml Include="..\..\Templates\MauiReactorTemplate.StartupSampleXaml\**\*" Exclude="..\..\Templates\MauiReactorTemplate.StartupSampleXaml\**\bin\**;..\..\Templates\MauiReactorTemplate.StartupSampleXaml\**\obj\**;..\..\Templates\MauiReactorTemplate.StartupSampleXaml\**\*.user">
+      <Link>templates\MauiReactor.StartupXaml\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </TemplateFilesSampleXaml>
   </ItemGroup>
 
   <Target Name="CopyTemplates" BeforeTargets="Build">
@@ -39,7 +42,11 @@
   </Target>
   
   <Target Name="CopyTemplates" BeforeTargets="Build">
-    <Copy SourceFiles="@(TemplateFiles)" DestinationFiles="@(TemplateFiles->'$(MSBuildThisFileDirectory)templates\MauiReactor.StartupXaml\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(TemplateFilesXaml)" DestinationFiles="@(TemplateFilesXaml->'$(MSBuildThisFileDirectory)templates\MauiReactor.StartupXaml\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <Target Name="CopyTemplates" BeforeTargets="Build">
+    <Copy SourceFiles="@(TemplateFilesSampleXaml)" DestinationFiles="@(TemplateFilesSampleXaml->'$(MSBuildThisFileDirectory)templates\MauiReactor.StartupSampleXaml\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
   
 </Project>

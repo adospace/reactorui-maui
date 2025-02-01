@@ -447,37 +447,37 @@ public static class MauiAppBuilderExtensions
 
 public static class ApplicationExtensions
 {
-    public static Application AddResource(this Application application, string resourceName, Assembly? containerAssembly = null)
-    {
-        var resourceDictionary = new ResourceDictionary();
-        //resourceDictionary.SetAndCreateSource(new Uri(resourceName, UriKind.Relative));
+    //public static Application AddResource(this Application application, string resourceName, Assembly? containerAssembly = null)
+    //{
+    //    var resourceDictionary = new ResourceDictionary();
+    //    //resourceDictionary.SetAndCreateSource(new Uri(resourceName, UriKind.Relative));
 
-        //var methodInfo = typeof(ResourceDictionary).GetMethod("SetAndLoadSource", BindingFlags.NonPublic | BindingFlags.Instance);
-        //if (methodInfo != null)
-        //{
-        //    var parameters = new object?[]
-        //    {
-        //        new Uri(resourceName, UriKind.Relative),
-        //        resourceName,
-        //        containerAssembly ?? Assembly.GetCallingAssembly(),
-        //        null
-        //    };
-        //    methodInfo.Invoke(resourceDictionary, parameters);
-        //}
-        //else
-        //{
-        //    throw new InvalidOperationException("Method 'SetAndLoadSource' not found.");
-        //}
-        //resourceDictionary.SetAndLoadSource(
-        //    new Uri(resourceName, UriKind.Relative),
-        //    resourceName,
-        //    containerAssembly ?? Assembly.GetCallingAssembly(),
-        //    null);
+    //    //var methodInfo = typeof(ResourceDictionary).GetMethod("SetAndLoadSource", BindingFlags.NonPublic | BindingFlags.Instance);
+    //    //if (methodInfo != null)
+    //    //{
+    //    //    var parameters = new object?[]
+    //    //    {
+    //    //        new Uri(resourceName, UriKind.Relative),
+    //    //        resourceName,
+    //    //        containerAssembly ?? Assembly.GetCallingAssembly(),
+    //    //        null
+    //    //    };
+    //    //    methodInfo.Invoke(resourceDictionary, parameters);
+    //    //}
+    //    //else
+    //    //{
+    //    //    throw new InvalidOperationException("Method 'SetAndLoadSource' not found.");
+    //    //}
+    //    //resourceDictionary.SetAndLoadSource(
+    //    //    new Uri(resourceName, UriKind.Relative),
+    //    //    resourceName,
+    //    //    containerAssembly ?? Assembly.GetCallingAssembly(),
+    //    //    null);
 
-        application.Resources.MergedDictionaries.Add(resourceDictionary);
+    //    application.Resources.MergedDictionaries.Add(resourceDictionary);
 
-        return application;
-    }
+    //    return application;
+    //}
 
     public static Application SetWindowsSpecificAssetsDirectory(this Application application, string directoryName)
     {
@@ -489,6 +489,21 @@ public static class ApplicationExtensions
     public static Application UseTheme<T>(this ReactorApplication application) where T : Theme, new()
     {
         application.Theme = new T();
+        return application;
+    }
+
+    public static Application OnUnhandledException(this ReactorApplication application, Action<UnhandledExceptionEventArgs>? unhandledExceptionAction = null)
+    {
+        ReactorApplicationHost.UnhandledException = unhandledExceptionAction;
+        return application;
+    }
+
+    public static Application OnHotReloadCompleted(this ReactorApplication application, Action? onHotReloadCompleted = null)
+    {
+        if (MauiReactorFeatures.HotReloadIsEnabled)
+        {
+            HotReloadTypeLoader.Instance.OnHotReloadCompleted = onHotReloadCompleted;
+        }
         return application;
     }
 }

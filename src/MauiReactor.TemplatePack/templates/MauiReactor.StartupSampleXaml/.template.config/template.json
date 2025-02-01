@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Adolfo Marinucci",
+  "classifications": [ "Maui" ],
+  "identity": "MauiReactor.StartupProjectSampleXaml",
+  "name": "MauiReactor based app with Xaml resources",
+  "description": "A project for creating a .NET MAUI application based on the MauiReactor library (with Xaml styles) with sample content",
+  "shortName": "maui-reactor-startup-sample-xaml",
+  "sourceName": "MauiReactorTemplate.StartupSampleXaml",
+  "preferNameDirectory": true,
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "symbols": {
+    "namespace": {
+      "type": "parameter",
+      "datatype": "string",
+      "replaces": "MauiReactorTemplate.StartupSampleXaml"
+    }
+  }
+}
