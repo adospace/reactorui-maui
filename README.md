@@ -100,6 +100,9 @@ dotnet-maui-reactor -f [net9.0-android|net9.0-ios|...]
 
 [Samples and test application](https://github.com/adospace/reactorui-maui/tree/main/samples)
 
+### Star history
+
+[![Star History Chart](https://api.star-history.com/svg?repos=adospace/reactorui-maui&type=Date)](https://star-history.com/#adospace/reactorui-maui&Date)
 
 ### How to contribute
 
