@@ -17,10 +17,6 @@ namespace MauiReactor.HotReloadConsole
         private Compilation? _projectCompilation;
         private record ParsedFileInfo(string FilePath, SyntaxTree SyntaxTree, DateTime LastModified);
         private readonly Dictionary<string, ParsedFileInfo> _parsedFiles = new();
-        private readonly CSharpParseOptions _parseOptions = CSharpParseOptions.Default.WithPreprocessorSymbols(new List<string>
-        {
-            "DEBUG"
-        });
 
         //static HotReloadClientEmit()
         //{
