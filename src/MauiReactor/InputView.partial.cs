@@ -9,12 +9,14 @@ namespace MauiReactor;
 
 public partial interface IInputView
 {
-    Action<string>? AfterTextChangedAction { get; set; }
+    EventCommand<string>? AfterTextChangedEvent { get; set; }
 }
 
 public partial class InputView<T>
 {
-    Action<string>? IInputView.AfterTextChangedAction { get; set; }
+    EventCommand<string>? IInputView.AfterTextChangedEvent { get; set; }
+
+    private EventCommand<string>? _executingAfterTextChangedEvent;
 
     partial void OnAttachingNativeEvents()
     {
@@ -22,7 +24,7 @@ public partial class InputView<T>
 
         var thisAsIInputView = (IInputView)this;
 
-        if (thisAsIInputView.AfterTextChangedAction != null)
+        if (thisAsIInputView.AfterTextChangedEvent != null)
         {
             NativeControl.Unfocused += NativeControl_Unfocused;
         }
@@ -33,7 +35,11 @@ public partial class InputView<T>
         if (NativeControl != null)
         {
             var thisAsIInputView = (IInputView)this;
-            thisAsIInputView.AfterTextChangedAction?.Invoke(NativeControl.Text);
+            if (_executingAfterTextChangedEvent == null || _executingAfterTextChangedEvent.IsCompleted)
+            {
+                _executingAfterTextChangedEvent = thisAsIInputView.AfterTextChangedEvent;
+                _executingAfterTextChangedEvent?.Execute(sender, NativeControl.Text);
+            }
         }
     }
 
@@ -43,7 +49,17 @@ public partial class InputView<T>
         {
             NativeControl.Unfocused -= NativeControl_Unfocused;
         }
+    }
 
+    partial void Migrated(VisualNode newNode)
+    {
+        if (newNode is InputView<T> @inputview)
+        {
+            if (_executingAfterTextChangedEvent != null && !_executingAfterTextChangedEvent.IsCompleted)
+            {
+                @inputview._executingAfterTextChangedEvent = _executingAfterTextChangedEvent;
+            }
+        }
     }
 }
 
@@ -67,10 +83,19 @@ public partial class InputViewExtensions
         return inputView;
     }
 
-    public static T OnAfterTextChanged<T>(this T inputView, Action<string>? action) where T : IInputView
+    public static T OnAfterTextChanged<T>(this T inputView, Action<string>? textChangedAction)
+        where T : IInputView
     {
-        inputView.AfterTextChangedAction = action;
+        inputView.AfterTextChangedEvent = new SyncEventCommand<string>(executeWithArgs: textChangedAction);
         return inputView;
     }
+
+    public static T OnAfterTextChanged<T>(this T inputView, Func<string, Task>? textChangedAction, bool runInBackground = false)
+        where T : IInputView
+    {
+        inputView.AfterTextChangedEvent = new AsyncEventCommand<string>(executeWithArgs: textChangedAction, runInBackground);
+        return inputView;
+    }
+
 
 }

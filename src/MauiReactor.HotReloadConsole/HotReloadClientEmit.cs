@@ -138,7 +138,7 @@ namespace MauiReactor.HotReloadConsole
                 if (parsedFileInfo.LastModified != currentFileLastWriteTime)
                 {
                     var newSyntaxTree = SyntaxFactory.ParseSyntaxTree(
-                        await ReadAllTextFileAsync(notification.FilePath, cancellationToken), options: _parseOptions, cancellationToken: cancellationToken);
+                        await ReadAllTextFileAsync(notification.FilePath, cancellationToken), options: parsedFileInfo.SyntaxTree.Options, cancellationToken: cancellationToken);
 
                     Console.WriteLine($"Replacing syntax tree for: {Path.GetRelativePath(_workingDirectory, notification.FilePath)}");
 

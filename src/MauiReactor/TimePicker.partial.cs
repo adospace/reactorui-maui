@@ -63,4 +63,14 @@ public partial class TimePickerExtensions
         inputView.TimeSelectedEvent = new SyncEventCommand<TimeChangedEventArgs>((s, args) => action?.Invoke(args.NewTime));
         return inputView;
     }
+
+    public static T OnTimeSelected<T>(this T timePicker, Func<TimeSpan, Task>? timeSelectedAction, bool runInBackground = false)
+        where T : ITimePicker
+    {
+        if (timeSelectedAction != null)
+        {
+            timePicker.TimeSelectedEvent = new AsyncEventCommand<TimeChangedEventArgs>(executeWithArgs: (args) => timeSelectedAction.Invoke(args.NewTime), runInBackground);
+        }
+        return timePicker;
+    }
 }

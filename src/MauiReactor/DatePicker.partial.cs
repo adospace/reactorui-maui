@@ -18,4 +18,15 @@ public partial class DatePickerExtensions
         }
         return datePicker;
     }
+
+    public static T OnDateSelected<T>(this T datePicker, Func<DateTime, Task>? dateSelectedAction, bool runInBackground = false)
+        where T : IDatePicker
+    {
+        if (dateSelectedAction != null)
+        {
+            datePicker.DateSelectedEvent = new AsyncEventCommand<DateChangedEventArgs>(executeWithArgs: (args) => dateSelectedAction.Invoke(args.NewDate), runInBackground);
+        }
+            
+        return datePicker;
+    }
 }

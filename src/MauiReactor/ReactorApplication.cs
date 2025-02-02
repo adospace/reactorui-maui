@@ -80,10 +80,19 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
     {
         if (nativeControl is Microsoft.Maui.Controls.Page page)
         {
+            //MainPage is deprecated in .NET 9
             //_application.MainPage = page;
+
+            //NOTE: Do not use pattern matching here as suggested, it won't work
+            var oldMainWindow = ContainerPage?.Parent as Microsoft.Maui.Controls.Window;
+
             ContainerPage = page;
 
-            if (page.Parent is Microsoft.Maui.Controls.Window mainWindow)
+            if (oldMainWindow != null)
+            {
+                oldMainWindow.Page = page;
+            }
+            else if (page.Parent is Microsoft.Maui.Controls.Window mainWindow)
             {
                 MainWindow = mainWindow;
             }
