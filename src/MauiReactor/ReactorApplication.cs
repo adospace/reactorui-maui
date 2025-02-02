@@ -80,10 +80,19 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
     {
         if (nativeControl is Microsoft.Maui.Controls.Page page)
         {
+            //MainPage is deprecated in .NET 9
             //_application.MainPage = page;
+
+            //NOTE: Do not use pattern matching here as suggested, it won't work
+            var oldMainWindow = ContainerPage?.Parent as Microsoft.Maui.Controls.Window;
+
             ContainerPage = page;
 
-            if (page.Parent is Microsoft.Maui.Controls.Window mainWindow)
+            if (oldMainWindow != null)
+            {
+                oldMainWindow.Page = page;
+            }
+            else if (page.Parent is Microsoft.Maui.Controls.Window mainWindow)
             {
                 MainWindow = mainWindow;
             }
@@ -447,37 +456,38 @@ public static class MauiAppBuilderExtensions
 
 public static class ApplicationExtensions
 {
-    //public static Application AddResource(this Application application, string resourceName, Assembly? containerAssembly = null)
-    //{
-    //    var resourceDictionary = new ResourceDictionary();
-    //    //resourceDictionary.SetAndCreateSource(new Uri(resourceName, UriKind.Relative));
+    [Obsolete(".NET MAUI 9 doesn't support loading resource dictionaries at runtime any more, please see https://adospace.gitbook.io/mauireactor/whats-new-in-version-3#xaml-resources")]
+    public static Application AddResource(this Application application, string resourceName, Assembly? containerAssembly = null)
+    {
+        var resourceDictionary = new ResourceDictionary();
+        //resourceDictionary.SetAndCreateSource(new Uri(resourceName, UriKind.Relative));
 
-    //    //var methodInfo = typeof(ResourceDictionary).GetMethod("SetAndLoadSource", BindingFlags.NonPublic | BindingFlags.Instance);
-    //    //if (methodInfo != null)
-    //    //{
-    //    //    var parameters = new object?[]
-    //    //    {
-    //    //        new Uri(resourceName, UriKind.Relative),
-    //    //        resourceName,
-    //    //        containerAssembly ?? Assembly.GetCallingAssembly(),
-    //    //        null
-    //    //    };
-    //    //    methodInfo.Invoke(resourceDictionary, parameters);
-    //    //}
-    //    //else
-    //    //{
-    //    //    throw new InvalidOperationException("Method 'SetAndLoadSource' not found.");
-    //    //}
-    //    //resourceDictionary.SetAndLoadSource(
-    //    //    new Uri(resourceName, UriKind.Relative),
-    //    //    resourceName,
-    //    //    containerAssembly ?? Assembly.GetCallingAssembly(),
-    //    //    null);
+        //var methodInfo = typeof(ResourceDictionary).GetMethod("SetAndLoadSource", BindingFlags.NonPublic | BindingFlags.Instance);
+        //if (methodInfo != null)
+        //{
+        //    var parameters = new object?[]
+        //    {
+        //        new Uri(resourceName, UriKind.Relative),
+        //        resourceName,
+        //        containerAssembly ?? Assembly.GetCallingAssembly(),
+        //        null
+        //    };
+        //    methodInfo.Invoke(resourceDictionary, parameters);
+        //}
+        //else
+        //{
+        //    throw new InvalidOperationException("Method 'SetAndLoadSource' not found.");
+        //}
+        //resourceDictionary.SetAndLoadSource(
+        //    new Uri(resourceName, UriKind.Relative),
+        //    resourceName,
+        //    containerAssembly ?? Assembly.GetCallingAssembly(),
+        //    null);
 
-    //    application.Resources.MergedDictionaries.Add(resourceDictionary);
+        application.Resources.MergedDictionaries.Add(resourceDictionary);
 
-    //    return application;
-    //}
+        return application;
+    }
 
     public static Application SetWindowsSpecificAssetsDirectory(this Application application, string directoryName)
     {

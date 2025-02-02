@@ -17,4 +17,13 @@ public static partial class HybridWebViewExtensions
             (s, args) => rawMessageReceivedAction?.Invoke(args.Message));
         return hybridWebView;
     }
+    public static T OnRawMessageReceived<T>(this T hybridWebView, Func<string?, Task>? rawMessageReceivedAction, bool runInBackground = false)
+        where T : IHybridWebView
+    {
+        if (rawMessageReceivedAction != null)
+        {
+            hybridWebView.RawMessageReceivedEvent = new AsyncEventCommand<HybridWebViewRawMessageReceivedEventArgs>(executeWithArgs: (args) => rawMessageReceivedAction.Invoke(args.Message), runInBackground);
+        }
+        return hybridWebView;
+    }
 }

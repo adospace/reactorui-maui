@@ -12,8 +12,8 @@ public static class MauiProgram
         builder
             .UseMauiReactorApp<MainPage>(app =>
             {
-                app.AddResource("Resources/Styles/Colors.xaml");
-                app.AddResource("Resources/Styles/Styles.xaml");
+                //app.AddResource("Resources/Styles/Colors.xaml");
+                //app.AddResource("Resources/Styles/Styles.xaml");
 
                 app.SetWindowsSpecificAssetsDirectory("Assets");
             })
