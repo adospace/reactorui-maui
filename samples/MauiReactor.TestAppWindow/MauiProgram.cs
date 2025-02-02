@@ -12,8 +12,8 @@ namespace MauiReactor.TestAppWindow
             builder
                 .UseMauiReactorApp<MainWindow>(app =>
                 {
-                    app.AddResource("Resources/Styles/Colors.xaml");
-                    app.AddResource("Resources/Styles/Styles.xaml");
+                    //app.AddResource("Resources/Styles/Colors.xaml");
+                    //app.AddResource("Resources/Styles/Styles.xaml");
 
                     app.SetWindowsSpecificAssetsDirectory("Assets");
                 })

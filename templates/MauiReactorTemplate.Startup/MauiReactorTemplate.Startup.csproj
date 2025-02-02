@@ -59,11 +59,15 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
+  <ItemGroup Condition="'$(Configuration)'=='Debug'">
+    <RuntimeHostConfigurationOption Include="MauiReactor.HotReload" Value="true" Trim="false" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net9.0-ios'">
+    <RuntimeHostConfigurationOption Include="MauiReactor.HotReload" Value="false" Trim="true" />
+  </ItemGroup>
+
+
   <ItemGroup>
-    <RuntimeHostConfigurationOption Include="MauiReactor.HotReload" Value="true" Trim="true" />
-  </ItemGroup>  
-  
-	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.21" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 		<PackageReference Include="Reactor.Maui" Version="3.0.*" />

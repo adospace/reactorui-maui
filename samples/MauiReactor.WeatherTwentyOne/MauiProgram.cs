@@ -12,7 +12,7 @@ namespace MauiReactor.WeatherTwentyOne
             builder
                 .UseMauiReactorApp<ShellPage>(app => 
                 {
-                    app.AddResource("Resources/Styles/DefaultTheme.xaml");
+                    //app.AddResource("Resources/Styles/DefaultTheme.xaml");
 
                     app.SetWindowsSpecificAssetsDirectory("Assets");
                 })

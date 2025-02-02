@@ -14,8 +14,8 @@ public static class MauiProgram
             .UseSkiaSharp(true)
             .UseMauiReactorApp<ChartPage>(app =>
             {
-                app.AddResource("Resources/Styles/Colors.xaml");
-                app.AddResource("Resources/Styles/Styles.xaml");
+                //app.AddResource("Resources/Styles/Colors.xaml");
+                //app.AddResource("Resources/Styles/Styles.xaml");
 
                 LiveCharts.Configure(config =>
                     config

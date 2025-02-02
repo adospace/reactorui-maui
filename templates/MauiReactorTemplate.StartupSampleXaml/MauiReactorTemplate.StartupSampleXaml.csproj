@@ -77,11 +77,4 @@
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.10" />
     <PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.3" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\MauiReactor.ScaffoldGenerator\MauiReactor.ScaffoldGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
-    <ProjectReference Include="..\..\src\MauiReactor\MauiReactor.csproj" />
-  </ItemGroup>
-
-
 </Project>
