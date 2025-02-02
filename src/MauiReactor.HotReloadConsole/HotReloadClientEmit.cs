@@ -17,10 +17,6 @@ namespace MauiReactor.HotReloadConsole
         private Compilation? _projectCompilation;
         private record ParsedFileInfo(string FilePath, SyntaxTree SyntaxTree, DateTime LastModified);
         private readonly Dictionary<string, ParsedFileInfo> _parsedFiles = new();
-        private readonly CSharpParseOptions _parseOptions = CSharpParseOptions.Default.WithPreprocessorSymbols(new List<string>
-        {
-            "DEBUG"
-        });
 
         //static HotReloadClientEmit()
         //{
@@ -138,7 +134,7 @@ namespace MauiReactor.HotReloadConsole
                 if (parsedFileInfo.LastModified != currentFileLastWriteTime)
                 {
                     var newSyntaxTree = SyntaxFactory.ParseSyntaxTree(
-                        await ReadAllTextFileAsync(notification.FilePath, cancellationToken), options: _parseOptions, cancellationToken: cancellationToken);
+                        await ReadAllTextFileAsync(notification.FilePath, cancellationToken), options: parsedFileInfo.SyntaxTree.Options, cancellationToken: cancellationToken);
 
                     Console.WriteLine($"Replacing syntax tree for: {Path.GetRelativePath(_workingDirectory, notification.FilePath)}");
 
