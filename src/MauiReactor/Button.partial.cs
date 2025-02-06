@@ -14,17 +14,6 @@ public partial class Button<T>
 
 }
 
-public partial class ButtonExtensions
-{
-
-    //public static T OnClicked<T>(this T button, Func<Task>? clickedAction)
-    //    where T : IButton
-    //{
-    //    button.ClickedAction = new AsyncEventCommand(clickedAction);
-    //    return button;
-    //}
-}
-
 public partial class Component
 {
     public static Button Button(string text) 

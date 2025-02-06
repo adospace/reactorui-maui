@@ -4,12 +4,6 @@ namespace MauiReactor;
 
 public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : Microsoft.Maui.Controls.ContentPage, new()
 {
-    public ContentPage(string title)
-        : base(title)
-    {
-
-    }
-
     protected override void OnAddChild(VisualNode widget, BindableObject childControl)
     {
         Validate.EnsureNotNull(NativeControl);
@@ -57,11 +51,7 @@ public partial class ContentPage
         }
     }
 
-    public ContentPage(string title)
-        : base(title)
-    {
-
-    }
+    public ContentPage(string title) => this.Title(title);
 
     protected override void OnMount()
     {

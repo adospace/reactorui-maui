@@ -29,29 +29,6 @@ namespace MauiReactor
             return _internalChildren.GetEnumerator();
         }
 
-        //public void Add(params IEnumerable<VisualNode?[]>? nodes)
-        //{
-        //    if (nodes is null)
-        //    {
-        //        return;
-        //    }
-
-        //    if (nodes is VisualNode visualNode)
-        //    {
-        //        OnChildAdd(visualNode);
-        //    }
-        //    else
-        //    {
-        //        foreach (var node in nodes)
-        //        {
-        //            if (node != null)
-        //            {
-        //                OnChildAdd(node);
-        //            }
-        //        }
-        //    }
-        //}
-
         public void Add(object? genericNode)
         {
             if (genericNode == null)

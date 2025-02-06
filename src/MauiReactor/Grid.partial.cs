@@ -48,15 +48,6 @@ public partial class Grid<T>
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIGrid = (IGrid)this;
-        //if (!NativeControl.ColumnDefinitions.IsEqualTo(thisAsIGrid.ColumnDefinitions)) NativeControl.ColumnDefinitions = thisAsIGrid.ColumnDefinitions;
-        //if (!NativeControl.RowDefinitions.IsEqualTo(thisAsIGrid.RowDefinitions)) NativeControl.RowDefinitions = thisAsIGrid.RowDefinitions;
-
-        //foreach (var rowDefinition in rows.Split([' ', ','], StringSplitOptions.RemoveEmptyEntries)
-        //    .Select(_ => (GridLength)Validate.EnsureNotNull(_gridLengthTypeConverter.ConvertFromInvariantString(_)))
-        //    .Select(_ => new RowDefinition() { Height = _ }))
-        //{
-        //    grid.RowDefinitions.Add(rowDefinition);
-        //}
 
         var rowsOnNativeControl = (string?)NativeControl.GetValue(_mauiReactorGridRows);
         if (rowsOnNativeControl != thisAsIGrid.RowDefinitions)
