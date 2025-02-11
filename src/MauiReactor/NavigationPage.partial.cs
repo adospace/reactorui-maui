@@ -34,4 +34,8 @@ public partial class NavigationPage<T>
         base.OnAddChild(widget, childControl);
     }
 
+    protected override void MergeWith(VisualNode newNode)
+    {
+        this.Unmount();
+    }
 }
