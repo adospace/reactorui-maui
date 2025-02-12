@@ -32,7 +32,7 @@ namespace MauiReactor
             return GetEnumerator();
         }
 
-        public void Add(params IEnumerable<VisualNode> nodes)
+        public void Add(params VisualNode[] nodes)
         {
             ArgumentNullException.ThrowIfNull(nodes);
 
