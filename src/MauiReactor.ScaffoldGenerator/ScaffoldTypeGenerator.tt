@@ -409,13 +409,22 @@ namespace <#= Namespace #>
         }
         
         <# if (IsTypeDerivingFromElement) { #>
-        public <#= GeneratorType.Name #>(params IEnumerable<VisualNode?>? children)
+        public <#= TypeName #>(params IEnumerable<VisualNode?>? children)
         {
             if (children != null)
             {
                 this.AddChildren(children);
             }
-        }        
+        }
+
+        public <#= TypeName #>(Action<global::<#= FullTypeName #>?>? componentRefAction, params IEnumerable<VisualNode?>? children)        
+            : base(componentRefAction)
+        {
+            if (children != null)
+            {
+                this.AddChildren(children);
+            }
+        }
         <# } #>
     }
     <# } #>
@@ -431,6 +440,15 @@ namespace <#= Namespace #>
 
         <# if (IsTypeDerivingFromElement) { #>
         public <#= GeneratorType.Name #>(params IEnumerable<VisualNode?>? children)
+        {
+            if (children != null)
+            {
+                this.AddChildren(children);
+            }
+        }
+
+        public <#= GeneratorType.Name #>(Action<global::<#= FullTypeName #>?>? componentRefAction, params IEnumerable<VisualNode?>? children)
+            : base(componentRefAction)
         {
             if (children != null)
             {
