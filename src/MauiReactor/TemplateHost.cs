@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MauiReactor.Internals;
+using Microsoft.Extensions.Logging;
+using static MauiReactor.Integration.ComponentHost;
 
 namespace MauiReactor;
 
@@ -109,6 +111,9 @@ public class TemplateHost : VisualNode, ITemplateHost, IVisualNode, IHostElement
         }
         catch (Exception ex)
         {
+            var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<TemplateHost>>();
+            logger?.LogError(ex, "Unable to layout component");
+
             ReactorApplicationHost.FireUnhandledExceptionEvent(ex);
             System.Diagnostics.Debug.WriteLine(ex);
         }

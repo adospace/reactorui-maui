@@ -289,6 +289,10 @@ namespace MauiReactor
                 throw new InvalidOperationException();
             }
 
+            var logger = ServiceCollectionProvider
+                .ServiceProvider?
+                .GetService<ILogger<PageHost<T>>>();
+
             try
             {
                 var newComponent = HotReloadTypeLoader.Instance.LoadObject<Component>(typeof(T));
@@ -305,8 +309,11 @@ namespace MauiReactor
             }
             catch (Exception ex)
             {
-                ReactorApplicationHost.FireUnhandledExceptionEvent(
-                    new InvalidOperationException($"Unable to hot reload component {typeof(T).FullName}: type not found in received assembly", ex));
+                var throwException = new InvalidOperationException($"Unable to hot reload component {typeof(T).FullName}: type not found in received assembly", ex);
+                logger?.LogError(throwException, "Unhandled exception raised while laying out components");
+
+                ReactorApplicationHost.FireUnhandledExceptionEvent(throwException);
+
                 System.Diagnostics.Debug.WriteLine(ex);
             }
         }
@@ -343,11 +350,11 @@ namespace MauiReactor
 
         private void OnLayout()
         {
+            var logger = ServiceCollectionProvider
+                .ServiceProvider?
+                .GetService<ILogger<PageHost<T>>>();
             try
             {
-                var logger = ServiceCollectionProvider
-                    .ServiceProvider?
-                    .GetService<ILogger<PageHost<T>>>();
 
                 if (logger != null &&
                     logger.IsEnabled(LogLevel.Debug))
@@ -370,6 +377,7 @@ namespace MauiReactor
             }
             catch (Exception ex)
             {
+                logger?.LogError(ex, "Unhandled exception raised while laying out components");
                 ReactorApplicationHost.FireUnhandledExceptionEvent(ex);
                 System.Diagnostics.Debug.WriteLine(ex);
             }

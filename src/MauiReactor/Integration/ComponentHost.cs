@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MauiReactor.HotReload;
 using MauiReactor.Internals;
+using Microsoft.Extensions.Logging;
 
 namespace MauiReactor.Integration;
 
@@ -57,6 +58,9 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
             }
             catch (Exception ex)
             {
+                var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<ComponentHostNode>>();
+                logger?.LogError(ex, "Unable to layout component");
+
                 System.Diagnostics.Debug.WriteLine(ex);
                 ReactorApplicationHost.FireUnhandledExceptionEvent(ex);
             }
@@ -90,6 +94,9 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
             }
             catch (Exception ex)
             {
+                var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<ComponentHostNode>>();
+                logger?.LogError(ex, "Unable to layout component");
+
                 ReactorApplicationHost.FireUnhandledExceptionEvent(ex);
                 System.Diagnostics.Debug.WriteLine(ex);
             }
