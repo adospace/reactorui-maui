@@ -133,7 +133,10 @@ namespace MauiReactor.HotReload
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Trace.WriteLine(ex);                
+                    var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<HotReloadServer>>();
+                    logger?.LogError(ex, "Unable to hotreload the application");
+
+                    System.Diagnostics.Trace.WriteLine(ex);
                 }
             }
             else
