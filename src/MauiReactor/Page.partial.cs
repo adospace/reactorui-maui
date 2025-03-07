@@ -19,8 +19,7 @@ public partial class Page<T>
 
     BackButtonBehavior? IPage.BackButtonBehavior { get; set; }
 
-
-    protected override void OnMount()
+    protected override void OnBeforeMount()
     {
         var pageHost = GetParent<PageHost>();
         var containerPage = ((IVisualNode)this).GetContainerPage();
@@ -33,7 +32,7 @@ public partial class Page<T>
             _nativeControl = nativeContainerPage;
         }
 
-        base.OnMount();
+        base.OnBeforeMount();
     }
 
     protected override void OnAddChild(VisualNode widget, BindableObject childControl)

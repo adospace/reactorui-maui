@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.TestApp.Pages;
 
-class TestBug257 : Component
+public class TestBug257 : Component
 {
+
     protected override void OnMounted()
     {
         Routing.RegisterRoute<TestBug257_Page6>("page-6");
@@ -19,8 +20,12 @@ class TestBug257 : Component
             Shell(
                 TabBar(
                     ShellContent("Home")
+                        .AutomationId("Home")
+                        .Route("Home")
                         .RenderContent(() => new TestBug257_HomePage()),
                     ShellContent("Tab2")
+                        .Route("Tab2")
+                        .AutomationId("Tab2")
                         .RenderContent(() => new TestBug257_Page2()),
                     ShellContent("Tab3")
                         .RenderContent(() => new TestBug257_Page3()),
@@ -29,11 +34,13 @@ class TestBug257 : Component
                     ShellContent("Tab5")
                         .RenderContent(() => new TestBug257_Page5())
                 )
+                .AutomationId("MainTabBar")
                 .Route("mainpage")
-    ));
+        )
+        .AutomationId("MainShell"));
 }
 
-class TestBug257_HomePage : Component
+partial class TestBug257_HomePage : Component
 {
     protected override void OnMounted()
     {
@@ -52,8 +59,9 @@ class TestBug257_HomePage : Component
         return ContentPage("HomePage",
 
             Button("To Page 6")
+                .AutomationId("ToPage6_Button")
                 .Center()
-                .OnClicked(async () => await MauiControls.Shell.Current.GoToAsync("page-6"))
+                .OnClicked(async () => await CurrentShell!.GoToAsync("page-6"))
                 //.OnClicked(async () => await Navigation.PushAsync<TestBug257_Page6>())
 
             );
@@ -136,7 +144,12 @@ class TestBug257_Page5 : Component
     }
 }
 
-class TestBug257_Page6 : Component
+class TestBug257_Page6State
+{
+    public int ClickCount { get; set; }
+}
+
+class TestBug257_Page6 : Component<TestBug257_Page6State>
 {
     protected override void OnMounted()
     {
@@ -156,10 +169,12 @@ class TestBug257_Page6 : Component
             ToolbarItem("Menu Item 1")
                 .OnClicked(() => System.Diagnostics.Debug.WriteLine("Menu Item 1 Clicked")),
 
-            Button("Click me!")
+            Button(State.ClickCount == 0 ? "Click me!" : $"Clicked: {State.ClickCount}")
+                .AutomationId("Page6_ClickCount_Button")
                 .Center()
-                .OnClicked(async () => await ContainerPage.DisplayAlert("Message", "Hello!", "OK"))
+                .OnClicked(() => SetState(s => s.ClickCount++))
 
-            );
+        )
+        .AutomationId("page6");
     }
 }

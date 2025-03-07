@@ -391,17 +391,24 @@ namespace MauiReactor
             _containerComponent = containerComponent;
 
             if (!_isMounted && Parent != null)
+            {
+                OnBeforeMount();
                 OnMount();
+            }
 
             CommitAnimations();
 
             //AnimateThis();
 
             if (_isMounted && _stateChanged)
+            {
                 OnUpdate();
+            }
 
             foreach (var child in Children.Where(_ => _.IsLayoutCycleRequired))
+            {
                 child.Layout(containerComponent);
+            }
         }
 
         internal virtual void CommitAnimations() { }
@@ -594,6 +601,10 @@ namespace MauiReactor
             }
 
             _animatables = null;
+        }
+
+        protected virtual void OnBeforeMount()
+        {
         }
 
         protected virtual void OnMount()

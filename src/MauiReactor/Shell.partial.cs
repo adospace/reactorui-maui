@@ -30,6 +30,12 @@ public partial class Shell<T> : IEnumerable
     Func<Microsoft.Maui.Controls.BaseShellItem, VisualNode>? IShell.ItemTemplate { get; set; }
     Func<Microsoft.Maui.Controls.MenuItem, VisualNode>? IShell.MenuItemTemplate { get; set; }
 
+    protected override void OnMount()
+    {
+        base.OnMount();
+
+        MauiControlsShellExtensions.CurrentShell = NativeControl;
+    }
 
     protected override IEnumerable<VisualNode> RenderChildren()
     {
@@ -387,7 +393,7 @@ class ComponentShellRouteFactory<T> : RouteFactory where T : Component, new()
         }
         else
         {
-            return PageHost<T>.CreatePage(Microsoft.Maui.Controls.Shell.Current.Navigation);
+            return PageHost<T>.CreatePage((MauiControlsShellExtensions.CurrentShell ?? Microsoft.Maui.Controls.Shell.Current).Navigation);
         }
     }
 
@@ -410,6 +416,29 @@ public static class MauiControlsShellExtensions
 
     internal static Stack<Microsoft.Maui.Controls.Shell> _shellStack = [];
 
+    private static WeakReference<Microsoft.Maui.Controls.Shell>? _currentShell;
+    internal static Microsoft.Maui.Controls.Shell? CurrentShell
+    {
+        get
+        {
+            if (_currentShell?.TryGetTarget(out var shell) == true)
+            {
+                return shell;
+            }
+
+            return null;
+        }
+        set
+        {
+            if (value == null)
+            {
+                _currentShell = null;
+                return;
+            }
+
+            _currentShell = new WeakReference<Microsoft.Maui.Controls.Shell>(value);
+        }
+    }
     public static async Task GoToAsync<P>(this Microsoft.Maui.Controls.Shell shell, string route, Action<P> propsInitializer, bool? animate = null) where P : new()
     {
         try

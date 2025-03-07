@@ -153,8 +153,8 @@ namespace MauiReactor
         public INavigation? Navigation
             => ContainerPage?.Navigation ?? NavigationProvider.Navigation;// ?? NavigationProvider.Navigation ?? throw new InvalidOperationException("Navigation is not available, , check its availability with the property IsNavigationAvailable");
 
-        //public bool IsNavigationAvailable
-        //    => (_containerPage ??= ((IVisualNode)this).GetContainerPage())?.Navigation != null || NavigationProvider.Navigation != null;
+        public Microsoft.Maui.Controls.Shell? CurrentShell
+            => MauiControlsShellExtensions.CurrentShell;
 
         private Microsoft.Maui.Controls.Page? _containerPage;
 
@@ -278,11 +278,11 @@ namespace MauiReactor
                 {
                     CopyObjectExtensions.CopyProperties(Props, newComponentWithProps.Props);
                 }
-                else
-                {
-                    var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
-                    logger?.LogWarning("Unable to tranfser component Props from type {thisComponent} to {newComponent}", GetType(), newNode.GetType());
-                }
+                //else
+                //{
+                //    var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
+                //    logger?.LogWarning("Unable to tranfser component Props from type {thisComponent} to {newComponent}", GetType(), newNode.GetType());
+                //}
             }
 
             base.MergeWith(newNode);
