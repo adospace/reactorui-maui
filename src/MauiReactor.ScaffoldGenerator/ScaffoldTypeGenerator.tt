@@ -67,9 +67,9 @@ namespace <#= Namespace #>
         {
         }
     <# } else if (IsTypeSealed) { #>
-    public sealed partial class <#= TypeName #> : <#= BaseTypeName() #><<#= FullTypeName #>>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #>
+    public sealed partial class <#= TypeName #> : <#= BaseTypeName() #><global::<#= FullTypeName #>>, <#= InterfaceName #><#= SupportItemTemplate ? ", ICustomDataTemplateOwner, IAutomationItemContainer" : string.Empty #>
     {
-        public <#= TypeName #>(Action<<#= FullTypeName #>?>? componentRefAction = null)
+        public <#= TypeName #>(Action<global::<#= FullTypeName #>?>? componentRefAction = null)
             : base(componentRefAction)
         {
             <#= TypeName #>Styles.Default?.Invoke(this);
@@ -476,59 +476,6 @@ namespace <#= Namespace #>
         }
         <# } #>
 
-        /*
-        <# foreach (var property in Properties.GroupBy(p => p.Name).Select(g => g.First())) { #>
-
-        <# if (property.Type.Equals(TypeofDouble, SymbolEqualityComparer.Default)) { #>
-
-        static object? Set<#= property.Name #>(object <#= TypeName.ToLocalVariableName() #>, RxAnimation animation)
-            => ((<#= InterfaceName #>)<#= TypeName.ToLocalVariableName() #>).<#= property.Name #> = ((RxDoubleAnimation)animation).CurrentValue();
-
-        <# } else if (property.Type.Equals(TypeofFloat, SymbolEqualityComparer.Default)) { #>
-
-        static object? Set<#= property.Name #>(object <#= TypeName.ToLocalVariableName() #>, RxAnimation animation)
-            => ((<#= InterfaceName #>)<#= TypeName.ToLocalVariableName() #>).<#= property.Name #> = ((RxFloatAnimation)animation).CurrentValue();          
-
-        <# } else if (property.Type.Equals(TypeofRect, SymbolEqualityComparer.Default)) { #>
-
-        static object? Set<#= property.Name #>(object <#= TypeName.ToLocalVariableName() #>, RxAnimation animation)
-            => ((<#= InterfaceName #>)<#= TypeName.ToLocalVariableName() #>).<#= property.Name #> = ((RxRectAnimation)animation).CurrentValue();
-
-        <# } else if (property.Type.Equals(TypeofPoint, SymbolEqualityComparer.Default)) { #>
-    
-        static object? Set<#= property.Name #>(object <#= TypeName.ToLocalVariableName() #>, RxAnimation animation)
-            => ((<#= InterfaceName #>)<#= TypeName.ToLocalVariableName() #>).<#= property.Name #> = ((RxPointAnimation)animation).CurrentValue();
-
-        <# } else if (property.Type.Equals(TypeofPointF, SymbolEqualityComparer.Default)) { #>
-        
-        static object? Set<#= property.Name #>(object <#= TypeName.ToLocalVariableName() #>, RxAnimation animation)
-            => ((<#= InterfaceName #>)<#= TypeName.ToLocalVariableName() #>).<#= property.Name #> = ((RxPointFAnimation)animation).CurrentValue();
-
-        <# } else if (property.Type.Equals(TypeofThickness, SymbolEqualityComparer.Default)) { #>
-        
-        static object? Set<#= property.Name #>(object <#= TypeName.ToLocalVariableName() #>, RxAnimation animation)
-            => ((<#= InterfaceName #>)<#= TypeName.ToLocalVariableName() #>).<#= property.Name #> = ((RxThicknessAnimation)animation).CurrentValue();
-
-        <# } else if (property.Type.Equals(TypeofThicknessF, SymbolEqualityComparer.Default)) { #>
-        
-        static object? Set<#= property.Name #>(object <#= TypeName.ToLocalVariableName() #>, RxAnimation animation)
-            => ((<#= InterfaceName #>)<#= TypeName.ToLocalVariableName() #>).<#= property.Name #> = ((RxThicknessFAnimation)animation).CurrentValue();
-
-        <# } else if (property.Type.Equals(TypeofCornerRadiusF, SymbolEqualityComparer.Default)) { #>
-        
-        static object? Set<#= property.Name #>(object <#= TypeName.ToLocalVariableName() #>, RxAnimation animation)
-            => ((<#= InterfaceName #>)<#= TypeName.ToLocalVariableName() #>).<#= property.Name #> = ((RxCornerRadiusFAnimation)animation).CurrentValue();
-
-        <# } else if (property.Type.Equals(TypeofCornerRadius, SymbolEqualityComparer.Default)) { #>
-        
-        static object? Set<#= property.Name #>(object <#= TypeName.ToLocalVariableName() #>, RxAnimation animation)
-            => ((<#= InterfaceName #>)<#= TypeName.ToLocalVariableName() #>).<#= property.Name #> = ((RxCornerRadiusAnimation)animation).CurrentValue();
-        
-        <# } #>
-
-        <# } #>
-        */
-
         <# foreach (var property in Properties) { #>
 
         <# if (property.Type.Equals(TypeofDouble, SymbolEqualityComparer.Default)) { #>
@@ -537,7 +484,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxDoubleAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -549,7 +496,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxFloatAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -561,7 +508,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleRectAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -573,7 +520,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimplePointAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -585,7 +532,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimplePointFAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -597,7 +544,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -609,7 +556,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessFAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -621,7 +568,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusFAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -633,7 +580,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusAnimation(<#= property.Name.CamelCase() #>));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -645,7 +592,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, <#= property.Name.CamelCase() #>);
             <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }       
@@ -656,7 +603,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func));
             <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
@@ -667,7 +614,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new Microsoft.Maui.Thickness(leftRight, topBottom);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new Microsoft.Maui.Thickness(leftRight, topBottom));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new Microsoft.Maui.Thickness(leftRight, topBottom));
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Microsoft.Maui.Thickness(leftRight, topBottom)));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -678,7 +625,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new Microsoft.Maui.Thickness(uniformSize);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new Microsoft.Maui.Thickness(uniformSize));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new Microsoft.Maui.Thickness(uniformSize));
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Microsoft.Maui.Thickness(uniformSize)));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -688,7 +635,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new Microsoft.Maui.Thickness(left, top, right, bottom);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new Microsoft.Maui.Thickness(left, top, right, bottom));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new Microsoft.Maui.Thickness(left, top, right, bottom));
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Microsoft.Maui.Thickness(left, top, right, bottom)));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -701,7 +648,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new ThicknessF(leftRight, topBottom);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new ThicknessF(leftRight, topBottom));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new ThicknessF(leftRight, topBottom));
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessFAnimation(new ThicknessF(leftRight, topBottom)));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -711,7 +658,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new ThicknessF(uniformSize);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new ThicknessF(uniformSize));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new ThicknessF(uniformSize));
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessFAnimation(new ThicknessF(uniformSize)));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -721,7 +668,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new ThicknessF(left, top, right, bottom);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new ThicknessF(left, top, right, bottom));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new ThicknessF(left, top, right, bottom));
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessFAnimation(new ThicknessF(left, top, right, bottom)));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -734,7 +681,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new CornerRadius(uniformSize);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadius(uniformSize));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadius(uniformSize));
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(uniformSize)));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -744,7 +691,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new CornerRadius(topLeft, topRight, bottomRight, bottomLeft);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadius(topLeft, topRight, bottomRight, bottomLeft));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadius(topLeft, topRight, bottomRight, bottomLeft));
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(topLeft, topRight, bottomRight, bottomLeft)));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -757,7 +704,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new CornerRadiusF(uniformSize);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadiusF(uniformSize));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadiusF(uniformSize));
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusFAnimation(new CornerRadiusF(uniformSize)));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -767,7 +714,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft));
             <# } #>
             <#= TypeName.ToLocalVariableName() #>.AppendAnimatable(global::<#= FullTypeName #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusFAnimation(new CornerRadiusF(topLeft, topRight, bottomRight, bottomLeft)));
             return <#= TypeName.ToLocalVariableName() #>;
@@ -781,7 +728,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new Microsoft.Maui.Graphics.Point(x, y);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new Microsoft.Maui.Graphics.Point(x, y));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new Microsoft.Maui.Graphics.Point(x, y));
             <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
@@ -794,7 +741,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new CornerRadius(uniformRadius);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadius(uniformRadius));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadius(uniformRadius));
             <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
@@ -803,7 +750,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new CornerRadius(topLeft, topRight, bottomLeft, bottomRight);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadius(topLeft, topRight, bottomLeft, bottomRight));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new CornerRadius(topLeft, topRight, bottomLeft, bottomRight));
             <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
@@ -815,7 +762,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromFile(file);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, Microsoft.Maui.Controls.ImageSource.FromFile(file));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, Microsoft.Maui.Controls.ImageSource.FromFile(file));
             <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
@@ -824,7 +771,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly));
             <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
@@ -833,7 +780,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, Microsoft.Maui.Controls.ImageSource.FromUri(imageUri));
             <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
@@ -848,7 +795,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = propertyValue;
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, propertyValue);
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, propertyValue);
             <# } #>
 
             return <#= TypeName.ToLocalVariableName() #>;
@@ -858,7 +805,7 @@ namespace <#= Namespace #>
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(<#= FullTypeName #>.<#= property.Name #>Property, Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
             <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
