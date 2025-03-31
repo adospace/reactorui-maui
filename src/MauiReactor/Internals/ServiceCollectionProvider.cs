@@ -138,6 +138,11 @@ internal static class ServiceProviderExtensions
     }
 }
 
+/// <summary>
+/// Used to provide an isolated service provider for testing purposes. This Context should not
+/// be used outside of testing.
+/// </summary>
+
 public sealed class ServiceContext : IDisposable
 {
     public ServiceContext(IServiceProvider serviceProvider)
