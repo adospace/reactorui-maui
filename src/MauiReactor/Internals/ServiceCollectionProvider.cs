@@ -1,4 +1,5 @@
 ﻿using MauiReactor.HotReload;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
 
@@ -6,11 +7,12 @@ namespace MauiReactor.Internals;
 
 internal static class ServiceCollectionProvider
 {
+    static readonly AsyncLocal<IServiceProvider?> _testingServiceProvider = new();
     static IServiceProvider? _serviceProvider = null!;
 
     public static IServiceProvider? ServiceProvider
-    { 
-        get => _serviceProvider;
+    {
+        get => _testingServiceProvider.Value ?? _serviceProvider;
         set
         {
             if (value != null)
@@ -29,6 +31,11 @@ internal static class ServiceCollectionProvider
                 _serviceProvider = null!;
             }
         }
+    }
+
+    internal static void SetTestingServiceProvider(IServiceProvider? serviceProvider)
+    {
+        _testingServiceProvider.Value = serviceProvider;
     }
 }
 
@@ -131,11 +138,16 @@ internal static class ServiceProviderExtensions
     }
 }
 
+/// <summary>
+/// Used to provide an isolated service provider for testing purposes. This Context should not
+/// be used outside of testing.
+/// </summary>
+
 public sealed class ServiceContext : IDisposable
 {
     public ServiceContext(IServiceProvider serviceProvider)
     {
-        ServiceCollectionProvider.ServiceProvider = serviceProvider;
+        ServiceCollectionProvider.SetTestingServiceProvider(serviceProvider);
     }
 
     public ServiceContext(Action<ServiceCollection> serviceCollectionSetupAction)
@@ -152,6 +164,6 @@ public sealed class ServiceContext : IDisposable
 
     public void Dispose()
     {
-        ServiceCollectionProvider.ServiceProvider = null!;
+        ServiceCollectionProvider.SetTestingServiceProvider(null);
     }
 }
