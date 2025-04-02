@@ -1,5 +1,6 @@
 ﻿using MauiReactor;
 using MauiReactorTemplate.Startup.Components;
+using MauiReactorTemplate.Startup.Resources.Styles;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Hosting;
 
@@ -11,7 +12,14 @@ namespace MauiReactorTemplate.Startup
         {
             var builder = MauiApp.CreateBuilder();
             builder
-                .UseMauiReactorApp<HomePage>()
+                .UseMauiReactorApp<HomePage>(app =>
+                {
+                    app.UseTheme<ApplicationTheme>();
+                },
+                unhandledExceptionAction: e => 
+                {
+                    System.Diagnostics.Debug.WriteLine(e.ExceptionObject);
+                })
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -19,7 +27,7 @@ namespace MauiReactorTemplate.Startup
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

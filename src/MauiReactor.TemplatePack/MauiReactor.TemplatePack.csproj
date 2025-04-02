@@ -37,15 +37,15 @@
     </TemplateFilesSampleXaml>
   </ItemGroup>
 
-  <Target Name="CopyTemplates" BeforeTargets="Build">
+  <Target Name="CopyTemplates1" BeforeTargets="Build">
     <Copy SourceFiles="@(TemplateFiles)" DestinationFiles="@(TemplateFiles->'$(MSBuildThisFileDirectory)templates\MauiReactor.Startup\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
   
-  <Target Name="CopyTemplates" BeforeTargets="Build">
+  <Target Name="CopyTemplates2" BeforeTargets="Build">
     <Copy SourceFiles="@(TemplateFilesXaml)" DestinationFiles="@(TemplateFilesXaml->'$(MSBuildThisFileDirectory)templates\MauiReactor.StartupXaml\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
 
-  <Target Name="CopyTemplates" BeforeTargets="Build">
+  <Target Name="CopyTemplates3" BeforeTargets="Build">
     <Copy SourceFiles="@(TemplateFilesSampleXaml)" DestinationFiles="@(TemplateFilesSampleXaml->'$(MSBuildThisFileDirectory)templates\MauiReactor.StartupSampleXaml\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
   
