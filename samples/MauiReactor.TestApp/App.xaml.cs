@@ -1,4 +1,5 @@
-﻿using MauiReactor.TestApp.Resources.Styles;
+﻿using MauiReactor.TestApp.Pages;
+using MauiReactor.TestApp.Resources.Styles;
 using System;
 
 namespace MauiReactor.TestApp;
@@ -13,7 +14,7 @@ public partial class App : MauiReactorApplication
 }
 
 
-public abstract class MauiReactorApplication : ReactorApplication<HomePage>
+public abstract class MauiReactorApplication : ReactorApplication<TestBug308>
 {
     public MauiReactorApplication(IServiceProvider serviceProvider)
         :base(serviceProvider)
