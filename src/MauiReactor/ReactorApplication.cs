@@ -414,6 +414,17 @@ public class ReactorApplication<T> : ReactorApplication where T : Component, new
 
 public static class MauiAppBuilderExtensions
 {
+    /// <summary>
+    /// Configures MAUI Reactor for use in a existing MAUI App
+    /// </summary>
+    /// <param name="appBuilder"></param>
+    /// <returns></returns>
+    public static MauiAppBuilder UseMauiReactor(this MauiAppBuilder appBuilder)
+    {
+        appBuilder.Services.AddSingleton<IMauiInitializeService>(new ReactorServiceProviderInitializer());
+        return appBuilder;
+    }
+
     public static MauiAppBuilder UseMauiReactorApp<TComponent>(this MauiAppBuilder appBuilder, 
         Action<ReactorApplication>? configureApplication = null,
         Action? onHotReloadCompleted = null,
@@ -431,6 +442,14 @@ public static class MauiAppBuilderExtensions
             configureApplication?.Invoke(app);
             return app;
         });
+
+    private class ReactorServiceProviderInitializer : IMauiInitializeService
+    {
+        public void Initialize(IServiceProvider services)
+        {
+            ServiceCollectionProvider.ServiceProvider = services;
+        }
+    }
 
     //public static MauiAppBuilder EnableMauiReactorHotReload(this MauiAppBuilder appBuilder, Action? onHotReloadCompleted = null)
     //{
