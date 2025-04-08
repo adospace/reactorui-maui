@@ -414,6 +414,30 @@ public class ReactorApplication<T> : ReactorApplication where T : Component, new
 
 public static class MauiAppBuilderExtensions
 {
+    /// <summary>
+    /// Configures MAUI Reactor for use in a existing MAUI App
+    /// </summary>
+    /// <param name="appBuilder"></param>
+    /// <param name="unhandledExceptionAction">Callback invoked when MAUI Reactor throws an internal unhandled exception</param>
+    /// <returns></returns>
+    public static MauiAppBuilder UseMauiReactor(this MauiAppBuilder appBuilder, 
+        Action<UnhandledExceptionEventArgs>? unhandledExceptionAction = null)
+    {
+        ReactorApplicationHost.UnhandledException = unhandledExceptionAction;
+
+        appBuilder.Services.AddSingleton<IMauiInitializeService>(new ReactorServiceProviderInitializer());
+        return appBuilder;
+    }
+
+    /// <summary>
+    /// Use MauiReactor with a root component and without XAML resources
+    /// </summary>
+    /// <typeparam name="TComponent"></typeparam>
+    /// <param name="appBuilder"></param>
+    /// <param name="configureApplication">Callback to configura the MAUI Reactor application</param>
+    /// <param name="onHotReloadCompleted">Callback invoked when after the hot-reload of the application compltes</param>
+    /// <param name="unhandledExceptionAction">Callback invoked when MAUI Reactor throws an internal unhandled exception</param>
+    /// <returns></returns>
     public static MauiAppBuilder UseMauiReactorApp<TComponent>(this MauiAppBuilder appBuilder, 
         Action<ReactorApplication>? configureApplication = null,
         Action? onHotReloadCompleted = null,
@@ -432,26 +456,13 @@ public static class MauiAppBuilderExtensions
             return app;
         });
 
-    //public static MauiAppBuilder EnableMauiReactorHotReload(this MauiAppBuilder appBuilder, Action? onHotReloadCompleted = null)
-    //{
-    //    TypeLoader.UseRemoteLoader = true;
-    //    TypeLoader.OnHotReloadCompleted = onHotReloadCompleted;
-    //    ServiceCollectionProvider.EnableHotReload = true;
-    //    return appBuilder;
-    //}
-
-    //public static MauiAppBuilder EnableFrameRateIndicator(this MauiAppBuilder appBuilder)
-    //{
-    //    ReactorApplicationHost._showFrameRate = true;
-    //    return appBuilder;
-    //}
-
-    //public static MauiAppBuilder OnMauiReactorUnhandledException(this MauiAppBuilder appBuilder, Action<UnhandledExceptionEventArgs> unhandledExceptionAction)
-    //{
-    //    ReactorApplicationHost.UnhandledException = unhandledExceptionAction;
-    //    return appBuilder;
-    //}
-
+    private class ReactorServiceProviderInitializer : IMauiInitializeService
+    {
+        public void Initialize(IServiceProvider services)
+        {
+            ServiceCollectionProvider.ServiceProvider = services;
+        }
+    }
 }
 
 public static class ApplicationExtensions
@@ -460,29 +471,6 @@ public static class ApplicationExtensions
     public static Application AddResource(this Application application, string resourceName, Assembly? containerAssembly = null)
     {
         var resourceDictionary = new ResourceDictionary();
-        //resourceDictionary.SetAndCreateSource(new Uri(resourceName, UriKind.Relative));
-
-        //var methodInfo = typeof(ResourceDictionary).GetMethod("SetAndLoadSource", BindingFlags.NonPublic | BindingFlags.Instance);
-        //if (methodInfo != null)
-        //{
-        //    var parameters = new object?[]
-        //    {
-        //        new Uri(resourceName, UriKind.Relative),
-        //        resourceName,
-        //        containerAssembly ?? Assembly.GetCallingAssembly(),
-        //        null
-        //    };
-        //    methodInfo.Invoke(resourceDictionary, parameters);
-        //}
-        //else
-        //{
-        //    throw new InvalidOperationException("Method 'SetAndLoadSource' not found.");
-        //}
-        //resourceDictionary.SetAndLoadSource(
-        //    new Uri(resourceName, UriKind.Relative),
-        //    resourceName,
-        //    containerAssembly ?? Assembly.GetCallingAssembly(),
-        //    null);
 
         application.Resources.MergedDictionaries.Add(resourceDictionary);
 

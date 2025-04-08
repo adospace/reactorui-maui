@@ -207,9 +207,21 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
             
             if (componentType != null)
             {
-                _component = (Component)(Activator.CreateInstance(componentType) ?? throw new InvalidOperationException($"Unable to create an instance of type {componentType}"));
+                try
+                {
+                    _component = (Component)(Activator.CreateInstance(componentType) ?? throw new InvalidOperationException($"Unable to create an instance of type {componentType}"));
+                    thisAsHostElement.Run();
+                }
+                catch (Exception ex)
+                {
+                    var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<ComponentHost>>();
+                    logger?.LogError(ex, "Unable to hot reload component {Type}: type not found in received assembly", componentType.FullName);
 
-                thisAsHostElement.Run();
+                    ReactorApplicationHost.FireUnhandledExceptionEvent(
+                        new InvalidOperationException($"Unable to setup component host for {componentType.FullName}", ex));
+
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
             }
         }
     }
