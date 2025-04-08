@@ -14,7 +14,7 @@ public partial class App : MauiReactorApplication
 }
 
 
-public abstract class MauiReactorApplication : ReactorApplication<TestBug308>
+public abstract class MauiReactorApplication : ReactorApplication<HomePage>
 {
     public MauiReactorApplication(IServiceProvider serviceProvider)
         :base(serviceProvider)
