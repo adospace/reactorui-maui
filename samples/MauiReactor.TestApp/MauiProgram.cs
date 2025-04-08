@@ -4,6 +4,7 @@ using MauiReactor.TestApp.Pages;
 using MauiReactor.TestApp.Resources.Styles;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Extensions.Logging;
+using MauiIcons.SegoeFluent;
 
 namespace MauiReactor.TestApp;
 
@@ -14,6 +15,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseSegoeFluentMauiIcons()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

@@ -1,4 +1,5 @@
-﻿using MauiReactor.TestApp.Resources.Styles;
+﻿using MauiReactor.TestApp.Pages;
+using MauiReactor.TestApp.Resources.Styles;
 using System;
 
 namespace MauiReactor.TestApp;
