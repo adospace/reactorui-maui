@@ -76,12 +76,24 @@ namespace MauiReactor.Parameters
         }
     }
 
-
-    public sealed class ParameterContext
+    public sealed class ParameterContext : IDisposable
     {
-        private static readonly Dictionary<string, IParameter> _parameters = [];
+        private static readonly AsyncLocal<Dictionary<string, IParameter>?> _testingParameters = new();
+        private static readonly Dictionary<string, IParameter> _sharedParameters = new();
+
+        private static Dictionary<string, IParameter> Parameters =>
+            _testingParameters.Value ?? _sharedParameters;
 
         public Component Component { get; }
+
+        /// <summary>
+        /// this construction is for use with testing so that parameters can be isolated
+        /// </summary>
+        public ParameterContext()
+        {
+            _testingParameters.Value = new Dictionary<string, IParameter>();
+            Component = new ParameterContextComponent();
+        }
 
         internal ParameterContext(Component component)
         {
@@ -91,12 +103,12 @@ namespace MauiReactor.Parameters
         public IParameter<T> Create<T>(string? name = null) where T : new()
         {
             name ??= typeof(T).FullName ?? throw new InvalidOperationException();
-            _parameters.TryGetValue(name, out var parameter);
+            Parameters.TryGetValue(name, out var parameter);
 
             if (parameter == null)
             {
                 var newParameterT = new Parameter<T>(name);
-                _parameters[name] = newParameterT;
+                Parameters[name] = newParameterT;
                 newParameterT.RegisterReference(Component);
                 return newParameterT;
             }
@@ -109,7 +121,7 @@ namespace MauiReactor.Parameters
                 }
 
                 var newParameterT = new Parameter<T>(name);
-                _parameters[newParameterT.Name] = newParameterT;
+                Parameters[newParameterT.Name] = newParameterT;
 
                 if (MauiReactorFeatures.HotReloadIsEnabled)
                 {
@@ -132,7 +144,7 @@ namespace MauiReactor.Parameters
         {
             name ??= typeof(T).FullName ?? throw new InvalidOperationException();
 
-            if (!_parameters.TryGetValue(name, out var parameter))
+            if (!Parameters.TryGetValue(name, out var parameter))
             {
                 return null;
             }
@@ -145,7 +157,7 @@ namespace MauiReactor.Parameters
 
             var newParameterT = new Parameter<T>(name);
 
-            _parameters[newParameterT.Name] = newParameterT;
+            Parameters[newParameterT.Name] = newParameterT;
 
             if (MauiReactorFeatures.HotReloadIsEnabled)
             {
@@ -163,12 +175,14 @@ namespace MauiReactor.Parameters
             return newParameterT;
         }
 
-        //internal IParameter<T> Register<T>(IParameterWithReferences<T> parameterWithReferences, string? name = null) where T : new()
-        //{
-        //    name ??= typeof(T).FullName ?? throw new InvalidOperationException();
-        //    var parameter = new ParameterReference<T>(this, parameterWithReferences);
-        //    _parameters[name] = parameter;
-        //    return parameter;
-        //}
+        public void Dispose()
+        {
+            _testingParameters.Value = null;
+        }
+
+        private class ParameterContextComponent : Component
+        {
+            public override VisualNode Render() => ContentView();
+        }
     }
 }
