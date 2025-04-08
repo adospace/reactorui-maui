@@ -11,11 +11,12 @@ class CounterState
     public int Counter { get; set; }
 }
 
-class Counter : Component<CounterState>
+partial class Counter : Component<CounterState>
 {
+    [Inject] SampleService? _incrementService;
     public override VisualNode Render()
     {
         return new MauiReactor.Button(State.Counter == 0 ? "Click To Increment With MauiReactor" : $"Clicked {State.Counter} times with MauiReactor")
-            .OnClicked(() => SetState(s => s.Counter+=10));
+            .OnClicked(() => SetState(s => s.Counter = _incrementService.Increment(s.Counter)));
     }
 }
