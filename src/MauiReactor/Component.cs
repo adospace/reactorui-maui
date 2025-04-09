@@ -151,7 +151,7 @@ namespace MauiReactor
         }
 
         public INavigation? Navigation
-            => ContainerPage?.Navigation ?? NavigationProvider.Navigation;// ?? NavigationProvider.Navigation ?? throw new InvalidOperationException("Navigation is not available, , check its availability with the property IsNavigationAvailable");
+            => NavigationProvider.Navigation ?? ContainerPage?.Navigation;
 
         public Microsoft.Maui.Controls.Shell? CurrentShell
             => MauiControlsShellExtensions.CurrentShell;
