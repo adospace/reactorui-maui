@@ -45,6 +45,11 @@ public class TemplateHost : VisualNode, ITemplateHost, IVisualNode, IHostElement
     internal static void FireLayoutCycleExecuted(object? sender)
         => LayoutCycleExecuted?.Invoke(sender, EventArgs.Empty);
 
+    Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
+    {
+        return NativeElement as Microsoft.Maui.Controls.Page;
+    }
+
     IHostElement? IVisualNode.GetPageHost()
     {
         return this;

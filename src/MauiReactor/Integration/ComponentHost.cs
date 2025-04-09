@@ -32,6 +32,17 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
 
         BindableObject? ITemplateHost.NativeElement => ContainerPage;
 
+        
+        Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
+        {
+            return ContainerPage;
+        }
+
+        IHostElement? IVisualNode.GetPageHost()
+        {
+            return this;
+        }
+
         public void OnAssemblyChanged()
         {
             if (!MauiReactorFeatures.HotReloadIsEnabled)
