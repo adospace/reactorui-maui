@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.JavaScript;
 using System.Text;
 using System.Threading.Tasks;
 using MauiReactor.Internals;
@@ -20,6 +21,7 @@ public class TemplateHost : VisualNode, ITemplateHost, IVisualNode, IHostElement
     private readonly LinkedList<IVisualNodeWithNativeControl> _listOfVisualsToAnimate = new();
     private bool _layoutCallEnqueued;
     private bool _started;
+    private Microsoft.Maui.Controls.Page? _containerPage;
 
     public TemplateHost(VisualNode root)
     {
@@ -44,10 +46,11 @@ public class TemplateHost : VisualNode, ITemplateHost, IVisualNode, IHostElement
 
     internal static void FireLayoutCycleExecuted(object? sender)
         => LayoutCycleExecuted?.Invoke(sender, EventArgs.Empty);
+    public Microsoft.Maui.Controls.Page? ContainerPage => _containerPage ??= ((IVisualNode)_root).GetContainerPage();
 
     Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
     {
-        return NativeElement as Microsoft.Maui.Controls.Page;
+        return ContainerPage;
     }
 
     IHostElement? IVisualNode.GetPageHost()

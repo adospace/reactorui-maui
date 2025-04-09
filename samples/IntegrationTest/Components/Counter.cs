@@ -17,6 +17,15 @@ partial class Counter : Component<CounterState>
     public override VisualNode Render()
     {
         return new MauiReactor.Button(State.Counter == 0 ? "Click To Increment With MauiReactor" : $"Clicked {State.Counter} times with MauiReactor")
-            .OnClicked(() => SetState(s => s.Counter = _incrementService.Increment(s.Counter)));
+            .Scale((State.Counter % 2) == 0 ? 1 : 2.0)
+            .WithAnimation()
+            .OnClicked(Increment);
+    }
+
+    async void Increment()
+    {
+        SetState(s => s.Counter = _incrementService.Increment(s.Counter));
+
+        await ContainerPage.DisplayAlert("Increment", "Incremented", "OK");
     }
 }
