@@ -84,7 +84,7 @@ namespace MauiReactor.Parameters
         private static Dictionary<string, IParameter> Parameters =>
             _testingParameters.Value ?? _sharedParameters;
 
-        public Component Component { get; }
+        public Component? Component { get; }
 
         /// <summary>
         /// this construction is for use with testing so that parameters can be isolated
@@ -92,7 +92,6 @@ namespace MauiReactor.Parameters
         public ParameterContext()
         {
             _testingParameters.Value = new Dictionary<string, IParameter>();
-            Component = new ParameterContextComponent();
         }
 
         internal ParameterContext(Component component)
@@ -102,6 +101,11 @@ namespace MauiReactor.Parameters
 
         public IParameter<T> Create<T>(string? name = null) where T : new()
         {
+            if (Component == null)
+            {
+                throw new InvalidOperationException("ParameterContext must be created with a Component");
+            }
+
             name ??= typeof(T).FullName ?? throw new InvalidOperationException();
             Parameters.TryGetValue(name, out var parameter);
 
@@ -142,6 +146,11 @@ namespace MauiReactor.Parameters
 
         public IParameter<T>? Get<T>(string? name = null) where T : new()
         {
+            if (Component == null)
+            {
+                throw new InvalidOperationException("ParameterContext must be created with a Component");
+            }
+
             name ??= typeof(T).FullName ?? throw new InvalidOperationException();
 
             if (!Parameters.TryGetValue(name, out var parameter))
@@ -178,11 +187,6 @@ namespace MauiReactor.Parameters
         public void Dispose()
         {
             _testingParameters.Value = null;
-        }
-
-        private class ParameterContextComponent : Component
-        {
-            public override VisualNode Render() => ContentView();
         }
     }
 }
