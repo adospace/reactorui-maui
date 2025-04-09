@@ -79,20 +79,20 @@ namespace MauiReactor.Parameters
     public sealed class ParameterContext : IDisposable
     {
         private static readonly AsyncLocal<Dictionary<string, IParameter>?> _testingParameters = new();
-        private static readonly Dictionary<string, IParameter> _sharedParameters = new();
+        private static readonly Dictionary<string, IParameter> _sharedParameters = [];
 
         private static Dictionary<string, IParameter> Parameters =>
             _testingParameters.Value ?? _sharedParameters;
 
-        public Component Component { get; }
+        public Component? Component { get; }
 
         /// <summary>
-        /// this construction is for use with testing so that parameters can be isolated
+        /// Create a Parameters context for testing purposes.
         /// </summary>
+        /// <remarks>Wrap the <see cref="ParameterContext"/> object with an using block to ensure that is correctly disposed at the end of the test.</remarks>
         public ParameterContext()
         {
-            _testingParameters.Value = new Dictionary<string, IParameter>();
-            Component = new ParameterContextComponent();
+            _testingParameters.Value = [];
         }
 
         internal ParameterContext(Component component)
@@ -109,14 +109,21 @@ namespace MauiReactor.Parameters
             {
                 var newParameterT = new Parameter<T>(name);
                 Parameters[name] = newParameterT;
-                newParameterT.RegisterReference(Component);
+                if (Component != null)
+                {
+                    newParameterT.RegisterReference(Component);
+                }
                 return newParameterT;
             }
             else
             {
                 if (parameter is IParameter<T> parameterT)
                 {
-                    ((Parameter<T>)parameterT).RegisterReference(Component);
+                    if (Component != null)
+                    {
+                        ((Parameter<T>)parameterT).RegisterReference(Component);
+                    }
+                    
                     return parameterT;
                 }
 
@@ -134,7 +141,10 @@ namespace MauiReactor.Parameters
                         parameter.GetValue().GetType().FullName);
                 }
 
-                newParameterT.RegisterReference(Component);
+                if (Component != null)
+                {
+                    newParameterT.RegisterReference(Component);
+                }
                 return newParameterT; 
 
             }
@@ -151,7 +161,10 @@ namespace MauiReactor.Parameters
 
             if (parameter is IParameter<T> parameterT)
             {
-                ((Parameter<T>)parameterT).RegisterReference(Component);
+                if (Component != null)
+                {
+                    ((Parameter<T>)parameterT).RegisterReference(Component);
+                }
                 return parameterT;
             }
 
@@ -168,9 +181,12 @@ namespace MauiReactor.Parameters
                 var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<ParameterContext>>();
                 logger?.LogWarning("Unable to forward component Props from type {Props}", 
                     parameter.GetValue().GetType().FullName);
-            }            
+            }
 
-            newParameterT.RegisterReference(Component);
+            if (Component != null)
+            {
+                newParameterT.RegisterReference(Component);
+            }                
 
             return newParameterT;
         }
@@ -178,11 +194,6 @@ namespace MauiReactor.Parameters
         public void Dispose()
         {
             _testingParameters.Value = null;
-        }
-
-        private class ParameterContextComponent : Component
-        {
-            public override VisualNode Render() => ContentView();
         }
     }
 }
