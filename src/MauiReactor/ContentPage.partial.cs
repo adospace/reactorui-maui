@@ -32,7 +32,7 @@ public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : M
 
 public partial class ContentPage
 {
-    partial class ContentPageWithBackButtonPressedOverriden : Microsoft.Maui.Controls.ContentPage
+    private class ContentPageWithBackButtonPressedOverriden : Microsoft.Maui.Controls.ContentPage
     {
         protected override bool OnBackButtonPressed()
         {
@@ -47,7 +47,7 @@ public partial class ContentPage
                 return true;
             }
 
-            return false;
+            return base.OnBackButtonPressed();
         }
     }
 
