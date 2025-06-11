@@ -47,7 +47,7 @@ public partial class ContentPage
                 return true;
             }
 
-            return false;
+            return base.OnBackButtonPressed();
         }
     }
 
