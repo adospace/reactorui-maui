@@ -42,24 +42,29 @@ internal class HotReloadTypeLoader
     public WeakProducer<ITypeLoaderEventConsumer>? AssemblyChangedEvent { get; } = new();
 
 
-    public T LoadObject<T>(Type type)
+    public T? LoadObject<T>(Type type, bool throwExceptions = true)
     {
         if (_assembly == null)
         {
             return (T)(Activator.CreateInstance(type) ?? throw new InvalidOperationException());
         }
 
-        var objectTypeInAssembly = _assembly.GetType(type.FullName ?? throw new InvalidOperationException()) ?? throw new InvalidOperationException();
-
         try
         {
+            var objectTypeInAssembly = _assembly.GetType(type.FullName ?? throw new InvalidOperationException()) ?? throw new InvalidOperationException();
+
             return (T)(Activator.CreateInstance(objectTypeInAssembly) ?? throw new InvalidOperationException());
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"[MauiReactor] Unable to hot reload component {objectTypeInAssembly.FullName}:{Environment.NewLine}{ex}");
-            throw new InvalidOperationException($"Unable to hot reload component {objectTypeInAssembly.FullName}", ex);
+            Debug.WriteLine($"[MauiReactor] Unable to hot reload component {type.FullName}:{Environment.NewLine}{ex}");
+            if (throwExceptions)
+            {
+                throw new InvalidOperationException($"Unable to hot reload component {type.FullName}", ex);
+            }            
         }
+
+        return default;
     }
 
     private void ReceivedAssemblyFromHost(Assembly? newAssembly)

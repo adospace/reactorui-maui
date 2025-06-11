@@ -98,26 +98,12 @@ namespace MauiReactor
                 page.SetValue(MauiReactorPageHostBagKey, this);
                 page.Appearing += ComponentPage_Appearing;
                 page.Disappearing += ContainerPage_Disappearing;
-                //page.NavigatedFrom += ContainerPagePage_NavigatedFrom;
-                //page.Loaded += ContainerPage_Loaded;
-                //page.Unloaded += ContainerPage_Unloaded;
-                //page.HandlerChanged += ContainerPage_HandlerChanged;
             }
             else
             {
                 throw new NotSupportedException($"Invalid root component ({nativeControl.GetType()}): must be a page (i.e. ContentPage, Shell etc)");
             }
         }
-
-        //private void ContainerPagePage_NavigatedFrom(object? sender, NavigatedFromEventArgs e)
-        //{
-        //    System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} NavigatedFrom()");
-        //}
-
-        //private void ContainerPage_HandlerChanged(object? sender, EventArgs e)
-        //{
-        //    System.Diagnostics.Debug.WriteLine($"IsHandlerValid({ContainerPage?.Handler != null})");
-        //}
 
         private void ContainerPage_Disappearing(object? sender, EventArgs e)
         {
@@ -130,22 +116,6 @@ namespace MauiReactor
 
             _checkingUnloading = true;
             Application.Current?.Dispatcher.Dispatch(CheckUnloading);
-
-            //var containerPage = ContainerPage;
-
-            //if (containerPage != null &&
-            //    (
-            //    _navigation.NavigationStack.Contains(containerPage) ||
-            //    _navigation.ModalStack.Contains(containerPage)
-            //    ))
-            //{
-            //    System.Diagnostics.Debug.WriteLine($"{containerPage?.Title} Disappearing");
-            //    return;
-            //}
-
-            //System.Diagnostics.Debug.WriteLine($"{containerPage?.Title} Unmounting");
-            //_unloading = true;
-            //Invalidate();
         }
 
         private void ComponentPage_Appearing(object? sender, EventArgs e)
@@ -167,30 +137,8 @@ namespace MauiReactor
             }
         }
 
-
-        //private void ContainerPage_Loaded(object? sender, EventArgs e)
-        //{
-        //    System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Loaded");
-        //}
-        //private void ContainerPage_Unloaded(object? sender, EventArgs e)
-        //{
-        //    System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Unloaded");
-        //}
-
         protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
         {
-            //var containerPage = ContainerPage;
-            //if (containerPage != null)
-            //{
-            //    System.Diagnostics.Debug.WriteLine($"{containerPage.Title} OnRemoveChild");
-
-            //    containerPage.SetValue(MauiReactorPageHostBagKey, null);
-
-            //    containerPage.Appearing -= ComponentPage_Appearing;
-            //    containerPage.Disappearing -= ContainerPage_Disappearing;
-            //}
-
-            //ContainerPage = null;
         }
 
         protected abstract void OnRecyclingPage();
@@ -254,7 +202,7 @@ namespace MauiReactor
 
             if (MauiReactorFeatures.HotReloadIsEnabled)
             {
-                _component ??= InitializeComponent(HotReloadTypeLoader.Instance.LoadObject<Component>(typeof(T)));
+                _component ??= InitializeComponent(HotReloadTypeLoader.Instance.LoadObject<Component>(typeof(T)) ?? throw new InvalidOperationException());
 
                 HotReloadTypeLoader.Instance.Run();
                 HotReloadTypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);

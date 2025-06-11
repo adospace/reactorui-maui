@@ -151,10 +151,20 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
         {
             if (_application.Theme != null)
             {
-                _application.Theme = MauiReactorFeatures.HotReloadIsEnabled ?
-                    HotReloadTypeLoader.Instance.LoadObject<Theme>(_application.Theme.GetType()) :
+                var newAppTheme = MauiReactorFeatures.HotReloadIsEnabled ?
+                    HotReloadTypeLoader.Instance.LoadObject<Theme>(_application.Theme.GetType(), throwExceptions: false) :
                     (Theme?)Activator.CreateInstance(_application.Theme.GetType());
-                _application.Theme?.Apply();
+                if (newAppTheme != null)
+                {
+                    _application.Theme = newAppTheme;
+                    _application.Theme.Apply();
+                }
+                else
+                {
+                    Debug.WriteLine($"Unable to hot-reload theme {_application.Theme.GetType().FullName}: type not found in received assembly");
+                    var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<ReactorApplicationHost<T>>>();
+                    logger?.LogError("Unable to hot reload theme {Type}: type not found in received assembly", _application.Theme.GetType().FullName);
+                }
             }
 
             var newComponent = MauiReactorFeatures.HotReloadIsEnabled ?
@@ -170,7 +180,7 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine($"Unable to hot-reload component {typeof(T).FullName}: type not found in received assembly");
+                Debug.WriteLine($"Unable to hot-reload component {typeof(T).FullName}: type not found in received assembly");
                 var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<ReactorApplicationHost<T>>>();
                 logger?.LogError("Unable to hot reload component {Type}: type not found in received assembly", typeof(T).FullName);
             }
