@@ -202,10 +202,18 @@ namespace MauiReactor
 
             if (MauiReactorFeatures.HotReloadIsEnabled)
             {
-                _component ??= InitializeComponent(HotReloadTypeLoader.Instance.LoadObject<Component>(typeof(T)) ?? throw new InvalidOperationException());
+                var newComponent = HotReloadTypeLoader.Instance.LoadObject<Component>(typeof(T), throwExceptions: false);
 
-                HotReloadTypeLoader.Instance.Run();
-                HotReloadTypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
+                if (newComponent != null)
+                {
+                    _component = InitializeComponent(newComponent);
+                    HotReloadTypeLoader.Instance.Run();
+                    HotReloadTypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
+                }
+                else
+                {
+                    _component ??= InitializeComponent(new T());
+                }
             }
             else
             {
