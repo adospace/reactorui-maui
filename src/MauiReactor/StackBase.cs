@@ -52,11 +52,10 @@ public static partial class StackBaseExtensions
         return stackBase;
     }
 
-    public static T Spacing<T>(this T stackBase, Func<double> spacingFunc)
+    public static T Spacing<T>(this T stackBase, Func<double> spacingFunc, IComponentWithState? componentWithState = null)
         where T : IStackBase
     {
-        //stackBase.Spacing = new PropertyValue<double>(spacingFunc);
-        stackBase.SetProperty(Microsoft.Maui.Controls.StackBase.SpacingProperty, new PropertyValue<double>(spacingFunc));
+        stackBase.SetProperty(Microsoft.Maui.Controls.StackBase.SpacingProperty, new PropertyValue<double>(spacingFunc, componentWithState));
         return stackBase;
     }
 }

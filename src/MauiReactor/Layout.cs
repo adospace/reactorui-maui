@@ -51,11 +51,10 @@ public static partial class LayoutExtensions
         return layout;
     }
 
-    public static T IsClippedToBounds<T>(this T layout, Func<bool> isClippedToBoundsFunc)
+    public static T IsClippedToBounds<T>(this T layout, Func<bool> isClippedToBoundsFunc, IComponentWithState? componentWithState = null)
         where T : ILayout
     {
-        //layout.IsClippedToBounds = new PropertyValue<bool>(isClippedToBoundsFunc);
-        layout.SetProperty(Microsoft.Maui.Controls.Layout.IsClippedToBoundsProperty, new PropertyValue<bool>(isClippedToBoundsFunc));
+        layout.SetProperty(Microsoft.Maui.Controls.Layout.IsClippedToBoundsProperty, new PropertyValue<bool>(isClippedToBoundsFunc, componentWithState));
         return layout;
     }
 
@@ -68,11 +67,10 @@ public static partial class LayoutExtensions
         return layout;
     }
 
-    public static T Padding<T>(this T layout, Func<Microsoft.Maui.Thickness> paddingFunc)
+    public static T Padding<T>(this T layout, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
         where T : ILayout
     {
-        //layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
-        layout.SetProperty(Microsoft.Maui.Controls.Layout.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc));
+        layout.SetProperty(Microsoft.Maui.Controls.Layout.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
         return layout;
     }
 
@@ -111,11 +109,10 @@ public static partial class LayoutExtensions
         return layout;
     }
 
-    public static T CascadeInputTransparent<T>(this T layout, Func<bool> cascadeInputTransparentFunc)
+    public static T CascadeInputTransparent<T>(this T layout, Func<bool> cascadeInputTransparentFunc, IComponentWithState? componentWithState = null)
         where T : ILayout
     {
-        //layout.CascadeInputTransparent = new PropertyValue<bool>(cascadeInputTransparentFunc);
-        layout.SetProperty(Microsoft.Maui.Controls.Layout.CascadeInputTransparentProperty, new PropertyValue<bool>(cascadeInputTransparentFunc));
+        layout.SetProperty(Microsoft.Maui.Controls.Layout.CascadeInputTransparentProperty, new PropertyValue<bool>(cascadeInputTransparentFunc, componentWithState));
         return layout;
     }
 }

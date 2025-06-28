@@ -52,11 +52,10 @@ public static partial class RoundRectangleExtensions
         return roundRectangle;
     }
 
-    public static T CornerRadius<T>(this T roundRectangle, Func<Microsoft.Maui.CornerRadius> cornerRadiusFunc)
+    public static T CornerRadius<T>(this T roundRectangle, Func<Microsoft.Maui.CornerRadius> cornerRadiusFunc, IComponentWithState? componentWithState = null)
         where T : IRoundRectangle
     {
-        //roundRectangle.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadiusFunc);
-        roundRectangle.SetProperty(Microsoft.Maui.Controls.Shapes.RoundRectangle.CornerRadiusProperty, new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadiusFunc));
+        roundRectangle.SetProperty(Microsoft.Maui.Controls.Shapes.RoundRectangle.CornerRadiusProperty, new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadiusFunc, componentWithState));
         return roundRectangle;
     }
 

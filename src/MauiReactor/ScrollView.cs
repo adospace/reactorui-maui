@@ -114,11 +114,10 @@ public static partial class ScrollViewExtensions
         return scrollView;
     }
 
-    public static T Orientation<T>(this T scrollView, Func<Microsoft.Maui.ScrollOrientation> orientationFunc)
+    public static T Orientation<T>(this T scrollView, Func<Microsoft.Maui.ScrollOrientation> orientationFunc, IComponentWithState? componentWithState = null)
         where T : IScrollView
     {
-        //scrollView.Orientation = new PropertyValue<Microsoft.Maui.ScrollOrientation>(orientationFunc);
-        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.OrientationProperty, new PropertyValue<Microsoft.Maui.ScrollOrientation>(orientationFunc));
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.OrientationProperty, new PropertyValue<Microsoft.Maui.ScrollOrientation>(orientationFunc, componentWithState));
         return scrollView;
     }
 
@@ -130,11 +129,10 @@ public static partial class ScrollViewExtensions
         return scrollView;
     }
 
-    public static T HorizontalScrollBarVisibility<T>(this T scrollView, Func<Microsoft.Maui.ScrollBarVisibility> horizontalScrollBarVisibilityFunc)
+    public static T HorizontalScrollBarVisibility<T>(this T scrollView, Func<Microsoft.Maui.ScrollBarVisibility> horizontalScrollBarVisibilityFunc, IComponentWithState? componentWithState = null)
         where T : IScrollView
     {
-        //scrollView.HorizontalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibilityFunc);
-        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.HorizontalScrollBarVisibilityProperty, new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibilityFunc));
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.HorizontalScrollBarVisibilityProperty, new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibilityFunc, componentWithState));
         return scrollView;
     }
 
@@ -146,11 +144,10 @@ public static partial class ScrollViewExtensions
         return scrollView;
     }
 
-    public static T VerticalScrollBarVisibility<T>(this T scrollView, Func<Microsoft.Maui.ScrollBarVisibility> verticalScrollBarVisibilityFunc)
+    public static T VerticalScrollBarVisibility<T>(this T scrollView, Func<Microsoft.Maui.ScrollBarVisibility> verticalScrollBarVisibilityFunc, IComponentWithState? componentWithState = null)
         where T : IScrollView
     {
-        //scrollView.VerticalScrollBarVisibility = new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibilityFunc);
-        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.VerticalScrollBarVisibilityProperty, new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibilityFunc));
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.VerticalScrollBarVisibilityProperty, new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibilityFunc, componentWithState));
         return scrollView;
     }
 

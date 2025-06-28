@@ -255,11 +255,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T InputTransparent<T>(this T visualElement, Func<bool> inputTransparentFunc)
+    public static T InputTransparent<T>(this T visualElement, Func<bool> inputTransparentFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.InputTransparent = new PropertyValue<bool>(inputTransparentFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.InputTransparentProperty, new PropertyValue<bool>(inputTransparentFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.InputTransparentProperty, new PropertyValue<bool>(inputTransparentFunc, componentWithState));
         return visualElement;
     }
 
@@ -271,11 +270,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T IsEnabled<T>(this T visualElement, Func<bool> isEnabledFunc)
+    public static T IsEnabled<T>(this T visualElement, Func<bool> isEnabledFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.IsEnabledProperty, new PropertyValue<bool>(isEnabledFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.IsEnabledProperty, new PropertyValue<bool>(isEnabledFunc, componentWithState));
         return visualElement;
     }
 
@@ -288,11 +286,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T AnchorX<T>(this T visualElement, Func<double> anchorXFunc)
+    public static T AnchorX<T>(this T visualElement, Func<double> anchorXFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.AnchorX = new PropertyValue<double>(anchorXFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.AnchorXProperty, new PropertyValue<double>(anchorXFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.AnchorXProperty, new PropertyValue<double>(anchorXFunc, componentWithState));
         return visualElement;
     }
 
@@ -305,11 +302,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T AnchorY<T>(this T visualElement, Func<double> anchorYFunc)
+    public static T AnchorY<T>(this T visualElement, Func<double> anchorYFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.AnchorY = new PropertyValue<double>(anchorYFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.AnchorYProperty, new PropertyValue<double>(anchorYFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.AnchorYProperty, new PropertyValue<double>(anchorYFunc, componentWithState));
         return visualElement;
     }
 
@@ -322,11 +318,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T TranslationX<T>(this T visualElement, Func<double> translationXFunc)
+    public static T TranslationX<T>(this T visualElement, Func<double> translationXFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.TranslationX = new PropertyValue<double>(translationXFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.TranslationXProperty, new PropertyValue<double>(translationXFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.TranslationXProperty, new PropertyValue<double>(translationXFunc, componentWithState));
         return visualElement;
     }
 
@@ -339,11 +334,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T TranslationY<T>(this T visualElement, Func<double> translationYFunc)
+    public static T TranslationY<T>(this T visualElement, Func<double> translationYFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.TranslationY = new PropertyValue<double>(translationYFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.TranslationYProperty, new PropertyValue<double>(translationYFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.TranslationYProperty, new PropertyValue<double>(translationYFunc, componentWithState));
         return visualElement;
     }
 
@@ -356,11 +350,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T Rotation<T>(this T visualElement, Func<double> rotationFunc)
+    public static T Rotation<T>(this T visualElement, Func<double> rotationFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.Rotation = new PropertyValue<double>(rotationFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.RotationProperty, new PropertyValue<double>(rotationFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.RotationProperty, new PropertyValue<double>(rotationFunc, componentWithState));
         return visualElement;
     }
 
@@ -373,11 +366,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T RotationX<T>(this T visualElement, Func<double> rotationXFunc)
+    public static T RotationX<T>(this T visualElement, Func<double> rotationXFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.RotationX = new PropertyValue<double>(rotationXFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.RotationXProperty, new PropertyValue<double>(rotationXFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.RotationXProperty, new PropertyValue<double>(rotationXFunc, componentWithState));
         return visualElement;
     }
 
@@ -390,11 +382,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T RotationY<T>(this T visualElement, Func<double> rotationYFunc)
+    public static T RotationY<T>(this T visualElement, Func<double> rotationYFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.RotationY = new PropertyValue<double>(rotationYFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.RotationYProperty, new PropertyValue<double>(rotationYFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.RotationYProperty, new PropertyValue<double>(rotationYFunc, componentWithState));
         return visualElement;
     }
 
@@ -407,11 +398,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T Scale<T>(this T visualElement, Func<double> scaleFunc)
+    public static T Scale<T>(this T visualElement, Func<double> scaleFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.Scale = new PropertyValue<double>(scaleFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.ScaleProperty, new PropertyValue<double>(scaleFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.ScaleProperty, new PropertyValue<double>(scaleFunc, componentWithState));
         return visualElement;
     }
 
@@ -424,11 +414,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T ScaleX<T>(this T visualElement, Func<double> scaleXFunc)
+    public static T ScaleX<T>(this T visualElement, Func<double> scaleXFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.ScaleX = new PropertyValue<double>(scaleXFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.ScaleXProperty, new PropertyValue<double>(scaleXFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.ScaleXProperty, new PropertyValue<double>(scaleXFunc, componentWithState));
         return visualElement;
     }
 
@@ -441,11 +430,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T ScaleY<T>(this T visualElement, Func<double> scaleYFunc)
+    public static T ScaleY<T>(this T visualElement, Func<double> scaleYFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.ScaleY = new PropertyValue<double>(scaleYFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.ScaleYProperty, new PropertyValue<double>(scaleYFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.ScaleYProperty, new PropertyValue<double>(scaleYFunc, componentWithState));
         return visualElement;
     }
 
@@ -457,11 +445,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T Visual<T>(this T visualElement, Func<Microsoft.Maui.Controls.IVisual> visualFunc)
+    public static T Visual<T>(this T visualElement, Func<Microsoft.Maui.Controls.IVisual> visualFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.Visual = new PropertyValue<Microsoft.Maui.Controls.IVisual>(visualFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.VisualProperty, new PropertyValue<Microsoft.Maui.Controls.IVisual>(visualFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.VisualProperty, new PropertyValue<Microsoft.Maui.Controls.IVisual>(visualFunc, componentWithState));
         return visualElement;
     }
 
@@ -473,11 +460,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T IsVisible<T>(this T visualElement, Func<bool> isVisibleFunc)
+    public static T IsVisible<T>(this T visualElement, Func<bool> isVisibleFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.IsVisible = new PropertyValue<bool>(isVisibleFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.IsVisibleProperty, new PropertyValue<bool>(isVisibleFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.IsVisibleProperty, new PropertyValue<bool>(isVisibleFunc, componentWithState));
         return visualElement;
     }
 
@@ -490,11 +476,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T Opacity<T>(this T visualElement, Func<double> opacityFunc)
+    public static T Opacity<T>(this T visualElement, Func<double> opacityFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.Opacity = new PropertyValue<double>(opacityFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.OpacityProperty, new PropertyValue<double>(opacityFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.OpacityProperty, new PropertyValue<double>(opacityFunc, componentWithState));
         return visualElement;
     }
 
@@ -506,11 +491,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T BackgroundColor<T>(this T visualElement, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc)
+    public static T BackgroundColor<T>(this T visualElement, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.BackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.BackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc, componentWithState));
         return visualElement;
     }
 
@@ -522,11 +506,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T Background<T>(this T visualElement, Func<Microsoft.Maui.Controls.Brush> backgroundFunc)
+    public static T Background<T>(this T visualElement, Func<Microsoft.Maui.Controls.Brush> backgroundFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.Background = new PropertyValue<Microsoft.Maui.Controls.Brush>(backgroundFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.BackgroundProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(backgroundFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.BackgroundProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(backgroundFunc, componentWithState));
         return visualElement;
     }
 
@@ -539,11 +522,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T WidthRequest<T>(this T visualElement, Func<double> widthRequestFunc)
+    public static T WidthRequest<T>(this T visualElement, Func<double> widthRequestFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.WidthRequest = new PropertyValue<double>(widthRequestFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.WidthRequestProperty, new PropertyValue<double>(widthRequestFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.WidthRequestProperty, new PropertyValue<double>(widthRequestFunc, componentWithState));
         return visualElement;
     }
 
@@ -556,11 +538,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T HeightRequest<T>(this T visualElement, Func<double> heightRequestFunc)
+    public static T HeightRequest<T>(this T visualElement, Func<double> heightRequestFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.HeightRequest = new PropertyValue<double>(heightRequestFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.HeightRequestProperty, new PropertyValue<double>(heightRequestFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.HeightRequestProperty, new PropertyValue<double>(heightRequestFunc, componentWithState));
         return visualElement;
     }
 
@@ -573,11 +554,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T MinimumWidthRequest<T>(this T visualElement, Func<double> minimumWidthRequestFunc)
+    public static T MinimumWidthRequest<T>(this T visualElement, Func<double> minimumWidthRequestFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.MinimumWidthRequest = new PropertyValue<double>(minimumWidthRequestFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.MinimumWidthRequestProperty, new PropertyValue<double>(minimumWidthRequestFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.MinimumWidthRequestProperty, new PropertyValue<double>(minimumWidthRequestFunc, componentWithState));
         return visualElement;
     }
 
@@ -590,11 +570,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T MinimumHeightRequest<T>(this T visualElement, Func<double> minimumHeightRequestFunc)
+    public static T MinimumHeightRequest<T>(this T visualElement, Func<double> minimumHeightRequestFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.MinimumHeightRequest = new PropertyValue<double>(minimumHeightRequestFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.MinimumHeightRequestProperty, new PropertyValue<double>(minimumHeightRequestFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.MinimumHeightRequestProperty, new PropertyValue<double>(minimumHeightRequestFunc, componentWithState));
         return visualElement;
     }
 
@@ -607,11 +586,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T MaximumWidthRequest<T>(this T visualElement, Func<double> maximumWidthRequestFunc)
+    public static T MaximumWidthRequest<T>(this T visualElement, Func<double> maximumWidthRequestFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.MaximumWidthRequest = new PropertyValue<double>(maximumWidthRequestFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.MaximumWidthRequestProperty, new PropertyValue<double>(maximumWidthRequestFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.MaximumWidthRequestProperty, new PropertyValue<double>(maximumWidthRequestFunc, componentWithState));
         return visualElement;
     }
 
@@ -624,11 +602,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T MaximumHeightRequest<T>(this T visualElement, Func<double> maximumHeightRequestFunc)
+    public static T MaximumHeightRequest<T>(this T visualElement, Func<double> maximumHeightRequestFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.MaximumHeightRequest = new PropertyValue<double>(maximumHeightRequestFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.MaximumHeightRequestProperty, new PropertyValue<double>(maximumHeightRequestFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.MaximumHeightRequestProperty, new PropertyValue<double>(maximumHeightRequestFunc, componentWithState));
         return visualElement;
     }
 
@@ -640,11 +617,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T FlowDirection<T>(this T visualElement, Func<Microsoft.Maui.FlowDirection> flowDirectionFunc)
+    public static T FlowDirection<T>(this T visualElement, Func<Microsoft.Maui.FlowDirection> flowDirectionFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.FlowDirection = new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirectionFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.FlowDirectionProperty, new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirectionFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.FlowDirectionProperty, new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirectionFunc, componentWithState));
         return visualElement;
     }
 
@@ -656,11 +632,10 @@ public static partial class VisualElementExtensions
         return visualElement;
     }
 
-    public static T ZIndex<T>(this T visualElement, Func<int> zIndexFunc)
+    public static T ZIndex<T>(this T visualElement, Func<int> zIndexFunc, IComponentWithState? componentWithState = null)
         where T : IVisualElement
     {
-        //visualElement.ZIndex = new PropertyValue<int>(zIndexFunc);
-        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.ZIndexProperty, new PropertyValue<int>(zIndexFunc));
+        visualElement.SetProperty(Microsoft.Maui.Controls.VisualElement.ZIndexProperty, new PropertyValue<int>(zIndexFunc, componentWithState));
         return visualElement;
     }
 

@@ -52,11 +52,10 @@ public static partial class LinearItemsLayoutExtensions
         return linearItemsLayout;
     }
 
-    public static T ItemSpacing<T>(this T linearItemsLayout, Func<double> itemSpacingFunc)
+    public static T ItemSpacing<T>(this T linearItemsLayout, Func<double> itemSpacingFunc, IComponentWithState? componentWithState = null)
         where T : ILinearItemsLayout
     {
-        //linearItemsLayout.ItemSpacing = new PropertyValue<double>(itemSpacingFunc);
-        linearItemsLayout.SetProperty(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, new PropertyValue<double>(itemSpacingFunc));
+        linearItemsLayout.SetProperty(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, new PropertyValue<double>(itemSpacingFunc, componentWithState));
         return linearItemsLayout;
     }
 }

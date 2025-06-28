@@ -66,11 +66,10 @@ public static partial class BoxViewExtensions
         return boxView;
     }
 
-    public static T Color<T>(this T boxView, Func<Microsoft.Maui.Graphics.Color> colorFunc)
+    public static T Color<T>(this T boxView, Func<Microsoft.Maui.Graphics.Color> colorFunc, IComponentWithState? componentWithState = null)
         where T : IBoxView
     {
-        //boxView.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc);
-        boxView.SetProperty(Microsoft.Maui.Controls.BoxView.ColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc));
+        boxView.SetProperty(Microsoft.Maui.Controls.BoxView.ColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc, componentWithState));
         return boxView;
     }
 
@@ -83,11 +82,10 @@ public static partial class BoxViewExtensions
         return boxView;
     }
 
-    public static T CornerRadius<T>(this T boxView, Func<Microsoft.Maui.CornerRadius> cornerRadiusFunc)
+    public static T CornerRadius<T>(this T boxView, Func<Microsoft.Maui.CornerRadius> cornerRadiusFunc, IComponentWithState? componentWithState = null)
         where T : IBoxView
     {
-        //boxView.CornerRadius = new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadiusFunc);
-        boxView.SetProperty(Microsoft.Maui.Controls.BoxView.CornerRadiusProperty, new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadiusFunc));
+        boxView.SetProperty(Microsoft.Maui.Controls.BoxView.CornerRadiusProperty, new PropertyValue<Microsoft.Maui.CornerRadius>(cornerRadiusFunc, componentWithState));
         return boxView;
     }
 

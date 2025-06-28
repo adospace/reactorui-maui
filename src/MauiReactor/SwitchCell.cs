@@ -114,11 +114,10 @@ public static partial class SwitchCellExtensions
         return switchCell;
     }
 
-    public static T On<T>(this T switchCell, Func<bool> onFunc)
+    public static T On<T>(this T switchCell, Func<bool> onFunc, IComponentWithState? componentWithState = null)
         where T : ISwitchCell
     {
-        //switchCell.On = new PropertyValue<bool>(onFunc);
-        switchCell.SetProperty(Microsoft.Maui.Controls.SwitchCell.OnProperty, new PropertyValue<bool>(onFunc));
+        switchCell.SetProperty(Microsoft.Maui.Controls.SwitchCell.OnProperty, new PropertyValue<bool>(onFunc, componentWithState));
         return switchCell;
     }
 
@@ -130,11 +129,10 @@ public static partial class SwitchCellExtensions
         return switchCell;
     }
 
-    public static T Text<T>(this T switchCell, Func<string> textFunc)
+    public static T Text<T>(this T switchCell, Func<string> textFunc, IComponentWithState? componentWithState = null)
         where T : ISwitchCell
     {
-        //switchCell.Text = new PropertyValue<string>(textFunc);
-        switchCell.SetProperty(Microsoft.Maui.Controls.SwitchCell.TextProperty, new PropertyValue<string>(textFunc));
+        switchCell.SetProperty(Microsoft.Maui.Controls.SwitchCell.TextProperty, new PropertyValue<string>(textFunc, componentWithState));
         return switchCell;
     }
 
@@ -146,11 +144,10 @@ public static partial class SwitchCellExtensions
         return switchCell;
     }
 
-    public static T OnColor<T>(this T switchCell, Func<Microsoft.Maui.Graphics.Color> onColorFunc)
+    public static T OnColor<T>(this T switchCell, Func<Microsoft.Maui.Graphics.Color> onColorFunc, IComponentWithState? componentWithState = null)
         where T : ISwitchCell
     {
-        //switchCell.OnColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(onColorFunc);
-        switchCell.SetProperty(Microsoft.Maui.Controls.SwitchCell.OnColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(onColorFunc));
+        switchCell.SetProperty(Microsoft.Maui.Controls.SwitchCell.OnColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(onColorFunc, componentWithState));
         return switchCell;
     }
 

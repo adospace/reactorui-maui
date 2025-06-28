@@ -51,11 +51,10 @@ public static partial class PolygonExtensions
         return polygon;
     }
 
-    public static T Points<T>(this T polygon, Func<Microsoft.Maui.Controls.PointCollection> pointsFunc)
+    public static T Points<T>(this T polygon, Func<Microsoft.Maui.Controls.PointCollection> pointsFunc, IComponentWithState? componentWithState = null)
         where T : IPolygon
     {
-        //polygon.Points = new PropertyValue<Microsoft.Maui.Controls.PointCollection>(pointsFunc);
-        polygon.SetProperty(Microsoft.Maui.Controls.Shapes.Polygon.PointsProperty, new PropertyValue<Microsoft.Maui.Controls.PointCollection>(pointsFunc));
+        polygon.SetProperty(Microsoft.Maui.Controls.Shapes.Polygon.PointsProperty, new PropertyValue<Microsoft.Maui.Controls.PointCollection>(pointsFunc, componentWithState));
         return polygon;
     }
 
@@ -67,11 +66,10 @@ public static partial class PolygonExtensions
         return polygon;
     }
 
-    public static T FillRule<T>(this T polygon, Func<Microsoft.Maui.Controls.Shapes.FillRule> fillRuleFunc)
+    public static T FillRule<T>(this T polygon, Func<Microsoft.Maui.Controls.Shapes.FillRule> fillRuleFunc, IComponentWithState? componentWithState = null)
         where T : IPolygon
     {
-        //polygon.FillRule = new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc);
-        polygon.SetProperty(Microsoft.Maui.Controls.Shapes.Polygon.FillRuleProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc));
+        polygon.SetProperty(Microsoft.Maui.Controls.Shapes.Polygon.FillRuleProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc, componentWithState));
         return polygon;
     }
 }

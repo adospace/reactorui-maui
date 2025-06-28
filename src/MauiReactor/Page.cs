@@ -244,11 +244,10 @@ public static partial class PageExtensions
         return page;
     }
 
-    public static T BackgroundImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> backgroundImageSourceFunc)
+    public static T BackgroundImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> backgroundImageSourceFunc, IComponentWithState? componentWithState = null)
         where T : IPage
     {
-        //page.BackgroundImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(backgroundImageSourceFunc);
-        page.SetProperty(Microsoft.Maui.Controls.Page.BackgroundImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(backgroundImageSourceFunc));
+        page.SetProperty(Microsoft.Maui.Controls.Page.BackgroundImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(backgroundImageSourceFunc, componentWithState));
         return page;
     }
 
@@ -320,11 +319,10 @@ public static partial class PageExtensions
         return page;
     }
 
-    public static T IsBusy<T>(this T page, Func<bool> isBusyFunc)
+    public static T IsBusy<T>(this T page, Func<bool> isBusyFunc, IComponentWithState? componentWithState = null)
         where T : IPage
     {
-        //page.IsBusy = new PropertyValue<bool>(isBusyFunc);
-        page.SetProperty(Microsoft.Maui.Controls.Page.IsBusyProperty, new PropertyValue<bool>(isBusyFunc));
+        page.SetProperty(Microsoft.Maui.Controls.Page.IsBusyProperty, new PropertyValue<bool>(isBusyFunc, componentWithState));
         return page;
     }
 
@@ -337,11 +335,10 @@ public static partial class PageExtensions
         return page;
     }
 
-    public static T Padding<T>(this T page, Func<Microsoft.Maui.Thickness> paddingFunc)
+    public static T Padding<T>(this T page, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
         where T : IPage
     {
-        //page.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
-        page.SetProperty(Microsoft.Maui.Controls.Page.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc));
+        page.SetProperty(Microsoft.Maui.Controls.Page.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
         return page;
     }
 
@@ -380,11 +377,10 @@ public static partial class PageExtensions
         return page;
     }
 
-    public static T Title<T>(this T page, Func<string> titleFunc)
+    public static T Title<T>(this T page, Func<string> titleFunc, IComponentWithState? componentWithState = null)
         where T : IPage
     {
-        //page.Title = new PropertyValue<string>(titleFunc);
-        page.SetProperty(Microsoft.Maui.Controls.Page.TitleProperty, new PropertyValue<string>(titleFunc));
+        page.SetProperty(Microsoft.Maui.Controls.Page.TitleProperty, new PropertyValue<string>(titleFunc, componentWithState));
         return page;
     }
 
@@ -396,11 +392,10 @@ public static partial class PageExtensions
         return page;
     }
 
-    public static T IconImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> iconImageSourceFunc)
+    public static T IconImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> iconImageSourceFunc, IComponentWithState? componentWithState = null)
         where T : IPage
     {
-        //page.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc);
-        page.SetProperty(Microsoft.Maui.Controls.Page.IconImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc));
+        page.SetProperty(Microsoft.Maui.Controls.Page.IconImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc, componentWithState));
         return page;
     }
 

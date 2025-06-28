@@ -59,11 +59,10 @@ public static partial class RectangleGeometryExtensions
         return rectangleGeometry;
     }
 
-    public static T Rect<T>(this T rectangleGeometry, Func<Microsoft.Maui.Graphics.Rect> rectFunc)
+    public static T Rect<T>(this T rectangleGeometry, Func<Microsoft.Maui.Graphics.Rect> rectFunc, IComponentWithState? componentWithState = null)
         where T : IRectangleGeometry
     {
-        //rectangleGeometry.Rect = new PropertyValue<Microsoft.Maui.Graphics.Rect>(rectFunc);
-        rectangleGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, new PropertyValue<Microsoft.Maui.Graphics.Rect>(rectFunc));
+        rectangleGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.RectangleGeometry.RectProperty, new PropertyValue<Microsoft.Maui.Graphics.Rect>(rectFunc, componentWithState));
         return rectangleGeometry;
     }
 }

@@ -66,11 +66,10 @@ public static partial class ActivityIndicatorExtensions
         return activityIndicator;
     }
 
-    public static T IsRunning<T>(this T activityIndicator, Func<bool> isRunningFunc)
+    public static T IsRunning<T>(this T activityIndicator, Func<bool> isRunningFunc, IComponentWithState? componentWithState = null)
         where T : IActivityIndicator
     {
-        //activityIndicator.IsRunning = new PropertyValue<bool>(isRunningFunc);
-        activityIndicator.SetProperty(Microsoft.Maui.Controls.ActivityIndicator.IsRunningProperty, new PropertyValue<bool>(isRunningFunc));
+        activityIndicator.SetProperty(Microsoft.Maui.Controls.ActivityIndicator.IsRunningProperty, new PropertyValue<bool>(isRunningFunc, componentWithState));
         return activityIndicator;
     }
 
@@ -82,11 +81,10 @@ public static partial class ActivityIndicatorExtensions
         return activityIndicator;
     }
 
-    public static T Color<T>(this T activityIndicator, Func<Microsoft.Maui.Graphics.Color> colorFunc)
+    public static T Color<T>(this T activityIndicator, Func<Microsoft.Maui.Graphics.Color> colorFunc, IComponentWithState? componentWithState = null)
         where T : IActivityIndicator
     {
-        //activityIndicator.Color = new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc);
-        activityIndicator.SetProperty(Microsoft.Maui.Controls.ActivityIndicator.ColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc));
+        activityIndicator.SetProperty(Microsoft.Maui.Controls.ActivityIndicator.ColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc, componentWithState));
         return activityIndicator;
     }
 }

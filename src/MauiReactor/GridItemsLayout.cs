@@ -51,11 +51,10 @@ public static partial class GridItemsLayoutExtensions
         return gridItemsLayout;
     }
 
-    public static T Span<T>(this T gridItemsLayout, Func<int> spanFunc)
+    public static T Span<T>(this T gridItemsLayout, Func<int> spanFunc, IComponentWithState? componentWithState = null)
         where T : IGridItemsLayout
     {
-        //gridItemsLayout.Span = new PropertyValue<int>(spanFunc);
-        gridItemsLayout.SetProperty(Microsoft.Maui.Controls.GridItemsLayout.SpanProperty, new PropertyValue<int>(spanFunc));
+        gridItemsLayout.SetProperty(Microsoft.Maui.Controls.GridItemsLayout.SpanProperty, new PropertyValue<int>(spanFunc, componentWithState));
         return gridItemsLayout;
     }
 
@@ -68,11 +67,10 @@ public static partial class GridItemsLayoutExtensions
         return gridItemsLayout;
     }
 
-    public static T VerticalItemSpacing<T>(this T gridItemsLayout, Func<double> verticalItemSpacingFunc)
+    public static T VerticalItemSpacing<T>(this T gridItemsLayout, Func<double> verticalItemSpacingFunc, IComponentWithState? componentWithState = null)
         where T : IGridItemsLayout
     {
-        //gridItemsLayout.VerticalItemSpacing = new PropertyValue<double>(verticalItemSpacingFunc);
-        gridItemsLayout.SetProperty(Microsoft.Maui.Controls.GridItemsLayout.VerticalItemSpacingProperty, new PropertyValue<double>(verticalItemSpacingFunc));
+        gridItemsLayout.SetProperty(Microsoft.Maui.Controls.GridItemsLayout.VerticalItemSpacingProperty, new PropertyValue<double>(verticalItemSpacingFunc, componentWithState));
         return gridItemsLayout;
     }
 
@@ -85,11 +83,10 @@ public static partial class GridItemsLayoutExtensions
         return gridItemsLayout;
     }
 
-    public static T HorizontalItemSpacing<T>(this T gridItemsLayout, Func<double> horizontalItemSpacingFunc)
+    public static T HorizontalItemSpacing<T>(this T gridItemsLayout, Func<double> horizontalItemSpacingFunc, IComponentWithState? componentWithState = null)
         where T : IGridItemsLayout
     {
-        //gridItemsLayout.HorizontalItemSpacing = new PropertyValue<double>(horizontalItemSpacingFunc);
-        gridItemsLayout.SetProperty(Microsoft.Maui.Controls.GridItemsLayout.HorizontalItemSpacingProperty, new PropertyValue<double>(horizontalItemSpacingFunc));
+        gridItemsLayout.SetProperty(Microsoft.Maui.Controls.GridItemsLayout.HorizontalItemSpacingProperty, new PropertyValue<double>(horizontalItemSpacingFunc, componentWithState));
         return gridItemsLayout;
     }
 }

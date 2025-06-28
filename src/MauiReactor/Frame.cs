@@ -7,7 +7,6 @@ using System.Reflection;
 using MauiReactor.Animations;
 using MauiReactor.Shapes;
 using MauiReactor.Internals;
-#pragma warning disable CS0618 // Type or member is obsolete
 
 #nullable enable
 namespace MauiReactor;
@@ -67,11 +66,10 @@ public static partial class FrameExtensions
         return frame;
     }
 
-    public static T BorderColor<T>(this T frame, Func<Microsoft.Maui.Graphics.Color> borderColorFunc)
+    public static T BorderColor<T>(this T frame, Func<Microsoft.Maui.Graphics.Color> borderColorFunc, IComponentWithState? componentWithState = null)
         where T : IFrame
     {
-        //frame.BorderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc);
-        frame.SetProperty(Microsoft.Maui.Controls.Frame.BorderColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc));
+        frame.SetProperty(Microsoft.Maui.Controls.Frame.BorderColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc, componentWithState));
         return frame;
     }
 
@@ -83,11 +81,10 @@ public static partial class FrameExtensions
         return frame;
     }
 
-    public static T HasShadow<T>(this T frame, Func<bool> hasShadowFunc)
+    public static T HasShadow<T>(this T frame, Func<bool> hasShadowFunc, IComponentWithState? componentWithState = null)
         where T : IFrame
     {
-        //frame.HasShadow = new PropertyValue<bool>(hasShadowFunc);
-        frame.SetProperty(Microsoft.Maui.Controls.Frame.HasShadowProperty, new PropertyValue<bool>(hasShadowFunc));
+        frame.SetProperty(Microsoft.Maui.Controls.Frame.HasShadowProperty, new PropertyValue<bool>(hasShadowFunc, componentWithState));
         return frame;
     }
 
@@ -99,11 +96,10 @@ public static partial class FrameExtensions
         return frame;
     }
 
-    public static T CornerRadius<T>(this T frame, Func<float> cornerRadiusFunc)
+    public static T CornerRadius<T>(this T frame, Func<float> cornerRadiusFunc, IComponentWithState? componentWithState = null)
         where T : IFrame
     {
-        //frame.CornerRadius = new PropertyValue<float>(cornerRadiusFunc);
-        frame.SetProperty(Microsoft.Maui.Controls.Frame.CornerRadiusProperty, new PropertyValue<float>(cornerRadiusFunc));
+        frame.SetProperty(Microsoft.Maui.Controls.Frame.CornerRadiusProperty, new PropertyValue<float>(cornerRadiusFunc, componentWithState));
         return frame;
     }
 }
@@ -113,5 +109,3 @@ public static partial class FrameStyles
     public static Action<IFrame>? Default { get; set; }
     public static Dictionary<string, Action<IFrame>> Themes { get; } = [];
 }
-
-#pragma warning disable CS0618 // Type or member is obsolete

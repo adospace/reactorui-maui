@@ -131,11 +131,10 @@ public static partial class MultiPageExtensions
         return multiPage;
     }
 
-    public static T SelectedItem<T>(this T multiPage, Func<object?> selectedItemFunc)
+    public static T SelectedItem<T>(this T multiPage, Func<object?> selectedItemFunc, IComponentWithState? componentWithState = null)
         where T : IGenericMultiPage
     {
-        //multiPage.SelectedItem = new PropertyValue<object?>(selectedItemFunc);
-        multiPage.SelectedItem = new PropertyValue<object?>(selectedItemFunc);
+        multiPage.SelectedItem = new PropertyValue<object?>(selectedItemFunc, componentWithState);
         return multiPage;
     }
 

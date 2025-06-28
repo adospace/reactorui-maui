@@ -66,11 +66,10 @@ public static partial class IndicatorViewExtensions
         return indicatorView;
     }
 
-    public static T IndicatorsShape<T>(this T indicatorView, Func<Microsoft.Maui.Controls.IndicatorShape> indicatorsShapeFunc)
+    public static T IndicatorsShape<T>(this T indicatorView, Func<Microsoft.Maui.Controls.IndicatorShape> indicatorsShapeFunc, IComponentWithState? componentWithState = null)
         where T : IIndicatorView
     {
-        //indicatorView.IndicatorsShape = new PropertyValue<Microsoft.Maui.Controls.IndicatorShape>(indicatorsShapeFunc);
-        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.IndicatorsShapeProperty, new PropertyValue<Microsoft.Maui.Controls.IndicatorShape>(indicatorsShapeFunc));
+        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.IndicatorsShapeProperty, new PropertyValue<Microsoft.Maui.Controls.IndicatorShape>(indicatorsShapeFunc, componentWithState));
         return indicatorView;
     }
 
@@ -82,11 +81,10 @@ public static partial class IndicatorViewExtensions
         return indicatorView;
     }
 
-    public static T Position<T>(this T indicatorView, Func<int> positionFunc)
+    public static T Position<T>(this T indicatorView, Func<int> positionFunc, IComponentWithState? componentWithState = null)
         where T : IIndicatorView
     {
-        //indicatorView.Position = new PropertyValue<int>(positionFunc);
-        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.PositionProperty, new PropertyValue<int>(positionFunc));
+        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.PositionProperty, new PropertyValue<int>(positionFunc, componentWithState));
         return indicatorView;
     }
 
@@ -98,11 +96,10 @@ public static partial class IndicatorViewExtensions
         return indicatorView;
     }
 
-    public static T Count<T>(this T indicatorView, Func<int> countFunc)
+    public static T Count<T>(this T indicatorView, Func<int> countFunc, IComponentWithState? componentWithState = null)
         where T : IIndicatorView
     {
-        //indicatorView.Count = new PropertyValue<int>(countFunc);
-        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.CountProperty, new PropertyValue<int>(countFunc));
+        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.CountProperty, new PropertyValue<int>(countFunc, componentWithState));
         return indicatorView;
     }
 
@@ -114,11 +111,10 @@ public static partial class IndicatorViewExtensions
         return indicatorView;
     }
 
-    public static T MaximumVisible<T>(this T indicatorView, Func<int> maximumVisibleFunc)
+    public static T MaximumVisible<T>(this T indicatorView, Func<int> maximumVisibleFunc, IComponentWithState? componentWithState = null)
         where T : IIndicatorView
     {
-        //indicatorView.MaximumVisible = new PropertyValue<int>(maximumVisibleFunc);
-        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.MaximumVisibleProperty, new PropertyValue<int>(maximumVisibleFunc));
+        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.MaximumVisibleProperty, new PropertyValue<int>(maximumVisibleFunc, componentWithState));
         return indicatorView;
     }
 
@@ -130,11 +126,10 @@ public static partial class IndicatorViewExtensions
         return indicatorView;
     }
 
-    public static T HideSingle<T>(this T indicatorView, Func<bool> hideSingleFunc)
+    public static T HideSingle<T>(this T indicatorView, Func<bool> hideSingleFunc, IComponentWithState? componentWithState = null)
         where T : IIndicatorView
     {
-        //indicatorView.HideSingle = new PropertyValue<bool>(hideSingleFunc);
-        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.HideSingleProperty, new PropertyValue<bool>(hideSingleFunc));
+        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.HideSingleProperty, new PropertyValue<bool>(hideSingleFunc, componentWithState));
         return indicatorView;
     }
 
@@ -146,11 +141,10 @@ public static partial class IndicatorViewExtensions
         return indicatorView;
     }
 
-    public static T IndicatorColor<T>(this T indicatorView, Func<Microsoft.Maui.Graphics.Color> indicatorColorFunc)
+    public static T IndicatorColor<T>(this T indicatorView, Func<Microsoft.Maui.Graphics.Color> indicatorColorFunc, IComponentWithState? componentWithState = null)
         where T : IIndicatorView
     {
-        //indicatorView.IndicatorColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(indicatorColorFunc);
-        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.IndicatorColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(indicatorColorFunc));
+        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.IndicatorColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(indicatorColorFunc, componentWithState));
         return indicatorView;
     }
 
@@ -162,11 +156,10 @@ public static partial class IndicatorViewExtensions
         return indicatorView;
     }
 
-    public static T SelectedIndicatorColor<T>(this T indicatorView, Func<Microsoft.Maui.Graphics.Color> selectedIndicatorColorFunc)
+    public static T SelectedIndicatorColor<T>(this T indicatorView, Func<Microsoft.Maui.Graphics.Color> selectedIndicatorColorFunc, IComponentWithState? componentWithState = null)
         where T : IIndicatorView
     {
-        //indicatorView.SelectedIndicatorColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(selectedIndicatorColorFunc);
-        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.SelectedIndicatorColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(selectedIndicatorColorFunc));
+        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.SelectedIndicatorColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(selectedIndicatorColorFunc, componentWithState));
         return indicatorView;
     }
 
@@ -179,11 +172,10 @@ public static partial class IndicatorViewExtensions
         return indicatorView;
     }
 
-    public static T IndicatorSize<T>(this T indicatorView, Func<double> indicatorSizeFunc)
+    public static T IndicatorSize<T>(this T indicatorView, Func<double> indicatorSizeFunc, IComponentWithState? componentWithState = null)
         where T : IIndicatorView
     {
-        //indicatorView.IndicatorSize = new PropertyValue<double>(indicatorSizeFunc);
-        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.IndicatorSizeProperty, new PropertyValue<double>(indicatorSizeFunc));
+        indicatorView.SetProperty(Microsoft.Maui.Controls.IndicatorView.IndicatorSizeProperty, new PropertyValue<double>(indicatorSizeFunc, componentWithState));
         return indicatorView;
     }
 }

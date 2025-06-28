@@ -99,11 +99,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T Text<T>(this T inputView, Func<string> textFunc)
+    public static T Text<T>(this T inputView, Func<string> textFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.Text = new PropertyValue<string>(textFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.TextProperty, new PropertyValue<string>(textFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.TextProperty, new PropertyValue<string>(textFunc, componentWithState));
         return inputView;
     }
 
@@ -115,11 +114,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T Keyboard<T>(this T inputView, Func<Microsoft.Maui.Keyboard> keyboardFunc)
+    public static T Keyboard<T>(this T inputView, Func<Microsoft.Maui.Keyboard> keyboardFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.Keyboard = new PropertyValue<Microsoft.Maui.Keyboard>(keyboardFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.KeyboardProperty, new PropertyValue<Microsoft.Maui.Keyboard>(keyboardFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.KeyboardProperty, new PropertyValue<Microsoft.Maui.Keyboard>(keyboardFunc, componentWithState));
         return inputView;
     }
 
@@ -131,11 +129,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T IsSpellCheckEnabled<T>(this T inputView, Func<bool> isSpellCheckEnabledFunc)
+    public static T IsSpellCheckEnabled<T>(this T inputView, Func<bool> isSpellCheckEnabledFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.IsSpellCheckEnabled = new PropertyValue<bool>(isSpellCheckEnabledFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.IsSpellCheckEnabledProperty, new PropertyValue<bool>(isSpellCheckEnabledFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.IsSpellCheckEnabledProperty, new PropertyValue<bool>(isSpellCheckEnabledFunc, componentWithState));
         return inputView;
     }
 
@@ -147,11 +144,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T IsTextPredictionEnabled<T>(this T inputView, Func<bool> isTextPredictionEnabledFunc)
+    public static T IsTextPredictionEnabled<T>(this T inputView, Func<bool> isTextPredictionEnabledFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.IsTextPredictionEnabled = new PropertyValue<bool>(isTextPredictionEnabledFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.IsTextPredictionEnabledProperty, new PropertyValue<bool>(isTextPredictionEnabledFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.IsTextPredictionEnabledProperty, new PropertyValue<bool>(isTextPredictionEnabledFunc, componentWithState));
         return inputView;
     }
 
@@ -163,11 +159,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T MaxLength<T>(this T inputView, Func<int> maxLengthFunc)
+    public static T MaxLength<T>(this T inputView, Func<int> maxLengthFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.MaxLength = new PropertyValue<int>(maxLengthFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.MaxLengthProperty, new PropertyValue<int>(maxLengthFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.MaxLengthProperty, new PropertyValue<int>(maxLengthFunc, componentWithState));
         return inputView;
     }
 
@@ -179,11 +174,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T IsReadOnly<T>(this T inputView, Func<bool> isReadOnlyFunc)
+    public static T IsReadOnly<T>(this T inputView, Func<bool> isReadOnlyFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.IsReadOnly = new PropertyValue<bool>(isReadOnlyFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.IsReadOnlyProperty, new PropertyValue<bool>(isReadOnlyFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.IsReadOnlyProperty, new PropertyValue<bool>(isReadOnlyFunc, componentWithState));
         return inputView;
     }
 
@@ -195,11 +189,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T Placeholder<T>(this T inputView, Func<string> placeholderFunc)
+    public static T Placeholder<T>(this T inputView, Func<string> placeholderFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.Placeholder = new PropertyValue<string>(placeholderFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.PlaceholderProperty, new PropertyValue<string>(placeholderFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.PlaceholderProperty, new PropertyValue<string>(placeholderFunc, componentWithState));
         return inputView;
     }
 
@@ -211,11 +204,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T PlaceholderColor<T>(this T inputView, Func<Microsoft.Maui.Graphics.Color> placeholderColorFunc)
+    public static T PlaceholderColor<T>(this T inputView, Func<Microsoft.Maui.Graphics.Color> placeholderColorFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.PlaceholderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(placeholderColorFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.PlaceholderColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(placeholderColorFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.PlaceholderColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(placeholderColorFunc, componentWithState));
         return inputView;
     }
 
@@ -227,11 +219,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T TextColor<T>(this T inputView, Func<Microsoft.Maui.Graphics.Color> textColorFunc)
+    public static T TextColor<T>(this T inputView, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
         return inputView;
     }
 
@@ -244,11 +235,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T CharacterSpacing<T>(this T inputView, Func<double> characterSpacingFunc)
+    public static T CharacterSpacing<T>(this T inputView, Func<double> characterSpacingFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc, componentWithState));
         return inputView;
     }
 
@@ -260,11 +250,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T TextTransform<T>(this T inputView, Func<Microsoft.Maui.TextTransform> textTransformFunc)
+    public static T TextTransform<T>(this T inputView, Func<Microsoft.Maui.TextTransform> textTransformFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.TextTransformProperty, new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.TextTransformProperty, new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc, componentWithState));
         return inputView;
     }
 
@@ -276,11 +265,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T CursorPosition<T>(this T inputView, Func<int> cursorPositionFunc)
+    public static T CursorPosition<T>(this T inputView, Func<int> cursorPositionFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.CursorPosition = new PropertyValue<int>(cursorPositionFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.CursorPositionProperty, new PropertyValue<int>(cursorPositionFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.CursorPositionProperty, new PropertyValue<int>(cursorPositionFunc, componentWithState));
         return inputView;
     }
 
@@ -292,11 +280,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T SelectionLength<T>(this T inputView, Func<int> selectionLengthFunc)
+    public static T SelectionLength<T>(this T inputView, Func<int> selectionLengthFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.SelectionLength = new PropertyValue<int>(selectionLengthFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.SelectionLengthProperty, new PropertyValue<int>(selectionLengthFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.SelectionLengthProperty, new PropertyValue<int>(selectionLengthFunc, componentWithState));
         return inputView;
     }
 
@@ -308,11 +295,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T FontFamily<T>(this T inputView, Func<string> fontFamilyFunc)
+    public static T FontFamily<T>(this T inputView, Func<string> fontFamilyFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.FontFamily = new PropertyValue<string>(fontFamilyFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc, componentWithState));
         return inputView;
     }
 
@@ -325,11 +311,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T FontSize<T>(this T inputView, Func<double> fontSizeFunc)
+    public static T FontSize<T>(this T inputView, Func<double> fontSizeFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.FontSize = new PropertyValue<double>(fontSizeFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.FontSizeProperty, new PropertyValue<double>(fontSizeFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.FontSizeProperty, new PropertyValue<double>(fontSizeFunc, componentWithState));
         return inputView;
     }
 
@@ -341,11 +326,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T FontAttributes<T>(this T inputView, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc)
+    public static T FontAttributes<T>(this T inputView, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc, componentWithState));
         return inputView;
     }
 
@@ -357,11 +341,10 @@ public static partial class InputViewExtensions
         return inputView;
     }
 
-    public static T FontAutoScalingEnabled<T>(this T inputView, Func<bool> fontAutoScalingEnabledFunc)
+    public static T FontAutoScalingEnabled<T>(this T inputView, Func<bool> fontAutoScalingEnabledFunc, IComponentWithState? componentWithState = null)
         where T : IInputView
     {
-        //inputView.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
-        inputView.SetProperty(Microsoft.Maui.Controls.InputView.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc));
+        inputView.SetProperty(Microsoft.Maui.Controls.InputView.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc, componentWithState));
         return inputView;
     }
 

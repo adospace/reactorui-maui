@@ -66,11 +66,10 @@ public static partial class ImageExtensions
         return image;
     }
 
-    public static T Source<T>(this T image, Func<Microsoft.Maui.Controls.ImageSource> sourceFunc)
+    public static T Source<T>(this T image, Func<Microsoft.Maui.Controls.ImageSource> sourceFunc, IComponentWithState? componentWithState = null)
         where T : IImage
     {
-        //image.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(sourceFunc);
-        image.SetProperty(Microsoft.Maui.Controls.Image.SourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(sourceFunc));
+        image.SetProperty(Microsoft.Maui.Controls.Image.SourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(sourceFunc, componentWithState));
         return image;
     }
 
@@ -142,11 +141,10 @@ public static partial class ImageExtensions
         return image;
     }
 
-    public static T Aspect<T>(this T image, Func<Microsoft.Maui.Aspect> aspectFunc)
+    public static T Aspect<T>(this T image, Func<Microsoft.Maui.Aspect> aspectFunc, IComponentWithState? componentWithState = null)
         where T : IImage
     {
-        //image.Aspect = new PropertyValue<Microsoft.Maui.Aspect>(aspectFunc);
-        image.SetProperty(Microsoft.Maui.Controls.Image.AspectProperty, new PropertyValue<Microsoft.Maui.Aspect>(aspectFunc));
+        image.SetProperty(Microsoft.Maui.Controls.Image.AspectProperty, new PropertyValue<Microsoft.Maui.Aspect>(aspectFunc, componentWithState));
         return image;
     }
 
@@ -158,11 +156,10 @@ public static partial class ImageExtensions
         return image;
     }
 
-    public static T IsOpaque<T>(this T image, Func<bool> isOpaqueFunc)
+    public static T IsOpaque<T>(this T image, Func<bool> isOpaqueFunc, IComponentWithState? componentWithState = null)
         where T : IImage
     {
-        //image.IsOpaque = new PropertyValue<bool>(isOpaqueFunc);
-        image.SetProperty(Microsoft.Maui.Controls.Image.IsOpaqueProperty, new PropertyValue<bool>(isOpaqueFunc));
+        image.SetProperty(Microsoft.Maui.Controls.Image.IsOpaqueProperty, new PropertyValue<bool>(isOpaqueFunc, componentWithState));
         return image;
     }
 
@@ -174,11 +171,10 @@ public static partial class ImageExtensions
         return image;
     }
 
-    public static T IsAnimationPlaying<T>(this T image, Func<bool> isAnimationPlayingFunc)
+    public static T IsAnimationPlaying<T>(this T image, Func<bool> isAnimationPlayingFunc, IComponentWithState? componentWithState = null)
         where T : IImage
     {
-        //image.IsAnimationPlaying = new PropertyValue<bool>(isAnimationPlayingFunc);
-        image.SetProperty(Microsoft.Maui.Controls.Image.IsAnimationPlayingProperty, new PropertyValue<bool>(isAnimationPlayingFunc));
+        image.SetProperty(Microsoft.Maui.Controls.Image.IsAnimationPlayingProperty, new PropertyValue<bool>(isAnimationPlayingFunc, componentWithState));
         return image;
     }
 }

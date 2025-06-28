@@ -166,11 +166,10 @@ public static partial class ImageButtonExtensions
         return imageButton;
     }
 
-    public static T CornerRadius<T>(this T imageButton, Func<int> cornerRadiusFunc)
+    public static T CornerRadius<T>(this T imageButton, Func<int> cornerRadiusFunc, IComponentWithState? componentWithState = null)
         where T : IImageButton
     {
-        //imageButton.CornerRadius = new PropertyValue<int>(cornerRadiusFunc);
-        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.CornerRadiusProperty, new PropertyValue<int>(cornerRadiusFunc));
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.CornerRadiusProperty, new PropertyValue<int>(cornerRadiusFunc, componentWithState));
         return imageButton;
     }
 
@@ -183,11 +182,10 @@ public static partial class ImageButtonExtensions
         return imageButton;
     }
 
-    public static T BorderWidth<T>(this T imageButton, Func<double> borderWidthFunc)
+    public static T BorderWidth<T>(this T imageButton, Func<double> borderWidthFunc, IComponentWithState? componentWithState = null)
         where T : IImageButton
     {
-        //imageButton.BorderWidth = new PropertyValue<double>(borderWidthFunc);
-        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, new PropertyValue<double>(borderWidthFunc));
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.BorderWidthProperty, new PropertyValue<double>(borderWidthFunc, componentWithState));
         return imageButton;
     }
 
@@ -199,11 +197,10 @@ public static partial class ImageButtonExtensions
         return imageButton;
     }
 
-    public static T BorderColor<T>(this T imageButton, Func<Microsoft.Maui.Graphics.Color> borderColorFunc)
+    public static T BorderColor<T>(this T imageButton, Func<Microsoft.Maui.Graphics.Color> borderColorFunc, IComponentWithState? componentWithState = null)
         where T : IImageButton
     {
-        //imageButton.BorderColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc);
-        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.BorderColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc));
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.BorderColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc, componentWithState));
         return imageButton;
     }
 
@@ -215,11 +212,10 @@ public static partial class ImageButtonExtensions
         return imageButton;
     }
 
-    public static T Source<T>(this T imageButton, Func<Microsoft.Maui.Controls.ImageSource> sourceFunc)
+    public static T Source<T>(this T imageButton, Func<Microsoft.Maui.Controls.ImageSource> sourceFunc, IComponentWithState? componentWithState = null)
         where T : IImageButton
     {
-        //imageButton.Source = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(sourceFunc);
-        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.SourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(sourceFunc));
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.SourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(sourceFunc, componentWithState));
         return imageButton;
     }
 
@@ -291,11 +287,10 @@ public static partial class ImageButtonExtensions
         return imageButton;
     }
 
-    public static T Aspect<T>(this T imageButton, Func<Microsoft.Maui.Aspect> aspectFunc)
+    public static T Aspect<T>(this T imageButton, Func<Microsoft.Maui.Aspect> aspectFunc, IComponentWithState? componentWithState = null)
         where T : IImageButton
     {
-        //imageButton.Aspect = new PropertyValue<Microsoft.Maui.Aspect>(aspectFunc);
-        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.AspectProperty, new PropertyValue<Microsoft.Maui.Aspect>(aspectFunc));
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.AspectProperty, new PropertyValue<Microsoft.Maui.Aspect>(aspectFunc, componentWithState));
         return imageButton;
     }
 
@@ -307,11 +302,10 @@ public static partial class ImageButtonExtensions
         return imageButton;
     }
 
-    public static T IsOpaque<T>(this T imageButton, Func<bool> isOpaqueFunc)
+    public static T IsOpaque<T>(this T imageButton, Func<bool> isOpaqueFunc, IComponentWithState? componentWithState = null)
         where T : IImageButton
     {
-        //imageButton.IsOpaque = new PropertyValue<bool>(isOpaqueFunc);
-        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.IsOpaqueProperty, new PropertyValue<bool>(isOpaqueFunc));
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.IsOpaqueProperty, new PropertyValue<bool>(isOpaqueFunc, componentWithState));
         return imageButton;
     }
 
@@ -324,11 +318,10 @@ public static partial class ImageButtonExtensions
         return imageButton;
     }
 
-    public static T Padding<T>(this T imageButton, Func<Microsoft.Maui.Thickness> paddingFunc)
+    public static T Padding<T>(this T imageButton, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
         where T : IImageButton
     {
-        //imageButton.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
-        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc));
+        imageButton.SetProperty(Microsoft.Maui.Controls.ImageButton.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
         return imageButton;
     }
 

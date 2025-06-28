@@ -59,11 +59,10 @@ public static partial class EllipseGeometryExtensions
         return ellipseGeometry;
     }
 
-    public static T Center<T>(this T ellipseGeometry, Func<Microsoft.Maui.Graphics.Point> centerFunc)
+    public static T Center<T>(this T ellipseGeometry, Func<Microsoft.Maui.Graphics.Point> centerFunc, IComponentWithState? componentWithState = null)
         where T : IEllipseGeometry
     {
-        //ellipseGeometry.Center = new PropertyValue<Microsoft.Maui.Graphics.Point>(centerFunc);
-        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, new PropertyValue<Microsoft.Maui.Graphics.Point>(centerFunc));
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, new PropertyValue<Microsoft.Maui.Graphics.Point>(centerFunc, componentWithState));
         return ellipseGeometry;
     }
 
@@ -84,11 +83,10 @@ public static partial class EllipseGeometryExtensions
         return ellipseGeometry;
     }
 
-    public static T RadiusX<T>(this T ellipseGeometry, Func<double> radiusXFunc)
+    public static T RadiusX<T>(this T ellipseGeometry, Func<double> radiusXFunc, IComponentWithState? componentWithState = null)
         where T : IEllipseGeometry
     {
-        //ellipseGeometry.RadiusX = new PropertyValue<double>(radiusXFunc);
-        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, new PropertyValue<double>(radiusXFunc));
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, new PropertyValue<double>(radiusXFunc, componentWithState));
         return ellipseGeometry;
     }
 
@@ -101,11 +99,10 @@ public static partial class EllipseGeometryExtensions
         return ellipseGeometry;
     }
 
-    public static T RadiusY<T>(this T ellipseGeometry, Func<double> radiusYFunc)
+    public static T RadiusY<T>(this T ellipseGeometry, Func<double> radiusYFunc, IComponentWithState? componentWithState = null)
         where T : IEllipseGeometry
     {
-        //ellipseGeometry.RadiusY = new PropertyValue<double>(radiusYFunc);
-        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, new PropertyValue<double>(radiusYFunc));
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, new PropertyValue<double>(radiusYFunc, componentWithState));
         return ellipseGeometry;
     }
 }

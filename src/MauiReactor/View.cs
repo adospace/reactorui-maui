@@ -51,11 +51,10 @@ public static partial class ViewExtensions
         return view;
     }
 
-    public static T VerticalOptions<T>(this T view, Func<Microsoft.Maui.Controls.LayoutOptions> verticalOptionsFunc)
+    public static T VerticalOptions<T>(this T view, Func<Microsoft.Maui.Controls.LayoutOptions> verticalOptionsFunc, IComponentWithState? componentWithState = null)
         where T : IView
     {
-        //view.VerticalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(verticalOptionsFunc);
-        view.SetProperty(Microsoft.Maui.Controls.View.VerticalOptionsProperty, new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(verticalOptionsFunc));
+        view.SetProperty(Microsoft.Maui.Controls.View.VerticalOptionsProperty, new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(verticalOptionsFunc, componentWithState));
         return view;
     }
 
@@ -67,11 +66,10 @@ public static partial class ViewExtensions
         return view;
     }
 
-    public static T HorizontalOptions<T>(this T view, Func<Microsoft.Maui.Controls.LayoutOptions> horizontalOptionsFunc)
+    public static T HorizontalOptions<T>(this T view, Func<Microsoft.Maui.Controls.LayoutOptions> horizontalOptionsFunc, IComponentWithState? componentWithState = null)
         where T : IView
     {
-        //view.HorizontalOptions = new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(horizontalOptionsFunc);
-        view.SetProperty(Microsoft.Maui.Controls.View.HorizontalOptionsProperty, new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(horizontalOptionsFunc));
+        view.SetProperty(Microsoft.Maui.Controls.View.HorizontalOptionsProperty, new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(horizontalOptionsFunc, componentWithState));
         return view;
     }
 
@@ -84,11 +82,10 @@ public static partial class ViewExtensions
         return view;
     }
 
-    public static T Margin<T>(this T view, Func<Microsoft.Maui.Thickness> marginFunc)
+    public static T Margin<T>(this T view, Func<Microsoft.Maui.Thickness> marginFunc, IComponentWithState? componentWithState = null)
         where T : IView
     {
-        //view.Margin = new PropertyValue<Microsoft.Maui.Thickness>(marginFunc);
-        view.SetProperty(Microsoft.Maui.Controls.View.MarginProperty, new PropertyValue<Microsoft.Maui.Thickness>(marginFunc));
+        view.SetProperty(Microsoft.Maui.Controls.View.MarginProperty, new PropertyValue<Microsoft.Maui.Thickness>(marginFunc, componentWithState));
         return view;
     }
 

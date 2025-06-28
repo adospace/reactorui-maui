@@ -114,11 +114,10 @@ public static partial class SearchBarExtensions
         return searchBar;
     }
 
-    public static T CancelButtonColor<T>(this T searchBar, Func<Microsoft.Maui.Graphics.Color> cancelButtonColorFunc)
+    public static T CancelButtonColor<T>(this T searchBar, Func<Microsoft.Maui.Graphics.Color> cancelButtonColorFunc, IComponentWithState? componentWithState = null)
         where T : ISearchBar
     {
-        //searchBar.CancelButtonColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(cancelButtonColorFunc);
-        searchBar.SetProperty(Microsoft.Maui.Controls.SearchBar.CancelButtonColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(cancelButtonColorFunc));
+        searchBar.SetProperty(Microsoft.Maui.Controls.SearchBar.CancelButtonColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(cancelButtonColorFunc, componentWithState));
         return searchBar;
     }
 
@@ -130,11 +129,10 @@ public static partial class SearchBarExtensions
         return searchBar;
     }
 
-    public static T HorizontalTextAlignment<T>(this T searchBar, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc)
+    public static T HorizontalTextAlignment<T>(this T searchBar, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc, IComponentWithState? componentWithState = null)
         where T : ISearchBar
     {
-        //searchBar.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
-        searchBar.SetProperty(Microsoft.Maui.Controls.SearchBar.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc));
+        searchBar.SetProperty(Microsoft.Maui.Controls.SearchBar.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc, componentWithState));
         return searchBar;
     }
 
@@ -146,11 +144,10 @@ public static partial class SearchBarExtensions
         return searchBar;
     }
 
-    public static T VerticalTextAlignment<T>(this T searchBar, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc)
+    public static T VerticalTextAlignment<T>(this T searchBar, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc, IComponentWithState? componentWithState = null)
         where T : ISearchBar
     {
-        //searchBar.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
-        searchBar.SetProperty(Microsoft.Maui.Controls.SearchBar.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc));
+        searchBar.SetProperty(Microsoft.Maui.Controls.SearchBar.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc, componentWithState));
         return searchBar;
     }
 

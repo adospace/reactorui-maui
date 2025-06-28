@@ -66,11 +66,10 @@ public static partial class ImageCellExtensions
         return imageCell;
     }
 
-    public static T ImageSource<T>(this T imageCell, Func<Microsoft.Maui.Controls.ImageSource> imageSourceFunc)
+    public static T ImageSource<T>(this T imageCell, Func<Microsoft.Maui.Controls.ImageSource> imageSourceFunc, IComponentWithState? componentWithState = null)
         where T : IImageCell
     {
-        //imageCell.ImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(imageSourceFunc);
-        imageCell.SetProperty(Microsoft.Maui.Controls.ImageCell.ImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(imageSourceFunc));
+        imageCell.SetProperty(Microsoft.Maui.Controls.ImageCell.ImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(imageSourceFunc, componentWithState));
         return imageCell;
     }
 

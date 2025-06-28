@@ -51,11 +51,10 @@ public static partial class ItemsLayoutExtensions
         return itemsLayout;
     }
 
-    public static T SnapPointsAlignment<T>(this T itemsLayout, Func<Microsoft.Maui.Controls.SnapPointsAlignment> snapPointsAlignmentFunc)
+    public static T SnapPointsAlignment<T>(this T itemsLayout, Func<Microsoft.Maui.Controls.SnapPointsAlignment> snapPointsAlignmentFunc, IComponentWithState? componentWithState = null)
         where T : IItemsLayout
     {
-        //itemsLayout.SnapPointsAlignment = new PropertyValue<Microsoft.Maui.Controls.SnapPointsAlignment>(snapPointsAlignmentFunc);
-        itemsLayout.SetProperty(Microsoft.Maui.Controls.ItemsLayout.SnapPointsAlignmentProperty, new PropertyValue<Microsoft.Maui.Controls.SnapPointsAlignment>(snapPointsAlignmentFunc));
+        itemsLayout.SetProperty(Microsoft.Maui.Controls.ItemsLayout.SnapPointsAlignmentProperty, new PropertyValue<Microsoft.Maui.Controls.SnapPointsAlignment>(snapPointsAlignmentFunc, componentWithState));
         return itemsLayout;
     }
 
@@ -67,11 +66,10 @@ public static partial class ItemsLayoutExtensions
         return itemsLayout;
     }
 
-    public static T SnapPointsType<T>(this T itemsLayout, Func<Microsoft.Maui.Controls.SnapPointsType> snapPointsTypeFunc)
+    public static T SnapPointsType<T>(this T itemsLayout, Func<Microsoft.Maui.Controls.SnapPointsType> snapPointsTypeFunc, IComponentWithState? componentWithState = null)
         where T : IItemsLayout
     {
-        //itemsLayout.SnapPointsType = new PropertyValue<Microsoft.Maui.Controls.SnapPointsType>(snapPointsTypeFunc);
-        itemsLayout.SetProperty(Microsoft.Maui.Controls.ItemsLayout.SnapPointsTypeProperty, new PropertyValue<Microsoft.Maui.Controls.SnapPointsType>(snapPointsTypeFunc));
+        itemsLayout.SetProperty(Microsoft.Maui.Controls.ItemsLayout.SnapPointsTypeProperty, new PropertyValue<Microsoft.Maui.Controls.SnapPointsType>(snapPointsTypeFunc, componentWithState));
         return itemsLayout;
     }
 }

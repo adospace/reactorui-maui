@@ -114,11 +114,10 @@ public static partial class EntryCellExtensions
         return entryCell;
     }
 
-    public static T Text<T>(this T entryCell, Func<string> textFunc)
+    public static T Text<T>(this T entryCell, Func<string> textFunc, IComponentWithState? componentWithState = null)
         where T : IEntryCell
     {
-        //entryCell.Text = new PropertyValue<string>(textFunc);
-        entryCell.SetProperty(Microsoft.Maui.Controls.EntryCell.TextProperty, new PropertyValue<string>(textFunc));
+        entryCell.SetProperty(Microsoft.Maui.Controls.EntryCell.TextProperty, new PropertyValue<string>(textFunc, componentWithState));
         return entryCell;
     }
 
@@ -130,11 +129,10 @@ public static partial class EntryCellExtensions
         return entryCell;
     }
 
-    public static T Label<T>(this T entryCell, Func<string> labelFunc)
+    public static T Label<T>(this T entryCell, Func<string> labelFunc, IComponentWithState? componentWithState = null)
         where T : IEntryCell
     {
-        //entryCell.Label = new PropertyValue<string>(labelFunc);
-        entryCell.SetProperty(Microsoft.Maui.Controls.EntryCell.LabelProperty, new PropertyValue<string>(labelFunc));
+        entryCell.SetProperty(Microsoft.Maui.Controls.EntryCell.LabelProperty, new PropertyValue<string>(labelFunc, componentWithState));
         return entryCell;
     }
 
@@ -146,11 +144,10 @@ public static partial class EntryCellExtensions
         return entryCell;
     }
 
-    public static T Placeholder<T>(this T entryCell, Func<string> placeholderFunc)
+    public static T Placeholder<T>(this T entryCell, Func<string> placeholderFunc, IComponentWithState? componentWithState = null)
         where T : IEntryCell
     {
-        //entryCell.Placeholder = new PropertyValue<string>(placeholderFunc);
-        entryCell.SetProperty(Microsoft.Maui.Controls.EntryCell.PlaceholderProperty, new PropertyValue<string>(placeholderFunc));
+        entryCell.SetProperty(Microsoft.Maui.Controls.EntryCell.PlaceholderProperty, new PropertyValue<string>(placeholderFunc, componentWithState));
         return entryCell;
     }
 
@@ -162,11 +159,10 @@ public static partial class EntryCellExtensions
         return entryCell;
     }
 
-    public static T LabelColor<T>(this T entryCell, Func<Microsoft.Maui.Graphics.Color> labelColorFunc)
+    public static T LabelColor<T>(this T entryCell, Func<Microsoft.Maui.Graphics.Color> labelColorFunc, IComponentWithState? componentWithState = null)
         where T : IEntryCell
     {
-        //entryCell.LabelColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(labelColorFunc);
-        entryCell.SetProperty(Microsoft.Maui.Controls.EntryCell.LabelColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(labelColorFunc));
+        entryCell.SetProperty(Microsoft.Maui.Controls.EntryCell.LabelColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(labelColorFunc, componentWithState));
         return entryCell;
     }
 
@@ -178,11 +174,10 @@ public static partial class EntryCellExtensions
         return entryCell;
     }
 
-    public static T Keyboard<T>(this T entryCell, Func<Microsoft.Maui.Keyboard> keyboardFunc)
+    public static T Keyboard<T>(this T entryCell, Func<Microsoft.Maui.Keyboard> keyboardFunc, IComponentWithState? componentWithState = null)
         where T : IEntryCell
     {
-        //entryCell.Keyboard = new PropertyValue<Microsoft.Maui.Keyboard>(keyboardFunc);
-        entryCell.SetProperty(Microsoft.Maui.Controls.EntryCell.KeyboardProperty, new PropertyValue<Microsoft.Maui.Keyboard>(keyboardFunc));
+        entryCell.SetProperty(Microsoft.Maui.Controls.EntryCell.KeyboardProperty, new PropertyValue<Microsoft.Maui.Keyboard>(keyboardFunc, componentWithState));
         return entryCell;
     }
 
@@ -194,11 +189,10 @@ public static partial class EntryCellExtensions
         return entryCell;
     }
 
-    public static T HorizontalTextAlignment<T>(this T entryCell, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc)
+    public static T HorizontalTextAlignment<T>(this T entryCell, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc, IComponentWithState? componentWithState = null)
         where T : IEntryCell
     {
-        //entryCell.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
-        entryCell.SetProperty(Microsoft.Maui.Controls.EntryCell.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc));
+        entryCell.SetProperty(Microsoft.Maui.Controls.EntryCell.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc, componentWithState));
         return entryCell;
     }
 
@@ -210,11 +204,10 @@ public static partial class EntryCellExtensions
         return entryCell;
     }
 
-    public static T VerticalTextAlignment<T>(this T entryCell, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc)
+    public static T VerticalTextAlignment<T>(this T entryCell, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc, IComponentWithState? componentWithState = null)
         where T : IEntryCell
     {
-        //entryCell.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
-        entryCell.SetProperty(Microsoft.Maui.Controls.EntryCell.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc));
+        entryCell.SetProperty(Microsoft.Maui.Controls.EntryCell.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc, componentWithState));
         return entryCell;
     }
 

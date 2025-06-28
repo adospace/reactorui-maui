@@ -66,11 +66,10 @@ public static partial class StackLayoutExtensions
         return stackLayout;
     }
 
-    public static T Orientation<T>(this T stackLayout, Func<Microsoft.Maui.Controls.StackOrientation> orientationFunc)
+    public static T Orientation<T>(this T stackLayout, Func<Microsoft.Maui.Controls.StackOrientation> orientationFunc, IComponentWithState? componentWithState = null)
         where T : IStackLayout
     {
-        //stackLayout.Orientation = new PropertyValue<Microsoft.Maui.Controls.StackOrientation>(orientationFunc);
-        stackLayout.SetProperty(Microsoft.Maui.Controls.StackLayout.OrientationProperty, new PropertyValue<Microsoft.Maui.Controls.StackOrientation>(orientationFunc));
+        stackLayout.SetProperty(Microsoft.Maui.Controls.StackLayout.OrientationProperty, new PropertyValue<Microsoft.Maui.Controls.StackOrientation>(orientationFunc, componentWithState));
         return stackLayout;
     }
 }

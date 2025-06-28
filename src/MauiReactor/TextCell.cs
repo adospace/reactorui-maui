@@ -66,11 +66,10 @@ public static partial class TextCellExtensions
         return textCell;
     }
 
-    public static T Text<T>(this T textCell, Func<string> textFunc)
+    public static T Text<T>(this T textCell, Func<string> textFunc, IComponentWithState? componentWithState = null)
         where T : ITextCell
     {
-        //textCell.Text = new PropertyValue<string>(textFunc);
-        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.TextProperty, new PropertyValue<string>(textFunc));
+        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.TextProperty, new PropertyValue<string>(textFunc, componentWithState));
         return textCell;
     }
 
@@ -82,11 +81,10 @@ public static partial class TextCellExtensions
         return textCell;
     }
 
-    public static T Detail<T>(this T textCell, Func<string> detailFunc)
+    public static T Detail<T>(this T textCell, Func<string> detailFunc, IComponentWithState? componentWithState = null)
         where T : ITextCell
     {
-        //textCell.Detail = new PropertyValue<string>(detailFunc);
-        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.DetailProperty, new PropertyValue<string>(detailFunc));
+        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.DetailProperty, new PropertyValue<string>(detailFunc, componentWithState));
         return textCell;
     }
 
@@ -98,11 +96,10 @@ public static partial class TextCellExtensions
         return textCell;
     }
 
-    public static T TextColor<T>(this T textCell, Func<Microsoft.Maui.Graphics.Color> textColorFunc)
+    public static T TextColor<T>(this T textCell, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
         where T : ITextCell
     {
-        //textCell.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
-        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc));
+        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
         return textCell;
     }
 
@@ -114,11 +111,10 @@ public static partial class TextCellExtensions
         return textCell;
     }
 
-    public static T DetailColor<T>(this T textCell, Func<Microsoft.Maui.Graphics.Color> detailColorFunc)
+    public static T DetailColor<T>(this T textCell, Func<Microsoft.Maui.Graphics.Color> detailColorFunc, IComponentWithState? componentWithState = null)
         where T : ITextCell
     {
-        //textCell.DetailColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(detailColorFunc);
-        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.DetailColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(detailColorFunc));
+        textCell.SetProperty(Microsoft.Maui.Controls.TextCell.DetailColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(detailColorFunc, componentWithState));
         return textCell;
     }
 }

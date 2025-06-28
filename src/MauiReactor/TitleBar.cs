@@ -66,11 +66,10 @@ public static partial class TitleBarExtensions
         return titleBar;
     }
 
-    public static T Icon<T>(this T titleBar, Func<Microsoft.Maui.Controls.ImageSource> iconFunc)
+    public static T Icon<T>(this T titleBar, Func<Microsoft.Maui.Controls.ImageSource> iconFunc, IComponentWithState? componentWithState = null)
         where T : ITitleBar
     {
-        //titleBar.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc);
-        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.IconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc));
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.IconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc, componentWithState));
         return titleBar;
     }
 
@@ -142,11 +141,10 @@ public static partial class TitleBarExtensions
         return titleBar;
     }
 
-    public static T Title<T>(this T titleBar, Func<string> titleFunc)
+    public static T Title<T>(this T titleBar, Func<string> titleFunc, IComponentWithState? componentWithState = null)
         where T : ITitleBar
     {
-        //titleBar.Title = new PropertyValue<string>(titleFunc);
-        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.TitleProperty, new PropertyValue<string>(titleFunc));
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.TitleProperty, new PropertyValue<string>(titleFunc, componentWithState));
         return titleBar;
     }
 
@@ -158,11 +156,10 @@ public static partial class TitleBarExtensions
         return titleBar;
     }
 
-    public static T Subtitle<T>(this T titleBar, Func<string> subtitleFunc)
+    public static T Subtitle<T>(this T titleBar, Func<string> subtitleFunc, IComponentWithState? componentWithState = null)
         where T : ITitleBar
     {
-        //titleBar.Subtitle = new PropertyValue<string>(subtitleFunc);
-        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.SubtitleProperty, new PropertyValue<string>(subtitleFunc));
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.SubtitleProperty, new PropertyValue<string>(subtitleFunc, componentWithState));
         return titleBar;
     }
 
@@ -174,11 +171,10 @@ public static partial class TitleBarExtensions
         return titleBar;
     }
 
-    public static T ForegroundColor<T>(this T titleBar, Func<Microsoft.Maui.Graphics.Color> foregroundColorFunc)
+    public static T ForegroundColor<T>(this T titleBar, Func<Microsoft.Maui.Graphics.Color> foregroundColorFunc, IComponentWithState? componentWithState = null)
         where T : ITitleBar
     {
-        //titleBar.ForegroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(foregroundColorFunc);
-        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.ForegroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(foregroundColorFunc));
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.ForegroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(foregroundColorFunc, componentWithState));
         return titleBar;
     }
 }

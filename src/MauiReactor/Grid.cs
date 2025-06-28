@@ -67,11 +67,10 @@ public static partial class GridExtensions
         return grid;
     }
 
-    public static T RowSpacing<T>(this T grid, Func<double> rowSpacingFunc)
+    public static T RowSpacing<T>(this T grid, Func<double> rowSpacingFunc, IComponentWithState? componentWithState = null)
         where T : IGrid
     {
-        //grid.RowSpacing = new PropertyValue<double>(rowSpacingFunc);
-        grid.SetProperty(Microsoft.Maui.Controls.Grid.RowSpacingProperty, new PropertyValue<double>(rowSpacingFunc));
+        grid.SetProperty(Microsoft.Maui.Controls.Grid.RowSpacingProperty, new PropertyValue<double>(rowSpacingFunc, componentWithState));
         return grid;
     }
 
@@ -84,11 +83,10 @@ public static partial class GridExtensions
         return grid;
     }
 
-    public static T ColumnSpacing<T>(this T grid, Func<double> columnSpacingFunc)
+    public static T ColumnSpacing<T>(this T grid, Func<double> columnSpacingFunc, IComponentWithState? componentWithState = null)
         where T : IGrid
     {
-        //grid.ColumnSpacing = new PropertyValue<double>(columnSpacingFunc);
-        grid.SetProperty(Microsoft.Maui.Controls.Grid.ColumnSpacingProperty, new PropertyValue<double>(columnSpacingFunc));
+        grid.SetProperty(Microsoft.Maui.Controls.Grid.ColumnSpacingProperty, new PropertyValue<double>(columnSpacingFunc, componentWithState));
         return grid;
     }
 }

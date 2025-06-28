@@ -140,11 +140,10 @@ public static partial class CarouselViewExtensions
         return carouselView;
     }
 
-    public static T Loop<T>(this T carouselView, Func<bool> loopFunc)
+    public static T Loop<T>(this T carouselView, Func<bool> loopFunc, IComponentWithState? componentWithState = null)
         where T : ICarouselView
     {
-        //carouselView.Loop = new PropertyValue<bool>(loopFunc);
-        carouselView.SetProperty(Microsoft.Maui.Controls.CarouselView.LoopProperty, new PropertyValue<bool>(loopFunc));
+        carouselView.SetProperty(Microsoft.Maui.Controls.CarouselView.LoopProperty, new PropertyValue<bool>(loopFunc, componentWithState));
         return carouselView;
     }
 
@@ -157,11 +156,10 @@ public static partial class CarouselViewExtensions
         return carouselView;
     }
 
-    public static T PeekAreaInsets<T>(this T carouselView, Func<Microsoft.Maui.Thickness> peekAreaInsetsFunc)
+    public static T PeekAreaInsets<T>(this T carouselView, Func<Microsoft.Maui.Thickness> peekAreaInsetsFunc, IComponentWithState? componentWithState = null)
         where T : ICarouselView
     {
-        //carouselView.PeekAreaInsets = new PropertyValue<Microsoft.Maui.Thickness>(peekAreaInsetsFunc);
-        carouselView.SetProperty(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, new PropertyValue<Microsoft.Maui.Thickness>(peekAreaInsetsFunc));
+        carouselView.SetProperty(Microsoft.Maui.Controls.CarouselView.PeekAreaInsetsProperty, new PropertyValue<Microsoft.Maui.Thickness>(peekAreaInsetsFunc, componentWithState));
         return carouselView;
     }
 
@@ -200,11 +198,10 @@ public static partial class CarouselViewExtensions
         return carouselView;
     }
 
-    public static T IsBounceEnabled<T>(this T carouselView, Func<bool> isBounceEnabledFunc)
+    public static T IsBounceEnabled<T>(this T carouselView, Func<bool> isBounceEnabledFunc, IComponentWithState? componentWithState = null)
         where T : ICarouselView
     {
-        //carouselView.IsBounceEnabled = new PropertyValue<bool>(isBounceEnabledFunc);
-        carouselView.SetProperty(Microsoft.Maui.Controls.CarouselView.IsBounceEnabledProperty, new PropertyValue<bool>(isBounceEnabledFunc));
+        carouselView.SetProperty(Microsoft.Maui.Controls.CarouselView.IsBounceEnabledProperty, new PropertyValue<bool>(isBounceEnabledFunc, componentWithState));
         return carouselView;
     }
 
@@ -216,11 +213,10 @@ public static partial class CarouselViewExtensions
         return carouselView;
     }
 
-    public static T IsSwipeEnabled<T>(this T carouselView, Func<bool> isSwipeEnabledFunc)
+    public static T IsSwipeEnabled<T>(this T carouselView, Func<bool> isSwipeEnabledFunc, IComponentWithState? componentWithState = null)
         where T : ICarouselView
     {
-        //carouselView.IsSwipeEnabled = new PropertyValue<bool>(isSwipeEnabledFunc);
-        carouselView.SetProperty(Microsoft.Maui.Controls.CarouselView.IsSwipeEnabledProperty, new PropertyValue<bool>(isSwipeEnabledFunc));
+        carouselView.SetProperty(Microsoft.Maui.Controls.CarouselView.IsSwipeEnabledProperty, new PropertyValue<bool>(isSwipeEnabledFunc, componentWithState));
         return carouselView;
     }
 
@@ -232,11 +228,10 @@ public static partial class CarouselViewExtensions
         return carouselView;
     }
 
-    public static T IsScrollAnimated<T>(this T carouselView, Func<bool> isScrollAnimatedFunc)
+    public static T IsScrollAnimated<T>(this T carouselView, Func<bool> isScrollAnimatedFunc, IComponentWithState? componentWithState = null)
         where T : ICarouselView
     {
-        //carouselView.IsScrollAnimated = new PropertyValue<bool>(isScrollAnimatedFunc);
-        carouselView.SetProperty(Microsoft.Maui.Controls.CarouselView.IsScrollAnimatedProperty, new PropertyValue<bool>(isScrollAnimatedFunc));
+        carouselView.SetProperty(Microsoft.Maui.Controls.CarouselView.IsScrollAnimatedProperty, new PropertyValue<bool>(isScrollAnimatedFunc, componentWithState));
         return carouselView;
     }
 
@@ -248,11 +243,10 @@ public static partial class CarouselViewExtensions
         return carouselView;
     }
 
-    public static T CurrentItem<T>(this T carouselView, Func<object?> currentItemFunc)
+    public static T CurrentItem<T>(this T carouselView, Func<object?> currentItemFunc, IComponentWithState? componentWithState = null)
         where T : ICarouselView
     {
-        //carouselView.CurrentItem = new PropertyValue<object?>(currentItemFunc);
-        carouselView.SetProperty(Microsoft.Maui.Controls.CarouselView.CurrentItemProperty, new PropertyValue<object?>(currentItemFunc));
+        carouselView.SetProperty(Microsoft.Maui.Controls.CarouselView.CurrentItemProperty, new PropertyValue<object?>(currentItemFunc, componentWithState));
         return carouselView;
     }
 
@@ -264,11 +258,10 @@ public static partial class CarouselViewExtensions
         return carouselView;
     }
 
-    public static T Position<T>(this T carouselView, Func<int> positionFunc)
+    public static T Position<T>(this T carouselView, Func<int> positionFunc, IComponentWithState? componentWithState = null)
         where T : ICarouselView
     {
-        //carouselView.Position = new PropertyValue<int>(positionFunc);
-        carouselView.SetProperty(Microsoft.Maui.Controls.CarouselView.PositionProperty, new PropertyValue<int>(positionFunc));
+        carouselView.SetProperty(Microsoft.Maui.Controls.CarouselView.PositionProperty, new PropertyValue<int>(positionFunc, componentWithState));
         return carouselView;
     }
 

@@ -131,67 +131,67 @@ public static partial class ViewExtensions
         return view;
     }
 
-    public static T OnTapped<T>(this T view, Action? action) where T : IView
+    public static T OnTapped<T>(this T view, Action? action, int numberOfTapsRequired = 1) where T : IView
     {
         if (action != null)
         {
             view.GestureRecognizers ??= [];
-            view.GestureRecognizers.Add(new TapGestureRecognizer(action));
+            view.GestureRecognizers.Add(new TapGestureRecognizer(action, numberOfTapsRequired));
         }
 
         return view;
     }
 
-    public static T OnTapped<T>(this T view, Action<EventArgs>? action) where T : IView
+    public static T OnTapped<T>(this T view, Action<EventArgs>? action, int numberOfTapsRequired = 1) where T : IView
     {
         if (action != null)
         {
             view.GestureRecognizers ??= [];
-            view.GestureRecognizers.Add(new TapGestureRecognizer(action));
+            view.GestureRecognizers.Add(new TapGestureRecognizer(action, numberOfTapsRequired));
         }
 
         return view;
     }
 
-    public static T OnTapped<T>(this T view, Action<object?, EventArgs>? action) where T : IView
+    public static T OnTapped<T>(this T view, Action<object?, EventArgs>? action, int numberOfTapsRequired = 1) where T : IView
     {
         if (action != null)
         {
             view.GestureRecognizers ??= [];
-            view.GestureRecognizers.Add(new TapGestureRecognizer(action));
+            view.GestureRecognizers.Add(new TapGestureRecognizer(action, numberOfTapsRequired));
         }
 
         return view;
     }
 
-    public static T OnTapped<T>(this T view, Func<Task>? action) where T : IView
+    public static T OnTapped<T>(this T view, Func<Task>? action, int numberOfTapsRequired = 1) where T : IView
     {
         if (action != null)
         {
             view.GestureRecognizers ??= [];
-            view.GestureRecognizers.Add(new TapGestureRecognizer(action));
+            view.GestureRecognizers.Add(new TapGestureRecognizer(action, numberOfTapsRequired));
         }
 
         return view;
     }
 
-    public static T OnTapped<T>(this T view, Func<EventArgs, Task>? action) where T : IView
+    public static T OnTapped<T>(this T view, Func<EventArgs, Task>? action, int numberOfTapsRequired = 1) where T : IView
     {
         if (action != null)
         {
             view.GestureRecognizers ??= [];
-            view.GestureRecognizers.Add(new TapGestureRecognizer(action));
+            view.GestureRecognizers.Add(new TapGestureRecognizer(action, numberOfTapsRequired));
         }
 
         return view;
     }
 
-    public static T OnTapped<T>(this T view, Func<object?, EventArgs, Task>? action) where T : IView
+    public static T OnTapped<T>(this T view, Func<object?, EventArgs, Task>? action, int numberOfTapsRequired = 1) where T : IView
     {
         if (action != null)
         {
             view.GestureRecognizers ??= [];
-            view.GestureRecognizers.Add(new TapGestureRecognizer(action));
+            view.GestureRecognizers.Add(new TapGestureRecognizer(action, numberOfTapsRequired));
         }
 
         return view;

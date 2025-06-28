@@ -527,7 +527,7 @@ namespace MauiReactor
 
                 if (propertyValue.HasValueFunction)
                 {
-                    var containerComponent = ((IVisualNode)this).GetContainerComponent();
+                    var containerComponent = propertyValue.OwnerComponent ?? ((IVisualNode)this).GetContainerComponent();
                     containerComponent?.RegisterOnStateChanged(this, propertyValue.GetValueAction(dependencyObject, property));
                 }
             }

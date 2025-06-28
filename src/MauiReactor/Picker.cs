@@ -114,11 +114,10 @@ public static partial class PickerExtensions
         return picker;
     }
 
-    public static T TextColor<T>(this T picker, Func<Microsoft.Maui.Graphics.Color> textColorFunc)
+    public static T TextColor<T>(this T picker, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
     {
-        //picker.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
-        picker.SetProperty(Microsoft.Maui.Controls.Picker.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc));
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
         return picker;
     }
 
@@ -131,11 +130,10 @@ public static partial class PickerExtensions
         return picker;
     }
 
-    public static T CharacterSpacing<T>(this T picker, Func<double> characterSpacingFunc)
+    public static T CharacterSpacing<T>(this T picker, Func<double> characterSpacingFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
     {
-        //picker.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
-        picker.SetProperty(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc));
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc, componentWithState));
         return picker;
     }
 
@@ -147,11 +145,10 @@ public static partial class PickerExtensions
         return picker;
     }
 
-    public static T Title<T>(this T picker, Func<string> titleFunc)
+    public static T Title<T>(this T picker, Func<string> titleFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
     {
-        //picker.Title = new PropertyValue<string>(titleFunc);
-        picker.SetProperty(Microsoft.Maui.Controls.Picker.TitleProperty, new PropertyValue<string>(titleFunc));
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.TitleProperty, new PropertyValue<string>(titleFunc, componentWithState));
         return picker;
     }
 
@@ -163,11 +160,10 @@ public static partial class PickerExtensions
         return picker;
     }
 
-    public static T TitleColor<T>(this T picker, Func<Microsoft.Maui.Graphics.Color> titleColorFunc)
+    public static T TitleColor<T>(this T picker, Func<Microsoft.Maui.Graphics.Color> titleColorFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
     {
-        //picker.TitleColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(titleColorFunc);
-        picker.SetProperty(Microsoft.Maui.Controls.Picker.TitleColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(titleColorFunc));
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.TitleColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(titleColorFunc, componentWithState));
         return picker;
     }
 
@@ -179,11 +175,10 @@ public static partial class PickerExtensions
         return picker;
     }
 
-    public static T SelectedIndex<T>(this T picker, Func<int> selectedIndexFunc)
+    public static T SelectedIndex<T>(this T picker, Func<int> selectedIndexFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
     {
-        //picker.SelectedIndex = new PropertyValue<int>(selectedIndexFunc);
-        picker.SetProperty(Microsoft.Maui.Controls.Picker.SelectedIndexProperty, new PropertyValue<int>(selectedIndexFunc));
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.SelectedIndexProperty, new PropertyValue<int>(selectedIndexFunc, componentWithState));
         return picker;
     }
 
@@ -195,11 +190,10 @@ public static partial class PickerExtensions
         return picker;
     }
 
-    public static T FontFamily<T>(this T picker, Func<string> fontFamilyFunc)
+    public static T FontFamily<T>(this T picker, Func<string> fontFamilyFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
     {
-        //picker.FontFamily = new PropertyValue<string>(fontFamilyFunc);
-        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc));
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc, componentWithState));
         return picker;
     }
 
@@ -212,11 +206,10 @@ public static partial class PickerExtensions
         return picker;
     }
 
-    public static T FontSize<T>(this T picker, Func<double> fontSizeFunc)
+    public static T FontSize<T>(this T picker, Func<double> fontSizeFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
     {
-        //picker.FontSize = new PropertyValue<double>(fontSizeFunc);
-        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontSizeProperty, new PropertyValue<double>(fontSizeFunc));
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontSizeProperty, new PropertyValue<double>(fontSizeFunc, componentWithState));
         return picker;
     }
 
@@ -228,11 +221,10 @@ public static partial class PickerExtensions
         return picker;
     }
 
-    public static T FontAttributes<T>(this T picker, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc)
+    public static T FontAttributes<T>(this T picker, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
     {
-        //picker.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
-        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc));
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc, componentWithState));
         return picker;
     }
 
@@ -244,11 +236,10 @@ public static partial class PickerExtensions
         return picker;
     }
 
-    public static T FontAutoScalingEnabled<T>(this T picker, Func<bool> fontAutoScalingEnabledFunc)
+    public static T FontAutoScalingEnabled<T>(this T picker, Func<bool> fontAutoScalingEnabledFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
     {
-        //picker.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
-        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc));
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc, componentWithState));
         return picker;
     }
 
@@ -260,11 +251,10 @@ public static partial class PickerExtensions
         return picker;
     }
 
-    public static T HorizontalTextAlignment<T>(this T picker, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc)
+    public static T HorizontalTextAlignment<T>(this T picker, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
     {
-        //picker.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
-        picker.SetProperty(Microsoft.Maui.Controls.Picker.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc));
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc, componentWithState));
         return picker;
     }
 
@@ -276,11 +266,10 @@ public static partial class PickerExtensions
         return picker;
     }
 
-    public static T VerticalTextAlignment<T>(this T picker, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc)
+    public static T VerticalTextAlignment<T>(this T picker, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
     {
-        //picker.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
-        picker.SetProperty(Microsoft.Maui.Controls.Picker.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc));
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc, componentWithState));
         return picker;
     }
 

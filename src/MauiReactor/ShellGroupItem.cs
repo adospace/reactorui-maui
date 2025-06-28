@@ -66,11 +66,10 @@ public static partial class ShellGroupItemExtensions
         return shellGroupItem;
     }
 
-    public static T FlyoutDisplayOptions<T>(this T shellGroupItem, Func<Microsoft.Maui.Controls.FlyoutDisplayOptions> flyoutDisplayOptionsFunc)
+    public static T FlyoutDisplayOptions<T>(this T shellGroupItem, Func<Microsoft.Maui.Controls.FlyoutDisplayOptions> flyoutDisplayOptionsFunc, IComponentWithState? componentWithState = null)
         where T : IShellGroupItem
     {
-        //shellGroupItem.FlyoutDisplayOptions = new PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>(flyoutDisplayOptionsFunc);
-        shellGroupItem.SetProperty(Microsoft.Maui.Controls.ShellGroupItem.FlyoutDisplayOptionsProperty, new PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>(flyoutDisplayOptionsFunc));
+        shellGroupItem.SetProperty(Microsoft.Maui.Controls.ShellGroupItem.FlyoutDisplayOptionsProperty, new PropertyValue<Microsoft.Maui.Controls.FlyoutDisplayOptions>(flyoutDisplayOptionsFunc, componentWithState));
         return shellGroupItem;
     }
 }

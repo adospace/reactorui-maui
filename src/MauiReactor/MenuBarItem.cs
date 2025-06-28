@@ -66,11 +66,10 @@ public static partial class MenuBarItemExtensions
         return menuBarItem;
     }
 
-    public static T Text<T>(this T menuBarItem, Func<string> textFunc)
+    public static T Text<T>(this T menuBarItem, Func<string> textFunc, IComponentWithState? componentWithState = null)
         where T : IMenuBarItem
     {
-        //menuBarItem.Text = new PropertyValue<string>(textFunc);
-        menuBarItem.SetProperty(Microsoft.Maui.Controls.MenuBarItem.TextProperty, new PropertyValue<string>(textFunc));
+        menuBarItem.SetProperty(Microsoft.Maui.Controls.MenuBarItem.TextProperty, new PropertyValue<string>(textFunc, componentWithState));
         return menuBarItem;
     }
 
@@ -82,11 +81,10 @@ public static partial class MenuBarItemExtensions
         return menuBarItem;
     }
 
-    public static T IsEnabled<T>(this T menuBarItem, Func<bool> isEnabledFunc)
+    public static T IsEnabled<T>(this T menuBarItem, Func<bool> isEnabledFunc, IComponentWithState? componentWithState = null)
         where T : IMenuBarItem
     {
-        //menuBarItem.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
-        menuBarItem.SetProperty(Microsoft.Maui.Controls.MenuBarItem.IsEnabledProperty, new PropertyValue<bool>(isEnabledFunc));
+        menuBarItem.SetProperty(Microsoft.Maui.Controls.MenuBarItem.IsEnabledProperty, new PropertyValue<bool>(isEnabledFunc, componentWithState));
         return menuBarItem;
     }
 }

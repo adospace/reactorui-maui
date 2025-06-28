@@ -114,11 +114,10 @@ public static partial class ReorderableItemsViewExtensions
         return reorderableItemsView;
     }
 
-    public static T CanMixGroups<T>(this T reorderableItemsView, Func<bool> canMixGroupsFunc)
+    public static T CanMixGroups<T>(this T reorderableItemsView, Func<bool> canMixGroupsFunc, IComponentWithState? componentWithState = null)
         where T : IReorderableItemsView
     {
-        //reorderableItemsView.CanMixGroups = new PropertyValue<bool>(canMixGroupsFunc);
-        reorderableItemsView.SetProperty(Microsoft.Maui.Controls.ReorderableItemsView.CanMixGroupsProperty, new PropertyValue<bool>(canMixGroupsFunc));
+        reorderableItemsView.SetProperty(Microsoft.Maui.Controls.ReorderableItemsView.CanMixGroupsProperty, new PropertyValue<bool>(canMixGroupsFunc, componentWithState));
         return reorderableItemsView;
     }
 
@@ -130,11 +129,10 @@ public static partial class ReorderableItemsViewExtensions
         return reorderableItemsView;
     }
 
-    public static T CanReorderItems<T>(this T reorderableItemsView, Func<bool> canReorderItemsFunc)
+    public static T CanReorderItems<T>(this T reorderableItemsView, Func<bool> canReorderItemsFunc, IComponentWithState? componentWithState = null)
         where T : IReorderableItemsView
     {
-        //reorderableItemsView.CanReorderItems = new PropertyValue<bool>(canReorderItemsFunc);
-        reorderableItemsView.SetProperty(Microsoft.Maui.Controls.ReorderableItemsView.CanReorderItemsProperty, new PropertyValue<bool>(canReorderItemsFunc));
+        reorderableItemsView.SetProperty(Microsoft.Maui.Controls.ReorderableItemsView.CanReorderItemsProperty, new PropertyValue<bool>(canReorderItemsFunc, componentWithState));
         return reorderableItemsView;
     }
 

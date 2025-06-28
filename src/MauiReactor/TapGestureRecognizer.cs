@@ -99,11 +99,10 @@ public static partial class TapGestureRecognizerExtensions
         return tapGestureRecognizer;
     }
 
-    public static T NumberOfTapsRequired<T>(this T tapGestureRecognizer, Func<int> numberOfTapsRequiredFunc)
+    public static T NumberOfTapsRequired<T>(this T tapGestureRecognizer, Func<int> numberOfTapsRequiredFunc, IComponentWithState? componentWithState = null)
         where T : ITapGestureRecognizer
     {
-        //tapGestureRecognizer.NumberOfTapsRequired = new PropertyValue<int>(numberOfTapsRequiredFunc);
-        tapGestureRecognizer.SetProperty(Microsoft.Maui.Controls.TapGestureRecognizer.NumberOfTapsRequiredProperty, new PropertyValue<int>(numberOfTapsRequiredFunc));
+        tapGestureRecognizer.SetProperty(Microsoft.Maui.Controls.TapGestureRecognizer.NumberOfTapsRequiredProperty, new PropertyValue<int>(numberOfTapsRequiredFunc, componentWithState));
         return tapGestureRecognizer;
     }
 
@@ -115,11 +114,10 @@ public static partial class TapGestureRecognizerExtensions
         return tapGestureRecognizer;
     }
 
-    public static T Buttons<T>(this T tapGestureRecognizer, Func<Microsoft.Maui.Controls.ButtonsMask> buttonsFunc)
+    public static T Buttons<T>(this T tapGestureRecognizer, Func<Microsoft.Maui.Controls.ButtonsMask> buttonsFunc, IComponentWithState? componentWithState = null)
         where T : ITapGestureRecognizer
     {
-        //tapGestureRecognizer.Buttons = new PropertyValue<Microsoft.Maui.Controls.ButtonsMask>(buttonsFunc);
-        tapGestureRecognizer.SetProperty(Microsoft.Maui.Controls.TapGestureRecognizer.ButtonsProperty, new PropertyValue<Microsoft.Maui.Controls.ButtonsMask>(buttonsFunc));
+        tapGestureRecognizer.SetProperty(Microsoft.Maui.Controls.TapGestureRecognizer.ButtonsProperty, new PropertyValue<Microsoft.Maui.Controls.ButtonsMask>(buttonsFunc, componentWithState));
         return tapGestureRecognizer;
     }
 

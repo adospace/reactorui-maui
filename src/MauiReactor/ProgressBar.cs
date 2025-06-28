@@ -66,11 +66,10 @@ public static partial class ProgressBarExtensions
         return progressBar;
     }
 
-    public static T ProgressColor<T>(this T progressBar, Func<Microsoft.Maui.Graphics.Color> progressColorFunc)
+    public static T ProgressColor<T>(this T progressBar, Func<Microsoft.Maui.Graphics.Color> progressColorFunc, IComponentWithState? componentWithState = null)
         where T : IProgressBar
     {
-        //progressBar.ProgressColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(progressColorFunc);
-        progressBar.SetProperty(Microsoft.Maui.Controls.ProgressBar.ProgressColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(progressColorFunc));
+        progressBar.SetProperty(Microsoft.Maui.Controls.ProgressBar.ProgressColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(progressColorFunc, componentWithState));
         return progressBar;
     }
 
@@ -83,11 +82,10 @@ public static partial class ProgressBarExtensions
         return progressBar;
     }
 
-    public static T Progress<T>(this T progressBar, Func<double> progressFunc)
+    public static T Progress<T>(this T progressBar, Func<double> progressFunc, IComponentWithState? componentWithState = null)
         where T : IProgressBar
     {
-        //progressBar.Progress = new PropertyValue<double>(progressFunc);
-        progressBar.SetProperty(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, new PropertyValue<double>(progressFunc));
+        progressBar.SetProperty(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, new PropertyValue<double>(progressFunc, componentWithState));
         return progressBar;
     }
 }

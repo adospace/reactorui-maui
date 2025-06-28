@@ -114,11 +114,10 @@ public static partial class DatePickerExtensions
         return datePicker;
     }
 
-    public static T Format<T>(this T datePicker, Func<string> formatFunc)
+    public static T Format<T>(this T datePicker, Func<string> formatFunc, IComponentWithState? componentWithState = null)
         where T : IDatePicker
     {
-        //datePicker.Format = new PropertyValue<string>(formatFunc);
-        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FormatProperty, new PropertyValue<string>(formatFunc));
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FormatProperty, new PropertyValue<string>(formatFunc, componentWithState));
         return datePicker;
     }
 
@@ -130,11 +129,10 @@ public static partial class DatePickerExtensions
         return datePicker;
     }
 
-    public static T Date<T>(this T datePicker, Func<System.DateTime> dateFunc)
+    public static T Date<T>(this T datePicker, Func<System.DateTime> dateFunc, IComponentWithState? componentWithState = null)
         where T : IDatePicker
     {
-        //datePicker.Date = new PropertyValue<System.DateTime>(dateFunc);
-        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.DateProperty, new PropertyValue<System.DateTime>(dateFunc));
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.DateProperty, new PropertyValue<System.DateTime>(dateFunc, componentWithState));
         return datePicker;
     }
 
@@ -146,11 +144,10 @@ public static partial class DatePickerExtensions
         return datePicker;
     }
 
-    public static T MinimumDate<T>(this T datePicker, Func<System.DateTime> minimumDateFunc)
+    public static T MinimumDate<T>(this T datePicker, Func<System.DateTime> minimumDateFunc, IComponentWithState? componentWithState = null)
         where T : IDatePicker
     {
-        //datePicker.MinimumDate = new PropertyValue<System.DateTime>(minimumDateFunc);
-        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.MinimumDateProperty, new PropertyValue<System.DateTime>(minimumDateFunc));
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.MinimumDateProperty, new PropertyValue<System.DateTime>(minimumDateFunc, componentWithState));
         return datePicker;
     }
 
@@ -162,11 +159,10 @@ public static partial class DatePickerExtensions
         return datePicker;
     }
 
-    public static T MaximumDate<T>(this T datePicker, Func<System.DateTime> maximumDateFunc)
+    public static T MaximumDate<T>(this T datePicker, Func<System.DateTime> maximumDateFunc, IComponentWithState? componentWithState = null)
         where T : IDatePicker
     {
-        //datePicker.MaximumDate = new PropertyValue<System.DateTime>(maximumDateFunc);
-        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.MaximumDateProperty, new PropertyValue<System.DateTime>(maximumDateFunc));
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.MaximumDateProperty, new PropertyValue<System.DateTime>(maximumDateFunc, componentWithState));
         return datePicker;
     }
 
@@ -178,11 +174,10 @@ public static partial class DatePickerExtensions
         return datePicker;
     }
 
-    public static T TextColor<T>(this T datePicker, Func<Microsoft.Maui.Graphics.Color> textColorFunc)
+    public static T TextColor<T>(this T datePicker, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
         where T : IDatePicker
     {
-        //datePicker.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
-        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc));
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
         return datePicker;
     }
 
@@ -195,11 +190,10 @@ public static partial class DatePickerExtensions
         return datePicker;
     }
 
-    public static T CharacterSpacing<T>(this T datePicker, Func<double> characterSpacingFunc)
+    public static T CharacterSpacing<T>(this T datePicker, Func<double> characterSpacingFunc, IComponentWithState? componentWithState = null)
         where T : IDatePicker
     {
-        //datePicker.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
-        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc));
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc, componentWithState));
         return datePicker;
     }
 
@@ -211,11 +205,10 @@ public static partial class DatePickerExtensions
         return datePicker;
     }
 
-    public static T FontFamily<T>(this T datePicker, Func<string> fontFamilyFunc)
+    public static T FontFamily<T>(this T datePicker, Func<string> fontFamilyFunc, IComponentWithState? componentWithState = null)
         where T : IDatePicker
     {
-        //datePicker.FontFamily = new PropertyValue<string>(fontFamilyFunc);
-        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc));
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc, componentWithState));
         return datePicker;
     }
 
@@ -228,11 +221,10 @@ public static partial class DatePickerExtensions
         return datePicker;
     }
 
-    public static T FontSize<T>(this T datePicker, Func<double> fontSizeFunc)
+    public static T FontSize<T>(this T datePicker, Func<double> fontSizeFunc, IComponentWithState? componentWithState = null)
         where T : IDatePicker
     {
-        //datePicker.FontSize = new PropertyValue<double>(fontSizeFunc);
-        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontSizeProperty, new PropertyValue<double>(fontSizeFunc));
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontSizeProperty, new PropertyValue<double>(fontSizeFunc, componentWithState));
         return datePicker;
     }
 
@@ -244,11 +236,10 @@ public static partial class DatePickerExtensions
         return datePicker;
     }
 
-    public static T FontAttributes<T>(this T datePicker, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc)
+    public static T FontAttributes<T>(this T datePicker, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc, IComponentWithState? componentWithState = null)
         where T : IDatePicker
     {
-        //datePicker.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
-        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc));
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc, componentWithState));
         return datePicker;
     }
 
@@ -260,11 +251,10 @@ public static partial class DatePickerExtensions
         return datePicker;
     }
 
-    public static T FontAutoScalingEnabled<T>(this T datePicker, Func<bool> fontAutoScalingEnabledFunc)
+    public static T FontAutoScalingEnabled<T>(this T datePicker, Func<bool> fontAutoScalingEnabledFunc, IComponentWithState? componentWithState = null)
         where T : IDatePicker
     {
-        //datePicker.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
-        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc));
+        datePicker.SetProperty(Microsoft.Maui.Controls.DatePicker.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc, componentWithState));
         return datePicker;
     }
 

@@ -106,11 +106,10 @@ public static partial class GeometryGroupExtensions
         return geometryGroup;
     }
 
-    public static T Children<T>(this T geometryGroup, Func<Microsoft.Maui.Controls.Shapes.GeometryCollection> childrenFunc)
+    public static T Children<T>(this T geometryGroup, Func<Microsoft.Maui.Controls.Shapes.GeometryCollection> childrenFunc, IComponentWithState? componentWithState = null)
         where T : IGeometryGroup
     {
-        //geometryGroup.Children = new PropertyValue<Microsoft.Maui.Controls.Shapes.GeometryCollection>(childrenFunc);
-        geometryGroup.SetProperty(Microsoft.Maui.Controls.Shapes.GeometryGroup.ChildrenProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.GeometryCollection>(childrenFunc));
+        geometryGroup.SetProperty(Microsoft.Maui.Controls.Shapes.GeometryGroup.ChildrenProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.GeometryCollection>(childrenFunc, componentWithState));
         return geometryGroup;
     }
 
@@ -122,11 +121,10 @@ public static partial class GeometryGroupExtensions
         return geometryGroup;
     }
 
-    public static T FillRule<T>(this T geometryGroup, Func<Microsoft.Maui.Controls.Shapes.FillRule> fillRuleFunc)
+    public static T FillRule<T>(this T geometryGroup, Func<Microsoft.Maui.Controls.Shapes.FillRule> fillRuleFunc, IComponentWithState? componentWithState = null)
         where T : IGeometryGroup
     {
-        //geometryGroup.FillRule = new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc);
-        geometryGroup.SetProperty(Microsoft.Maui.Controls.Shapes.GeometryGroup.FillRuleProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc));
+        geometryGroup.SetProperty(Microsoft.Maui.Controls.Shapes.GeometryGroup.FillRuleProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc, componentWithState));
         return geometryGroup;
     }
 

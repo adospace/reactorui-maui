@@ -140,11 +140,10 @@ public static partial class BaseShellItemExtensions
         return baseShellItem;
     }
 
-    public static T FlyoutIcon<T>(this T baseShellItem, Func<Microsoft.Maui.Controls.ImageSource> flyoutIconFunc)
+    public static T FlyoutIcon<T>(this T baseShellItem, Func<Microsoft.Maui.Controls.ImageSource> flyoutIconFunc, IComponentWithState? componentWithState = null)
         where T : IBaseShellItem
     {
-        //baseShellItem.FlyoutIcon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIconFunc);
-        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.FlyoutIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIconFunc));
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.FlyoutIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIconFunc, componentWithState));
         return baseShellItem;
     }
 
@@ -216,11 +215,10 @@ public static partial class BaseShellItemExtensions
         return baseShellItem;
     }
 
-    public static T Icon<T>(this T baseShellItem, Func<Microsoft.Maui.Controls.ImageSource> iconFunc)
+    public static T Icon<T>(this T baseShellItem, Func<Microsoft.Maui.Controls.ImageSource> iconFunc, IComponentWithState? componentWithState = null)
         where T : IBaseShellItem
     {
-        //baseShellItem.Icon = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc);
-        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc));
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc, componentWithState));
         return baseShellItem;
     }
 
@@ -292,11 +290,10 @@ public static partial class BaseShellItemExtensions
         return baseShellItem;
     }
 
-    public static T IsEnabled<T>(this T baseShellItem, Func<bool> isEnabledFunc)
+    public static T IsEnabled<T>(this T baseShellItem, Func<bool> isEnabledFunc, IComponentWithState? componentWithState = null)
         where T : IBaseShellItem
     {
-        //baseShellItem.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
-        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IsEnabledProperty, new PropertyValue<bool>(isEnabledFunc));
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IsEnabledProperty, new PropertyValue<bool>(isEnabledFunc, componentWithState));
         return baseShellItem;
     }
 
@@ -308,11 +305,10 @@ public static partial class BaseShellItemExtensions
         return baseShellItem;
     }
 
-    public static T Title<T>(this T baseShellItem, Func<string> titleFunc)
+    public static T Title<T>(this T baseShellItem, Func<string> titleFunc, IComponentWithState? componentWithState = null)
         where T : IBaseShellItem
     {
-        //baseShellItem.Title = new PropertyValue<string>(titleFunc);
-        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.TitleProperty, new PropertyValue<string>(titleFunc));
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.TitleProperty, new PropertyValue<string>(titleFunc, componentWithState));
         return baseShellItem;
     }
 
@@ -324,11 +320,10 @@ public static partial class BaseShellItemExtensions
         return baseShellItem;
     }
 
-    public static T IsVisible<T>(this T baseShellItem, Func<bool> isVisibleFunc)
+    public static T IsVisible<T>(this T baseShellItem, Func<bool> isVisibleFunc, IComponentWithState? componentWithState = null)
         where T : IBaseShellItem
     {
-        //baseShellItem.IsVisible = new PropertyValue<bool>(isVisibleFunc);
-        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IsVisibleProperty, new PropertyValue<bool>(isVisibleFunc));
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.IsVisibleProperty, new PropertyValue<bool>(isVisibleFunc, componentWithState));
         return baseShellItem;
     }
 
@@ -340,11 +335,10 @@ public static partial class BaseShellItemExtensions
         return baseShellItem;
     }
 
-    public static T FlyoutItemIsVisible<T>(this T baseShellItem, Func<bool> flyoutItemIsVisibleFunc)
+    public static T FlyoutItemIsVisible<T>(this T baseShellItem, Func<bool> flyoutItemIsVisibleFunc, IComponentWithState? componentWithState = null)
         where T : IBaseShellItem
     {
-        //baseShellItem.FlyoutItemIsVisible = new PropertyValue<bool>(flyoutItemIsVisibleFunc);
-        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.FlyoutItemIsVisibleProperty, new PropertyValue<bool>(flyoutItemIsVisibleFunc));
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.FlyoutItemIsVisibleProperty, new PropertyValue<bool>(flyoutItemIsVisibleFunc, componentWithState));
         return baseShellItem;
     }
 

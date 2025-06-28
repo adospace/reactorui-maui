@@ -114,11 +114,10 @@ public static partial class EditorExtensions
         return editor;
     }
 
-    public static T AutoSize<T>(this T editor, Func<Microsoft.Maui.Controls.EditorAutoSizeOption> autoSizeFunc)
+    public static T AutoSize<T>(this T editor, Func<Microsoft.Maui.Controls.EditorAutoSizeOption> autoSizeFunc, IComponentWithState? componentWithState = null)
         where T : IEditor
     {
-        //editor.AutoSize = new PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>(autoSizeFunc);
-        editor.SetProperty(Microsoft.Maui.Controls.Editor.AutoSizeProperty, new PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>(autoSizeFunc));
+        editor.SetProperty(Microsoft.Maui.Controls.Editor.AutoSizeProperty, new PropertyValue<Microsoft.Maui.Controls.EditorAutoSizeOption>(autoSizeFunc, componentWithState));
         return editor;
     }
 
@@ -130,11 +129,10 @@ public static partial class EditorExtensions
         return editor;
     }
 
-    public static T HorizontalTextAlignment<T>(this T editor, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc)
+    public static T HorizontalTextAlignment<T>(this T editor, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc, IComponentWithState? componentWithState = null)
         where T : IEditor
     {
-        //editor.HorizontalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc);
-        editor.SetProperty(Microsoft.Maui.Controls.Editor.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc));
+        editor.SetProperty(Microsoft.Maui.Controls.Editor.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc, componentWithState));
         return editor;
     }
 
@@ -146,11 +144,10 @@ public static partial class EditorExtensions
         return editor;
     }
 
-    public static T VerticalTextAlignment<T>(this T editor, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc)
+    public static T VerticalTextAlignment<T>(this T editor, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc, IComponentWithState? componentWithState = null)
         where T : IEditor
     {
-        //editor.VerticalTextAlignment = new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc);
-        editor.SetProperty(Microsoft.Maui.Controls.Editor.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc));
+        editor.SetProperty(Microsoft.Maui.Controls.Editor.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc, componentWithState));
         return editor;
     }
 

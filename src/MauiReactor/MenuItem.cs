@@ -114,11 +114,10 @@ public static partial class MenuItemExtensions
         return menuItem;
     }
 
-    public static T IsDestructive<T>(this T menuItem, Func<bool> isDestructiveFunc)
+    public static T IsDestructive<T>(this T menuItem, Func<bool> isDestructiveFunc, IComponentWithState? componentWithState = null)
         where T : IMenuItem
     {
-        //menuItem.IsDestructive = new PropertyValue<bool>(isDestructiveFunc);
-        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IsDestructiveProperty, new PropertyValue<bool>(isDestructiveFunc));
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IsDestructiveProperty, new PropertyValue<bool>(isDestructiveFunc, componentWithState));
         return menuItem;
     }
 
@@ -130,11 +129,10 @@ public static partial class MenuItemExtensions
         return menuItem;
     }
 
-    public static T IconImageSource<T>(this T menuItem, Func<Microsoft.Maui.Controls.ImageSource> iconImageSourceFunc)
+    public static T IconImageSource<T>(this T menuItem, Func<Microsoft.Maui.Controls.ImageSource> iconImageSourceFunc, IComponentWithState? componentWithState = null)
         where T : IMenuItem
     {
-        //menuItem.IconImageSource = new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc);
-        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc));
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc, componentWithState));
         return menuItem;
     }
 
@@ -206,11 +204,10 @@ public static partial class MenuItemExtensions
         return menuItem;
     }
 
-    public static T Text<T>(this T menuItem, Func<string> textFunc)
+    public static T Text<T>(this T menuItem, Func<string> textFunc, IComponentWithState? componentWithState = null)
         where T : IMenuItem
     {
-        //menuItem.Text = new PropertyValue<string>(textFunc);
-        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.TextProperty, new PropertyValue<string>(textFunc));
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.TextProperty, new PropertyValue<string>(textFunc, componentWithState));
         return menuItem;
     }
 

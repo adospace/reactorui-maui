@@ -115,11 +115,10 @@ public static partial class StepperExtensions
         return stepper;
     }
 
-    public static T Maximum<T>(this T stepper, Func<double> maximumFunc)
+    public static T Maximum<T>(this T stepper, Func<double> maximumFunc, IComponentWithState? componentWithState = null)
         where T : IStepper
     {
-        //stepper.Maximum = new PropertyValue<double>(maximumFunc);
-        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.MaximumProperty, new PropertyValue<double>(maximumFunc));
+        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.MaximumProperty, new PropertyValue<double>(maximumFunc, componentWithState));
         return stepper;
     }
 
@@ -132,11 +131,10 @@ public static partial class StepperExtensions
         return stepper;
     }
 
-    public static T Minimum<T>(this T stepper, Func<double> minimumFunc)
+    public static T Minimum<T>(this T stepper, Func<double> minimumFunc, IComponentWithState? componentWithState = null)
         where T : IStepper
     {
-        //stepper.Minimum = new PropertyValue<double>(minimumFunc);
-        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.MinimumProperty, new PropertyValue<double>(minimumFunc));
+        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.MinimumProperty, new PropertyValue<double>(minimumFunc, componentWithState));
         return stepper;
     }
 
@@ -149,11 +147,10 @@ public static partial class StepperExtensions
         return stepper;
     }
 
-    public static T Value<T>(this T stepper, Func<double> valueFunc)
+    public static T Value<T>(this T stepper, Func<double> valueFunc, IComponentWithState? componentWithState = null)
         where T : IStepper
     {
-        //stepper.Value = new PropertyValue<double>(valueFunc);
-        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.ValueProperty, new PropertyValue<double>(valueFunc));
+        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.ValueProperty, new PropertyValue<double>(valueFunc, componentWithState));
         return stepper;
     }
 
@@ -166,11 +163,10 @@ public static partial class StepperExtensions
         return stepper;
     }
 
-    public static T Increment<T>(this T stepper, Func<double> incrementFunc)
+    public static T Increment<T>(this T stepper, Func<double> incrementFunc, IComponentWithState? componentWithState = null)
         where T : IStepper
     {
-        //stepper.Increment = new PropertyValue<double>(incrementFunc);
-        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.IncrementProperty, new PropertyValue<double>(incrementFunc));
+        stepper.SetProperty(Microsoft.Maui.Controls.Stepper.IncrementProperty, new PropertyValue<double>(incrementFunc, componentWithState));
         return stepper;
     }
 

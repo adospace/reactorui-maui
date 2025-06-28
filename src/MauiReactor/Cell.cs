@@ -151,11 +151,10 @@ public static partial class CellExtensions
         return cell;
     }
 
-    public static T IsEnabled<T>(this T cell, Func<bool> isEnabledFunc)
+    public static T IsEnabled<T>(this T cell, Func<bool> isEnabledFunc, IComponentWithState? componentWithState = null)
         where T : ICell
     {
-        //cell.IsEnabled = new PropertyValue<bool>(isEnabledFunc);
-        cell.SetProperty(Microsoft.Maui.Controls.Cell.IsEnabledProperty, new PropertyValue<bool>(isEnabledFunc));
+        cell.SetProperty(Microsoft.Maui.Controls.Cell.IsEnabledProperty, new PropertyValue<bool>(isEnabledFunc, componentWithState));
         return cell;
     }
 

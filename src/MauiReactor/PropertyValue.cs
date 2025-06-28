@@ -11,6 +11,8 @@ namespace MauiReactor
         Action GetValueAction(BindableObject dependencyObject, BindableProperty dependencyProperty);
 
         bool HasValueFunction { get; }
+
+        IComponentWithState? OwnerComponent { get; }
     }
 
     public class PropertyValue<T> : IPropertyValue
@@ -20,11 +22,12 @@ namespace MauiReactor
             Value = value;
         }
 
-        public PropertyValue(Func<T> valueAction)
+        public PropertyValue(Func<T> valueAction, IComponentWithState? ownerComponent = null)
         {
             ValueFunc = valueAction ?? throw new ArgumentNullException(nameof(valueAction));
 
             Value = valueAction();
+            OwnerComponent = ownerComponent;
         }
 
         public T? Value { get; }
@@ -34,6 +37,8 @@ namespace MauiReactor
         public bool SetDefault { get; }
 
         public bool HasValueFunction => ValueFunc != null;
+
+        public IComponentWithState? OwnerComponent { get; }
 
         public object? GetValue() => Value;
 

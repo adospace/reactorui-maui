@@ -452,11 +452,10 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T Title<T>(this T window, Func<string> titleFunc)
+    public static T Title<T>(this T window, Func<string> titleFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
     {
-        //window.Title = new PropertyValue<string>(titleFunc);
-        window.SetProperty(Microsoft.Maui.Controls.Window.TitleProperty, new PropertyValue<string>(titleFunc));
+        window.SetProperty(Microsoft.Maui.Controls.Window.TitleProperty, new PropertyValue<string>(titleFunc, componentWithState));
         return window;
     }
 
@@ -468,11 +467,10 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T FlowDirection<T>(this T window, Func<Microsoft.Maui.FlowDirection> flowDirectionFunc)
+    public static T FlowDirection<T>(this T window, Func<Microsoft.Maui.FlowDirection> flowDirectionFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
     {
-        //window.FlowDirection = new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirectionFunc);
-        window.SetProperty(Microsoft.Maui.Controls.Window.FlowDirectionProperty, new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirectionFunc));
+        window.SetProperty(Microsoft.Maui.Controls.Window.FlowDirectionProperty, new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirectionFunc, componentWithState));
         return window;
     }
 
@@ -485,11 +483,10 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T X<T>(this T window, Func<double> xFunc)
+    public static T X<T>(this T window, Func<double> xFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
     {
-        //window.X = new PropertyValue<double>(xFunc);
-        window.SetProperty(Microsoft.Maui.Controls.Window.XProperty, new PropertyValue<double>(xFunc));
+        window.SetProperty(Microsoft.Maui.Controls.Window.XProperty, new PropertyValue<double>(xFunc, componentWithState));
         return window;
     }
 
@@ -502,11 +499,10 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T Y<T>(this T window, Func<double> yFunc)
+    public static T Y<T>(this T window, Func<double> yFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
     {
-        //window.Y = new PropertyValue<double>(yFunc);
-        window.SetProperty(Microsoft.Maui.Controls.Window.YProperty, new PropertyValue<double>(yFunc));
+        window.SetProperty(Microsoft.Maui.Controls.Window.YProperty, new PropertyValue<double>(yFunc, componentWithState));
         return window;
     }
 
@@ -519,11 +515,10 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T Width<T>(this T window, Func<double> widthFunc)
+    public static T Width<T>(this T window, Func<double> widthFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
     {
-        //window.Width = new PropertyValue<double>(widthFunc);
-        window.SetProperty(Microsoft.Maui.Controls.Window.WidthProperty, new PropertyValue<double>(widthFunc));
+        window.SetProperty(Microsoft.Maui.Controls.Window.WidthProperty, new PropertyValue<double>(widthFunc, componentWithState));
         return window;
     }
 
@@ -536,11 +531,10 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T Height<T>(this T window, Func<double> heightFunc)
+    public static T Height<T>(this T window, Func<double> heightFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
     {
-        //window.Height = new PropertyValue<double>(heightFunc);
-        window.SetProperty(Microsoft.Maui.Controls.Window.HeightProperty, new PropertyValue<double>(heightFunc));
+        window.SetProperty(Microsoft.Maui.Controls.Window.HeightProperty, new PropertyValue<double>(heightFunc, componentWithState));
         return window;
     }
 
@@ -553,11 +547,10 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T MaximumWidth<T>(this T window, Func<double> maximumWidthFunc)
+    public static T MaximumWidth<T>(this T window, Func<double> maximumWidthFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
     {
-        //window.MaximumWidth = new PropertyValue<double>(maximumWidthFunc);
-        window.SetProperty(Microsoft.Maui.Controls.Window.MaximumWidthProperty, new PropertyValue<double>(maximumWidthFunc));
+        window.SetProperty(Microsoft.Maui.Controls.Window.MaximumWidthProperty, new PropertyValue<double>(maximumWidthFunc, componentWithState));
         return window;
     }
 
@@ -570,11 +563,10 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T MaximumHeight<T>(this T window, Func<double> maximumHeightFunc)
+    public static T MaximumHeight<T>(this T window, Func<double> maximumHeightFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
     {
-        //window.MaximumHeight = new PropertyValue<double>(maximumHeightFunc);
-        window.SetProperty(Microsoft.Maui.Controls.Window.MaximumHeightProperty, new PropertyValue<double>(maximumHeightFunc));
+        window.SetProperty(Microsoft.Maui.Controls.Window.MaximumHeightProperty, new PropertyValue<double>(maximumHeightFunc, componentWithState));
         return window;
     }
 
@@ -587,11 +579,10 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T MinimumWidth<T>(this T window, Func<double> minimumWidthFunc)
+    public static T MinimumWidth<T>(this T window, Func<double> minimumWidthFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
     {
-        //window.MinimumWidth = new PropertyValue<double>(minimumWidthFunc);
-        window.SetProperty(Microsoft.Maui.Controls.Window.MinimumWidthProperty, new PropertyValue<double>(minimumWidthFunc));
+        window.SetProperty(Microsoft.Maui.Controls.Window.MinimumWidthProperty, new PropertyValue<double>(minimumWidthFunc, componentWithState));
         return window;
     }
 
@@ -604,11 +595,10 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T MinimumHeight<T>(this T window, Func<double> minimumHeightFunc)
+    public static T MinimumHeight<T>(this T window, Func<double> minimumHeightFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
     {
-        //window.MinimumHeight = new PropertyValue<double>(minimumHeightFunc);
-        window.SetProperty(Microsoft.Maui.Controls.Window.MinimumHeightProperty, new PropertyValue<double>(minimumHeightFunc));
+        window.SetProperty(Microsoft.Maui.Controls.Window.MinimumHeightProperty, new PropertyValue<double>(minimumHeightFunc, componentWithState));
         return window;
     }
 
@@ -620,11 +610,10 @@ public static partial class WindowExtensions
         return window;
     }
 
-    public static T TitleBar<T>(this T window, Func<Microsoft.Maui.ITitleBar> titleBarFunc)
+    public static T TitleBar<T>(this T window, Func<Microsoft.Maui.ITitleBar> titleBarFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
     {
-        //window.TitleBar = new PropertyValue<Microsoft.Maui.ITitleBar>(titleBarFunc);
-        window.SetProperty(Microsoft.Maui.Controls.Window.TitleBarProperty, new PropertyValue<Microsoft.Maui.ITitleBar>(titleBarFunc));
+        window.SetProperty(Microsoft.Maui.Controls.Window.TitleBarProperty, new PropertyValue<Microsoft.Maui.ITitleBar>(titleBarFunc, componentWithState));
         return window;
     }
 

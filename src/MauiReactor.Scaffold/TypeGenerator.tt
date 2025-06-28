@@ -311,13 +311,12 @@ public static partial class <#= TypeName() #>Extensions
     }       
     <# } #>
 
-    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, Func<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>> <#= property.Name.CamelCase() #>Func) where T : <#= InterfaceName() #>
+    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, Func<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>> <#= property.Name.CamelCase() #>Func, IComponentWithState? componentWithState = null) where T : <#= InterfaceName() #>
     {
-        //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func);
         <# if (IsGenericType()) { #>
-        <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func);
+        <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func, componentWithState);
         <# } else { #>
-        <#= TypeName().ToLocalVariableName() #>.SetProperty(<#= FullTypeName() #>.<#= property.Name #>Property, new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func));
+        <#= TypeName().ToLocalVariableName() #>.SetProperty(<#= FullTypeName() #>.<#= property.Name #>Property, new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func, componentWithState));
         <# } #>
         return <#= TypeName().ToLocalVariableName() #>;
     }

@@ -52,11 +52,10 @@ public static partial class LineExtensions
         return line;
     }
 
-    public static T X1<T>(this T line, Func<double> x1Func)
+    public static T X1<T>(this T line, Func<double> x1Func, IComponentWithState? componentWithState = null)
         where T : ILine
     {
-        //line.X1 = new PropertyValue<double>(x1Func);
-        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.X1Property, new PropertyValue<double>(x1Func));
+        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.X1Property, new PropertyValue<double>(x1Func, componentWithState));
         return line;
     }
 
@@ -69,11 +68,10 @@ public static partial class LineExtensions
         return line;
     }
 
-    public static T Y1<T>(this T line, Func<double> y1Func)
+    public static T Y1<T>(this T line, Func<double> y1Func, IComponentWithState? componentWithState = null)
         where T : ILine
     {
-        //line.Y1 = new PropertyValue<double>(y1Func);
-        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.Y1Property, new PropertyValue<double>(y1Func));
+        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.Y1Property, new PropertyValue<double>(y1Func, componentWithState));
         return line;
     }
 
@@ -86,11 +84,10 @@ public static partial class LineExtensions
         return line;
     }
 
-    public static T X2<T>(this T line, Func<double> x2Func)
+    public static T X2<T>(this T line, Func<double> x2Func, IComponentWithState? componentWithState = null)
         where T : ILine
     {
-        //line.X2 = new PropertyValue<double>(x2Func);
-        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.X2Property, new PropertyValue<double>(x2Func));
+        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.X2Property, new PropertyValue<double>(x2Func, componentWithState));
         return line;
     }
 
@@ -103,11 +100,10 @@ public static partial class LineExtensions
         return line;
     }
 
-    public static T Y2<T>(this T line, Func<double> y2Func)
+    public static T Y2<T>(this T line, Func<double> y2Func, IComponentWithState? componentWithState = null)
         where T : ILine
     {
-        //line.Y2 = new PropertyValue<double>(y2Func);
-        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.Y2Property, new PropertyValue<double>(y2Func));
+        line.SetProperty(Microsoft.Maui.Controls.Shapes.Line.Y2Property, new PropertyValue<double>(y2Func, componentWithState));
         return line;
     }
 }

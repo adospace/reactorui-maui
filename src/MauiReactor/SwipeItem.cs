@@ -114,11 +114,10 @@ public static partial class SwipeItemExtensions
         return swipeItem;
     }
 
-    public static T BackgroundColor<T>(this T swipeItem, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc)
+    public static T BackgroundColor<T>(this T swipeItem, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc, IComponentWithState? componentWithState = null)
         where T : ISwipeItem
     {
-        //swipeItem.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc);
-        swipeItem.SetProperty(Microsoft.Maui.Controls.SwipeItem.BackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc));
+        swipeItem.SetProperty(Microsoft.Maui.Controls.SwipeItem.BackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc, componentWithState));
         return swipeItem;
     }
 
@@ -130,11 +129,10 @@ public static partial class SwipeItemExtensions
         return swipeItem;
     }
 
-    public static T IsVisible<T>(this T swipeItem, Func<bool> isVisibleFunc)
+    public static T IsVisible<T>(this T swipeItem, Func<bool> isVisibleFunc, IComponentWithState? componentWithState = null)
         where T : ISwipeItem
     {
-        //swipeItem.IsVisible = new PropertyValue<bool>(isVisibleFunc);
-        swipeItem.SetProperty(Microsoft.Maui.Controls.SwipeItem.IsVisibleProperty, new PropertyValue<bool>(isVisibleFunc));
+        swipeItem.SetProperty(Microsoft.Maui.Controls.SwipeItem.IsVisibleProperty, new PropertyValue<bool>(isVisibleFunc, componentWithState));
         return swipeItem;
     }
 

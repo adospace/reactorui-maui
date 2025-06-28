@@ -66,11 +66,10 @@ public static partial class ContentPageExtensions
         return contentPage;
     }
 
-    public static T HideSoftInputOnTapped<T>(this T contentPage, Func<bool> hideSoftInputOnTappedFunc)
+    public static T HideSoftInputOnTapped<T>(this T contentPage, Func<bool> hideSoftInputOnTappedFunc, IComponentWithState? componentWithState = null)
         where T : IContentPage
     {
-        //contentPage.HideSoftInputOnTapped = new PropertyValue<bool>(hideSoftInputOnTappedFunc);
-        contentPage.SetProperty(Microsoft.Maui.Controls.ContentPage.HideSoftInputOnTappedProperty, new PropertyValue<bool>(hideSoftInputOnTappedFunc));
+        contentPage.SetProperty(Microsoft.Maui.Controls.ContentPage.HideSoftInputOnTappedProperty, new PropertyValue<bool>(hideSoftInputOnTappedFunc, componentWithState));
         return contentPage;
     }
 }

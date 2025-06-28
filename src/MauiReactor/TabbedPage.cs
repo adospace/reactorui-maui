@@ -66,11 +66,10 @@ public static partial class TabbedPageExtensions
         return tabbedPage;
     }
 
-    public static T BarBackgroundColor<T>(this T tabbedPage, Func<Microsoft.Maui.Graphics.Color> barBackgroundColorFunc)
+    public static T BarBackgroundColor<T>(this T tabbedPage, Func<Microsoft.Maui.Graphics.Color> barBackgroundColorFunc, IComponentWithState? componentWithState = null)
         where T : ITabbedPage
     {
-        //tabbedPage.BarBackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(barBackgroundColorFunc);
-        tabbedPage.SetProperty(Microsoft.Maui.Controls.TabbedPage.BarBackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(barBackgroundColorFunc));
+        tabbedPage.SetProperty(Microsoft.Maui.Controls.TabbedPage.BarBackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(barBackgroundColorFunc, componentWithState));
         return tabbedPage;
     }
 
@@ -82,11 +81,10 @@ public static partial class TabbedPageExtensions
         return tabbedPage;
     }
 
-    public static T BarBackground<T>(this T tabbedPage, Func<Microsoft.Maui.Controls.Brush> barBackgroundFunc)
+    public static T BarBackground<T>(this T tabbedPage, Func<Microsoft.Maui.Controls.Brush> barBackgroundFunc, IComponentWithState? componentWithState = null)
         where T : ITabbedPage
     {
-        //tabbedPage.BarBackground = new PropertyValue<Microsoft.Maui.Controls.Brush>(barBackgroundFunc);
-        tabbedPage.SetProperty(Microsoft.Maui.Controls.TabbedPage.BarBackgroundProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(barBackgroundFunc));
+        tabbedPage.SetProperty(Microsoft.Maui.Controls.TabbedPage.BarBackgroundProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(barBackgroundFunc, componentWithState));
         return tabbedPage;
     }
 
@@ -98,11 +96,10 @@ public static partial class TabbedPageExtensions
         return tabbedPage;
     }
 
-    public static T BarTextColor<T>(this T tabbedPage, Func<Microsoft.Maui.Graphics.Color> barTextColorFunc)
+    public static T BarTextColor<T>(this T tabbedPage, Func<Microsoft.Maui.Graphics.Color> barTextColorFunc, IComponentWithState? componentWithState = null)
         where T : ITabbedPage
     {
-        //tabbedPage.BarTextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(barTextColorFunc);
-        tabbedPage.SetProperty(Microsoft.Maui.Controls.TabbedPage.BarTextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(barTextColorFunc));
+        tabbedPage.SetProperty(Microsoft.Maui.Controls.TabbedPage.BarTextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(barTextColorFunc, componentWithState));
         return tabbedPage;
     }
 
@@ -114,11 +111,10 @@ public static partial class TabbedPageExtensions
         return tabbedPage;
     }
 
-    public static T UnselectedTabColor<T>(this T tabbedPage, Func<Microsoft.Maui.Graphics.Color> unselectedTabColorFunc)
+    public static T UnselectedTabColor<T>(this T tabbedPage, Func<Microsoft.Maui.Graphics.Color> unselectedTabColorFunc, IComponentWithState? componentWithState = null)
         where T : ITabbedPage
     {
-        //tabbedPage.UnselectedTabColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(unselectedTabColorFunc);
-        tabbedPage.SetProperty(Microsoft.Maui.Controls.TabbedPage.UnselectedTabColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(unselectedTabColorFunc));
+        tabbedPage.SetProperty(Microsoft.Maui.Controls.TabbedPage.UnselectedTabColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(unselectedTabColorFunc, componentWithState));
         return tabbedPage;
     }
 
@@ -130,11 +126,10 @@ public static partial class TabbedPageExtensions
         return tabbedPage;
     }
 
-    public static T SelectedTabColor<T>(this T tabbedPage, Func<Microsoft.Maui.Graphics.Color> selectedTabColorFunc)
+    public static T SelectedTabColor<T>(this T tabbedPage, Func<Microsoft.Maui.Graphics.Color> selectedTabColorFunc, IComponentWithState? componentWithState = null)
         where T : ITabbedPage
     {
-        //tabbedPage.SelectedTabColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(selectedTabColorFunc);
-        tabbedPage.SetProperty(Microsoft.Maui.Controls.TabbedPage.SelectedTabColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(selectedTabColorFunc));
+        tabbedPage.SetProperty(Microsoft.Maui.Controls.TabbedPage.SelectedTabColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(selectedTabColorFunc, componentWithState));
         return tabbedPage;
     }
 }

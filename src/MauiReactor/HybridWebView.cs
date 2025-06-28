@@ -114,11 +114,10 @@ public static partial class HybridWebViewExtensions
         return hybridWebView;
     }
 
-    public static T DefaultFile<T>(this T hybridWebView, Func<string> defaultFileFunc)
+    public static T DefaultFile<T>(this T hybridWebView, Func<string> defaultFileFunc, IComponentWithState? componentWithState = null)
         where T : IHybridWebView
     {
-        //hybridWebView.DefaultFile = new PropertyValue<string>(defaultFileFunc);
-        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.DefaultFileProperty, new PropertyValue<string>(defaultFileFunc));
+        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.DefaultFileProperty, new PropertyValue<string>(defaultFileFunc, componentWithState));
         return hybridWebView;
     }
 
@@ -130,11 +129,10 @@ public static partial class HybridWebViewExtensions
         return hybridWebView;
     }
 
-    public static T HybridRoot<T>(this T hybridWebView, Func<string> hybridRootFunc)
+    public static T HybridRoot<T>(this T hybridWebView, Func<string> hybridRootFunc, IComponentWithState? componentWithState = null)
         where T : IHybridWebView
     {
-        //hybridWebView.HybridRoot = new PropertyValue<string>(hybridRootFunc);
-        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.HybridRootProperty, new PropertyValue<string>(hybridRootFunc));
+        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.HybridRootProperty, new PropertyValue<string>(hybridRootFunc, componentWithState));
         return hybridWebView;
     }
 

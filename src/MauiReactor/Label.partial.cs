@@ -7,6 +7,8 @@ public partial class Label
     public Label(object? text) => this.Text(text?.ToString() ?? string.Empty);
 
     public Label(Func<string> textFunc) => this.Text(textFunc);
+
+    public Label(Func<string> textFunc, IComponentWithState componentWithState) => this.Text(textFunc, componentWithState);
 }
 
 public partial class Label<T>
@@ -47,6 +49,7 @@ public partial class Component
     public static Label Label(object? text, params IEnumerable<VisualNode?>? children)
         => Label(children).Text(text?.ToString() ?? string.Empty);
 
-    public static Label Label(Func<string> textFunc) =>
-        new Label().Text(textFunc);
+    public static Label Label(Func<string> textFunc, IComponentWithState? componentWithState = null) =>
+        new Label().Text(textFunc, componentWithState);
+
 }

@@ -66,11 +66,10 @@ public static partial class TableViewExtensions
         return tableView;
     }
 
-    public static T RowHeight<T>(this T tableView, Func<int> rowHeightFunc)
+    public static T RowHeight<T>(this T tableView, Func<int> rowHeightFunc, IComponentWithState? componentWithState = null)
         where T : ITableView
     {
-        //tableView.RowHeight = new PropertyValue<int>(rowHeightFunc);
-        tableView.SetProperty(Microsoft.Maui.Controls.TableView.RowHeightProperty, new PropertyValue<int>(rowHeightFunc));
+        tableView.SetProperty(Microsoft.Maui.Controls.TableView.RowHeightProperty, new PropertyValue<int>(rowHeightFunc, componentWithState));
         return tableView;
     }
 
@@ -82,11 +81,10 @@ public static partial class TableViewExtensions
         return tableView;
     }
 
-    public static T HasUnevenRows<T>(this T tableView, Func<bool> hasUnevenRowsFunc)
+    public static T HasUnevenRows<T>(this T tableView, Func<bool> hasUnevenRowsFunc, IComponentWithState? componentWithState = null)
         where T : ITableView
     {
-        //tableView.HasUnevenRows = new PropertyValue<bool>(hasUnevenRowsFunc);
-        tableView.SetProperty(Microsoft.Maui.Controls.TableView.HasUnevenRowsProperty, new PropertyValue<bool>(hasUnevenRowsFunc));
+        tableView.SetProperty(Microsoft.Maui.Controls.TableView.HasUnevenRowsProperty, new PropertyValue<bool>(hasUnevenRowsFunc, componentWithState));
         return tableView;
     }
 }

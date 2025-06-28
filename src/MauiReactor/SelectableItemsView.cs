@@ -114,11 +114,10 @@ public static partial class SelectableItemsViewExtensions
         return selectableItemsView;
     }
 
-    public static T SelectionMode<T>(this T selectableItemsView, Func<Microsoft.Maui.Controls.SelectionMode> selectionModeFunc)
+    public static T SelectionMode<T>(this T selectableItemsView, Func<Microsoft.Maui.Controls.SelectionMode> selectionModeFunc, IComponentWithState? componentWithState = null)
         where T : ISelectableItemsView
     {
-        //selectableItemsView.SelectionMode = new PropertyValue<Microsoft.Maui.Controls.SelectionMode>(selectionModeFunc);
-        selectableItemsView.SetProperty(Microsoft.Maui.Controls.SelectableItemsView.SelectionModeProperty, new PropertyValue<Microsoft.Maui.Controls.SelectionMode>(selectionModeFunc));
+        selectableItemsView.SetProperty(Microsoft.Maui.Controls.SelectableItemsView.SelectionModeProperty, new PropertyValue<Microsoft.Maui.Controls.SelectionMode>(selectionModeFunc, componentWithState));
         return selectableItemsView;
     }
 
@@ -130,11 +129,10 @@ public static partial class SelectableItemsViewExtensions
         return selectableItemsView;
     }
 
-    public static T SelectedItem<T>(this T selectableItemsView, Func<object?> selectedItemFunc)
+    public static T SelectedItem<T>(this T selectableItemsView, Func<object?> selectedItemFunc, IComponentWithState? componentWithState = null)
         where T : ISelectableItemsView
     {
-        //selectableItemsView.SelectedItem = new PropertyValue<object?>(selectedItemFunc);
-        selectableItemsView.SetProperty(Microsoft.Maui.Controls.SelectableItemsView.SelectedItemProperty, new PropertyValue<object?>(selectedItemFunc));
+        selectableItemsView.SetProperty(Microsoft.Maui.Controls.SelectableItemsView.SelectedItemProperty, new PropertyValue<object?>(selectedItemFunc, componentWithState));
         return selectableItemsView;
     }
 

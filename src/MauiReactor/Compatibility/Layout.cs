@@ -8,9 +8,6 @@ using MauiReactor.Animations;
 using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
-#pragma warning disable CS0618 // Type or member is obsolete
-
-
 #nullable enable
 namespace MauiReactor.Compatibility;
 public partial interface ILayout : IView
@@ -102,11 +99,10 @@ public static partial class LayoutExtensions
         return layout;
     }
 
-    public static T IsClippedToBounds<T>(this T layout, Func<bool> isClippedToBoundsFunc)
+    public static T IsClippedToBounds<T>(this T layout, Func<bool> isClippedToBoundsFunc, IComponentWithState? componentWithState = null)
         where T : ILayout
     {
-        //layout.IsClippedToBounds = new PropertyValue<bool>(isClippedToBoundsFunc);
-        layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.IsClippedToBoundsProperty, new PropertyValue<bool>(isClippedToBoundsFunc));
+        layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.IsClippedToBoundsProperty, new PropertyValue<bool>(isClippedToBoundsFunc, componentWithState));
         return layout;
     }
 
@@ -118,11 +114,10 @@ public static partial class LayoutExtensions
         return layout;
     }
 
-    public static T CascadeInputTransparent<T>(this T layout, Func<bool> cascadeInputTransparentFunc)
+    public static T CascadeInputTransparent<T>(this T layout, Func<bool> cascadeInputTransparentFunc, IComponentWithState? componentWithState = null)
         where T : ILayout
     {
-        //layout.CascadeInputTransparent = new PropertyValue<bool>(cascadeInputTransparentFunc);
-        layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.CascadeInputTransparentProperty, new PropertyValue<bool>(cascadeInputTransparentFunc));
+        layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.CascadeInputTransparentProperty, new PropertyValue<bool>(cascadeInputTransparentFunc, componentWithState));
         return layout;
     }
 
@@ -135,11 +130,10 @@ public static partial class LayoutExtensions
         return layout;
     }
 
-    public static T Padding<T>(this T layout, Func<Microsoft.Maui.Thickness> paddingFunc)
+    public static T Padding<T>(this T layout, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
         where T : ILayout
     {
-        //layout.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
-        layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc));
+        layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
         return layout;
     }
 
@@ -218,5 +212,3 @@ public static partial class LayoutStyles
     public static Action<ILayout>? Default { get; set; }
     public static Dictionary<string, Action<ILayout>> Themes { get; } = [];
 }
-
-#pragma warning disable CS0618 // Type or member is obsolete

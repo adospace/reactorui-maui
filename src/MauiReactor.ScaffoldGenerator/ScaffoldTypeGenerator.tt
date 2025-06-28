@@ -492,7 +492,6 @@ namespace <#= Namespace #>
         <# } else if (property.Type.Equals(TypeofFloat, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxFloatAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
-            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
@@ -504,7 +503,6 @@ namespace <#= Namespace #>
         <# } else if (property.Type.Equals(TypeofRect, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxRectAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
-            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
@@ -516,7 +514,6 @@ namespace <#= Namespace #>
         <# } else if (property.Type.Equals(TypeofPoint, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxPointAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
-            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
@@ -528,7 +525,6 @@ namespace <#= Namespace #>
         <# } else if (property.Type.Equals(TypeofPointF, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxPointFAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
-            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
@@ -540,7 +536,6 @@ namespace <#= Namespace #>
         <# } else if (property.Type.Equals(TypeofThickness, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
-            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
@@ -552,7 +547,6 @@ namespace <#= Namespace #>
         <# } else if (property.Type.Equals(TypeofThicknessF, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxThicknessFAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
-            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
@@ -564,7 +558,6 @@ namespace <#= Namespace #>
         <# } else if (property.Type.Equals(TypeofCornerRadiusF, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxCornerRadiusFAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
-            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
@@ -576,7 +569,6 @@ namespace <#= Namespace #>
         <# } else if (property.Type.Equals(TypeofCornerRadius, SymbolEqualityComparer.Default)) { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxCornerRadiusAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
-            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
@@ -588,7 +580,6 @@ namespace <#= Namespace #>
         <# } else { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, <#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #> <#= property.Name.CamelCase() #>) where T : <#= InterfaceName #>
         {
-            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
             <# } else { #>
@@ -598,19 +589,18 @@ namespace <#= Namespace #>
         }       
         <# } #>
 
-        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<<#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #>> <#= property.Name.CamelCase() #>Func) where T : <#= InterfaceName #>
+        public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, Func<<#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #>> <#= property.Name.CamelCase() #>Func, IComponentWithState? componentWithState = null) where T : <#= InterfaceName #>
         {
             <# if (IsGenericType) { #>
-            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func);
+            <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func, componentWithState);
             <# } else { #>
-            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func));
+            <#= TypeName.ToLocalVariableName() #>.SetProperty(global::<#= FullTypeName #>.<#= property.Name #>Property, new PropertyValue<<#= property.Type.GetFullyQualifiedName().ToReservedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func, componentWithState));
             <# } #>
             return <#= TypeName.ToLocalVariableName() #>;
         }
         <# if (property.Type.Name == "Thickness") { #>
         public static T <#= property.Name #><T>(this T <#= TypeName.ToLocalVariableName() #>, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName #>
         {
-            //<#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new Microsoft.Maui.Thickness(leftRight, topBottom);
             <# if (IsGenericType) { #>
             <#= TypeName.ToLocalVariableName() #>.<#= property.Name #> = new Microsoft.Maui.Thickness(leftRight, topBottom);
             <# } else { #>

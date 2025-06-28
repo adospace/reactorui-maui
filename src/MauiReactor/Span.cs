@@ -66,11 +66,10 @@ public static partial class SpanExtensions
         return span;
     }
 
-    public static T Style<T>(this T span, Func<Microsoft.Maui.Controls.Style> styleFunc)
+    public static T Style<T>(this T span, Func<Microsoft.Maui.Controls.Style> styleFunc, IComponentWithState? componentWithState = null)
         where T : ISpan
     {
-        //span.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc);
-        span.SetProperty(Microsoft.Maui.Controls.Span.StyleProperty, new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc));
+        span.SetProperty(Microsoft.Maui.Controls.Span.StyleProperty, new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc, componentWithState));
         return span;
     }
 
@@ -82,11 +81,10 @@ public static partial class SpanExtensions
         return span;
     }
 
-    public static T TextDecorations<T>(this T span, Func<Microsoft.Maui.TextDecorations> textDecorationsFunc)
+    public static T TextDecorations<T>(this T span, Func<Microsoft.Maui.TextDecorations> textDecorationsFunc, IComponentWithState? componentWithState = null)
         where T : ISpan
     {
-        //span.TextDecorations = new PropertyValue<Microsoft.Maui.TextDecorations>(textDecorationsFunc);
-        span.SetProperty(Microsoft.Maui.Controls.Span.TextDecorationsProperty, new PropertyValue<Microsoft.Maui.TextDecorations>(textDecorationsFunc));
+        span.SetProperty(Microsoft.Maui.Controls.Span.TextDecorationsProperty, new PropertyValue<Microsoft.Maui.TextDecorations>(textDecorationsFunc, componentWithState));
         return span;
     }
 
@@ -98,11 +96,10 @@ public static partial class SpanExtensions
         return span;
     }
 
-    public static T TextTransform<T>(this T span, Func<Microsoft.Maui.TextTransform> textTransformFunc)
+    public static T TextTransform<T>(this T span, Func<Microsoft.Maui.TextTransform> textTransformFunc, IComponentWithState? componentWithState = null)
         where T : ISpan
     {
-        //span.TextTransform = new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc);
-        span.SetProperty(Microsoft.Maui.Controls.Span.TextTransformProperty, new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc));
+        span.SetProperty(Microsoft.Maui.Controls.Span.TextTransformProperty, new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc, componentWithState));
         return span;
     }
 
@@ -114,11 +111,10 @@ public static partial class SpanExtensions
         return span;
     }
 
-    public static T BackgroundColor<T>(this T span, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc)
+    public static T BackgroundColor<T>(this T span, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc, IComponentWithState? componentWithState = null)
         where T : ISpan
     {
-        //span.BackgroundColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc);
-        span.SetProperty(Microsoft.Maui.Controls.Span.BackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc));
+        span.SetProperty(Microsoft.Maui.Controls.Span.BackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc, componentWithState));
         return span;
     }
 
@@ -130,11 +126,10 @@ public static partial class SpanExtensions
         return span;
     }
 
-    public static T TextColor<T>(this T span, Func<Microsoft.Maui.Graphics.Color> textColorFunc)
+    public static T TextColor<T>(this T span, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
         where T : ISpan
     {
-        //span.TextColor = new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc);
-        span.SetProperty(Microsoft.Maui.Controls.Span.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc));
+        span.SetProperty(Microsoft.Maui.Controls.Span.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
         return span;
     }
 
@@ -147,11 +142,10 @@ public static partial class SpanExtensions
         return span;
     }
 
-    public static T CharacterSpacing<T>(this T span, Func<double> characterSpacingFunc)
+    public static T CharacterSpacing<T>(this T span, Func<double> characterSpacingFunc, IComponentWithState? componentWithState = null)
         where T : ISpan
     {
-        //span.CharacterSpacing = new PropertyValue<double>(characterSpacingFunc);
-        span.SetProperty(Microsoft.Maui.Controls.Span.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc));
+        span.SetProperty(Microsoft.Maui.Controls.Span.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc, componentWithState));
         return span;
     }
 
@@ -163,11 +157,10 @@ public static partial class SpanExtensions
         return span;
     }
 
-    public static T Text<T>(this T span, Func<string> textFunc)
+    public static T Text<T>(this T span, Func<string> textFunc, IComponentWithState? componentWithState = null)
         where T : ISpan
     {
-        //span.Text = new PropertyValue<string>(textFunc);
-        span.SetProperty(Microsoft.Maui.Controls.Span.TextProperty, new PropertyValue<string>(textFunc));
+        span.SetProperty(Microsoft.Maui.Controls.Span.TextProperty, new PropertyValue<string>(textFunc, componentWithState));
         return span;
     }
 
@@ -179,11 +172,10 @@ public static partial class SpanExtensions
         return span;
     }
 
-    public static T FontFamily<T>(this T span, Func<string> fontFamilyFunc)
+    public static T FontFamily<T>(this T span, Func<string> fontFamilyFunc, IComponentWithState? componentWithState = null)
         where T : ISpan
     {
-        //span.FontFamily = new PropertyValue<string>(fontFamilyFunc);
-        span.SetProperty(Microsoft.Maui.Controls.Span.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc));
+        span.SetProperty(Microsoft.Maui.Controls.Span.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc, componentWithState));
         return span;
     }
 
@@ -196,11 +188,10 @@ public static partial class SpanExtensions
         return span;
     }
 
-    public static T FontSize<T>(this T span, Func<double> fontSizeFunc)
+    public static T FontSize<T>(this T span, Func<double> fontSizeFunc, IComponentWithState? componentWithState = null)
         where T : ISpan
     {
-        //span.FontSize = new PropertyValue<double>(fontSizeFunc);
-        span.SetProperty(Microsoft.Maui.Controls.Span.FontSizeProperty, new PropertyValue<double>(fontSizeFunc));
+        span.SetProperty(Microsoft.Maui.Controls.Span.FontSizeProperty, new PropertyValue<double>(fontSizeFunc, componentWithState));
         return span;
     }
 
@@ -212,11 +203,10 @@ public static partial class SpanExtensions
         return span;
     }
 
-    public static T FontAttributes<T>(this T span, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc)
+    public static T FontAttributes<T>(this T span, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc, IComponentWithState? componentWithState = null)
         where T : ISpan
     {
-        //span.FontAttributes = new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc);
-        span.SetProperty(Microsoft.Maui.Controls.Span.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc));
+        span.SetProperty(Microsoft.Maui.Controls.Span.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc, componentWithState));
         return span;
     }
 
@@ -228,11 +218,10 @@ public static partial class SpanExtensions
         return span;
     }
 
-    public static T FontAutoScalingEnabled<T>(this T span, Func<bool> fontAutoScalingEnabledFunc)
+    public static T FontAutoScalingEnabled<T>(this T span, Func<bool> fontAutoScalingEnabledFunc, IComponentWithState? componentWithState = null)
         where T : ISpan
     {
-        //span.FontAutoScalingEnabled = new PropertyValue<bool>(fontAutoScalingEnabledFunc);
-        span.SetProperty(Microsoft.Maui.Controls.Span.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc));
+        span.SetProperty(Microsoft.Maui.Controls.Span.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc, componentWithState));
         return span;
     }
 
@@ -245,11 +234,10 @@ public static partial class SpanExtensions
         return span;
     }
 
-    public static T LineHeight<T>(this T span, Func<double> lineHeightFunc)
+    public static T LineHeight<T>(this T span, Func<double> lineHeightFunc, IComponentWithState? componentWithState = null)
         where T : ISpan
     {
-        //span.LineHeight = new PropertyValue<double>(lineHeightFunc);
-        span.SetProperty(Microsoft.Maui.Controls.Span.LineHeightProperty, new PropertyValue<double>(lineHeightFunc));
+        span.SetProperty(Microsoft.Maui.Controls.Span.LineHeightProperty, new PropertyValue<double>(lineHeightFunc, componentWithState));
         return span;
     }
 }

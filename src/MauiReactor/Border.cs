@@ -67,11 +67,10 @@ public static partial class BorderExtensions
         return border;
     }
 
-    public static T Padding<T>(this T border, Func<Microsoft.Maui.Thickness> paddingFunc)
+    public static T Padding<T>(this T border, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
         where T : IBorder
     {
-        //border.Padding = new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc);
-        border.SetProperty(Microsoft.Maui.Controls.Border.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc));
+        border.SetProperty(Microsoft.Maui.Controls.Border.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
         return border;
     }
 
@@ -110,11 +109,10 @@ public static partial class BorderExtensions
         return border;
     }
 
-    public static T Stroke<T>(this T border, Func<Microsoft.Maui.Controls.Brush> strokeFunc)
+    public static T Stroke<T>(this T border, Func<Microsoft.Maui.Controls.Brush> strokeFunc, IComponentWithState? componentWithState = null)
         where T : IBorder
     {
-        //border.Stroke = new PropertyValue<Microsoft.Maui.Controls.Brush>(strokeFunc);
-        border.SetProperty(Microsoft.Maui.Controls.Border.StrokeProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(strokeFunc));
+        border.SetProperty(Microsoft.Maui.Controls.Border.StrokeProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(strokeFunc, componentWithState));
         return border;
     }
 
@@ -127,11 +125,10 @@ public static partial class BorderExtensions
         return border;
     }
 
-    public static T StrokeThickness<T>(this T border, Func<double> strokeThicknessFunc)
+    public static T StrokeThickness<T>(this T border, Func<double> strokeThicknessFunc, IComponentWithState? componentWithState = null)
         where T : IBorder
     {
-        //border.StrokeThickness = new PropertyValue<double>(strokeThicknessFunc);
-        border.SetProperty(Microsoft.Maui.Controls.Border.StrokeThicknessProperty, new PropertyValue<double>(strokeThicknessFunc));
+        border.SetProperty(Microsoft.Maui.Controls.Border.StrokeThicknessProperty, new PropertyValue<double>(strokeThicknessFunc, componentWithState));
         return border;
     }
 
@@ -143,11 +140,10 @@ public static partial class BorderExtensions
         return border;
     }
 
-    public static T StrokeDashArray<T>(this T border, Func<Microsoft.Maui.Controls.DoubleCollection> strokeDashArrayFunc)
+    public static T StrokeDashArray<T>(this T border, Func<Microsoft.Maui.Controls.DoubleCollection> strokeDashArrayFunc, IComponentWithState? componentWithState = null)
         where T : IBorder
     {
-        //border.StrokeDashArray = new PropertyValue<Microsoft.Maui.Controls.DoubleCollection>(strokeDashArrayFunc);
-        border.SetProperty(Microsoft.Maui.Controls.Border.StrokeDashArrayProperty, new PropertyValue<Microsoft.Maui.Controls.DoubleCollection>(strokeDashArrayFunc));
+        border.SetProperty(Microsoft.Maui.Controls.Border.StrokeDashArrayProperty, new PropertyValue<Microsoft.Maui.Controls.DoubleCollection>(strokeDashArrayFunc, componentWithState));
         return border;
     }
 
@@ -160,11 +156,10 @@ public static partial class BorderExtensions
         return border;
     }
 
-    public static T StrokeDashOffset<T>(this T border, Func<double> strokeDashOffsetFunc)
+    public static T StrokeDashOffset<T>(this T border, Func<double> strokeDashOffsetFunc, IComponentWithState? componentWithState = null)
         where T : IBorder
     {
-        //border.StrokeDashOffset = new PropertyValue<double>(strokeDashOffsetFunc);
-        border.SetProperty(Microsoft.Maui.Controls.Border.StrokeDashOffsetProperty, new PropertyValue<double>(strokeDashOffsetFunc));
+        border.SetProperty(Microsoft.Maui.Controls.Border.StrokeDashOffsetProperty, new PropertyValue<double>(strokeDashOffsetFunc, componentWithState));
         return border;
     }
 
@@ -176,11 +171,10 @@ public static partial class BorderExtensions
         return border;
     }
 
-    public static T StrokeLineCap<T>(this T border, Func<Microsoft.Maui.Controls.Shapes.PenLineCap> strokeLineCapFunc)
+    public static T StrokeLineCap<T>(this T border, Func<Microsoft.Maui.Controls.Shapes.PenLineCap> strokeLineCapFunc, IComponentWithState? componentWithState = null)
         where T : IBorder
     {
-        //border.StrokeLineCap = new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineCap>(strokeLineCapFunc);
-        border.SetProperty(Microsoft.Maui.Controls.Border.StrokeLineCapProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineCap>(strokeLineCapFunc));
+        border.SetProperty(Microsoft.Maui.Controls.Border.StrokeLineCapProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineCap>(strokeLineCapFunc, componentWithState));
         return border;
     }
 
@@ -192,11 +186,10 @@ public static partial class BorderExtensions
         return border;
     }
 
-    public static T StrokeLineJoin<T>(this T border, Func<Microsoft.Maui.Controls.Shapes.PenLineJoin> strokeLineJoinFunc)
+    public static T StrokeLineJoin<T>(this T border, Func<Microsoft.Maui.Controls.Shapes.PenLineJoin> strokeLineJoinFunc, IComponentWithState? componentWithState = null)
         where T : IBorder
     {
-        //border.StrokeLineJoin = new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineJoin>(strokeLineJoinFunc);
-        border.SetProperty(Microsoft.Maui.Controls.Border.StrokeLineJoinProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineJoin>(strokeLineJoinFunc));
+        border.SetProperty(Microsoft.Maui.Controls.Border.StrokeLineJoinProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineJoin>(strokeLineJoinFunc, componentWithState));
         return border;
     }
 
@@ -209,11 +202,10 @@ public static partial class BorderExtensions
         return border;
     }
 
-    public static T StrokeMiterLimit<T>(this T border, Func<double> strokeMiterLimitFunc)
+    public static T StrokeMiterLimit<T>(this T border, Func<double> strokeMiterLimitFunc, IComponentWithState? componentWithState = null)
         where T : IBorder
     {
-        //border.StrokeMiterLimit = new PropertyValue<double>(strokeMiterLimitFunc);
-        border.SetProperty(Microsoft.Maui.Controls.Border.StrokeMiterLimitProperty, new PropertyValue<double>(strokeMiterLimitFunc));
+        border.SetProperty(Microsoft.Maui.Controls.Border.StrokeMiterLimitProperty, new PropertyValue<double>(strokeMiterLimitFunc, componentWithState));
         return border;
     }
 }

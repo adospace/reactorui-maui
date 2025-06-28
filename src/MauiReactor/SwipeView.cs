@@ -167,11 +167,10 @@ public static partial class SwipeViewExtensions
         return swipeView;
     }
 
-    public static T Threshold<T>(this T swipeView, Func<double> thresholdFunc)
+    public static T Threshold<T>(this T swipeView, Func<double> thresholdFunc, IComponentWithState? componentWithState = null)
         where T : ISwipeView
     {
-        //swipeView.Threshold = new PropertyValue<double>(thresholdFunc);
-        swipeView.SetProperty(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, new PropertyValue<double>(thresholdFunc));
+        swipeView.SetProperty(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, new PropertyValue<double>(thresholdFunc, componentWithState));
         return swipeView;
     }
 

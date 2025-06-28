@@ -52,11 +52,10 @@ public static partial class RectangleExtensions
         return rectangle;
     }
 
-    public static T RadiusX<T>(this T rectangle, Func<double> radiusXFunc)
+    public static T RadiusX<T>(this T rectangle, Func<double> radiusXFunc, IComponentWithState? componentWithState = null)
         where T : IRectangle
     {
-        //rectangle.RadiusX = new PropertyValue<double>(radiusXFunc);
-        rectangle.SetProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusXProperty, new PropertyValue<double>(radiusXFunc));
+        rectangle.SetProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusXProperty, new PropertyValue<double>(radiusXFunc, componentWithState));
         return rectangle;
     }
 
@@ -69,11 +68,10 @@ public static partial class RectangleExtensions
         return rectangle;
     }
 
-    public static T RadiusY<T>(this T rectangle, Func<double> radiusYFunc)
+    public static T RadiusY<T>(this T rectangle, Func<double> radiusYFunc, IComponentWithState? componentWithState = null)
         where T : IRectangle
     {
-        //rectangle.RadiusY = new PropertyValue<double>(radiusYFunc);
-        rectangle.SetProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusYProperty, new PropertyValue<double>(radiusYFunc));
+        rectangle.SetProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusYProperty, new PropertyValue<double>(radiusYFunc, componentWithState));
         return rectangle;
     }
 }

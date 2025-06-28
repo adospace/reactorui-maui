@@ -51,11 +51,10 @@ public static partial class StyleableElementExtensions
         return styleableElement;
     }
 
-    public static T Style<T>(this T styleableElement, Func<Microsoft.Maui.Controls.Style> styleFunc)
+    public static T Style<T>(this T styleableElement, Func<Microsoft.Maui.Controls.Style> styleFunc, IComponentWithState? componentWithState = null)
         where T : IStyleableElement
     {
-        //styleableElement.Style = new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc);
-        styleableElement.SetProperty(Microsoft.Maui.Controls.StyleableElement.StyleProperty, new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc));
+        styleableElement.SetProperty(Microsoft.Maui.Controls.StyleableElement.StyleProperty, new PropertyValue<Microsoft.Maui.Controls.Style>(styleFunc, componentWithState));
         return styleableElement;
     }
 }
