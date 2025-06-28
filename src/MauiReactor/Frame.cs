@@ -8,6 +8,9 @@ using MauiReactor.Animations;
 using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
+#pragma warning disable CS0618 // Type or member is obsolete
+
+
 #nullable enable
 namespace MauiReactor;
 public partial interface IFrame : IContentView
@@ -109,3 +112,5 @@ public static partial class FrameStyles
     public static Action<IFrame>? Default { get; set; }
     public static Dictionary<string, Action<IFrame>> Themes { get; } = [];
 }
+
+#pragma warning disable CS0618 // Type or member is obsolete

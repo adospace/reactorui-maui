@@ -8,6 +8,10 @@ using MauiReactor.Animations;
 using MauiReactor.Shapes;
 using MauiReactor.Internals;
 
+#pragma warning disable CS0618 // Type or member is obsolete
+
+
+
 #nullable enable
 namespace MauiReactor.Compatibility;
 public partial interface ILayout : IView
@@ -212,3 +216,5 @@ public static partial class LayoutStyles
     public static Action<ILayout>? Default { get; set; }
     public static Dictionary<string, Action<ILayout>> Themes { get; } = [];
 }
+
+#pragma warning disable CS0618 // Type or member is obsolete

@@ -25,7 +25,7 @@ partial class HomePage : Component<HomePageState>
                             .HCenter(),
 
                         Button(State.Counter == 0 ? "Click me" : $"Clicked {State.Counter} times!")
-                            .OnClicked(() => SetState(s => s.Counter += 1))
+                            .OnClicked(() => SetState(s => s.Counter++))
                             .HCenter()
                 )
                 .VCenter()
