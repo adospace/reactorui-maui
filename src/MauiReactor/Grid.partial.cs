@@ -53,7 +53,7 @@ public partial class Grid<T>
         if (rowsOnNativeControl != thisAsIGrid.RowDefinitions)
         {
             GridExtensions.SetRowDefinitions(NativeControl, thisAsIGrid.RowDefinitions);
-            NativeControl.SetValue(_mauiReactorGridColumns, thisAsIGrid.RowDefinitions);
+            NativeControl.SetValue(_mauiReactorGridRows, thisAsIGrid.RowDefinitions);
         }
 
         var columnsOnNativeControl = (string?)NativeControl.GetValue(_mauiReactorGridColumns);
