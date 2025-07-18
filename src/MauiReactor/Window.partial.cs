@@ -16,6 +16,11 @@ public partial class Window
             Validate.EnsureNotNull(NativeControl);
             NativeControl.Page = page;
         }
+        else if (childNativeControl is Microsoft.Maui.Controls.TitleBar)
+        {
+            Validate.EnsureNotNull(NativeControl);
+            NativeControl.TitleBar = childNativeControl as Microsoft.Maui.Controls.TitleBar;
+        }
 
         base.OnAddChild(widget, childNativeControl);
     }
