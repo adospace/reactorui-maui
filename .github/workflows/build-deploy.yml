@@ -16,7 +16,7 @@ jobs:
       Solution_Name: ./src/MauiReactor.Build.sln
       Test_Project: ./samples/UnitTests/UnitTests.csproj
       TemplatePack_Name: ./src/MauiReactor.TemplatePack/MauiReactor.TemplatePack.csproj
-      Version: 3.0.34
+      Version: 3.0.35
 
     steps:
     - name: Checkout

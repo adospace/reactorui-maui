@@ -23,6 +23,7 @@ public partial class ScaffoldTypeGenerator
         var declaringTypeFullName = typeToScaffold.GetFullyQualifiedName();
         var bindablePropertyType = compilation.FindNamedType("Microsoft.Maui.Controls.BindableProperty");
         var editorBrowsableAttribute = compilation.FindNamedType("System.ComponentModel.EditorBrowsableAttribute");
+        var obsoleteAttribute = compilation.FindNamedType("System.ObsoleteAttribute");
         _childrenTypes = childrenTypes;
 
         var propertiesMap = typeToScaffold.GetMembers()
@@ -31,6 +32,8 @@ public partial class ScaffoldTypeGenerator
             .Where(_ => !_.IsReadOnly && !_.IsWriteOnly)
             .Where(_ => (_.ContainingType is INamedTypeSymbol namedTypeSymbol) && namedTypeSymbol.GetFullyQualifiedName() == typeToScaffold.GetFullyQualifiedName())
             .Where(_ => _.DeclaredAccessibility == Accessibility.Public) // Check if the property is public
+            //avoid deprecated properties
+            .Where(_ => !_.GetAttributes().Any(_ => _.AttributeClass.EnsureNotNull().Equals(obsoleteAttribute, SymbolEqualityComparer.Default)))
             .GroupBy(p => p.Name, StringComparer.OrdinalIgnoreCase)
             .ToDictionary(g => g.Key, g => g.First(), StringComparer.OrdinalIgnoreCase);
 

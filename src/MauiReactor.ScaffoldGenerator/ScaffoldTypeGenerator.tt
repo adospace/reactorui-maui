@@ -160,6 +160,11 @@ namespace <#= Namespace #>
                 return;
             }
 
+            if (NativeControl.ItemTemplate == null)
+            {
+                return;
+            }
+
             var itemsSource = nativeControlItemsSource.Cast<object>().ToArray();
 
             _loadedForciblyChildren = new();
