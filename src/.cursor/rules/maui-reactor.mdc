@@ -1,0 +1,74 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+- General overview
+MauiReactor is a library built on top of .NET MAUI. MauiReactor applications are .NET MAUI written in C# using a custom version of the MVU (Model View Update) approach.
+
+MauiReactor project is inspired to ReactJs (React Native) and FLutter: many concepts are similar.
+
+Main documentation website:
+https://adospace.gitbook.io/mauireactor/
+
+This is the tipical Counter app written in MauiReactor:
+
+class CounterPageState
+{
+    public int Counter { get; set; }
+}
+
+class CounterPage : Component<CounterPageState>
+{
+    public override VisualNode Render()
+        => ContentPage("Counter Sample",
+            VStack(
+                Label($"Counter: {State.Counter}"),
+
+                Button("Click To Increment", () =>
+                    SetState(s => s.Counter++))
+            )
+            .Spacing(10)
+            .Center()
+        );
+    
+}
+
+MauiReactor provides wrapper classes around all the .NET Maui native controls like Label or Button.
+
+- Component and states
+
+Components are the MauiReactor core concepts. Every page has a root component that render its content as a tree of VisualNode or other components. A component class derives from Component and must override the abstract Render() method. 
+Events from users, network, etc may invalidate the component and that cas MauiReactor create a new component of the same type and call the Render() method again which produces a new version of the visual tree that is comared with the old one (new widgets are added, old are removed, persistent ones just updates native controls they wrap).
+
+Component may have a state: a POCO class that holds the state of the component. State is preserved among iterations of the component.
+
+- Hot-reload
+
+MauiReractor provides hot-reload trhu the MauiReactor.HotReloadConsole
+
+- Wrappers for custom controls
+
+DeMauiReactor can generate warppers for custom or 3rd party conrtols authoring a partial class with the Scaffold attribute as shown below:
+
+[Scaffold(typeof(Syncfusion.Maui.Core.SfTextInputLayout))]
+public partial class SfTextInputLayout 
+{
+}
+
+SfTextInputLayout comes from Syncfusion library. Devs are required to "scaffold" all the classes up to the native ones.
+
+For example, for the SfTextInputLayout control we also need to scafoold base classes up to the .NET MAUI Microsoft.Maui.Controls.View that is the base class of the SfView class.
+
+[Scaffold(typeof(Syncfusion.Maui.Core.SfView))]
+public abstract partial class SfView
+{
+}
+
+
+[Scaffold(typeof(Syncfusion.Maui.Core.SfContentView))]
+public abstract partial class SfContentView
+{
+}
+
