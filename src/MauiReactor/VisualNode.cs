@@ -759,7 +759,7 @@ namespace MauiReactor
 
     public abstract class VisualNode<T> : VisualNode, IVisualNodeWithNativeControl, IVisualNodeWithAttachedProperties where T : BindableObject, new()
     {
-        protected BindableObject? _nativeControl;
+        protected T? _nativeControl;
 
         private readonly Dictionary<BindableProperty, object?> _propertiesToSet = [];
 
@@ -770,7 +770,7 @@ namespace MauiReactor
             _componentRefAction = componentRefAction;
         }
 
-        protected T? NativeControl { get => (T?)_nativeControl; }
+        protected T? NativeControl { get => _nativeControl; }
 
         public void SetProperty(BindableProperty property, object? value)
             => _propertiesToSet[property] = value;
@@ -933,7 +933,7 @@ namespace MauiReactor
 
         void IVisualNodeWithNativeControl.Attach(BindableObject nativeControl)
         {
-            _nativeControl = nativeControl;
+            _nativeControl = (T?)nativeControl;
         }
 
         bool IVisualNodeWithNativeControl.Animate()
