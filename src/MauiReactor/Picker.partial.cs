@@ -9,31 +9,39 @@ namespace MauiReactor;
 
 public partial interface IPicker
 {
-    IReadOnlyList<string>? ItemsSource { get; set; }
+    IReadOnlyList<object>? ItemsSource { get; set; }
+
+    BindingBase? ItemDisplayBinding { get; set; }
 }
 
 public partial class Picker<T>
 {
-    IReadOnlyList<string>? IPicker.ItemsSource { get; set; }
+    IReadOnlyList<object>? IPicker.ItemsSource { get; set; }
+
+    BindingBase? IPicker.ItemDisplayBinding { get; set; }
 
     protected override void OnUpdate()
     {
-        Validate.EnsureNotNull(NativeControl);
         var thisAsIPicker = (IPicker)this;
-        if (NativeControl.ItemsSource == null ||
+        var nativeControl = NativeControl.EnsureNotNull();
+
+        if (nativeControl.ItemsSource == null ||
             thisAsIPicker.ItemsSource == null ||
-            NativeControl.ItemsSource.Count != thisAsIPicker.ItemsSource.Count ||
-            !NativeControl.ItemsSource.Cast<object>().SequenceEqual(thisAsIPicker.ItemsSource))
+            nativeControl.ItemsSource.Count != thisAsIPicker.ItemsSource.Count ||
+            !nativeControl.ItemsSource.Cast<object>().SequenceEqual(thisAsIPicker.ItemsSource))
         {
             if (thisAsIPicker.ItemsSource is System.Collections.IList list)
             {
-                NativeControl.ItemsSource = list;
+                nativeControl.ItemsSource = list;
             }
             else
             {
-                NativeControl.ItemsSource = thisAsIPicker.ItemsSource?.ToList();
+                nativeControl.ItemsSource = thisAsIPicker.ItemsSource?.ToList();
             }
         }
+
+        nativeControl.ItemDisplayBinding = thisAsIPicker.ItemDisplayBinding;
+
         base.OnUpdate();
     }
 }
@@ -41,7 +49,7 @@ public partial class Picker<T>
 
 public static partial class PickerExtensions
 {
-    public static T ItemsSource<T>(this T picker, IReadOnlyList<string>? itemsSource) where T : IPicker
+    public static T ItemsSource<T>(this T picker, IReadOnlyList<object>? itemsSource) where T : IPicker
     {
         picker.ItemsSource = itemsSource;
         return picker;
@@ -71,6 +79,13 @@ public static partial class PickerExtensions
 
             return Task.CompletedTask;
         });
+        return picker;
+    }
+
+    public static T ItemDisplayBinding<T>(this T picker, BindingBase? itemDisplayBinding) where T : IPicker
+    {
+        picker.ItemDisplayBinding = itemDisplayBinding;
+
         return picker;
     }
 }
