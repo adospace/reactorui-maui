@@ -46,16 +46,16 @@ public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Control
     private EventCommand<ShellNavigatingEventArgs>? _executingNavigatingEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIShell = (IShell)this;
         if (thisAsIShell.NavigatedEvent != null)
         {
-            NativeControl.Navigated += NativeControl_Navigated;
+            nativeControl.Navigated += NativeControl_Navigated;
         }
 
         if (thisAsIShell.NavigatingEvent != null)
         {
-            NativeControl.Navigating += NativeControl_Navigating;
+            nativeControl.Navigating += NativeControl_Navigating;
         }
 
         OnAttachingNativeEvents();
@@ -84,10 +84,11 @@ public partial class Shell<T> : Page<T>, IShell where T : Microsoft.Maui.Control
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Navigated -= NativeControl_Navigated;
-            NativeControl.Navigating -= NativeControl_Navigating;
+            nativeControl.Navigated -= NativeControl_Navigated;
+            nativeControl.Navigating -= NativeControl_Navigating;
         }
 
         OnDetachingNativeEvents();

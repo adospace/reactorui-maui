@@ -41,11 +41,11 @@ public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.M
     private EventCommand<TappedEventArgs>? _executingTappedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsITapGestureRecognizer = (ITapGestureRecognizer)this;
         if (thisAsITapGestureRecognizer.TappedEvent != null)
         {
-            NativeControl.Tapped += NativeControl_Tapped;
+            nativeControl.Tapped += NativeControl_Tapped;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public sealed partial class TapGestureRecognizer : GestureRecognizer<Microsoft.M
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Tapped -= NativeControl_Tapped;
+            nativeControl.Tapped -= NativeControl_Tapped;
         }
 
         OnDetachingNativeEvents();

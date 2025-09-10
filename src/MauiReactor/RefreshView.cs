@@ -41,11 +41,11 @@ public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Mic
     private EventCommand<EventArgs>? _executingRefreshingEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIRefreshView = (IRefreshView)this;
         if (thisAsIRefreshView.RefreshingEvent != null)
         {
-            NativeControl.Refreshing += NativeControl_Refreshing;
+            nativeControl.Refreshing += NativeControl_Refreshing;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class RefreshView<T> : ContentView<T>, IRefreshView where T : Mic
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Refreshing -= NativeControl_Refreshing;
+            nativeControl.Refreshing -= NativeControl_Refreshing;
         }
 
         OnDetachingNativeEvents();

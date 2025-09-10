@@ -61,31 +61,31 @@ public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microso
     private EventCommand<PointerEventArgs>? _executingPointerReleasedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIPointerGestureRecognizer = (IPointerGestureRecognizer)this;
         if (thisAsIPointerGestureRecognizer.PointerEnteredEvent != null)
         {
-            NativeControl.PointerEntered += NativeControl_PointerEntered;
+            nativeControl.PointerEntered += NativeControl_PointerEntered;
         }
 
         if (thisAsIPointerGestureRecognizer.PointerExitedEvent != null)
         {
-            NativeControl.PointerExited += NativeControl_PointerExited;
+            nativeControl.PointerExited += NativeControl_PointerExited;
         }
 
         if (thisAsIPointerGestureRecognizer.PointerMovedEvent != null)
         {
-            NativeControl.PointerMoved += NativeControl_PointerMoved;
+            nativeControl.PointerMoved += NativeControl_PointerMoved;
         }
 
         if (thisAsIPointerGestureRecognizer.PointerPressedEvent != null)
         {
-            NativeControl.PointerPressed += NativeControl_PointerPressed;
+            nativeControl.PointerPressed += NativeControl_PointerPressed;
         }
 
         if (thisAsIPointerGestureRecognizer.PointerReleasedEvent != null)
         {
-            NativeControl.PointerReleased += NativeControl_PointerReleased;
+            nativeControl.PointerReleased += NativeControl_PointerReleased;
         }
 
         OnAttachingNativeEvents();
@@ -144,13 +144,14 @@ public sealed partial class PointerGestureRecognizer : GestureRecognizer<Microso
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.PointerEntered -= NativeControl_PointerEntered;
-            NativeControl.PointerExited -= NativeControl_PointerExited;
-            NativeControl.PointerMoved -= NativeControl_PointerMoved;
-            NativeControl.PointerPressed -= NativeControl_PointerPressed;
-            NativeControl.PointerReleased -= NativeControl_PointerReleased;
+            nativeControl.PointerEntered -= NativeControl_PointerEntered;
+            nativeControl.PointerExited -= NativeControl_PointerExited;
+            nativeControl.PointerMoved -= NativeControl_PointerMoved;
+            nativeControl.PointerPressed -= NativeControl_PointerPressed;
+            nativeControl.PointerReleased -= NativeControl_PointerReleased;
         }
 
         OnDetachingNativeEvents();

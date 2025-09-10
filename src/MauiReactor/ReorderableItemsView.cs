@@ -41,11 +41,11 @@ public partial class ReorderableItemsView<T> : GroupableItemsView<T>, IReorderab
     private EventCommand<EventArgs>? _executingReorderCompletedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIReorderableItemsView = (IReorderableItemsView)this;
         if (thisAsIReorderableItemsView.ReorderCompletedEvent != null)
         {
-            NativeControl.ReorderCompleted += NativeControl_ReorderCompleted;
+            nativeControl.ReorderCompleted += NativeControl_ReorderCompleted;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class ReorderableItemsView<T> : GroupableItemsView<T>, IReorderab
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.ReorderCompleted -= NativeControl_ReorderCompleted;
+            nativeControl.ReorderCompleted -= NativeControl_ReorderCompleted;
         }
 
         OnDetachingNativeEvents();

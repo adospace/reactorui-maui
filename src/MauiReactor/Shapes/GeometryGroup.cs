@@ -41,11 +41,11 @@ public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where
     private EventCommand<EventArgs>? _executingInvalidateGeometryRequestedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIGeometryGroup = (IGeometryGroup)this;
         if (thisAsIGeometryGroup.InvalidateGeometryRequestedEvent != null)
         {
-            NativeControl.InvalidateGeometryRequested += NativeControl_InvalidateGeometryRequested;
+            nativeControl.InvalidateGeometryRequested += NativeControl_InvalidateGeometryRequested;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class GeometryGroup<T> : Shapes.Geometry<T>, IGeometryGroup where
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.InvalidateGeometryRequested -= NativeControl_InvalidateGeometryRequested;
+            nativeControl.InvalidateGeometryRequested -= NativeControl_InvalidateGeometryRequested;
         }
 
         OnDetachingNativeEvents();

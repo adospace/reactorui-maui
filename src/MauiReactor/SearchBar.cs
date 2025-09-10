@@ -41,11 +41,11 @@ public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft
     private EventCommand<EventArgs>? _executingSearchButtonPressedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsISearchBar = (ISearchBar)this;
         if (thisAsISearchBar.SearchButtonPressedEvent != null)
         {
-            NativeControl.SearchButtonPressed += NativeControl_SearchButtonPressed;
+            nativeControl.SearchButtonPressed += NativeControl_SearchButtonPressed;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class SearchBar<T> : InputView<T>, ISearchBar where T : Microsoft
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.SearchButtonPressed -= NativeControl_SearchButtonPressed;
+            nativeControl.SearchButtonPressed -= NativeControl_SearchButtonPressed;
         }
 
         OnDetachingNativeEvents();

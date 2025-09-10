@@ -41,11 +41,11 @@ public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Con
     private EventCommand<ValueChangedEventArgs>? _executingValueChangedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIStepper = (IStepper)this;
         if (thisAsIStepper.ValueChangedEvent != null)
         {
-            NativeControl.ValueChanged += NativeControl_ValueChanged;
+            nativeControl.ValueChanged += NativeControl_ValueChanged;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class Stepper<T> : View<T>, IStepper where T : Microsoft.Maui.Con
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.ValueChanged -= NativeControl_ValueChanged;
+            nativeControl.ValueChanged -= NativeControl_ValueChanged;
         }
 
         OnDetachingNativeEvents();

@@ -66,36 +66,36 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
     private EventCommand<NavigatedFromEventArgs>? _executingNavigatedFromEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIPage = (IPage)this;
         if (thisAsIPage.LayoutChangedEvent != null)
         {
-            NativeControl.LayoutChanged += NativeControl_LayoutChanged;
+            nativeControl.LayoutChanged += NativeControl_LayoutChanged;
         }
 
         if (thisAsIPage.AppearingEvent != null)
         {
-            NativeControl.Appearing += NativeControl_Appearing;
+            nativeControl.Appearing += NativeControl_Appearing;
         }
 
         if (thisAsIPage.DisappearingEvent != null)
         {
-            NativeControl.Disappearing += NativeControl_Disappearing;
+            nativeControl.Disappearing += NativeControl_Disappearing;
         }
 
         if (thisAsIPage.NavigatedToEvent != null)
         {
-            NativeControl.NavigatedTo += NativeControl_NavigatedTo;
+            nativeControl.NavigatedTo += NativeControl_NavigatedTo;
         }
 
         if (thisAsIPage.NavigatingFromEvent != null)
         {
-            NativeControl.NavigatingFrom += NativeControl_NavigatingFrom;
+            nativeControl.NavigatingFrom += NativeControl_NavigatingFrom;
         }
 
         if (thisAsIPage.NavigatedFromEvent != null)
         {
-            NativeControl.NavigatedFrom += NativeControl_NavigatedFrom;
+            nativeControl.NavigatedFrom += NativeControl_NavigatedFrom;
         }
 
         OnAttachingNativeEvents();
@@ -164,14 +164,15 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.LayoutChanged -= NativeControl_LayoutChanged;
-            NativeControl.Appearing -= NativeControl_Appearing;
-            NativeControl.Disappearing -= NativeControl_Disappearing;
-            NativeControl.NavigatedTo -= NativeControl_NavigatedTo;
-            NativeControl.NavigatingFrom -= NativeControl_NavigatingFrom;
-            NativeControl.NavigatedFrom -= NativeControl_NavigatedFrom;
+            nativeControl.LayoutChanged -= NativeControl_LayoutChanged;
+            nativeControl.Appearing -= NativeControl_Appearing;
+            nativeControl.Disappearing -= NativeControl_Disappearing;
+            nativeControl.NavigatedTo -= NativeControl_NavigatedTo;
+            nativeControl.NavigatingFrom -= NativeControl_NavigatingFrom;
+            nativeControl.NavigatedFrom -= NativeControl_NavigatedFrom;
         }
 
         OnDetachingNativeEvents();

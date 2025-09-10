@@ -872,14 +872,11 @@ namespace MauiReactor
 
         protected override void OnUpdate()
         {
-            if (NativeControl == null)
-            {
-                throw new InvalidOperationException();
-            }
+            var nativeControl = NativeControl.EnsureNotNull();
 
             foreach (var property in _propertiesToSet)
             {
-                SetPropertyValue(NativeControl, property.Key, property.Value);
+                SetPropertyValue(nativeControl, property.Key, property.Value);
             }
 
             OnAttachNativeEvents();
@@ -889,24 +886,25 @@ namespace MauiReactor
 
         protected virtual void OnAttachNativeEvents()
         {
-            Validate.EnsureNotNull(NativeControl);
+            var nativeControl = NativeControl.EnsureNotNull();
 
             if (PropertyChangedAction != null)
             {
-                NativeControl.PropertyChanged += NativeControl_PropertyChanged;
+                nativeControl.PropertyChanged += NativeControl_PropertyChanged;
             }
             if (PropertyChangingAction != null)
             {
-                NativeControl.PropertyChanging += NativeControl_PropertyChanging;
+                nativeControl.PropertyChanging += NativeControl_PropertyChanging;
             }
         }
 
         protected virtual void OnDetachNativeEvents()
         {
-            if (NativeControl != null)
+            var nativeControl = NativeControl;
+            if (nativeControl != null)
             {
-                NativeControl.PropertyChanged -= NativeControl_PropertyChanged;
-                NativeControl.PropertyChanging -= NativeControl_PropertyChanging;
+                nativeControl.PropertyChanged -= NativeControl_PropertyChanged;
+                nativeControl.PropertyChanging -= NativeControl_PropertyChanging;
             }
         }
 

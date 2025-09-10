@@ -46,21 +46,21 @@ public partial class Grid<T>
 
     protected override void OnUpdate()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIGrid = (IGrid)this;
 
-        var rowsOnNativeControl = (string?)NativeControl.GetValue(_mauiReactorGridRows);
+        var rowsOnNativeControl = (string?)nativeControl.GetValue(_mauiReactorGridRows);
         if (rowsOnNativeControl != thisAsIGrid.RowDefinitions)
         {
-            GridExtensions.SetRowDefinitions(NativeControl, thisAsIGrid.RowDefinitions);
-            NativeControl.SetValue(_mauiReactorGridRows, thisAsIGrid.RowDefinitions);
+            GridExtensions.SetRowDefinitions(nativeControl, thisAsIGrid.RowDefinitions);
+            nativeControl.SetValue(_mauiReactorGridRows, thisAsIGrid.RowDefinitions);
         }
 
-        var columnsOnNativeControl = (string?)NativeControl.GetValue(_mauiReactorGridColumns);
+        var columnsOnNativeControl = (string?)nativeControl.GetValue(_mauiReactorGridColumns);
         if (columnsOnNativeControl != thisAsIGrid.ColumnDefinitions)
         {
-            GridExtensions.SetColumnDefinitions(NativeControl, thisAsIGrid.ColumnDefinitions);
-            NativeControl.SetValue(_mauiReactorGridColumns, thisAsIGrid.ColumnDefinitions);
+            GridExtensions.SetColumnDefinitions(nativeControl, thisAsIGrid.ColumnDefinitions);
+            nativeControl.SetValue(_mauiReactorGridColumns, thisAsIGrid.ColumnDefinitions);
         }
 
         base.OnUpdate();

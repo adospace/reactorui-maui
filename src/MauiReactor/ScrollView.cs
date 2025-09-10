@@ -41,11 +41,11 @@ public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where 
     private EventCommand<ScrolledEventArgs>? _executingScrolledEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIScrollView = (IScrollView)this;
         if (thisAsIScrollView.ScrolledEvent != null)
         {
-            NativeControl.Scrolled += NativeControl_Scrolled;
+            nativeControl.Scrolled += NativeControl_Scrolled;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class ScrollView<T> : Compatibility.Layout<T>, IScrollView where 
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Scrolled -= NativeControl_Scrolled;
+            nativeControl.Scrolled -= NativeControl_Scrolled;
         }
 
         OnDetachingNativeEvents();

@@ -41,11 +41,11 @@ public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Micros
     private EventCommand<HybridWebViewRawMessageReceivedEventArgs>? _executingRawMessageReceivedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIHybridWebView = (IHybridWebView)this;
         if (thisAsIHybridWebView.RawMessageReceivedEvent != null)
         {
-            NativeControl.RawMessageReceived += NativeControl_RawMessageReceived;
+            nativeControl.RawMessageReceived += NativeControl_RawMessageReceived;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Micros
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.RawMessageReceived -= NativeControl_RawMessageReceived;
+            nativeControl.RawMessageReceived -= NativeControl_RawMessageReceived;
         }
 
         OnDetachingNativeEvents();

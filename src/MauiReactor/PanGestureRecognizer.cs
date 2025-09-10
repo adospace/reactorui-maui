@@ -41,11 +41,11 @@ public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGesture
     private EventCommand<PanUpdatedEventArgs>? _executingPanUpdatedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIPanGestureRecognizer = (IPanGestureRecognizer)this;
         if (thisAsIPanGestureRecognizer.PanUpdatedEvent != null)
         {
-            NativeControl.PanUpdated += NativeControl_PanUpdated;
+            nativeControl.PanUpdated += NativeControl_PanUpdated;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class PanGestureRecognizer<T> : GestureRecognizer<T>, IPanGesture
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.PanUpdated -= NativeControl_PanUpdated;
+            nativeControl.PanUpdated -= NativeControl_PanUpdated;
         }
 
         OnDetachingNativeEvents();

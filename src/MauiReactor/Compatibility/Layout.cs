@@ -45,11 +45,11 @@ public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.M
     private EventCommand<EventArgs>? _executingLayoutChangedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsILayout = (ILayout)this;
         if (thisAsILayout.LayoutChangedEvent != null)
         {
-            NativeControl.LayoutChanged += NativeControl_LayoutChanged;
+            nativeControl.LayoutChanged += NativeControl_LayoutChanged;
         }
 
         OnAttachingNativeEvents();
@@ -68,9 +68,10 @@ public abstract partial class Layout<T> : View<T>, ILayout where T : Microsoft.M
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.LayoutChanged -= NativeControl_LayoutChanged;
+            nativeControl.LayoutChanged -= NativeControl_LayoutChanged;
         }
 
         OnDetachingNativeEvents();

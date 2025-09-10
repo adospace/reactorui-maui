@@ -41,11 +41,11 @@ public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Co
     private EventCommand<EventArgs>? _executingCompletedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIEntry = (IEntry)this;
         if (thisAsIEntry.CompletedEvent != null)
         {
-            NativeControl.Completed += NativeControl_Completed;
+            nativeControl.Completed += NativeControl_Completed;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class Entry<T> : InputView<T>, IEntry where T : Microsoft.Maui.Co
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Completed -= NativeControl_Completed;
+            nativeControl.Completed -= NativeControl_Completed;
         }
 
         OnDetachingNativeEvents();

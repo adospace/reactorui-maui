@@ -51,21 +51,21 @@ public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microso
     private EventCommand<SwipeEndedEventArgs>? _executingSwipeEndedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsISwipeView = (ISwipeView)this;
         if (thisAsISwipeView.SwipeStartedEvent != null)
         {
-            NativeControl.SwipeStarted += NativeControl_SwipeStarted;
+            nativeControl.SwipeStarted += NativeControl_SwipeStarted;
         }
 
         if (thisAsISwipeView.SwipeChangingEvent != null)
         {
-            NativeControl.SwipeChanging += NativeControl_SwipeChanging;
+            nativeControl.SwipeChanging += NativeControl_SwipeChanging;
         }
 
         if (thisAsISwipeView.SwipeEndedEvent != null)
         {
-            NativeControl.SwipeEnded += NativeControl_SwipeEnded;
+            nativeControl.SwipeEnded += NativeControl_SwipeEnded;
         }
 
         OnAttachingNativeEvents();
@@ -104,11 +104,12 @@ public partial class SwipeView<T> : ContentView<T>, ISwipeView where T : Microso
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.SwipeStarted -= NativeControl_SwipeStarted;
-            NativeControl.SwipeChanging -= NativeControl_SwipeChanging;
-            NativeControl.SwipeEnded -= NativeControl_SwipeEnded;
+            nativeControl.SwipeStarted -= NativeControl_SwipeStarted;
+            nativeControl.SwipeChanging -= NativeControl_SwipeChanging;
+            nativeControl.SwipeEnded -= NativeControl_SwipeEnded;
         }
 
         OnDetachingNativeEvents();

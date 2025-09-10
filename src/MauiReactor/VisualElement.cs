@@ -71,41 +71,41 @@ public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualEle
     private EventCommand<EventArgs>? _executingUnloadedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIVisualElement = (IVisualElement)this;
         if (thisAsIVisualElement.ChildrenReorderedEvent != null)
         {
-            NativeControl.ChildrenReordered += NativeControl_ChildrenReordered;
+            nativeControl.ChildrenReordered += NativeControl_ChildrenReordered;
         }
 
         if (thisAsIVisualElement.FocusedEvent != null)
         {
-            NativeControl.Focused += NativeControl_Focused;
+            nativeControl.Focused += NativeControl_Focused;
         }
 
         if (thisAsIVisualElement.MeasureInvalidatedEvent != null)
         {
-            NativeControl.MeasureInvalidated += NativeControl_MeasureInvalidated;
+            nativeControl.MeasureInvalidated += NativeControl_MeasureInvalidated;
         }
 
         if (thisAsIVisualElement.SizeChangedEvent != null)
         {
-            NativeControl.SizeChanged += NativeControl_SizeChanged;
+            nativeControl.SizeChanged += NativeControl_SizeChanged;
         }
 
         if (thisAsIVisualElement.UnfocusedEvent != null)
         {
-            NativeControl.Unfocused += NativeControl_Unfocused;
+            nativeControl.Unfocused += NativeControl_Unfocused;
         }
 
         if (thisAsIVisualElement.LoadedEvent != null)
         {
-            NativeControl.Loaded += NativeControl_Loaded;
+            nativeControl.Loaded += NativeControl_Loaded;
         }
 
         if (thisAsIVisualElement.UnloadedEvent != null)
         {
-            NativeControl.Unloaded += NativeControl_Unloaded;
+            nativeControl.Unloaded += NativeControl_Unloaded;
         }
 
         OnAttachingNativeEvents();
@@ -184,15 +184,16 @@ public abstract partial class VisualElement<T> : NavigableElement<T>, IVisualEle
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.ChildrenReordered -= NativeControl_ChildrenReordered;
-            NativeControl.Focused -= NativeControl_Focused;
-            NativeControl.MeasureInvalidated -= NativeControl_MeasureInvalidated;
-            NativeControl.SizeChanged -= NativeControl_SizeChanged;
-            NativeControl.Unfocused -= NativeControl_Unfocused;
-            NativeControl.Loaded -= NativeControl_Loaded;
-            NativeControl.Unloaded -= NativeControl_Unloaded;
+            nativeControl.ChildrenReordered -= NativeControl_ChildrenReordered;
+            nativeControl.Focused -= NativeControl_Focused;
+            nativeControl.MeasureInvalidated -= NativeControl_MeasureInvalidated;
+            nativeControl.SizeChanged -= NativeControl_SizeChanged;
+            nativeControl.Unfocused -= NativeControl_Unfocused;
+            nativeControl.Loaded -= NativeControl_Loaded;
+            nativeControl.Unloaded -= NativeControl_Unloaded;
         }
 
         OnDetachingNativeEvents();

@@ -41,11 +41,11 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectabl
     private EventCommand<SelectionChangedEventArgs>? _executingSelectionChangedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsISelectableItemsView = (ISelectableItemsView)this;
         if (thisAsISelectableItemsView.SelectionChangedEvent != null)
         {
-            NativeControl.SelectionChanged += NativeControl_SelectionChanged;
+            nativeControl.SelectionChanged += NativeControl_SelectionChanged;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class SelectableItemsView<T> : StructuredItemsView<T>, ISelectabl
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.SelectionChanged -= NativeControl_SelectionChanged;
+            nativeControl.SelectionChanged -= NativeControl_SelectionChanged;
         }
 
         OnDetachingNativeEvents();

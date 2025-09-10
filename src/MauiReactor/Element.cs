@@ -76,46 +76,46 @@ public abstract partial class Element<T> : VisualNode<T>, IElement where T : Mic
     private EventCommand<EventArgs>? _executingHandlerChangedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIElement = (IElement)this;
         if (thisAsIElement.ChildAddedEvent != null)
         {
-            NativeControl.ChildAdded += NativeControl_ChildAdded;
+            nativeControl.ChildAdded += NativeControl_ChildAdded;
         }
 
         if (thisAsIElement.ChildRemovedEvent != null)
         {
-            NativeControl.ChildRemoved += NativeControl_ChildRemoved;
+            nativeControl.ChildRemoved += NativeControl_ChildRemoved;
         }
 
         if (thisAsIElement.DescendantAddedEvent != null)
         {
-            NativeControl.DescendantAdded += NativeControl_DescendantAdded;
+            nativeControl.DescendantAdded += NativeControl_DescendantAdded;
         }
 
         if (thisAsIElement.DescendantRemovedEvent != null)
         {
-            NativeControl.DescendantRemoved += NativeControl_DescendantRemoved;
+            nativeControl.DescendantRemoved += NativeControl_DescendantRemoved;
         }
 
         if (thisAsIElement.ParentChangingEvent != null)
         {
-            NativeControl.ParentChanging += NativeControl_ParentChanging;
+            nativeControl.ParentChanging += NativeControl_ParentChanging;
         }
 
         if (thisAsIElement.ParentChangedEvent != null)
         {
-            NativeControl.ParentChanged += NativeControl_ParentChanged;
+            nativeControl.ParentChanged += NativeControl_ParentChanged;
         }
 
         if (thisAsIElement.HandlerChangingEvent != null)
         {
-            NativeControl.HandlerChanging += NativeControl_HandlerChanging;
+            nativeControl.HandlerChanging += NativeControl_HandlerChanging;
         }
 
         if (thisAsIElement.HandlerChangedEvent != null)
         {
-            NativeControl.HandlerChanged += NativeControl_HandlerChanged;
+            nativeControl.HandlerChanged += NativeControl_HandlerChanged;
         }
 
         OnAttachingNativeEvents();
@@ -204,16 +204,17 @@ public abstract partial class Element<T> : VisualNode<T>, IElement where T : Mic
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.ChildAdded -= NativeControl_ChildAdded;
-            NativeControl.ChildRemoved -= NativeControl_ChildRemoved;
-            NativeControl.DescendantAdded -= NativeControl_DescendantAdded;
-            NativeControl.DescendantRemoved -= NativeControl_DescendantRemoved;
-            NativeControl.ParentChanging -= NativeControl_ParentChanging;
-            NativeControl.ParentChanged -= NativeControl_ParentChanged;
-            NativeControl.HandlerChanging -= NativeControl_HandlerChanging;
-            NativeControl.HandlerChanged -= NativeControl_HandlerChanged;
+            nativeControl.ChildAdded -= NativeControl_ChildAdded;
+            nativeControl.ChildRemoved -= NativeControl_ChildRemoved;
+            nativeControl.DescendantAdded -= NativeControl_DescendantAdded;
+            nativeControl.DescendantRemoved -= NativeControl_DescendantRemoved;
+            nativeControl.ParentChanging -= NativeControl_ParentChanging;
+            nativeControl.ParentChanged -= NativeControl_ParentChanged;
+            nativeControl.HandlerChanging -= NativeControl_HandlerChanging;
+            nativeControl.HandlerChanged -= NativeControl_HandlerChanged;
         }
 
         OnDetachingNativeEvents();

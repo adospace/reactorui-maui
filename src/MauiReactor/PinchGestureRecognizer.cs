@@ -41,11 +41,11 @@ public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft
     private EventCommand<PinchGestureUpdatedEventArgs>? _executingPinchUpdatedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIPinchGestureRecognizer = (IPinchGestureRecognizer)this;
         if (thisAsIPinchGestureRecognizer.PinchUpdatedEvent != null)
         {
-            NativeControl.PinchUpdated += NativeControl_PinchUpdated;
+            nativeControl.PinchUpdated += NativeControl_PinchUpdated;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public sealed partial class PinchGestureRecognizer : GestureRecognizer<Microsoft
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.PinchUpdated -= NativeControl_PinchUpdated;
+            nativeControl.PinchUpdated -= NativeControl_PinchUpdated;
         }
 
         OnDetachingNativeEvents();

@@ -51,21 +51,21 @@ public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Micr
     private EventCommand<NavigationEventArgs>? _executingPushedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsINavigationPage = (INavigationPage)this;
         if (thisAsINavigationPage.PoppedEvent != null)
         {
-            NativeControl.Popped += NativeControl_Popped;
+            nativeControl.Popped += NativeControl_Popped;
         }
 
         if (thisAsINavigationPage.PoppedToRootEvent != null)
         {
-            NativeControl.PoppedToRoot += NativeControl_PoppedToRoot;
+            nativeControl.PoppedToRoot += NativeControl_PoppedToRoot;
         }
 
         if (thisAsINavigationPage.PushedEvent != null)
         {
-            NativeControl.Pushed += NativeControl_Pushed;
+            nativeControl.Pushed += NativeControl_Pushed;
         }
 
         OnAttachingNativeEvents();
@@ -104,11 +104,12 @@ public partial class NavigationPage<T> : Page<T>, INavigationPage where T : Micr
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Popped -= NativeControl_Popped;
-            NativeControl.PoppedToRoot -= NativeControl_PoppedToRoot;
-            NativeControl.Pushed -= NativeControl_Pushed;
+            nativeControl.Popped -= NativeControl_Popped;
+            nativeControl.PoppedToRoot -= NativeControl_PoppedToRoot;
+            nativeControl.Pushed -= NativeControl_Pushed;
         }
 
         OnDetachingNativeEvents();

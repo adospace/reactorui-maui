@@ -71,41 +71,41 @@ public partial class GraphicsView<T> : View<T>, IGraphicsView where T : Microsof
     private EventCommand<EventArgs>? _executingCancelInteractionEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIGraphicsView = (IGraphicsView)this;
         if (thisAsIGraphicsView.StartHoverInteractionEvent != null)
         {
-            NativeControl.StartHoverInteraction += NativeControl_StartHoverInteraction;
+            nativeControl.StartHoverInteraction += NativeControl_StartHoverInteraction;
         }
 
         if (thisAsIGraphicsView.MoveHoverInteractionEvent != null)
         {
-            NativeControl.MoveHoverInteraction += NativeControl_MoveHoverInteraction;
+            nativeControl.MoveHoverInteraction += NativeControl_MoveHoverInteraction;
         }
 
         if (thisAsIGraphicsView.EndHoverInteractionEvent != null)
         {
-            NativeControl.EndHoverInteraction += NativeControl_EndHoverInteraction;
+            nativeControl.EndHoverInteraction += NativeControl_EndHoverInteraction;
         }
 
         if (thisAsIGraphicsView.StartInteractionEvent != null)
         {
-            NativeControl.StartInteraction += NativeControl_StartInteraction;
+            nativeControl.StartInteraction += NativeControl_StartInteraction;
         }
 
         if (thisAsIGraphicsView.DragInteractionEvent != null)
         {
-            NativeControl.DragInteraction += NativeControl_DragInteraction;
+            nativeControl.DragInteraction += NativeControl_DragInteraction;
         }
 
         if (thisAsIGraphicsView.EndInteractionEvent != null)
         {
-            NativeControl.EndInteraction += NativeControl_EndInteraction;
+            nativeControl.EndInteraction += NativeControl_EndInteraction;
         }
 
         if (thisAsIGraphicsView.CancelInteractionEvent != null)
         {
-            NativeControl.CancelInteraction += NativeControl_CancelInteraction;
+            nativeControl.CancelInteraction += NativeControl_CancelInteraction;
         }
 
         OnAttachingNativeEvents();
@@ -184,15 +184,16 @@ public partial class GraphicsView<T> : View<T>, IGraphicsView where T : Microsof
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.StartHoverInteraction -= NativeControl_StartHoverInteraction;
-            NativeControl.MoveHoverInteraction -= NativeControl_MoveHoverInteraction;
-            NativeControl.EndHoverInteraction -= NativeControl_EndHoverInteraction;
-            NativeControl.StartInteraction -= NativeControl_StartInteraction;
-            NativeControl.DragInteraction -= NativeControl_DragInteraction;
-            NativeControl.EndInteraction -= NativeControl_EndInteraction;
-            NativeControl.CancelInteraction -= NativeControl_CancelInteraction;
+            nativeControl.StartHoverInteraction -= NativeControl_StartHoverInteraction;
+            nativeControl.MoveHoverInteraction -= NativeControl_MoveHoverInteraction;
+            nativeControl.EndHoverInteraction -= NativeControl_EndHoverInteraction;
+            nativeControl.StartInteraction -= NativeControl_StartInteraction;
+            nativeControl.DragInteraction -= NativeControl_DragInteraction;
+            nativeControl.EndInteraction -= NativeControl_EndInteraction;
+            nativeControl.CancelInteraction -= NativeControl_CancelInteraction;
         }
 
         OnDetachingNativeEvents();

@@ -41,11 +41,11 @@ public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Ma
     private EventCommand<ToggledEventArgs>? _executingOnChangedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsISwitchCell = (ISwitchCell)this;
         if (thisAsISwitchCell.OnChangedEvent != null)
         {
-            NativeControl.OnChanged += NativeControl_OnChanged;
+            nativeControl.OnChanged += NativeControl_OnChanged;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class SwitchCell<T> : Cell<T>, ISwitchCell where T : Microsoft.Ma
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.OnChanged -= NativeControl_OnChanged;
+            nativeControl.OnChanged -= NativeControl_OnChanged;
         }
 
         OnDetachingNativeEvents();

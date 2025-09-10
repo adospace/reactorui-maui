@@ -46,16 +46,16 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
     private EventCommand<EventArgs>? _executingDisappearingEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIBaseShellItem = (IBaseShellItem)this;
         if (thisAsIBaseShellItem.AppearingEvent != null)
         {
-            NativeControl.Appearing += NativeControl_Appearing;
+            nativeControl.Appearing += NativeControl_Appearing;
         }
 
         if (thisAsIBaseShellItem.DisappearingEvent != null)
         {
-            NativeControl.Disappearing += NativeControl_Disappearing;
+            nativeControl.Disappearing += NativeControl_Disappearing;
         }
 
         OnAttachingNativeEvents();
@@ -84,10 +84,11 @@ public partial class BaseShellItem<T> : NavigableElement<T>, IBaseShellItem wher
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Appearing -= NativeControl_Appearing;
-            NativeControl.Disappearing -= NativeControl_Disappearing;
+            nativeControl.Appearing -= NativeControl_Appearing;
+            nativeControl.Disappearing -= NativeControl_Disappearing;
         }
 
         OnDetachingNativeEvents();

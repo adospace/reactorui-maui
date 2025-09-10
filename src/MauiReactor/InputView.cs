@@ -41,11 +41,11 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
     private EventCommand<TextChangedEventArgs>? _executingTextChangedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIInputView = (IInputView)this;
         if (thisAsIInputView.TextChangedEvent != null)
         {
-            NativeControl.TextChanged += NativeControl_TextChanged;
+            nativeControl.TextChanged += NativeControl_TextChanged;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public abstract partial class InputView<T> : View<T>, IInputView where T : Micro
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.TextChanged -= NativeControl_TextChanged;
+            nativeControl.TextChanged -= NativeControl_TextChanged;
         }
 
         OnDetachingNativeEvents();

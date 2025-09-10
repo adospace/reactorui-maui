@@ -51,21 +51,21 @@ public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Ma
     private EventCommand<EventArgs>? _executingTappedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsICell = (ICell)this;
         if (thisAsICell.AppearingEvent != null)
         {
-            NativeControl.Appearing += NativeControl_Appearing;
+            nativeControl.Appearing += NativeControl_Appearing;
         }
 
         if (thisAsICell.DisappearingEvent != null)
         {
-            NativeControl.Disappearing += NativeControl_Disappearing;
+            nativeControl.Disappearing += NativeControl_Disappearing;
         }
 
         if (thisAsICell.TappedEvent != null)
         {
-            NativeControl.Tapped += NativeControl_Tapped;
+            nativeControl.Tapped += NativeControl_Tapped;
         }
 
         OnAttachingNativeEvents();
@@ -104,11 +104,12 @@ public abstract partial class Cell<T> : Element<T>, ICell where T : Microsoft.Ma
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Appearing -= NativeControl_Appearing;
-            NativeControl.Disappearing -= NativeControl_Disappearing;
-            NativeControl.Tapped -= NativeControl_Tapped;
+            nativeControl.Appearing -= NativeControl_Appearing;
+            nativeControl.Disappearing -= NativeControl_Disappearing;
+            nativeControl.Tapped -= NativeControl_Tapped;
         }
 
         OnDetachingNativeEvents();

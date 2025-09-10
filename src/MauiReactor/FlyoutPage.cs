@@ -41,11 +41,11 @@ public partial class FlyoutPage<T> : Page<T>, IFlyoutPage where T : Microsoft.Ma
     private EventCommand<EventArgs>? _executingIsPresentedChangedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIFlyoutPage = (IFlyoutPage)this;
         if (thisAsIFlyoutPage.IsPresentedChangedEvent != null)
         {
-            NativeControl.IsPresentedChanged += NativeControl_IsPresentedChanged;
+            nativeControl.IsPresentedChanged += NativeControl_IsPresentedChanged;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class FlyoutPage<T> : Page<T>, IFlyoutPage where T : Microsoft.Ma
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.IsPresentedChanged -= NativeControl_IsPresentedChanged;
+            nativeControl.IsPresentedChanged -= NativeControl_IsPresentedChanged;
         }
 
         OnDetachingNativeEvents();

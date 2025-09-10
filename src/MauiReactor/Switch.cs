@@ -41,11 +41,11 @@ public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Contr
     private EventCommand<ToggledEventArgs>? _executingToggledEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsISwitch = (ISwitch)this;
         if (thisAsISwitch.ToggledEvent != null)
         {
-            NativeControl.Toggled += NativeControl_Toggled;
+            nativeControl.Toggled += NativeControl_Toggled;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class Switch<T> : View<T>, ISwitch where T : Microsoft.Maui.Contr
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Toggled -= NativeControl_Toggled;
+            nativeControl.Toggled -= NativeControl_Toggled;
         }
 
         OnDetachingNativeEvents();

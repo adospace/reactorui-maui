@@ -41,11 +41,11 @@ public partial class SwipeItems<T> : Element<T>, ISwipeItems where T : Microsoft
     private EventCommand<EventArgs>? _executingCollectionChangedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsISwipeItems = (ISwipeItems)this;
         if (thisAsISwipeItems.CollectionChangedEvent != null)
         {
-            NativeControl.CollectionChanged += NativeControl_CollectionChanged;
+            nativeControl.CollectionChanged += NativeControl_CollectionChanged;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class SwipeItems<T> : Element<T>, ISwipeItems where T : Microsoft
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.CollectionChanged -= NativeControl_CollectionChanged;
+            nativeControl.CollectionChanged -= NativeControl_CollectionChanged;
         }
 
         OnDetachingNativeEvents();

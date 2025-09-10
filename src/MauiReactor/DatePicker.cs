@@ -41,11 +41,11 @@ public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Ma
     private EventCommand<DateChangedEventArgs>? _executingDateSelectedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIDatePicker = (IDatePicker)this;
         if (thisAsIDatePicker.DateSelectedEvent != null)
         {
-            NativeControl.DateSelected += NativeControl_DateSelected;
+            nativeControl.DateSelected += NativeControl_DateSelected;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class DatePicker<T> : View<T>, IDatePicker where T : Microsoft.Ma
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.DateSelected -= NativeControl_DateSelected;
+            nativeControl.DateSelected -= NativeControl_DateSelected;
         }
 
         OnDetachingNativeEvents();

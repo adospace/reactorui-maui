@@ -151,16 +151,16 @@ namespace <#= Namespace #>
 
         private void ForceItemsLoad()
         {
-            Validate.EnsureNotNull(NativeControl);
+            var nativeControl = NativeControl.EnsureNotNull();
 
-            var nativeControlItemsSource = NativeControl.ItemsSource as IEnumerable;
+            var nativeControlItemsSource = nativeControl.ItemsSource as IEnumerable;
 
             if (nativeControlItemsSource == null)
             {
                 return;
             }
 
-            if (NativeControl.ItemTemplate == null)
+            if (nativeControl.ItemTemplate == null)
             {
                 return;
             }
@@ -171,7 +171,7 @@ namespace <#= Namespace #>
 
             foreach (var item in itemsSource)
             {
-                var itemContent = (Microsoft.Maui.Controls.BindableObject)NativeControl.ItemTemplate.CreateContent();
+                var itemContent = (Microsoft.Maui.Controls.BindableObject)nativeControl.ItemTemplate.CreateContent();
 
                 itemContent.BindingContext = item;
             }
@@ -199,14 +199,14 @@ namespace <#= Namespace #>
 
         protected override void OnAddChild(VisualNode widget, Microsoft.Maui.Controls.BindableObject childControl)
         {
-            Validate.EnsureNotNull(NativeControl);
+            var nativeControl = NativeControl.EnsureNotNull();
 
             var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
             <# bool firstElementToAdd = true; #>
             <# foreach (var childType in _childrenTypes) { #>
             <#= firstElementToAdd ? string.Empty : "else " #>if (childControl is <#= childType.TypeSymbol.GetFullyQualifiedName() #> <#= childType.TypeSymbol.Name.ToLocalVariableName() #>Item)
             {
-                NativeControl.<#= childType.ChildPropertyName #>.Insert(widget.ChildIndex, <#= childType.TypeSymbol.Name.ToLocalVariableName() #>Item);
+                nativeControl.<#= childType.ChildPropertyName #>.Insert(widget.ChildIndex, <#= childType.TypeSymbol.Name.ToLocalVariableName() #>Item);
                 _<#= childType.TypeSymbol.Name.ToLocalVariableName() #>ElementItemMap[childControl] = <#= childType.TypeSymbol.Name.ToLocalVariableName() #>Item;
             }
             <# firstElementToAdd = false; #>
@@ -217,13 +217,13 @@ namespace <#= Namespace #>
 
         protected override void OnRemoveChild(VisualNode widget, Microsoft.Maui.Controls.BindableObject childControl)
         {
-            Validate.EnsureNotNull(NativeControl);
+            var nativeControl = NativeControl.EnsureNotNull();
             var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
             <# bool firstElementRemove = true; #>
             <# foreach (var childType in _childrenTypes) { #>
             <#= firstElementRemove ? string.Empty : "else " #>if (_<#= childType.TypeSymbol.Name.ToLocalVariableName() #>ElementItemMap.TryGetValue(childControl, out var <#= childType.TypeSymbol.Name.ToLocalVariableName() #>Item))
             {
-                NativeControl.<#= childType.ChildPropertyName #>.Remove(<#= childType.TypeSymbol.Name.ToLocalVariableName() #>Item);
+                nativeControl.<#= childType.ChildPropertyName #>.Remove(<#= childType.TypeSymbol.Name.ToLocalVariableName() #>Item);
             }
             <# firstElementRemove = false; #>
             <# } #>
@@ -237,7 +237,7 @@ namespace <#= Namespace #>
             OnBeginUpdate();
 
             <# if (Properties.Any() || SupportItemTemplate) { #>
-            Validate.EnsureNotNull(NativeControl);
+            var nativeControl = NativeControl.EnsureNotNull();
             var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
             <#}#>
             
@@ -246,7 +246,7 @@ namespace <#= Namespace #>
             _loadedForciblyChildren = null;
 
             if (thisAs<#= InterfaceName #>.ItemsSource != null &&
-                NativeControl.ItemsSource == thisAs<#= InterfaceName #>.ItemsSource)
+                nativeControl.ItemsSource == thisAs<#= InterfaceName #>.ItemsSource)
             {
                 Validate.EnsureNotNull(_customDataTemplate);
 
@@ -257,17 +257,17 @@ namespace <#= Namespace #>
             else if (thisAs<#= InterfaceName #>.ItemsSource != null)
             {
                 _customDataTemplate = new CustomDataTemplate(this);
-                NativeControl.ItemsSource = (<#= ItemsSourceFullyQualifiedName #>)thisAs<#= InterfaceName #>.ItemsSource;
-                NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
+                nativeControl.ItemsSource = (<#= ItemsSourceFullyQualifiedName #>)thisAs<#= InterfaceName #>.ItemsSource;
+                nativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
             }
             else
             {
                 <# if (IsGenericType) { #>
-                NativeControl.ClearValue(global::<#= FullTypeName #><TChild>.ItemsSourceProperty);
-                NativeControl.ClearValue(global::<#= FullTypeName #><TChild>.ItemTemplateProperty);
+                nativeControl.ClearValue(global::<#= FullTypeName #><TChild>.ItemsSourceProperty);
+                nativeControl.ClearValue(global::<#= FullTypeName #><TChild>.ItemTemplateProperty);
                 <# } else { #>
-                NativeControl.ClearValue(global::<#= FullTypeName #>.ItemsSourceProperty);
-                NativeControl.ClearValue(global::<#= FullTypeName #>.ItemTemplateProperty);
+                nativeControl.ClearValue(global::<#= FullTypeName #>.ItemsSourceProperty);
+                nativeControl.ClearValue(global::<#= FullTypeName #>.ItemTemplateProperty);
                 <# } #>
             }
             <# } #>
@@ -276,7 +276,7 @@ namespace <#= Namespace #>
             <# if (Properties.Any()) { #>
             <# foreach (var property in Properties) { #>
             <# if (IsGenericType) { #>
-            SetPropertyValue(NativeControl, global::<#= FullTypeName #><TChild>.<#= property.Name #>Property, thisAs<#= InterfaceName #>.<#= property.Name #>);
+            SetPropertyValue(nativeControl, global::<#= FullTypeName #><TChild>.<#= property.Name #>Property, thisAs<#= InterfaceName #>.<#= property.Name #>);
             <# } #>
             <# } #>
 
@@ -317,13 +317,13 @@ namespace <#= Namespace #>
 
         protected override void OnAttachNativeEvents()
         {
-            Validate.EnsureNotNull(NativeControl);
+            var nativeControl = NativeControl.EnsureNotNull();
 
             var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
             <# foreach (var ev in Events) { #>
             if (thisAs<#= InterfaceName #>.<#= ev.Name #>Event != null)
             {
-                NativeControl.<#= ev.Name #> += NativeControl_<#= ev.Name #>;
+                nativeControl.<#= ev.Name #> += NativeControl_<#= ev.Name #>;
             }
             <# } #>
 
@@ -344,11 +344,13 @@ namespace <#= Namespace #>
         <# } #>
 
         protected override void OnDetachNativeEvents()
-        {
-            if (NativeControl != null)
+        {            
+            var nativeControl = NativeControl;
+
+            if (nativeControl != null)
             {
             <# foreach (var ev in Events) { #>
-            NativeControl.<#= ev.Name #> -= NativeControl_<#= ev.Name #>;
+            nativeControl.<#= ev.Name #> -= NativeControl_<#= ev.Name #>;
             <# } #>
             }
 
@@ -396,9 +398,9 @@ namespace <#= Namespace #>
         <# if (SupportItemTemplate) { #>
         protected override void OnUnmount()
         {
-            Validate.EnsureNotNull(NativeControl);
-            NativeControl.ClearValue(global::<#= FullTypeName #>.ItemsSourceProperty);
-            NativeControl.ClearValue(global::<#= FullTypeName #>.ItemTemplateProperty);
+            var nativeControl = NativeControl.EnsureNotNull();
+            nativeControl.ClearValue(global::<#= FullTypeName #>.ItemsSourceProperty);
+            nativeControl.ClearValue(global::<#= FullTypeName #>.ItemTemplateProperty);
             base.OnUnmount();
         }
         <# } #>

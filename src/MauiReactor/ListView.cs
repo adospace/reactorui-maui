@@ -66,36 +66,36 @@ public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls
     private EventCommand<EventArgs>? _executingRefreshingEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIListView = (IListView)this;
         if (thisAsIListView.ItemAppearingEvent != null)
         {
-            NativeControl.ItemAppearing += NativeControl_ItemAppearing;
+            nativeControl.ItemAppearing += NativeControl_ItemAppearing;
         }
 
         if (thisAsIListView.ItemDisappearingEvent != null)
         {
-            NativeControl.ItemDisappearing += NativeControl_ItemDisappearing;
+            nativeControl.ItemDisappearing += NativeControl_ItemDisappearing;
         }
 
         if (thisAsIListView.ItemSelectedEvent != null)
         {
-            NativeControl.ItemSelected += NativeControl_ItemSelected;
+            nativeControl.ItemSelected += NativeControl_ItemSelected;
         }
 
         if (thisAsIListView.ItemTappedEvent != null)
         {
-            NativeControl.ItemTapped += NativeControl_ItemTapped;
+            nativeControl.ItemTapped += NativeControl_ItemTapped;
         }
 
         if (thisAsIListView.ScrolledEvent != null)
         {
-            NativeControl.Scrolled += NativeControl_Scrolled;
+            nativeControl.Scrolled += NativeControl_Scrolled;
         }
 
         if (thisAsIListView.RefreshingEvent != null)
         {
-            NativeControl.Refreshing += NativeControl_Refreshing;
+            nativeControl.Refreshing += NativeControl_Refreshing;
         }
 
         OnAttachingNativeEvents();
@@ -164,14 +164,15 @@ public abstract partial class ListView<T> : ItemsView<T, Microsoft.Maui.Controls
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.ItemAppearing -= NativeControl_ItemAppearing;
-            NativeControl.ItemDisappearing -= NativeControl_ItemDisappearing;
-            NativeControl.ItemSelected -= NativeControl_ItemSelected;
-            NativeControl.ItemTapped -= NativeControl_ItemTapped;
-            NativeControl.Scrolled -= NativeControl_Scrolled;
-            NativeControl.Refreshing -= NativeControl_Refreshing;
+            nativeControl.ItemAppearing -= NativeControl_ItemAppearing;
+            nativeControl.ItemDisappearing -= NativeControl_ItemDisappearing;
+            nativeControl.ItemSelected -= NativeControl_ItemSelected;
+            nativeControl.ItemTapped -= NativeControl_ItemTapped;
+            nativeControl.Scrolled -= NativeControl_Scrolled;
+            nativeControl.Refreshing -= NativeControl_Refreshing;
         }
 
         OnDetachingNativeEvents();

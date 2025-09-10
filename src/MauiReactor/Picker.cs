@@ -41,11 +41,11 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
     private EventCommand<EventArgs>? _executingSelectedIndexChangedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIPicker = (IPicker)this;
         if (thisAsIPicker.SelectedIndexChangedEvent != null)
         {
-            NativeControl.SelectedIndexChanged += NativeControl_SelectedIndexChanged;
+            nativeControl.SelectedIndexChanged += NativeControl_SelectedIndexChanged;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.SelectedIndexChanged -= NativeControl_SelectedIndexChanged;
+            nativeControl.SelectedIndexChanged -= NativeControl_SelectedIndexChanged;
         }
 
         OnDetachingNativeEvents();

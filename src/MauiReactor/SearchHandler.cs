@@ -46,16 +46,16 @@ public partial class SearchHandler<T> : VisualNode<T>, ISearchHandler where T : 
     private EventCommand<EventArgs>? _executingUnfocusedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsISearchHandler = (ISearchHandler)this;
         if (thisAsISearchHandler.FocusedEvent != null)
         {
-            NativeControl.Focused += NativeControl_Focused;
+            nativeControl.Focused += NativeControl_Focused;
         }
 
         if (thisAsISearchHandler.UnfocusedEvent != null)
         {
-            NativeControl.Unfocused += NativeControl_Unfocused;
+            nativeControl.Unfocused += NativeControl_Unfocused;
         }
 
         OnAttachingNativeEvents();
@@ -84,10 +84,11 @@ public partial class SearchHandler<T> : VisualNode<T>, ISearchHandler where T : 
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Focused -= NativeControl_Focused;
-            NativeControl.Unfocused -= NativeControl_Unfocused;
+            nativeControl.Focused -= NativeControl_Focused;
+            nativeControl.Unfocused -= NativeControl_Unfocused;
         }
 
         OnDetachingNativeEvents();

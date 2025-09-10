@@ -46,16 +46,16 @@ public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Mic
     private EventCommand<PositionChangedEventArgs>? _executingPositionChangedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsICarouselView = (ICarouselView)this;
         if (thisAsICarouselView.CurrentItemChangedEvent != null)
         {
-            NativeControl.CurrentItemChanged += NativeControl_CurrentItemChanged;
+            nativeControl.CurrentItemChanged += NativeControl_CurrentItemChanged;
         }
 
         if (thisAsICarouselView.PositionChangedEvent != null)
         {
-            NativeControl.PositionChanged += NativeControl_PositionChanged;
+            nativeControl.PositionChanged += NativeControl_PositionChanged;
         }
 
         OnAttachingNativeEvents();
@@ -84,10 +84,11 @@ public partial class CarouselView<T> : ItemsView<T>, ICarouselView where T : Mic
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.CurrentItemChanged -= NativeControl_CurrentItemChanged;
-            NativeControl.PositionChanged -= NativeControl_PositionChanged;
+            nativeControl.CurrentItemChanged -= NativeControl_CurrentItemChanged;
+            nativeControl.PositionChanged -= NativeControl_PositionChanged;
         }
 
         OnDetachingNativeEvents();

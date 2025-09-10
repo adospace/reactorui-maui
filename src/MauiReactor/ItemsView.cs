@@ -51,21 +51,21 @@ public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Micro
     private EventCommand<EventArgs>? _executingRemainingItemsThresholdReachedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIItemsView = (IItemsView)this;
         if (thisAsIItemsView.ScrollToRequestedEvent != null)
         {
-            NativeControl.ScrollToRequested += NativeControl_ScrollToRequested;
+            nativeControl.ScrollToRequested += NativeControl_ScrollToRequested;
         }
 
         if (thisAsIItemsView.ScrolledEvent != null)
         {
-            NativeControl.Scrolled += NativeControl_Scrolled;
+            nativeControl.Scrolled += NativeControl_Scrolled;
         }
 
         if (thisAsIItemsView.RemainingItemsThresholdReachedEvent != null)
         {
-            NativeControl.RemainingItemsThresholdReached += NativeControl_RemainingItemsThresholdReached;
+            nativeControl.RemainingItemsThresholdReached += NativeControl_RemainingItemsThresholdReached;
         }
 
         OnAttachingNativeEvents();
@@ -104,11 +104,12 @@ public abstract partial class ItemsView<T> : View<T>, IItemsView where T : Micro
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.ScrollToRequested -= NativeControl_ScrollToRequested;
-            NativeControl.Scrolled -= NativeControl_Scrolled;
-            NativeControl.RemainingItemsThresholdReached -= NativeControl_RemainingItemsThresholdReached;
+            nativeControl.ScrollToRequested -= NativeControl_ScrollToRequested;
+            nativeControl.Scrolled -= NativeControl_Scrolled;
+            nativeControl.RemainingItemsThresholdReached -= NativeControl_RemainingItemsThresholdReached;
         }
 
         OnDetachingNativeEvents();

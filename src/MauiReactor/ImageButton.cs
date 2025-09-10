@@ -51,21 +51,21 @@ public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.
     private EventCommand<EventArgs>? _executingReleasedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIImageButton = (IImageButton)this;
         if (thisAsIImageButton.ClickedEvent != null)
         {
-            NativeControl.Clicked += NativeControl_Clicked;
+            nativeControl.Clicked += NativeControl_Clicked;
         }
 
         if (thisAsIImageButton.PressedEvent != null)
         {
-            NativeControl.Pressed += NativeControl_Pressed;
+            nativeControl.Pressed += NativeControl_Pressed;
         }
 
         if (thisAsIImageButton.ReleasedEvent != null)
         {
-            NativeControl.Released += NativeControl_Released;
+            nativeControl.Released += NativeControl_Released;
         }
 
         OnAttachingNativeEvents();
@@ -104,11 +104,12 @@ public partial class ImageButton<T> : View<T>, IImageButton where T : Microsoft.
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Clicked -= NativeControl_Clicked;
-            NativeControl.Pressed -= NativeControl_Pressed;
-            NativeControl.Released -= NativeControl_Released;
+            nativeControl.Clicked -= NativeControl_Clicked;
+            nativeControl.Pressed -= NativeControl_Pressed;
+            nativeControl.Released -= NativeControl_Released;
         }
 
         OnDetachingNativeEvents();

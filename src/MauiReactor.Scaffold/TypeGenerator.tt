@@ -98,11 +98,11 @@ public abstract partial class <#= TypeName() #><T> : <#= BaseTypeName() #><T>, <
         OnBeginUpdate();
         <# if (Properties.Any()) { #>
 
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAs<#= InterfaceName() #> = (<#= InterfaceName() #>)this;
         <# foreach (var property in Properties) { #>
         <# if (IsGenericType()) { #>
-        SetPropertyValue(NativeControl, <#= FullTypeName() #><TChild>.<#= property.Name #>Property, thisAs<#= InterfaceName() #>.<#= property.Name #>);
+        SetPropertyValue(nativeControl, <#= FullTypeName() #><TChild>.<#= property.Name #>Property, thisAs<#= InterfaceName() #>.<#= property.Name #>);
         <# } #>
         <# } #>
 
@@ -143,13 +143,13 @@ public abstract partial class <#= TypeName() #><T> : <#= BaseTypeName() #><T>, <
 
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
 
         var thisAs<#= InterfaceName() #> = (<#= InterfaceName() #>)this;
         <# foreach (var ev in Events) { #>
         if (thisAs<#= InterfaceName() #>.<#= ev.Name #>Event != null)
         {
-            NativeControl.<#= ev.Name #> += NativeControl_<#= ev.Name #>;
+            nativeControl.<#= ev.Name #> += NativeControl_<#= ev.Name #>;
         }
         <# } #>
 
@@ -174,10 +174,11 @@ public abstract partial class <#= TypeName() #><T> : <#= BaseTypeName() #><T>, <
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
         <# foreach (var ev in Events) { #>
-        NativeControl.<#= ev.Name #> -= NativeControl_<#= ev.Name #>;
+        nativeControl.<#= ev.Name #> -= NativeControl_<#= ev.Name #>;
         <# } #>
         }
 

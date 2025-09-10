@@ -35,9 +35,9 @@ public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage 
     protected override void OnUpdate()
     {
         OnBeginUpdate();
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIGenericMultiPage = (IGenericMultiPage)this;
-        SetPropertyValue(NativeControl, Microsoft.Maui.Controls.MultiPage<TChild>.SelectedItemProperty, thisAsIGenericMultiPage.SelectedItem);
+        SetPropertyValue(nativeControl, Microsoft.Maui.Controls.MultiPage<TChild>.SelectedItemProperty, thisAsIGenericMultiPage.SelectedItem);
         base.OnUpdate();
         OnEndUpdate();
     }
@@ -52,16 +52,16 @@ public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage 
     private EventCommand<EventArgs>? _executingPagesChangedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIGenericMultiPage = (IGenericMultiPage)this;
         if (thisAsIGenericMultiPage.CurrentPageChangedEvent != null)
         {
-            NativeControl.CurrentPageChanged += NativeControl_CurrentPageChanged;
+            nativeControl.CurrentPageChanged += NativeControl_CurrentPageChanged;
         }
 
         if (thisAsIGenericMultiPage.PagesChangedEvent != null)
         {
-            NativeControl.PagesChanged += NativeControl_PagesChanged;
+            nativeControl.PagesChanged += NativeControl_PagesChanged;
         }
 
         OnAttachingNativeEvents();
@@ -90,10 +90,11 @@ public abstract partial class MultiPage<T, TChild> : Page<T>, IGenericMultiPage 
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.CurrentPageChanged -= NativeControl_CurrentPageChanged;
-            NativeControl.PagesChanged -= NativeControl_PagesChanged;
+            nativeControl.CurrentPageChanged -= NativeControl_CurrentPageChanged;
+            nativeControl.PagesChanged -= NativeControl_PagesChanged;
         }
 
         OnDetachingNativeEvents();

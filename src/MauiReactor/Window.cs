@@ -106,76 +106,76 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
     private EventCommand<DisplayDensityChangedEventArgs>? _executingDisplayDensityChangedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIWindow = (IWindow)this;
         if (thisAsIWindow.SizeChangedEvent != null)
         {
-            NativeControl.SizeChanged += NativeControl_SizeChanged;
+            nativeControl.SizeChanged += NativeControl_SizeChanged;
         }
 
         if (thisAsIWindow.ModalPoppedEvent != null)
         {
-            NativeControl.ModalPopped += NativeControl_ModalPopped;
+            nativeControl.ModalPopped += NativeControl_ModalPopped;
         }
 
         if (thisAsIWindow.ModalPoppingEvent != null)
         {
-            NativeControl.ModalPopping += NativeControl_ModalPopping;
+            nativeControl.ModalPopping += NativeControl_ModalPopping;
         }
 
         if (thisAsIWindow.ModalPushedEvent != null)
         {
-            NativeControl.ModalPushed += NativeControl_ModalPushed;
+            nativeControl.ModalPushed += NativeControl_ModalPushed;
         }
 
         if (thisAsIWindow.ModalPushingEvent != null)
         {
-            NativeControl.ModalPushing += NativeControl_ModalPushing;
+            nativeControl.ModalPushing += NativeControl_ModalPushing;
         }
 
         if (thisAsIWindow.PopCanceledEvent != null)
         {
-            NativeControl.PopCanceled += NativeControl_PopCanceled;
+            nativeControl.PopCanceled += NativeControl_PopCanceled;
         }
 
         if (thisAsIWindow.CreatedEvent != null)
         {
-            NativeControl.Created += NativeControl_Created;
+            nativeControl.Created += NativeControl_Created;
         }
 
         if (thisAsIWindow.ResumedEvent != null)
         {
-            NativeControl.Resumed += NativeControl_Resumed;
+            nativeControl.Resumed += NativeControl_Resumed;
         }
 
         if (thisAsIWindow.ActivatedEvent != null)
         {
-            NativeControl.Activated += NativeControl_Activated;
+            nativeControl.Activated += NativeControl_Activated;
         }
 
         if (thisAsIWindow.DeactivatedEvent != null)
         {
-            NativeControl.Deactivated += NativeControl_Deactivated;
+            nativeControl.Deactivated += NativeControl_Deactivated;
         }
 
         if (thisAsIWindow.StoppedEvent != null)
         {
-            NativeControl.Stopped += NativeControl_Stopped;
+            nativeControl.Stopped += NativeControl_Stopped;
         }
 
         if (thisAsIWindow.DestroyingEvent != null)
         {
-            NativeControl.Destroying += NativeControl_Destroying;
+            nativeControl.Destroying += NativeControl_Destroying;
         }
 
         if (thisAsIWindow.BackgroundingEvent != null)
         {
-            NativeControl.Backgrounding += NativeControl_Backgrounding;
+            nativeControl.Backgrounding += NativeControl_Backgrounding;
         }
 
         if (thisAsIWindow.DisplayDensityChangedEvent != null)
         {
-            NativeControl.DisplayDensityChanged += NativeControl_DisplayDensityChanged;
+            nativeControl.DisplayDensityChanged += NativeControl_DisplayDensityChanged;
         }
 
         OnAttachingNativeEvents();
@@ -324,22 +324,23 @@ public partial class Window<T> : NavigableElement<T>, IWindow where T : Microsof
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.SizeChanged -= NativeControl_SizeChanged;
-            NativeControl.ModalPopped -= NativeControl_ModalPopped;
-            NativeControl.ModalPopping -= NativeControl_ModalPopping;
-            NativeControl.ModalPushed -= NativeControl_ModalPushed;
-            NativeControl.ModalPushing -= NativeControl_ModalPushing;
-            NativeControl.PopCanceled -= NativeControl_PopCanceled;
-            NativeControl.Created -= NativeControl_Created;
-            NativeControl.Resumed -= NativeControl_Resumed;
-            NativeControl.Activated -= NativeControl_Activated;
-            NativeControl.Deactivated -= NativeControl_Deactivated;
-            NativeControl.Stopped -= NativeControl_Stopped;
-            NativeControl.Destroying -= NativeControl_Destroying;
-            NativeControl.Backgrounding -= NativeControl_Backgrounding;
-            NativeControl.DisplayDensityChanged -= NativeControl_DisplayDensityChanged;
+            nativeControl.SizeChanged -= NativeControl_SizeChanged;
+            nativeControl.ModalPopped -= NativeControl_ModalPopped;
+            nativeControl.ModalPopping -= NativeControl_ModalPopping;
+            nativeControl.ModalPushed -= NativeControl_ModalPushed;
+            nativeControl.ModalPushing -= NativeControl_ModalPushing;
+            nativeControl.PopCanceled -= NativeControl_PopCanceled;
+            nativeControl.Created -= NativeControl_Created;
+            nativeControl.Resumed -= NativeControl_Resumed;
+            nativeControl.Activated -= NativeControl_Activated;
+            nativeControl.Deactivated -= NativeControl_Deactivated;
+            nativeControl.Stopped -= NativeControl_Stopped;
+            nativeControl.Destroying -= NativeControl_Destroying;
+            nativeControl.Backgrounding -= NativeControl_Backgrounding;
+            nativeControl.DisplayDensityChanged -= NativeControl_DisplayDensityChanged;
         }
 
         OnDetachingNativeEvents();

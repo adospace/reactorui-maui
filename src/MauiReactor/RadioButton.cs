@@ -41,11 +41,11 @@ public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : M
     private EventCommand<CheckedChangedEventArgs>? _executingCheckedChangedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIRadioButton = (IRadioButton)this;
         if (thisAsIRadioButton.CheckedChangedEvent != null)
         {
-            NativeControl.CheckedChanged += NativeControl_CheckedChanged;
+            nativeControl.CheckedChanged += NativeControl_CheckedChanged;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class RadioButton<T> : TemplatedView<T>, IRadioButton where T : M
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.CheckedChanged -= NativeControl_CheckedChanged;
+            nativeControl.CheckedChanged -= NativeControl_CheckedChanged;
         }
 
         OnDetachingNativeEvents();

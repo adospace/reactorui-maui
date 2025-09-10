@@ -46,16 +46,16 @@ public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestu
     private EventCommand<DragStartingEventArgs>? _executingDragStartingEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIDragGestureRecognizer = (IDragGestureRecognizer)this;
         if (thisAsIDragGestureRecognizer.DropCompletedEvent != null)
         {
-            NativeControl.DropCompleted += NativeControl_DropCompleted;
+            nativeControl.DropCompleted += NativeControl_DropCompleted;
         }
 
         if (thisAsIDragGestureRecognizer.DragStartingEvent != null)
         {
-            NativeControl.DragStarting += NativeControl_DragStarting;
+            nativeControl.DragStarting += NativeControl_DragStarting;
         }
 
         OnAttachingNativeEvents();
@@ -84,10 +84,11 @@ public partial class DragGestureRecognizer<T> : GestureRecognizer<T>, IDragGestu
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.DropCompleted -= NativeControl_DropCompleted;
-            NativeControl.DragStarting -= NativeControl_DragStarting;
+            nativeControl.DropCompleted -= NativeControl_DropCompleted;
+            nativeControl.DragStarting -= NativeControl_DragStarting;
         }
 
         OnDetachingNativeEvents();

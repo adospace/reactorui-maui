@@ -41,11 +41,11 @@ public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsof
     private EventCommand<EventArgs>? _executingClickedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIMenuItem = (IMenuItem)this;
         if (thisAsIMenuItem.ClickedEvent != null)
         {
-            NativeControl.Clicked += NativeControl_Clicked;
+            nativeControl.Clicked += NativeControl_Clicked;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class MenuItem<T> : BaseMenuItem<T>, IMenuItem where T : Microsof
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Clicked -= NativeControl_Clicked;
+            nativeControl.Clicked -= NativeControl_Clicked;
         }
 
         OnDetachingNativeEvents();

@@ -51,21 +51,21 @@ public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Contr
     private EventCommand<EventArgs>? _executingDragCompletedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsISlider = (ISlider)this;
         if (thisAsISlider.ValueChangedEvent != null)
         {
-            NativeControl.ValueChanged += NativeControl_ValueChanged;
+            nativeControl.ValueChanged += NativeControl_ValueChanged;
         }
 
         if (thisAsISlider.DragStartedEvent != null)
         {
-            NativeControl.DragStarted += NativeControl_DragStarted;
+            nativeControl.DragStarted += NativeControl_DragStarted;
         }
 
         if (thisAsISlider.DragCompletedEvent != null)
         {
-            NativeControl.DragCompleted += NativeControl_DragCompleted;
+            nativeControl.DragCompleted += NativeControl_DragCompleted;
         }
 
         OnAttachingNativeEvents();
@@ -104,11 +104,12 @@ public partial class Slider<T> : View<T>, ISlider where T : Microsoft.Maui.Contr
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.ValueChanged -= NativeControl_ValueChanged;
-            NativeControl.DragStarted -= NativeControl_DragStarted;
-            NativeControl.DragCompleted -= NativeControl_DragCompleted;
+            nativeControl.ValueChanged -= NativeControl_ValueChanged;
+            nativeControl.DragStarted -= NativeControl_DragStarted;
+            nativeControl.DragCompleted -= NativeControl_DragCompleted;
         }
 
         OnDetachingNativeEvents();

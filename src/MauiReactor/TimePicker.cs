@@ -41,11 +41,11 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
     private EventCommand<TimeChangedEventArgs>? _executingTimeSelectedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsITimePicker = (ITimePicker)this;
         if (thisAsITimePicker.TimeSelectedEvent != null)
         {
-            NativeControl.TimeSelected += NativeControl_TimeSelected;
+            nativeControl.TimeSelected += NativeControl_TimeSelected;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.TimeSelected -= NativeControl_TimeSelected;
+            nativeControl.TimeSelected -= NativeControl_TimeSelected;
         }
 
         OnDetachingNativeEvents();

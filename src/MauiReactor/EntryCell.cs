@@ -41,11 +41,11 @@ public partial class EntryCell<T> : Cell<T>, IEntryCell where T : Microsoft.Maui
     private EventCommand<EventArgs>? _executingCompletedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIEntryCell = (IEntryCell)this;
         if (thisAsIEntryCell.CompletedEvent != null)
         {
-            NativeControl.Completed += NativeControl_Completed;
+            nativeControl.Completed += NativeControl_Completed;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class EntryCell<T> : Cell<T>, IEntryCell where T : Microsoft.Maui
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Completed -= NativeControl_Completed;
+            nativeControl.Completed -= NativeControl_Completed;
         }
 
         OnDetachingNativeEvents();

@@ -41,11 +41,11 @@ public sealed partial class SwipeGestureRecognizer : GestureRecognizer<Microsoft
     private EventCommand<SwipedEventArgs>? _executingSwipedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsISwipeGestureRecognizer = (ISwipeGestureRecognizer)this;
         if (thisAsISwipeGestureRecognizer.SwipedEvent != null)
         {
-            NativeControl.Swiped += NativeControl_Swiped;
+            nativeControl.Swiped += NativeControl_Swiped;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public sealed partial class SwipeGestureRecognizer : GestureRecognizer<Microsoft
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Swiped -= NativeControl_Swiped;
+            nativeControl.Swiped -= NativeControl_Swiped;
         }
 
         OnDetachingNativeEvents();

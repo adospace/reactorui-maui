@@ -51,21 +51,21 @@ public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestu
     private EventCommand<DropEventArgs>? _executingDropEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIDropGestureRecognizer = (IDropGestureRecognizer)this;
         if (thisAsIDropGestureRecognizer.DragLeaveEvent != null)
         {
-            NativeControl.DragLeave += NativeControl_DragLeave;
+            nativeControl.DragLeave += NativeControl_DragLeave;
         }
 
         if (thisAsIDropGestureRecognizer.DragOverEvent != null)
         {
-            NativeControl.DragOver += NativeControl_DragOver;
+            nativeControl.DragOver += NativeControl_DragOver;
         }
 
         if (thisAsIDropGestureRecognizer.DropEvent != null)
         {
-            NativeControl.Drop += NativeControl_Drop;
+            nativeControl.Drop += NativeControl_Drop;
         }
 
         OnAttachingNativeEvents();
@@ -104,11 +104,12 @@ public partial class DropGestureRecognizer<T> : GestureRecognizer<T>, IDropGestu
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.DragLeave -= NativeControl_DragLeave;
-            NativeControl.DragOver -= NativeControl_DragOver;
-            NativeControl.Drop -= NativeControl_Drop;
+            nativeControl.DragLeave -= NativeControl_DragLeave;
+            nativeControl.DragOver -= NativeControl_DragOver;
+            nativeControl.Drop -= NativeControl_Drop;
         }
 
         OnDetachingNativeEvents();

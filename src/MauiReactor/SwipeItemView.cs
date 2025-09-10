@@ -41,11 +41,11 @@ public partial class SwipeItemView<T> : ContentView<T>, ISwipeItemView where T :
     private EventCommand<EventArgs>? _executingInvokedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsISwipeItemView = (ISwipeItemView)this;
         if (thisAsISwipeItemView.InvokedEvent != null)
         {
-            NativeControl.Invoked += NativeControl_Invoked;
+            nativeControl.Invoked += NativeControl_Invoked;
         }
 
         OnAttachingNativeEvents();
@@ -64,9 +64,10 @@ public partial class SwipeItemView<T> : ContentView<T>, ISwipeItemView where T :
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Invoked -= NativeControl_Invoked;
+            nativeControl.Invoked -= NativeControl_Invoked;
         }
 
         OnDetachingNativeEvents();

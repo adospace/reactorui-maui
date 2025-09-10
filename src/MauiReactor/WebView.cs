@@ -51,21 +51,21 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
     private EventCommand<WebViewProcessTerminatedEventArgs>? _executingProcessTerminatedEvent;
     protected override void OnAttachNativeEvents()
     {
-        Validate.EnsureNotNull(NativeControl);
+        var nativeControl = NativeControl.EnsureNotNull();
         var thisAsIWebView = (IWebView)this;
         if (thisAsIWebView.NavigatedEvent != null)
         {
-            NativeControl.Navigated += NativeControl_Navigated;
+            nativeControl.Navigated += NativeControl_Navigated;
         }
 
         if (thisAsIWebView.NavigatingEvent != null)
         {
-            NativeControl.Navigating += NativeControl_Navigating;
+            nativeControl.Navigating += NativeControl_Navigating;
         }
 
         if (thisAsIWebView.ProcessTerminatedEvent != null)
         {
-            NativeControl.ProcessTerminated += NativeControl_ProcessTerminated;
+            nativeControl.ProcessTerminated += NativeControl_ProcessTerminated;
         }
 
         OnAttachingNativeEvents();
@@ -104,11 +104,12 @@ public partial class WebView<T> : View<T>, IWebView where T : Microsoft.Maui.Con
 
     protected override void OnDetachNativeEvents()
     {
-        if (NativeControl != null)
+        var nativeControl = NativeControl;
+        if (nativeControl != null)
         {
-            NativeControl.Navigated -= NativeControl_Navigated;
-            NativeControl.Navigating -= NativeControl_Navigating;
-            NativeControl.ProcessTerminated -= NativeControl_ProcessTerminated;
+            nativeControl.Navigated -= NativeControl_Navigated;
+            nativeControl.Navigating -= NativeControl_Navigating;
+            nativeControl.ProcessTerminated -= NativeControl_ProcessTerminated;
         }
 
         OnDetachingNativeEvents();
