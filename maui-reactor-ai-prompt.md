@@ -183,27 +183,47 @@ partial class DataServiceComponent : Component
 ```
 
 #### [Param] Attribute
+A parameter is a way to automatically transfer an object from the parent component to its children down the hierarchy, up to the lower ones.
+
+Each component accessing a parameter can read and write its value freely.
+
+When a parameter is modified, all the components referencing it are automatically invalidated so that they can re-render according to the new value.
+
 ```csharp
-partial class ParameterizedComponent : Component
+class CustomParameter
 {
-    [Param]
-    string _userName = string.Empty;
-    
-    [Param]
-    int _userId = 0;
-    
-    public override VisualNode Render()
-        => ContentPage($"Welcome {_userName}",
-            VStack(
-                Label($"User ID: {_userId}"),
-                Label($"Hello, {_userName}!")
-            ));
+    public int Numeric { get; set; }
 }
 
-// Usage with parameters
-new ParameterizedComponent()
-    .UserName("John Doe")
-    .UserId(12345);
+partial class ParametersPage: Component
+{
+    [Param]
+    IParameter<CustomParameter> _customParameter;
+
+    public override VisualNode Render()
+     => ContentPage("Parameters Sample",
+        => VStack(spacing: 10,
+                Button("Increment from parent", () => _customParameter.Set(_=>_.Numeric += 1   )),
+                Label(_customParameter.Value.Numeric),
+
+                new ParameterChildComponent()
+            )
+            .Center()
+        );
+}
+
+partial class ParameterChildComponent: Component
+{
+    [Param]
+    IParameter<CustomParameter> _customParameter;
+    
+    public override VisualNode Render()
+      => VStack(spacing: 10,
+            Button("Increment from child", ()=> _customParameter.Set(_=>_.Numeric++)),
+
+            Label(customParameter.Value.Numeric)
+        );
+}
 ```
 
 ## MauiReactor.Canvas Module
@@ -373,15 +393,6 @@ class ImperativeAnimationExample : Component<ImperativeAnimationState>
                     .FontSize(24)
                     .OnTapped(OnLabelTapped)
                     .WithKey("animatedLabel"),
-                    
-                Button("Rotate", OnRotateAnimation)
-                    .Margin(10),
-                    
-                Button("Scale", OnScaleAnimation)
-                    .Margin(10),
-                    
-                Button("Fade", OnFadeAnimation)
-                    .Margin(10)
             )
             .Center()
         );
@@ -392,33 +403,6 @@ class ImperativeAnimationExample : Component<ImperativeAnimationState>
         {
             await label.RotateTo(360, 1000);
             await label.RotateTo(0, 1000);
-        }
-    }
-    
-    private async void OnRotateAnimation()
-    {
-        if (ContainerPage?.FindByName<Label>("animatedLabel") is Label label)
-        {
-            await label.RotateTo(180, 500);
-            await label.RotateTo(0, 500);
-        }
-    }
-    
-    private async void OnScaleAnimation()
-    {
-        if (ContainerPage?.FindByName<Label>("animatedLabel") is Label label)
-        {
-            await label.ScaleTo(2.0, 500);
-            await label.ScaleTo(1.0, 500);
-        }
-    }
-    
-    private async void OnFadeAnimation()
-    {
-        if (ContainerPage?.FindByName<Label>("animatedLabel") is Label label)
-        {
-            await label.FadeTo(0.0, 500);
-            await label.FadeTo(1.0, 500);
         }
     }
 }
@@ -583,38 +567,10 @@ class AppTheme : Theme
     // Color definitions
     public static Color Primary = Color.FromArgb("#512BD4");
     public static Color PrimaryDark = Color.FromArgb("#ac99ea");
-    public static Color PrimaryDarkText = Color.FromArgb("#242424");
-    public static Color Secondary = Color.FromArgb("#DFD8F7");
-    public static Color SecondaryDarkText = Color.FromArgb("#9880e5");
-    public static Color Tertiary = Color.FromArgb("#2B0B98");
-    public static Color White = Color.FromArgb("White");
-    public static Color Black = Color.FromArgb("Black");
-    public static Color Magenta = Color.FromArgb("#D600AA");
-    public static Color MidnightBlue = Color.FromArgb("#190649");
-    public static Color OffBlack = Color.FromArgb("#1f1f1f");
-    public static Color Gray100 = Color.FromArgb("#E1E1E1");
-    public static Color Gray200 = Color.FromArgb("#C8C8C8");
-    public static Color Gray300 = Color.FromArgb("#ACACAC");
-    public static Color Gray400 = Color.FromArgb("#919191");
-    public static Color Gray500 = Color.FromArgb("#6E6E6E");
-    public static Color Gray600 = Color.FromArgb("#404040");
-    public static Color Gray900 = Color.FromArgb("#212121");
-    public static Color Gray950 = Color.FromArgb("#141414");
-
+    
     // Brush definitions
     public static SolidColorBrush PrimaryBrush = new(Primary);
     public static SolidColorBrush SecondaryBrush = new(Secondary);
-    public static SolidColorBrush TertiaryBrush = new(Tertiary);
-    public static SolidColorBrush WhiteBrush = new(White);
-    public static SolidColorBrush BlackBrush = new(Black);
-    public static SolidColorBrush Gray100Brush = new(Gray100);
-    public static SolidColorBrush Gray200Brush = new(Gray200);
-    public static SolidColorBrush Gray300Brush = new(Gray300);
-    public static SolidColorBrush Gray400Brush = new(Gray400);
-    public static SolidColorBrush Gray500Brush = new(Gray500);
-    public static SolidColorBrush Gray600Brush = new(Gray600);
-    public static SolidColorBrush Gray900Brush = new(Gray900);
-    public static SolidColorBrush Gray950Brush = new(Gray950);
 
     // Theme detection
     private static bool LightTheme => Application.Current?.UserAppTheme == Microsoft.Maui.ApplicationModel.AppTheme.Light;
@@ -646,27 +602,6 @@ class AppTheme : Theme
             .MinimumWidthRequest(44)
             .VisualState("CommonStates", "Disabled", MauiControls.Button.TextColorProperty, LightTheme ? Gray950 : Gray200)
             .VisualState("CommonStates", "Disabled", MauiControls.Button.BackgroundColorProperty, LightTheme ? Gray200 : Gray600);
-
-        // Label styles
-        LabelStyles.Default = _ => _
-            .TextColor(LightTheme ? Black : White)
-            .FontFamily("OpenSansRegular")
-            .FontSize(14)
-            .VisualState("CommonStates", "Disabled", MauiControls.Label.TextColorProperty, LightTheme ? Gray300 : Gray600);
-
-        // ContentPage styles
-        ContentPageStyles.Default = _ => _
-            .BackgroundColor(IsDarkTheme ? OffBlack : White);
-
-        // Entry styles
-        EntryStyles.Default = _ => _
-            .TextColor(LightTheme ? Black : White)
-            .BackgroundColor(LightTheme ? Gray100 : Gray600)
-            .PlaceholderColor(LightTheme ? Gray500 : Gray300)
-            .FontFamily("OpenSansRegular")
-            .FontSize(14)
-            .Padding(12, 8)
-            .CornerRadius(6);
     }
 }
 ```
@@ -697,44 +632,6 @@ class AppTheme : Theme
             .FontSize(24)
             .FontAttributes(FontAttributes.Bold)
             .TextColor(LightTheme ? Primary : PrimaryDark);
-
-        // Subtitle selector
-        LabelStyles.Themes[Subtitle] = _ => _
-            .FontSize(18)
-            .FontAttributes(FontAttributes.Bold)
-            .TextColor(LightTheme ? Gray600 : Gray300);
-
-        // Button selectors
-        ButtonStyles.Themes[PrimaryButton] = _ => _
-            .BackgroundColor(Primary)
-            .TextColor(White)
-            .FontSize(16)
-            .FontAttributes(FontAttributes.Bold)
-            .CornerRadius(8)
-            .Padding(16, 12);
-
-        ButtonStyles.Themes[SecondaryButton] = _ => _
-            .BackgroundColor(Secondary)
-            .TextColor(Primary)
-            .FontSize(16)
-            .CornerRadius(8)
-            .Padding(16, 12);
-
-        ButtonStyles.Themes[DangerButton] = _ => _
-            .BackgroundColor(Colors.Red)
-            .TextColor(White)
-            .FontSize(16)
-            .FontAttributes(FontAttributes.Bold)
-            .CornerRadius(8)
-            .Padding(16, 12);
-
-        // Card selector
-        FrameStyles.Themes[Card] = _ => _
-            .BackgroundColor(LightTheme ? White : Gray900)
-            .CornerRadius(12)
-            .Padding(16)
-            .Margin(8)
-            .HasShadow(true);
     }
 }
 ```
@@ -745,29 +642,7 @@ class ThemedPage : Component
 {
     public override VisualNode Render()
         => ContentPage("Themed App",
-            VStack(
-                // Using theme selectors
-                Label("Welcome to MauiReactor")
-                    .ThemeKey(AppTheme.Title),
-                    
-                Label("A powerful UI framework")
-                    .ThemeKey(AppTheme.Subtitle),
-                    
-                VStack(
-                    Button("Primary Action")
-                        .ThemeKey(AppTheme.PrimaryButton)
-                        .OnClicked(OnPrimaryAction),
-                        
-                    Button("Secondary Action")
-                        .ThemeKey(AppTheme.SecondaryButton)
-                        .OnClicked(OnSecondaryAction),
-                        
-                    Button("Delete Item")
-                        .ThemeKey(AppTheme.DangerButton)
-                        .OnClicked(OnDeleteAction)
-                )
-                .Spacing(12),
-                
+            VStack(                
                 // Card with theme
                 Frame(
                     VStack(
@@ -820,33 +695,6 @@ class ThemeTogglePage : Component
             .Padding(20)
         );
 }
-```
-
-#### XAML Theme Integration
-```xml
-<!-- Resources/Styles/DefaultTheme.xaml -->
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
-    <Color x:Key="Primary">#512BD4</Color>
-    <Color x:Key="PrimaryDark">#ac99ea</Color>
-    <Color x:Key="Secondary">#DFD8F7</Color>
-    
-    <Style TargetType="Label">
-        <Setter Property="TextColor" Value="{DynamicResource Primary}" />
-        <Setter Property="FontFamily" Value="OpenSansRegular" />
-        <Setter Property="FontSize" Value="14" />
-    </Style>
-    
-    <Style TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{DynamicResource Primary}" />
-        <Setter Property="TextColor" Value="White" />
-        <Setter Property="FontFamily" Value="OpenSansRegular" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="CornerRadius" Value="8" />
-    </Style>
-    
-</ResourceDictionary>
 ```
 
 #### Third-Party Control Theming
