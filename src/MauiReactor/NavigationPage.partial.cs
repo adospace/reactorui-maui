@@ -16,26 +16,29 @@ public partial class NavigationPage<T>
 
     protected override void OnMount()
     {
-        //base.OnMount();
+        if (_nativeControl != null)
+        {
+            base.OnMount();
+        }
     }
 
     protected override void OnAddChild(VisualNode widget, BindableObject childControl)
     {
-        //Validate.EnsureNotNull(NativeControl);
-
-        if (childControl is Microsoft.Maui.Controls.Page page)
+        if (_nativeControl == null)
         {
-            _nativeControl = (T)(Activator.CreateInstance(typeof(T), page) ?? throw new InvalidOperationException($"Unable to create type '{typeof(T)}'"));
-            base.OnMount();
-            OnUpdate();
-            //NativeControl.PushAsync(page);
+            if (childControl is Microsoft.Maui.Controls.Page page)
+            {
+                _nativeControl = (T)(Activator.CreateInstance(typeof(T), page) ?? throw new InvalidOperationException($"Unable to create type '{typeof(T)}'"));
+                base.OnMount();
+                OnUpdate();                
+            }
         }
 
         base.OnAddChild(widget, childControl);
     }
 
-    protected override void MergeWith(VisualNode newNode)
-    {
-        this.Unmount();
-    }
+    //protected override void MergeWith(VisualNode newNode)
+    //{
+    //    this.Unmount();
+    //}
 }
