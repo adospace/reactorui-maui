@@ -82,6 +82,7 @@ public partial class ScaffoldTypeGenerator
             .Where(_ => !_.Name.Contains('.'))
             .Where(_ => (_.ContainingType is INamedTypeSymbol namedTypeSymbol) && namedTypeSymbol.GetFullyQualifiedName() == typeToScaffold.GetFullyQualifiedName())
             .Where(_ => !_.GetAttributes().Any(_ => _.AttributeClass.EnsureNotNull().Equals(editorBrowsableAttribute, SymbolEqualityComparer.Default)))
+            .Where(_=> ((IMethodSymbol)_.Type.GetMembers().First(_ => _.Name == "Invoke")).Parameters.Length <= 2)
             .GroupBy(_ => _.Name, StringComparer.OrdinalIgnoreCase)
             .Select(_ => _.First())
             .OrderBy(_ => _.Name)
@@ -272,7 +273,7 @@ public partial class ScaffoldTypeGenerator
             return $"private void NativeControl_{ev.Name}(global::{invokeMember.Parameters[0].Type.GetFullyQualifiedName()} sender)";
         }
 
-        return $"private void NativeControl_{ev.Name}({invokeMember.Parameters[0].Type.GetFullyQualifiedName()} sender, global::{invokeMember.Parameters[1].Type.GetFullyQualifiedName()} e)";
+        return $"private void NativeControl_{ev.Name}(global::{invokeMember.Parameters[0].Type.GetFullyQualifiedName()} sender, global::{invokeMember.Parameters[1].Type.GetFullyQualifiedName()} e)";
     }
 
     private string GetDelegateInvokeDescriptor(IEventSymbol ev)
