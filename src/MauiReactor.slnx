@@ -1,0 +1,64 @@
+<Solution>
+  <Folder Name="/Samples/">
+    <Project Path="../samples/Calculator/Calculator.csproj">
+      <Deploy />
+    </Project>
+    <Project Path="../samples/ChartApp/ChartApp.csproj" />
+    <Project Path="../samples/Contentics/Contentics.csproj">
+      <Deploy />
+    </Project>
+    <Project Path="../samples/IntegrationTest/IntegrationTest.csproj">
+      <Deploy />
+    </Project>
+    <Project Path="../samples/MauiReactor.Calendar/MauiReactor.Calendar.csproj">
+      <Deploy />
+    </Project>
+    <Project Path="../samples/MauiReactor.MapsDemo/MauiReactor.MapsDemo.csproj">
+      <Deploy />
+    </Project>
+    <Project Path="../samples/MauiReactor.TestAot/MauiReactor.TestAot.csproj" />
+    <Project Path="../samples/MauiReactor.TestApp/MauiReactor.TestApp.csproj">
+      <Deploy />
+    </Project>
+    <Project Path="../samples/MauiReactor.TestAppWindow/MauiReactor.TestAppWindow.csproj">
+      <Deploy />
+    </Project>
+    <Project Path="../samples/MauiReactor.WeatherTwentyOne/MauiReactor.WeatherTwentyOne.csproj">
+      <Deploy />
+    </Project>
+    <Project Path="../samples/SlidingPuzzle/SlidingPuzzle.csproj">
+      <Deploy />
+    </Project>
+    <Project Path="../samples/UnitTests/UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="../.github/workflows/build-deploy-beta.yml" />
+    <File Path="../.github/workflows/build-deploy.yml" />
+  </Folder>
+  <Folder Name="/Templates/">
+    <Project Path="../templates/MauiReactorTemplate.Startup/MauiReactorTemplate.Startup.csproj">
+      <Deploy Solution="Debug|*" />
+    </Project>
+    <Project Path="../templates/MauiReactorTemplate.StartupSampleXaml/MauiReactorTemplate.StartupSampleXaml.csproj">
+      <Deploy />
+    </Project>
+    <Project Path="../templates/MauiReactorTemplate.StartupXaml/MauiReactorTemplate.StartupXaml.csproj">
+      <Deploy Solution="Debug|*" />
+    </Project>
+  </Folder>
+  <Project Path="MauiReactor.Blazor.TestApp/MauiReactor.Blazor.TestApp.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="MauiReactor.Blazor/MauiReactor.Blazor.csproj" />
+  <Project Path="MauiReactor.Canvas/MauiReactor.Canvas.csproj" />
+  <Project Path="MauiReactor.FigmaPlugin.Services/MauiReactor.FigmaPlugin.Services.csproj" />
+  <Project Path="MauiReactor.FigmaPlugin/MauiReactor.FigmaPlugin.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="MauiReactor.HotReloadConsole/MauiReactor.HotReloadConsole.csproj" />
+  <Project Path="MauiReactor.Maps/MauiReactor.Maps.csproj" />
+  <Project Path="MauiReactor.Scaffold/MauiReactor.Scaffold.csproj" />
+  <Project Path="MauiReactor.ScaffoldGenerator/MauiReactor.ScaffoldGenerator.csproj" />
+  <Project Path="MauiReactor.TemplatePack/MauiReactor.TemplatePack.csproj" />
+  <Project Path="MauiReactor/MauiReactor.csproj" />
+</Solution>

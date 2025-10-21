@@ -3,7 +3,7 @@ name: MauiReactor
 
 on:
   push:
-    branches: [ "beta-3-net9-1" ]
+    branches: [ "beta-4-net10" ]
 
 jobs:
 
@@ -16,7 +16,7 @@ jobs:
       Solution_Name: ./src/MauiReactor.Build.sln
       Test_Project: ./samples/UnitTests/UnitTests.csproj
       TemplatePack_Name: ./src/MauiReactor.TemplatePack/MauiReactor.TemplatePack.csproj
-      Version: 3.0.15-beta
+      Version: 4.0.1-beta
 
     steps:
     - name: Checkout
