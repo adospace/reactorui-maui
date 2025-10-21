@@ -270,10 +270,10 @@ public partial class ScaffoldTypeGenerator
         var invokeMember = (IMethodSymbol)ev.Type.GetMembers().First(_ => _.Name == "Invoke");
         if (invokeMember.Parameters.Length == 1)
         {
-            return $"private void NativeControl_{ev.Name}(global::{invokeMember.Parameters[0].Type.GetFullyQualifiedName()} sender)";
+            return $"private void NativeControl_{ev.Name}({invokeMember.Parameters[0].Type.GetFullyQualifiedName()} sender)";
         }
 
-        return $"private void NativeControl_{ev.Name}(global::{invokeMember.Parameters[0].Type.GetFullyQualifiedName()} sender, global::{invokeMember.Parameters[1].Type.GetFullyQualifiedName()} e)";
+        return $"private void NativeControl_{ev.Name}({invokeMember.Parameters[0].Type.GetFullyQualifiedName()} sender, global::{invokeMember.Parameters[1].Type.GetFullyQualifiedName()} e)";
     }
 
     private string GetDelegateInvokeDescriptor(IEventSymbol ev)
