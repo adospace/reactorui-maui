@@ -151,6 +151,79 @@ public static partial class ScrollViewExtensions
         return scrollView;
     }
 
+    public static T SafeAreaEdges<T>(this T scrollView, Microsoft.Maui.SafeAreaEdges safeAreaEdges)
+        where T : IScrollView
+    {
+        //scrollView.SafeAreaEdges = safeAreaEdges;
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.SafeAreaEdgesProperty, safeAreaEdges);
+        return scrollView;
+    }
+
+    public static T SafeAreaEdges<T>(this T scrollView, Func<Microsoft.Maui.SafeAreaEdges> safeAreaEdgesFunc, IComponentWithState? componentWithState = null)
+        where T : IScrollView
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.SafeAreaEdgesProperty, new PropertyValue<Microsoft.Maui.SafeAreaEdges>(safeAreaEdgesFunc, componentWithState));
+        return scrollView;
+    }
+
+    public static T CascadeInputTransparent<T>(this T scrollView, bool cascadeInputTransparent)
+        where T : IScrollView
+    {
+        //scrollView.CascadeInputTransparent = cascadeInputTransparent;
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.CascadeInputTransparentProperty, cascadeInputTransparent);
+        return scrollView;
+    }
+
+    public static T CascadeInputTransparent<T>(this T scrollView, Func<bool> cascadeInputTransparentFunc, IComponentWithState? componentWithState = null)
+        where T : IScrollView
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.CascadeInputTransparentProperty, new PropertyValue<bool>(cascadeInputTransparentFunc, componentWithState));
+        return scrollView;
+    }
+
+    public static T Padding<T>(this T scrollView, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
+        where T : IScrollView
+    {
+        //scrollView.Padding = padding;
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.PaddingProperty, padding);
+        scrollView.AppendAnimatable(Microsoft.Maui.Controls.ScrollView.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding));
+        return scrollView;
+    }
+
+    public static T Padding<T>(this T scrollView, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
+        where T : IScrollView
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
+        return scrollView;
+    }
+
+    public static T Padding<T>(this T scrollView, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
+        where T : IScrollView
+    {
+        //scrollView.Padding = new Thickness(leftRight, topBottom);
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.PaddingProperty, new Thickness(leftRight, topBottom));
+        scrollView.AppendAnimatable(Microsoft.Maui.Controls.ScrollView.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)));
+        return scrollView;
+    }
+
+    public static T Padding<T>(this T scrollView, double uniformSize, RxThicknessAnimation? customAnimation = null)
+        where T : IScrollView
+    {
+        //scrollView.Padding = new Thickness(uniformSize);
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.PaddingProperty, new Thickness(uniformSize));
+        scrollView.AppendAnimatable(Microsoft.Maui.Controls.ScrollView.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)));
+        return scrollView;
+    }
+
+    public static T Padding<T>(this T scrollView, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
+        where T : IScrollView
+    {
+        //scrollView.Padding = new Thickness(left, top, right, bottom);
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.PaddingProperty, new Thickness(left, top, right, bottom));
+        scrollView.AppendAnimatable(Microsoft.Maui.Controls.ScrollView.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)));
+        return scrollView;
+    }
+
     public static T OnScrolled<T>(this T scrollView, Action? scrolledAction)
         where T : IScrollView
     {

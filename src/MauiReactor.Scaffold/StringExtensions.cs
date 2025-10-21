@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace MauiReactor.Scaffold
@@ -36,9 +37,17 @@ namespace MauiReactor.Scaffold
             };
         }
 
-        public static string ToResevedWordFullTypeName(this string fulltypename)
+        public static string ToResevedWordFullTypeName(this Type type)
         {
-            return fulltypename switch
+            if (type.IsGenericType &&
+                Nullable.GetUnderlyingType(type) != null)
+            {
+                return $"System.Nullable<{ToResevedWordFullTypeName(Nullable.GetUnderlyingType(type)!)}>";
+            }
+
+            var fulltTypeName = type.FullName ?? type.Name;
+
+            return fulltTypeName switch
             {
                 "System.SByte" => "sbyte",
                 "System.Byte" => "byte",
@@ -55,7 +64,7 @@ namespace MauiReactor.Scaffold
                 "System.Decimal" => "decimal",
                 "System.String" => "string",
                 "System.Object" => "object?",
-                _ => fulltypename.Replace('+', '.'),
+                _ => fulltTypeName.Replace('+', '.'),
             };
         }
 

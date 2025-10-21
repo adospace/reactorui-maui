@@ -12,8 +12,6 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial interface IPage : IVisualElement
 {
-    EventCommand<EventArgs>? LayoutChangedEvent { get; set; }
-
     EventCommand<EventArgs>? AppearingEvent { get; set; }
 
     EventCommand<EventArgs>? DisappearingEvent { get; set; }
@@ -31,8 +29,6 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
     {
         PageStyles.Default?.Invoke(this);
     }
-
-    EventCommand<EventArgs>? IPage.LayoutChangedEvent { get; set; }
 
     EventCommand<EventArgs>? IPage.AppearingEvent { get; set; }
 
@@ -58,7 +54,6 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
 
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
-    private EventCommand<EventArgs>? _executingLayoutChangedEvent;
     private EventCommand<EventArgs>? _executingAppearingEvent;
     private EventCommand<EventArgs>? _executingDisappearingEvent;
     private EventCommand<NavigatedToEventArgs>? _executingNavigatedToEvent;
@@ -68,11 +63,6 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
     {
         Validate.EnsureNotNull(NativeControl);
         var thisAsIPage = (IPage)this;
-        if (thisAsIPage.LayoutChangedEvent != null)
-        {
-            NativeControl.LayoutChanged += NativeControl_LayoutChanged;
-        }
-
         if (thisAsIPage.AppearingEvent != null)
         {
             NativeControl.Appearing += NativeControl_Appearing;
@@ -100,16 +90,6 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
 
         OnAttachingNativeEvents();
         base.OnAttachNativeEvents();
-    }
-
-    private void NativeControl_LayoutChanged(object? sender, EventArgs e)
-    {
-        var thisAsIPage = (IPage)this;
-        if (_executingLayoutChangedEvent == null || _executingLayoutChangedEvent.IsCompleted)
-        {
-            _executingLayoutChangedEvent = thisAsIPage.LayoutChangedEvent;
-            _executingLayoutChangedEvent?.Execute(sender, e);
-        }
     }
 
     private void NativeControl_Appearing(object? sender, EventArgs e)
@@ -166,7 +146,6 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
     {
         if (NativeControl != null)
         {
-            NativeControl.LayoutChanged -= NativeControl_LayoutChanged;
             NativeControl.Appearing -= NativeControl_Appearing;
             NativeControl.Disappearing -= NativeControl_Disappearing;
             NativeControl.NavigatedTo -= NativeControl_NavigatedTo;
@@ -183,11 +162,6 @@ public partial class Page<T> : VisualElement<T>, IPage where T : Microsoft.Maui.
     {
         if (newNode is Page<T> @page)
         {
-            if (_executingLayoutChangedEvent != null && !_executingLayoutChangedEvent.IsCompleted)
-            {
-                @page._executingLayoutChangedEvent = _executingLayoutChangedEvent;
-            }
-
             if (_executingAppearingEvent != null && !_executingAppearingEvent.IsCompleted)
             {
                 @page._executingAppearingEvent = _executingAppearingEvent;
@@ -311,6 +285,7 @@ public static partial class PageExtensions
         return page;
     }
 
+    [Obsolete("Page.IsBusy has been deprecated and will be removed in .NET 11")]
     public static T IsBusy<T>(this T page, bool isBusy)
         where T : IPage
     {
@@ -319,6 +294,7 @@ public static partial class PageExtensions
         return page;
     }
 
+    [Obsolete("Page.IsBusy has been deprecated and will be removed in .NET 11")]
     public static T IsBusy<T>(this T page, Func<bool> isBusyFunc, IComponentWithState? componentWithState = null)
         where T : IPage
     {
@@ -456,48 +432,6 @@ public static partial class PageExtensions
     {
         //page.IconImageSource = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);
         page.SetProperty(Microsoft.Maui.Controls.Page.IconImageSourceProperty, Microsoft.Maui.Controls.ImageSource.FromStream(imageStream));
-        return page;
-    }
-
-    public static T OnLayoutChanged<T>(this T page, Action? layoutChangedAction)
-        where T : IPage
-    {
-        page.LayoutChangedEvent = new SyncEventCommand<EventArgs>(execute: layoutChangedAction);
-        return page;
-    }
-
-    public static T OnLayoutChanged<T>(this T page, Action<EventArgs>? layoutChangedAction)
-        where T : IPage
-    {
-        page.LayoutChangedEvent = new SyncEventCommand<EventArgs>(executeWithArgs: layoutChangedAction);
-        return page;
-    }
-
-    public static T OnLayoutChanged<T>(this T page, Action<object?, EventArgs>? layoutChangedAction)
-        where T : IPage
-    {
-        page.LayoutChangedEvent = new SyncEventCommand<EventArgs>(executeWithFullArgs: layoutChangedAction);
-        return page;
-    }
-
-    public static T OnLayoutChanged<T>(this T page, Func<Task>? layoutChangedAction, bool runInBackground = false)
-        where T : IPage
-    {
-        page.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(execute: layoutChangedAction, runInBackground);
-        return page;
-    }
-
-    public static T OnLayoutChanged<T>(this T page, Func<EventArgs, Task>? layoutChangedAction, bool runInBackground = false)
-        where T : IPage
-    {
-        page.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(executeWithArgs: layoutChangedAction, runInBackground);
-        return page;
-    }
-
-    public static T OnLayoutChanged<T>(this T page, Func<object?, EventArgs, Task>? layoutChangedAction, bool runInBackground = false)
-        where T : IPage
-    {
-        page.LayoutChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: layoutChangedAction, runInBackground);
         return page;
     }
 

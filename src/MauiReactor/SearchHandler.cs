@@ -576,6 +576,7 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    [Obsolete("Use ItemTemplate instead.")]
     public static T DisplayMemberName<T>(this T searchHandler, string displayMemberName)
         where T : ISearchHandler
     {
@@ -584,6 +585,7 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    [Obsolete("Use ItemTemplate instead.")]
     public static T DisplayMemberName<T>(this T searchHandler, Func<string> displayMemberNameFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
     {

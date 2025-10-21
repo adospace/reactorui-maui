@@ -236,7 +236,8 @@ public static partial class <#= TypeName() #>Extensions
 {
     <# foreach (var property in Properties) { #>
     <# if (property.PropertyType == typeof(double)) { #>
-    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, <#= property.PropertyType.FullName.ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxDoubleAnimation? customAnimation = null) where T : <#= InterfaceName() #>
+    <#= GetObsoleteAttribute(property) #>
+    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, <#= property.PropertyType.ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxDoubleAnimation? customAnimation = null) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
         <# if (IsGenericType()) { #>
@@ -249,7 +250,8 @@ public static partial class <#= TypeName() #>Extensions
     }        
     <# } else if (property.PropertyType == typeof(Rect)) { #>
 
-    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, <#= property.PropertyType.FullName.ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxRectAnimation? customAnimation = null) where T : <#= InterfaceName() #>
+    <#= GetObsoleteAttribute(property) #>
+    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, <#= property.PropertyType.ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxRectAnimation? customAnimation = null) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
         <# if (IsGenericType()) { #>
@@ -262,7 +264,8 @@ public static partial class <#= TypeName() #>Extensions
     }        
     <# } else if (property.PropertyType == typeof(Point)) { #>
 
-    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, <#= property.PropertyType.FullName.ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxPointAnimation? customAnimation = null) where T : <#= InterfaceName() #>
+    <#= GetObsoleteAttribute(property) #>
+    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, <#= property.PropertyType.ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxPointAnimation? customAnimation = null) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
         <# if (IsGenericType()) { #>
@@ -275,7 +278,8 @@ public static partial class <#= TypeName() #>Extensions
     }        
     <# } else if (property.PropertyType == typeof(Thickness)) { #>
         
-    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, <#= property.PropertyType.FullName.ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName() #>
+    <#= GetObsoleteAttribute(property) #>
+    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, <#= property.PropertyType.ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
         <# if (IsGenericType()) { #>
@@ -287,7 +291,8 @@ public static partial class <#= TypeName() #>Extensions
         return <#= TypeName().ToLocalVariableName() #>;
     }          
     <# } else if (property.PropertyType == typeof(CornerRadius)) { #>
-    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, <#= property.PropertyType.FullName.ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxCornerRadiusAnimation? customAnimation = null) where T : <#= InterfaceName() #>
+    <#= GetObsoleteAttribute(property) #>
+    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, <#= property.PropertyType.ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>, RxCornerRadiusAnimation? customAnimation = null) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
         <# if (IsGenericType()) { #>
@@ -299,7 +304,8 @@ public static partial class <#= TypeName() #>Extensions
         return <#= TypeName().ToLocalVariableName() #>;
     }      
     <# } else { #>
-    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, <#= property.PropertyType.FullName.ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>) where T : <#= InterfaceName() #>
+    <#= GetObsoleteAttribute(property) #>
+    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, <#= property.PropertyType.ToResevedWordFullTypeName() #> <#= property.Name.CamelCase() #>) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = <#= property.Name.CamelCase() #>;
         <# if (IsGenericType()) { #>
@@ -311,16 +317,18 @@ public static partial class <#= TypeName() #>Extensions
     }       
     <# } #>
 
-    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, Func<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>> <#= property.Name.CamelCase() #>Func, IComponentWithState? componentWithState = null) where T : <#= InterfaceName() #>
+    <#= GetObsoleteAttribute(property) #>
+    public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, Func<<#= property.PropertyType.ToResevedWordFullTypeName() #>> <#= property.Name.CamelCase() #>Func, IComponentWithState? componentWithState = null) where T : <#= InterfaceName() #>
     {
         <# if (IsGenericType()) { #>
-        <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func, componentWithState);
+        <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func, componentWithState);
         <# } else { #>
-        <#= TypeName().ToLocalVariableName() #>.SetProperty(<#= FullTypeName() #>.<#= property.Name #>Property, new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func, componentWithState));
+        <#= TypeName().ToLocalVariableName() #>.SetProperty(<#= FullTypeName() #>.<#= property.Name #>Property, new PropertyValue<<#= property.PropertyType.ToResevedWordFullTypeName() #>>(<#= property.Name.CamelCase() #>Func, componentWithState));
         <# } #>
         return <#= TypeName().ToLocalVariableName() #>;
     }
     <# if (property.PropertyType.Name == "Thickness") { #>
+    <#= GetObsoleteAttribute(property) #>
     public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new Thickness(leftRight, topBottom);
@@ -333,6 +341,7 @@ public static partial class <#= TypeName() #>Extensions
         return <#= TypeName().ToLocalVariableName() #>;
     }
 
+    <#= GetObsoleteAttribute(property) #>
     public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, double uniformSize, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new Thickness(uniformSize);
@@ -344,6 +353,7 @@ public static partial class <#= TypeName() #>Extensions
         <#= TypeName().ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName() #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)));
         return <#= TypeName().ToLocalVariableName() #>;
     }
+    <#= GetObsoleteAttribute(property) #>
     public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new Thickness(left, top, right, bottom);
@@ -357,6 +367,7 @@ public static partial class <#= TypeName() #>Extensions
     }
     <# } #>
     <# if (property.PropertyType.FullName == "Microsoft.Maui.Graphics.Point") { #>
+    <#= GetObsoleteAttribute(property) #>
     public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, double x, double y) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new Microsoft.Maui.Graphics.Point(x, y);
@@ -371,6 +382,7 @@ public static partial class <#= TypeName() #>Extensions
         
 
     <# if (property.PropertyType.Name == "CornerRadius") { #>
+    <#= GetObsoleteAttribute(property) #>
     public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, double uniformRadius, RxCornerRadiusAnimation? customAnimation = null) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new CornerRadius(uniformRadius);
@@ -382,6 +394,7 @@ public static partial class <#= TypeName() #>Extensions
         <#= TypeName().ToLocalVariableName() #>.AppendAnimatable(<#= FullTypeName() #>.<#= property.Name #>Property, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(uniformRadius)));
         return <#= TypeName().ToLocalVariableName() #>;
     }
+    <#= GetObsoleteAttribute(property) #>
     public static T <#= property.Name #><T>(this T <#= TypeName().ToLocalVariableName() #>, double topLeft, double topRight, double bottomLeft, double bottomRight, RxCornerRadiusAnimation? customAnimation = null) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new CornerRadius(topLeft, topRight, bottomLeft, bottomRight);
@@ -396,6 +409,7 @@ public static partial class <#= TypeName() #>Extensions
     <# } #>
     <# if (property.PropertyType.Name == "ImageSource") { 
     var propertyName = property.Name; #>
+    <#= GetObsoleteAttribute(property) #>
     public static T <#= propertyName #><T>(this T <#= TypeName().ToLocalVariableName() #>, string file) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromFile(file);
@@ -406,20 +420,22 @@ public static partial class <#= TypeName() #>Extensions
         <# } #>
         return <#= TypeName().ToLocalVariableName() #>;
     }
+    <#= GetObsoleteAttribute(property) #>
     public static T <#= propertyName #><T>(this T <#= TypeName().ToLocalVariableName() #>, Func<string> action)
         where T : <#= InterfaceName() #>
     {
-        /*<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(
+        /*<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.ToResevedWordFullTypeName() #>>(
             () => Microsoft.Maui.Controls.ImageSource.FromFile(action()));*/
         <# if (IsGenericType()) { #>
-        <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(
+        <#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new PropertyValue<<#= property.PropertyType.ToResevedWordFullTypeName() #>>(
             () => Microsoft.Maui.Controls.ImageSource.FromFile(action()));
         <# } else { #>
-        <#= TypeName().ToLocalVariableName() #>.SetProperty(<#= FullTypeName() #>.<#= property.Name #>Property, new PropertyValue<<#= property.PropertyType.FullName.ToResevedWordFullTypeName() #>>(
+        <#= TypeName().ToLocalVariableName() #>.SetProperty(<#= FullTypeName() #>.<#= property.Name #>Property, new PropertyValue<<#= property.PropertyType.ToResevedWordFullTypeName() #>>(
             () => Microsoft.Maui.Controls.ImageSource.FromFile(action())));
         <# } #>
         return <#= TypeName().ToLocalVariableName() #>;
     }
+    <#= GetObsoleteAttribute(property) #>
     public static T <#= propertyName #><T>(this T <#= TypeName().ToLocalVariableName() #>, string resourceName, Assembly sourceAssembly) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromResource(resourceName, sourceAssembly);
@@ -430,6 +446,7 @@ public static partial class <#= TypeName() #>Extensions
         <# } #>
         return <#= TypeName().ToLocalVariableName() #>;
     }
+    <#= GetObsoleteAttribute(property) #>
     public static T <#= propertyName #><T>(this T <#= TypeName().ToLocalVariableName() #>, Uri imageUri) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromUri(imageUri);
@@ -440,6 +457,7 @@ public static partial class <#= TypeName() #>Extensions
         <# } #>
         return <#= TypeName().ToLocalVariableName() #>;
     }
+    <#= GetObsoleteAttribute(property) #>
     public static T <#= propertyName #><T>(this T <#= TypeName().ToLocalVariableName() #>, Uri imageUri, bool cachingEnabled, TimeSpan cacheValidity) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = new Microsoft.Maui.Controls.UriImageSource
@@ -461,6 +479,7 @@ public static partial class <#= TypeName() #>Extensions
         <# } #>
         return <#= TypeName().ToLocalVariableName() #>;
     }
+    <#= GetObsoleteAttribute(property) #>
     public static T <#= propertyName #><T>(this T <#= TypeName().ToLocalVariableName() #>, Func<Stream> imageStream) where T : <#= InterfaceName() #>
     {
         //<#= TypeName().ToLocalVariableName() #>.<#= property.Name #> = Microsoft.Maui.Controls.ImageSource.FromStream(imageStream);

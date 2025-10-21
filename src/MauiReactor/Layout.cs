@@ -101,6 +101,21 @@ public static partial class LayoutExtensions
         return layout;
     }
 
+    public static T SafeAreaEdges<T>(this T layout, Microsoft.Maui.SafeAreaEdges safeAreaEdges)
+        where T : ILayout
+    {
+        //layout.SafeAreaEdges = safeAreaEdges;
+        layout.SetProperty(Microsoft.Maui.Controls.Layout.SafeAreaEdgesProperty, safeAreaEdges);
+        return layout;
+    }
+
+    public static T SafeAreaEdges<T>(this T layout, Func<Microsoft.Maui.SafeAreaEdges> safeAreaEdgesFunc, IComponentWithState? componentWithState = null)
+        where T : ILayout
+    {
+        layout.SetProperty(Microsoft.Maui.Controls.Layout.SafeAreaEdgesProperty, new PropertyValue<Microsoft.Maui.SafeAreaEdges>(safeAreaEdgesFunc, componentWithState));
+        return layout;
+    }
+
     public static T CascadeInputTransparent<T>(this T layout, bool cascadeInputTransparent)
         where T : ILayout
     {

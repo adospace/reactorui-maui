@@ -58,6 +58,78 @@ public partial class TemplatedView : TemplatedView<Microsoft.Maui.Controls.Templ
 
 public static partial class TemplatedViewExtensions
 {
+    public static T IsClippedToBounds<T>(this T templatedView, bool isClippedToBounds)
+        where T : ITemplatedView
+    {
+        //templatedView.IsClippedToBounds = isClippedToBounds;
+        templatedView.SetProperty(Microsoft.Maui.Controls.TemplatedView.IsClippedToBoundsProperty, isClippedToBounds);
+        return templatedView;
+    }
+
+    public static T IsClippedToBounds<T>(this T templatedView, Func<bool> isClippedToBoundsFunc, IComponentWithState? componentWithState = null)
+        where T : ITemplatedView
+    {
+        templatedView.SetProperty(Microsoft.Maui.Controls.TemplatedView.IsClippedToBoundsProperty, new PropertyValue<bool>(isClippedToBoundsFunc, componentWithState));
+        return templatedView;
+    }
+
+    public static T CascadeInputTransparent<T>(this T templatedView, bool cascadeInputTransparent)
+        where T : ITemplatedView
+    {
+        //templatedView.CascadeInputTransparent = cascadeInputTransparent;
+        templatedView.SetProperty(Microsoft.Maui.Controls.TemplatedView.CascadeInputTransparentProperty, cascadeInputTransparent);
+        return templatedView;
+    }
+
+    public static T CascadeInputTransparent<T>(this T templatedView, Func<bool> cascadeInputTransparentFunc, IComponentWithState? componentWithState = null)
+        where T : ITemplatedView
+    {
+        templatedView.SetProperty(Microsoft.Maui.Controls.TemplatedView.CascadeInputTransparentProperty, new PropertyValue<bool>(cascadeInputTransparentFunc, componentWithState));
+        return templatedView;
+    }
+
+    public static T Padding<T>(this T templatedView, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
+        where T : ITemplatedView
+    {
+        //templatedView.Padding = padding;
+        templatedView.SetProperty(Microsoft.Maui.Controls.TemplatedView.PaddingProperty, padding);
+        templatedView.AppendAnimatable(Microsoft.Maui.Controls.TemplatedView.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding));
+        return templatedView;
+    }
+
+    public static T Padding<T>(this T templatedView, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
+        where T : ITemplatedView
+    {
+        templatedView.SetProperty(Microsoft.Maui.Controls.TemplatedView.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
+        return templatedView;
+    }
+
+    public static T Padding<T>(this T templatedView, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
+        where T : ITemplatedView
+    {
+        //templatedView.Padding = new Thickness(leftRight, topBottom);
+        templatedView.SetProperty(Microsoft.Maui.Controls.TemplatedView.PaddingProperty, new Thickness(leftRight, topBottom));
+        templatedView.AppendAnimatable(Microsoft.Maui.Controls.TemplatedView.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)));
+        return templatedView;
+    }
+
+    public static T Padding<T>(this T templatedView, double uniformSize, RxThicknessAnimation? customAnimation = null)
+        where T : ITemplatedView
+    {
+        //templatedView.Padding = new Thickness(uniformSize);
+        templatedView.SetProperty(Microsoft.Maui.Controls.TemplatedView.PaddingProperty, new Thickness(uniformSize));
+        templatedView.AppendAnimatable(Microsoft.Maui.Controls.TemplatedView.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)));
+        return templatedView;
+    }
+
+    public static T Padding<T>(this T templatedView, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
+        where T : ITemplatedView
+    {
+        //templatedView.Padding = new Thickness(left, top, right, bottom);
+        templatedView.SetProperty(Microsoft.Maui.Controls.TemplatedView.PaddingProperty, new Thickness(left, top, right, bottom));
+        templatedView.AppendAnimatable(Microsoft.Maui.Controls.TemplatedView.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)));
+        return templatedView;
+    }
 }
 
 public static partial class TemplatedViewStyles

@@ -136,6 +136,21 @@ public static partial class RefreshViewExtensions
         return refreshView;
     }
 
+    public static T IsRefreshEnabled<T>(this T refreshView, bool isRefreshEnabled)
+        where T : IRefreshView
+    {
+        //refreshView.IsRefreshEnabled = isRefreshEnabled;
+        refreshView.SetProperty(Microsoft.Maui.Controls.RefreshView.IsRefreshEnabledProperty, isRefreshEnabled);
+        return refreshView;
+    }
+
+    public static T IsRefreshEnabled<T>(this T refreshView, Func<bool> isRefreshEnabledFunc, IComponentWithState? componentWithState = null)
+        where T : IRefreshView
+    {
+        refreshView.SetProperty(Microsoft.Maui.Controls.RefreshView.IsRefreshEnabledProperty, new PropertyValue<bool>(isRefreshEnabledFunc, componentWithState));
+        return refreshView;
+    }
+
     public static T OnRefreshing<T>(this T refreshView, Action? refreshingAction)
         where T : IRefreshView
     {

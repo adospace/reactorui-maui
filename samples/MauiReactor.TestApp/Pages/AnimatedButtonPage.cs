@@ -37,7 +37,7 @@ class AnimatedButtonPage : Component
     {
         if (ContainerPage != null)
         {
-            await ContainerPage.DisplayAlert("MauiReactor", "Tapped!", "OK");
+            await ContainerPage.DisplayAlertAsync("MauiReactor", "Tapped!", "OK");
         }
     }
 }
@@ -63,9 +63,9 @@ class AnimatedComponent : Component
         {
             if (_containerGrid != null && _action != null)
             {
-                await MauiControls.ViewExtensions.ScaleTo(_containerGrid, 0.7);
+                await MauiControls.ViewExtensions.ScaleToAsync(_containerGrid, 0.7);
                 await _action.Invoke();
-                await MauiControls.ViewExtensions.ScaleTo(_containerGrid, 1.0);
+                await MauiControls.ViewExtensions.ScaleToAsync(_containerGrid, 1.0);
             }
         });
     }
@@ -82,9 +82,9 @@ static class AnimatedButtonExtensions
             {
                 return;
             }
-            await MauiControls.ViewExtensions.ScaleTo(visualElement, 0.7);
+            await MauiControls.ViewExtensions.ScaleToAsync(visualElement, 0.7);
             await action.Invoke();
-            await MauiControls.ViewExtensions.ScaleTo(visualElement, 1.0);
+            await MauiControls.ViewExtensions.ScaleToAsync(visualElement, 1.0);
         });
         return view; 
     }
@@ -120,9 +120,9 @@ class AnimatedComponent2 : Component
 
                 if (_action != null)
                 {
-                    await MauiControls.ViewExtensions.ScaleTo(visualElement, 0.7);
+                    await MauiControls.ViewExtensions.ScaleToAsync(visualElement, 0.7);
                     await _action.Invoke();
-                    await MauiControls.ViewExtensions.ScaleTo(visualElement, 1.0);
+                    await MauiControls.ViewExtensions.ScaleToAsync(visualElement, 1.0);
                 }
             });
         }

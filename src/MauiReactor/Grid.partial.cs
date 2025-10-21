@@ -1,5 +1,4 @@
 ﻿using MauiReactor.Internals;
-using Microsoft.Maui.Controls;
 
 namespace MauiReactor;
 
@@ -124,7 +123,7 @@ internal static class RowColumnDefinitionExtensions
 
 public static partial class GridExtensions
 {
-    private static readonly GridLengthTypeConverter _gridLengthTypeConverter = new GridLengthTypeConverter();
+    private static readonly Microsoft.Maui.Converters.GridLengthTypeConverter _gridLengthTypeConverter = new Microsoft.Maui.Converters.GridLengthTypeConverter();
 
     internal static void SetRowDefinitions(this Microsoft.Maui.Controls.Grid grid, string? rowDefinitions)
     {

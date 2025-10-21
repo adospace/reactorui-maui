@@ -106,7 +106,7 @@ class Bug179_2Flyout : Component<Bug179_2FlyoutState>
 
     private Grid RenderBody() => new Grid
     {
-        new Frame
+        new Border
         {
             new StackLayout()
             {
@@ -116,8 +116,8 @@ class Bug179_2Flyout : Component<Bug179_2FlyoutState>
         }
         .WidthRequest(300)
         .HeightRequest(400)
-        .HasShadow(false)
-        .BorderColor(Colors.LightGray)
+        //.HasShadow(false)
+        .Stroke(Colors.LightGray)
     }
     .Padding(10)
     .Opacity(State.IsExpanded ? 1 : 0)

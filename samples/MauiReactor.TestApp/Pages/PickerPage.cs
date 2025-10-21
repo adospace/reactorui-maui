@@ -30,11 +30,23 @@ class PickerPage : Component<PickerPageState>
             VStack(spacing: 10,
                 DatePicker()
                     .Date(State.TimeStamp)
-                    .OnDateSelected(newDate => SetState(s => s.TimeStamp = new DateTime(DateOnly.FromDateTime(newDate), TimeOnly.FromDateTime(s.TimeStamp)))),
+                    .OnDateSelected(newDate =>
+                    {
+                        if (newDate != null)
+                        {
+                            SetState(s => s.TimeStamp = new DateTime(DateOnly.FromDateTime(newDate.Value), TimeOnly.FromDateTime(s.TimeStamp)));
+                        }
+                    }),
 
                 TimePicker()
                     .Time(State.TimeStamp.TimeOfDay)
-                    .OnTimeSelected(newTime => SetState(s => s.TimeStamp = new DateTime(DateOnly.FromDateTime(s.TimeStamp), TimeOnly.FromTimeSpan(newTime)))),
+                    .OnTimeSelected(newTime =>
+                    {
+                        if (newTime != null)
+                        {
+                            SetState(s => s.TimeStamp = new DateTime(DateOnly.FromDateTime(s.TimeStamp), TimeOnly.FromTimeSpan(newTime.Value)));
+                        }
+                    }),
 
                 new Picker()
                     .ItemsSource(State.StringItems)

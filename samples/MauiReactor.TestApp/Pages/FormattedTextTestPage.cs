@@ -16,7 +16,7 @@ class FormattedTextTestPage : Component
                     FormattedString(
                         Span("Red bold, ", Colors.Red, FontAttributes.Bold),
                         Span("default, ",
-                            TapGestureRecognizer(async () => await ContainerPage!.DisplayAlert("Tapped", "This is a tapped Span.", "OK"))
+                            TapGestureRecognizer(async () => await ContainerPage!.DisplayAlertAsync("Tapped", "This is a tapped Span.", "OK"))
                             ),
                         Span("italic small.", FontAttributes.Italic, 14)
                         )
@@ -28,7 +28,7 @@ class FormattedTextTestPage : Component
                     //    formattedString.Spans.Add(new MauiControls.Span { Text = "Red bold, ", TextColor = Colors.Red, FontAttributes = FontAttributes.Bold });
 
                     //    MauiControls.Span span = new() { Text = "default, " };
-                    //    span.GestureRecognizers.Add(new MauiControls.TapGestureRecognizer { Command = new Command(async () => await ContainerPage!.DisplayAlert("Tapped", "This is a tapped Span.", "OK")) });
+                    //    span.GestureRecognizers.Add(new MauiControls.TapGestureRecognizer { Command = new Command(async () => await ContainerPage!.DisplayAlertAsync("Tapped", "This is a tapped Span.", "OK")) });
                     //    formattedString.Spans.Add(span);
                     //    formattedString.Spans.Add(new MauiControls.Span { Text = "italic small.", FontAttributes = FontAttributes.Italic, FontSize = 14 });
 

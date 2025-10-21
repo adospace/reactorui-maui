@@ -3,7 +3,9 @@
     <Project Path="../samples/Calculator/Calculator.csproj">
       <Deploy />
     </Project>
-    <Project Path="../samples/ChartApp/ChartApp.csproj" />
+    <Project Path="../samples/ChartApp/ChartApp.csproj">
+      <Deploy Solution="Debug|*" />
+    </Project>
     <Project Path="../samples/Contentics/Contentics.csproj">
       <Deploy />
     </Project>
@@ -34,6 +36,7 @@
   <Folder Name="/Solution Items/">
     <File Path="../.github/workflows/build-deploy-beta.yml" />
     <File Path="../.github/workflows/build-deploy.yml" />
+    <File Path="global.json" />
   </Folder>
   <Folder Name="/Templates/">
     <Project Path="../templates/MauiReactorTemplate.Startup/MauiReactorTemplate.Startup.csproj">
@@ -46,15 +49,7 @@
       <Deploy Solution="Debug|*" />
     </Project>
   </Folder>
-  <Project Path="MauiReactor.Blazor.TestApp/MauiReactor.Blazor.TestApp.csproj">
-    <Deploy />
-  </Project>
-  <Project Path="MauiReactor.Blazor/MauiReactor.Blazor.csproj" />
   <Project Path="MauiReactor.Canvas/MauiReactor.Canvas.csproj" />
-  <Project Path="MauiReactor.FigmaPlugin.Services/MauiReactor.FigmaPlugin.Services.csproj" />
-  <Project Path="MauiReactor.FigmaPlugin/MauiReactor.FigmaPlugin.csproj">
-    <Deploy />
-  </Project>
   <Project Path="MauiReactor.HotReloadConsole/MauiReactor.HotReloadConsole.csproj" />
   <Project Path="MauiReactor.Maps/MauiReactor.Maps.csproj" />
   <Project Path="MauiReactor.Scaffold/MauiReactor.Scaffold.csproj" />

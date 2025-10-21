@@ -69,7 +69,7 @@ class MainWindow : Component<MainPageState>
 
     private async Task OnMenuClicked(string color)
     {
-        await _containerPage.DisplayAlert("Main Window", $"You clicked {color} color", "OK");
+        await _containerPage.DisplayAlertAsync("Main Window", $"You clicked {color} color", "OK");
     }
 
     private void OnSizeChanged(object sender, EventArgs args)

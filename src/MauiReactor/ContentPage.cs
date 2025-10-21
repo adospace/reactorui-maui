@@ -72,6 +72,21 @@ public static partial class ContentPageExtensions
         contentPage.SetProperty(Microsoft.Maui.Controls.ContentPage.HideSoftInputOnTappedProperty, new PropertyValue<bool>(hideSoftInputOnTappedFunc, componentWithState));
         return contentPage;
     }
+
+    public static T SafeAreaEdges<T>(this T contentPage, Microsoft.Maui.SafeAreaEdges safeAreaEdges)
+        where T : IContentPage
+    {
+        //contentPage.SafeAreaEdges = safeAreaEdges;
+        contentPage.SetProperty(Microsoft.Maui.Controls.ContentPage.SafeAreaEdgesProperty, safeAreaEdges);
+        return contentPage;
+    }
+
+    public static T SafeAreaEdges<T>(this T contentPage, Func<Microsoft.Maui.SafeAreaEdges> safeAreaEdgesFunc, IComponentWithState? componentWithState = null)
+        where T : IContentPage
+    {
+        contentPage.SetProperty(Microsoft.Maui.Controls.ContentPage.SafeAreaEdgesProperty, new PropertyValue<Microsoft.Maui.SafeAreaEdges>(safeAreaEdgesFunc, componentWithState));
+        return contentPage;
+    }
 }
 
 public static partial class ContentPageStyles

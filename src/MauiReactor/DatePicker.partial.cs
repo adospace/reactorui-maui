@@ -10,7 +10,7 @@ namespace MauiReactor;
 
 public partial class DatePickerExtensions
 {
-    public static T OnDateSelected<T>(this T datePicker, Action<DateTime>? dateSelectedAction) where T : IDatePicker
+    public static T OnDateSelected<T>(this T datePicker, Action<DateTime?>? dateSelectedAction) where T : IDatePicker
     {
         if (dateSelectedAction != null)
         {
@@ -19,7 +19,7 @@ public partial class DatePickerExtensions
         return datePicker;
     }
 
-    public static T OnDateSelected<T>(this T datePicker, Func<DateTime, Task>? dateSelectedAction, bool runInBackground = false)
+    public static T OnDateSelected<T>(this T datePicker, Func<DateTime?, Task>? dateSelectedAction, bool runInBackground = false)
         where T : IDatePicker
     {
         if (dateSelectedAction != null)

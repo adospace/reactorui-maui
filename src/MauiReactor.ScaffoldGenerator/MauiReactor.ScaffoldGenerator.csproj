@@ -14,7 +14,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" PrivateAssets="all" />
-    <PackageReference Include="System.CodeDom" Version="9.0.0" />
+    <PackageReference Include="System.CodeDom" Version="10.0.0-rc.2.25502.107" />
   </ItemGroup>
 
   <ItemGroup>

@@ -106,6 +106,21 @@ public partial class SearchBar : SearchBar<Microsoft.Maui.Controls.SearchBar>
 
 public static partial class SearchBarExtensions
 {
+    public static T ReturnType<T>(this T searchBar, Microsoft.Maui.ReturnType returnType)
+        where T : ISearchBar
+    {
+        //searchBar.ReturnType = returnType;
+        searchBar.SetProperty(Microsoft.Maui.Controls.SearchBar.ReturnTypeProperty, returnType);
+        return searchBar;
+    }
+
+    public static T ReturnType<T>(this T searchBar, Func<Microsoft.Maui.ReturnType> returnTypeFunc, IComponentWithState? componentWithState = null)
+        where T : ISearchBar
+    {
+        searchBar.SetProperty(Microsoft.Maui.Controls.SearchBar.ReturnTypeProperty, new PropertyValue<Microsoft.Maui.ReturnType>(returnTypeFunc, componentWithState));
+        return searchBar;
+    }
+
     public static T CancelButtonColor<T>(this T searchBar, Microsoft.Maui.Graphics.Color cancelButtonColor)
         where T : ISearchBar
     {
@@ -118,6 +133,21 @@ public static partial class SearchBarExtensions
         where T : ISearchBar
     {
         searchBar.SetProperty(Microsoft.Maui.Controls.SearchBar.CancelButtonColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(cancelButtonColorFunc, componentWithState));
+        return searchBar;
+    }
+
+    public static T SearchIconColor<T>(this T searchBar, Microsoft.Maui.Graphics.Color searchIconColor)
+        where T : ISearchBar
+    {
+        //searchBar.SearchIconColor = searchIconColor;
+        searchBar.SetProperty(Microsoft.Maui.Controls.SearchBar.SearchIconColorProperty, searchIconColor);
+        return searchBar;
+    }
+
+    public static T SearchIconColor<T>(this T searchBar, Func<Microsoft.Maui.Graphics.Color> searchIconColorFunc, IComponentWithState? componentWithState = null)
+        where T : ISearchBar
+    {
+        searchBar.SetProperty(Microsoft.Maui.Controls.SearchBar.SearchIconColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(searchIconColorFunc, componentWithState));
         return searchBar;
     }
 

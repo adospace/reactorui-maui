@@ -26,6 +26,6 @@ partial class Counter : Component<CounterState>
     {
         SetState(s => s.Counter = _incrementService.Increment(s.Counter));
 
-        await ContainerPage.DisplayAlert("Increment", "Incremented", "OK");
+        await ContainerPage.DisplayAlertAsync("Increment", "Incremented", "OK");
     }
 }

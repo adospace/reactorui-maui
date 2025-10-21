@@ -13,6 +13,10 @@ namespace MauiReactor;
 public partial interface ITimePicker : IView
 {
     EventCommand<TimeChangedEventArgs>? TimeSelectedEvent { get; set; }
+
+    EventCommand<TimePickerOpenedEventArgs>? OpenedEvent { get; set; }
+
+    EventCommand<TimePickerClosedEventArgs>? ClosedEvent { get; set; }
 }
 
 public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Maui.Controls.TimePicker, new()
@@ -23,6 +27,10 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
     }
 
     EventCommand<TimeChangedEventArgs>? ITimePicker.TimeSelectedEvent { get; set; }
+
+    EventCommand<TimePickerOpenedEventArgs>? ITimePicker.OpenedEvent { get; set; }
+
+    EventCommand<TimePickerClosedEventArgs>? ITimePicker.ClosedEvent { get; set; }
 
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
@@ -39,6 +47,8 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     private EventCommand<TimeChangedEventArgs>? _executingTimeSelectedEvent;
+    private EventCommand<TimePickerOpenedEventArgs>? _executingOpenedEvent;
+    private EventCommand<TimePickerClosedEventArgs>? _executingClosedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
@@ -46,6 +56,16 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
         if (thisAsITimePicker.TimeSelectedEvent != null)
         {
             NativeControl.TimeSelected += NativeControl_TimeSelected;
+        }
+
+        if (thisAsITimePicker.OpenedEvent != null)
+        {
+            NativeControl.Opened += NativeControl_Opened;
+        }
+
+        if (thisAsITimePicker.ClosedEvent != null)
+        {
+            NativeControl.Closed += NativeControl_Closed;
         }
 
         OnAttachingNativeEvents();
@@ -62,11 +82,33 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
         }
     }
 
+    private void NativeControl_Opened(object? sender, TimePickerOpenedEventArgs e)
+    {
+        var thisAsITimePicker = (ITimePicker)this;
+        if (_executingOpenedEvent == null || _executingOpenedEvent.IsCompleted)
+        {
+            _executingOpenedEvent = thisAsITimePicker.OpenedEvent;
+            _executingOpenedEvent?.Execute(sender, e);
+        }
+    }
+
+    private void NativeControl_Closed(object? sender, TimePickerClosedEventArgs e)
+    {
+        var thisAsITimePicker = (ITimePicker)this;
+        if (_executingClosedEvent == null || _executingClosedEvent.IsCompleted)
+        {
+            _executingClosedEvent = thisAsITimePicker.ClosedEvent;
+            _executingClosedEvent?.Execute(sender, e);
+        }
+    }
+
     protected override void OnDetachNativeEvents()
     {
         if (NativeControl != null)
         {
             NativeControl.TimeSelected -= NativeControl_TimeSelected;
+            NativeControl.Opened -= NativeControl_Opened;
+            NativeControl.Closed -= NativeControl_Closed;
         }
 
         OnDetachingNativeEvents();
@@ -81,6 +123,16 @@ public partial class TimePicker<T> : View<T>, ITimePicker where T : Microsoft.Ma
             if (_executingTimeSelectedEvent != null && !_executingTimeSelectedEvent.IsCompleted)
             {
                 @timepicker._executingTimeSelectedEvent = _executingTimeSelectedEvent;
+            }
+
+            if (_executingOpenedEvent != null && !_executingOpenedEvent.IsCompleted)
+            {
+                @timepicker._executingOpenedEvent = _executingOpenedEvent;
+            }
+
+            if (_executingClosedEvent != null && !_executingClosedEvent.IsCompleted)
+            {
+                @timepicker._executingClosedEvent = _executingClosedEvent;
             }
         }
 
@@ -152,7 +204,7 @@ public static partial class TimePickerExtensions
         return timePicker;
     }
 
-    public static T Time<T>(this T timePicker, System.TimeSpan time)
+    public static T Time<T>(this T timePicker, System.Nullable<System.TimeSpan> time)
         where T : ITimePicker
     {
         //timePicker.Time = time;
@@ -160,10 +212,10 @@ public static partial class TimePickerExtensions
         return timePicker;
     }
 
-    public static T Time<T>(this T timePicker, Func<System.TimeSpan> timeFunc, IComponentWithState? componentWithState = null)
+    public static T Time<T>(this T timePicker, Func<System.Nullable<System.TimeSpan>> timeFunc, IComponentWithState? componentWithState = null)
         where T : ITimePicker
     {
-        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.TimeProperty, new PropertyValue<System.TimeSpan>(timeFunc, componentWithState));
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.TimeProperty, new PropertyValue<System.Nullable<System.TimeSpan>>(timeFunc, componentWithState));
         return timePicker;
     }
 
@@ -228,6 +280,21 @@ public static partial class TimePickerExtensions
         return timePicker;
     }
 
+    public static T IsOpen<T>(this T timePicker, bool isOpen)
+        where T : ITimePicker
+    {
+        //timePicker.IsOpen = isOpen;
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.IsOpenProperty, isOpen);
+        return timePicker;
+    }
+
+    public static T IsOpen<T>(this T timePicker, Func<bool> isOpenFunc, IComponentWithState? componentWithState = null)
+        where T : ITimePicker
+    {
+        timePicker.SetProperty(Microsoft.Maui.Controls.TimePicker.IsOpenProperty, new PropertyValue<bool>(isOpenFunc, componentWithState));
+        return timePicker;
+    }
+
     public static T OnTimeSelected<T>(this T timePicker, Action? timeSelectedAction)
         where T : ITimePicker
     {
@@ -267,6 +334,90 @@ public static partial class TimePickerExtensions
         where T : ITimePicker
     {
         timePicker.TimeSelectedEvent = new AsyncEventCommand<TimeChangedEventArgs>(executeWithFullArgs: timeSelectedAction, runInBackground);
+        return timePicker;
+    }
+
+    public static T OnOpened<T>(this T timePicker, Action? openedAction)
+        where T : ITimePicker
+    {
+        timePicker.OpenedEvent = new SyncEventCommand<TimePickerOpenedEventArgs>(execute: openedAction);
+        return timePicker;
+    }
+
+    public static T OnOpened<T>(this T timePicker, Action<TimePickerOpenedEventArgs>? openedAction)
+        where T : ITimePicker
+    {
+        timePicker.OpenedEvent = new SyncEventCommand<TimePickerOpenedEventArgs>(executeWithArgs: openedAction);
+        return timePicker;
+    }
+
+    public static T OnOpened<T>(this T timePicker, Action<object?, TimePickerOpenedEventArgs>? openedAction)
+        where T : ITimePicker
+    {
+        timePicker.OpenedEvent = new SyncEventCommand<TimePickerOpenedEventArgs>(executeWithFullArgs: openedAction);
+        return timePicker;
+    }
+
+    public static T OnOpened<T>(this T timePicker, Func<Task>? openedAction, bool runInBackground = false)
+        where T : ITimePicker
+    {
+        timePicker.OpenedEvent = new AsyncEventCommand<TimePickerOpenedEventArgs>(execute: openedAction, runInBackground);
+        return timePicker;
+    }
+
+    public static T OnOpened<T>(this T timePicker, Func<TimePickerOpenedEventArgs, Task>? openedAction, bool runInBackground = false)
+        where T : ITimePicker
+    {
+        timePicker.OpenedEvent = new AsyncEventCommand<TimePickerOpenedEventArgs>(executeWithArgs: openedAction, runInBackground);
+        return timePicker;
+    }
+
+    public static T OnOpened<T>(this T timePicker, Func<object?, TimePickerOpenedEventArgs, Task>? openedAction, bool runInBackground = false)
+        where T : ITimePicker
+    {
+        timePicker.OpenedEvent = new AsyncEventCommand<TimePickerOpenedEventArgs>(executeWithFullArgs: openedAction, runInBackground);
+        return timePicker;
+    }
+
+    public static T OnClosed<T>(this T timePicker, Action? closedAction)
+        where T : ITimePicker
+    {
+        timePicker.ClosedEvent = new SyncEventCommand<TimePickerClosedEventArgs>(execute: closedAction);
+        return timePicker;
+    }
+
+    public static T OnClosed<T>(this T timePicker, Action<TimePickerClosedEventArgs>? closedAction)
+        where T : ITimePicker
+    {
+        timePicker.ClosedEvent = new SyncEventCommand<TimePickerClosedEventArgs>(executeWithArgs: closedAction);
+        return timePicker;
+    }
+
+    public static T OnClosed<T>(this T timePicker, Action<object?, TimePickerClosedEventArgs>? closedAction)
+        where T : ITimePicker
+    {
+        timePicker.ClosedEvent = new SyncEventCommand<TimePickerClosedEventArgs>(executeWithFullArgs: closedAction);
+        return timePicker;
+    }
+
+    public static T OnClosed<T>(this T timePicker, Func<Task>? closedAction, bool runInBackground = false)
+        where T : ITimePicker
+    {
+        timePicker.ClosedEvent = new AsyncEventCommand<TimePickerClosedEventArgs>(execute: closedAction, runInBackground);
+        return timePicker;
+    }
+
+    public static T OnClosed<T>(this T timePicker, Func<TimePickerClosedEventArgs, Task>? closedAction, bool runInBackground = false)
+        where T : ITimePicker
+    {
+        timePicker.ClosedEvent = new AsyncEventCommand<TimePickerClosedEventArgs>(executeWithArgs: closedAction, runInBackground);
+        return timePicker;
+    }
+
+    public static T OnClosed<T>(this T timePicker, Func<object?, TimePickerClosedEventArgs, Task>? closedAction, bool runInBackground = false)
+        where T : ITimePicker
+    {
+        timePicker.ClosedEvent = new AsyncEventCommand<TimePickerClosedEventArgs>(executeWithFullArgs: closedAction, runInBackground);
         return timePicker;
     }
 }

@@ -52,10 +52,10 @@ class AnimatedCollectionViewPage : Component
     private VisualNode RenderItem(ItemModel item)
         => new AnimatedItem
         {
-            Frame()
+            Border()
                 .BackgroundColor(Color.Parse("#512BD4"))
                 .Margin(4)
-                .CornerRadius(8)
+                .StrokeCornerRadius(8)
         };
 }
 

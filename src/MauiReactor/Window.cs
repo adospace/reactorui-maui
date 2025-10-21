@@ -617,6 +617,36 @@ public static partial class WindowExtensions
         return window;
     }
 
+    public static T IsMinimizable<T>(this T window, bool isMinimizable)
+        where T : IWindow
+    {
+        //window.IsMinimizable = isMinimizable;
+        window.SetProperty(Microsoft.Maui.Controls.Window.IsMinimizableProperty, isMinimizable);
+        return window;
+    }
+
+    public static T IsMinimizable<T>(this T window, Func<bool> isMinimizableFunc, IComponentWithState? componentWithState = null)
+        where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.IsMinimizableProperty, new PropertyValue<bool>(isMinimizableFunc, componentWithState));
+        return window;
+    }
+
+    public static T IsMaximizable<T>(this T window, bool isMaximizable)
+        where T : IWindow
+    {
+        //window.IsMaximizable = isMaximizable;
+        window.SetProperty(Microsoft.Maui.Controls.Window.IsMaximizableProperty, isMaximizable);
+        return window;
+    }
+
+    public static T IsMaximizable<T>(this T window, Func<bool> isMaximizableFunc, IComponentWithState? componentWithState = null)
+        where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.IsMaximizableProperty, new PropertyValue<bool>(isMaximizableFunc, componentWithState));
+        return window;
+    }
+
     public static T OnSizeChanged<T>(this T window, Action? sizeChangedAction)
         where T : IWindow
     {

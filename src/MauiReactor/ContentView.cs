@@ -58,6 +58,20 @@ public partial class ContentView : ContentView<Microsoft.Maui.Controls.ContentVi
 
 public static partial class ContentViewExtensions
 {
+    public static T SafeAreaEdges<T>(this T contentView, Microsoft.Maui.SafeAreaEdges safeAreaEdges)
+        where T : IContentView
+    {
+        //contentView.SafeAreaEdges = safeAreaEdges;
+        contentView.SetProperty(Microsoft.Maui.Controls.ContentView.SafeAreaEdgesProperty, safeAreaEdges);
+        return contentView;
+    }
+
+    public static T SafeAreaEdges<T>(this T contentView, Func<Microsoft.Maui.SafeAreaEdges> safeAreaEdgesFunc, IComponentWithState? componentWithState = null)
+        where T : IContentView
+    {
+        contentView.SetProperty(Microsoft.Maui.Controls.ContentView.SafeAreaEdgesProperty, new PropertyValue<Microsoft.Maui.SafeAreaEdges>(safeAreaEdgesFunc, componentWithState));
+        return contentView;
+    }
 }
 
 public static partial class ContentViewStyles

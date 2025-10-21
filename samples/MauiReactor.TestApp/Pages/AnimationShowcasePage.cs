@@ -51,7 +51,7 @@ class AnimationShowcasePage : Component<AnimationShowcasePageState>
         {
             new Grid("Auto *", "*")
             {
-                new Frame
+                new Border
                 {
                     new VerticalStackLayout
                     {
@@ -104,7 +104,7 @@ class AnimationShowcasePage : Component<AnimationShowcasePageState>
                     .Spacing(10)
                 },
 
-                new Frame
+                new Border
                 {
                     new VerticalStackLayout
                     {

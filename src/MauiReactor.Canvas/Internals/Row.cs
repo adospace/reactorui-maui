@@ -10,7 +10,7 @@ namespace MauiReactor.Canvas.Internals
 {
     public class Row : CanvasVisualElement
     {
-        private static readonly GridLengthTypeConverter _gridLengthTypeConverter = new GridLengthTypeConverter();
+        private static readonly Microsoft.Maui.Converters.GridLengthTypeConverter _gridLengthTypeConverter = new Microsoft.Maui.Converters.GridLengthTypeConverter();
 
         public static readonly BindableProperty ColumnsProperty = BindableProperty.Create(nameof(Columns), typeof(string), typeof(Row), "*",
             coerceValue: (bindableObject, value) => string.IsNullOrWhiteSpace((string)value) ? "*" : value);

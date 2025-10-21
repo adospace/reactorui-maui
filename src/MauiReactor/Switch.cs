@@ -136,6 +136,21 @@ public static partial class SwitchExtensions
         return @switch;
     }
 
+    public static T OffColor<T>(this T @switch, Microsoft.Maui.Graphics.Color offColor)
+        where T : ISwitch
+    {
+        //@switch.OffColor = offColor;
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.OffColorProperty, offColor);
+        return @switch;
+    }
+
+    public static T OffColor<T>(this T @switch, Func<Microsoft.Maui.Graphics.Color> offColorFunc, IComponentWithState? componentWithState = null)
+        where T : ISwitch
+    {
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.OffColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(offColorFunc, componentWithState));
+        return @switch;
+    }
+
     public static T ThumbColor<T>(this T @switch, Microsoft.Maui.Graphics.Color thumbColor)
         where T : ISwitch
     {

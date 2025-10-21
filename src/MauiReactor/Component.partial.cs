@@ -12,35 +12,66 @@ using MauiReactor.Internals;
 namespace MauiReactor;
 public partial class Component
 {
-    public static ListView ListView() => new ListView();
-    public static ListView ListView(params IEnumerable<VisualNode?>? children)
+    public static DatePicker DatePicker() => new DatePicker();
+    public static DatePicker DatePicker(params IEnumerable<VisualNode?>? children)
     {
-        var @listview = new ListView();
+        var @datepicker = new DatePicker();
         if (children != null)
         {
-            @listview.AddChildren(children);
+            @datepicker.AddChildren(children);
         }
 
-        return @listview;
+        return @datepicker;
     }
 
-    public static ListView ListView(Action<Microsoft.Maui.Controls.ListView?> componentRefAction)
+    public static DatePicker DatePicker(Action<Microsoft.Maui.Controls.DatePicker?> componentRefAction)
     {
-        var @listview = new ListView();
-        @listview.ComponentRefAction = componentRefAction;
-        return @listview;
+        var @datepicker = new DatePicker();
+        @datepicker.ComponentRefAction = componentRefAction;
+        return @datepicker;
     }
 
-    public static ListView ListView(Action<Microsoft.Maui.Controls.ListView?> componentRefAction, params IEnumerable<VisualNode?>? children)
+    public static DatePicker DatePicker(Action<Microsoft.Maui.Controls.DatePicker?> componentRefAction, params IEnumerable<VisualNode?>? children)
     {
-        var @listview = new ListView();
-        @listview.ComponentRefAction = componentRefAction;
+        var @datepicker = new DatePicker();
+        @datepicker.ComponentRefAction = componentRefAction;
         if (children != null)
         {
-            @listview.AddChildren(children);
+            @datepicker.AddChildren(children);
         }
 
-        return @listview;
+        return @datepicker;
+    }
+
+    public static TimePicker TimePicker() => new TimePicker();
+    public static TimePicker TimePicker(params IEnumerable<VisualNode?>? children)
+    {
+        var @timepicker = new TimePicker();
+        if (children != null)
+        {
+            @timepicker.AddChildren(children);
+        }
+
+        return @timepicker;
+    }
+
+    public static TimePicker TimePicker(Action<Microsoft.Maui.Controls.TimePicker?> componentRefAction)
+    {
+        var @timepicker = new TimePicker();
+        @timepicker.ComponentRefAction = componentRefAction;
+        return @timepicker;
+    }
+
+    public static TimePicker TimePicker(Action<Microsoft.Maui.Controls.TimePicker?> componentRefAction, params IEnumerable<VisualNode?>? children)
+    {
+        var @timepicker = new TimePicker();
+        @timepicker.ComponentRefAction = componentRefAction;
+        if (children != null)
+        {
+            @timepicker.AddChildren(children);
+        }
+
+        return @timepicker;
     }
 
     public static TabbedPage TabbedPage() => new TabbedPage();
@@ -1765,39 +1796,6 @@ public partial class Component
         return @contentview;
     }
 
-    public static Frame Frame() => new Frame();
-    public static Frame Frame(params IEnumerable<VisualNode?>? children)
-    {
-        var @frame = new Frame();
-        if (children != null)
-        {
-            @frame.AddChildren(children);
-        }
-
-        return @frame;
-    }
-
-    [Obsolete("Frame is obsolete as of .NET 9. Please use Border instead.")]
-    public static Frame Frame(Action<Microsoft.Maui.Controls.Frame?> componentRefAction)
-    {
-        var @frame = new Frame();
-        @frame.ComponentRefAction = componentRefAction;
-        return @frame;
-    }
-
-    [Obsolete("Frame is obsolete as of .NET 9. Please use Border instead.")]
-    public static Frame Frame(Action<Microsoft.Maui.Controls.Frame?> componentRefAction, params IEnumerable<VisualNode?>? children)
-    {
-        var @frame = new Frame();
-        @frame.ComponentRefAction = componentRefAction;
-        if (children != null)
-        {
-            @frame.AddChildren(children);
-        }
-
-        return @frame;
-    }
-
     public static TemplatedView TemplatedView() => new TemplatedView();
     public static TemplatedView TemplatedView(params IEnumerable<VisualNode?>? children)
     {
@@ -2302,68 +2300,6 @@ public partial class Component
         return @switch;
     }
 
-    public static DatePicker DatePicker() => new DatePicker();
-    public static DatePicker DatePicker(params IEnumerable<VisualNode?>? children)
-    {
-        var @datepicker = new DatePicker();
-        if (children != null)
-        {
-            @datepicker.AddChildren(children);
-        }
-
-        return @datepicker;
-    }
-
-    public static DatePicker DatePicker(Action<Microsoft.Maui.Controls.DatePicker?> componentRefAction)
-    {
-        var @datepicker = new DatePicker();
-        @datepicker.ComponentRefAction = componentRefAction;
-        return @datepicker;
-    }
-
-    public static DatePicker DatePicker(Action<Microsoft.Maui.Controls.DatePicker?> componentRefAction, params IEnumerable<VisualNode?>? children)
-    {
-        var @datepicker = new DatePicker();
-        @datepicker.ComponentRefAction = componentRefAction;
-        if (children != null)
-        {
-            @datepicker.AddChildren(children);
-        }
-
-        return @datepicker;
-    }
-
-    public static TimePicker TimePicker() => new TimePicker();
-    public static TimePicker TimePicker(params IEnumerable<VisualNode?>? children)
-    {
-        var @timepicker = new TimePicker();
-        if (children != null)
-        {
-            @timepicker.AddChildren(children);
-        }
-
-        return @timepicker;
-    }
-
-    public static TimePicker TimePicker(Action<Microsoft.Maui.Controls.TimePicker?> componentRefAction)
-    {
-        var @timepicker = new TimePicker();
-        @timepicker.ComponentRefAction = componentRefAction;
-        return @timepicker;
-    }
-
-    public static TimePicker TimePicker(Action<Microsoft.Maui.Controls.TimePicker?> componentRefAction, params IEnumerable<VisualNode?>? children)
-    {
-        var @timepicker = new TimePicker();
-        @timepicker.ComponentRefAction = componentRefAction;
-        if (children != null)
-        {
-            @timepicker.AddChildren(children);
-        }
-
-        return @timepicker;
-    }
-
     public static Entry Entry() => new Entry();
     public static Entry Entry(params IEnumerable<VisualNode?>? children)
     {
@@ -2548,192 +2484,6 @@ public partial class Component
         }
 
         return @picker;
-    }
-
-    public static TableView TableView() => new TableView();
-    public static TableView TableView(params IEnumerable<VisualNode?>? children)
-    {
-        var @tableview = new TableView();
-        if (children != null)
-        {
-            @tableview.AddChildren(children);
-        }
-
-        return @tableview;
-    }
-
-    public static TableView TableView(Action<Microsoft.Maui.Controls.TableView?> componentRefAction)
-    {
-        var @tableview = new TableView();
-        @tableview.ComponentRefAction = componentRefAction;
-        return @tableview;
-    }
-
-    public static TableView TableView(Action<Microsoft.Maui.Controls.TableView?> componentRefAction, params IEnumerable<VisualNode?>? children)
-    {
-        var @tableview = new TableView();
-        @tableview.ComponentRefAction = componentRefAction;
-        if (children != null)
-        {
-            @tableview.AddChildren(children);
-        }
-
-        return @tableview;
-    }
-
-    public static TextCell TextCell() => new TextCell();
-    public static TextCell TextCell(params IEnumerable<VisualNode?>? children)
-    {
-        var @textcell = new TextCell();
-        if (children != null)
-        {
-            @textcell.AddChildren(children);
-        }
-
-        return @textcell;
-    }
-
-    public static TextCell TextCell(Action<Microsoft.Maui.Controls.TextCell?> componentRefAction)
-    {
-        var @textcell = new TextCell();
-        @textcell.ComponentRefAction = componentRefAction;
-        return @textcell;
-    }
-
-    public static TextCell TextCell(Action<Microsoft.Maui.Controls.TextCell?> componentRefAction, params IEnumerable<VisualNode?>? children)
-    {
-        var @textcell = new TextCell();
-        @textcell.ComponentRefAction = componentRefAction;
-        if (children != null)
-        {
-            @textcell.AddChildren(children);
-        }
-
-        return @textcell;
-    }
-
-    public static ImageCell ImageCell() => new ImageCell();
-    public static ImageCell ImageCell(params IEnumerable<VisualNode?>? children)
-    {
-        var @imagecell = new ImageCell();
-        if (children != null)
-        {
-            @imagecell.AddChildren(children);
-        }
-
-        return @imagecell;
-    }
-
-    public static ImageCell ImageCell(Action<Microsoft.Maui.Controls.ImageCell?> componentRefAction)
-    {
-        var @imagecell = new ImageCell();
-        @imagecell.ComponentRefAction = componentRefAction;
-        return @imagecell;
-    }
-
-    public static ImageCell ImageCell(Action<Microsoft.Maui.Controls.ImageCell?> componentRefAction, params IEnumerable<VisualNode?>? children)
-    {
-        var @imagecell = new ImageCell();
-        @imagecell.ComponentRefAction = componentRefAction;
-        if (children != null)
-        {
-            @imagecell.AddChildren(children);
-        }
-
-        return @imagecell;
-    }
-
-    public static SwitchCell SwitchCell() => new SwitchCell();
-    public static SwitchCell SwitchCell(params IEnumerable<VisualNode?>? children)
-    {
-        var @switchcell = new SwitchCell();
-        if (children != null)
-        {
-            @switchcell.AddChildren(children);
-        }
-
-        return @switchcell;
-    }
-
-    public static SwitchCell SwitchCell(Action<Microsoft.Maui.Controls.SwitchCell?> componentRefAction)
-    {
-        var @switchcell = new SwitchCell();
-        @switchcell.ComponentRefAction = componentRefAction;
-        return @switchcell;
-    }
-
-    public static SwitchCell SwitchCell(Action<Microsoft.Maui.Controls.SwitchCell?> componentRefAction, params IEnumerable<VisualNode?>? children)
-    {
-        var @switchcell = new SwitchCell();
-        @switchcell.ComponentRefAction = componentRefAction;
-        if (children != null)
-        {
-            @switchcell.AddChildren(children);
-        }
-
-        return @switchcell;
-    }
-
-    public static EntryCell EntryCell() => new EntryCell();
-    public static EntryCell EntryCell(params IEnumerable<VisualNode?>? children)
-    {
-        var @entrycell = new EntryCell();
-        if (children != null)
-        {
-            @entrycell.AddChildren(children);
-        }
-
-        return @entrycell;
-    }
-
-    public static EntryCell EntryCell(Action<Microsoft.Maui.Controls.EntryCell?> componentRefAction)
-    {
-        var @entrycell = new EntryCell();
-        @entrycell.ComponentRefAction = componentRefAction;
-        return @entrycell;
-    }
-
-    public static EntryCell EntryCell(Action<Microsoft.Maui.Controls.EntryCell?> componentRefAction, params IEnumerable<VisualNode?>? children)
-    {
-        var @entrycell = new EntryCell();
-        @entrycell.ComponentRefAction = componentRefAction;
-        if (children != null)
-        {
-            @entrycell.AddChildren(children);
-        }
-
-        return @entrycell;
-    }
-
-    public static ViewCell ViewCell() => new ViewCell();
-    public static ViewCell ViewCell(params IEnumerable<VisualNode?>? children)
-    {
-        var @viewcell = new ViewCell();
-        if (children != null)
-        {
-            @viewcell.AddChildren(children);
-        }
-
-        return @viewcell;
-    }
-
-    public static ViewCell ViewCell(Action<Microsoft.Maui.Controls.ViewCell?> componentRefAction)
-    {
-        var @viewcell = new ViewCell();
-        @viewcell.ComponentRefAction = componentRefAction;
-        return @viewcell;
-    }
-
-    public static ViewCell ViewCell(Action<Microsoft.Maui.Controls.ViewCell?> componentRefAction, params IEnumerable<VisualNode?>? children)
-    {
-        var @viewcell = new ViewCell();
-        @viewcell.ComponentRefAction = componentRefAction;
-        if (children != null)
-        {
-            @viewcell.AddChildren(children);
-        }
-
-        return @viewcell;
     }
 
     public static CarouselView CarouselView() => new CarouselView();

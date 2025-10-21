@@ -65,7 +65,7 @@ class DragDropTestPage : Component<DragDropTestPageState>
                 {
                     Enum.GetValues<TaskState>().Select(state =>
                     {
-                        return new Frame
+                        return new Border
                         {
                             new VStack
                             {
@@ -107,7 +107,7 @@ class DragDropTestPage : Component<DragDropTestPageState>
 
                 new CollectionView()
                     .ItemsSource(State.Tasks.Where(_=>_.State == State.SelectedOption), taskItem => 
-                        new Frame
+                        new Border
                         {
                             new Label(taskItem.Name),
                         }

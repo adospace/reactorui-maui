@@ -101,6 +101,21 @@ public static partial class BorderExtensions
         return border;
     }
 
+    public static T SafeAreaEdges<T>(this T border, Microsoft.Maui.SafeAreaEdges safeAreaEdges)
+        where T : IBorder
+    {
+        //border.SafeAreaEdges = safeAreaEdges;
+        border.SetProperty(Microsoft.Maui.Controls.Border.SafeAreaEdgesProperty, safeAreaEdges);
+        return border;
+    }
+
+    public static T SafeAreaEdges<T>(this T border, Func<Microsoft.Maui.SafeAreaEdges> safeAreaEdgesFunc, IComponentWithState? componentWithState = null)
+        where T : IBorder
+    {
+        border.SetProperty(Microsoft.Maui.Controls.Border.SafeAreaEdgesProperty, new PropertyValue<Microsoft.Maui.SafeAreaEdges>(safeAreaEdgesFunc, componentWithState));
+        return border;
+    }
+
     public static T Stroke<T>(this T border, Microsoft.Maui.Controls.Brush stroke)
         where T : IBorder
     {

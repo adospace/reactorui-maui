@@ -33,14 +33,14 @@ public class HomePage : Component
             {
                 new EditableCollectionView()
             },
-            new FlyoutItem("ListView")
-            {
-                new ListViewPage()
-            },
-            new FlyoutItem("ListView Extended Test")
-            {
-                new ListViewExtendedTestPage()
-            },
+            //new FlyoutItem("ListView")
+            //{
+            //    new ListViewPage()
+            //},
+            //new FlyoutItem("ListView Extended Test")
+            //{
+            //    new ListViewExtendedTestPage()
+            //},
             new FlyoutItem("AnimationBasics")
             {
                 new AnimationBasics()
