@@ -3,6 +3,7 @@ using ChartApp.Pages;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using LiveChartsCore.SkiaSharpView.Maui;
 namespace ChartApp;
 
 public static class MauiProgram
@@ -11,7 +12,8 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder
-            .UseSkiaSharp(true)
+            .UseSkiaSharp()
+            .UseLiveCharts()
             .UseMauiReactorApp<ChartPage>(app =>
             {
                 //app.AddResource("Resources/Styles/Colors.xaml");

@@ -9,14 +9,6 @@ using MauiReactor;
 
 namespace ChartApp.Pages;
 
-[Scaffold(typeof(LiveChartsCore.SkiaSharpView.Maui.PieChart))]
-partial class PieChart { }
-
-[Scaffold(typeof(LiveChartsCore.SkiaSharpView.Maui.CartesianChart))]
-partial class CartesianChart { }
-
-[Scaffold(typeof(LiveChartsCore.SkiaSharpView.Maui.PolarChart))]
-partial class PolarChart { }
 
 
 

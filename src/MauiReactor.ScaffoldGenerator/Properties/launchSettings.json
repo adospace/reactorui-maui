@@ -2,7 +2,7 @@
   "profiles": {
     "Profile 1": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "..\\..\\templates\\MauiReactorTemplate.StartupSampleXaml\\MauiReactorTemplate.StartupSampleXaml.csproj"
+      "targetProject": "..\\..\\samples\\ChartApp\\ChartApp.csproj"
     }
   }
 }
