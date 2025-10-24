@@ -61,7 +61,7 @@ partial class TestBug257_HomePage : Component
             Button("To Page 6")
                 .AutomationId("ToPage6_Button")
                 .Center()
-                .OnClicked(async () => await CurrentShell!.GoToAsync("page-6"))
+                .OnClicked(async () => await Component.CurrentShell!.GoToAsync("page-6"))
                 //.OnClicked(async () => await Navigation.PushAsync<TestBug257_Page6>())
 
             );

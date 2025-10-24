@@ -72,10 +72,14 @@ namespace MauiReactor
 
         protected sealed override IEnumerable<VisualNode> RenderChildren()
         {
-            ServiceCollectionProvider
+            var logger = ServiceCollectionProvider
                 .ServiceProvider?
-                .GetService<ILogger<Component>>()?
-                .LogDebug("Rendering {Type}", GetType());
+                .GetService<ILogger<Component>>();
+            if (logger != null && logger.IsEnabled(LogLevel.Debug))
+            {
+                logger.LogDebug("Rendering {Type}", GetType());
+            }
+                
             yield return Render();
         }
 
@@ -153,7 +157,7 @@ namespace MauiReactor
         public INavigation? Navigation
             => NavigationProvider.Navigation ?? ContainerPage?.Navigation;
 
-        public Microsoft.Maui.Controls.Shell? CurrentShell
+        public static Microsoft.Maui.Controls.Shell? CurrentShell
             => MauiControlsShellExtensions.CurrentShell;
 
         private Microsoft.Maui.Controls.Page? _containerPage;
@@ -244,7 +248,7 @@ namespace MauiReactor
 
     public abstract class ComponentWithProps<P>(P? props = null) : Component, IComponentWithProps where P : class, new()
     {
-        private bool _derivedProps = props != null;
+        private readonly bool _derivedProps = props != null;
         private P? _props = props;
 
         public P Props
@@ -300,7 +304,7 @@ namespace MauiReactor
 
         private List<RegisteredAction>? _actionsRegisteredOnStateChange;
 
-        private bool _derivedState;
+        private readonly bool _derivedState;
 
         private S? _state;
 
@@ -360,8 +364,11 @@ namespace MauiReactor
             else
             {
                 var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
-                logger?.LogWarning("Unable to forward component State from type {State}", 
-                    stateFromOldComponent.GetType().FullName);
+                if (logger != null && logger.IsEnabled(LogLevel.Warning))
+                {
+                    logger.LogWarning("Unable to forward component State from type {State}", 
+                        stateFromOldComponent.GetType().FullName);
+                }
             }
 
             if (_actionsRegisteredOnStateChange != null)
@@ -478,7 +485,10 @@ namespace MauiReactor
             if (invalidateComponent && !_isMounted)
             {
                 var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
-                logger?.LogWarning("You are calling SetState on an unmounted component '{Component}'", GetType().Name);
+                if (logger != null && logger.IsEnabled(LogLevel.Warning))
+                {
+                    logger.LogWarning("You are calling SetState on an unmounted component '{Component}'", GetType().Name);
+                }
             }
 
             if (invalidateComponent && _isMounted)
@@ -499,15 +509,21 @@ namespace MauiReactor
                 else if (MauiReactorFeatures.HotReloadIsEnabled && newNode.GetType().FullName == this.GetType().FullName)
                 {
                     var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
-                    logger?.LogWarning("State {State} copied to new instance of component {Component}", 
-                        State.GetType().FullName, newNode.GetType().FullName);
+                    if (logger != null && logger.IsEnabled(LogLevel.Warning))
+                    {
+                        logger.LogWarning("State {State} copied to new instance of component {Component}", 
+                            State.GetType().FullName, newNode.GetType().FullName);
+                    }
                     CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
                 }
                 else
                 {
                     var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
-                    logger?.LogWarning("Unable to copy state {State} copied to new instance of component {Component}", 
-                        State.GetType().FullName, newNode.GetType().FullName);
+                    if (logger != null && logger.IsEnabled(LogLevel.Warning))
+                    {
+                        logger.LogWarning("Unable to copy state {State} copied to new instance of component {Component}",
+                            State.GetType().FullName, newNode.GetType().FullName);
+                    }
                 }
 
             }
