@@ -642,25 +642,6 @@ namespace MauiReactor
             yield break;
         }
 
-        //private bool AnimateThis()
-        //{
-        //    bool animated = false;
-        //    if (_animatables != null)
-        //    {
-        //        foreach (var animatable in _animatables)
-        //        {
-        //            if (animatable.Value.IsEnabled.GetValueOrDefault() && 
-        //                !animatable.Value.Animation.IsCompleted())
-        //            {
-        //                animatable.Value.Animate(this);
-        //                animated = true;
-        //            }
-        //        }
-        //    }
-
-        //    return animated;
-        //}
-
         private void RequireLayoutCycle()
         {
             if (IsLayoutCycleRequired)
@@ -707,29 +688,6 @@ namespace MauiReactor
                 }
             }
         }
-
-        //static readonly Dictionary<Type, VisualNodePool> _nodePools = [];
-
-        //protected internal static T GetNodeFromPool<T>() where T : VisualNode, new()
-        //{
-        //    if (!_nodePools.TryGetValue(typeof(T), out var nodePool))
-        //    {
-        //        _nodePools[typeof(T)] = nodePool = new VisualNodePool();
-        //    }
-
-        //    return nodePool.GetObject<T>();
-        //}
-
-
-        //protected internal static void ReleaseNodeToPool(VisualNode node)
-        //{
-        //    if (!_nodePools.TryGetValue(node.GetType(), out var nodePool))
-        //    {
-        //        return;
-        //    }
-
-        //    nodePool.ReleaseObject(node);
-        //}
     }
 
     public interface IVisualNodeWithNativeControl : IVisualNodeWithAttachedProperties
@@ -759,7 +717,7 @@ namespace MauiReactor
 
     public abstract class VisualNode<T> : VisualNode, IVisualNodeWithNativeControl, IVisualNodeWithAttachedProperties where T : BindableObject, new()
     {
-        protected BindableObject? _nativeControl;
+        protected T? _nativeControl;
 
         private readonly Dictionary<BindableProperty, object?> _propertiesToSet = [];
 
@@ -770,7 +728,7 @@ namespace MauiReactor
             _componentRefAction = componentRefAction;
         }
 
-        protected T? NativeControl { get => (T?)_nativeControl; }
+        protected T? NativeControl { get => _nativeControl; }
 
         public void SetProperty(BindableProperty property, object? value)
             => _propertiesToSet[property] = value;
@@ -830,7 +788,6 @@ namespace MauiReactor
             _propertiesToSet.Clear();
 
             base.OnMigrated(newNode);
-
         }
 
         internal override void OnLayout(IComponentWithState? containerComponent = null)
@@ -933,7 +890,7 @@ namespace MauiReactor
 
         void IVisualNodeWithNativeControl.Attach(BindableObject nativeControl)
         {
-            _nativeControl = nativeControl;
+            _nativeControl = (T?)nativeControl;
         }
 
         bool IVisualNodeWithNativeControl.Animate()
@@ -989,6 +946,7 @@ namespace MauiReactor
                 ((IVisualNodeWithNativeControl)this).Animate();
             }
         }
+
         Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
         {
             if (_nativeControl is Microsoft.Maui.Controls.Page containerPage)

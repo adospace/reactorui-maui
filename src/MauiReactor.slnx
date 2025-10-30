@@ -4,7 +4,7 @@
       <Deploy />
     </Project>
     <Project Path="../samples/ChartApp/ChartApp.csproj">
-      <Deploy Solution="Debug|*" />
+      <Deploy />
     </Project>
     <Project Path="../samples/Contentics/Contentics.csproj">
       <Deploy />
@@ -36,6 +36,7 @@
   <Folder Name="/Solution Items/">
     <File Path="../.github/workflows/build-deploy-beta.yml" />
     <File Path="../.github/workflows/build-deploy.yml" />
+    <File Path="../README.md" />
     <File Path="global.json" />
   </Folder>
   <Folder Name="/Templates/">

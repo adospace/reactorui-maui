@@ -4,6 +4,11 @@
     {
         public static void CopyProperties(object source, object dest)
         {
+            if (!MauiReactorFeatures.HotReloadIsEnabled)
+            {
+                return;
+            }
+                
             var sourceProps = source
                 .GetType()
                 .GetProperties()
