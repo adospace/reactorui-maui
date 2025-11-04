@@ -51,6 +51,7 @@
     </Project>
   </Folder>
   <Project Path="MauiReactor.Canvas/MauiReactor.Canvas.csproj" />
+  <Project Path="MauiReactor.HotReload/MauiReactor.HotReload.csproj" Id="d7e612fb-f759-4eba-8306-31b66886319b" />
   <Project Path="MauiReactor.HotReloadConsole/MauiReactor.HotReloadConsole.csproj" />
   <Project Path="MauiReactor.Maps/MauiReactor.Maps.csproj" />
   <Project Path="MauiReactor.Scaffold/MauiReactor.Scaffold.csproj" />

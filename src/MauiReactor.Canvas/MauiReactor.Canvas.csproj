@@ -7,10 +7,10 @@
 		<!-- <TargetFrameworks>$(TargetFrameworks);net10.0-tizen</TargetFrameworks> -->
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
-    <Nullable>enable</Nullable>
-    <PublishReadyToRun>false</PublishReadyToRun>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <NoWarn>RS1036,NU1903,NU1902,NU1901</NoWarn>
+		<Nullable>enable</Nullable>
+		<PublishReadyToRun>false</PublishReadyToRun>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<NoWarn>RS1036,NU1903,NU1902,NU1901</NoWarn>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
@@ -20,28 +20,28 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 
 
-    <Version>0.0.1-beta</Version>
-    <Authors>adospace</Authors>
-    <Description>MauiReactor.CanvasKit is MauiReactor plugin that let you author custom controls using drawing commands in a declarative approach (similar to react-native-skia).</Description>
-    <Copyright>Adolfo Marinucci</Copyright>
-    <PackageProjectUrl>https://github.com/adospace/reactorui-maui</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/adospace/reactorui-maui</RepositoryUrl>
-    <PackageTags>maui mvu react-native-skia</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageId>Reactor.Maui.Canvas</PackageId>
-  
-  </PropertyGroup>
+		<Version>0.0.1-beta</Version>
+		<Authors>adospace</Authors>
+		<Description>MauiReactor.CanvasKit is MauiReactor plugin that let you author custom controls using drawing commands in a declarative approach (similar to react-native-skia).</Description>
+		<Copyright>Adolfo Marinucci</Copyright>
+		<PackageProjectUrl>https://github.com/adospace/reactorui-maui</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryUrl>https://github.com/adospace/reactorui-maui</RepositoryUrl>
+		<PackageTags>maui mvu react-native-skia</PackageTags>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageId>Reactor.Maui.Canvas</PackageId>
+
+	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\MauiReactor\MauiReactor.csproj" />
-    <ProjectReference Include="..\MauiReactor.ScaffoldGenerator\MauiReactor.ScaffoldGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
-  </ItemGroup>
+		<ProjectReference Include="..\MauiReactor\MauiReactor.csproj" />
+		<ProjectReference Include="..\MauiReactor.ScaffoldGenerator\MauiReactor.ScaffoldGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
+	</ItemGroup>
 
-  <ItemGroup>
-   <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.0-rc.2.25504.7" />
-    
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.0-rc.2.25504.7" />
+
+	</ItemGroup>
 
 </Project>

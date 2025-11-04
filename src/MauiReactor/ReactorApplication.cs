@@ -15,9 +15,9 @@ internal abstract class ReactorApplicationHost : VisualNode, IHostElement, IVisu
     {
         _application = application ?? throw new ArgumentNullException(nameof(application));
 
-        if (MauiReactorFeatures.HotReloadIsEnabled)
+        //if (MauiReactorFeatures.HotReloadIsEnabled)
         {
-            HotReloadTypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
+            TypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
         }
     }
 
@@ -131,10 +131,7 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
             _application.Theme?.Apply();
             _rootComponent ??= new T();
             OnLayout();
-            if (MauiReactorFeatures.HotReloadIsEnabled)
-            {
-                HotReloadTypeLoader.Instance.Run();
-            }
+            TypeLoader.Instance.Run();
 
             if (MauiReactorFeatures.FrameRateIsEnabled)
             {
@@ -151,9 +148,8 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
         {
             if (_application.Theme != null)
             {
-                var newAppTheme = MauiReactorFeatures.HotReloadIsEnabled ?
-                    HotReloadTypeLoader.Instance.LoadObject<Theme>(_application.Theme.GetType(), throwExceptions: false) :
-                    (Theme?)Activator.CreateInstance(_application.Theme.GetType());
+                var newAppTheme = 
+                    TypeLoader.Instance.LoadObject<Theme>(_application.Theme.GetType(), throwExceptions: false);
                 if (newAppTheme != null)
                 {
                     _application.Theme = newAppTheme;
@@ -167,9 +163,8 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
                 }
             }
 
-            var newComponent = MauiReactorFeatures.HotReloadIsEnabled ?
-                HotReloadTypeLoader.Instance.LoadObject<Component>(typeof(T)) :
-                new T();
+            var newComponent =
+                TypeLoader.Instance.LoadObject<Component>(typeof(T));
 
             if (newComponent != null &&
                 _rootComponent != newComponent)
@@ -193,7 +188,7 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
             FireUnhandledExceptionEvent(
                 new InvalidOperationException($"Unable to hot reload component {typeof(T).FullName}: type not found in received assembly", ex));
 
-            System.Diagnostics.Debug.WriteLine(ex);
+            Debug.WriteLine(ex);
         }
 
     }
@@ -203,9 +198,9 @@ internal class ReactorApplicationHost<T> : ReactorApplicationHost where T : Comp
         if (_started)
         {
             _started = false;
-            if (MauiReactorFeatures.HotReloadIsEnabled)
+            //if (MauiReactorFeatures.HotReloadIsEnabled)
             {
-                HotReloadTypeLoader.Instance.Stop();
+                TypeLoader.Instance.Stop();
             }
 
             if (MauiReactorFeatures.FrameRateIsEnabled)
@@ -445,20 +440,13 @@ public static class MauiAppBuilderExtensions
     /// <typeparam name="TComponent"></typeparam>
     /// <param name="appBuilder"></param>
     /// <param name="configureApplication">Callback to configura the MAUI Reactor application</param>
-    /// <param name="onHotReloadCompleted">Callback invoked when after the hot-reload of the application compltes</param>
     /// <param name="unhandledExceptionAction">Callback invoked when MAUI Reactor throws an internal unhandled exception</param>
     /// <returns></returns>
     public static MauiAppBuilder UseMauiReactorApp<TComponent>(this MauiAppBuilder appBuilder, 
         Action<ReactorApplication>? configureApplication = null,
-        Action? onHotReloadCompleted = null,
         Action<UnhandledExceptionEventArgs>? unhandledExceptionAction = null) where TComponent : Component, new()
         => appBuilder.UseMauiApp(sp =>
         {
-            if (MauiReactorFeatures.HotReloadIsEnabled)
-            {
-                HotReloadTypeLoader.Instance.OnHotReloadCompleted = onHotReloadCompleted;
-            }
-
             ReactorApplicationHost.UnhandledException = unhandledExceptionAction;
 
             var app = new ReactorApplication<TComponent>(sp);
@@ -477,15 +465,15 @@ public static class MauiAppBuilderExtensions
 
 public static class ApplicationExtensions
 {
-    [Obsolete(".NET MAUI 9 doesn't support loading resource dictionaries at runtime any more, please see https://adospace.gitbook.io/mauireactor/whats-new-in-version-3#xaml-resources")]
-    public static Application AddResource(this Application application, string resourceName, Assembly? containerAssembly = null)
-    {
-        var resourceDictionary = new ResourceDictionary();
+    //[Obsolete(".NET MAUI 9+ doesn't support loading resource dictionaries at runtime any more, please see https://adospace.gitbook.io/mauireactor/whats-new-in-version-3#xaml-resources")]
+    //public static Application AddResource(this Application application, string resourceName, Assembly? containerAssembly = null)
+    //{
+    //    var resourceDictionary = new ResourceDictionary();
 
-        application.Resources.MergedDictionaries.Add(resourceDictionary);
+    //    application.Resources.MergedDictionaries.Add(resourceDictionary);
 
-        return application;
-    }
+    //    return application;
+    //}
 
     public static Application SetWindowsSpecificAssetsDirectory(this Application application, string directoryName)
     {
@@ -506,13 +494,13 @@ public static class ApplicationExtensions
         return application;
     }
 
-    public static Application OnHotReloadCompleted(this ReactorApplication application, Action? onHotReloadCompleted = null)
-    {
-        if (MauiReactorFeatures.HotReloadIsEnabled)
-        {
-            HotReloadTypeLoader.Instance.OnHotReloadCompleted = onHotReloadCompleted;
-        }
-        return application;
-    }
+    //public static Application OnHotReloadCompleted(this ReactorApplication application, Action? onHotReloadCompleted = null)
+    //{
+    //    if (MauiReactorFeatures.HotReloadIsEnabled)
+    //    {
+    //        TypeLoader.Instance.OnHotReloadCompleted = onHotReloadCompleted;
+    //    }
+    //    return application;
+    //}
 }
 

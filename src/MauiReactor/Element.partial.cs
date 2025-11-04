@@ -73,6 +73,74 @@ namespace MauiReactor
             }
         }
 
+        public void AddChildren(params IEnumerable<object?>? children)
+        {
+            if (children is null)
+            {
+                return;
+            }
+
+            if (children is VisualNode visualNode)
+            {
+                OnChildAdd(visualNode);
+            }
+            else
+            {
+                foreach (var child in children)
+                {
+                    if (child != null)
+                    {
+                        if (child is VisualNode vn)
+                        {
+                            OnChildAdd(vn);
+                        }
+                        else if (child is IEnumerable nodes)
+                        {
+                            AddChildren(nodes);
+                        }
+                        else
+                        {
+                            throw new NotSupportedException($"Unable to add value of type '{child.GetType()}' under {typeof(T)}");
+                        }
+                    }
+                }
+            }
+        }
+
+        private void AddChildren(IEnumerable children)
+        {
+            if (children is null)
+            {
+                return;
+            }
+
+            if (children is VisualNode visualNode)
+            {
+                OnChildAdd(visualNode);
+            }
+            else
+            {
+                foreach (var child in children)
+                {
+                    if (child != null)
+                    {
+                        if (child is VisualNode vn)
+                        {
+                            OnChildAdd(vn);
+                        }
+                        else if (child is IEnumerable nodes)
+                        {
+                            AddChildren(nodes);
+                        }
+                        else
+                        {
+                            throw new NotSupportedException($"Unable to add value of type '{child.GetType()}' under {typeof(T)}");
+                        }
+                    }
+                }
+            }
+        }
+
         protected virtual void OnChildAdd(VisualNode node)
         {
             _internalChildren.Add(node);

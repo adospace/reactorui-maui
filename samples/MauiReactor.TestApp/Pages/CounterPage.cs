@@ -49,6 +49,12 @@ partial class CounterWithServicePage : Component<CounterPageState>
             .VCenter()
             .HCenter()
         );
+
+    IEnumerable<Label> GetLabels()
+    {
+        yield return Label("Label 1");
+        yield return Label("Label 2");
+    }
 }
 
 

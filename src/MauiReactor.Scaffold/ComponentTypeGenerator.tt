@@ -36,6 +36,15 @@ public partial class Component
         }
         return @<#= type.Name.ToLower() #>;
     }
+    public static <#= typeName #> <#= type.Name #>(params IEnumerable<object?>? children)
+    {
+        var @<#= type.Name.ToLower() #> = new <#= typeName #>();
+        if (children != null)
+        {
+            @<#= type.Name.ToLower() #>.AddChildren(children);
+        }
+        return @<#= type.Name.ToLower() #>;
+    }
     <# } #>
 
     public static <#= typeName #> <#= type.Name #>(Action<<#= type.FullName #>?> componentRefAction)

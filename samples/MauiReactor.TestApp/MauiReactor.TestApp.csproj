@@ -62,6 +62,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\MauiReactor.Canvas\MauiReactor.Canvas.csproj" />
+    <ProjectReference Include="..\..\src\MauiReactor.HotReload\MauiReactor.HotReload.csproj" />
     <ProjectReference Include="..\..\src\MauiReactor\MauiReactor.csproj" />
     <ProjectReference Include="..\..\src\MauiReactor.ScaffoldGenerator\MauiReactor.ScaffoldGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
   </ItemGroup>

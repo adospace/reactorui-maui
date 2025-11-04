@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using MauiReactor.HotReload;
 using MauiReactor.Internals;
 using MauiReactor.Parameters;
 using Microsoft.Extensions.Logging;
@@ -278,9 +279,10 @@ namespace MauiReactor
                 {
                     newComponentWithProps.Props = Props;
                 }
-                else if (MauiReactorFeatures.HotReloadIsEnabled)
+                else //if (MauiReactorFeatures.HotReloadIsEnabled)
                 {
-                    CopyObjectExtensions.CopyProperties(Props, newComponentWithProps.Props);
+                    TypeLoader.Instance.CopyProperties(Props, newComponentWithProps.Props);
+                    //CopyObjectExtensions.CopyProperties(Props, newComponentWithProps.Props);
                 }
                 //else
                 //{
@@ -357,9 +359,10 @@ namespace MauiReactor
             { 
                 _state = (S)stateFromOldComponent;
             }
-            else if (MauiReactorFeatures.HotReloadIsEnabled && stateFromOldComponent.GetType().FullName == typeof(S).FullName)
+            else if (stateFromOldComponent.GetType().FullName == typeof(S).FullName) //if (MauiReactorFeatures.HotReloadIsEnabled && stateFromOldComponent.GetType().FullName == typeof(S).FullName)
             {
-                CopyObjectExtensions.CopyProperties(stateFromOldComponent, State);
+                TypeLoader.Instance.CopyProperties(stateFromOldComponent, State);
+                //CopyObjectExtensions.CopyProperties(stateFromOldComponent, State);
             }
             else
             {
@@ -506,7 +509,7 @@ namespace MauiReactor
                 {
                     newComponentWithState.State = State;
                 }
-                else if (MauiReactorFeatures.HotReloadIsEnabled && newNode.GetType().FullName == this.GetType().FullName)
+                else if (/*MauiReactorFeatures.HotReloadIsEnabled && */newNode.GetType().FullName == this.GetType().FullName)
                 {
                     var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
                     if (logger != null && logger.IsEnabled(LogLevel.Warning))
@@ -514,7 +517,8 @@ namespace MauiReactor
                         logger.LogWarning("State {State} copied to new instance of component {Component}", 
                             State.GetType().FullName, newNode.GetType().FullName);
                     }
-                    CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
+                    //CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
+                    TypeLoader.Instance.CopyProperties(State, newComponentWithState.State);
                 }
                 else
                 {

@@ -5,6 +5,9 @@ using MauiReactor.TestApp.Resources.Styles;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Extensions.Logging;
 using MauiIcons.SegoeFluent;
+#if DEBUG
+using MauiReactor.HotReload;
+#endif
 
 namespace MauiReactor.TestApp;
 
@@ -15,6 +18,9 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+#if DEBUG
+            .UseMauiReactorHotReload()
+#endif
             .UseSegoeFluentMauiIcons()
             .ConfigureFonts(fonts =>
             {
