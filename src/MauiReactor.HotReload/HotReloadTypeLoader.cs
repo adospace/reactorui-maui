@@ -38,7 +38,8 @@ internal class HotReloadTypeLoader : TypeLoader
     {
         if (_assembly == null)
         {
-            throw new InvalidOperationException("No assembly loaded from Hot Reload server");
+            return (T?)Activator.CreateInstance(type);
+            //throw new InvalidOperationException("No assembly loaded from Hot Reload server");
         }
 
         try

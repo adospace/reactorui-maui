@@ -18,44 +18,49 @@ class CounterPage : Component<CounterPageState>
     public override VisualNode Render()
         => ContentPage("Counter Sample",
             VStack(
+                
                 Label($"Counter: {State.Counter}")
                     .AutomationId("Counter_Label"),
 
                 Button("Click To Increment")
                     .OnClicked(() => SetState(s => s.Counter++))
                     .AutomationId("Counter_Button")
+                
             )
             .Spacing(10)
             .Center()
         );
 }
 
-partial class CounterWithServicePage : Component<CounterPageState>
-{
-    [Inject]
-    IncrementService _incrementService;
+//partial class CounterWithServicePage : Component<CounterPageState>
+//{
+//    [Inject]
+//    IncrementService _incrementService;
 
-    public override VisualNode Render() 
-        => ContentPage("Counter Sample",
-            VStack(spacing: 10,
-                Label($"Counter: {State.Counter}")
-                    .AutomationId("Counter_Label")
-                    .VCenter()
-                    .HCenter(),
+//    public override VisualNode Render() 
+//        => ContentPage("Counter Sample",
+//            VStack(spacing: 10,
+//                Label($"Counter: {State.Counter}")
+//                    .AutomationId("Counter_Label")
+//                    .VCenter()
+//                    .HCenter(),
 
-                Button("Click To Increment", () => SetState(s => s.Counter = _incrementService.Increment(s.Counter)))
-                    .AutomationId("Counter_Button")
-            )
-            .VCenter()
-            .HCenter()
-        );
-
-    IEnumerable<Label> GetLabels()
-    {
-        yield return Label("Label 1");
-        yield return Label("Label 2");
-    }
-}
+//                Button("Click To Increment", () => SetState(s => s.Counter = _incrementService.Increment(s.Counter)))
+//                    .AutomationId("Counter_Button")
+//            )
+//            .VCenter()
+//            .HCenter()
+//        );
+     
+//    IEnumerable<VisualNode> GetLabels()
+//        =>
+//        [
+//            Label("Label 1"),
+//            Label("Label 2"),
+//            Grid()  
+//        ];
+     
+//}
 
 
 partial class CounterWithTaskAwaiting : Component<CounterPageState>

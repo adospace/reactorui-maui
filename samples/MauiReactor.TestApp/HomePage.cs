@@ -17,10 +17,10 @@ public class HomePage : Component
             {
                 new CounterPage()
             },
-            new FlyoutItem("Counter with service")
-            {
-                new CounterWithServicePage()
-            },
+            //new FlyoutItem("Counter with service")
+            //{
+            //    new CounterWithServicePage()
+            //},
             new FlyoutItem("Parameters")
             {
                 new ParametersPage()
