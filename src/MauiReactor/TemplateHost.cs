@@ -137,6 +137,7 @@ public class TemplateHost : VisualNode, ITemplateHost, IVisualNode, IHostElement
 
     public void Stop()
     {
+        _root?.Unmount();
         _started = false;
     }
 
