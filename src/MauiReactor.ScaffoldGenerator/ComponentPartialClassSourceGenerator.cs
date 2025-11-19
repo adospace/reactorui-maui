@@ -1,25 +1,21 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Text;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Xml;
 
 
 namespace MauiReactor.ScaffoldGenerator;
 
 [Generator]
-public class ComponentPartialClassSourceGenerator : ISourceGenerator
+public class ComponentPartialClassSourceGenerator : IIncrementalGenerator
 {
 
-    public void Initialize(GeneratorInitializationContext context)
+    public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        context.RegisterForPostInitialization((i) => i.AddSource("ComponentAttributes.g.cs", @"using System;
+        context.RegisterPostInitializationOutput(ctx => ctx.AddSource("ComponentAttributes.g.cs", @"using System;
 
 #nullable enable
 namespace MauiReactor
@@ -55,16 +51,52 @@ namespace MauiReactor
 }
 "));
 
-        context.RegisterForSyntaxNotifications(() => new ComponentPartialClassSyntaxReceiver());
+        // Create providers for different field types
+        var injectFields = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                predicate: static (s, _) => IsFieldWithAttribute(s, "Inject", "InjectAttribute"),
+                transform: static (ctx, _) => ctx.Node as FieldDeclarationSyntax)
+            .Where(static m => m is not null);
+
+        var propFields = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                predicate: static (s, _) => IsFieldWithAttribute(s, "Prop", "PropAttribute"),
+                transform: static (ctx, _) => ctx.Node as FieldDeclarationSyntax)
+            .Where(static m => m is not null);
+
+        var paramFields = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                predicate: static (s, _) => IsFieldWithAttribute(s, "Param", "ParamAttribute"),
+                transform: static (ctx, _) => ctx.Node as FieldDeclarationSyntax)
+            .Where(static m => m is not null);
+
+        // Combine all field types
+        var allFields = injectFields.Collect()
+            .Combine(propFields.Collect())
+            .Combine(paramFields.Collect())
+            .Combine(context.CompilationProvider);
+
+        context.RegisterSourceOutput(allFields,
+            static (spc, source) => Execute(spc, source.Left.Left.Left, source.Left.Left.Right, source.Left.Right, source.Right));
     }
 
-    public void Execute(GeneratorExecutionContext context)
+    static bool IsFieldWithAttribute(SyntaxNode node, string attrName, string fullAttrName)
     {
+        if (node is not FieldDeclarationSyntax fds) return false;
 
+        return fds.AttributeLists
+            .SelectMany(al => al.Attributes)
+            .Any(attr => attr.Name is IdentifierNameSyntax nameSyntax &&
+                (nameSyntax.Identifier.Text == attrName || nameSyntax.Identifier.Text == fullAttrName));
+    }
+
+    static void Execute(SourceProductionContext context,
+        ImmutableArray<FieldDeclarationSyntax?> injectFields,
+        ImmutableArray<FieldDeclarationSyntax?> propFields,
+        ImmutableArray<FieldDeclarationSyntax?> paramFields,
+        Compilation compilation)
+    {
         // Format it to get the fully qualified name (namespace + type name).
-        SymbolDisplayFormat qualifiedFormat = new SymbolDisplayFormat(
-            typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces
-        );
         SymbolDisplayFormat symbolDisplayFormat = new SymbolDisplayFormat(
             typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
             genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters,
@@ -76,7 +108,7 @@ namespace MauiReactor
         void generateClassItem(FieldDeclarationSyntax fieldDeclaration, FieldAttributeType attributeType)
         {
             // Get the semantic model for the syntax tree that has your field.
-            var semanticModel = context.Compilation.GetSemanticModel(fieldDeclaration.SyntaxTree);
+            var semanticModel = compilation.GetSemanticModel(fieldDeclaration.SyntaxTree);
 
             // Get the TypeSyntax from the FieldDeclarationSyntax.
             TypeSyntax typeSyntax = fieldDeclaration.Declaration.Type;
@@ -210,75 +242,48 @@ namespace MauiReactor
             }
         }
 
-        foreach (var injectFieldToGenerate in ((ComponentPartialClassSyntaxReceiver)context.SyntaxReceiver.EnsureNotNull()).InjectFieldsToGenerate)
+        foreach (var injectFieldToGenerate in injectFields.Where(f => f is not null))
         {
-            generateClassItem(injectFieldToGenerate, FieldAttributeType.Inject);
+            if (injectFieldToGenerate is not null)
+                generateClassItem(injectFieldToGenerate, FieldAttributeType.Inject);
         }
 
-        foreach (var propFieldToGenerate in ((ComponentPartialClassSyntaxReceiver)context.SyntaxReceiver.EnsureNotNull()).PropFieldsToGenerate)
+        foreach (var propFieldToGenerate in propFields.Where(f => f is not null))
         {
-            generateClassItem(propFieldToGenerate, FieldAttributeType.Prop);
+            if (propFieldToGenerate is not null)
+                generateClassItem(propFieldToGenerate, FieldAttributeType.Prop);
         }
 
-        foreach (var parameterFieldToGenerate in ((ComponentPartialClassSyntaxReceiver)context.SyntaxReceiver.EnsureNotNull()).ParameterFieldsToGenerate)
+        foreach (var parameterFieldToGenerate in paramFields.Where(f => f is not null))
         {
-            generateClassItem(parameterFieldToGenerate, FieldAttributeType.Parameter);
+            if (parameterFieldToGenerate is not null)
+                generateClassItem(parameterFieldToGenerate, FieldAttributeType.Parameter);
         }
 
         foreach (var generatingClassItem in generatingClassItems.OrderBy(_=>_.Key)) 
         {
-            var textGenerator = new ComponentPartialClassGenerator(generatingClassItem.Value);
-
-            var source = textGenerator.TransformAndPrettify();
-
-            context.AddSource($"{generatingClassItem.Value.GeneratingClassName}.g.cs", source);
+            try
+            {
+                var textGenerator = new ComponentPartialClassGenerator(generatingClassItem.Value);
+                var source = textGenerator.TransformAndPrettify();
+                context.AddSource($"{generatingClassItem.Value.GeneratingClassName}.g.cs", source);
+            }
+            catch (Exception ex)
+            {
+                // Report diagnostic instead of throwing
+                context.ReportDiagnostic(Diagnostic.Create(
+                    new DiagnosticDescriptor(
+                        "CG0001",
+                        "Component generation failed",
+                        "Failed to generate component for {0}: {1}",
+                        "ComponentGenerator",
+                        DiagnosticSeverity.Error,
+                        isEnabledByDefault: true),
+                    Location.None,
+                    generatingClassItem.Value.GeneratingClassName,
+                    ex.Message));
+            }
         }   
-    }
-}
-
-class ComponentPartialClassSyntaxReceiver : ISyntaxReceiver
-{
-    public List<FieldDeclarationSyntax> InjectFieldsToGenerate = new();
-    public List<FieldDeclarationSyntax> PropFieldsToGenerate = new();
-    public List<FieldDeclarationSyntax> ParameterFieldsToGenerate = new();
-
-    public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
-    {
-        if (syntaxNode is FieldDeclarationSyntax fds)
-        {
-            var injectAttribute = fds.AttributeLists
-                .Where(_ => _.Attributes.Any(attr => attr.Name is IdentifierNameSyntax nameSyntax && (nameSyntax.Identifier.Text == "Inject" ||
-                    nameSyntax.Identifier.Text == "InjectAttribute")))
-                .Select(_ => _.Attributes.First())
-                .FirstOrDefault();
-
-            if (injectAttribute != null)
-            {
-                InjectFieldsToGenerate.Add(fds);
-            }
-
-            var propAttribute = fds.AttributeLists
-                .Where(_ => _.Attributes.Any(attr => attr.Name is IdentifierNameSyntax nameSyntax && (nameSyntax.Identifier.Text == "Prop" ||
-                    nameSyntax.Identifier.Text == "PropAttribute")))
-                .Select(_ => _.Attributes.First())
-                .FirstOrDefault();
-
-            if (propAttribute != null)
-            {
-                PropFieldsToGenerate.Add(fds);
-            }
-
-            var parameterAttribute = fds.AttributeLists
-                .Where(_ => _.Attributes.Any(attr => attr.Name is IdentifierNameSyntax nameSyntax && (nameSyntax.Identifier.Text == "Param" ||
-                    nameSyntax.Identifier.Text == "ParamAttribute")))
-                .Select(_ => _.Attributes.First())
-                .FirstOrDefault();
-
-            if (parameterAttribute != null)
-            {
-                ParameterFieldsToGenerate.Add(fds);
-            }
-        }
     }
 }
 

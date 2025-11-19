@@ -1,49 +1,47 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
 
-    <Version>0.0.1</Version>
-    <Authors>adospace</Authors>
-    <Description>This command allows hot-reload of an application written with MauiReactor.</Description>
-    <Copyright>Adolfo Marinucci</Copyright>
-    <PackageProjectUrl>https://github.com/adospace/reactorui-maui</PackageProjectUrl>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/adospace/reactorui-maui</RepositoryUrl>
-    <PackageTags>maui mvu components reactjs flutter</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageId>Reactor.Maui.HotReload</PackageId>
-    <LangVersion>latest</LangVersion>
-    
-    <PackAsTool>true</PackAsTool>
-    <ToolCommandName>dotnet-maui-reactor</ToolCommandName>
-  </PropertyGroup>
-    
-    
+		<Version>0.0.1</Version>
+		<Authors>adospace</Authors>
+		<Description>This command allows hot-reload of an application written with MauiReactor.</Description>
+		<Copyright>Adolfo Marinucci</Copyright>
+		<PackageProjectUrl>https://github.com/adospace/reactorui-maui</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryUrl>https://github.com/adospace/reactorui-maui</RepositoryUrl>
+		<PackageTags>maui mvu components reactjs flutter</PackageTags>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageId>Reactor.Maui.HotReload</PackageId>
+		<LangVersion>latest</LangVersion>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>$(DefineConstants)TRACE;ROSLYN_COMPILER</DefineConstants>
-  </PropertyGroup>
+		<PackAsTool>true</PackAsTool>
+		<ToolCommandName>dotnet-maui-reactor</ToolCommandName>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>$(DefineConstants)TRACE;ROSLYN_COMPILER</DefineConstants>
-  </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CliWrap" Version="3.9.0" />
-    <PackageReference Include="CommandLineParser" Version="2.9.1" />
-    <PackageReference Include="Microsoft.Build.Locator" Version="1.11.1" ExcludeAssets="runtime" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="5.0.0" />
-    <PackageReference Include="Nito.AsyncEx" Version="5.1.2" />
-    <PackageReference Include="System.Formats.Asn1" Version="10.0.0" />
-    <PackageReference Include="System.Text.Json" Version="10.0.0" />
-    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="10.0.0" />
-  </ItemGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>$(DefineConstants)TRACE;ROSLYN_COMPILER</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>$(DefineConstants)TRACE;ROSLYN_COMPILER</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CliWrap" Version="3.9.0" />
+		<PackageReference Include="CommandLineParser" Version="2.9.1" />
+		<PackageReference Include="Microsoft.Build.Locator" Version="1.11.1" />
+		<PackageReference Include="Microsoft.Build.Framework" Version="17.11.31" ExcludeAssets="runtime" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="5.0.0" />
+		<PackageReference Include="Nito.AsyncEx" Version="5.1.2" />
+	</ItemGroup>
 
 </Project>

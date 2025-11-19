@@ -101,10 +101,10 @@ public class HomePage : Component
             {
                 new BorderCornerRadiusPage()
             },
-            new FlyoutItem("Show Popup Test")
-            {
-                new ShowPopupTestPage()
-            },
+            //new FlyoutItem("Show Popup Test")
+            //{
+            //    new ShowPopupTestPage()
+            //},
             new FlyoutItem("Carousel Test")
             {
                 new CarouselTestPage()
