@@ -1,57 +1,55 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <IsRoslynComponent>true</IsRoslynComponent>
-    <LangVersion>latest</LangVersion>
-    <IncludeBuildOutput>false</IncludeBuildOutput>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<IsRoslynComponent>true</IsRoslynComponent>
+		<LangVersion>latest</LangVersion>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+	</PropertyGroup>
 
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" PrivateAssets="all" />
+		<PackageReference Include="System.CodeDom" Version="10.0.0" />
+	</ItemGroup>
 
+	<ItemGroup>
+		<None Remove="bin\Debug\netstandard2.0\\MauiReactor.ScaffoldGenerator.dll" />
+	</ItemGroup>
 
-  </PropertyGroup>
+	<ItemGroup>
+		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" PrivateAssets="all" />
-    <PackageReference Include="System.CodeDom" Version="10.0.0-rc.2.25502.107" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="ScaffoldTypeGenerator.tt">
+			<Generator>TextTemplatingFilePreprocessor</Generator>
+			<LastGenOutput>ScaffoldTypeGenerator.cs</LastGenOutput>
+		</None>
+		<None Update="ComponentPartialClassGenerator.tt">
+			<Generator>TextTemplatingFilePreprocessor</Generator>
+			<LastGenOutput>ComponentPartialClassGenerator.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Remove="bin\Debug\netstandard2.0\\MauiReactor.ScaffoldGenerator.dll" />
-  </ItemGroup>
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="ScaffoldTypeGenerator.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ScaffoldTypeGenerator.cs</LastGenOutput>
-    </None>
-    <None Update="ComponentPartialClassGenerator.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>ComponentPartialClassGenerator.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="ScaffoldTypeGenerator.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ScaffoldTypeGenerator.tt</DependentUpon>
-    </Compile>
-    <Compile Update="ComponentPartialClassGenerator.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ComponentPartialClassGenerator.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="ScaffoldTypeGenerator.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ScaffoldTypeGenerator.tt</DependentUpon>
+		</Compile>
+		<Compile Update="ComponentPartialClassGenerator.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>ComponentPartialClassGenerator.tt</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
 
 </Project>

@@ -8,21 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Maui" Version="10.0.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.12.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-    <PackageReference Include="NUnit" Version="4.2.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
-    <PackageReference Include="NUnit.Analyzers" Version="4.4.0">
+    <PackageReference Include="CommunityToolkit.Maui" Version="13.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="5.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageReference Include="NUnit" Version="4.4.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="5.2.0" />
+    <PackageReference Include="NUnit.Analyzers" Version="4.11.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="6.0.2">
+    <PackageReference Include="coverlet.collector" Version="6.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Shouldly" Version="4.2.1" />
+    <PackageReference Include="Shouldly" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-   <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.0-rc.2.25504.7" />
+   <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.10" />
     
   </ItemGroup>
 

@@ -32,35 +32,26 @@ class CounterPage : Component<CounterPageState>
         );
 }
 
-//partial class CounterWithServicePage : Component<CounterPageState>
-//{
-//    [Inject]
-//    IncrementService _incrementService;
+partial class CounterWithServicePage : Component<CounterPageState>
+{
+    [Inject]
+    IncrementService _incrementService;
 
-//    public override VisualNode Render() 
-//        => ContentPage("Counter Sample",
-//            VStack(spacing: 10,
-//                Label($"Counter: {State.Counter}")
-//                    .AutomationId("Counter_Label")
-//                    .VCenter()
-//                    .HCenter(),
+    public override VisualNode Render()
+        => ContentPage("Counter Sample",
+            VStack(spacing: 10,
+                Label($"Counter: {State.Counter}")
+                    .AutomationId("Counter_Label")
+                    .VCenter()
+                    .HCenter(),
 
-//                Button("Click To Increment", () => SetState(s => s.Counter = _incrementService.Increment(s.Counter)))
-//                    .AutomationId("Counter_Button")
-//            )
-//            .VCenter()
-//            .HCenter()
-//        );
-     
-//    IEnumerable<VisualNode> GetLabels()
-//        =>
-//        [
-//            Label("Label 1"),
-//            Label("Label 2"),
-//            Grid()  
-//        ];
-     
-//}
+                Button("Click To Increment", () => SetState(s => s.Counter = _incrementService.Increment(s.Counter)))
+                    .AutomationId("Counter_Button")
+            )
+            .VCenter()
+            .HCenter()
+        );
+}
 
 
 partial class CounterWithTaskAwaiting : Component<CounterPageState>

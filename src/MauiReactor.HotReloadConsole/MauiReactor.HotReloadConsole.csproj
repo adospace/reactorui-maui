@@ -36,14 +36,14 @@
   <ItemGroup>
     <PackageReference Include="CliWrap" Version="3.9.0" />
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
-    <PackageReference Include="Microsoft.Build.Locator" Version="1.10.2" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.14.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.14.0" />
+    <PackageReference Include="Microsoft.Build.Locator" Version="1.11.1" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="5.0.0" />
     <PackageReference Include="Nito.AsyncEx" Version="5.1.2" />
-    <PackageReference Include="System.Formats.Asn1" Version="10.0.0-rc.2.25502.107" />
-    <PackageReference Include="System.Text.Json" Version="10.0.0-rc.2.25502.107" />
-    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="10.0.0-rc.2.25502.107" />
+    <PackageReference Include="System.Formats.Asn1" Version="10.0.0" />
+    <PackageReference Include="System.Text.Json" Version="10.0.0" />
+    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="10.0.0" />
   </ItemGroup>
 
 </Project>

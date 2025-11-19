@@ -72,15 +72,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Maui" Version="10.0.0" />
+    <PackageReference Include="CommunityToolkit.Maui" Version="13.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-   <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.0-rc.2.25504.7" />
+   <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.10" />
     
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
 	
-	<PackageReference Include="AathifMahir.Maui.MauiIcons.SegoeFluent" Version="4.0.0" />
+	<PackageReference Include="AathifMahir.Maui.MauiIcons.SegoeFluent" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
