@@ -66,8 +66,22 @@ public static partial class MenuBarItemExtensions
         return menuBarItem;
     }
 
+    public static T MenuBarItemText<T>(this T menuBarItem, string text)
+        where T : Component
+    {
+        menuBarItem.SetProperty(Microsoft.Maui.Controls.MenuBarItem.TextProperty, text);
+        return menuBarItem;
+    }
+
     public static T Text<T>(this T menuBarItem, Func<string> textFunc, IComponentWithState? componentWithState = null)
         where T : IMenuBarItem
+    {
+        menuBarItem.SetProperty(Microsoft.Maui.Controls.MenuBarItem.TextProperty, new PropertyValue<string>(textFunc, componentWithState));
+        return menuBarItem;
+    }
+
+    public static T MenuBarItemText<T>(this T menuBarItem, Func<string> textFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         menuBarItem.SetProperty(Microsoft.Maui.Controls.MenuBarItem.TextProperty, new PropertyValue<string>(textFunc, componentWithState));
         return menuBarItem;
@@ -81,8 +95,22 @@ public static partial class MenuBarItemExtensions
         return menuBarItem;
     }
 
+    public static T MenuBarItemIsEnabled<T>(this T menuBarItem, bool isEnabled)
+        where T : Component
+    {
+        menuBarItem.SetProperty(Microsoft.Maui.Controls.MenuBarItem.IsEnabledProperty, isEnabled);
+        return menuBarItem;
+    }
+
     public static T IsEnabled<T>(this T menuBarItem, Func<bool> isEnabledFunc, IComponentWithState? componentWithState = null)
         where T : IMenuBarItem
+    {
+        menuBarItem.SetProperty(Microsoft.Maui.Controls.MenuBarItem.IsEnabledProperty, new PropertyValue<bool>(isEnabledFunc, componentWithState));
+        return menuBarItem;
+    }
+
+    public static T MenuBarItemIsEnabled<T>(this T menuBarItem, Func<bool> isEnabledFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         menuBarItem.SetProperty(Microsoft.Maui.Controls.MenuBarItem.IsEnabledProperty, new PropertyValue<bool>(isEnabledFunc, componentWithState));
         return menuBarItem;

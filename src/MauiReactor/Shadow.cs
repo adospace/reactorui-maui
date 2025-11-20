@@ -66,8 +66,22 @@ public static partial class ShadowExtensions
         return shadow;
     }
 
+    public static T ShadowRadius<T>(this T shadow, float radius)
+        where T : Component
+    {
+        shadow.SetProperty(Microsoft.Maui.Controls.Shadow.RadiusProperty, radius);
+        return shadow;
+    }
+
     public static T Radius<T>(this T shadow, Func<float> radiusFunc, IComponentWithState? componentWithState = null)
         where T : IShadow
+    {
+        shadow.SetProperty(Microsoft.Maui.Controls.Shadow.RadiusProperty, new PropertyValue<float>(radiusFunc, componentWithState));
+        return shadow;
+    }
+
+    public static T ShadowRadius<T>(this T shadow, Func<float> radiusFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shadow.SetProperty(Microsoft.Maui.Controls.Shadow.RadiusProperty, new PropertyValue<float>(radiusFunc, componentWithState));
         return shadow;
@@ -81,8 +95,22 @@ public static partial class ShadowExtensions
         return shadow;
     }
 
+    public static T ShadowOpacity<T>(this T shadow, float opacity)
+        where T : Component
+    {
+        shadow.SetProperty(Microsoft.Maui.Controls.Shadow.OpacityProperty, opacity);
+        return shadow;
+    }
+
     public static T Opacity<T>(this T shadow, Func<float> opacityFunc, IComponentWithState? componentWithState = null)
         where T : IShadow
+    {
+        shadow.SetProperty(Microsoft.Maui.Controls.Shadow.OpacityProperty, new PropertyValue<float>(opacityFunc, componentWithState));
+        return shadow;
+    }
+
+    public static T ShadowOpacity<T>(this T shadow, Func<float> opacityFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shadow.SetProperty(Microsoft.Maui.Controls.Shadow.OpacityProperty, new PropertyValue<float>(opacityFunc, componentWithState));
         return shadow;
@@ -96,8 +124,22 @@ public static partial class ShadowExtensions
         return shadow;
     }
 
+    public static T ShadowBrush<T>(this T shadow, Microsoft.Maui.Controls.Brush brush)
+        where T : Component
+    {
+        shadow.SetProperty(Microsoft.Maui.Controls.Shadow.BrushProperty, brush);
+        return shadow;
+    }
+
     public static T Brush<T>(this T shadow, Func<Microsoft.Maui.Controls.Brush> brushFunc, IComponentWithState? componentWithState = null)
         where T : IShadow
+    {
+        shadow.SetProperty(Microsoft.Maui.Controls.Shadow.BrushProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(brushFunc, componentWithState));
+        return shadow;
+    }
+
+    public static T ShadowBrush<T>(this T shadow, Func<Microsoft.Maui.Controls.Brush> brushFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shadow.SetProperty(Microsoft.Maui.Controls.Shadow.BrushProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(brushFunc, componentWithState));
         return shadow;
@@ -112,8 +154,23 @@ public static partial class ShadowExtensions
         return shadow;
     }
 
+    public static T ShadowOffset<T>(this T shadow, Microsoft.Maui.Graphics.Point offset, RxPointAnimation? customAnimation = null)
+        where T : Component
+    {
+        shadow.SetProperty(Microsoft.Maui.Controls.Shadow.OffsetProperty, offset);
+        shadow.AppendAnimatable(Microsoft.Maui.Controls.Shadow.OffsetProperty, customAnimation ?? new RxSimplePointAnimation(offset));
+        return shadow;
+    }
+
     public static T Offset<T>(this T shadow, Func<Microsoft.Maui.Graphics.Point> offsetFunc, IComponentWithState? componentWithState = null)
         where T : IShadow
+    {
+        shadow.SetProperty(Microsoft.Maui.Controls.Shadow.OffsetProperty, new PropertyValue<Microsoft.Maui.Graphics.Point>(offsetFunc, componentWithState));
+        return shadow;
+    }
+
+    public static T ShadowOffset<T>(this T shadow, Func<Microsoft.Maui.Graphics.Point> offsetFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shadow.SetProperty(Microsoft.Maui.Controls.Shadow.OffsetProperty, new PropertyValue<Microsoft.Maui.Graphics.Point>(offsetFunc, componentWithState));
         return shadow;

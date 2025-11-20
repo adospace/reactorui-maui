@@ -59,8 +59,23 @@ public static partial class LineGeometryExtensions
         return lineGeometry;
     }
 
+    public static T LineGeometryStartPoint<T>(this T lineGeometry, Microsoft.Maui.Graphics.Point startPoint, RxPointAnimation? customAnimation = null)
+        where T : Component
+    {
+        lineGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, startPoint);
+        lineGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, customAnimation ?? new RxSimplePointAnimation(startPoint));
+        return lineGeometry;
+    }
+
     public static T StartPoint<T>(this T lineGeometry, Func<Microsoft.Maui.Graphics.Point> startPointFunc, IComponentWithState? componentWithState = null)
         where T : ILineGeometry
+    {
+        lineGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, new PropertyValue<Microsoft.Maui.Graphics.Point>(startPointFunc, componentWithState));
+        return lineGeometry;
+    }
+
+    public static T LineGeometryStartPoint<T>(this T lineGeometry, Func<Microsoft.Maui.Graphics.Point> startPointFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         lineGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.StartPointProperty, new PropertyValue<Microsoft.Maui.Graphics.Point>(startPointFunc, componentWithState));
         return lineGeometry;
@@ -83,8 +98,23 @@ public static partial class LineGeometryExtensions
         return lineGeometry;
     }
 
+    public static T LineGeometryEndPoint<T>(this T lineGeometry, Microsoft.Maui.Graphics.Point endPoint, RxPointAnimation? customAnimation = null)
+        where T : Component
+    {
+        lineGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, endPoint);
+        lineGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, customAnimation ?? new RxSimplePointAnimation(endPoint));
+        return lineGeometry;
+    }
+
     public static T EndPoint<T>(this T lineGeometry, Func<Microsoft.Maui.Graphics.Point> endPointFunc, IComponentWithState? componentWithState = null)
         where T : ILineGeometry
+    {
+        lineGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, new PropertyValue<Microsoft.Maui.Graphics.Point>(endPointFunc, componentWithState));
+        return lineGeometry;
+    }
+
+    public static T LineGeometryEndPoint<T>(this T lineGeometry, Func<Microsoft.Maui.Graphics.Point> endPointFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         lineGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.LineGeometry.EndPointProperty, new PropertyValue<Microsoft.Maui.Graphics.Point>(endPointFunc, componentWithState));
         return lineGeometry;

@@ -166,8 +166,22 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonContentLayout<T>(this T button, Microsoft.Maui.Controls.Button.ButtonContentLayout contentLayout)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.ContentLayoutProperty, contentLayout);
+        return button;
+    }
+
     public static T ContentLayout<T>(this T button, Func<Microsoft.Maui.Controls.Button.ButtonContentLayout> contentLayoutFunc, IComponentWithState? componentWithState = null)
         where T : IButton
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.ContentLayoutProperty, new PropertyValue<Microsoft.Maui.Controls.Button.ButtonContentLayout>(contentLayoutFunc, componentWithState));
+        return button;
+    }
+
+    public static T ButtonContentLayout<T>(this T button, Func<Microsoft.Maui.Controls.Button.ButtonContentLayout> contentLayoutFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         button.SetProperty(Microsoft.Maui.Controls.Button.ContentLayoutProperty, new PropertyValue<Microsoft.Maui.Controls.Button.ButtonContentLayout>(contentLayoutFunc, componentWithState));
         return button;
@@ -181,8 +195,22 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonText<T>(this T button, string text)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.TextProperty, text);
+        return button;
+    }
+
     public static T Text<T>(this T button, Func<string> textFunc, IComponentWithState? componentWithState = null)
         where T : IButton
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.TextProperty, new PropertyValue<string>(textFunc, componentWithState));
+        return button;
+    }
+
+    public static T ButtonText<T>(this T button, Func<string> textFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         button.SetProperty(Microsoft.Maui.Controls.Button.TextProperty, new PropertyValue<string>(textFunc, componentWithState));
         return button;
@@ -196,8 +224,22 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonTextColor<T>(this T button, Microsoft.Maui.Graphics.Color textColor)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.TextColorProperty, textColor);
+        return button;
+    }
+
     public static T TextColor<T>(this T button, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
         where T : IButton
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
+        return button;
+    }
+
+    public static T ButtonTextColor<T>(this T button, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         button.SetProperty(Microsoft.Maui.Controls.Button.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
         return button;
@@ -212,8 +254,23 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonCharacterSpacing<T>(this T button, double characterSpacing, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.CharacterSpacingProperty, characterSpacing);
+        button.AppendAnimatable(Microsoft.Maui.Controls.Button.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing));
+        return button;
+    }
+
     public static T CharacterSpacing<T>(this T button, Func<double> characterSpacingFunc, IComponentWithState? componentWithState = null)
         where T : IButton
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc, componentWithState));
+        return button;
+    }
+
+    public static T ButtonCharacterSpacing<T>(this T button, Func<double> characterSpacingFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         button.SetProperty(Microsoft.Maui.Controls.Button.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc, componentWithState));
         return button;
@@ -227,8 +284,22 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonFontFamily<T>(this T button, string fontFamily)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.FontFamilyProperty, fontFamily);
+        return button;
+    }
+
     public static T FontFamily<T>(this T button, Func<string> fontFamilyFunc, IComponentWithState? componentWithState = null)
         where T : IButton
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc, componentWithState));
+        return button;
+    }
+
+    public static T ButtonFontFamily<T>(this T button, Func<string> fontFamilyFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         button.SetProperty(Microsoft.Maui.Controls.Button.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc, componentWithState));
         return button;
@@ -243,8 +314,23 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonFontSize<T>(this T button, double fontSize, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.FontSizeProperty, fontSize);
+        button.AppendAnimatable(Microsoft.Maui.Controls.Button.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize));
+        return button;
+    }
+
     public static T FontSize<T>(this T button, Func<double> fontSizeFunc, IComponentWithState? componentWithState = null)
         where T : IButton
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.FontSizeProperty, new PropertyValue<double>(fontSizeFunc, componentWithState));
+        return button;
+    }
+
+    public static T ButtonFontSize<T>(this T button, Func<double> fontSizeFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         button.SetProperty(Microsoft.Maui.Controls.Button.FontSizeProperty, new PropertyValue<double>(fontSizeFunc, componentWithState));
         return button;
@@ -258,8 +344,22 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonTextTransform<T>(this T button, Microsoft.Maui.TextTransform textTransform)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.TextTransformProperty, textTransform);
+        return button;
+    }
+
     public static T TextTransform<T>(this T button, Func<Microsoft.Maui.TextTransform> textTransformFunc, IComponentWithState? componentWithState = null)
         where T : IButton
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.TextTransformProperty, new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc, componentWithState));
+        return button;
+    }
+
+    public static T ButtonTextTransform<T>(this T button, Func<Microsoft.Maui.TextTransform> textTransformFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         button.SetProperty(Microsoft.Maui.Controls.Button.TextTransformProperty, new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc, componentWithState));
         return button;
@@ -273,8 +373,22 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonFontAttributes<T>(this T button, Microsoft.Maui.Controls.FontAttributes fontAttributes)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.FontAttributesProperty, fontAttributes);
+        return button;
+    }
+
     public static T FontAttributes<T>(this T button, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc, IComponentWithState? componentWithState = null)
         where T : IButton
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc, componentWithState));
+        return button;
+    }
+
+    public static T ButtonFontAttributes<T>(this T button, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         button.SetProperty(Microsoft.Maui.Controls.Button.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc, componentWithState));
         return button;
@@ -288,8 +402,22 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonFontAutoScalingEnabled<T>(this T button, bool fontAutoScalingEnabled)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.FontAutoScalingEnabledProperty, fontAutoScalingEnabled);
+        return button;
+    }
+
     public static T FontAutoScalingEnabled<T>(this T button, Func<bool> fontAutoScalingEnabledFunc, IComponentWithState? componentWithState = null)
         where T : IButton
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc, componentWithState));
+        return button;
+    }
+
+    public static T ButtonFontAutoScalingEnabled<T>(this T button, Func<bool> fontAutoScalingEnabledFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         button.SetProperty(Microsoft.Maui.Controls.Button.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc, componentWithState));
         return button;
@@ -304,8 +432,23 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonBorderWidth<T>(this T button, double borderWidth, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.BorderWidthProperty, borderWidth);
+        button.AppendAnimatable(Microsoft.Maui.Controls.Button.BorderWidthProperty, customAnimation ?? new RxDoubleAnimation(borderWidth));
+        return button;
+    }
+
     public static T BorderWidth<T>(this T button, Func<double> borderWidthFunc, IComponentWithState? componentWithState = null)
         where T : IButton
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.BorderWidthProperty, new PropertyValue<double>(borderWidthFunc, componentWithState));
+        return button;
+    }
+
+    public static T ButtonBorderWidth<T>(this T button, Func<double> borderWidthFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         button.SetProperty(Microsoft.Maui.Controls.Button.BorderWidthProperty, new PropertyValue<double>(borderWidthFunc, componentWithState));
         return button;
@@ -319,8 +462,22 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonBorderColor<T>(this T button, Microsoft.Maui.Graphics.Color borderColor)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.BorderColorProperty, borderColor);
+        return button;
+    }
+
     public static T BorderColor<T>(this T button, Func<Microsoft.Maui.Graphics.Color> borderColorFunc, IComponentWithState? componentWithState = null)
         where T : IButton
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.BorderColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc, componentWithState));
+        return button;
+    }
+
+    public static T ButtonBorderColor<T>(this T button, Func<Microsoft.Maui.Graphics.Color> borderColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         button.SetProperty(Microsoft.Maui.Controls.Button.BorderColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc, componentWithState));
         return button;
@@ -334,8 +491,22 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonCornerRadius<T>(this T button, int cornerRadius)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.CornerRadiusProperty, cornerRadius);
+        return button;
+    }
+
     public static T CornerRadius<T>(this T button, Func<int> cornerRadiusFunc, IComponentWithState? componentWithState = null)
         where T : IButton
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.CornerRadiusProperty, new PropertyValue<int>(cornerRadiusFunc, componentWithState));
+        return button;
+    }
+
+    public static T ButtonCornerRadius<T>(this T button, Func<int> cornerRadiusFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         button.SetProperty(Microsoft.Maui.Controls.Button.CornerRadiusProperty, new PropertyValue<int>(cornerRadiusFunc, componentWithState));
         return button;
@@ -349,8 +520,22 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonImageSource<T>(this T button, Microsoft.Maui.Controls.ImageSource imageSource)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.ImageSourceProperty, imageSource);
+        return button;
+    }
+
     public static T ImageSource<T>(this T button, Func<Microsoft.Maui.Controls.ImageSource> imageSourceFunc, IComponentWithState? componentWithState = null)
         where T : IButton
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.ImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(imageSourceFunc, componentWithState));
+        return button;
+    }
+
+    public static T ButtonImageSource<T>(this T button, Func<Microsoft.Maui.Controls.ImageSource> imageSourceFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         button.SetProperty(Microsoft.Maui.Controls.Button.ImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(imageSourceFunc, componentWithState));
         return button;
@@ -425,8 +610,23 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonPadding<T>(this T button, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.PaddingProperty, padding);
+        button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding));
+        return button;
+    }
+
     public static T Padding<T>(this T button, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
         where T : IButton
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
+        return button;
+    }
+
+    public static T ButtonPadding<T>(this T button, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         button.SetProperty(Microsoft.Maui.Controls.Button.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
         return button;
@@ -441,10 +641,26 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonPadding<T>(this T button, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.PaddingProperty, new Thickness(leftRight, topBottom));
+        button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)));
+        return button;
+    }
+
     public static T Padding<T>(this T button, double uniformSize, RxThicknessAnimation? customAnimation = null)
         where T : IButton
     {
         //button.Padding = new Thickness(uniformSize);
+        button.SetProperty(Microsoft.Maui.Controls.Button.PaddingProperty, new Thickness(uniformSize));
+        button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)));
+        return button;
+    }
+
+    public static T ButtonPadding<T>(this T button, double uniformSize, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
         button.SetProperty(Microsoft.Maui.Controls.Button.PaddingProperty, new Thickness(uniformSize));
         button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)));
         return button;
@@ -459,6 +675,14 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonPadding<T>(this T button, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.PaddingProperty, new Thickness(left, top, right, bottom));
+        button.AppendAnimatable(Microsoft.Maui.Controls.Button.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)));
+        return button;
+    }
+
     public static T LineBreakMode<T>(this T button, Microsoft.Maui.LineBreakMode lineBreakMode)
         where T : IButton
     {
@@ -467,8 +691,22 @@ public static partial class ButtonExtensions
         return button;
     }
 
+    public static T ButtonLineBreakMode<T>(this T button, Microsoft.Maui.LineBreakMode lineBreakMode)
+        where T : Component
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.LineBreakModeProperty, lineBreakMode);
+        return button;
+    }
+
     public static T LineBreakMode<T>(this T button, Func<Microsoft.Maui.LineBreakMode> lineBreakModeFunc, IComponentWithState? componentWithState = null)
         where T : IButton
+    {
+        button.SetProperty(Microsoft.Maui.Controls.Button.LineBreakModeProperty, new PropertyValue<Microsoft.Maui.LineBreakMode>(lineBreakModeFunc, componentWithState));
+        return button;
+    }
+
+    public static T ButtonLineBreakMode<T>(this T button, Func<Microsoft.Maui.LineBreakMode> lineBreakModeFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         button.SetProperty(Microsoft.Maui.Controls.Button.LineBreakModeProperty, new PropertyValue<Microsoft.Maui.LineBreakMode>(lineBreakModeFunc, componentWithState));
         return button;

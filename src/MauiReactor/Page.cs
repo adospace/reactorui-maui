@@ -218,8 +218,22 @@ public static partial class PageExtensions
         return page;
     }
 
+    public static T PageBackgroundImageSource<T>(this T page, Microsoft.Maui.Controls.ImageSource backgroundImageSource)
+        where T : Component
+    {
+        page.SetProperty(Microsoft.Maui.Controls.Page.BackgroundImageSourceProperty, backgroundImageSource);
+        return page;
+    }
+
     public static T BackgroundImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> backgroundImageSourceFunc, IComponentWithState? componentWithState = null)
         where T : IPage
+    {
+        page.SetProperty(Microsoft.Maui.Controls.Page.BackgroundImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(backgroundImageSourceFunc, componentWithState));
+        return page;
+    }
+
+    public static T PageBackgroundImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> backgroundImageSourceFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         page.SetProperty(Microsoft.Maui.Controls.Page.BackgroundImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(backgroundImageSourceFunc, componentWithState));
         return page;
@@ -295,8 +309,24 @@ public static partial class PageExtensions
     }
 
     [Obsolete("Page.IsBusy has been deprecated and will be removed in .NET 11")]
+    public static T PageIsBusy<T>(this T page, bool isBusy)
+        where T : Component
+    {
+        page.SetProperty(Microsoft.Maui.Controls.Page.IsBusyProperty, isBusy);
+        return page;
+    }
+
+    [Obsolete("Page.IsBusy has been deprecated and will be removed in .NET 11")]
     public static T IsBusy<T>(this T page, Func<bool> isBusyFunc, IComponentWithState? componentWithState = null)
         where T : IPage
+    {
+        page.SetProperty(Microsoft.Maui.Controls.Page.IsBusyProperty, new PropertyValue<bool>(isBusyFunc, componentWithState));
+        return page;
+    }
+
+    [Obsolete("Page.IsBusy has been deprecated and will be removed in .NET 11")]
+    public static T PageIsBusy<T>(this T page, Func<bool> isBusyFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         page.SetProperty(Microsoft.Maui.Controls.Page.IsBusyProperty, new PropertyValue<bool>(isBusyFunc, componentWithState));
         return page;
@@ -311,8 +341,23 @@ public static partial class PageExtensions
         return page;
     }
 
+    public static T PagePadding<T>(this T page, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
+        page.SetProperty(Microsoft.Maui.Controls.Page.PaddingProperty, padding);
+        page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding));
+        return page;
+    }
+
     public static T Padding<T>(this T page, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
         where T : IPage
+    {
+        page.SetProperty(Microsoft.Maui.Controls.Page.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
+        return page;
+    }
+
+    public static T PagePadding<T>(this T page, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         page.SetProperty(Microsoft.Maui.Controls.Page.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
         return page;
@@ -327,10 +372,26 @@ public static partial class PageExtensions
         return page;
     }
 
+    public static T PagePadding<T>(this T page, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
+        page.SetProperty(Microsoft.Maui.Controls.Page.PaddingProperty, new Thickness(leftRight, topBottom));
+        page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)));
+        return page;
+    }
+
     public static T Padding<T>(this T page, double uniformSize, RxThicknessAnimation? customAnimation = null)
         where T : IPage
     {
         //page.Padding = new Thickness(uniformSize);
+        page.SetProperty(Microsoft.Maui.Controls.Page.PaddingProperty, new Thickness(uniformSize));
+        page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)));
+        return page;
+    }
+
+    public static T PagePadding<T>(this T page, double uniformSize, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
         page.SetProperty(Microsoft.Maui.Controls.Page.PaddingProperty, new Thickness(uniformSize));
         page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)));
         return page;
@@ -345,6 +406,14 @@ public static partial class PageExtensions
         return page;
     }
 
+    public static T PagePadding<T>(this T page, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
+        page.SetProperty(Microsoft.Maui.Controls.Page.PaddingProperty, new Thickness(left, top, right, bottom));
+        page.AppendAnimatable(Microsoft.Maui.Controls.Page.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)));
+        return page;
+    }
+
     public static T Title<T>(this T page, string title)
         where T : IPage
     {
@@ -353,8 +422,22 @@ public static partial class PageExtensions
         return page;
     }
 
+    public static T PageTitle<T>(this T page, string title)
+        where T : Component
+    {
+        page.SetProperty(Microsoft.Maui.Controls.Page.TitleProperty, title);
+        return page;
+    }
+
     public static T Title<T>(this T page, Func<string> titleFunc, IComponentWithState? componentWithState = null)
         where T : IPage
+    {
+        page.SetProperty(Microsoft.Maui.Controls.Page.TitleProperty, new PropertyValue<string>(titleFunc, componentWithState));
+        return page;
+    }
+
+    public static T PageTitle<T>(this T page, Func<string> titleFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         page.SetProperty(Microsoft.Maui.Controls.Page.TitleProperty, new PropertyValue<string>(titleFunc, componentWithState));
         return page;
@@ -368,8 +451,22 @@ public static partial class PageExtensions
         return page;
     }
 
+    public static T PageIconImageSource<T>(this T page, Microsoft.Maui.Controls.ImageSource iconImageSource)
+        where T : Component
+    {
+        page.SetProperty(Microsoft.Maui.Controls.Page.IconImageSourceProperty, iconImageSource);
+        return page;
+    }
+
     public static T IconImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> iconImageSourceFunc, IComponentWithState? componentWithState = null)
         where T : IPage
+    {
+        page.SetProperty(Microsoft.Maui.Controls.Page.IconImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc, componentWithState));
+        return page;
+    }
+
+    public static T PageIconImageSource<T>(this T page, Func<Microsoft.Maui.Controls.ImageSource> iconImageSourceFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         page.SetProperty(Microsoft.Maui.Controls.Page.IconImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc, componentWithState));
         return page;

@@ -75,9 +75,9 @@ public partial class Component
 public static partial class ContentPageExtensions
 {
     public static T HasNavigationBar<T>(this T contentPage, bool hasNavigationBar)
-        where T : IContentPage, IVisualNodeWithAttachedProperties
+        where T : IContentPage
     {
-        contentPage.Set(Microsoft.Maui.Controls.NavigationPage.HasNavigationBarProperty, hasNavigationBar);
+        contentPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.HasNavigationBarProperty, hasNavigationBar);
         return contentPage;
     }
 

@@ -66,8 +66,22 @@ public static partial class GroupableItemsViewExtensions
         return groupableItemsView;
     }
 
+    public static T GroupableItemsViewIsGrouped<T>(this T groupableItemsView, bool isGrouped)
+        where T : Component
+    {
+        groupableItemsView.SetProperty(Microsoft.Maui.Controls.GroupableItemsView.IsGroupedProperty, isGrouped);
+        return groupableItemsView;
+    }
+
     public static T IsGrouped<T>(this T groupableItemsView, Func<bool> isGroupedFunc, IComponentWithState? componentWithState = null)
         where T : IGroupableItemsView
+    {
+        groupableItemsView.SetProperty(Microsoft.Maui.Controls.GroupableItemsView.IsGroupedProperty, new PropertyValue<bool>(isGroupedFunc, componentWithState));
+        return groupableItemsView;
+    }
+
+    public static T GroupableItemsViewIsGrouped<T>(this T groupableItemsView, Func<bool> isGroupedFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         groupableItemsView.SetProperty(Microsoft.Maui.Controls.GroupableItemsView.IsGroupedProperty, new PropertyValue<bool>(isGroupedFunc, componentWithState));
         return groupableItemsView;

@@ -3,7 +3,7 @@
 
 namespace MauiReactor
 {
-    public partial interface IElement : IVisualNodeWithAttachedProperties
+    public partial interface IElement //: IVisualNodeWithAttachedProperties
     {
         void AddChildren(params IEnumerable<VisualNode?>? nodes);
     }

@@ -14,7 +14,7 @@ namespace MauiReactor.Canvas;
 [Scaffold(typeof(Internals.CanvasNode))]
 public partial class CanvasNode { }
 
-public partial interface ICanvasNode : IVisualNodeWithAttachedProperties
+public partial interface ICanvasNode : IVisualNode
 {
 }
 

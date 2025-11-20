@@ -67,8 +67,23 @@ public static partial class GridExtensions
         return grid;
     }
 
+    public static T GridRowSpacing<T>(this T grid, double rowSpacing, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        grid.SetProperty(Microsoft.Maui.Controls.Grid.RowSpacingProperty, rowSpacing);
+        grid.AppendAnimatable(Microsoft.Maui.Controls.Grid.RowSpacingProperty, customAnimation ?? new RxDoubleAnimation(rowSpacing));
+        return grid;
+    }
+
     public static T RowSpacing<T>(this T grid, Func<double> rowSpacingFunc, IComponentWithState? componentWithState = null)
         where T : IGrid
+    {
+        grid.SetProperty(Microsoft.Maui.Controls.Grid.RowSpacingProperty, new PropertyValue<double>(rowSpacingFunc, componentWithState));
+        return grid;
+    }
+
+    public static T GridRowSpacing<T>(this T grid, Func<double> rowSpacingFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         grid.SetProperty(Microsoft.Maui.Controls.Grid.RowSpacingProperty, new PropertyValue<double>(rowSpacingFunc, componentWithState));
         return grid;
@@ -83,8 +98,23 @@ public static partial class GridExtensions
         return grid;
     }
 
+    public static T GridColumnSpacing<T>(this T grid, double columnSpacing, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        grid.SetProperty(Microsoft.Maui.Controls.Grid.ColumnSpacingProperty, columnSpacing);
+        grid.AppendAnimatable(Microsoft.Maui.Controls.Grid.ColumnSpacingProperty, customAnimation ?? new RxDoubleAnimation(columnSpacing));
+        return grid;
+    }
+
     public static T ColumnSpacing<T>(this T grid, Func<double> columnSpacingFunc, IComponentWithState? componentWithState = null)
         where T : IGrid
+    {
+        grid.SetProperty(Microsoft.Maui.Controls.Grid.ColumnSpacingProperty, new PropertyValue<double>(columnSpacingFunc, componentWithState));
+        return grid;
+    }
+
+    public static T GridColumnSpacing<T>(this T grid, Func<double> columnSpacingFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         grid.SetProperty(Microsoft.Maui.Controls.Grid.ColumnSpacingProperty, new PropertyValue<double>(columnSpacingFunc, componentWithState));
         return grid;

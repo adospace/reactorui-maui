@@ -281,8 +281,22 @@ public static partial class ElementExtensions
         return element;
     }
 
+    public static T ElementAutomationId<T>(this T element, string automationId)
+        where T : Component
+    {
+        element.SetProperty(Microsoft.Maui.Controls.Element.AutomationIdProperty, automationId);
+        return element;
+    }
+
     public static T AutomationId<T>(this T element, Func<string> automationIdFunc, IComponentWithState? componentWithState = null)
         where T : IElement
+    {
+        element.SetProperty(Microsoft.Maui.Controls.Element.AutomationIdProperty, new PropertyValue<string>(automationIdFunc, componentWithState));
+        return element;
+    }
+
+    public static T ElementAutomationId<T>(this T element, Func<string> automationIdFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         element.SetProperty(Microsoft.Maui.Controls.Element.AutomationIdProperty, new PropertyValue<string>(automationIdFunc, componentWithState));
         return element;
@@ -296,8 +310,22 @@ public static partial class ElementExtensions
         return element;
     }
 
+    public static T ElementClassId<T>(this T element, string classId)
+        where T : Component
+    {
+        element.SetProperty(Microsoft.Maui.Controls.Element.ClassIdProperty, classId);
+        return element;
+    }
+
     public static T ClassId<T>(this T element, Func<string> classIdFunc, IComponentWithState? componentWithState = null)
         where T : IElement
+    {
+        element.SetProperty(Microsoft.Maui.Controls.Element.ClassIdProperty, new PropertyValue<string>(classIdFunc, componentWithState));
+        return element;
+    }
+
+    public static T ElementClassId<T>(this T element, Func<string> classIdFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         element.SetProperty(Microsoft.Maui.Controls.Element.ClassIdProperty, new PropertyValue<string>(classIdFunc, componentWithState));
         return element;

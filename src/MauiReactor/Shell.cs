@@ -140,8 +140,22 @@ public static partial class ShellExtensions
         return shell;
     }
 
+    public static T ShellFlyoutBehavior<T>(this T shell, Microsoft.Maui.FlyoutBehavior flyoutBehavior)
+        where T : Component
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBehaviorProperty, flyoutBehavior);
+        return shell;
+    }
+
     public static T FlyoutBehavior<T>(this T shell, Func<Microsoft.Maui.FlyoutBehavior> flyoutBehaviorFunc, IComponentWithState? componentWithState = null)
         where T : IShell
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBehaviorProperty, new PropertyValue<Microsoft.Maui.FlyoutBehavior>(flyoutBehaviorFunc, componentWithState));
+        return shell;
+    }
+
+    public static T ShellFlyoutBehavior<T>(this T shell, Func<Microsoft.Maui.FlyoutBehavior> flyoutBehaviorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBehaviorProperty, new PropertyValue<Microsoft.Maui.FlyoutBehavior>(flyoutBehaviorFunc, componentWithState));
         return shell;
@@ -155,8 +169,22 @@ public static partial class ShellExtensions
         return shell;
     }
 
+    public static T ShellFlyoutBackdrop<T>(this T shell, Microsoft.Maui.Controls.Brush flyoutBackdrop)
+        where T : Component
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBackdropProperty, flyoutBackdrop);
+        return shell;
+    }
+
     public static T FlyoutBackdrop<T>(this T shell, Func<Microsoft.Maui.Controls.Brush> flyoutBackdropFunc, IComponentWithState? componentWithState = null)
         where T : IShell
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBackdropProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(flyoutBackdropFunc, componentWithState));
+        return shell;
+    }
+
+    public static T ShellFlyoutBackdrop<T>(this T shell, Func<Microsoft.Maui.Controls.Brush> flyoutBackdropFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBackdropProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(flyoutBackdropFunc, componentWithState));
         return shell;
@@ -171,8 +199,23 @@ public static partial class ShellExtensions
         return shell;
     }
 
+    public static T ShellFlyoutWidth<T>(this T shell, double flyoutWidth, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutWidthProperty, flyoutWidth);
+        shell.AppendAnimatable(Microsoft.Maui.Controls.Shell.FlyoutWidthProperty, customAnimation ?? new RxDoubleAnimation(flyoutWidth));
+        return shell;
+    }
+
     public static T FlyoutWidth<T>(this T shell, Func<double> flyoutWidthFunc, IComponentWithState? componentWithState = null)
         where T : IShell
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutWidthProperty, new PropertyValue<double>(flyoutWidthFunc, componentWithState));
+        return shell;
+    }
+
+    public static T ShellFlyoutWidth<T>(this T shell, Func<double> flyoutWidthFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutWidthProperty, new PropertyValue<double>(flyoutWidthFunc, componentWithState));
         return shell;
@@ -187,8 +230,23 @@ public static partial class ShellExtensions
         return shell;
     }
 
+    public static T ShellFlyoutHeight<T>(this T shell, double flyoutHeight, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutHeightProperty, flyoutHeight);
+        shell.AppendAnimatable(Microsoft.Maui.Controls.Shell.FlyoutHeightProperty, customAnimation ?? new RxDoubleAnimation(flyoutHeight));
+        return shell;
+    }
+
     public static T FlyoutHeight<T>(this T shell, Func<double> flyoutHeightFunc, IComponentWithState? componentWithState = null)
         where T : IShell
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutHeightProperty, new PropertyValue<double>(flyoutHeightFunc, componentWithState));
+        return shell;
+    }
+
+    public static T ShellFlyoutHeight<T>(this T shell, Func<double> flyoutHeightFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutHeightProperty, new PropertyValue<double>(flyoutHeightFunc, componentWithState));
         return shell;
@@ -202,8 +260,22 @@ public static partial class ShellExtensions
         return shell;
     }
 
+    public static T ShellFlyoutBackgroundImage<T>(this T shell, Microsoft.Maui.Controls.ImageSource flyoutBackgroundImage)
+        where T : Component
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBackgroundImageProperty, flyoutBackgroundImage);
+        return shell;
+    }
+
     public static T FlyoutBackgroundImage<T>(this T shell, Func<Microsoft.Maui.Controls.ImageSource> flyoutBackgroundImageFunc, IComponentWithState? componentWithState = null)
         where T : IShell
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBackgroundImageProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutBackgroundImageFunc, componentWithState));
+        return shell;
+    }
+
+    public static T ShellFlyoutBackgroundImage<T>(this T shell, Func<Microsoft.Maui.Controls.ImageSource> flyoutBackgroundImageFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBackgroundImageProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutBackgroundImageFunc, componentWithState));
         return shell;
@@ -277,8 +349,22 @@ public static partial class ShellExtensions
         return shell;
     }
 
+    public static T ShellFlyoutBackgroundImageAspect<T>(this T shell, Microsoft.Maui.Aspect flyoutBackgroundImageAspect)
+        where T : Component
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBackgroundImageAspectProperty, flyoutBackgroundImageAspect);
+        return shell;
+    }
+
     public static T FlyoutBackgroundImageAspect<T>(this T shell, Func<Microsoft.Maui.Aspect> flyoutBackgroundImageAspectFunc, IComponentWithState? componentWithState = null)
         where T : IShell
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBackgroundImageAspectProperty, new PropertyValue<Microsoft.Maui.Aspect>(flyoutBackgroundImageAspectFunc, componentWithState));
+        return shell;
+    }
+
+    public static T ShellFlyoutBackgroundImageAspect<T>(this T shell, Func<Microsoft.Maui.Aspect> flyoutBackgroundImageAspectFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBackgroundImageAspectProperty, new PropertyValue<Microsoft.Maui.Aspect>(flyoutBackgroundImageAspectFunc, componentWithState));
         return shell;
@@ -292,8 +378,22 @@ public static partial class ShellExtensions
         return shell;
     }
 
+    public static T ShellFlyoutBackgroundColor<T>(this T shell, Microsoft.Maui.Graphics.Color flyoutBackgroundColor)
+        where T : Component
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBackgroundColorProperty, flyoutBackgroundColor);
+        return shell;
+    }
+
     public static T FlyoutBackgroundColor<T>(this T shell, Func<Microsoft.Maui.Graphics.Color> flyoutBackgroundColorFunc, IComponentWithState? componentWithState = null)
         where T : IShell
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(flyoutBackgroundColorFunc, componentWithState));
+        return shell;
+    }
+
+    public static T ShellFlyoutBackgroundColor<T>(this T shell, Func<Microsoft.Maui.Graphics.Color> flyoutBackgroundColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(flyoutBackgroundColorFunc, componentWithState));
         return shell;
@@ -307,8 +407,22 @@ public static partial class ShellExtensions
         return shell;
     }
 
+    public static T ShellFlyoutBackground<T>(this T shell, Microsoft.Maui.Controls.Brush flyoutBackground)
+        where T : Component
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBackgroundProperty, flyoutBackground);
+        return shell;
+    }
+
     public static T FlyoutBackground<T>(this T shell, Func<Microsoft.Maui.Controls.Brush> flyoutBackgroundFunc, IComponentWithState? componentWithState = null)
         where T : IShell
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBackgroundProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(flyoutBackgroundFunc, componentWithState));
+        return shell;
+    }
+
+    public static T ShellFlyoutBackground<T>(this T shell, Func<Microsoft.Maui.Controls.Brush> flyoutBackgroundFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutBackgroundProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(flyoutBackgroundFunc, componentWithState));
         return shell;
@@ -322,8 +436,22 @@ public static partial class ShellExtensions
         return shell;
     }
 
+    public static T ShellFlyoutHeaderBehavior<T>(this T shell, Microsoft.Maui.Controls.FlyoutHeaderBehavior flyoutHeaderBehavior)
+        where T : Component
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutHeaderBehaviorProperty, flyoutHeaderBehavior);
+        return shell;
+    }
+
     public static T FlyoutHeaderBehavior<T>(this T shell, Func<Microsoft.Maui.Controls.FlyoutHeaderBehavior> flyoutHeaderBehaviorFunc, IComponentWithState? componentWithState = null)
         where T : IShell
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutHeaderBehaviorProperty, new PropertyValue<Microsoft.Maui.Controls.FlyoutHeaderBehavior>(flyoutHeaderBehaviorFunc, componentWithState));
+        return shell;
+    }
+
+    public static T ShellFlyoutHeaderBehavior<T>(this T shell, Func<Microsoft.Maui.Controls.FlyoutHeaderBehavior> flyoutHeaderBehaviorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutHeaderBehaviorProperty, new PropertyValue<Microsoft.Maui.Controls.FlyoutHeaderBehavior>(flyoutHeaderBehaviorFunc, componentWithState));
         return shell;
@@ -337,8 +465,22 @@ public static partial class ShellExtensions
         return shell;
     }
 
+    public static T ShellFlyoutIsPresented<T>(this T shell, bool flyoutIsPresented)
+        where T : Component
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutIsPresentedProperty, flyoutIsPresented);
+        return shell;
+    }
+
     public static T FlyoutIsPresented<T>(this T shell, Func<bool> flyoutIsPresentedFunc, IComponentWithState? componentWithState = null)
         where T : IShell
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutIsPresentedProperty, new PropertyValue<bool>(flyoutIsPresentedFunc, componentWithState));
+        return shell;
+    }
+
+    public static T ShellFlyoutIsPresented<T>(this T shell, Func<bool> flyoutIsPresentedFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutIsPresentedProperty, new PropertyValue<bool>(flyoutIsPresentedFunc, componentWithState));
         return shell;
@@ -352,8 +494,22 @@ public static partial class ShellExtensions
         return shell;
     }
 
+    public static T ShellFlyoutIcon<T>(this T shell, Microsoft.Maui.Controls.ImageSource flyoutIcon)
+        where T : Component
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutIconProperty, flyoutIcon);
+        return shell;
+    }
+
     public static T FlyoutIcon<T>(this T shell, Func<Microsoft.Maui.Controls.ImageSource> flyoutIconFunc, IComponentWithState? componentWithState = null)
         where T : IShell
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIconFunc, componentWithState));
+        return shell;
+    }
+
+    public static T ShellFlyoutIcon<T>(this T shell, Func<Microsoft.Maui.Controls.ImageSource> flyoutIconFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(flyoutIconFunc, componentWithState));
         return shell;
@@ -427,8 +583,22 @@ public static partial class ShellExtensions
         return shell;
     }
 
+    public static T ShellFlyoutVerticalScrollMode<T>(this T shell, Microsoft.Maui.Controls.ScrollMode flyoutVerticalScrollMode)
+        where T : Component
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutVerticalScrollModeProperty, flyoutVerticalScrollMode);
+        return shell;
+    }
+
     public static T FlyoutVerticalScrollMode<T>(this T shell, Func<Microsoft.Maui.Controls.ScrollMode> flyoutVerticalScrollModeFunc, IComponentWithState? componentWithState = null)
         where T : IShell
+    {
+        shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutVerticalScrollModeProperty, new PropertyValue<Microsoft.Maui.Controls.ScrollMode>(flyoutVerticalScrollModeFunc, componentWithState));
+        return shell;
+    }
+
+    public static T ShellFlyoutVerticalScrollMode<T>(this T shell, Func<Microsoft.Maui.Controls.ScrollMode> flyoutVerticalScrollModeFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shell.SetProperty(Microsoft.Maui.Controls.Shell.FlyoutVerticalScrollModeProperty, new PropertyValue<Microsoft.Maui.Controls.ScrollMode>(flyoutVerticalScrollModeFunc, componentWithState));
         return shell;

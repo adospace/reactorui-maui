@@ -114,8 +114,22 @@ public static partial class RefreshViewExtensions
         return refreshView;
     }
 
+    public static T RefreshViewIsRefreshing<T>(this T refreshView, bool isRefreshing)
+        where T : Component
+    {
+        refreshView.SetProperty(Microsoft.Maui.Controls.RefreshView.IsRefreshingProperty, isRefreshing);
+        return refreshView;
+    }
+
     public static T IsRefreshing<T>(this T refreshView, Func<bool> isRefreshingFunc, IComponentWithState? componentWithState = null)
         where T : IRefreshView
+    {
+        refreshView.SetProperty(Microsoft.Maui.Controls.RefreshView.IsRefreshingProperty, new PropertyValue<bool>(isRefreshingFunc, componentWithState));
+        return refreshView;
+    }
+
+    public static T RefreshViewIsRefreshing<T>(this T refreshView, Func<bool> isRefreshingFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         refreshView.SetProperty(Microsoft.Maui.Controls.RefreshView.IsRefreshingProperty, new PropertyValue<bool>(isRefreshingFunc, componentWithState));
         return refreshView;
@@ -129,8 +143,22 @@ public static partial class RefreshViewExtensions
         return refreshView;
     }
 
+    public static T RefreshViewRefreshColor<T>(this T refreshView, Microsoft.Maui.Graphics.Color refreshColor)
+        where T : Component
+    {
+        refreshView.SetProperty(Microsoft.Maui.Controls.RefreshView.RefreshColorProperty, refreshColor);
+        return refreshView;
+    }
+
     public static T RefreshColor<T>(this T refreshView, Func<Microsoft.Maui.Graphics.Color> refreshColorFunc, IComponentWithState? componentWithState = null)
         where T : IRefreshView
+    {
+        refreshView.SetProperty(Microsoft.Maui.Controls.RefreshView.RefreshColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(refreshColorFunc, componentWithState));
+        return refreshView;
+    }
+
+    public static T RefreshViewRefreshColor<T>(this T refreshView, Func<Microsoft.Maui.Graphics.Color> refreshColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         refreshView.SetProperty(Microsoft.Maui.Controls.RefreshView.RefreshColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(refreshColorFunc, componentWithState));
         return refreshView;
@@ -144,8 +172,22 @@ public static partial class RefreshViewExtensions
         return refreshView;
     }
 
+    public static T RefreshViewIsRefreshEnabled<T>(this T refreshView, bool isRefreshEnabled)
+        where T : Component
+    {
+        refreshView.SetProperty(Microsoft.Maui.Controls.RefreshView.IsRefreshEnabledProperty, isRefreshEnabled);
+        return refreshView;
+    }
+
     public static T IsRefreshEnabled<T>(this T refreshView, Func<bool> isRefreshEnabledFunc, IComponentWithState? componentWithState = null)
         where T : IRefreshView
+    {
+        refreshView.SetProperty(Microsoft.Maui.Controls.RefreshView.IsRefreshEnabledProperty, new PropertyValue<bool>(isRefreshEnabledFunc, componentWithState));
+        return refreshView;
+    }
+
+    public static T RefreshViewIsRefreshEnabled<T>(this T refreshView, Func<bool> isRefreshEnabledFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         refreshView.SetProperty(Microsoft.Maui.Controls.RefreshView.IsRefreshEnabledProperty, new PropertyValue<bool>(isRefreshEnabledFunc, componentWithState));
         return refreshView;

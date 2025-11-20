@@ -51,8 +51,22 @@ public static partial class PolygonExtensions
         return polygon;
     }
 
+    public static T PolygonPoints<T>(this T polygon, Microsoft.Maui.Controls.PointCollection points)
+        where T : Component
+    {
+        polygon.SetProperty(Microsoft.Maui.Controls.Shapes.Polygon.PointsProperty, points);
+        return polygon;
+    }
+
     public static T Points<T>(this T polygon, Func<Microsoft.Maui.Controls.PointCollection> pointsFunc, IComponentWithState? componentWithState = null)
         where T : IPolygon
+    {
+        polygon.SetProperty(Microsoft.Maui.Controls.Shapes.Polygon.PointsProperty, new PropertyValue<Microsoft.Maui.Controls.PointCollection>(pointsFunc, componentWithState));
+        return polygon;
+    }
+
+    public static T PolygonPoints<T>(this T polygon, Func<Microsoft.Maui.Controls.PointCollection> pointsFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         polygon.SetProperty(Microsoft.Maui.Controls.Shapes.Polygon.PointsProperty, new PropertyValue<Microsoft.Maui.Controls.PointCollection>(pointsFunc, componentWithState));
         return polygon;
@@ -66,8 +80,22 @@ public static partial class PolygonExtensions
         return polygon;
     }
 
+    public static T PolygonFillRule<T>(this T polygon, Microsoft.Maui.Controls.Shapes.FillRule fillRule)
+        where T : Component
+    {
+        polygon.SetProperty(Microsoft.Maui.Controls.Shapes.Polygon.FillRuleProperty, fillRule);
+        return polygon;
+    }
+
     public static T FillRule<T>(this T polygon, Func<Microsoft.Maui.Controls.Shapes.FillRule> fillRuleFunc, IComponentWithState? componentWithState = null)
         where T : IPolygon
+    {
+        polygon.SetProperty(Microsoft.Maui.Controls.Shapes.Polygon.FillRuleProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc, componentWithState));
+        return polygon;
+    }
+
+    public static T PolygonFillRule<T>(this T polygon, Func<Microsoft.Maui.Controls.Shapes.FillRule> fillRuleFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         polygon.SetProperty(Microsoft.Maui.Controls.Shapes.Polygon.FillRuleProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc, componentWithState));
         return polygon;

@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.TestApp.Pages;
 
-class CounterPageState
+public class CounterPageState
 {
     public int Counter { get; set; }
 }
 
-class CounterPage : Component<CounterPageState>
+public class CounterPage : Component<CounterPageState>
 {
     public override VisualNode Render()
         => ContentPage("Counter Sample",

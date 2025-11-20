@@ -17,7 +17,7 @@ namespace MauiReactor
         //    return valueToSet;
         //} 
 
-        public static T AbsoluteLayoutBounds<T>(this T visualNodeWithAttachedProperties, Rect value, RxRectAnimation? customAnimation = null) where T : IVisualNodeWithAttachedProperties
+        public static T AbsoluteLayoutBounds<T>(this T visualNodeWithAttachedProperties, Rect value, RxRectAnimation? customAnimation = null) where T : IVisualNode
         {
             visualNodeWithAttachedProperties.SetProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, value);
             visualNodeWithAttachedProperties.AppendAnimatable(
@@ -27,21 +27,21 @@ namespace MauiReactor
             return visualNodeWithAttachedProperties;
         }
 
-        public static T AbsoluteLayoutBounds<T>(this T visualNodeWithAttachedProperties, double x, double y, double width, double height) where T : IVisualNodeWithAttachedProperties
+        public static T AbsoluteLayoutBounds<T>(this T visualNodeWithAttachedProperties, double x, double y, double width, double height) where T : IVisualNode
         {
             visualNodeWithAttachedProperties.SetProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, new Rect(x, y, width, height));
 
             return visualNodeWithAttachedProperties;
         }
 
-        public static T AbsoluteLayoutBounds<T>(this T visualNodeWithAttachedProperties, Point loc, Size sz) where T : IVisualNodeWithAttachedProperties
+        public static T AbsoluteLayoutBounds<T>(this T visualNodeWithAttachedProperties, Point loc, Size sz) where T : IVisualNode
         {
             visualNodeWithAttachedProperties.SetProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutBoundsProperty, new Rect(loc, sz));
 
             return visualNodeWithAttachedProperties;
         }
 
-        public static T AbsoluteLayoutFlags<T>(this T visualNodeWithAttachedProperties, AbsoluteLayoutFlags value) where T : IVisualNodeWithAttachedProperties
+        public static T AbsoluteLayoutFlags<T>(this T visualNodeWithAttachedProperties, AbsoluteLayoutFlags value) where T : IVisualNode
         {
             visualNodeWithAttachedProperties.SetProperty(Microsoft.Maui.Controls.AbsoluteLayout.LayoutFlagsProperty, value);
 

@@ -114,8 +114,22 @@ public static partial class ScrollViewExtensions
         return scrollView;
     }
 
+    public static T ScrollViewOrientation<T>(this T scrollView, Microsoft.Maui.ScrollOrientation orientation)
+        where T : Component
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.OrientationProperty, orientation);
+        return scrollView;
+    }
+
     public static T Orientation<T>(this T scrollView, Func<Microsoft.Maui.ScrollOrientation> orientationFunc, IComponentWithState? componentWithState = null)
         where T : IScrollView
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.OrientationProperty, new PropertyValue<Microsoft.Maui.ScrollOrientation>(orientationFunc, componentWithState));
+        return scrollView;
+    }
+
+    public static T ScrollViewOrientation<T>(this T scrollView, Func<Microsoft.Maui.ScrollOrientation> orientationFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.OrientationProperty, new PropertyValue<Microsoft.Maui.ScrollOrientation>(orientationFunc, componentWithState));
         return scrollView;
@@ -129,8 +143,22 @@ public static partial class ScrollViewExtensions
         return scrollView;
     }
 
+    public static T ScrollViewHorizontalScrollBarVisibility<T>(this T scrollView, Microsoft.Maui.ScrollBarVisibility horizontalScrollBarVisibility)
+        where T : Component
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.HorizontalScrollBarVisibilityProperty, horizontalScrollBarVisibility);
+        return scrollView;
+    }
+
     public static T HorizontalScrollBarVisibility<T>(this T scrollView, Func<Microsoft.Maui.ScrollBarVisibility> horizontalScrollBarVisibilityFunc, IComponentWithState? componentWithState = null)
         where T : IScrollView
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.HorizontalScrollBarVisibilityProperty, new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibilityFunc, componentWithState));
+        return scrollView;
+    }
+
+    public static T ScrollViewHorizontalScrollBarVisibility<T>(this T scrollView, Func<Microsoft.Maui.ScrollBarVisibility> horizontalScrollBarVisibilityFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.HorizontalScrollBarVisibilityProperty, new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(horizontalScrollBarVisibilityFunc, componentWithState));
         return scrollView;
@@ -144,8 +172,22 @@ public static partial class ScrollViewExtensions
         return scrollView;
     }
 
+    public static T ScrollViewVerticalScrollBarVisibility<T>(this T scrollView, Microsoft.Maui.ScrollBarVisibility verticalScrollBarVisibility)
+        where T : Component
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.VerticalScrollBarVisibilityProperty, verticalScrollBarVisibility);
+        return scrollView;
+    }
+
     public static T VerticalScrollBarVisibility<T>(this T scrollView, Func<Microsoft.Maui.ScrollBarVisibility> verticalScrollBarVisibilityFunc, IComponentWithState? componentWithState = null)
         where T : IScrollView
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.VerticalScrollBarVisibilityProperty, new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibilityFunc, componentWithState));
+        return scrollView;
+    }
+
+    public static T ScrollViewVerticalScrollBarVisibility<T>(this T scrollView, Func<Microsoft.Maui.ScrollBarVisibility> verticalScrollBarVisibilityFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.VerticalScrollBarVisibilityProperty, new PropertyValue<Microsoft.Maui.ScrollBarVisibility>(verticalScrollBarVisibilityFunc, componentWithState));
         return scrollView;
@@ -159,8 +201,22 @@ public static partial class ScrollViewExtensions
         return scrollView;
     }
 
+    public static T ScrollViewSafeAreaEdges<T>(this T scrollView, Microsoft.Maui.SafeAreaEdges safeAreaEdges)
+        where T : Component
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.SafeAreaEdgesProperty, safeAreaEdges);
+        return scrollView;
+    }
+
     public static T SafeAreaEdges<T>(this T scrollView, Func<Microsoft.Maui.SafeAreaEdges> safeAreaEdgesFunc, IComponentWithState? componentWithState = null)
         where T : IScrollView
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.SafeAreaEdgesProperty, new PropertyValue<Microsoft.Maui.SafeAreaEdges>(safeAreaEdgesFunc, componentWithState));
+        return scrollView;
+    }
+
+    public static T ScrollViewSafeAreaEdges<T>(this T scrollView, Func<Microsoft.Maui.SafeAreaEdges> safeAreaEdgesFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.SafeAreaEdgesProperty, new PropertyValue<Microsoft.Maui.SafeAreaEdges>(safeAreaEdgesFunc, componentWithState));
         return scrollView;
@@ -174,8 +230,22 @@ public static partial class ScrollViewExtensions
         return scrollView;
     }
 
+    public static T ScrollViewCascadeInputTransparent<T>(this T scrollView, bool cascadeInputTransparent)
+        where T : Component
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.CascadeInputTransparentProperty, cascadeInputTransparent);
+        return scrollView;
+    }
+
     public static T CascadeInputTransparent<T>(this T scrollView, Func<bool> cascadeInputTransparentFunc, IComponentWithState? componentWithState = null)
         where T : IScrollView
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.CascadeInputTransparentProperty, new PropertyValue<bool>(cascadeInputTransparentFunc, componentWithState));
+        return scrollView;
+    }
+
+    public static T ScrollViewCascadeInputTransparent<T>(this T scrollView, Func<bool> cascadeInputTransparentFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.CascadeInputTransparentProperty, new PropertyValue<bool>(cascadeInputTransparentFunc, componentWithState));
         return scrollView;
@@ -190,8 +260,23 @@ public static partial class ScrollViewExtensions
         return scrollView;
     }
 
+    public static T ScrollViewPadding<T>(this T scrollView, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.PaddingProperty, padding);
+        scrollView.AppendAnimatable(Microsoft.Maui.Controls.ScrollView.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding));
+        return scrollView;
+    }
+
     public static T Padding<T>(this T scrollView, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
         where T : IScrollView
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
+        return scrollView;
+    }
+
+    public static T ScrollViewPadding<T>(this T scrollView, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
         return scrollView;
@@ -206,6 +291,14 @@ public static partial class ScrollViewExtensions
         return scrollView;
     }
 
+    public static T ScrollViewPadding<T>(this T scrollView, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.PaddingProperty, new Thickness(leftRight, topBottom));
+        scrollView.AppendAnimatable(Microsoft.Maui.Controls.ScrollView.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)));
+        return scrollView;
+    }
+
     public static T Padding<T>(this T scrollView, double uniformSize, RxThicknessAnimation? customAnimation = null)
         where T : IScrollView
     {
@@ -215,10 +308,26 @@ public static partial class ScrollViewExtensions
         return scrollView;
     }
 
+    public static T ScrollViewPadding<T>(this T scrollView, double uniformSize, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.PaddingProperty, new Thickness(uniformSize));
+        scrollView.AppendAnimatable(Microsoft.Maui.Controls.ScrollView.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)));
+        return scrollView;
+    }
+
     public static T Padding<T>(this T scrollView, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
         where T : IScrollView
     {
         //scrollView.Padding = new Thickness(left, top, right, bottom);
+        scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.PaddingProperty, new Thickness(left, top, right, bottom));
+        scrollView.AppendAnimatable(Microsoft.Maui.Controls.ScrollView.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)));
+        return scrollView;
+    }
+
+    public static T ScrollViewPadding<T>(this T scrollView, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
         scrollView.SetProperty(Microsoft.Maui.Controls.ScrollView.PaddingProperty, new Thickness(left, top, right, bottom));
         scrollView.AppendAnimatable(Microsoft.Maui.Controls.ScrollView.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)));
         return scrollView;

@@ -203,8 +203,22 @@ public static partial class PointerGestureRecognizerExtensions
         return pointerGestureRecognizer;
     }
 
+    public static T PointerGestureRecognizerButtons<T>(this T pointerGestureRecognizer, Microsoft.Maui.Controls.ButtonsMask buttons)
+        where T : Component
+    {
+        pointerGestureRecognizer.SetProperty(Microsoft.Maui.Controls.PointerGestureRecognizer.ButtonsProperty, buttons);
+        return pointerGestureRecognizer;
+    }
+
     public static T Buttons<T>(this T pointerGestureRecognizer, Func<Microsoft.Maui.Controls.ButtonsMask> buttonsFunc, IComponentWithState? componentWithState = null)
         where T : IPointerGestureRecognizer
+    {
+        pointerGestureRecognizer.SetProperty(Microsoft.Maui.Controls.PointerGestureRecognizer.ButtonsProperty, new PropertyValue<Microsoft.Maui.Controls.ButtonsMask>(buttonsFunc, componentWithState));
+        return pointerGestureRecognizer;
+    }
+
+    public static T PointerGestureRecognizerButtons<T>(this T pointerGestureRecognizer, Func<Microsoft.Maui.Controls.ButtonsMask> buttonsFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         pointerGestureRecognizer.SetProperty(Microsoft.Maui.Controls.PointerGestureRecognizer.ButtonsProperty, new PropertyValue<Microsoft.Maui.Controls.ButtonsMask>(buttonsFunc, componentWithState));
         return pointerGestureRecognizer;

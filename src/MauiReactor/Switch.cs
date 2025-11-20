@@ -114,8 +114,22 @@ public static partial class SwitchExtensions
         return @switch;
     }
 
+    public static T SwitchIsToggled<T>(this T @switch, bool isToggled)
+        where T : Component
+    {
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.IsToggledProperty, isToggled);
+        return @switch;
+    }
+
     public static T IsToggled<T>(this T @switch, Func<bool> isToggledFunc, IComponentWithState? componentWithState = null)
         where T : ISwitch
+    {
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.IsToggledProperty, new PropertyValue<bool>(isToggledFunc, componentWithState));
+        return @switch;
+    }
+
+    public static T SwitchIsToggled<T>(this T @switch, Func<bool> isToggledFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         @switch.SetProperty(Microsoft.Maui.Controls.Switch.IsToggledProperty, new PropertyValue<bool>(isToggledFunc, componentWithState));
         return @switch;
@@ -129,8 +143,22 @@ public static partial class SwitchExtensions
         return @switch;
     }
 
+    public static T SwitchOnColor<T>(this T @switch, Microsoft.Maui.Graphics.Color onColor)
+        where T : Component
+    {
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.OnColorProperty, onColor);
+        return @switch;
+    }
+
     public static T OnColor<T>(this T @switch, Func<Microsoft.Maui.Graphics.Color> onColorFunc, IComponentWithState? componentWithState = null)
         where T : ISwitch
+    {
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.OnColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(onColorFunc, componentWithState));
+        return @switch;
+    }
+
+    public static T SwitchOnColor<T>(this T @switch, Func<Microsoft.Maui.Graphics.Color> onColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         @switch.SetProperty(Microsoft.Maui.Controls.Switch.OnColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(onColorFunc, componentWithState));
         return @switch;
@@ -144,8 +172,22 @@ public static partial class SwitchExtensions
         return @switch;
     }
 
+    public static T SwitchOffColor<T>(this T @switch, Microsoft.Maui.Graphics.Color offColor)
+        where T : Component
+    {
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.OffColorProperty, offColor);
+        return @switch;
+    }
+
     public static T OffColor<T>(this T @switch, Func<Microsoft.Maui.Graphics.Color> offColorFunc, IComponentWithState? componentWithState = null)
         where T : ISwitch
+    {
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.OffColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(offColorFunc, componentWithState));
+        return @switch;
+    }
+
+    public static T SwitchOffColor<T>(this T @switch, Func<Microsoft.Maui.Graphics.Color> offColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         @switch.SetProperty(Microsoft.Maui.Controls.Switch.OffColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(offColorFunc, componentWithState));
         return @switch;
@@ -159,8 +201,22 @@ public static partial class SwitchExtensions
         return @switch;
     }
 
+    public static T SwitchThumbColor<T>(this T @switch, Microsoft.Maui.Graphics.Color thumbColor)
+        where T : Component
+    {
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.ThumbColorProperty, thumbColor);
+        return @switch;
+    }
+
     public static T ThumbColor<T>(this T @switch, Func<Microsoft.Maui.Graphics.Color> thumbColorFunc, IComponentWithState? componentWithState = null)
         where T : ISwitch
+    {
+        @switch.SetProperty(Microsoft.Maui.Controls.Switch.ThumbColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(thumbColorFunc, componentWithState));
+        return @switch;
+    }
+
+    public static T SwitchThumbColor<T>(this T @switch, Func<Microsoft.Maui.Graphics.Color> thumbColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         @switch.SetProperty(Microsoft.Maui.Controls.Switch.ThumbColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(thumbColorFunc, componentWithState));
         return @switch;

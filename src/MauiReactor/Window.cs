@@ -452,8 +452,22 @@ public static partial class WindowExtensions
         return window;
     }
 
+    public static T WindowTitle<T>(this T window, string title)
+        where T : Component
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.TitleProperty, title);
+        return window;
+    }
+
     public static T Title<T>(this T window, Func<string> titleFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.TitleProperty, new PropertyValue<string>(titleFunc, componentWithState));
+        return window;
+    }
+
+    public static T WindowTitle<T>(this T window, Func<string> titleFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         window.SetProperty(Microsoft.Maui.Controls.Window.TitleProperty, new PropertyValue<string>(titleFunc, componentWithState));
         return window;
@@ -467,8 +481,22 @@ public static partial class WindowExtensions
         return window;
     }
 
+    public static T WindowFlowDirection<T>(this T window, Microsoft.Maui.FlowDirection flowDirection)
+        where T : Component
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.FlowDirectionProperty, flowDirection);
+        return window;
+    }
+
     public static T FlowDirection<T>(this T window, Func<Microsoft.Maui.FlowDirection> flowDirectionFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.FlowDirectionProperty, new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirectionFunc, componentWithState));
+        return window;
+    }
+
+    public static T WindowFlowDirection<T>(this T window, Func<Microsoft.Maui.FlowDirection> flowDirectionFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         window.SetProperty(Microsoft.Maui.Controls.Window.FlowDirectionProperty, new PropertyValue<Microsoft.Maui.FlowDirection>(flowDirectionFunc, componentWithState));
         return window;
@@ -483,8 +511,23 @@ public static partial class WindowExtensions
         return window;
     }
 
+    public static T WindowX<T>(this T window, double x, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.XProperty, x);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.XProperty, customAnimation ?? new RxDoubleAnimation(x));
+        return window;
+    }
+
     public static T X<T>(this T window, Func<double> xFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.XProperty, new PropertyValue<double>(xFunc, componentWithState));
+        return window;
+    }
+
+    public static T WindowX<T>(this T window, Func<double> xFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         window.SetProperty(Microsoft.Maui.Controls.Window.XProperty, new PropertyValue<double>(xFunc, componentWithState));
         return window;
@@ -499,8 +542,23 @@ public static partial class WindowExtensions
         return window;
     }
 
+    public static T WindowY<T>(this T window, double y, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.YProperty, y);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.YProperty, customAnimation ?? new RxDoubleAnimation(y));
+        return window;
+    }
+
     public static T Y<T>(this T window, Func<double> yFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.YProperty, new PropertyValue<double>(yFunc, componentWithState));
+        return window;
+    }
+
+    public static T WindowY<T>(this T window, Func<double> yFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         window.SetProperty(Microsoft.Maui.Controls.Window.YProperty, new PropertyValue<double>(yFunc, componentWithState));
         return window;
@@ -515,8 +573,23 @@ public static partial class WindowExtensions
         return window;
     }
 
+    public static T WindowWidth<T>(this T window, double width, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.WidthProperty, width);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.WidthProperty, customAnimation ?? new RxDoubleAnimation(width));
+        return window;
+    }
+
     public static T Width<T>(this T window, Func<double> widthFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.WidthProperty, new PropertyValue<double>(widthFunc, componentWithState));
+        return window;
+    }
+
+    public static T WindowWidth<T>(this T window, Func<double> widthFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         window.SetProperty(Microsoft.Maui.Controls.Window.WidthProperty, new PropertyValue<double>(widthFunc, componentWithState));
         return window;
@@ -531,8 +604,23 @@ public static partial class WindowExtensions
         return window;
     }
 
+    public static T WindowHeight<T>(this T window, double height, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.HeightProperty, height);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.HeightProperty, customAnimation ?? new RxDoubleAnimation(height));
+        return window;
+    }
+
     public static T Height<T>(this T window, Func<double> heightFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.HeightProperty, new PropertyValue<double>(heightFunc, componentWithState));
+        return window;
+    }
+
+    public static T WindowHeight<T>(this T window, Func<double> heightFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         window.SetProperty(Microsoft.Maui.Controls.Window.HeightProperty, new PropertyValue<double>(heightFunc, componentWithState));
         return window;
@@ -547,8 +635,23 @@ public static partial class WindowExtensions
         return window;
     }
 
+    public static T WindowMaximumWidth<T>(this T window, double maximumWidth, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.MaximumWidthProperty, maximumWidth);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MaximumWidthProperty, customAnimation ?? new RxDoubleAnimation(maximumWidth));
+        return window;
+    }
+
     public static T MaximumWidth<T>(this T window, Func<double> maximumWidthFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.MaximumWidthProperty, new PropertyValue<double>(maximumWidthFunc, componentWithState));
+        return window;
+    }
+
+    public static T WindowMaximumWidth<T>(this T window, Func<double> maximumWidthFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         window.SetProperty(Microsoft.Maui.Controls.Window.MaximumWidthProperty, new PropertyValue<double>(maximumWidthFunc, componentWithState));
         return window;
@@ -563,8 +666,23 @@ public static partial class WindowExtensions
         return window;
     }
 
+    public static T WindowMaximumHeight<T>(this T window, double maximumHeight, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.MaximumHeightProperty, maximumHeight);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MaximumHeightProperty, customAnimation ?? new RxDoubleAnimation(maximumHeight));
+        return window;
+    }
+
     public static T MaximumHeight<T>(this T window, Func<double> maximumHeightFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.MaximumHeightProperty, new PropertyValue<double>(maximumHeightFunc, componentWithState));
+        return window;
+    }
+
+    public static T WindowMaximumHeight<T>(this T window, Func<double> maximumHeightFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         window.SetProperty(Microsoft.Maui.Controls.Window.MaximumHeightProperty, new PropertyValue<double>(maximumHeightFunc, componentWithState));
         return window;
@@ -579,8 +697,23 @@ public static partial class WindowExtensions
         return window;
     }
 
+    public static T WindowMinimumWidth<T>(this T window, double minimumWidth, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.MinimumWidthProperty, minimumWidth);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MinimumWidthProperty, customAnimation ?? new RxDoubleAnimation(minimumWidth));
+        return window;
+    }
+
     public static T MinimumWidth<T>(this T window, Func<double> minimumWidthFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.MinimumWidthProperty, new PropertyValue<double>(minimumWidthFunc, componentWithState));
+        return window;
+    }
+
+    public static T WindowMinimumWidth<T>(this T window, Func<double> minimumWidthFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         window.SetProperty(Microsoft.Maui.Controls.Window.MinimumWidthProperty, new PropertyValue<double>(minimumWidthFunc, componentWithState));
         return window;
@@ -595,8 +728,23 @@ public static partial class WindowExtensions
         return window;
     }
 
+    public static T WindowMinimumHeight<T>(this T window, double minimumHeight, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.MinimumHeightProperty, minimumHeight);
+        window.AppendAnimatable(Microsoft.Maui.Controls.Window.MinimumHeightProperty, customAnimation ?? new RxDoubleAnimation(minimumHeight));
+        return window;
+    }
+
     public static T MinimumHeight<T>(this T window, Func<double> minimumHeightFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.MinimumHeightProperty, new PropertyValue<double>(minimumHeightFunc, componentWithState));
+        return window;
+    }
+
+    public static T WindowMinimumHeight<T>(this T window, Func<double> minimumHeightFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         window.SetProperty(Microsoft.Maui.Controls.Window.MinimumHeightProperty, new PropertyValue<double>(minimumHeightFunc, componentWithState));
         return window;
@@ -610,8 +758,22 @@ public static partial class WindowExtensions
         return window;
     }
 
+    public static T WindowTitleBar<T>(this T window, Microsoft.Maui.ITitleBar titleBar)
+        where T : Component
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.TitleBarProperty, titleBar);
+        return window;
+    }
+
     public static T TitleBar<T>(this T window, Func<Microsoft.Maui.ITitleBar> titleBarFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.TitleBarProperty, new PropertyValue<Microsoft.Maui.ITitleBar>(titleBarFunc, componentWithState));
+        return window;
+    }
+
+    public static T WindowTitleBar<T>(this T window, Func<Microsoft.Maui.ITitleBar> titleBarFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         window.SetProperty(Microsoft.Maui.Controls.Window.TitleBarProperty, new PropertyValue<Microsoft.Maui.ITitleBar>(titleBarFunc, componentWithState));
         return window;
@@ -625,8 +787,22 @@ public static partial class WindowExtensions
         return window;
     }
 
+    public static T WindowIsMinimizable<T>(this T window, bool isMinimizable)
+        where T : Component
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.IsMinimizableProperty, isMinimizable);
+        return window;
+    }
+
     public static T IsMinimizable<T>(this T window, Func<bool> isMinimizableFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.IsMinimizableProperty, new PropertyValue<bool>(isMinimizableFunc, componentWithState));
+        return window;
+    }
+
+    public static T WindowIsMinimizable<T>(this T window, Func<bool> isMinimizableFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         window.SetProperty(Microsoft.Maui.Controls.Window.IsMinimizableProperty, new PropertyValue<bool>(isMinimizableFunc, componentWithState));
         return window;
@@ -640,8 +816,22 @@ public static partial class WindowExtensions
         return window;
     }
 
+    public static T WindowIsMaximizable<T>(this T window, bool isMaximizable)
+        where T : Component
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.IsMaximizableProperty, isMaximizable);
+        return window;
+    }
+
     public static T IsMaximizable<T>(this T window, Func<bool> isMaximizableFunc, IComponentWithState? componentWithState = null)
         where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.IsMaximizableProperty, new PropertyValue<bool>(isMaximizableFunc, componentWithState));
+        return window;
+    }
+
+    public static T WindowIsMaximizable<T>(this T window, Func<bool> isMaximizableFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         window.SetProperty(Microsoft.Maui.Controls.Window.IsMaximizableProperty, new PropertyValue<bool>(isMaximizableFunc, componentWithState));
         return window;

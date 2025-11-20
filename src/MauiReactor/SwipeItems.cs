@@ -114,8 +114,22 @@ public static partial class SwipeItemsExtensions
         return swipeItems;
     }
 
+    public static T SwipeItemsMode<T>(this T swipeItems, Microsoft.Maui.SwipeMode mode)
+        where T : Component
+    {
+        swipeItems.SetProperty(Microsoft.Maui.Controls.SwipeItems.ModeProperty, mode);
+        return swipeItems;
+    }
+
     public static T Mode<T>(this T swipeItems, Func<Microsoft.Maui.SwipeMode> modeFunc, IComponentWithState? componentWithState = null)
         where T : ISwipeItems
+    {
+        swipeItems.SetProperty(Microsoft.Maui.Controls.SwipeItems.ModeProperty, new PropertyValue<Microsoft.Maui.SwipeMode>(modeFunc, componentWithState));
+        return swipeItems;
+    }
+
+    public static T SwipeItemsMode<T>(this T swipeItems, Func<Microsoft.Maui.SwipeMode> modeFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         swipeItems.SetProperty(Microsoft.Maui.Controls.SwipeItems.ModeProperty, new PropertyValue<Microsoft.Maui.SwipeMode>(modeFunc, componentWithState));
         return swipeItems;
@@ -129,8 +143,22 @@ public static partial class SwipeItemsExtensions
         return swipeItems;
     }
 
+    public static T SwipeItemsSwipeBehaviorOnInvoked<T>(this T swipeItems, Microsoft.Maui.SwipeBehaviorOnInvoked swipeBehaviorOnInvoked)
+        where T : Component
+    {
+        swipeItems.SetProperty(Microsoft.Maui.Controls.SwipeItems.SwipeBehaviorOnInvokedProperty, swipeBehaviorOnInvoked);
+        return swipeItems;
+    }
+
     public static T SwipeBehaviorOnInvoked<T>(this T swipeItems, Func<Microsoft.Maui.SwipeBehaviorOnInvoked> swipeBehaviorOnInvokedFunc, IComponentWithState? componentWithState = null)
         where T : ISwipeItems
+    {
+        swipeItems.SetProperty(Microsoft.Maui.Controls.SwipeItems.SwipeBehaviorOnInvokedProperty, new PropertyValue<Microsoft.Maui.SwipeBehaviorOnInvoked>(swipeBehaviorOnInvokedFunc, componentWithState));
+        return swipeItems;
+    }
+
+    public static T SwipeItemsSwipeBehaviorOnInvoked<T>(this T swipeItems, Func<Microsoft.Maui.SwipeBehaviorOnInvoked> swipeBehaviorOnInvokedFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         swipeItems.SetProperty(Microsoft.Maui.Controls.SwipeItems.SwipeBehaviorOnInvokedProperty, new PropertyValue<Microsoft.Maui.SwipeBehaviorOnInvoked>(swipeBehaviorOnInvokedFunc, componentWithState));
         return swipeItems;

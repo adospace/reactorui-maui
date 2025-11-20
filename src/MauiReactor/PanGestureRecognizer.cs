@@ -114,8 +114,22 @@ public static partial class PanGestureRecognizerExtensions
         return panGestureRecognizer;
     }
 
+    public static T PanGestureRecognizerTouchPoints<T>(this T panGestureRecognizer, int touchPoints)
+        where T : Component
+    {
+        panGestureRecognizer.SetProperty(Microsoft.Maui.Controls.PanGestureRecognizer.TouchPointsProperty, touchPoints);
+        return panGestureRecognizer;
+    }
+
     public static T TouchPoints<T>(this T panGestureRecognizer, Func<int> touchPointsFunc, IComponentWithState? componentWithState = null)
         where T : IPanGestureRecognizer
+    {
+        panGestureRecognizer.SetProperty(Microsoft.Maui.Controls.PanGestureRecognizer.TouchPointsProperty, new PropertyValue<int>(touchPointsFunc, componentWithState));
+        return panGestureRecognizer;
+    }
+
+    public static T PanGestureRecognizerTouchPoints<T>(this T panGestureRecognizer, Func<int> touchPointsFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         panGestureRecognizer.SetProperty(Microsoft.Maui.Controls.PanGestureRecognizer.TouchPointsProperty, new PropertyValue<int>(touchPointsFunc, componentWithState));
         return panGestureRecognizer;

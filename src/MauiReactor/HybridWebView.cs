@@ -192,8 +192,22 @@ public static partial class HybridWebViewExtensions
         return hybridWebView;
     }
 
+    public static T HybridWebViewDefaultFile<T>(this T hybridWebView, string defaultFile)
+        where T : Component
+    {
+        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.DefaultFileProperty, defaultFile);
+        return hybridWebView;
+    }
+
     public static T DefaultFile<T>(this T hybridWebView, Func<string> defaultFileFunc, IComponentWithState? componentWithState = null)
         where T : IHybridWebView
+    {
+        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.DefaultFileProperty, new PropertyValue<string>(defaultFileFunc, componentWithState));
+        return hybridWebView;
+    }
+
+    public static T HybridWebViewDefaultFile<T>(this T hybridWebView, Func<string> defaultFileFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.DefaultFileProperty, new PropertyValue<string>(defaultFileFunc, componentWithState));
         return hybridWebView;
@@ -207,8 +221,22 @@ public static partial class HybridWebViewExtensions
         return hybridWebView;
     }
 
+    public static T HybridWebViewHybridRoot<T>(this T hybridWebView, string hybridRoot)
+        where T : Component
+    {
+        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.HybridRootProperty, hybridRoot);
+        return hybridWebView;
+    }
+
     public static T HybridRoot<T>(this T hybridWebView, Func<string> hybridRootFunc, IComponentWithState? componentWithState = null)
         where T : IHybridWebView
+    {
+        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.HybridRootProperty, new PropertyValue<string>(hybridRootFunc, componentWithState));
+        return hybridWebView;
+    }
+
+    public static T HybridWebViewHybridRoot<T>(this T hybridWebView, Func<string> hybridRootFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.HybridRootProperty, new PropertyValue<string>(hybridRootFunc, componentWithState));
         return hybridWebView;

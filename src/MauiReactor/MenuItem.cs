@@ -114,8 +114,22 @@ public static partial class MenuItemExtensions
         return menuItem;
     }
 
+    public static T MenuItemIsDestructive<T>(this T menuItem, bool isDestructive)
+        where T : Component
+    {
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IsDestructiveProperty, isDestructive);
+        return menuItem;
+    }
+
     public static T IsDestructive<T>(this T menuItem, Func<bool> isDestructiveFunc, IComponentWithState? componentWithState = null)
         where T : IMenuItem
+    {
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IsDestructiveProperty, new PropertyValue<bool>(isDestructiveFunc, componentWithState));
+        return menuItem;
+    }
+
+    public static T MenuItemIsDestructive<T>(this T menuItem, Func<bool> isDestructiveFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IsDestructiveProperty, new PropertyValue<bool>(isDestructiveFunc, componentWithState));
         return menuItem;
@@ -129,8 +143,22 @@ public static partial class MenuItemExtensions
         return menuItem;
     }
 
+    public static T MenuItemIconImageSource<T>(this T menuItem, Microsoft.Maui.Controls.ImageSource iconImageSource)
+        where T : Component
+    {
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, iconImageSource);
+        return menuItem;
+    }
+
     public static T IconImageSource<T>(this T menuItem, Func<Microsoft.Maui.Controls.ImageSource> iconImageSourceFunc, IComponentWithState? componentWithState = null)
         where T : IMenuItem
+    {
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc, componentWithState));
+        return menuItem;
+    }
+
+    public static T MenuItemIconImageSource<T>(this T menuItem, Func<Microsoft.Maui.Controls.ImageSource> iconImageSourceFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.IconImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconImageSourceFunc, componentWithState));
         return menuItem;
@@ -204,8 +232,22 @@ public static partial class MenuItemExtensions
         return menuItem;
     }
 
+    public static T MenuItemText<T>(this T menuItem, string text)
+        where T : Component
+    {
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.TextProperty, text);
+        return menuItem;
+    }
+
     public static T Text<T>(this T menuItem, Func<string> textFunc, IComponentWithState? componentWithState = null)
         where T : IMenuItem
+    {
+        menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.TextProperty, new PropertyValue<string>(textFunc, componentWithState));
+        return menuItem;
+    }
+
+    public static T MenuItemText<T>(this T menuItem, Func<string> textFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         menuItem.SetProperty(Microsoft.Maui.Controls.MenuItem.TextProperty, new PropertyValue<string>(textFunc, componentWithState));
         return menuItem;

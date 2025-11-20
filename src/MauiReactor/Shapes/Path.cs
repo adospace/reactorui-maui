@@ -51,8 +51,22 @@ public static partial class PathExtensions
         return path;
     }
 
+    public static T PathRenderTransform<T>(this T path, Microsoft.Maui.Controls.Shapes.Transform renderTransform)
+        where T : Component
+    {
+        path.SetProperty(Microsoft.Maui.Controls.Shapes.Path.RenderTransformProperty, renderTransform);
+        return path;
+    }
+
     public static T RenderTransform<T>(this T path, Func<Microsoft.Maui.Controls.Shapes.Transform> renderTransformFunc, IComponentWithState? componentWithState = null)
         where T : IPath
+    {
+        path.SetProperty(Microsoft.Maui.Controls.Shapes.Path.RenderTransformProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.Transform>(renderTransformFunc, componentWithState));
+        return path;
+    }
+
+    public static T PathRenderTransform<T>(this T path, Func<Microsoft.Maui.Controls.Shapes.Transform> renderTransformFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         path.SetProperty(Microsoft.Maui.Controls.Shapes.Path.RenderTransformProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.Transform>(renderTransformFunc, componentWithState));
         return path;

@@ -21,7 +21,10 @@ class AnimatingLabelTestPage : Component<AnimatingLabelTestPageState>
                 ScrollView(
                     VStack(
                         new AnimatingLabel()
-                            .Text($"Clicked {State.Counter} times!"),
+                            .Text($"Clicked {State.Counter} times!")
+                            .ViewMargin( 0 )
+                            .VisualElementIsVisible(State.Counter % 2 == 0)
+                            ,
 
                         Button("Click me!")
                             .OnClicked(() => SetState(s => s.Counter++))
