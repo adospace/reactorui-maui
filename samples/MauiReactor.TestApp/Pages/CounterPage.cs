@@ -17,19 +17,33 @@ public class CounterPage : Component<CounterPageState>
 {
     public override VisualNode Render()
         => ContentPage("Counter Sample",
-            VStack(
-                
+            VStack(                
                 Label($"Counter: {State.Counter}")
                     .AutomationId("Counter_Label"),
-
                 Button("Click To Increment")
                     .OnClicked(() => SetState(s => s.Counter++))
-                    .AutomationId("Counter_Button")
-                
+                    .AutomationId("Counter_Button")                
             )
             .Spacing(10)
             .Center()
+        )
+        .TitleView(RenderTitleView);
+
+    Grid RenderTitleView()
+    {
+        return Grid("*", "*,Auto",
+            Label("Counter Sample")
+                .VCenter()
+                .FontSize(18)
+                .FontAttributes(MauiControls.FontAttributes.Bold)
+                .Margin(10, 0)
+                .GridColumn(0),
+            Button("Increment")
+                .VCenter()
+                .OnClicked(() => SetState(s => s.Counter ++))
+                .GridColumn(1)
         );
+    }
 }
 
 partial class CounterWithServicePage : Component<CounterPageState>

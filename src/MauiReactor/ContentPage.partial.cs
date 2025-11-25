@@ -2,13 +2,41 @@
 
 namespace MauiReactor;
 
+public partial interface IContentPage
+{
+    VisualNode? TitleView { get; set; }
+}
+
 public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : Microsoft.Maui.Controls.ContentPage, new()
 {
+    VisualNode? IContentPage.TitleView { get; set; }
+
+    protected override IEnumerable<VisualNode> RenderChildren()
+    {
+        var thisAsIVisualElement = (IContentPage)this;
+
+        var children = base.RenderChildren();
+
+        if (thisAsIVisualElement.TitleView != null)
+        {
+            children = children.Concat([thisAsIVisualElement.TitleView]);
+        }
+
+        return children;
+    }
+
     protected override void OnAddChild(VisualNode widget, BindableObject childControl)
     {
         Validate.EnsureNotNull(NativeControl);
 
-        if (childControl is View view)
+        var thisAsIVisualElement = (IContentPage)this;
+
+        if (thisAsIVisualElement.TitleView == widget && childControl is View titleView)
+        {
+            NativeControl.SetValue(Microsoft.Maui.Controls.Shell.TitleViewProperty, titleView);
+            return;
+        }
+        else if (childControl is View view)
         {
             NativeControl.Content = view;
         }
@@ -20,7 +48,14 @@ public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : M
     {
         Validate.EnsureNotNull(NativeControl);
 
-        if (childControl is View)
+        var thisAsIVisualElement = (IContentPage)this;
+
+        if (thisAsIVisualElement.TitleView == widget && childControl is View _)
+        {
+            NativeControl.SetValue(Microsoft.Maui.Controls.Shell.TitleViewProperty, null);
+            return;
+        }
+        else if (childControl is View)
         {
             NativeControl.Content = null;
         }
@@ -59,7 +94,6 @@ public partial class ContentPage
 
         base.OnMount();
     }
-
 }
 
 
@@ -81,4 +115,17 @@ public static partial class ContentPageExtensions
         return contentPage;
     }
 
+    public static T TitleView<T>(this T contentPage, VisualNode? titleView)
+        where T : IContentPage
+    {
+        contentPage.TitleView = titleView;
+        return contentPage;
+    }
+
+    public static T TitleView<T>(this T contentPage, Func<VisualNode?>? titleView)
+        where T : IContentPage
+    {
+        contentPage.TitleView = titleView?.Invoke();
+        return contentPage;
+    }
 }
