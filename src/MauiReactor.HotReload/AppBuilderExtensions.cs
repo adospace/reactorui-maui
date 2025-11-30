@@ -1,4 +1,5 @@
 ﻿using MauiReactor.Internals;
+using Microsoft.Maui.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Text;

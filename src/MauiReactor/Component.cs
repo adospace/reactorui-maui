@@ -90,6 +90,13 @@ namespace MauiReactor
                     children.SetProperty(property.Key, property.Value);
                 }
             }
+            if (_propertyValuesToSet != null)
+            {
+                foreach (var property in _propertyValuesToSet)
+                {
+                    children.SetProperty(property.Key, property.Value);
+                }
+            }
 
             return children == null ? [] : [ children ];
         }

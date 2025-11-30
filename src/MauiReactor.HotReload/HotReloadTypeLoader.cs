@@ -1,7 +1,9 @@
 ﻿using MauiReactor.Internals;
+using Microsoft.Maui.Devices;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Text;

@@ -22,7 +22,10 @@ public class CounterPage : Component<CounterPageState>
                     .AutomationId("Counter_Label"),
                 Button("Click To Increment")
                     .OnClicked(() => SetState(s => s.Counter++))
-                    .AutomationId("Counter_Button")                
+                    .AutomationId("Counter_Button"),
+                Label(() => $"Counter no render: {State.Counter}"),
+                Button("Click To Increment counter without re-render")
+                    .OnClicked(() => SetState(s => s.Counter++, invalidateComponent: false))
             )
             .Spacing(10)
             .Center()

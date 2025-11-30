@@ -1,8 +1,13 @@
 ﻿using MauiReactor.Internals;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Devices;
+using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace MauiReactor.HotReload
 {

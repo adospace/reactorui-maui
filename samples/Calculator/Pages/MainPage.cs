@@ -25,6 +25,7 @@ class MainPage : Component<MainPageState>
 {
     public override VisualNode Render()
     {
+        System.Diagnostics.Debug.WriteLine($"Render MainPage: {DateTime.Now:hh:mm:ss.fff}");
         return ContentPage(
             Grid("48 * 420", "*",
                 RenderThemeToggle(),
