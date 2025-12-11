@@ -1,0 +1,21 @@
+{
+  "Name": "ShellContent",
+  "Description": "A page hosted inside a shell.",
+  "Base": "BaseShellItem",
+  "Properties": [
+    { "Name": "Content", "Type": "Page?", "Description": "The page content." },
+    { "Name": "ContentTemplate", "Type": "Func<VisualNode>?", "Description": "Template function to render content." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "ShellContent(string title)" },
+    { "Signature": "ShellContent(string title, string icon)" },
+    { "Signature": "ShellContent(VisualNode content)" }
+  ],
+  "Helpers": [
+    { "Signature": "RenderContent(Func<VisualNode> template)", "Description": "Assigns the content template function." },
+    { "Signature": "ShellContent(string title)", "Description": "Convenience creation with title." },
+    { "Signature": "ShellContent(string title, Func<VisualNode> template)", "Description": "Convenience creation with title and content template." }
+  ]
+}

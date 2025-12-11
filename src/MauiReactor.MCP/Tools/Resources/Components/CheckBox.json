@@ -1,0 +1,16 @@
+{
+  "Name": "CheckBox",
+  "Description": "Checkbox control for boolean selection.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "IsChecked", "Type": "bool", "Description": "Whether the checkbox is checked." },
+    { "Name": "Color", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Color applied to the checkbox when checked." }
+  ],
+  "Events": [
+    { "Name": "CheckedChanged", "EventArgsType": "Microsoft.Maui.Controls.CheckedChangedEventArgs", "Description": "Raised when the checked state changes." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "CheckBox()", "Description": "Default constructor." }
+  ]
+}

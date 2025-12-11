@@ -1,0 +1,15 @@
+{
+  "Name": "PanGestureRecognizer",
+  "Description": "Recognizes pan (drag) gestures with touch points.",
+  "Base": "GestureRecognizer",
+  "Properties": [
+    { "Name": "TouchPoints", "Type": "int", "Description": "Number of fingers required." }
+  ],
+  "Events": [
+    { "Name": "PanUpdated", "EventArgsType": "PanUpdatedEventArgs", "Description": "Raised during pan updates." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "PanGestureRecognizer()", "Description": "Default constructor." }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "Name": "InputView",
+  "Description": "Abstract base for text-entry views.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "IsSpellCheckEnabled", "Type": "bool", "Description": "Enables spell check where available." },
+    { "Name": "Keyboard", "Type": "Keyboard", "Description": "Keyboard type for input." },
+    { "Name": "Text", "Type": "string?", "Description": "Current text value." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

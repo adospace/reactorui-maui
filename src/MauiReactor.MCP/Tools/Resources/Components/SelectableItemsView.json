@@ -1,0 +1,16 @@
+{
+  "Name": "SelectableItemsView",
+  "Description": "ItemsView supporting item selection.",
+  "Base": "StructuredItemsView",
+  "Properties": [
+    { "Name": "SelectionMode", "Type": "SelectionMode", "Description": "None, Single, or Multiple." },
+    { "Name": "SelectedItems", "Type": "IList<object>?", "Description": "Currently selected items (multi-select)." },
+    { "Name": "SelectedItem", "Type": "object?", "Description": "Currently selected item (single-select)." }
+  ],
+  "Events": [
+    { "Name": "SelectionChanged", "EventArgsType": "SelectionChangedEventArgs" }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

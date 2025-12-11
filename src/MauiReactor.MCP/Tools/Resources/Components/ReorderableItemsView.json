@@ -1,0 +1,15 @@
+{
+  "Name": "ReorderableItemsView",
+  "Description": "ItemsView with drag-and-drop reordering.",
+  "Base": "GroupableItemsView",
+  "Properties": [
+    { "Name": "CanReorderItems", "Type": "bool", "Description": "Enable drag-reorder." },
+    { "Name": "CanMixGroups", "Type": "bool", "Description": "Allow reorder across groups." }
+  ],
+  "Events": [
+    { "Name": "ReorderCompleted", "EventArgsType": "EventArgs" }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

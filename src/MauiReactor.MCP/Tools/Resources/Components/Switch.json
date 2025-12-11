@@ -1,0 +1,19 @@
+{
+  "Name": "Switch",
+  "Description": "Two-state toggle switch.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "IsToggled", "Type": "bool", "Description": "Current on/off state." },
+    { "Name": "OnColor", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Track color when on." },
+    { "Name": "OffColor", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Track color when off." },
+    { "Name": "ThumbColor", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Thumb color." }
+  ],
+  "Events": [
+    { "Name": "Toggled", "EventArgsType": "ToggledEventArgs", "Description": "Raised when the switch toggles." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "Switch()", "Description": "Default constructor." },
+    { "Signature": "Switch(IEnumerable<VisualNode?>? children)", "Description": "Creates a Switch and adds children." }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "Name": "Picker",
+  "Description": "Dropdown list for selecting an item by index.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "ItemsSource", "Type": "IReadOnlyList<object>?", "Description": "Items backing the picker; copied to native list if needed." },
+    { "Name": "ItemDisplayBinding", "Type": "BindingBase?", "Description": "Binding to a property used to display items." }
+  ],
+  "Events": [
+    { "Name": "SelectedIndexChanged", "EventArgsType": "EventArgs", "Description": "Raised when selected index changes; helpers pass the index." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "Picker()", "Description": "Default constructor." }
+  ]
+}

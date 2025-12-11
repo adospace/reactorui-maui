@@ -1,0 +1,13 @@
+{
+  "Name": "BaseMenuItem",
+  "Description": "Base for menu items.",
+  "Base": "StyleableElement",
+  "Properties": [
+    { "Name": "Text", "Type": "string?", "Description": "Menu item text." },
+    { "Name": "IsEnabled", "Type": "bool", "Description": "Whether the item is enabled." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

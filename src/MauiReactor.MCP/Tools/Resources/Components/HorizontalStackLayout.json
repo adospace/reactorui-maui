@@ -1,0 +1,22 @@
+{
+  "Name": "HorizontalStackLayout",
+  "Description": "Horizontal-only stack layout for arranging children.",
+  "Base": "StackBase",
+  "Properties": [
+    { "Name": "Spacing", "Type": "double", "Description": "Spacing between children." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "HorizontalStackLayout()", "Description": "Default constructor." },
+    { "Signature": "HorizontalStackLayout(double spacing)", "Description": "Creates a HorizontalStackLayout and sets spacing." },
+    { "Signature": "HorizontalStackLayout(Action<Microsoft.Maui.Controls.HorizontalStackLayout?> componentRefAction)", "Description": "Creates a HorizontalStackLayout with a component ref." },
+    { "Signature": "HStack()", "Description": "Shortcut type alias for HorizontalStackLayout." },
+    { "Signature": "HStack(Action<Microsoft.Maui.Controls.HorizontalStackLayout?> componentRefAction)", "Description": "Creates an HStack with a component ref." },
+    { "Signature": "HStack(double spacing)", "Description": "Creates an HStack and sets spacing." },
+    { "Signature": "HStack(IEnumerable<VisualNode?> children)", "Description": "Creates an HStack and adds child nodes." },
+    { "Signature": "HStack(double spacing, IEnumerable<VisualNode?> children)", "Description": "Creates an HStack, sets spacing, and adds child nodes." },
+    { "Signature": "HStack(Action<Microsoft.Maui.Controls.HorizontalStackLayout?> componentRefAction, IEnumerable<VisualNode?> children)", "Description": "Creates an HStack with a component ref and adds child nodes." },
+    { "Signature": "HStack(Action<Microsoft.Maui.Controls.HorizontalStackLayout?> componentRefAction, double spacing, IEnumerable<VisualNode?> children)", "Description": "Creates an HStack with component ref, sets spacing, and adds child nodes." }
+  ]
+}

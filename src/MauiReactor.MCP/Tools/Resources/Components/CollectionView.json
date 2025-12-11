@@ -1,0 +1,37 @@
+{
+  "Name": "CollectionView",
+  "Description": "Highly flexible items view with templates, selection, grouping, and reordering.",
+  "Base": "ItemsView",
+  "Properties": [
+    { "Name": "ItemsSource", "Type": "IEnumerable?", "Description": "Data source for items." },
+    { "Name": "ItemTemplate", "Type": "Func<object, VisualNode>?", "Description": "Template function producing item views." },
+    { "Name": "ItemTemplateWithNativeView", "Type": "Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>?", "Description": "Template with access to the native ItemsView." },
+    { "Name": "ItemVisualStateGroups", "Type": "VisualStateGroupList?", "Description": "Visual states applied to each item template root." },
+    { "Name": "EmptyView", "Type": "object?", "Description": "Empty view (string or VisualNode)." },
+    { "Name": "ItemsLayout", "Type": "IItemsLayout?", "Description": "Layout for items (Linear or Grid variants)." },
+    { "Name": "Header", "Type": "object?", "Description": "Header content (string or VisualNode)." },
+    { "Name": "Footer", "Type": "object?", "Description": "Footer content (string or VisualNode)." },
+    { "Name": "SelectedItems", "Type": "IList<object>?", "Description": "Current selected items (for multi-select)." },
+    { "Name": "CanReorderItems", "Type": "bool", "Description": "Enable drag-and-drop reordering." },
+    { "Name": "CanMixGroups", "Type": "bool", "Description": "Allow reorder across groups." },
+    { "Name": "GroupHeaderTemplate", "Type": "Func<object, VisualNode>?", "Description": "Template for group headers." },
+    { "Name": "GroupFooterTemplate", "Type": "Func<object, VisualNode>?", "Description": "Template for group footers." }
+  ],
+  "Events": [
+    { "Name": "SelectionChanged", "EventArgsType": "SelectionChangedEventArgs", "Description": "Raised when selection changes; helpers for single/multiple." },
+    { "Name": "ReorderCompleted", "EventArgsType": "EventArgs", "Description": "Raised after items are reordered." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "CollectionView(Action<CollectionView?> componentRefAction)", "Description": "Constructor with component ref callback." },
+    { "Signature": "CollectionView(IEnumerable<VisualNode?> children)", "Description": "Creates a CollectionView and adds children." }
+  ],
+  "Helpers": [
+    { "Signature": "ItemsSource<TItem>(IEnumerable<TItem> items)", "Description": "Sets items source without template." },
+    { "Signature": "ItemsSource<TItem>(IEnumerable<TItem> items, Func<TItem, VisualNode> template)", "Description": "Sets items source with item template." },
+    { "Signature": "ItemsSource<TItem>(IEnumerable items, Func<TItem, Microsoft.Maui.Controls.ItemsView, VisualNode> template)", "Description": "Sets items source with template receiving native ItemsView." },
+    { "Signature": "ItemsLayout(IItemsLayout layout)", "Description": "Assigns LinearItemsLayout or GridItemsLayout child." },
+    { "Signature": "Header(object header)", "Description": "Assigns header; string or VisualNode." },
+    { "Signature": "Footer(object footer)", "Description": "Assigns footer; string or VisualNode." }
+  ]
+}

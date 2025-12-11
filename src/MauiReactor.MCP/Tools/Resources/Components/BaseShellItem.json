@@ -1,0 +1,12 @@
+{
+  "Name": "BaseShellItem",
+  "Description": "Base class for shell items.",
+  "Base": "NavigableElement",
+  "Properties": [
+    { "Name": "Title", "Type": "string?", "Description": "Shell item title." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

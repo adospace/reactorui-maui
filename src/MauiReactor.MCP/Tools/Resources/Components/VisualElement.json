@@ -1,0 +1,34 @@
+{
+  "Name": "VisualElement",
+  "Description": "Base for drawable elements; supports styling, layout, transforms, and gestures.",
+  "Base": "Element",
+  "Properties": [
+    { "Name": "Background", "Type": "Paint?", "Description": "Background brush/paint." },
+    { "Name": "Opacity", "Type": "double", "Description": "Element opacity.", "Animatable": true },
+    { "Name": "TranslationX", "Type": "double", "Description": "X translation.", "Animatable": true },
+    { "Name": "TranslationY", "Type": "double", "Description": "Y translation.", "Animatable": true },
+    { "Name": "Scale", "Type": "double", "Description": "Uniform scale.", "Animatable": true },
+    { "Name": "Rotation", "Type": "double", "Description": "Rotation in degrees.", "Animatable": true },
+    { "Name": "Clip", "Type": "Shapes.IGeometry?", "Description": "Clipping geometry (child node)." },
+    { "Name": "Shadow", "Type": "IShadow?", "Description": "Shadow settings (child node)." },
+    { "Name": "VisualStateGroups", "Type": "VisualStateGroupList?", "Description": "Visual states applied to the element." },
+    { "Name": "Behaviors", "Type": "List<IBehavior>?", "Description": "Behaviors attached to the element." },
+    { "Name": "InputTransparent", "Type": "bool", "Description": "If true, input passes through." }
+  ],
+  "Events": [
+    { "Name": "Focused", "EventArgsType": "FocusEventArgs" },
+    { "Name": "Unfocused", "EventArgsType": "FocusEventArgs" },
+    { "Name": "SizeChanged", "EventArgsType": "EventArgs" }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": [
+    { "Signature": "Clip(Shapes.IGeometry geometry)", "Description": "Sets clipping geometry child." },
+    { "Signature": "Shadow(IShadow shadow)", "Description": "Sets shadow child." },
+    { "Signature": "OnSizeChanged(Action<Size> sizeChangedAction)", "Description": "Invokes when the element size changes." },
+    { "Signature": "VisualState(string groupName, string stateName, BindableProperty? property = null, object? value = null, string? targetName = null)", "Description": "Defines a visual state setter." },
+    { "Signature": "VisualState(VisualStateGroupList visualState)", "Description": "Assigns a visual state group list." },
+    { "Signature": "Width(double width)", "Description": "Sets width request." },
+    { "Signature": "Height(double height)", "Description": "Sets height request." }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "Name": "TemplatedPage",
+  "Description": "Page with a ControlTemplate.",
+  "Base": "Page",
+  "Properties": [
+    { "Name": "ControlTemplate", "Type": "ControlTemplate?", "Description": "Defines the template for page content." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

@@ -1,0 +1,13 @@
+{
+  "Name": "PinchGestureRecognizer",
+  "Description": "Recognizes pinch (zoom) gestures.",
+  "Base": "GestureRecognizer",
+  "Properties": [],
+  "Events": [
+    { "Name": "PinchUpdated", "EventArgsType": "PinchGestureUpdatedEventArgs", "Description": "Raised during pinch updates." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "PinchGestureRecognizer()", "Description": "Default constructor." }
+  ]
+}

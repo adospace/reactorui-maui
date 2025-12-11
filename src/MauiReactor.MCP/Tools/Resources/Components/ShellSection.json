@@ -1,0 +1,12 @@
+{
+  "Name": "ShellSection",
+  "Description": "A logical section within a shell, grouping content/pages.",
+  "Base": "ShellGroupItem",
+  "Properties": [
+    { "Name": "Title", "Type": "string?", "Description": "Section title." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

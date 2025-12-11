@@ -1,0 +1,20 @@
+{
+  "Name": "SearchBar",
+  "Description": "Text input with a search action.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "ReturnType", "Type": "Microsoft.Maui.ReturnType", "Description": "Return key type on the keyboard." },
+    { "Name": "CancelButtonColor", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Color of the cancel button." },
+    { "Name": "SearchIconColor", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Color of the search icon." },
+    { "Name": "HorizontalTextAlignment", "Type": "Microsoft.Maui.TextAlignment", "Description": "Horizontal text alignment." },
+    { "Name": "VerticalTextAlignment", "Type": "Microsoft.Maui.TextAlignment", "Description": "Vertical text alignment." }
+  ],
+  "Events": [
+    { "Name": "SearchButtonPressed", "EventArgsType": "EventArgs", "Description": "Raised when the search button is pressed." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "SearchBar()", "Description": "Default constructor." },
+    { "Signature": "SearchBar(IEnumerable<VisualNode?>? children)", "Description": "Creates a SearchBar and adds children." }
+  ]
+}

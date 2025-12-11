@@ -1,0 +1,15 @@
+{
+  "Name": "ActivityIndicator",
+  "Description": "Animated busy indicator.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "IsRunning", "Type": "bool", "Description": "Whether the indicator is animating." },
+    { "Name": "Color", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Color of the indicator." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "ActivityIndicator()", "Description": "Default constructor." },
+    { "Signature": "ActivityIndicator(IEnumerable<VisualNode?>? children)", "Description": "Creates an ActivityIndicator and adds children." }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "Name": "StructuredItemsView",
+  "Description": "ItemsView with templating and visual state support.",
+  "Base": "ItemsView",
+  "Properties": [
+    { "Name": "ItemTemplate", "Type": "Func<object, VisualNode>?", "Description": "Template function producing item views." },
+    { "Name": "ItemTemplateWithNativeView", "Type": "Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>?", "Description": "Template with access to native view." },
+    { "Name": "ItemVisualStateGroups", "Type": "VisualStateGroupList?", "Description": "Visual states applied to each item root." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

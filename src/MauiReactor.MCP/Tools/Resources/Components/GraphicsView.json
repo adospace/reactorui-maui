@@ -1,0 +1,13 @@
+{
+  "Name": "GraphicsView",
+  "Description": "Immediate-mode drawing surface using an IDrawable.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "OnDraw", "Type": "Action<ICanvas, RectF>?", "Description": "Set a draw callback; wrapped into an IDrawable." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "GraphicsView()", "Description": "Default constructor." }
+  ]
+}

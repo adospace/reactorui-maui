@@ -1,0 +1,34 @@
+{
+  "Name": "ItemsView",
+  "Description": "Base view that presents a collection of items using an items layout.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "ItemsSource", "Type": "IEnumerable?", "Description": "Data source for items." },
+    { "Name": "ItemsLayout", "Type": "IItemsLayout?", "Description": "Layout for items (linear or grid)." },
+    { "Name": "EmptyView", "Type": "object?", "Description": "Shown when the items source is empty." },
+    { "Name": "Header", "Type": "object?", "Description": "Header content (string or VisualNode)." },
+    { "Name": "Footer", "Type": "object?", "Description": "Footer content (string or VisualNode)." },
+    { "Name": "ItemTemplate", "Type": "Func<object, VisualNode>?", "Description": "Template to render each item." },
+    { "Name": "ItemTemplateWithNativeView", "Type": "Func<object, Microsoft.Maui.Controls.ItemsView, VisualNode>?", "Description": "Template with access to native ItemsView." },
+    { "Name": "ItemVisualStateGroups", "Type": "VisualStateGroupList?", "Description": "Visual states applied to item template presenter." }
+  ],
+  "Events": [
+    { "Name": "Scrolled", "EventArgsType": "ItemsViewScrolledEventArgs" },
+    { "Name": "RemainingItemsThresholdReached", "EventArgsType": "EventArgs" }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": [
+    { "Signature": "ItemsLayout(IItemsLayout layout)", "Description": "Assigns the items layout child." },
+    { "Signature": "Header(object header)", "Description": "Assigns header content." },
+    { "Signature": "Footer(object footer)", "Description": "Assigns footer content." },
+    { "Signature": "ItemsSource<T, TItem>(IEnumerable<TItem> itemsSource)", "Description": "Sets items source (generic)." },
+    { "Signature": "ItemsSource<T, TItem>(IEnumerable<TItem> itemsSource, Func<TItem, VisualNode> template)", "Description": "Sets items source with a template (generic)." },
+    { "Signature": "ItemsSource<T, TItem>(IEnumerable<TItem> itemsSource, Func<TItem, Microsoft.Maui.Controls.ItemsView, VisualNode> template)", "Description": "Sets items source with a template accessing native view (generic)." },
+    { "Signature": "ItemsSource<T, TItem>(IEnumerable itemsSource, Func<TItem, Microsoft.Maui.Controls.ItemsView, VisualNode> template)", "Description": "Sets items source with a template accessing native view (non-generic source)." },
+    { "Signature": "ItemVisualState(string groupName, string stateName, BindableProperty? property = null, object? value = null, string? targetName = null)", "Description": "Defines an item visual state setter." },
+    { "Signature": "ItemVisualState(VisualStateGroupList visualState)", "Description": "Assigns an item visual state group list." },
+    { "Signature": "EmptyView(VisualNode emptyView)", "Description": "Sets a visual empty view." },
+    { "Signature": "EmptyView(string emptyView)", "Description": "Sets a textual empty view." }
+  ]
+}

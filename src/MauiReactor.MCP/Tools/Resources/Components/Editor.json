@@ -1,0 +1,18 @@
+{
+  "Name": "Editor",
+  "Description": "Multi-line text input.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "AutoSize", "Type": "Microsoft.Maui.Controls.EditorAutoSizeOption", "Description": "Auto-size behavior for the editor control." },
+    { "Name": "HorizontalTextAlignment", "Type": "Microsoft.Maui.TextAlignment", "Description": "Horizontal text alignment." },
+    { "Name": "VerticalTextAlignment", "Type": "Microsoft.Maui.TextAlignment", "Description": "Vertical text alignment." }
+  ],
+  "Events": [
+    { "Name": "Completed", "EventArgsType": "EventArgs", "Description": "Raised when text input completes." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "Editor()", "Description": "Default constructor." },
+    { "Signature": "Editor(IEnumerable<VisualNode?>? children)", "Description": "Creates an Editor and adds children." }
+  ]
+}

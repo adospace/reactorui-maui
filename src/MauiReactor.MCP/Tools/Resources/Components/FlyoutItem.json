@@ -1,0 +1,10 @@
+{
+  "Name": "FlyoutItem",
+  "Description": "An item within a shell flyout.",
+  "Base": "ShellItem",
+  "Properties": [],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

@@ -1,0 +1,15 @@
+{
+  "Name": "LinearItemsLayout",
+  "Description": "Items arranged linearly with configurable item spacing.",
+  "Base": "ItemsLayout",
+  "Properties": [
+    { "Name": "ItemSpacing", "Type": "double", "Description": "Spacing between items (animatable)." },
+    { "Name": "SnapPointsAlignment", "Type": "Microsoft.Maui.Controls.SnapPointsAlignment", "Description": "Snap alignment for items." },
+    { "Name": "SnapPointsType", "Type": "Microsoft.Maui.Controls.SnapPointsType", "Description": "Snap points behavior." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "LinearItemsLayout()", "Description": "Default constructor." }
+  ]
+}

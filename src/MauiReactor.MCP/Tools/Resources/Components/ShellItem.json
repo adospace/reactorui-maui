@@ -1,0 +1,12 @@
+{
+  "Name": "ShellItem",
+  "Description": "A container for pages within a shell.",
+  "Base": "ShellGroupItem",
+  "Properties": [],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "ShellItem(Action<ShellItem?> componentRefAction)" }
+  ],
+  "Helpers": []
+}

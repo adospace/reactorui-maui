@@ -1,0 +1,27 @@
+{
+  "Name": "Grid",
+  "Description": "Flexible row/column layout with attached placement properties.",
+  "Base": "Layout",
+  "Properties": [
+    { "Name": "RowSpacing", "Type": "double", "Description": "Spacing between rows." },
+    { "Name": "ColumnSpacing", "Type": "double", "Description": "Spacing between columns." },
+    { "Name": "RowDefinitions", "Type": "string?", "Description": "Comma/space separated row heights (e.g., 'Auto,*,2*')." },
+    { "Name": "ColumnDefinitions", "Type": "string?", "Description": "Comma/space separated column widths (e.g., 'Auto,*,2*')." }
+  ],
+  "Events": [],
+  "AttachedProperties": [
+    { "Name": "GridRow", "Type": "int", "Description": "Fluent attached row index for child placement (use .GridRow(i))." },
+    { "Name": "GridRowSpan", "Type": "int", "Description": "Fluent attached row span for child placement (use .GridRowSpan(n))." },
+    { "Name": "GridColumn", "Type": "int", "Description": "Fluent attached column index for child placement (use .GridColumn(i))." },
+    { "Name": "GridColumnSpan", "Type": "int", "Description": "Fluent attached column span for child placement (use .GridColumnSpan(n))." }
+  ],
+  "Constructors": [
+    { "Signature": "Grid()", "Description": "Default constructor." },
+    { "Signature": "Grid(string rows, string columns)", "Description": "Create a Grid with string row/column definitions." },
+    { "Signature": "Grid(RowDefinitionCollection rows, ColumnDefinitionCollection columns)", "Description": "Create a Grid with definition collections." },
+    { "Signature": "Grid(IEnumerable<RowDefinition> rows, IEnumerable<ColumnDefinition> columns)", "Description": "Create a Grid with enumerable definitions." },
+    { "Signature": "Grid(string rows, string columns, IEnumerable<VisualNode?>? children)", "Description": "Create a Grid and add children with string definitions." },
+    { "Signature": "Grid(RowDefinitionCollection rows, ColumnDefinitionCollection columns, IEnumerable<VisualNode?>? children)", "Description": "Create a Grid and add children with collections." },
+    { "Signature": "Grid(IEnumerable<RowDefinition> rows, IEnumerable<ColumnDefinition> columns, IEnumerable<VisualNode?>? children)", "Description": "Create a Grid and add children with enumerables." }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "Name": "FlyoutPage",
+  "Description": "A page with a flyout and detail content.",
+  "Base": "Page",
+  "Properties": [],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

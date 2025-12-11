@@ -1,0 +1,10 @@
+{
+  "Name": "MenuFlyout",
+  "Description": "A flyout popup that hosts menu items.",
+  "Base": "FlyoutBase",
+  "Properties": [],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

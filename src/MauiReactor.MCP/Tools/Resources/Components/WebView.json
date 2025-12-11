@@ -1,0 +1,22 @@
+{
+  "Name": "WebView",
+  "Description": "Displays web content from a URL or HTML source.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "Source", "Type": "Microsoft.Maui.Controls.WebViewSource", "Description": "The web content source (UrlWebViewSource or HtmlWebViewSource)." },
+    { "Name": "UserAgent", "Type": "string", "Description": "Custom user agent string." },
+    { "Name": "Cookies", "Type": "System.Net.CookieContainer", "Description": "Cookies used by the WebView." }
+  ],
+  "Events": [
+    { "Name": "Navigated", "EventArgsType": "WebNavigatedEventArgs", "Description": "Raised after navigation completes." },
+    { "Name": "Navigating", "EventArgsType": "WebNavigatingEventArgs", "Description": "Raised before navigation begins." },
+    { "Name": "ProcessTerminated", "EventArgsType": "WebViewProcessTerminatedEventArgs", "Description": "Raised when the web process terminates unexpectedly." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "WebView()", "Description": "Default constructor." },
+    { "Signature": "WebView(IEnumerable<VisualNode?>? children)", "Description": "Creates a WebView and adds children." },
+    { "Signature": "WebView(string source)", "Description": "Creates a WebView and sets a string URL source." },
+    { "Signature": "WebView(Uri source)", "Description": "Creates a WebView and sets a Uri source." }
+  ]
+}

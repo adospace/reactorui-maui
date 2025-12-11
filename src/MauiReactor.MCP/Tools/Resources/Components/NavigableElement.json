@@ -1,0 +1,12 @@
+{
+  "Name": "NavigableElement",
+  "Description": "Base for elements participating in navigation and styling.",
+  "Base": "StyleableElement",
+  "Properties": [
+    { "Name": "StyleClass", "Type": "IList<string>?", "Description": "Style classes for CSS-like styling." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

@@ -1,0 +1,19 @@
+{
+  "Name": "Stepper",
+  "Description": "Numeric control that increases/decreases a value by an increment.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "Minimum", "Type": "double", "Description": "Minimum value (animatable)." },
+    { "Name": "Maximum", "Type": "double", "Description": "Maximum value (animatable)." },
+    { "Name": "Value", "Type": "double", "Description": "Current value (animatable)." },
+    { "Name": "Increment", "Type": "double", "Description": "Step increment (animatable)." }
+  ],
+  "Events": [
+    { "Name": "ValueChanged", "EventArgsType": "ValueChangedEventArgs", "Description": "Raised when the value changes." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "Stepper()", "Description": "Default constructor." },
+    { "Signature": "Stepper(IEnumerable<VisualNode?>? children)", "Description": "Creates a Stepper and adds children." }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "Name": "PointerGestureRecognizer",
+  "Description": "Recognizes pointer hover/move/press/release gestures.",
+  "Base": "GestureRecognizer",
+  "Properties": [],
+  "Events": [
+    { "Name": "PointerEntered", "EventArgsType": "PointerEventArgs", "Description": "Pointer entered; helpers provide element-relative position." },
+    { "Name": "PointerExited", "EventArgsType": "PointerEventArgs", "Description": "Pointer exited; helpers provide element-relative position." },
+    { "Name": "PointerMoved", "EventArgsType": "PointerEventArgs", "Description": "Pointer moved; helpers provide element-relative position." },
+    { "Name": "PointerPressed", "EventArgsType": "PointerEventArgs", "Description": "Pointer pressed; helpers provide element-relative position." },
+    { "Name": "PointerReleased", "EventArgsType": "PointerEventArgs", "Description": "Pointer released; helpers provide element-relative position." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "PointerGestureRecognizer()", "Description": "Default constructor." }
+  ]
+}

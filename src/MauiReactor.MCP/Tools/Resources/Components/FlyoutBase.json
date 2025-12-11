@@ -1,0 +1,12 @@
+{
+  "Name": "FlyoutBase",
+  "Description": "Base for menu flyouts.",
+  "Base": "Element",
+  "Properties": [
+    { "Name": "Behavior", "Type": "FlyoutBehavior", "Description": "Flyout display behavior." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

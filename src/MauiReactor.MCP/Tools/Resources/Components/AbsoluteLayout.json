@@ -1,0 +1,14 @@
+{
+  "Name": "AbsoluteLayout",
+  "Description": "Position children using absolute coordinates.",
+  "Base": "View",
+  "Properties": [],
+  "Events": [],
+  "AttachedProperties": [
+    { "Name": "AbsoluteLayoutBounds", "Type": "Microsoft.Maui.Graphics.Rect", "Description": "Attached bounds (x,y,width,height) for child placement." },
+    { "Name": "AbsoluteLayoutFlags", "Type": "Microsoft.Maui.Controls.AbsoluteLayoutFlags", "Description": "Attached flags controlling bounds interpretation (None, All, etc.)." }
+  ],
+  "Constructors": [
+    { "Signature": "AbsoluteLayout()", "Description": "Default constructor." }
+  ]
+}

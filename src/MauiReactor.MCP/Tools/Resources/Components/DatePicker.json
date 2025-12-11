@@ -1,0 +1,18 @@
+{
+  "Name": "DatePicker",
+  "Description": "Allows picking a date.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "Date", "Type": "DateTime", "Description": "Selected date." },
+    { "Name": "MinimumDate", "Type": "DateTime", "Description": "Minimum selectable date." },
+    { "Name": "MaximumDate", "Type": "DateTime", "Description": "Maximum selectable date." },
+    { "Name": "Format", "Type": "string", "Description": "Display format for the date." }
+  ],
+  "Events": [
+    { "Name": "DateSelected", "EventArgsType": "DateChangedEventArgs", "Description": "Raised when the selected date changes." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "DatePicker()", "Description": "Default constructor." }
+  ]
+}

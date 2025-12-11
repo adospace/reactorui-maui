@@ -1,0 +1,17 @@
+{
+  "Name": "ContentPage",
+  "Description": "Page that hosts a single content view.",
+  "Base": "TemplatedPage",
+  "Properties": [
+    { "Name": "HideSoftInputOnTapped", "Type": "bool", "Description": "Hide soft keyboard when tapping the page content." },
+    { "Name": "SafeAreaEdges", "Type": "Microsoft.Maui.SafeAreaEdges", "Description": "Controls which edges respect the device safe area." },
+    { "Name": "TitleView", "Type": "VisualNode?", "Description": "Custom view displayed in the navigation bar title area." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "ContentPage()", "Description": "Default constructor." },
+    { "Signature": "ContentPage(string title)", "Description": "Creates a ContentPage and sets its title." },
+    { "Signature": "ContentPage(string title, IEnumerable<VisualNode?>? children)", "Description": "Creates a ContentPage with a title and children." }
+  ]
+}

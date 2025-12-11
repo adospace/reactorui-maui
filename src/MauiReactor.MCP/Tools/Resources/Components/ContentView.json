@@ -1,0 +1,13 @@
+{
+  "Name": "ContentView",
+  "Description": "Container that hosts a single child view.",
+  "Base": "TemplatedView",
+  "Properties": [
+    { "Name": "SafeAreaEdges", "Type": "Microsoft.Maui.SafeAreaEdges", "Description": "Controls which edges respect the device safe area." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "ContentView()", "Description": "Default constructor." }
+  ]
+}

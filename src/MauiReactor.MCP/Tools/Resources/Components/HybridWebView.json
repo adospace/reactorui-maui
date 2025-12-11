@@ -1,0 +1,25 @@
+{
+  "Name": "HybridWebView",
+  "Description": "A WebView with a JavaScript-to-.NET bridge and resource hooks.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "DefaultFile", "Type": "string", "Description": "Default HTML file to load from app resources." },
+    { "Name": "HybridRoot", "Type": "string", "Description": "Root folder for hybrid resources." }
+  ],
+  "Events": [
+    { "Name": "RawMessageReceived", "EventArgsType": "HybridWebViewRawMessageReceivedEventArgs" },
+    { "Name": "WebViewInitializing", "EventArgsType": "WebViewInitializingEventArgs" },
+    { "Name": "WebViewInitialized", "EventArgsType": "WebViewInitializedEventArgs" },
+    { "Name": "WebResourceRequested", "EventArgsType": "WebViewWebResourceRequestedEventArgs" }
+  ],
+  "Constructors": [
+    { "Signature": "HybridWebView(Action<HybridWebView?> componentRefAction)" },
+    { "Signature": "HybridWebView(IEnumerable<VisualNode?> children)" }
+  ],
+  "AttachedProperties": [],
+  "Helpers": [
+    { "Signature": "DefaultFile(string path)", "Description": "Sets the default HTML file to load." },
+    { "Signature": "HybridRoot(string path)", "Description": "Sets the hybrid resources root path." },
+    { "Signature": "OnRawMessageReceived(Action<string?> handler)", "Description": "Registers a simplified message handler receiving the raw string payload." }
+  ]
+}
