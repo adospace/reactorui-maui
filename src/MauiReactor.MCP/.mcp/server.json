@@ -2,12 +2,12 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
   "description": "MauiReactor is a MVU UI framework built on top of .NET MAUI",
   "name": "io.github.adospace/reactorui-maui",
-  "version": "4.0.6-beta",
+  "version": "4.0.8-beta",
   "packages": [
     {
       "registryType": "nuget",
       "identifier": "Reactor.Maui.MCP",
-      "version": "4.0.6-beta",
+      "version": "4.0.8-beta",
       "transport": {
         "type": "stdio"
       },
