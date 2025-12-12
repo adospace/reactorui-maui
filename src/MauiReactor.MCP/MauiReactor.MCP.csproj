@@ -23,7 +23,7 @@
 		<!-- Set recommended package metadata -->
 		<Version>0.0.1-beta</Version>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageId>MauiReactor.MCP</PackageId>
+		<PackageId>Reactor.Maui.MCP</PackageId>
 		<PackageTags>MauiReactor; MCP; server; stdio</PackageTags>
 		<Description>MCP (Model Context Protocol) server for MauiReactor. Provides stdio endpoints exposing tools for .NET MAUI projects: component scaffolding, workspace inspection and file operations, plus basic build/test tasks. Designed for use with MCP-compatible clients.</Description>
 		<Copyright>Adolfo Marinucci</Copyright>
