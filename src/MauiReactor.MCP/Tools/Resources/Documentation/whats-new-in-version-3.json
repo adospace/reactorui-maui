@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "whats-new-in-version-3",
+    "Summary":  "What\u0027s new in Version 3",
+    "Remarks":  "Version 3 of MauiReactor targets MAUI .NET 9. If you\u0027re using an earlier version of MauiReactor, please note the following short-step list of changes required to move forward to version 3.",
+    "Example":  "\u003cItemGroup Condition=\"\u0027$(Configuration)\u0027==\u0027Debug\u0027\"\u003e\r\n  \u003cRuntimeHostConfigurationOption Include=\"MauiReactor.HotReload\" Value=\"true\" Trim=\"false\" /\u003e\r\n\u003c/ItemGroup\u003e\r"
+}

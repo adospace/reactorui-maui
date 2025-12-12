@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "components/animation/README",
+    "Summary":  "Animation approaches in MauiReactor: property-based, AnimationController, and native MAUI.",
+    "Remarks":  "MauiReactor supports three complementary animation strategies: 1) Property-based (RxAnimation): declaratively animate component properties between states with WithAnimation(duration, easing). 2) AnimationController: compose Sequence/Parallel timelines with tween animations (Double, CubicBezierPath, QuadraticBezierPath) and update state via OnTick for complex motion and coordination. 3) Standard .NET MAUI animations: operate directly on native controls when needed. All can be combined within a single component depending on your scenario.",
+    "Example":  "Examples: \r\n- Property-based: Image().Opacity(State.On ? 1 : 0).WithAnimation(600)\r\n- AnimationController: new AnimationController { new SequenceAnimation { new DoubleAnimation().StartValue(0).TargetValue(100).OnTick(v => SetState(s => s.X = v)) } }\r\n- Native MAUI: get native reference and call TranslateTo/ScaleTo as required\r"
+}

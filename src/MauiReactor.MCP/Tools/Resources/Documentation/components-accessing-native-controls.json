@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "components/accessing-native-controls",
+    "Summary":  "Accessing native controls",
+    "Remarks":  "Sometimes, you need to set a specific dependency property of the native control:",
+    "Example":  "new Button()\r\n    .Set(BindableProperty property, object? value);\r"
+}

@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "components/animation/timer",
+    "Summary":  "Trigger periodic updates with the MauiReactor Timer widget. Bind IsEnabled and Interval, handle OnTick to update state on the UI thread.",
+    "Remarks":  "Use the built-in Timer visual node for MVU-friendly periodic events instead of raw runtime timers. Add Timer anywhere in the component tree. Start/pause with .IsEnabled(bool) and set frequency with .Interval(ms). Handle .OnTick(() => SetState(...)) to drive counters, clocks, or animations. The callback runs on the UI thread, so you can safely update state.",
+    "Example":  "Grid(\r\n    Timer()\r\n        .IsEnabled(State.ShowCountdown)\r\n        .Interval(1000)\r\n        .OnTick(() => SetState(s => s.Counter++))\r\n)\r"
+}

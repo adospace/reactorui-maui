@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "components/controls/label",
+    "Summary":  "Display single- or multi-line text; customize font, color, spacing, and decorations.",
+    "Remarks":  "Label renders text with options for font size/weight, color, line breaks, alignment, and decorations. Use the shorthand Label(\"text\") or set text via .Text(\"...\"). Combine with layout helpers (e.g., .HCenter(), .VCenter()) for placement.",
+    "Example":  "Label(\"My label text\")\r\n    .FontSize(16)\r\n    .TextColor(Colors.Blue)\r\n    .HCenter()\r\n    .VCenter()\r"
+}

@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "deep-dives/dependency-injection",
+    "Summary":  "Register services in the MAUI host and consume them from components.",
+    "Remarks":  "Place services and models in a separate assembly to keep hot reload stable. Register them in the MAUI builder (builder.Services.AddSingleton/Scoped) and access them from components via Application.Current.Services or pass them as props. Prefer stateless services for easier testing.",
+    "Example":  "public class CalcService\r\n{\r\n    public double Add(double x, double y) =\u003e x + y;\r\n}\r"
+}

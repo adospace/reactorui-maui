@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "components/controls/collectionview/README",
+    "Summary":  "Flexible, high-performance list/grid control with layouts, selection, grouping, scrolling, empty views, and item interactions.",
+    "Remarks":  "CollectionView presents lists of data with configurable layouts (linear or grid), supports single/multiple selection, grouping with headers/footers, programmatic scrolling and scroll events, empty view placeholders, and per-item interactions (SwipeView). It’s a modern, performant alternative to ListView.",
+    "Example":  "public override VisualNode Render()\r\n{\r\n    return ContentPage(\r\n        CollectionView()\r\n            .ItemsSource(State.Persons, person =>\r\n                VStack(spacing: 5,\r\n                    Label($\"{person.FirstName} {person.LastName}\"),\r\n                    Label(person.DateOfBirth.ToShortDateString()).FontSize(12).TextColor(Colors.Gray)\r\n                ).Margin(5,10)\r\n            )\r\n    );\r\n}\r"
+}

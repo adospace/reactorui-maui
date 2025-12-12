@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "q-and-a/how-to-deal-with-state-shared-across-components",
+    "Summary":  "How to deal with state shared across Components?",
+    "Remarks":  "Hi, given that you can choose the best approach that fits better for your project here are 3 different ways to achieve it in MauiReactor/C# that I can think of:",
+    "Example":  "class Settings\r\n{\r\n  public int MySettingValue {get;set;}\r\n}\r\n\r\nclass MyComponent\r\n{\r\n   Settings? _settings;\r\n    public MyComponent Settings(Settings settings)\r\n    {\r\n       _settings = settings;\r\n      return this;\r\n    }\r\n\r\n    public override VisualNode Render()\r\n    {\r\n      //use _settings and pass down to components used here _settings object\r\n    }\r\n}\r"
+}

@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "components/state-less-components",
+    "Summary":  "Render-only components that depend solely on props; no internal state.",
+    "Remarks":  "Stateless components derive from Component (without a state type) and implement Render() to produce a UI from their input props/parameters. They re-render when the parent re-renders or when their props change, making them predictable and easy to test. Keep Render() pure (no side-effects); handle side-effects inside event callbacks.",
+    "Example":  "record GreetingProps(string Name);\r\n\r\nclass Greeting : Component\r\n{\r\n    [Prop] public GreetingProps Props { get; set; }\r\n\r\n    public override VisualNode Render()\r\n        => new Label(\"Hello \" + (Props?.Name ?? \"world\"));\r\n}\r\n\r\nclass MainPage : Component\r\n{\r\n    public override VisualNode Render()\r\n        => new ContentPage\r\n        {\r\n            new VStack(10)\r\n            {\r\n                new Greeting().Set(new GreetingProps(\"Maui\")),\r\n                new Greeting().Set(new GreetingProps(\"Reactor\"))\r\n            }\r\n            .Center()\r\n            .Padding(20)\r\n        };\r\n}\r"
+}

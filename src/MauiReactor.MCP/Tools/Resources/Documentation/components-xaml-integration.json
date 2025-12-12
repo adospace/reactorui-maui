@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "components/xaml-integration",
+    "Summary":  "Host MauiReactor components inside existing XAML pages to adopt MVU incrementally.",
+    "Remarks":  "Use ComponentHost to embed a MauiReactor Component within an XAML page or view. Keep your XAML resources/styles and set ComponentHost.Component to a component type (or instance). The host bridges navigation and platform services while MauiReactor manages the MVU subtree.",
+    "Example":  "// XAML page code-behind\r\npublic partial class HomePage : ContentPage\r\n{\r\n    public HomePage()\r\n    {\r\n        InitializeComponent();\r\n\r\n        Content = new MauiReactor.ComponentHost\r\n        {\r\n            Component = typeof(Counter)\r\n        };\r\n\r\n        // Or provide an instance:\r\n        // Content = new MauiReactor.ComponentHost { Component = new Counter() };\r\n    }\r\n}\r"
+}

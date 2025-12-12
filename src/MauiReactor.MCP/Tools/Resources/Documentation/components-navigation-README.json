@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "components/navigation/README",
+    "Summary":  "Navigation overview in MauiReactor",
+    "Remarks":  ".NET MAUI offers two navigation models usable from MauiReactor: NavigationPage for stack-based push/pop navigation, and Shell for route-based, hierarchical navigation with flyouts/tabs and deep links. Choose NavigationPage for simple flows; prefer Shell for complex apps that benefit from structured routing and on-demand page rendering.",
+    "Example":  "Navigation options:\r\n1) NavigationPage: await Navigation.PushAsync<MyPage>();\r\n2) Shell: await MauiControls.Shell.Current.GoToAsync(\"//my-route\");\r"
+}

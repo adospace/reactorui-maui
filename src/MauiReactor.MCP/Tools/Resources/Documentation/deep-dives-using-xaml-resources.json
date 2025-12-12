@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "deep-dives/using-xaml-resources",
+    "Summary":  "Load and use XAML ResourceDictionaries with MauiReactor; bind styles via keys.",
+    "Remarks":  "Add resource dictionaries at startup with app.AddResource(...) to merge them into Application.Resources. Reference styles and colors by key from components (for example, style keys or DynamicResource bindings). Combine with AppThemeColor for Light/Dark aware resources.",
+    "Example":  "var builder = MauiApp.CreateBuilder();\r\nbuilder\r\n    .UseMauiReactorApp<ShellPage>(app => \r\n    {\r\n        app.AddResource(\"Resources/Styles/DefaultTheme.xaml\");\r\n    });\r\n\r\n// Use a style by key in a page\r\nclass StyledPage : Component\r\n{\r\n    public override VisualNode Render()\r\n        => new ContentPage\r\n        {\r\n            new Label(\"Hello\")\r\n                .Style(\"BaseLabel\")\r\n        };\r\n}\r"
+}

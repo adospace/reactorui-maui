@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "components/graphics/canvasview-control",
+    "Summary":  "CanvasView control",
+    "Remarks":  "MAUI developers can draw lines, shapes, or text (generally speaking called drawing objects) directly on a canvas through the `GraphicsView` control or the `SKCanvas` class provided by the [SkiaSharp library](https://github.com/mono/SkiaSharp) in an _imperative_ approach.\u0026#x20;",
+    "Example":  "class CanvasPage : Component\r\n{\r\n    public override VisualNode Render()\r\n    {\r\n        return new ContentPage(\"Canvas Test Page\")\r\n        {\r\n            new CanvasView\r\n            {\r\n                \r\n            }\r\n        };\r\n    }\r\n}\r"
+}

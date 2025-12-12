@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "components/graphics/README",
+    "Summary":  "Graphics",
+    "Remarks":  "Sometimes you want to directly just draw lines, text, or shapes in general inside a blank canvas. Drawing directly has some advantages:",
+    "Example":  null
+}

@@ -180,16 +180,7 @@ internal class ComponentTools
 
         // Find a resource that ends with Tools.Resources.Components.{componentName}.json
         var targetSuffix = $"Tools.Resources.Components.{componentName}.json";
-        string? resourceName = null;
-        foreach (var name in resourceNames)
-        {
-            if (name.EndsWith(targetSuffix, StringComparison.OrdinalIgnoreCase))
-            {
-                resourceName = name;
-                _logger.LogDebug("Matched resource {ResourceName} for component {ComponentName}", resourceName, componentName);
-                break;
-            }
-        }
+        string? resourceName = resourceNames.FirstOrDefault(_=>_.EndsWith(targetSuffix, StringComparison.OrdinalIgnoreCase));
 
         if (resourceName is null)
         {
@@ -197,12 +188,13 @@ internal class ComponentTools
             throw new InvalidOperationException($"Component info not found for '{componentName}'.");
         }
 
-        using var stream = asm.GetManifestResourceStream(resourceName);
+        using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
         if (stream is null)
         {
             _logger.LogError("Failed to read resource stream for {ComponentName} (resource={ResourceName})", componentName, resourceName);
             throw new InvalidOperationException($"Failed to read embedded resource for '{componentName}'.");
         }
+
         _logger.LogDebug("Opened resource stream for {ComponentName}. CanRead={CanRead}", componentName, stream.CanRead);
 
         // For additional visibility, log the resource size if seekable
@@ -218,13 +210,6 @@ internal class ComponentTools
         {
             _logger.LogError("Invalid component info JSON for {ComponentName}", componentName);
             throw new InvalidOperationException($"Invalid component info JSON for '{componentName}'.");
-        }
-
-        // Extra breadcrumb when inspecting core components like View
-        if (string.Equals(componentName, "View", StringComparison.OrdinalIgnoreCase))
-        {
-            _logger.LogInformation("Loaded core component 'View' with base={Base} and {PropCount} properties, {EventCount} events",
-                detailedInfo.Base, detailedInfo.Properties?.Length ?? 0, detailedInfo.Events?.Length ?? 0);
         }
 
         _logger.LogInformation("get-component-info succeeded for {ComponentName}", componentName);
