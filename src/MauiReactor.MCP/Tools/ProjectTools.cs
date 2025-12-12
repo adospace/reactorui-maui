@@ -39,7 +39,7 @@ internal class ProjectTools
         }
 
         // 1) Ensure the latest MauiReactor template pack is installed
-        var (exitCode, stdout, stderr) = _shell.Run("dotnet", "new install Reactor.Maui.TemplatePack", workDir);
+        var (exitCode, stdout, stderr) = _shell.Run("dotnet", "new install Reactor.Maui.TemplatePack::4.0.7-beta", workDir);
         if (exitCode != 0)
         {
             throw new McpException($"Failed to install Reactor.Maui.TemplatePack: {stderr}");

@@ -33,22 +33,6 @@ class ApplicationTheme : Theme
     public static Color Gray900 { get; } = Color.FromRgba(33, 33, 33, 255); // #212121
     public static Color Gray950 { get; } = Color.FromRgba(20, 20, 20, 255); // #141414
 
-    public static Brush PrimaryBrush { get; } = new SolidColorBrush(Primary);
-    public static Brush SecondaryBrush { get; } = new SolidColorBrush(Secondary);
-    public static Brush TertiaryBrush { get; } = new SolidColorBrush(Tertiary);
-    public static Brush WhiteBrush { get; } = new SolidColorBrush(White);
-    public static Brush BlackBrush { get; } = new SolidColorBrush(Black);
-    public static Brush Gray100Brush { get; } = new SolidColorBrush(Gray100);
-    public static Brush Gray200Brush { get; } = new SolidColorBrush(Gray200);
-    public static Brush Gray300Brush { get; } = new SolidColorBrush(Gray300);
-    public static Brush Gray400Brush { get; } = new SolidColorBrush(Gray400);
-    public static Brush Gray500Brush { get; } = new SolidColorBrush(Gray500);
-    public static Brush Gray600Brush { get; } = new SolidColorBrush(Gray600);
-    public static Brush Gray900Brush { get; } = new SolidColorBrush(Gray900);
-    public static Brush Gray950Brush { get; } = new SolidColorBrush(Gray950);
-
-
-
     protected override void OnApply()
     {
         ActivityIndicatorStyles.Default = _ =>
@@ -116,13 +100,6 @@ class ApplicationTheme : Theme
             .MinimumWidthRequest(44)
             .VisualState("CommonStates", "Disable", MauiControls.Entry.TextColorProperty, IsLightTheme ? Gray300 : Gray600);
 
-
-        FrameStyles.Default = _ => _
-            .HasShadow(false)
-            .BorderColor(IsLightTheme ? Gray200 : Gray950)
-            .CornerRadius(8)
-            .BackgroundColor(IsLightTheme ? White : Black);
-
         ImageButtonStyles.Default = _ => _
             .Opacity(1)
             .BorderColor(Colors.Transparent)
@@ -142,18 +119,14 @@ class ApplicationTheme : Theme
         LabelStyles.Themes["Headline"] = _ => _
             .TextColor(IsLightTheme ? MidnightBlue : White)
             .FontSize(32)
-            .HorizontalOptions(LayoutOptions.Center)
+            .HorizontalOptions(MauiControls.LayoutOptions.Center)
             .HorizontalTextAlignment(TextAlignment.Center);
 
         LabelStyles.Themes["SubHeadline"] = _ => _
             .TextColor(IsLightTheme ? MidnightBlue : White)
             .FontSize(24)
-            .HorizontalOptions(LayoutOptions.Center)
+            .HorizontalOptions(MauiControls.LayoutOptions.Center)
             .HorizontalTextAlignment(TextAlignment.Center);
-
-        ListViewStyles.Default = _ => _
-            .SeparatorColor(IsLightTheme ? Gray200 : Gray500)
-            .RefreshControlColor(IsLightTheme ? Gray900 : Gray200);
 
         PickerStyles.Default = _ => _
             .TextColor(IsLightTheme ? Gray900 : White)

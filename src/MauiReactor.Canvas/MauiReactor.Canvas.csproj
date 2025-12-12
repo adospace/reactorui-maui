@@ -31,9 +31,17 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageId>Reactor.Maui.Canvas</PackageId>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 
 	</PropertyGroup>
-
+	
+	<ItemGroup>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+	
 	<ItemGroup>
 		<ProjectReference Include="..\MauiReactor\MauiReactor.csproj" />
 		<ProjectReference Include="..\MauiReactor.ScaffoldGenerator\MauiReactor.ScaffoldGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />

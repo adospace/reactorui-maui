@@ -28,6 +28,8 @@
 		<Description>MCP (Model Context Protocol) server for MauiReactor. Provides stdio endpoints exposing tools for .NET MAUI projects: component scaffolding, workspace inspection and file operations, plus basic build/test tasks. Designed for use with MCP-compatible clients.</Description>
 		<Copyright>Adolfo Marinucci</Copyright>
 		<Authors>adospace</Authors>
+		<PackageProjectUrl>https://github.com/adospace/reactorui-maui</PackageProjectUrl>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<!-- Include additional files for browsing the MCP server. -->
