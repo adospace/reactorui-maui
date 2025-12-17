@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using MauiReactor.Animations;
+using MauiReactor.Internals;
+using Microsoft.Extensions.Logging;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using MauiReactor.Animations;
-using MauiReactor.Internals;
 
 namespace MauiReactor
 {
@@ -377,6 +378,13 @@ namespace MauiReactor
             if (_invalidated)
             {
                 //System.Diagnostics.Debug.WriteLine($"{this}->Layout(Invalidated)");
+                if (!_isMounted && Parent != null)
+                {
+                    var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
+                    logger?.LogWarning("Component {Component} has been invalidated while not mounted: are you invalidating from an event handler attached to unmounted component?",
+                        GetType().FullName);
+                }
+
                 var oldChildren = Children;
                 _children = null;
                 MergeChildrenFrom(oldChildren);
