@@ -8,16 +8,24 @@ using System.Text;
 
 namespace MauiReactor
 {
-    internal abstract class PageHost : VisualNode
+    internal abstract class PageHost : VisualNode, IComponentNavigationStackEventHandler
     {
         private readonly INavigation _navigation;
         protected bool _sleeping;
         protected bool _unloading;
         protected bool _checkingUnloading;
 
+        protected static readonly ILogger<PageHost>? _logger = ServiceCollectionProvider
+                .ServiceProvider?
+                .GetService<ILogger<PageHost>>();
+
+        private static ComponentNavigationStack? _componentNavigationStack;
+
         public PageHost(INavigation navigation)
         {
             _navigation = navigation;
+            _componentNavigationStack ??= new ComponentNavigationStack(navigation);
+            _componentNavigationStack.RegisterEventHandler(this);
         }
 
         private WeakReference<Microsoft.Maui.Controls.Page>? _containerPage;
@@ -43,7 +51,7 @@ namespace MauiReactor
 
                 if (_containerPage?.TryGetTarget(out var _) == true)
                 {
-                    throw new InvalidOperationException();
+                    throw new InvalidOperationException("ContainerPage already set");
                 }
 
                 _containerPage = new WeakReference<Microsoft.Maui.Controls.Page>(value);
@@ -98,6 +106,9 @@ namespace MauiReactor
                 page.SetValue(MauiReactorPageHostBagKey, this);
                 page.Appearing += ComponentPage_Appearing;
                 page.Disappearing += ContainerPage_Disappearing;
+
+                page.Loaded += ComponentPage_Loaded;
+                page.Unloaded += ComponentPage_Unloaded;
             }
             else
             {
@@ -105,9 +116,93 @@ namespace MauiReactor
             }
         }
 
+        private void ComponentPage_Unloaded(object? sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Unloaded");
+            _componentNavigationStack?.Refresh();
+        }
+
+        private void ComponentPage_Loaded(object? sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Loaded");
+            _componentNavigationStack?.Refresh();
+        }
+
         private void ContainerPage_Disappearing(object? sender, EventArgs e)
         {
             System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Disappearing");
+            _componentNavigationStack?.Refresh();
+
+            //if (_checkingUnloading)
+            //{
+            //    return;
+            //}
+
+            //_checkingUnloading = true;
+            //Application.Current?.Dispatcher.Dispatch(CheckUnloading);
+        }
+
+        private void ComponentPage_Appearing(object? sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Appearing");
+            _componentNavigationStack?.Refresh();
+
+
+            //_checkingUnloading = false;
+
+            //if (_unloading)
+            //{
+            //    System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Mounting");
+            //    _unloading = false;
+            //    IsLayoutCycleRequired = true;
+            //    Application.Current?.Dispatcher.Dispatch(OnRecyclingPage);
+            //}
+            //else
+            //{
+            //    System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Appearing");
+            //    _sleeping = false;
+            //    OnLayoutCycleRequested();
+            //}
+        }
+
+        protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
+        {
+        }
+
+        protected abstract void OnRecyclingPage();
+
+        public void OnPagePushed(Microsoft.Maui.Controls.Page page)
+        {
+            if (ContainerPage != page)
+            {
+                return;
+            }
+
+            _checkingUnloading = false;
+
+            if (_unloading)
+            {
+                System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Pushed->Mounting");
+                _unloading = false;
+                IsLayoutCycleRequired = true;
+                Application.Current?.Dispatcher.Dispatch(OnRecyclingPage);
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Pushed->Appearing");
+                _sleeping = false;
+                OnLayoutCycleRequested();
+            }
+        }
+
+        public void OnPagePopped(Microsoft.Maui.Controls.Page page)
+        {
+            if (ContainerPage != page)
+            {
+                return;
+            }
+
+            System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Popped");
 
             if (_checkingUnloading)
             {
@@ -117,32 +212,6 @@ namespace MauiReactor
             _checkingUnloading = true;
             Application.Current?.Dispatcher.Dispatch(CheckUnloading);
         }
-
-        private void ComponentPage_Appearing(object? sender, EventArgs e)
-        {
-            _checkingUnloading = false;
-
-            if (_unloading)
-            {
-                System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Mounting");
-                _unloading = false;
-                IsLayoutCycleRequired = true;
-                Application.Current?.Dispatcher.Dispatch(OnRecyclingPage);
-            }
-            else
-            {
-                System.Diagnostics.Debug.WriteLine($"{ContainerPage?.Title} Appearing");
-                _sleeping = false;
-                OnLayoutCycleRequested();
-            }
-        }
-
-        protected sealed override void OnRemoveChild(VisualNode widget, BindableObject nativeControl)
-        {
-        }
-
-        protected abstract void OnRecyclingPage();
-
 
         internal static BindablePropertyKey MauiReactorPageHostBagKey = BindableProperty.CreateAttachedReadOnly(nameof(MauiReactorPageHostBagKey),
             typeof(ITemplateHost), typeof(PageHost), null);
@@ -200,25 +269,18 @@ namespace MauiReactor
         {
             _sleeping = false;
 
-            //if (MauiReactorFeatures.HotReloadIsEnabled)
-            //{
-                var newComponent = TypeLoader.Instance.LoadObject<Component>(typeof(T), throwExceptions: false);
+            var newComponent = TypeLoader.Instance.LoadObject<Component>(typeof(T), throwExceptions: false);
 
-                if (newComponent != null)
-                {
-                    _component = InitializeComponent(newComponent);
-                    TypeLoader.Instance.Run();
-                    TypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
-                }
-                else
-                {
-                    _component ??= InitializeComponent(new T());
-                }
-            //}
-            //else
-            //{
-            //    _component ??= InitializeComponent(new T());
-            //}
+            if (newComponent != null)
+            {
+                _component = InitializeComponent(newComponent);
+                TypeLoader.Instance.Run();
+                TypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
+            }
+            else
+            {
+                _component ??= InitializeComponent(new T());
+            }
 
             OnLayout();
 
@@ -240,15 +302,6 @@ namespace MauiReactor
 
         public void OnAssemblyChanged()
         {
-            //if (!MauiReactorFeatures.HotReloadIsEnabled)
-            //{
-            //    throw new InvalidOperationException();
-            //}
-
-            var logger = ServiceCollectionProvider
-                .ServiceProvider?
-                .GetService<ILogger<PageHost<T>>>();
-
             try
             {
                 var newComponent = TypeLoader.Instance.LoadObject<Component>(typeof(T));
@@ -266,7 +319,15 @@ namespace MauiReactor
             catch (Exception ex)
             {
                 var throwException = new InvalidOperationException($"Unable to hot reload component {typeof(T).FullName}: type not found in received assembly", ex);
-                logger?.LogError(throwException, "Unhandled exception raised while laying out components");
+                if (_logger != null &&
+                    _logger.IsEnabled(LogLevel.Error))
+                {
+                    _logger.LogError(throwException, "Unable to hot reload component {componentType}: type not found in received assembly", typeof(T).FullName);
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine(throwException);
+                }
 
                 ReactorApplicationHost.FireUnhandledExceptionEvent(throwException);
 
@@ -276,10 +337,7 @@ namespace MauiReactor
 
         public void Stop()
         {
-            //if (MauiReactorFeatures.HotReloadIsEnabled)
-            {
-                TypeLoader.Instance.AssemblyChangedEvent?.RemoveListener(this);
-            }                
+            TypeLoader.Instance.AssemblyChangedEvent?.RemoveListener(this);
                 
             _component = null;
             _sleeping = true;
@@ -306,18 +364,15 @@ namespace MauiReactor
 
         private void OnLayout()
         {
-            var logger = ServiceCollectionProvider
-                .ServiceProvider?
-                .GetService<ILogger<PageHost<T>>>();
             try
             {
 
-                if (logger != null &&
-                    logger.IsEnabled(LogLevel.Debug))
+                if (_logger != null &&
+                    _logger.IsEnabled(LogLevel.Debug))
                 {
                     DateTime now = DateTime.Now;
                     Layout();
-                    logger.LogDebug("Layout time: {elapsedMilliseconds}ms", (DateTime.Now - now).TotalMilliseconds);
+                    _logger.LogDebug("Layout time: {elapsedMilliseconds}ms", (DateTime.Now - now).TotalMilliseconds);
                 }
                 else
                 {
@@ -333,7 +388,12 @@ namespace MauiReactor
             }
             catch (Exception ex)
             {
-                logger?.LogError(ex, "Unhandled exception raised while laying out components");
+                if (_logger != null &&
+                    _logger.IsEnabled(LogLevel.Error))
+                {
+                    _logger?.LogError(ex, "Unhandled exception raised while laying out components");
+                }
+
                 ReactorApplicationHost.FireUnhandledExceptionEvent(ex);
                 System.Diagnostics.Debug.WriteLine(ex);
             }

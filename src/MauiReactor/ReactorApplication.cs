@@ -15,10 +15,7 @@ internal abstract class ReactorApplicationHost : VisualNode, IHostElement, IVisu
     {
         _application = application ?? throw new ArgumentNullException(nameof(application));
 
-        //if (MauiReactorFeatures.HotReloadIsEnabled)
-        {
-            TypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
-        }
+        TypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
     }
 
     public static Action<UnhandledExceptionEventArgs>? UnhandledException { get; set; }

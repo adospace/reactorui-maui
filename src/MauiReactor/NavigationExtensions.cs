@@ -96,5 +96,14 @@ namespace MauiReactor
             return page;
         }
 
+        public static void InsertPageBefore<T>(this INavigation? navigation, Microsoft.Maui.Controls.Page pageToInsertBefore) where T : Component, new()
+        {
+            if (navigation == null)
+            {
+                return;
+            }
+            var page = PageHost<T>.CreatePage(navigation);
+            navigation.InsertPageBefore(page, pageToInsertBefore);
+        }
     }
 }
