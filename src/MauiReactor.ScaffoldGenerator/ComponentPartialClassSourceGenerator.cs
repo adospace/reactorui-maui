@@ -185,9 +185,10 @@ namespace MauiReactor
                 }
             }
 
-            if (!generatingClassItems.TryGetValue(generatingClassName, out var generatingClassItem))
+            if (!generatingClassItems.TryGetValue(fullyQualifiedTypeName, out var generatingClassItem))
             {
-                generatingClassItems[generatingClassName] = generatingClassItem = new GeneratorClassItem(namespaceName, classTypeSymbol, generatingClassName);
+                generatingClassItems[fullyQualifiedTypeName] = generatingClassItem = 
+                    new GeneratorClassItem(namespaceName, classTypeSymbol, generatingClassName);
             }
 
             foreach (var variableFieldSyntax in fieldDeclaration.Declaration.Variables)
@@ -220,8 +221,7 @@ namespace MauiReactor
                         is IFieldSymbol variableDeclaratorFieldSymbol)
                     {
                         // Now get the type symbol of the field's type, which should be a named type symbol
-                        INamedTypeSymbol? variableDeclaratorFieldTypeSymbol = variableDeclaratorFieldSymbol.Type as INamedTypeSymbol;
-                        if (variableDeclaratorFieldTypeSymbol != null)
+                        if (variableDeclaratorFieldSymbol.Type is INamedTypeSymbol variableDeclaratorFieldTypeSymbol)
                         {
                             // Ensure the field's type is generic (which it should be if it's an IParameter<T>)
                             if (variableDeclaratorFieldTypeSymbol.IsGenericType)
@@ -266,7 +266,7 @@ namespace MauiReactor
             {
                 var textGenerator = new ComponentPartialClassGenerator(generatingClassItem.Value);
                 var source = textGenerator.TransformAndPrettify();
-                context.AddSource($"{generatingClassItem.Value.GeneratingClassName}.g.cs", source);
+                context.AddSource($"{generatingClassItem.Value.Namespace}.{generatingClassItem.Value.GeneratingClassName}.g.cs", source);
             }
             catch (Exception ex)
             {

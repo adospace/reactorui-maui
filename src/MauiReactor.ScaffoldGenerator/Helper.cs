@@ -23,10 +23,6 @@ static class Helper
 
     public static string GetFullyQualifiedName(this ISymbol typeSymbol)
     {
-        //var symbolDisplayFormat = new SymbolDisplayFormat(
-        //    typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces);
-
-        //return typeSymbol.ToDisplayString(symbolDisplayFormat);
         return typeSymbol.ToString();
     }
 
@@ -37,7 +33,6 @@ static class Helper
             return null; // or whatever you want to do in this scenario
         }
 
-        //var namespaceName = namespaceDeclarationSyntax!.Name.ToString();
         return namespaceName + "." + classDeclarationSyntax.Identifier.ToString();
     }
 
@@ -104,12 +99,6 @@ static class Helper
 
     public static bool IsNewModifierUsed(this IFieldSymbol fieldSymbol)
     {
-        //if (fieldSymbol.IsStatic)
-        //{
-        //    // Static members do not participate in inheritance
-        //    return false;
-        //}
-
         var containingType = fieldSymbol.ContainingType;
         if (containingType.BaseType == null)
         {
@@ -181,5 +170,30 @@ static class Helper
             currentBaseType = currentBaseType.BaseType;
         }
         return false;
+    }
+
+    public static bool IsTypeKeyword(string typeName)
+    {
+        switch (typeName)
+        {
+            case "bool":
+            case "byte":
+            case "sbyte":
+            case "char":
+            case "decimal":
+            case "double":
+            case "float":
+            case "int":
+            case "uint":
+            case "long":
+            case "ulong":
+            case "object":
+            case "short":
+            case "ushort":
+            case "string":
+                return true;
+            default:
+                return false;
+        }
     }
 }
