@@ -26,7 +26,9 @@ namespace MauiReactor.HotReloadConsole
 
         private static async Task RunMonitorAndConnectionClient(Options options)
         {
-            if (options.MsBuildLocatorRegisterDefaults)
+            // MSBuildLocator must be registered before using MSBuildWorkspace
+            // On macOS/Linux this is required to find MSBuild assemblies
+            if (!MSBuildLocator.IsRegistered)
             {
                 MSBuildLocator.RegisterDefaults();
             }
