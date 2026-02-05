@@ -1,0 +1,20 @@
+{
+  "Name": "Slider",
+  "Description": "Control for selecting a double value via a track and thumb.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "Minimum", "Type": "double", "Description": "Minimum value." },
+    { "Name": "Maximum", "Type": "double", "Description": "Maximum value." },
+    { "Name": "Value", "Type": "double", "Description": "Current value." },
+    { "Name": "ThumbColor", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Thumb color." },
+    { "Name": "MaximumTrackColor", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Max track color." },
+    { "Name": "MinimumTrackColor", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Min track color." }
+  ],
+  "Events": [
+    { "Name": "ValueChanged", "EventArgsType": "ValueChangedEventArgs", "Description": "Raised when the slider value changes." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "Slider()", "Description": "Default constructor." }
+  ]
+}

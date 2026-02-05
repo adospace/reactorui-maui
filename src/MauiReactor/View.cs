@@ -51,8 +51,22 @@ public static partial class ViewExtensions
         return view;
     }
 
+    public static T ViewVerticalOptions<T>(this T view, Microsoft.Maui.Controls.LayoutOptions verticalOptions)
+        where T : Component
+    {
+        view.SetProperty(Microsoft.Maui.Controls.View.VerticalOptionsProperty, verticalOptions);
+        return view;
+    }
+
     public static T VerticalOptions<T>(this T view, Func<Microsoft.Maui.Controls.LayoutOptions> verticalOptionsFunc, IComponentWithState? componentWithState = null)
         where T : IView
+    {
+        view.SetProperty(Microsoft.Maui.Controls.View.VerticalOptionsProperty, new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(verticalOptionsFunc, componentWithState));
+        return view;
+    }
+
+    public static T ViewVerticalOptions<T>(this T view, Func<Microsoft.Maui.Controls.LayoutOptions> verticalOptionsFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         view.SetProperty(Microsoft.Maui.Controls.View.VerticalOptionsProperty, new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(verticalOptionsFunc, componentWithState));
         return view;
@@ -66,8 +80,22 @@ public static partial class ViewExtensions
         return view;
     }
 
+    public static T ViewHorizontalOptions<T>(this T view, Microsoft.Maui.Controls.LayoutOptions horizontalOptions)
+        where T : Component
+    {
+        view.SetProperty(Microsoft.Maui.Controls.View.HorizontalOptionsProperty, horizontalOptions);
+        return view;
+    }
+
     public static T HorizontalOptions<T>(this T view, Func<Microsoft.Maui.Controls.LayoutOptions> horizontalOptionsFunc, IComponentWithState? componentWithState = null)
         where T : IView
+    {
+        view.SetProperty(Microsoft.Maui.Controls.View.HorizontalOptionsProperty, new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(horizontalOptionsFunc, componentWithState));
+        return view;
+    }
+
+    public static T ViewHorizontalOptions<T>(this T view, Func<Microsoft.Maui.Controls.LayoutOptions> horizontalOptionsFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         view.SetProperty(Microsoft.Maui.Controls.View.HorizontalOptionsProperty, new PropertyValue<Microsoft.Maui.Controls.LayoutOptions>(horizontalOptionsFunc, componentWithState));
         return view;
@@ -82,8 +110,23 @@ public static partial class ViewExtensions
         return view;
     }
 
+    public static T ViewMargin<T>(this T view, Microsoft.Maui.Thickness margin, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
+        view.SetProperty(Microsoft.Maui.Controls.View.MarginProperty, margin);
+        view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(margin));
+        return view;
+    }
+
     public static T Margin<T>(this T view, Func<Microsoft.Maui.Thickness> marginFunc, IComponentWithState? componentWithState = null)
         where T : IView
+    {
+        view.SetProperty(Microsoft.Maui.Controls.View.MarginProperty, new PropertyValue<Microsoft.Maui.Thickness>(marginFunc, componentWithState));
+        return view;
+    }
+
+    public static T ViewMargin<T>(this T view, Func<Microsoft.Maui.Thickness> marginFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         view.SetProperty(Microsoft.Maui.Controls.View.MarginProperty, new PropertyValue<Microsoft.Maui.Thickness>(marginFunc, componentWithState));
         return view;
@@ -98,6 +141,14 @@ public static partial class ViewExtensions
         return view;
     }
 
+    public static T ViewMargin<T>(this T view, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
+        view.SetProperty(Microsoft.Maui.Controls.View.MarginProperty, new Thickness(leftRight, topBottom));
+        view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)));
+        return view;
+    }
+
     public static T Margin<T>(this T view, double uniformSize, RxThicknessAnimation? customAnimation = null)
         where T : IView
     {
@@ -107,10 +158,26 @@ public static partial class ViewExtensions
         return view;
     }
 
+    public static T ViewMargin<T>(this T view, double uniformSize, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
+        view.SetProperty(Microsoft.Maui.Controls.View.MarginProperty, new Thickness(uniformSize));
+        view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)));
+        return view;
+    }
+
     public static T Margin<T>(this T view, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
         where T : IView
     {
         //view.Margin = new Thickness(left, top, right, bottom);
+        view.SetProperty(Microsoft.Maui.Controls.View.MarginProperty, new Thickness(left, top, right, bottom));
+        view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)));
+        return view;
+    }
+
+    public static T ViewMargin<T>(this T view, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
         view.SetProperty(Microsoft.Maui.Controls.View.MarginProperty, new Thickness(left, top, right, bottom));
         view.AppendAnimatable(Microsoft.Maui.Controls.View.MarginProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)));
         return view;

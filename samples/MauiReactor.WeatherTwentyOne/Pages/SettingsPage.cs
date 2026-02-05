@@ -179,7 +179,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
                 return;
             }
             string action = await ContainerPage.DisplayActionSheet("Get Help", "Cancel", null, "Email", "Chat", "Phone");
-            await ContainerPage.DisplayAlert("You Chose", action, "Okay");
+            await ContainerPage.DisplayAlertAsync("You Chose", action, "Okay");
         }
         async void OnSignOut()
         {
@@ -187,7 +187,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
             {
                 return;
             }
-            await ContainerPage.DisplayAlert("Sign Out", "Are you sure?", "Yes", "No");
+            await ContainerPage.DisplayAlertAsync("Sign Out", "Are you sure?", "Yes", "No");
         }
     }
 }

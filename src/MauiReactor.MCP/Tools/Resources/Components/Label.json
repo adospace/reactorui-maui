@@ -1,0 +1,31 @@
+{
+  "Name": "Label",
+  "Description": "Text display control with styling and formatting.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "HorizontalTextAlignment", "Type": "Microsoft.Maui.TextAlignment", "Description": "Horizontal alignment of the text." },
+    { "Name": "VerticalTextAlignment", "Type": "Microsoft.Maui.TextAlignment", "Description": "Vertical alignment of the text." },
+    { "Name": "TextColor", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Color of the text." },
+    { "Name": "CharacterSpacing", "Type": "double", "Description": "Spacing between characters in the label text." },
+    { "Name": "Text", "Type": "string", "Description": "The text displayed by the label." },
+    { "Name": "FontFamily", "Type": "string", "Description": "Font family used by the label." },
+    { "Name": "FontSize", "Type": "double", "Description": "Font size of the label text." },
+    { "Name": "FontAttributes", "Type": "Microsoft.Maui.Controls.FontAttributes", "Description": "Font style attributes (None, Bold, Italic)." },
+    { "Name": "FontAutoScalingEnabled", "Type": "bool", "Description": "Enables automatic font scaling according to accessibility settings." },
+    { "Name": "TextTransform", "Type": "Microsoft.Maui.TextTransform", "Description": "Transform applied to the label text (None, Uppercase, Lowercase)." },
+    { "Name": "TextDecorations", "Type": "Microsoft.Maui.TextDecorations", "Description": "Text decorations such as underline or strikethrough." },
+    { "Name": "FormattedText", "Type": "Microsoft.Maui.Controls.FormattedString", "Description": "Rich formatted text content." },
+    { "Name": "LineBreakMode", "Type": "Microsoft.Maui.LineBreakMode", "Description": "How the text wraps or truncates." },
+    { "Name": "LineHeight", "Type": "double", "Description": "Line height multiplier for the text." },
+    { "Name": "MaxLines", "Type": "int", "Description": "Maximum number of lines to display." },
+    { "Name": "Padding", "Type": "Microsoft.Maui.Thickness", "Description": "Inner padding around the text." },
+    { "Name": "TextType", "Type": "Microsoft.Maui.TextType", "Description": "Whether text is plain or HTML-like formatted." }
+  ],
+  "Events": [],
+  "Constructors": [
+    { "Signature": "Label()", "Description": "Default constructor." },
+    { "Signature": "Label(object? text)", "Description": "Creates a Label and sets its text from any object." },
+    { "Signature": "Label(Func<string> textFunc)", "Description": "Creates a Label whose text is provided by a function." },
+    { "Signature": "Label(Func<string> textFunc, MauiReactor.Internals.IComponentWithState componentWithState)", "Description": "Creates a Label with function-based text bound to a component state provider." }
+  ]
+}

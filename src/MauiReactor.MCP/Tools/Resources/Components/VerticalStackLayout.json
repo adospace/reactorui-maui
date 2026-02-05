@@ -1,0 +1,24 @@
+{
+  "Name": "VerticalStackLayout",
+  "Description": "Vertical-only stack layout for arranging children.",
+  "Base": "StackBase",
+  "Properties": [
+    { "Name": "Spacing", "Type": "double", "Description": "Spacing between children." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "VerticalStackLayout()", "Description": "Default constructor." },
+    { "Signature": "VerticalStackLayout(double spacing)", "Description": "Creates a VerticalStackLayout and sets spacing." },
+    { "Signature": "VerticalStackLayout(Action<Microsoft.Maui.Controls.VerticalStackLayout?> componentRefAction)", "Description": "Creates a VerticalStackLayout with a component ref." },
+    { "Signature": "VStack()", "Description": "Shortcut type alias for VerticalStackLayout." },
+    { "Signature": "VStack(Action<Microsoft.Maui.Controls.VerticalStackLayout?> componentRefAction)", "Description": "Creates a VStack with a component ref." },
+    { "Signature": "VStack(double spacing)", "Description": "Creates a VStack and sets spacing." },
+    { "Signature": "VStack(IEnumerable<VisualNode?> children)", "Description": "Creates a VStack and adds child nodes." },
+    { "Signature": "VStack(IEnumerable<object?> children)", "Description": "Creates a VStack and adds child objects (auto-wrapped)." },
+    { "Signature": "VStack(Action<Microsoft.Maui.Controls.VerticalStackLayout?> componentRefAction, IEnumerable<object?> children)", "Description": "Creates a VStack with a component ref and adds child objects." },
+    { "Signature": "VStack(double spacing, IEnumerable<VisualNode?> children)", "Description": "Creates a VStack, sets spacing, and adds child nodes." },
+    { "Signature": "VStack(double spacing, IEnumerable<object?> children)", "Description": "Creates a VStack, sets spacing, and adds child objects." },
+    { "Signature": "VStack(Action<Microsoft.Maui.Controls.VerticalStackLayout?> componentRefAction, double spacing, IEnumerable<object?> children)", "Description": "Creates a VStack with component ref, sets spacing, and adds child objects." }
+  ]
+}

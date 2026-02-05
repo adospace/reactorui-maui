@@ -1,0 +1,15 @@
+{
+  "Name": "ShellGroupItem",
+  "Description": "A group of shell items.",
+  "Base": "BaseShellItem",
+  "Properties": [],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "ShellGroupItem(Action<ShellGroupItem?> componentRefAction)" },
+    { "Signature": "ShellGroupItem(IEnumerable<VisualNode?> children)" }
+  ],
+  "Helpers": [
+    { "Signature": "FlyoutDisplayOptions(FlyoutDisplayOptions options)", "Description": "Sets how the group displays in the flyout." }
+  ]
+}

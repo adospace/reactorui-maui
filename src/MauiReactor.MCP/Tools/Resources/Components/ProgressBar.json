@@ -1,0 +1,15 @@
+{
+  "Name": "ProgressBar",
+  "Description": "Displays progress for a task.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "Progress", "Type": "double", "Description": "Current progress between 0 and 1 (animatable)." },
+    { "Name": "ProgressColor", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Color of the progress bar." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "ProgressBar()", "Description": "Default constructor." },
+    { "Signature": "ProgressBar(IEnumerable<VisualNode?>? children)", "Description": "Creates a ProgressBar and adds children." }
+  ]
+}

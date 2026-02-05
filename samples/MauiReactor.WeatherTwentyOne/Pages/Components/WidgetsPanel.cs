@@ -47,7 +47,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
 
         private VisualNode RenderMetric(Metric metric)
         {
-            return new Frame
+            return new Border
             {
                 new Grid("*", "*")
                 {
@@ -77,8 +77,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages.Components
             .HeightRequest(154)
             .WidthRequest(154)
             .Padding(0)
-            .CornerRadius(20)
-            .HasShadow(false)
+            .StrokeCornerRadius(20)
             .BackgroundColor(Application.Current?.RequestedTheme == AppTheme.Dark ? ThemeColors.Background_Mid : ThemeColors.LightGray);
         }
 

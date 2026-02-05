@@ -1,0 +1,10 @@
+{
+  "Name": "MenuBarItem",
+  "Description": "Top-level menu bar entry.",
+  "Base": "BaseMenuItem",
+  "Properties": [],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

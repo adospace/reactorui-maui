@@ -52,8 +52,23 @@ public static partial class LinearItemsLayoutExtensions
         return linearItemsLayout;
     }
 
+    public static T LinearItemsLayoutItemSpacing<T>(this T linearItemsLayout, double itemSpacing, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        linearItemsLayout.SetProperty(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, itemSpacing);
+        linearItemsLayout.AppendAnimatable(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, customAnimation ?? new RxDoubleAnimation(itemSpacing));
+        return linearItemsLayout;
+    }
+
     public static T ItemSpacing<T>(this T linearItemsLayout, Func<double> itemSpacingFunc, IComponentWithState? componentWithState = null)
         where T : ILinearItemsLayout
+    {
+        linearItemsLayout.SetProperty(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, new PropertyValue<double>(itemSpacingFunc, componentWithState));
+        return linearItemsLayout;
+    }
+
+    public static T LinearItemsLayoutItemSpacing<T>(this T linearItemsLayout, Func<double> itemSpacingFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         linearItemsLayout.SetProperty(Microsoft.Maui.Controls.LinearItemsLayout.ItemSpacingProperty, new PropertyValue<double>(itemSpacingFunc, componentWithState));
         return linearItemsLayout;

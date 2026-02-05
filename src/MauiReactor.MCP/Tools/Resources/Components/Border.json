@@ -1,0 +1,21 @@
+{
+  "Name": "Border",
+  "Description": "Container that draws a border and can host a child.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "Padding", "Type": "Microsoft.Maui.Thickness", "Description": "Inner padding of the border." },
+    { "Name": "SafeAreaEdges", "Type": "Microsoft.Maui.SafeAreaEdges", "Description": "Controls which edges respect the device safe area." },
+    { "Name": "Stroke", "Type": "Microsoft.Maui.Controls.Brush", "Description": "Brush used to draw the border stroke." },
+    { "Name": "StrokeThickness", "Type": "double", "Description": "Thickness of the border stroke." },
+    { "Name": "StrokeDashArray", "Type": "Microsoft.Maui.Controls.DoubleCollection", "Description": "Dash pattern for the stroke." },
+    { "Name": "StrokeDashOffset", "Type": "double", "Description": "Offset for the dash pattern." },
+    { "Name": "StrokeLineCap", "Type": "Microsoft.Maui.Controls.Shapes.PenLineCap", "Description": "Line cap style of the stroke." },
+    { "Name": "StrokeLineJoin", "Type": "Microsoft.Maui.Controls.Shapes.PenLineJoin", "Description": "Line join style of the stroke." },
+    { "Name": "StrokeMiterLimit", "Type": "double", "Description": "Miter limit for the stroke joins." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "Border()", "Description": "Default constructor." }
+  ]
+}

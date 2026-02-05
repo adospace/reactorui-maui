@@ -18,11 +18,6 @@ namespace MauiReactor.HotReloadConsole
         private record ParsedFileInfo(string FilePath, SyntaxTree SyntaxTree, DateTime LastModified);
         private readonly Dictionary<string, ParsedFileInfo> _parsedFiles = new();
 
-        //static HotReloadClientEmit()
-        //{
-        //    MSBuildLocator.RegisterDefaults();
-        //}
-
         public HotReloadClientEmit(Options options) : base(options)
         {
         }

@@ -1,0 +1,14 @@
+{
+  "Name": "GroupableItemsView",
+  "Description": "ItemsView supporting grouped data.",
+  "Base": "SelectableItemsView",
+  "Properties": [
+    { "Name": "IsGrouped", "Type": "bool", "Description": "Whether items are grouped." },
+    { "Name": "GroupHeaderTemplate", "Type": "Func<object, VisualNode>?", "Description": "Template for group headers." },
+    { "Name": "GroupFooterTemplate", "Type": "Func<object, VisualNode>?", "Description": "Template for group footers." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

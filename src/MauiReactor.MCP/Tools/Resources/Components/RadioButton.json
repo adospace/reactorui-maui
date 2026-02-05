@@ -1,0 +1,17 @@
+{
+  "Name": "RadioButton",
+  "Description": "Mutually exclusive selection control.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "Content", "Type": "string?", "Description": "Text content; can also host a child view via Content." }
+  ],
+  "Events": [
+    { "Name": "CheckedChanged", "EventArgsType": "CheckedChangedEventArgs", "Description": "Raised when checked state changes." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "RadioButton()", "Description": "Default constructor." },
+    { "Signature": "RadioButton(string? content)", "Description": "Creates a RadioButton with content text." },
+    { "Signature": "RadioButton(string? content, Action<Microsoft.Maui.Controls.RadioButton?> componentRefAction)", "Description": "Creates a RadioButton with content and component ref." }
+  ]
+}

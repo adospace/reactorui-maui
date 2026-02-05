@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "components/component-with-children",
+    "Summary":  "Component with children",
+    "Remarks":  "A component class derives from `Component` and must implement the `Render()` method. Inside it, local fields, properties, and of course State properties of stateful components are directly accessible and can be used to compose the resulting view.",
+    "Example":  "class PageComponent : Component\r\n{\r\n    public override VisualNode Render()\r\n        =\u003e NavigationPage(\r\n            ContentPage(\"Component With Children\")\r\n            );\r\n}\r"
+}

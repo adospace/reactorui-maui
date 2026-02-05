@@ -114,8 +114,22 @@ public static partial class CheckBoxExtensions
         return checkBox;
     }
 
+    public static T CheckBoxIsChecked<T>(this T checkBox, bool isChecked)
+        where T : Component
+    {
+        checkBox.SetProperty(Microsoft.Maui.Controls.CheckBox.IsCheckedProperty, isChecked);
+        return checkBox;
+    }
+
     public static T IsChecked<T>(this T checkBox, Func<bool> isCheckedFunc, IComponentWithState? componentWithState = null)
         where T : ICheckBox
+    {
+        checkBox.SetProperty(Microsoft.Maui.Controls.CheckBox.IsCheckedProperty, new PropertyValue<bool>(isCheckedFunc, componentWithState));
+        return checkBox;
+    }
+
+    public static T CheckBoxIsChecked<T>(this T checkBox, Func<bool> isCheckedFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         checkBox.SetProperty(Microsoft.Maui.Controls.CheckBox.IsCheckedProperty, new PropertyValue<bool>(isCheckedFunc, componentWithState));
         return checkBox;
@@ -129,8 +143,22 @@ public static partial class CheckBoxExtensions
         return checkBox;
     }
 
+    public static T CheckBoxColor<T>(this T checkBox, Microsoft.Maui.Graphics.Color color)
+        where T : Component
+    {
+        checkBox.SetProperty(Microsoft.Maui.Controls.CheckBox.ColorProperty, color);
+        return checkBox;
+    }
+
     public static T Color<T>(this T checkBox, Func<Microsoft.Maui.Graphics.Color> colorFunc, IComponentWithState? componentWithState = null)
         where T : ICheckBox
+    {
+        checkBox.SetProperty(Microsoft.Maui.Controls.CheckBox.ColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc, componentWithState));
+        return checkBox;
+    }
+
+    public static T CheckBoxColor<T>(this T checkBox, Func<Microsoft.Maui.Graphics.Color> colorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         checkBox.SetProperty(Microsoft.Maui.Controls.CheckBox.ColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(colorFunc, componentWithState));
         return checkBox;

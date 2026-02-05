@@ -1,0 +1,25 @@
+{
+  "Name": "Shell",
+  "Description": "Top-level application container with flyout and tabs support.",
+  "Base": "Page",
+  "Properties": [
+    { "Name": "FlyoutBehavior", "Type": "FlyoutBehavior", "Description": "Controls flyout presentation." },
+    { "Name": "ItemTemplate", "Type": "Func<BaseShellItem, VisualNode>?", "Description": "Template function for shell items." },
+    { "Name": "MenuItemTemplate", "Type": "Func<MenuItem, VisualNode>?", "Description": "Template function for menu items." },
+    { "Name": "FlyoutHeader", "Type": "VisualNode?", "Description": "Custom flyout header content." },
+    { "Name": "FlyoutFooter", "Type": "VisualNode?", "Description": "Custom flyout footer content." },
+    { "Name": "FlyoutContent", "Type": "VisualNode?", "Description": "Custom flyout content." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "Shell(Action<Shell?> componentRefAction)" },
+    { "Signature": "Shell(IEnumerable<VisualNode?> children)" }
+  ],
+  "Helpers": [
+    { "Signature": "ItemTemplate(Func<BaseShellItem, VisualNode> template)", "Description": "Assigns shell item template." },
+    { "Signature": "MenuItemTemplate(Func<MenuItem, VisualNode> template)", "Description": "Assigns shell menu item template." },
+    { "Signature": "FlyoutContent(VisualNode content)", "Description": "Sets flyout content." },
+    { "Signature": "RegisterRoute<T>(string? route = null)", "Description": "Registers a route for a Component page." }
+  ]
+}

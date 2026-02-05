@@ -1,0 +1,16 @@
+{
+  "Name": "TimePicker",
+  "Description": "Allows picking a time.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "Time", "Type": "TimeSpan", "Description": "Selected time." },
+    { "Name": "Format", "Type": "string", "Description": "Display format for the time." }
+  ],
+  "Events": [
+    { "Name": "TimeSelected", "EventArgsType": "TimeChangedEventArgs", "Description": "Raised when the selected time changes." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "TimePicker()", "Description": "Default constructor." }
+  ]
+}

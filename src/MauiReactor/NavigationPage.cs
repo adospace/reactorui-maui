@@ -166,8 +166,22 @@ public static partial class NavigationPageExtensions
         return navigationPage;
     }
 
+    public static T NavigationPageBarBackgroundColor<T>(this T navigationPage, Microsoft.Maui.Graphics.Color barBackgroundColor)
+        where T : Component
+    {
+        navigationPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.BarBackgroundColorProperty, barBackgroundColor);
+        return navigationPage;
+    }
+
     public static T BarBackgroundColor<T>(this T navigationPage, Func<Microsoft.Maui.Graphics.Color> barBackgroundColorFunc, IComponentWithState? componentWithState = null)
         where T : INavigationPage
+    {
+        navigationPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.BarBackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(barBackgroundColorFunc, componentWithState));
+        return navigationPage;
+    }
+
+    public static T NavigationPageBarBackgroundColor<T>(this T navigationPage, Func<Microsoft.Maui.Graphics.Color> barBackgroundColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         navigationPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.BarBackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(barBackgroundColorFunc, componentWithState));
         return navigationPage;
@@ -181,8 +195,22 @@ public static partial class NavigationPageExtensions
         return navigationPage;
     }
 
+    public static T NavigationPageBarBackground<T>(this T navigationPage, Microsoft.Maui.Controls.Brush barBackground)
+        where T : Component
+    {
+        navigationPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.BarBackgroundProperty, barBackground);
+        return navigationPage;
+    }
+
     public static T BarBackground<T>(this T navigationPage, Func<Microsoft.Maui.Controls.Brush> barBackgroundFunc, IComponentWithState? componentWithState = null)
         where T : INavigationPage
+    {
+        navigationPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.BarBackgroundProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(barBackgroundFunc, componentWithState));
+        return navigationPage;
+    }
+
+    public static T NavigationPageBarBackground<T>(this T navigationPage, Func<Microsoft.Maui.Controls.Brush> barBackgroundFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         navigationPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.BarBackgroundProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(barBackgroundFunc, componentWithState));
         return navigationPage;
@@ -196,8 +224,22 @@ public static partial class NavigationPageExtensions
         return navigationPage;
     }
 
+    public static T NavigationPageBarTextColor<T>(this T navigationPage, Microsoft.Maui.Graphics.Color barTextColor)
+        where T : Component
+    {
+        navigationPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.BarTextColorProperty, barTextColor);
+        return navigationPage;
+    }
+
     public static T BarTextColor<T>(this T navigationPage, Func<Microsoft.Maui.Graphics.Color> barTextColorFunc, IComponentWithState? componentWithState = null)
         where T : INavigationPage
+    {
+        navigationPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.BarTextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(barTextColorFunc, componentWithState));
+        return navigationPage;
+    }
+
+    public static T NavigationPageBarTextColor<T>(this T navigationPage, Func<Microsoft.Maui.Graphics.Color> barTextColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         navigationPage.SetProperty(Microsoft.Maui.Controls.NavigationPage.BarTextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(barTextColorFunc, componentWithState));
         return navigationPage;

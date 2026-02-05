@@ -121,11 +121,11 @@ class Events : Component<EventsPageState>
     {
         var renderTopicItem = (string title) => 
         {
-            return new Frame
+            return new Border
             {
                 new HStack(spacing: 8)
                 {
-                    new Frame
+                    new Border
                     {
                         new Image($"{title.ToLowerInvariant().Replace("-", string.Empty)}.png")
                             .HeightRequest(16)
@@ -134,11 +134,10 @@ class Events : Component<EventsPageState>
                             .HCenter()
                     }
                     .Padding(0)
-                    .CornerRadius(16)
+                    .StrokeCornerRadius(16)
                     .HeightRequest(32)
                     .WidthRequest(32)
-                    .BackgroundColor(ThemeBrushes.Grey)
-                    .HasShadow(false),
+                    .BackgroundColor(ThemeBrushes.Grey),
 
                     new Label(title)
                         .VerticalTextAlignment(TextAlignment.Center)
@@ -148,9 +147,8 @@ class Events : Component<EventsPageState>
                 }
             }
             .Padding(8)
-            .HasShadow(false)
-            .BorderColor(ThemeBrushes.White)
-            .CornerRadius(16)
+            .Stroke(ThemeBrushes.White)
+            .StrokeCornerRadius(16)
             .BackgroundColor(ThemeBrushes.White);
         };
 

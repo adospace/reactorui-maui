@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "how-to-create-a-menu-contextmenu",
+    "Summary":  "How to create a Menu/ContextMenu?",
+    "Remarks":  ".NET Maui allows developers to create Menus and ContextMenu for desktop apps.\u0026#x20;",
+    "Example":  "new ContentPage\r\n{\r\n    new MenuBarItem(\"File\")\r\n    {\r\n        new MenuFlyoutSubItem(\"Project\")\r\n        {\r\n            new MenuFlyoutItem(\"Open...\")\r\n                .OnClicked(OnOpenProject),\r\n        },\r\n        new MenuFlyoutSeparator(),\r\n        new MenuFlyoutItem(\"Exit\")\r\n            .OnClicked(OnExitApplication),\r\n    },\r\n\r\n    RenderBody()\r\n}\r"
+}

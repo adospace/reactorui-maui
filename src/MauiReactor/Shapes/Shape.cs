@@ -51,8 +51,22 @@ public static partial class ShapeExtensions
         return shape;
     }
 
+    public static T ShapeFill<T>(this T shape, Microsoft.Maui.Controls.Brush fill)
+        where T : Component
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.FillProperty, fill);
+        return shape;
+    }
+
     public static T Fill<T>(this T shape, Func<Microsoft.Maui.Controls.Brush> fillFunc, IComponentWithState? componentWithState = null)
         where T : IShape
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.FillProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(fillFunc, componentWithState));
+        return shape;
+    }
+
+    public static T ShapeFill<T>(this T shape, Func<Microsoft.Maui.Controls.Brush> fillFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.FillProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(fillFunc, componentWithState));
         return shape;
@@ -66,8 +80,22 @@ public static partial class ShapeExtensions
         return shape;
     }
 
+    public static T ShapeStroke<T>(this T shape, Microsoft.Maui.Controls.Brush stroke)
+        where T : Component
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeProperty, stroke);
+        return shape;
+    }
+
     public static T Stroke<T>(this T shape, Func<Microsoft.Maui.Controls.Brush> strokeFunc, IComponentWithState? componentWithState = null)
         where T : IShape
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(strokeFunc, componentWithState));
+        return shape;
+    }
+
+    public static T ShapeStroke<T>(this T shape, Func<Microsoft.Maui.Controls.Brush> strokeFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(strokeFunc, componentWithState));
         return shape;
@@ -82,8 +110,23 @@ public static partial class ShapeExtensions
         return shape;
     }
 
+    public static T ShapeStrokeThickness<T>(this T shape, double strokeThickness, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeThicknessProperty, strokeThickness);
+        shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeThicknessProperty, customAnimation ?? new RxDoubleAnimation(strokeThickness));
+        return shape;
+    }
+
     public static T StrokeThickness<T>(this T shape, Func<double> strokeThicknessFunc, IComponentWithState? componentWithState = null)
         where T : IShape
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeThicknessProperty, new PropertyValue<double>(strokeThicknessFunc, componentWithState));
+        return shape;
+    }
+
+    public static T ShapeStrokeThickness<T>(this T shape, Func<double> strokeThicknessFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeThicknessProperty, new PropertyValue<double>(strokeThicknessFunc, componentWithState));
         return shape;
@@ -97,8 +140,22 @@ public static partial class ShapeExtensions
         return shape;
     }
 
+    public static T ShapeStrokeDashArray<T>(this T shape, Microsoft.Maui.Controls.DoubleCollection strokeDashArray)
+        where T : Component
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashArrayProperty, strokeDashArray);
+        return shape;
+    }
+
     public static T StrokeDashArray<T>(this T shape, Func<Microsoft.Maui.Controls.DoubleCollection> strokeDashArrayFunc, IComponentWithState? componentWithState = null)
         where T : IShape
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashArrayProperty, new PropertyValue<Microsoft.Maui.Controls.DoubleCollection>(strokeDashArrayFunc, componentWithState));
+        return shape;
+    }
+
+    public static T ShapeStrokeDashArray<T>(this T shape, Func<Microsoft.Maui.Controls.DoubleCollection> strokeDashArrayFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashArrayProperty, new PropertyValue<Microsoft.Maui.Controls.DoubleCollection>(strokeDashArrayFunc, componentWithState));
         return shape;
@@ -113,8 +170,23 @@ public static partial class ShapeExtensions
         return shape;
     }
 
+    public static T ShapeStrokeDashOffset<T>(this T shape, double strokeDashOffset, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashOffsetProperty, strokeDashOffset);
+        shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashOffsetProperty, customAnimation ?? new RxDoubleAnimation(strokeDashOffset));
+        return shape;
+    }
+
     public static T StrokeDashOffset<T>(this T shape, Func<double> strokeDashOffsetFunc, IComponentWithState? componentWithState = null)
         where T : IShape
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashOffsetProperty, new PropertyValue<double>(strokeDashOffsetFunc, componentWithState));
+        return shape;
+    }
+
+    public static T ShapeStrokeDashOffset<T>(this T shape, Func<double> strokeDashOffsetFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeDashOffsetProperty, new PropertyValue<double>(strokeDashOffsetFunc, componentWithState));
         return shape;
@@ -128,8 +200,22 @@ public static partial class ShapeExtensions
         return shape;
     }
 
+    public static T ShapeStrokeLineCap<T>(this T shape, Microsoft.Maui.Controls.Shapes.PenLineCap strokeLineCap)
+        where T : Component
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeLineCapProperty, strokeLineCap);
+        return shape;
+    }
+
     public static T StrokeLineCap<T>(this T shape, Func<Microsoft.Maui.Controls.Shapes.PenLineCap> strokeLineCapFunc, IComponentWithState? componentWithState = null)
         where T : IShape
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeLineCapProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineCap>(strokeLineCapFunc, componentWithState));
+        return shape;
+    }
+
+    public static T ShapeStrokeLineCap<T>(this T shape, Func<Microsoft.Maui.Controls.Shapes.PenLineCap> strokeLineCapFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeLineCapProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineCap>(strokeLineCapFunc, componentWithState));
         return shape;
@@ -143,8 +229,22 @@ public static partial class ShapeExtensions
         return shape;
     }
 
+    public static T ShapeStrokeLineJoin<T>(this T shape, Microsoft.Maui.Controls.Shapes.PenLineJoin strokeLineJoin)
+        where T : Component
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeLineJoinProperty, strokeLineJoin);
+        return shape;
+    }
+
     public static T StrokeLineJoin<T>(this T shape, Func<Microsoft.Maui.Controls.Shapes.PenLineJoin> strokeLineJoinFunc, IComponentWithState? componentWithState = null)
         where T : IShape
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeLineJoinProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineJoin>(strokeLineJoinFunc, componentWithState));
+        return shape;
+    }
+
+    public static T ShapeStrokeLineJoin<T>(this T shape, Func<Microsoft.Maui.Controls.Shapes.PenLineJoin> strokeLineJoinFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeLineJoinProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.PenLineJoin>(strokeLineJoinFunc, componentWithState));
         return shape;
@@ -159,8 +259,23 @@ public static partial class ShapeExtensions
         return shape;
     }
 
+    public static T ShapeStrokeMiterLimit<T>(this T shape, double strokeMiterLimit, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeMiterLimitProperty, strokeMiterLimit);
+        shape.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Shape.StrokeMiterLimitProperty, customAnimation ?? new RxDoubleAnimation(strokeMiterLimit));
+        return shape;
+    }
+
     public static T StrokeMiterLimit<T>(this T shape, Func<double> strokeMiterLimitFunc, IComponentWithState? componentWithState = null)
         where T : IShape
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeMiterLimitProperty, new PropertyValue<double>(strokeMiterLimitFunc, componentWithState));
+        return shape;
+    }
+
+    public static T ShapeStrokeMiterLimit<T>(this T shape, Func<double> strokeMiterLimitFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.StrokeMiterLimitProperty, new PropertyValue<double>(strokeMiterLimitFunc, componentWithState));
         return shape;
@@ -174,8 +289,22 @@ public static partial class ShapeExtensions
         return shape;
     }
 
+    public static T ShapeAspect<T>(this T shape, Microsoft.Maui.Controls.Stretch aspect)
+        where T : Component
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.AspectProperty, aspect);
+        return shape;
+    }
+
     public static T Aspect<T>(this T shape, Func<Microsoft.Maui.Controls.Stretch> aspectFunc, IComponentWithState? componentWithState = null)
         where T : IShape
+    {
+        shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.AspectProperty, new PropertyValue<Microsoft.Maui.Controls.Stretch>(aspectFunc, componentWithState));
+        return shape;
+    }
+
+    public static T ShapeAspect<T>(this T shape, Func<Microsoft.Maui.Controls.Stretch> aspectFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         shape.SetProperty(Microsoft.Maui.Controls.Shapes.Shape.AspectProperty, new PropertyValue<Microsoft.Maui.Controls.Stretch>(aspectFunc, componentWithState));
         return shape;

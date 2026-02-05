@@ -1,0 +1,12 @@
+{
+  "Name": "MenuItem",
+  "Description": "A selectable menu item.",
+  "Base": "BaseMenuItem",
+  "Properties": [],
+  "Events": [
+    { "Name": "Clicked", "EventArgsType": "EventArgs" }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

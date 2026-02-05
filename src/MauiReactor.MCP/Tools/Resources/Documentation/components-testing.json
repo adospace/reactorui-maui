@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "components/testing",
+    "Summary":  "Testing strategies for MauiReactor: unit, component, and integration.",
+    "Remarks":  "Cover three layers: 1) Unit tests for pure logic and state reducers (no UI). 2) Component tests that validate state transitions by invoking handlers (keep rendering side-effects off using invalidateComponent: false). 3) Integration tests that boot a MAUI app, navigate, and assert outcomes. Prefer small, deterministic tests and separate long-running, platform-specific checks.",
+    "Example":  "using Xunit;\r\n\r\nrecord CounterState(int Count);\r\n\r\nstatic class CounterLogic\r\n{\r\n    public static CounterState Increment(CounterState s) => s with { Count = s.Count + 1 };\r\n}\r\n\r\npublic class CounterTests\r\n{\r\n    [Fact]\r\n    public void Increment_IncreasesCountByOne()\r\n    {\r\n        var s = new CounterState(0);\r\n        var s2 = CounterLogic.Increment(s);\r\n        Assert.Equal(1, s2.Count);\r\n    }\r\n}\r\n\r\n// Component-level: call handlers and verify state\r\n// SetState(..., invalidateComponent: false) for pure transition checks.\r"
+}

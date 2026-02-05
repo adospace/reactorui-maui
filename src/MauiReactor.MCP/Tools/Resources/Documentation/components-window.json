@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "components/window",
+    "Summary":  "Manage desktop window: title, size, and multiple windows.",
+    "Remarks":  "On Windows/macOS, .NET MAUI hosts pages inside a Window. MauiReactor provides fluent helpers like .WindowTitle(...) and lifecycle hooks when you need the native Window. You can open additional windows for multi-document scenarios and update the title to reflect component state.",
+    "Example":  "new ContentPage\r\n{\r\n    new VStack\r\n    {\r\n        new Label(\"Main window\")\r\n    }\r\n}\r\n.WindowTitle(\"My Window Title\")\r\n\r\n// Open a second window (desktop only)\r\nApplication.Current?.OpenWindow(\r\n    new Window(new ContentPage { new Label(\"Second window\") })\r\n);\r"
+}

@@ -66,8 +66,22 @@ public static partial class FlexLayoutExtensions
         return flexLayout;
     }
 
+    public static T FlexLayoutDirection<T>(this T flexLayout, Microsoft.Maui.Layouts.FlexDirection direction)
+        where T : Component
+    {
+        flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.DirectionProperty, direction);
+        return flexLayout;
+    }
+
     public static T Direction<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexDirection> directionFunc, IComponentWithState? componentWithState = null)
         where T : IFlexLayout
+    {
+        flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.DirectionProperty, new PropertyValue<Microsoft.Maui.Layouts.FlexDirection>(directionFunc, componentWithState));
+        return flexLayout;
+    }
+
+    public static T FlexLayoutDirection<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexDirection> directionFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.DirectionProperty, new PropertyValue<Microsoft.Maui.Layouts.FlexDirection>(directionFunc, componentWithState));
         return flexLayout;
@@ -81,8 +95,22 @@ public static partial class FlexLayoutExtensions
         return flexLayout;
     }
 
+    public static T FlexLayoutJustifyContent<T>(this T flexLayout, Microsoft.Maui.Layouts.FlexJustify justifyContent)
+        where T : Component
+    {
+        flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.JustifyContentProperty, justifyContent);
+        return flexLayout;
+    }
+
     public static T JustifyContent<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexJustify> justifyContentFunc, IComponentWithState? componentWithState = null)
         where T : IFlexLayout
+    {
+        flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.JustifyContentProperty, new PropertyValue<Microsoft.Maui.Layouts.FlexJustify>(justifyContentFunc, componentWithState));
+        return flexLayout;
+    }
+
+    public static T FlexLayoutJustifyContent<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexJustify> justifyContentFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.JustifyContentProperty, new PropertyValue<Microsoft.Maui.Layouts.FlexJustify>(justifyContentFunc, componentWithState));
         return flexLayout;
@@ -96,8 +124,22 @@ public static partial class FlexLayoutExtensions
         return flexLayout;
     }
 
+    public static T FlexLayoutAlignContent<T>(this T flexLayout, Microsoft.Maui.Layouts.FlexAlignContent alignContent)
+        where T : Component
+    {
+        flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.AlignContentProperty, alignContent);
+        return flexLayout;
+    }
+
     public static T AlignContent<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexAlignContent> alignContentFunc, IComponentWithState? componentWithState = null)
         where T : IFlexLayout
+    {
+        flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.AlignContentProperty, new PropertyValue<Microsoft.Maui.Layouts.FlexAlignContent>(alignContentFunc, componentWithState));
+        return flexLayout;
+    }
+
+    public static T FlexLayoutAlignContent<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexAlignContent> alignContentFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.AlignContentProperty, new PropertyValue<Microsoft.Maui.Layouts.FlexAlignContent>(alignContentFunc, componentWithState));
         return flexLayout;
@@ -111,8 +153,22 @@ public static partial class FlexLayoutExtensions
         return flexLayout;
     }
 
+    public static T FlexLayoutAlignItems<T>(this T flexLayout, Microsoft.Maui.Layouts.FlexAlignItems alignItems)
+        where T : Component
+    {
+        flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.AlignItemsProperty, alignItems);
+        return flexLayout;
+    }
+
     public static T AlignItems<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexAlignItems> alignItemsFunc, IComponentWithState? componentWithState = null)
         where T : IFlexLayout
+    {
+        flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.AlignItemsProperty, new PropertyValue<Microsoft.Maui.Layouts.FlexAlignItems>(alignItemsFunc, componentWithState));
+        return flexLayout;
+    }
+
+    public static T FlexLayoutAlignItems<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexAlignItems> alignItemsFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.AlignItemsProperty, new PropertyValue<Microsoft.Maui.Layouts.FlexAlignItems>(alignItemsFunc, componentWithState));
         return flexLayout;
@@ -126,8 +182,22 @@ public static partial class FlexLayoutExtensions
         return flexLayout;
     }
 
+    public static T FlexLayoutPosition<T>(this T flexLayout, Microsoft.Maui.Layouts.FlexPosition position)
+        where T : Component
+    {
+        flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.PositionProperty, position);
+        return flexLayout;
+    }
+
     public static T Position<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexPosition> positionFunc, IComponentWithState? componentWithState = null)
         where T : IFlexLayout
+    {
+        flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.PositionProperty, new PropertyValue<Microsoft.Maui.Layouts.FlexPosition>(positionFunc, componentWithState));
+        return flexLayout;
+    }
+
+    public static T FlexLayoutPosition<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexPosition> positionFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.PositionProperty, new PropertyValue<Microsoft.Maui.Layouts.FlexPosition>(positionFunc, componentWithState));
         return flexLayout;
@@ -141,8 +211,22 @@ public static partial class FlexLayoutExtensions
         return flexLayout;
     }
 
+    public static T FlexLayoutWrap<T>(this T flexLayout, Microsoft.Maui.Layouts.FlexWrap wrap)
+        where T : Component
+    {
+        flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.WrapProperty, wrap);
+        return flexLayout;
+    }
+
     public static T Wrap<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexWrap> wrapFunc, IComponentWithState? componentWithState = null)
         where T : IFlexLayout
+    {
+        flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.WrapProperty, new PropertyValue<Microsoft.Maui.Layouts.FlexWrap>(wrapFunc, componentWithState));
+        return flexLayout;
+    }
+
+    public static T FlexLayoutWrap<T>(this T flexLayout, Func<Microsoft.Maui.Layouts.FlexWrap> wrapFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         flexLayout.SetProperty(Microsoft.Maui.Controls.FlexLayout.WrapProperty, new PropertyValue<Microsoft.Maui.Layouts.FlexWrap>(wrapFunc, componentWithState));
         return flexLayout;

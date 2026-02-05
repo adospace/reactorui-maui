@@ -1,0 +1,12 @@
+{
+  "Name": "StackBase",
+  "Description": "Base for stack layouts with spacing and alignment.",
+  "Base": "Layout",
+  "Properties": [
+    { "Name": "Spacing", "Type": "double", "Description": "Space between children.", "Animatable": true }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

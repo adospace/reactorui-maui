@@ -167,8 +167,23 @@ public static partial class SliderExtensions
         return slider;
     }
 
+    public static T SliderMinimum<T>(this T slider, double minimum, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        slider.SetProperty(Microsoft.Maui.Controls.Slider.MinimumProperty, minimum);
+        slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.MinimumProperty, customAnimation ?? new RxDoubleAnimation(minimum));
+        return slider;
+    }
+
     public static T Minimum<T>(this T slider, Func<double> minimumFunc, IComponentWithState? componentWithState = null)
         where T : ISlider
+    {
+        slider.SetProperty(Microsoft.Maui.Controls.Slider.MinimumProperty, new PropertyValue<double>(minimumFunc, componentWithState));
+        return slider;
+    }
+
+    public static T SliderMinimum<T>(this T slider, Func<double> minimumFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         slider.SetProperty(Microsoft.Maui.Controls.Slider.MinimumProperty, new PropertyValue<double>(minimumFunc, componentWithState));
         return slider;
@@ -183,8 +198,23 @@ public static partial class SliderExtensions
         return slider;
     }
 
+    public static T SliderMaximum<T>(this T slider, double maximum, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        slider.SetProperty(Microsoft.Maui.Controls.Slider.MaximumProperty, maximum);
+        slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.MaximumProperty, customAnimation ?? new RxDoubleAnimation(maximum));
+        return slider;
+    }
+
     public static T Maximum<T>(this T slider, Func<double> maximumFunc, IComponentWithState? componentWithState = null)
         where T : ISlider
+    {
+        slider.SetProperty(Microsoft.Maui.Controls.Slider.MaximumProperty, new PropertyValue<double>(maximumFunc, componentWithState));
+        return slider;
+    }
+
+    public static T SliderMaximum<T>(this T slider, Func<double> maximumFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         slider.SetProperty(Microsoft.Maui.Controls.Slider.MaximumProperty, new PropertyValue<double>(maximumFunc, componentWithState));
         return slider;
@@ -199,8 +229,23 @@ public static partial class SliderExtensions
         return slider;
     }
 
+    public static T SliderValue<T>(this T slider, double value, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        slider.SetProperty(Microsoft.Maui.Controls.Slider.ValueProperty, value);
+        slider.AppendAnimatable(Microsoft.Maui.Controls.Slider.ValueProperty, customAnimation ?? new RxDoubleAnimation(value));
+        return slider;
+    }
+
     public static T Value<T>(this T slider, Func<double> valueFunc, IComponentWithState? componentWithState = null)
         where T : ISlider
+    {
+        slider.SetProperty(Microsoft.Maui.Controls.Slider.ValueProperty, new PropertyValue<double>(valueFunc, componentWithState));
+        return slider;
+    }
+
+    public static T SliderValue<T>(this T slider, Func<double> valueFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         slider.SetProperty(Microsoft.Maui.Controls.Slider.ValueProperty, new PropertyValue<double>(valueFunc, componentWithState));
         return slider;
@@ -214,8 +259,22 @@ public static partial class SliderExtensions
         return slider;
     }
 
+    public static T SliderMinimumTrackColor<T>(this T slider, Microsoft.Maui.Graphics.Color minimumTrackColor)
+        where T : Component
+    {
+        slider.SetProperty(Microsoft.Maui.Controls.Slider.MinimumTrackColorProperty, minimumTrackColor);
+        return slider;
+    }
+
     public static T MinimumTrackColor<T>(this T slider, Func<Microsoft.Maui.Graphics.Color> minimumTrackColorFunc, IComponentWithState? componentWithState = null)
         where T : ISlider
+    {
+        slider.SetProperty(Microsoft.Maui.Controls.Slider.MinimumTrackColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(minimumTrackColorFunc, componentWithState));
+        return slider;
+    }
+
+    public static T SliderMinimumTrackColor<T>(this T slider, Func<Microsoft.Maui.Graphics.Color> minimumTrackColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         slider.SetProperty(Microsoft.Maui.Controls.Slider.MinimumTrackColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(minimumTrackColorFunc, componentWithState));
         return slider;
@@ -229,8 +288,22 @@ public static partial class SliderExtensions
         return slider;
     }
 
+    public static T SliderMaximumTrackColor<T>(this T slider, Microsoft.Maui.Graphics.Color maximumTrackColor)
+        where T : Component
+    {
+        slider.SetProperty(Microsoft.Maui.Controls.Slider.MaximumTrackColorProperty, maximumTrackColor);
+        return slider;
+    }
+
     public static T MaximumTrackColor<T>(this T slider, Func<Microsoft.Maui.Graphics.Color> maximumTrackColorFunc, IComponentWithState? componentWithState = null)
         where T : ISlider
+    {
+        slider.SetProperty(Microsoft.Maui.Controls.Slider.MaximumTrackColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(maximumTrackColorFunc, componentWithState));
+        return slider;
+    }
+
+    public static T SliderMaximumTrackColor<T>(this T slider, Func<Microsoft.Maui.Graphics.Color> maximumTrackColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         slider.SetProperty(Microsoft.Maui.Controls.Slider.MaximumTrackColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(maximumTrackColorFunc, componentWithState));
         return slider;
@@ -244,8 +317,22 @@ public static partial class SliderExtensions
         return slider;
     }
 
+    public static T SliderThumbColor<T>(this T slider, Microsoft.Maui.Graphics.Color thumbColor)
+        where T : Component
+    {
+        slider.SetProperty(Microsoft.Maui.Controls.Slider.ThumbColorProperty, thumbColor);
+        return slider;
+    }
+
     public static T ThumbColor<T>(this T slider, Func<Microsoft.Maui.Graphics.Color> thumbColorFunc, IComponentWithState? componentWithState = null)
         where T : ISlider
+    {
+        slider.SetProperty(Microsoft.Maui.Controls.Slider.ThumbColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(thumbColorFunc, componentWithState));
+        return slider;
+    }
+
+    public static T SliderThumbColor<T>(this T slider, Func<Microsoft.Maui.Graphics.Color> thumbColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         slider.SetProperty(Microsoft.Maui.Controls.Slider.ThumbColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(thumbColorFunc, componentWithState));
         return slider;
@@ -259,8 +346,22 @@ public static partial class SliderExtensions
         return slider;
     }
 
+    public static T SliderThumbImageSource<T>(this T slider, Microsoft.Maui.Controls.ImageSource thumbImageSource)
+        where T : Component
+    {
+        slider.SetProperty(Microsoft.Maui.Controls.Slider.ThumbImageSourceProperty, thumbImageSource);
+        return slider;
+    }
+
     public static T ThumbImageSource<T>(this T slider, Func<Microsoft.Maui.Controls.ImageSource> thumbImageSourceFunc, IComponentWithState? componentWithState = null)
         where T : ISlider
+    {
+        slider.SetProperty(Microsoft.Maui.Controls.Slider.ThumbImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(thumbImageSourceFunc, componentWithState));
+        return slider;
+    }
+
+    public static T SliderThumbImageSource<T>(this T slider, Func<Microsoft.Maui.Controls.ImageSource> thumbImageSourceFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         slider.SetProperty(Microsoft.Maui.Controls.Slider.ThumbImageSourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(thumbImageSourceFunc, componentWithState));
         return slider;

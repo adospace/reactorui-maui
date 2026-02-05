@@ -1,0 +1,10 @@
+{
+  "Name": "ItemsLayout",
+  "Description": "Base for items layout nodes used by items views.",
+  "Base": "VisualNode",
+  "Properties": [],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

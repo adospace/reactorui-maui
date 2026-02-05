@@ -1,0 +1,12 @@
+{
+  "Name": "Page",
+  "Description": "Base for screen-level containers.",
+  "Base": "VisualElement",
+  "Properties": [
+    { "Name": "Title", "Type": "string?", "Description": "Page title." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

@@ -51,8 +51,22 @@ public static partial class PathGeometryExtensions
         return pathGeometry;
     }
 
+    public static T PathGeometryFigures<T>(this T pathGeometry, Microsoft.Maui.Controls.Shapes.PathFigureCollection figures)
+        where T : Component
+    {
+        pathGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.PathGeometry.FiguresProperty, figures);
+        return pathGeometry;
+    }
+
     public static T Figures<T>(this T pathGeometry, Func<Microsoft.Maui.Controls.Shapes.PathFigureCollection> figuresFunc, IComponentWithState? componentWithState = null)
         where T : IPathGeometry
+    {
+        pathGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.PathGeometry.FiguresProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.PathFigureCollection>(figuresFunc, componentWithState));
+        return pathGeometry;
+    }
+
+    public static T PathGeometryFigures<T>(this T pathGeometry, Func<Microsoft.Maui.Controls.Shapes.PathFigureCollection> figuresFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         pathGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.PathGeometry.FiguresProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.PathFigureCollection>(figuresFunc, componentWithState));
         return pathGeometry;
@@ -66,8 +80,22 @@ public static partial class PathGeometryExtensions
         return pathGeometry;
     }
 
+    public static T PathGeometryFillRule<T>(this T pathGeometry, Microsoft.Maui.Controls.Shapes.FillRule fillRule)
+        where T : Component
+    {
+        pathGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.PathGeometry.FillRuleProperty, fillRule);
+        return pathGeometry;
+    }
+
     public static T FillRule<T>(this T pathGeometry, Func<Microsoft.Maui.Controls.Shapes.FillRule> fillRuleFunc, IComponentWithState? componentWithState = null)
         where T : IPathGeometry
+    {
+        pathGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.PathGeometry.FillRuleProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc, componentWithState));
+        return pathGeometry;
+    }
+
+    public static T PathGeometryFillRule<T>(this T pathGeometry, Func<Microsoft.Maui.Controls.Shapes.FillRule> fillRuleFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         pathGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.PathGeometry.FillRuleProperty, new PropertyValue<Microsoft.Maui.Controls.Shapes.FillRule>(fillRuleFunc, componentWithState));
         return pathGeometry;

@@ -1,0 +1,16 @@
+{
+  "Name": "SwipeGestureRecognizer",
+  "Description": "Recognizes swipe gestures with direction and threshold.",
+  "Base": "GestureRecognizer",
+  "Properties": [
+    { "Name": "Direction", "Type": "Microsoft.Maui.SwipeDirection", "Description": "Swipe direction to recognize." },
+    { "Name": "Threshold", "Type": "uint", "Description": "Minimum movement to trigger swipe." }
+  ],
+  "Events": [
+    { "Name": "Swiped", "EventArgsType": "SwipedEventArgs", "Description": "Raised when a swipe occurs." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "SwipeGestureRecognizer()", "Description": "Default constructor." }
+  ]
+}

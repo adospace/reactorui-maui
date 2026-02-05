@@ -114,8 +114,22 @@ public static partial class RadioButtonExtensions
         return radioButton;
     }
 
+    public static T RadioButtonValue<T>(this T radioButton, object? value)
+        where T : Component
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.ValueProperty, value);
+        return radioButton;
+    }
+
     public static T Value<T>(this T radioButton, Func<object?> valueFunc, IComponentWithState? componentWithState = null)
         where T : IRadioButton
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.ValueProperty, new PropertyValue<object?>(valueFunc, componentWithState));
+        return radioButton;
+    }
+
+    public static T RadioButtonValue<T>(this T radioButton, Func<object?> valueFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.ValueProperty, new PropertyValue<object?>(valueFunc, componentWithState));
         return radioButton;
@@ -129,8 +143,22 @@ public static partial class RadioButtonExtensions
         return radioButton;
     }
 
+    public static T RadioButtonIsChecked<T>(this T radioButton, bool isChecked)
+        where T : Component
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.IsCheckedProperty, isChecked);
+        return radioButton;
+    }
+
     public static T IsChecked<T>(this T radioButton, Func<bool> isCheckedFunc, IComponentWithState? componentWithState = null)
         where T : IRadioButton
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.IsCheckedProperty, new PropertyValue<bool>(isCheckedFunc, componentWithState));
+        return radioButton;
+    }
+
+    public static T RadioButtonIsChecked<T>(this T radioButton, Func<bool> isCheckedFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.IsCheckedProperty, new PropertyValue<bool>(isCheckedFunc, componentWithState));
         return radioButton;
@@ -144,8 +172,22 @@ public static partial class RadioButtonExtensions
         return radioButton;
     }
 
+    public static T RadioButtonGroupName<T>(this T radioButton, string groupName)
+        where T : Component
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.GroupNameProperty, groupName);
+        return radioButton;
+    }
+
     public static T GroupName<T>(this T radioButton, Func<string> groupNameFunc, IComponentWithState? componentWithState = null)
         where T : IRadioButton
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.GroupNameProperty, new PropertyValue<string>(groupNameFunc, componentWithState));
+        return radioButton;
+    }
+
+    public static T RadioButtonGroupName<T>(this T radioButton, Func<string> groupNameFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.GroupNameProperty, new PropertyValue<string>(groupNameFunc, componentWithState));
         return radioButton;
@@ -159,8 +201,22 @@ public static partial class RadioButtonExtensions
         return radioButton;
     }
 
+    public static T RadioButtonTextColor<T>(this T radioButton, Microsoft.Maui.Graphics.Color textColor)
+        where T : Component
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.TextColorProperty, textColor);
+        return radioButton;
+    }
+
     public static T TextColor<T>(this T radioButton, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
         where T : IRadioButton
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
+        return radioButton;
+    }
+
+    public static T RadioButtonTextColor<T>(this T radioButton, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
         return radioButton;
@@ -175,8 +231,23 @@ public static partial class RadioButtonExtensions
         return radioButton;
     }
 
+    public static T RadioButtonCharacterSpacing<T>(this T radioButton, double characterSpacing, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.CharacterSpacingProperty, characterSpacing);
+        radioButton.AppendAnimatable(Microsoft.Maui.Controls.RadioButton.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing));
+        return radioButton;
+    }
+
     public static T CharacterSpacing<T>(this T radioButton, Func<double> characterSpacingFunc, IComponentWithState? componentWithState = null)
         where T : IRadioButton
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc, componentWithState));
+        return radioButton;
+    }
+
+    public static T RadioButtonCharacterSpacing<T>(this T radioButton, Func<double> characterSpacingFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc, componentWithState));
         return radioButton;
@@ -190,8 +261,22 @@ public static partial class RadioButtonExtensions
         return radioButton;
     }
 
+    public static T RadioButtonTextTransform<T>(this T radioButton, Microsoft.Maui.TextTransform textTransform)
+        where T : Component
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.TextTransformProperty, textTransform);
+        return radioButton;
+    }
+
     public static T TextTransform<T>(this T radioButton, Func<Microsoft.Maui.TextTransform> textTransformFunc, IComponentWithState? componentWithState = null)
         where T : IRadioButton
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.TextTransformProperty, new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc, componentWithState));
+        return radioButton;
+    }
+
+    public static T RadioButtonTextTransform<T>(this T radioButton, Func<Microsoft.Maui.TextTransform> textTransformFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.TextTransformProperty, new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc, componentWithState));
         return radioButton;
@@ -205,8 +290,22 @@ public static partial class RadioButtonExtensions
         return radioButton;
     }
 
+    public static T RadioButtonFontAttributes<T>(this T radioButton, Microsoft.Maui.Controls.FontAttributes fontAttributes)
+        where T : Component
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.FontAttributesProperty, fontAttributes);
+        return radioButton;
+    }
+
     public static T FontAttributes<T>(this T radioButton, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc, IComponentWithState? componentWithState = null)
         where T : IRadioButton
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc, componentWithState));
+        return radioButton;
+    }
+
+    public static T RadioButtonFontAttributes<T>(this T radioButton, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc, componentWithState));
         return radioButton;
@@ -220,8 +319,22 @@ public static partial class RadioButtonExtensions
         return radioButton;
     }
 
+    public static T RadioButtonFontFamily<T>(this T radioButton, string fontFamily)
+        where T : Component
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.FontFamilyProperty, fontFamily);
+        return radioButton;
+    }
+
     public static T FontFamily<T>(this T radioButton, Func<string> fontFamilyFunc, IComponentWithState? componentWithState = null)
         where T : IRadioButton
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc, componentWithState));
+        return radioButton;
+    }
+
+    public static T RadioButtonFontFamily<T>(this T radioButton, Func<string> fontFamilyFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc, componentWithState));
         return radioButton;
@@ -236,8 +349,23 @@ public static partial class RadioButtonExtensions
         return radioButton;
     }
 
+    public static T RadioButtonFontSize<T>(this T radioButton, double fontSize, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.FontSizeProperty, fontSize);
+        radioButton.AppendAnimatable(Microsoft.Maui.Controls.RadioButton.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize));
+        return radioButton;
+    }
+
     public static T FontSize<T>(this T radioButton, Func<double> fontSizeFunc, IComponentWithState? componentWithState = null)
         where T : IRadioButton
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.FontSizeProperty, new PropertyValue<double>(fontSizeFunc, componentWithState));
+        return radioButton;
+    }
+
+    public static T RadioButtonFontSize<T>(this T radioButton, Func<double> fontSizeFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.FontSizeProperty, new PropertyValue<double>(fontSizeFunc, componentWithState));
         return radioButton;
@@ -251,8 +379,22 @@ public static partial class RadioButtonExtensions
         return radioButton;
     }
 
+    public static T RadioButtonFontAutoScalingEnabled<T>(this T radioButton, bool fontAutoScalingEnabled)
+        where T : Component
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.FontAutoScalingEnabledProperty, fontAutoScalingEnabled);
+        return radioButton;
+    }
+
     public static T FontAutoScalingEnabled<T>(this T radioButton, Func<bool> fontAutoScalingEnabledFunc, IComponentWithState? componentWithState = null)
         where T : IRadioButton
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc, componentWithState));
+        return radioButton;
+    }
+
+    public static T RadioButtonFontAutoScalingEnabled<T>(this T radioButton, Func<bool> fontAutoScalingEnabledFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc, componentWithState));
         return radioButton;
@@ -266,8 +408,22 @@ public static partial class RadioButtonExtensions
         return radioButton;
     }
 
+    public static T RadioButtonBorderColor<T>(this T radioButton, Microsoft.Maui.Graphics.Color borderColor)
+        where T : Component
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.BorderColorProperty, borderColor);
+        return radioButton;
+    }
+
     public static T BorderColor<T>(this T radioButton, Func<Microsoft.Maui.Graphics.Color> borderColorFunc, IComponentWithState? componentWithState = null)
         where T : IRadioButton
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.BorderColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc, componentWithState));
+        return radioButton;
+    }
+
+    public static T RadioButtonBorderColor<T>(this T radioButton, Func<Microsoft.Maui.Graphics.Color> borderColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.BorderColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(borderColorFunc, componentWithState));
         return radioButton;
@@ -281,8 +437,22 @@ public static partial class RadioButtonExtensions
         return radioButton;
     }
 
+    public static T RadioButtonCornerRadius<T>(this T radioButton, int cornerRadius)
+        where T : Component
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.CornerRadiusProperty, cornerRadius);
+        return radioButton;
+    }
+
     public static T CornerRadius<T>(this T radioButton, Func<int> cornerRadiusFunc, IComponentWithState? componentWithState = null)
         where T : IRadioButton
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.CornerRadiusProperty, new PropertyValue<int>(cornerRadiusFunc, componentWithState));
+        return radioButton;
+    }
+
+    public static T RadioButtonCornerRadius<T>(this T radioButton, Func<int> cornerRadiusFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.CornerRadiusProperty, new PropertyValue<int>(cornerRadiusFunc, componentWithState));
         return radioButton;
@@ -297,8 +467,23 @@ public static partial class RadioButtonExtensions
         return radioButton;
     }
 
+    public static T RadioButtonBorderWidth<T>(this T radioButton, double borderWidth, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.BorderWidthProperty, borderWidth);
+        radioButton.AppendAnimatable(Microsoft.Maui.Controls.RadioButton.BorderWidthProperty, customAnimation ?? new RxDoubleAnimation(borderWidth));
+        return radioButton;
+    }
+
     public static T BorderWidth<T>(this T radioButton, Func<double> borderWidthFunc, IComponentWithState? componentWithState = null)
         where T : IRadioButton
+    {
+        radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.BorderWidthProperty, new PropertyValue<double>(borderWidthFunc, componentWithState));
+        return radioButton;
+    }
+
+    public static T RadioButtonBorderWidth<T>(this T radioButton, Func<double> borderWidthFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         radioButton.SetProperty(Microsoft.Maui.Controls.RadioButton.BorderWidthProperty, new PropertyValue<double>(borderWidthFunc, componentWithState));
         return radioButton;

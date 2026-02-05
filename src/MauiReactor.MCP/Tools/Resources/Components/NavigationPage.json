@@ -1,0 +1,10 @@
+{
+  "Name": "NavigationPage",
+  "Description": "A stack-based navigation page.",
+  "Base": "Page",
+  "Properties": [],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

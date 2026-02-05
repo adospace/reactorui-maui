@@ -13,6 +13,10 @@ namespace MauiReactor;
 public partial interface IPicker : IView
 {
     EventCommand<EventArgs>? SelectedIndexChangedEvent { get; set; }
+
+    EventCommand<PickerOpenedEventArgs>? OpenedEvent { get; set; }
+
+    EventCommand<PickerClosedEventArgs>? ClosedEvent { get; set; }
 }
 
 public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Controls.Picker, new()
@@ -23,6 +27,10 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
     }
 
     EventCommand<EventArgs>? IPicker.SelectedIndexChangedEvent { get; set; }
+
+    EventCommand<PickerOpenedEventArgs>? IPicker.OpenedEvent { get; set; }
+
+    EventCommand<PickerClosedEventArgs>? IPicker.ClosedEvent { get; set; }
 
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
@@ -39,6 +47,8 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     private EventCommand<EventArgs>? _executingSelectedIndexChangedEvent;
+    private EventCommand<PickerOpenedEventArgs>? _executingOpenedEvent;
+    private EventCommand<PickerClosedEventArgs>? _executingClosedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
@@ -46,6 +56,16 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
         if (thisAsIPicker.SelectedIndexChangedEvent != null)
         {
             NativeControl.SelectedIndexChanged += NativeControl_SelectedIndexChanged;
+        }
+
+        if (thisAsIPicker.OpenedEvent != null)
+        {
+            NativeControl.Opened += NativeControl_Opened;
+        }
+
+        if (thisAsIPicker.ClosedEvent != null)
+        {
+            NativeControl.Closed += NativeControl_Closed;
         }
 
         OnAttachingNativeEvents();
@@ -62,11 +82,33 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
         }
     }
 
+    private void NativeControl_Opened(object? sender, PickerOpenedEventArgs e)
+    {
+        var thisAsIPicker = (IPicker)this;
+        if (_executingOpenedEvent == null || _executingOpenedEvent.IsCompleted)
+        {
+            _executingOpenedEvent = thisAsIPicker.OpenedEvent;
+            _executingOpenedEvent?.Execute(sender, e);
+        }
+    }
+
+    private void NativeControl_Closed(object? sender, PickerClosedEventArgs e)
+    {
+        var thisAsIPicker = (IPicker)this;
+        if (_executingClosedEvent == null || _executingClosedEvent.IsCompleted)
+        {
+            _executingClosedEvent = thisAsIPicker.ClosedEvent;
+            _executingClosedEvent?.Execute(sender, e);
+        }
+    }
+
     protected override void OnDetachNativeEvents()
     {
         if (NativeControl != null)
         {
             NativeControl.SelectedIndexChanged -= NativeControl_SelectedIndexChanged;
+            NativeControl.Opened -= NativeControl_Opened;
+            NativeControl.Closed -= NativeControl_Closed;
         }
 
         OnDetachingNativeEvents();
@@ -81,6 +123,16 @@ public partial class Picker<T> : View<T>, IPicker where T : Microsoft.Maui.Contr
             if (_executingSelectedIndexChangedEvent != null && !_executingSelectedIndexChangedEvent.IsCompleted)
             {
                 @picker._executingSelectedIndexChangedEvent = _executingSelectedIndexChangedEvent;
+            }
+
+            if (_executingOpenedEvent != null && !_executingOpenedEvent.IsCompleted)
+            {
+                @picker._executingOpenedEvent = _executingOpenedEvent;
+            }
+
+            if (_executingClosedEvent != null && !_executingClosedEvent.IsCompleted)
+            {
+                @picker._executingClosedEvent = _executingClosedEvent;
             }
         }
 
@@ -114,8 +166,22 @@ public static partial class PickerExtensions
         return picker;
     }
 
+    public static T PickerTextColor<T>(this T picker, Microsoft.Maui.Graphics.Color textColor)
+        where T : Component
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.TextColorProperty, textColor);
+        return picker;
+    }
+
     public static T TextColor<T>(this T picker, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
+        return picker;
+    }
+
+    public static T PickerTextColor<T>(this T picker, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         picker.SetProperty(Microsoft.Maui.Controls.Picker.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
         return picker;
@@ -130,8 +196,23 @@ public static partial class PickerExtensions
         return picker;
     }
 
+    public static T PickerCharacterSpacing<T>(this T picker, double characterSpacing, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, characterSpacing);
+        picker.AppendAnimatable(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing));
+        return picker;
+    }
+
     public static T CharacterSpacing<T>(this T picker, Func<double> characterSpacingFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc, componentWithState));
+        return picker;
+    }
+
+    public static T PickerCharacterSpacing<T>(this T picker, Func<double> characterSpacingFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         picker.SetProperty(Microsoft.Maui.Controls.Picker.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc, componentWithState));
         return picker;
@@ -145,8 +226,22 @@ public static partial class PickerExtensions
         return picker;
     }
 
+    public static T PickerTitle<T>(this T picker, string title)
+        where T : Component
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.TitleProperty, title);
+        return picker;
+    }
+
     public static T Title<T>(this T picker, Func<string> titleFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.TitleProperty, new PropertyValue<string>(titleFunc, componentWithState));
+        return picker;
+    }
+
+    public static T PickerTitle<T>(this T picker, Func<string> titleFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         picker.SetProperty(Microsoft.Maui.Controls.Picker.TitleProperty, new PropertyValue<string>(titleFunc, componentWithState));
         return picker;
@@ -160,8 +255,22 @@ public static partial class PickerExtensions
         return picker;
     }
 
+    public static T PickerTitleColor<T>(this T picker, Microsoft.Maui.Graphics.Color titleColor)
+        where T : Component
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.TitleColorProperty, titleColor);
+        return picker;
+    }
+
     public static T TitleColor<T>(this T picker, Func<Microsoft.Maui.Graphics.Color> titleColorFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.TitleColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(titleColorFunc, componentWithState));
+        return picker;
+    }
+
+    public static T PickerTitleColor<T>(this T picker, Func<Microsoft.Maui.Graphics.Color> titleColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         picker.SetProperty(Microsoft.Maui.Controls.Picker.TitleColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(titleColorFunc, componentWithState));
         return picker;
@@ -175,8 +284,22 @@ public static partial class PickerExtensions
         return picker;
     }
 
+    public static T PickerSelectedIndex<T>(this T picker, int selectedIndex)
+        where T : Component
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.SelectedIndexProperty, selectedIndex);
+        return picker;
+    }
+
     public static T SelectedIndex<T>(this T picker, Func<int> selectedIndexFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.SelectedIndexProperty, new PropertyValue<int>(selectedIndexFunc, componentWithState));
+        return picker;
+    }
+
+    public static T PickerSelectedIndex<T>(this T picker, Func<int> selectedIndexFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         picker.SetProperty(Microsoft.Maui.Controls.Picker.SelectedIndexProperty, new PropertyValue<int>(selectedIndexFunc, componentWithState));
         return picker;
@@ -190,8 +313,22 @@ public static partial class PickerExtensions
         return picker;
     }
 
+    public static T PickerFontFamily<T>(this T picker, string fontFamily)
+        where T : Component
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontFamilyProperty, fontFamily);
+        return picker;
+    }
+
     public static T FontFamily<T>(this T picker, Func<string> fontFamilyFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc, componentWithState));
+        return picker;
+    }
+
+    public static T PickerFontFamily<T>(this T picker, Func<string> fontFamilyFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         picker.SetProperty(Microsoft.Maui.Controls.Picker.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc, componentWithState));
         return picker;
@@ -206,8 +343,23 @@ public static partial class PickerExtensions
         return picker;
     }
 
+    public static T PickerFontSize<T>(this T picker, double fontSize, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontSizeProperty, fontSize);
+        picker.AppendAnimatable(Microsoft.Maui.Controls.Picker.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize));
+        return picker;
+    }
+
     public static T FontSize<T>(this T picker, Func<double> fontSizeFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontSizeProperty, new PropertyValue<double>(fontSizeFunc, componentWithState));
+        return picker;
+    }
+
+    public static T PickerFontSize<T>(this T picker, Func<double> fontSizeFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         picker.SetProperty(Microsoft.Maui.Controls.Picker.FontSizeProperty, new PropertyValue<double>(fontSizeFunc, componentWithState));
         return picker;
@@ -221,8 +373,22 @@ public static partial class PickerExtensions
         return picker;
     }
 
+    public static T PickerFontAttributes<T>(this T picker, Microsoft.Maui.Controls.FontAttributes fontAttributes)
+        where T : Component
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontAttributesProperty, fontAttributes);
+        return picker;
+    }
+
     public static T FontAttributes<T>(this T picker, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc, componentWithState));
+        return picker;
+    }
+
+    public static T PickerFontAttributes<T>(this T picker, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         picker.SetProperty(Microsoft.Maui.Controls.Picker.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc, componentWithState));
         return picker;
@@ -236,8 +402,22 @@ public static partial class PickerExtensions
         return picker;
     }
 
+    public static T PickerFontAutoScalingEnabled<T>(this T picker, bool fontAutoScalingEnabled)
+        where T : Component
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontAutoScalingEnabledProperty, fontAutoScalingEnabled);
+        return picker;
+    }
+
     public static T FontAutoScalingEnabled<T>(this T picker, Func<bool> fontAutoScalingEnabledFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc, componentWithState));
+        return picker;
+    }
+
+    public static T PickerFontAutoScalingEnabled<T>(this T picker, Func<bool> fontAutoScalingEnabledFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         picker.SetProperty(Microsoft.Maui.Controls.Picker.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc, componentWithState));
         return picker;
@@ -251,8 +431,22 @@ public static partial class PickerExtensions
         return picker;
     }
 
+    public static T PickerHorizontalTextAlignment<T>(this T picker, Microsoft.Maui.TextAlignment horizontalTextAlignment)
+        where T : Component
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.HorizontalTextAlignmentProperty, horizontalTextAlignment);
+        return picker;
+    }
+
     public static T HorizontalTextAlignment<T>(this T picker, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc, componentWithState));
+        return picker;
+    }
+
+    public static T PickerHorizontalTextAlignment<T>(this T picker, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         picker.SetProperty(Microsoft.Maui.Controls.Picker.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc, componentWithState));
         return picker;
@@ -266,10 +460,53 @@ public static partial class PickerExtensions
         return picker;
     }
 
+    public static T PickerVerticalTextAlignment<T>(this T picker, Microsoft.Maui.TextAlignment verticalTextAlignment)
+        where T : Component
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.VerticalTextAlignmentProperty, verticalTextAlignment);
+        return picker;
+    }
+
     public static T VerticalTextAlignment<T>(this T picker, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc, IComponentWithState? componentWithState = null)
         where T : IPicker
     {
         picker.SetProperty(Microsoft.Maui.Controls.Picker.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc, componentWithState));
+        return picker;
+    }
+
+    public static T PickerVerticalTextAlignment<T>(this T picker, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc, componentWithState));
+        return picker;
+    }
+
+    public static T IsOpen<T>(this T picker, bool isOpen)
+        where T : IPicker
+    {
+        //picker.IsOpen = isOpen;
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.IsOpenProperty, isOpen);
+        return picker;
+    }
+
+    public static T PickerIsOpen<T>(this T picker, bool isOpen)
+        where T : Component
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.IsOpenProperty, isOpen);
+        return picker;
+    }
+
+    public static T IsOpen<T>(this T picker, Func<bool> isOpenFunc, IComponentWithState? componentWithState = null)
+        where T : IPicker
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.IsOpenProperty, new PropertyValue<bool>(isOpenFunc, componentWithState));
+        return picker;
+    }
+
+    public static T PickerIsOpen<T>(this T picker, Func<bool> isOpenFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        picker.SetProperty(Microsoft.Maui.Controls.Picker.IsOpenProperty, new PropertyValue<bool>(isOpenFunc, componentWithState));
         return picker;
     }
 
@@ -312,6 +549,90 @@ public static partial class PickerExtensions
         where T : IPicker
     {
         picker.SelectedIndexChangedEvent = new AsyncEventCommand<EventArgs>(executeWithFullArgs: selectedIndexChangedAction, runInBackground);
+        return picker;
+    }
+
+    public static T OnOpened<T>(this T picker, Action? openedAction)
+        where T : IPicker
+    {
+        picker.OpenedEvent = new SyncEventCommand<PickerOpenedEventArgs>(execute: openedAction);
+        return picker;
+    }
+
+    public static T OnOpened<T>(this T picker, Action<PickerOpenedEventArgs>? openedAction)
+        where T : IPicker
+    {
+        picker.OpenedEvent = new SyncEventCommand<PickerOpenedEventArgs>(executeWithArgs: openedAction);
+        return picker;
+    }
+
+    public static T OnOpened<T>(this T picker, Action<object?, PickerOpenedEventArgs>? openedAction)
+        where T : IPicker
+    {
+        picker.OpenedEvent = new SyncEventCommand<PickerOpenedEventArgs>(executeWithFullArgs: openedAction);
+        return picker;
+    }
+
+    public static T OnOpened<T>(this T picker, Func<Task>? openedAction, bool runInBackground = false)
+        where T : IPicker
+    {
+        picker.OpenedEvent = new AsyncEventCommand<PickerOpenedEventArgs>(execute: openedAction, runInBackground);
+        return picker;
+    }
+
+    public static T OnOpened<T>(this T picker, Func<PickerOpenedEventArgs, Task>? openedAction, bool runInBackground = false)
+        where T : IPicker
+    {
+        picker.OpenedEvent = new AsyncEventCommand<PickerOpenedEventArgs>(executeWithArgs: openedAction, runInBackground);
+        return picker;
+    }
+
+    public static T OnOpened<T>(this T picker, Func<object?, PickerOpenedEventArgs, Task>? openedAction, bool runInBackground = false)
+        where T : IPicker
+    {
+        picker.OpenedEvent = new AsyncEventCommand<PickerOpenedEventArgs>(executeWithFullArgs: openedAction, runInBackground);
+        return picker;
+    }
+
+    public static T OnClosed<T>(this T picker, Action? closedAction)
+        where T : IPicker
+    {
+        picker.ClosedEvent = new SyncEventCommand<PickerClosedEventArgs>(execute: closedAction);
+        return picker;
+    }
+
+    public static T OnClosed<T>(this T picker, Action<PickerClosedEventArgs>? closedAction)
+        where T : IPicker
+    {
+        picker.ClosedEvent = new SyncEventCommand<PickerClosedEventArgs>(executeWithArgs: closedAction);
+        return picker;
+    }
+
+    public static T OnClosed<T>(this T picker, Action<object?, PickerClosedEventArgs>? closedAction)
+        where T : IPicker
+    {
+        picker.ClosedEvent = new SyncEventCommand<PickerClosedEventArgs>(executeWithFullArgs: closedAction);
+        return picker;
+    }
+
+    public static T OnClosed<T>(this T picker, Func<Task>? closedAction, bool runInBackground = false)
+        where T : IPicker
+    {
+        picker.ClosedEvent = new AsyncEventCommand<PickerClosedEventArgs>(execute: closedAction, runInBackground);
+        return picker;
+    }
+
+    public static T OnClosed<T>(this T picker, Func<PickerClosedEventArgs, Task>? closedAction, bool runInBackground = false)
+        where T : IPicker
+    {
+        picker.ClosedEvent = new AsyncEventCommand<PickerClosedEventArgs>(executeWithArgs: closedAction, runInBackground);
+        return picker;
+    }
+
+    public static T OnClosed<T>(this T picker, Func<object?, PickerClosedEventArgs, Task>? closedAction, bool runInBackground = false)
+        where T : IPicker
+    {
+        picker.ClosedEvent = new AsyncEventCommand<PickerClosedEventArgs>(executeWithFullArgs: closedAction, runInBackground);
         return picker;
     }
 }

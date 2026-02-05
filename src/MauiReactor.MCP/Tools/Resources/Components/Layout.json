@@ -1,0 +1,12 @@
+{
+  "Name": "Layout",
+  "Description": "Base for container views that arrange children.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "Padding", "Type": "Thickness", "Description": "Inner padding within the layout.", "Animatable": true }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

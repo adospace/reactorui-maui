@@ -1,0 +1,20 @@
+{
+  "Name": "ScrollView",
+  "Description": "Scrollable container for a single child.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "Orientation", "Type": "Microsoft.Maui.ScrollOrientation", "Description": "Scroll orientation (Vertical, Horizontal, Both)." },
+    { "Name": "HorizontalScrollBarVisibility", "Type": "Microsoft.Maui.ScrollBarVisibility", "Description": "Visibility of the horizontal scroll bar." },
+    { "Name": "VerticalScrollBarVisibility", "Type": "Microsoft.Maui.ScrollBarVisibility", "Description": "Visibility of the vertical scroll bar." },
+    { "Name": "SafeAreaEdges", "Type": "Microsoft.Maui.SafeAreaEdges", "Description": "Controls which edges respect the device safe area." },
+    { "Name": "CascadeInputTransparent", "Type": "bool", "Description": "Whether input transparency cascades to children." },
+    { "Name": "Padding", "Type": "Microsoft.Maui.Thickness", "Description": "Inner padding of the scroll view." }
+  ],
+  "Events": [
+    { "Name": "Scrolled", "EventArgsType": "Microsoft.Maui.Controls.ScrolledEventArgs", "Description": "Raised when scrolling occurs." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "ScrollView()", "Description": "Default constructor." }
+  ]
+}

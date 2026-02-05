@@ -264,15 +264,6 @@ public partial class ScaffoldTypeGenerator
 
     private string GetDelegateParametersDescriptor(IEventSymbol ev)
     {
-        /*
-    private void NativeControl_<#= ev.Name #>(object? sender, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #> e)
-    {
-        var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
-        thisAs<#= InterfaceName #>.<#= ev.Name #>Action?.Invoke();
-        thisAs<#= InterfaceName #>.<#= ev.Name #>ActionWithArgs?.Invoke(sender, e);
-    }             
-         */
-
         var invokeMember = (IMethodSymbol)ev.Type.GetMembers().First(_ => _.Name == "Invoke");
         if (invokeMember.Parameters.Length == 1)
         {
@@ -284,23 +275,6 @@ public partial class ScaffoldTypeGenerator
 
     private string GetDelegateInvokeDescriptor(IEventSymbol ev)
     {
-        /*
-    private void NativeControl_<#= ev.Name #>(object? sender, <#= genericArgs.Length > 0 ? genericArgs[0].Name : "EventArgs" #> e)
-    {
-        var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
-        thisAs<#= InterfaceName #>.<#= ev.Name #>Action?.Invoke();
-        thisAs<#= InterfaceName #>.<#= ev.Name #>ActionWithArgs?.Invoke(sender, e);
-    }             
-         */
-
-        //var invokeMember = (IMethodSymbol)ev.Type.GetMembers().First(_ => _.Name == "Invoke");
-        //if (invokeMember.Parameters.Length == 1)
-        //{
-        //    return $"thisAs{InterfaceName}.{ev.Name}ActionWithArgs?.Invoke(sender);";
-        //}
-
-        //return $"thisAs{InterfaceName}.{ev.Name}ActionWithArgs?.Invoke(sender, e);";
-
         var invokeMember = (IMethodSymbol)ev.Type.GetMembers().First(_ => _.Name == "Invoke");
         if (invokeMember.Parameters.Length == 1)
         {
@@ -317,14 +291,24 @@ public partial class ScaffoldTypeGenerator
     {
         //object?, <#= genericArgs.Length > 0 ? genericArgs[0].GetFullyQualifiedName().ToResevedWordFullTypeName() : "EventArgs" #>
         var invokeMember = (IMethodSymbol)ev.Type.GetMembers().First(_ => _.Name == "Invoke");
+        string parameterType;
+
         if (invokeMember.Parameters.Length == 1)
         {
-            return $"global::{invokeMember.Parameters[0].Type.GetFullyQualifiedName()}";
+            parameterType = $"{invokeMember.Parameters[0].Type.GetFullyQualifiedName()}";
+        }
+        else
+        {
+            //return $"{invokeMember.Parameters[0].Type.GetFullyQualifiedName()}, global::{invokeMember.Parameters[1].Type.GetFullyQualifiedName()}";
+            parameterType = $"{invokeMember.Parameters[1].Type.GetFullyQualifiedName()}";
         }
 
-        //return $"{invokeMember.Parameters[0].Type.GetFullyQualifiedName()}, global::{invokeMember.Parameters[1].Type.GetFullyQualifiedName()}";
-        return $"global::{invokeMember.Parameters[1].Type.GetFullyQualifiedName()}";
+        if (Helper.IsTypeKeyword(parameterType))
+        {
+            return parameterType;
+        }
 
+        return $"global::{parameterType}";
     }
 
     public string TransformAndPrettify()

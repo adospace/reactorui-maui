@@ -1,26 +1,27 @@
 ﻿using System.Collections;
+using MauiReactor.HotReload;
 using MauiReactor.Internals;
 using MauiReactor.Parameters;
 using Microsoft.Extensions.Logging;
 
 namespace MauiReactor
 {
-    public abstract partial class Component : VisualNode, IEnumerable<VisualNode>, IVisualNodeWithAttachedProperties
+    public abstract partial class Component : VisualNode, IEnumerable<VisualNode> //, IVisualNodeWithAttachedProperties
     {
 
         private BindableObject? _nativeControl;
 
         private readonly List<VisualNode> _children = [];
 
-        private readonly Dictionary<BindableProperty, object?> _attachedProperties = [];
-
         public abstract VisualNode Render();
 
-        public void SetProperty(BindableProperty property, object? value)
-            => _attachedProperties[property] = value;
+        //private readonly Dictionary<BindableProperty, object?> _attachedProperties = [];
 
-        public bool HasPropertySet(BindableProperty property)
-            => _attachedProperties.ContainsKey(property);
+        //public void SetProperty(BindableProperty property, object? value)
+        //    => _attachedProperties[property] = value;
+
+        //public bool HasPropertySet(BindableProperty property)
+        //    => _attachedProperties.ContainsKey(property);
 
         public IEnumerator<VisualNode> GetEnumerator()
         {
@@ -44,10 +45,10 @@ namespace MauiReactor
 
         protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
         {
-            foreach (var attachedProperty in _attachedProperties)
-            {
-                nativeControl.SetPropertyValue(attachedProperty.Key, attachedProperty.Value);
-            }
+            //foreach (var attachedProperty in _propertiesToSet)
+            //{
+            //    nativeControl.SetPropertyValue(attachedProperty.Key, attachedProperty.Value);
+            //}
 
             Validate.EnsureNotNull(Parent);
 
@@ -62,35 +63,56 @@ namespace MauiReactor
 
             Parent.RemoveChild(this, nativeControl);
             
-            foreach (var attachedProperty in _attachedProperties)
-            {
-                nativeControl.ResetValue(attachedProperty.Key);
-            }
+            //foreach (var attachedProperty in _propertiesToSet)
+            //{
+            //    nativeControl.ResetValue(attachedProperty.Key);
+            //}
 
             _nativeControl = null;
         }
 
         protected sealed override IEnumerable<VisualNode> RenderChildren()
         {
-            ServiceCollectionProvider
+            var logger = ServiceCollectionProvider
                 .ServiceProvider?
-                .GetService<ILogger<Component>>()?
-                .LogDebug("Rendering {Type}", GetType());
-            yield return Render();
-        }
-
-        protected sealed override void OnUpdate()
-        {
-            if (_nativeControl != null)
+                .GetService<ILogger<Component>>();
+            if (logger != null && logger.IsEnabled(LogLevel.Debug))
             {
-                foreach (var attachedProperty in _attachedProperties)
+                logger.LogDebug("Rendering {Type}", GetType());
+            }
+                
+            var children = Render();
+
+            if (_propertiesToSet != null)
+            {
+                foreach (var property in _propertiesToSet)
                 {
-                    _nativeControl.SetPropertyValue(attachedProperty.Key, attachedProperty.Value);
+                    children.SetProperty(property.Key, property.Value);
+                }
+            }
+            if (_propertyValuesToSet != null)
+            {
+                foreach (var property in _propertyValuesToSet)
+                {
+                    children.SetProperty(property.Key, property.Value);
                 }
             }
 
-            base.OnUpdate();
+            return children == null ? [] : [ children ];
         }
+
+        //protected sealed override void OnUpdate()
+        //{
+        //    if (_nativeControl != null)
+        //    {
+        //        foreach (var attachedProperty in _propertiesToSet)
+        //        {
+        //            _nativeControl.SetPropertyValue(attachedProperty.Key, attachedProperty.Value);
+        //        }
+        //    }
+
+        //    base.OnUpdate();
+        //}
 
         protected override void MergeWith(VisualNode newNode)
         {
@@ -153,7 +175,7 @@ namespace MauiReactor
         public INavigation? Navigation
             => NavigationProvider.Navigation ?? ContainerPage?.Navigation;
 
-        public Microsoft.Maui.Controls.Shell? CurrentShell
+        public static Microsoft.Maui.Controls.Shell? CurrentShell
             => MauiControlsShellExtensions.CurrentShell;
 
         private Microsoft.Maui.Controls.Page? _containerPage;
@@ -244,7 +266,7 @@ namespace MauiReactor
 
     public abstract class ComponentWithProps<P>(P? props = null) : Component, IComponentWithProps where P : class, new()
     {
-        private bool _derivedProps = props != null;
+        private readonly bool _derivedProps = props != null;
         private P? _props = props;
 
         public P Props
@@ -274,9 +296,10 @@ namespace MauiReactor
                 {
                     newComponentWithProps.Props = Props;
                 }
-                else if (MauiReactorFeatures.HotReloadIsEnabled)
+                else //if (MauiReactorFeatures.HotReloadIsEnabled)
                 {
-                    CopyObjectExtensions.CopyProperties(Props, newComponentWithProps.Props);
+                    TypeLoader.Instance.CopyProperties(Props, newComponentWithProps.Props);
+                    //CopyObjectExtensions.CopyProperties(Props, newComponentWithProps.Props);
                 }
                 //else
                 //{
@@ -300,7 +323,7 @@ namespace MauiReactor
 
         private List<RegisteredAction>? _actionsRegisteredOnStateChange;
 
-        private bool _derivedState;
+        private readonly bool _derivedState;
 
         private S? _state;
 
@@ -353,15 +376,19 @@ namespace MauiReactor
             { 
                 _state = (S)stateFromOldComponent;
             }
-            else if (MauiReactorFeatures.HotReloadIsEnabled && stateFromOldComponent.GetType().FullName == typeof(S).FullName)
+            else if (stateFromOldComponent.GetType().FullName == typeof(S).FullName) //if (MauiReactorFeatures.HotReloadIsEnabled && stateFromOldComponent.GetType().FullName == typeof(S).FullName)
             {
-                CopyObjectExtensions.CopyProperties(stateFromOldComponent, State);
+                TypeLoader.Instance.CopyProperties(stateFromOldComponent, State);
+                //CopyObjectExtensions.CopyProperties(stateFromOldComponent, State);
             }
             else
             {
                 var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
-                logger?.LogWarning("Unable to forward component State from type {State}", 
-                    stateFromOldComponent.GetType().FullName);
+                if (logger != null && logger.IsEnabled(LogLevel.Warning))
+                {
+                    logger.LogWarning("Unable to forward component State from type {State}", 
+                        stateFromOldComponent.GetType().FullName);
+                }
             }
 
             if (_actionsRegisteredOnStateChange != null)
@@ -478,7 +505,10 @@ namespace MauiReactor
             if (invalidateComponent && !_isMounted)
             {
                 var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
-                logger?.LogWarning("You are calling SetState on an unmounted component '{Component}'", GetType().Name);
+                if (logger != null && logger.IsEnabled(LogLevel.Warning))
+                {
+                    logger.LogWarning("You are calling SetState on an unmounted component '{Component}'", GetType().Name);
+                }
             }
 
             if (invalidateComponent && _isMounted)
@@ -496,18 +526,25 @@ namespace MauiReactor
                 {
                     newComponentWithState.State = State;
                 }
-                else if (MauiReactorFeatures.HotReloadIsEnabled && newNode.GetType().FullName == this.GetType().FullName)
+                else if (/*MauiReactorFeatures.HotReloadIsEnabled && */newNode.GetType().FullName == this.GetType().FullName)
                 {
                     var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
-                    logger?.LogWarning("State {State} copied to new instance of component {Component}", 
-                        State.GetType().FullName, newNode.GetType().FullName);
-                    CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
+                    if (logger != null && logger.IsEnabled(LogLevel.Warning))
+                    {
+                        logger.LogWarning("State {State} copied to new instance of component {Component}", 
+                            State.GetType().FullName, newNode.GetType().FullName);
+                    }
+                    //CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
+                    TypeLoader.Instance.CopyProperties(State, newComponentWithState.State);
                 }
                 else
                 {
                     var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
-                    logger?.LogWarning("Unable to copy state {State} copied to new instance of component {Component}", 
-                        State.GetType().FullName, newNode.GetType().FullName);
+                    if (logger != null && logger.IsEnabled(LogLevel.Warning))
+                    {
+                        logger.LogWarning("Unable to copy state {State} copied to new instance of component {Component}",
+                            State.GetType().FullName, newNode.GetType().FullName);
+                    }
                 }
 
             }

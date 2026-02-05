@@ -66,8 +66,22 @@ public static partial class StructuredItemsViewExtensions
         return structuredItemsView;
     }
 
+    public static T StructuredItemsViewItemSizingStrategy<T>(this T structuredItemsView, Microsoft.Maui.Controls.ItemSizingStrategy itemSizingStrategy)
+        where T : Component
+    {
+        structuredItemsView.SetProperty(Microsoft.Maui.Controls.StructuredItemsView.ItemSizingStrategyProperty, itemSizingStrategy);
+        return structuredItemsView;
+    }
+
     public static T ItemSizingStrategy<T>(this T structuredItemsView, Func<Microsoft.Maui.Controls.ItemSizingStrategy> itemSizingStrategyFunc, IComponentWithState? componentWithState = null)
         where T : IStructuredItemsView
+    {
+        structuredItemsView.SetProperty(Microsoft.Maui.Controls.StructuredItemsView.ItemSizingStrategyProperty, new PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>(itemSizingStrategyFunc, componentWithState));
+        return structuredItemsView;
+    }
+
+    public static T StructuredItemsViewItemSizingStrategy<T>(this T structuredItemsView, Func<Microsoft.Maui.Controls.ItemSizingStrategy> itemSizingStrategyFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         structuredItemsView.SetProperty(Microsoft.Maui.Controls.StructuredItemsView.ItemSizingStrategyProperty, new PropertyValue<Microsoft.Maui.Controls.ItemSizingStrategy>(itemSizingStrategyFunc, componentWithState));
         return structuredItemsView;

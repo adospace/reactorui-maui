@@ -14,7 +14,7 @@ partial class HomePage : Component<HomePageState>
                         Image("dotnet_bot.png")
                             .HeightRequest(200)
                             .HCenter()
-                            .Set(SemanticProperties.DescriptionProperty, "Cute dot net bot waving hi to you!"),
+                            .Set(MauiControls.SemanticProperties.DescriptionProperty, "Cute dot net bot waving hi to you!"),
 
                         Label("Hello, World!")
                             .FontSize(32)

@@ -167,8 +167,23 @@ public static partial class SwipeViewExtensions
         return swipeView;
     }
 
+    public static T SwipeViewThreshold<T>(this T swipeView, double threshold, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        swipeView.SetProperty(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, threshold);
+        swipeView.AppendAnimatable(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, customAnimation ?? new RxDoubleAnimation(threshold));
+        return swipeView;
+    }
+
     public static T Threshold<T>(this T swipeView, Func<double> thresholdFunc, IComponentWithState? componentWithState = null)
         where T : ISwipeView
+    {
+        swipeView.SetProperty(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, new PropertyValue<double>(thresholdFunc, componentWithState));
+        return swipeView;
+    }
+
+    public static T SwipeViewThreshold<T>(this T swipeView, Func<double> thresholdFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         swipeView.SetProperty(Microsoft.Maui.Controls.SwipeView.ThresholdProperty, new PropertyValue<double>(thresholdFunc, componentWithState));
         return swipeView;

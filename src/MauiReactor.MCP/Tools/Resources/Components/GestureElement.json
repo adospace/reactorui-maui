@@ -1,0 +1,14 @@
+{
+  "Name": "GestureElement",
+  "Description": "Base element that can host gesture recognizers.",
+  "Base": "Element",
+  "Properties": [
+    { "Name": "Gestures", "Type": "IEnumerable<GestureRecognizer>", "Description": "Attached gesture recognizers." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": [
+    { "Signature": "Gesture(GestureRecognizer gesture)", "Description": "Adds a gesture recognizer." }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "Name": "GestureRecognizer",
+  "Description": "Base for gesture recognizers attachable to views.",
+  "Base": "VisualNode",
+  "Properties": [
+    { "Name": "ButtonsMask", "Type": "ButtonsMask?", "Description": "Optional filter for pointer buttons (where supported)." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

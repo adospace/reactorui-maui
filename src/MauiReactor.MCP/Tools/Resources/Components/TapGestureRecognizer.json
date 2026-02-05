@@ -1,0 +1,26 @@
+{
+  "Name": "TapGestureRecognizer",
+  "Description": "Recognizes tap gestures with optional multi-tap requirement.",
+  "Base": "GestureRecognizer",
+  "Properties": [
+    { "Name": "NumberOfTapsRequired", "Type": "int", "Description": "Number of taps to recognize." }
+  ],
+  "Events": [
+    { "Name": "Tapped", "EventArgsType": "EventArgs", "Description": "Raised when a tap gesture occurs." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "TapGestureRecognizer(Action onTap)", "Description": "Creates a tap recognizer and binds an Action handler." },
+    { "Signature": "TapGestureRecognizer(Action onTap, int numberOfTapsRequired)", "Description": "Creates a tap recognizer with tap count and Action handler." },
+    { "Signature": "TapGestureRecognizer(Action<EventArgs> onTap)", "Description": "Creates a tap recognizer with EventArgs handler." },
+    { "Signature": "TapGestureRecognizer(Action<EventArgs> onTap, int numberOfTapsRequired)", "Description": "Creates a tap recognizer with tap count and EventArgs handler." },
+    { "Signature": "TapGestureRecognizer(Action<object?, EventArgs> onTap)", "Description": "Creates a tap recognizer with full sender/args handler." },
+    { "Signature": "TapGestureRecognizer(Action<object?, EventArgs> onTap, int numberOfTapsRequired)", "Description": "Creates a tap recognizer with tap count and full handler." },
+    { "Signature": "TapGestureRecognizer(Func<Task> onTap)", "Description": "Creates a tap recognizer with async handler." },
+    { "Signature": "TapGestureRecognizer(Func<Task> onTap, int numberOfTapsRequired)", "Description": "Creates a tap recognizer with tap count and async handler." },
+    { "Signature": "TapGestureRecognizer(Func<EventArgs, Task> onTap)", "Description": "Creates a tap recognizer with async EventArgs handler." },
+    { "Signature": "TapGestureRecognizer(Func<EventArgs, Task> onTap, int numberOfTapsRequired)", "Description": "Creates a tap recognizer with tap count and async EventArgs handler." },
+    { "Signature": "TapGestureRecognizer(Func<object?, EventArgs, Task> onTap)", "Description": "Creates a tap recognizer with async full handler." },
+    { "Signature": "TapGestureRecognizer(Func<object?, EventArgs, Task> onTap, int numberOfTapsRequired)", "Description": "Creates a tap recognizer with tap count and async full handler." }
+  ]
+}

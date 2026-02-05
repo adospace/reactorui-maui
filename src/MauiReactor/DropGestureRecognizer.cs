@@ -166,8 +166,22 @@ public static partial class DropGestureRecognizerExtensions
         return dropGestureRecognizer;
     }
 
+    public static T DropGestureRecognizerAllowDrop<T>(this T dropGestureRecognizer, bool allowDrop)
+        where T : Component
+    {
+        dropGestureRecognizer.SetProperty(Microsoft.Maui.Controls.DropGestureRecognizer.AllowDropProperty, allowDrop);
+        return dropGestureRecognizer;
+    }
+
     public static T AllowDrop<T>(this T dropGestureRecognizer, Func<bool> allowDropFunc, IComponentWithState? componentWithState = null)
         where T : IDropGestureRecognizer
+    {
+        dropGestureRecognizer.SetProperty(Microsoft.Maui.Controls.DropGestureRecognizer.AllowDropProperty, new PropertyValue<bool>(allowDropFunc, componentWithState));
+        return dropGestureRecognizer;
+    }
+
+    public static T DropGestureRecognizerAllowDrop<T>(this T dropGestureRecognizer, Func<bool> allowDropFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         dropGestureRecognizer.SetProperty(Microsoft.Maui.Controls.DropGestureRecognizer.AllowDropProperty, new PropertyValue<bool>(allowDropFunc, componentWithState));
         return dropGestureRecognizer;

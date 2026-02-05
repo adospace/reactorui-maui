@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "README",
+    "Summary":  "What is MauiReactor?",
+    "Remarks":  "MauiReactor is a .NET library that implements a **component-based UI framework** on top of the .NET MAUI.",
+    "Example":  "class MainPage : Component\r\n{\r\n    public override VisualNode Render()\r\n        =\u003e ContentPage(\"Login\",\r\n            VStack( // Vertical Stack\r\n                Label(\"User:\"),\r\n                Entry(),\r\n                Label(\"Password:\"),\r\n                Entry(),\r\n                HStack( // Horizontal Stack\r\n                    Button(\"Login\"),\r\n                    Button(\"Register\")\r\n                )\r\n            )\r\n            .Center()\r\n        );\r\n}\r"
+}

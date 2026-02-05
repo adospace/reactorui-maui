@@ -70,6 +70,7 @@ namespace MauiReactor.HotReloadConsole
                 if (Path.IsPathFullyQualified(_options.ProjectFileName))
                 {
                     _projFileName = _options.ProjectFileName;
+                    _workingDirectory = Path.GetDirectoryName(_options.ProjectFileName) ?? throw new InvalidOperationException("Unable to determine working directory from project file path.");
                 }
                 else
                 {

@@ -99,8 +99,22 @@ public static partial class SwipeGestureRecognizerExtensions
         return swipeGestureRecognizer;
     }
 
+    public static T SwipeGestureRecognizerDirection<T>(this T swipeGestureRecognizer, Microsoft.Maui.SwipeDirection direction)
+        where T : Component
+    {
+        swipeGestureRecognizer.SetProperty(Microsoft.Maui.Controls.SwipeGestureRecognizer.DirectionProperty, direction);
+        return swipeGestureRecognizer;
+    }
+
     public static T Direction<T>(this T swipeGestureRecognizer, Func<Microsoft.Maui.SwipeDirection> directionFunc, IComponentWithState? componentWithState = null)
         where T : ISwipeGestureRecognizer
+    {
+        swipeGestureRecognizer.SetProperty(Microsoft.Maui.Controls.SwipeGestureRecognizer.DirectionProperty, new PropertyValue<Microsoft.Maui.SwipeDirection>(directionFunc, componentWithState));
+        return swipeGestureRecognizer;
+    }
+
+    public static T SwipeGestureRecognizerDirection<T>(this T swipeGestureRecognizer, Func<Microsoft.Maui.SwipeDirection> directionFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         swipeGestureRecognizer.SetProperty(Microsoft.Maui.Controls.SwipeGestureRecognizer.DirectionProperty, new PropertyValue<Microsoft.Maui.SwipeDirection>(directionFunc, componentWithState));
         return swipeGestureRecognizer;
@@ -114,8 +128,22 @@ public static partial class SwipeGestureRecognizerExtensions
         return swipeGestureRecognizer;
     }
 
+    public static T SwipeGestureRecognizerThreshold<T>(this T swipeGestureRecognizer, uint threshold)
+        where T : Component
+    {
+        swipeGestureRecognizer.SetProperty(Microsoft.Maui.Controls.SwipeGestureRecognizer.ThresholdProperty, threshold);
+        return swipeGestureRecognizer;
+    }
+
     public static T Threshold<T>(this T swipeGestureRecognizer, Func<uint> thresholdFunc, IComponentWithState? componentWithState = null)
         where T : ISwipeGestureRecognizer
+    {
+        swipeGestureRecognizer.SetProperty(Microsoft.Maui.Controls.SwipeGestureRecognizer.ThresholdProperty, new PropertyValue<uint>(thresholdFunc, componentWithState));
+        return swipeGestureRecognizer;
+    }
+
+    public static T SwipeGestureRecognizerThreshold<T>(this T swipeGestureRecognizer, Func<uint> thresholdFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         swipeGestureRecognizer.SetProperty(Microsoft.Maui.Controls.SwipeGestureRecognizer.ThresholdProperty, new PropertyValue<uint>(thresholdFunc, componentWithState));
         return swipeGestureRecognizer;

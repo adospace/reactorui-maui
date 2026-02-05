@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "getting-started-1",
+    "Summary":  "Quick start: scaffold a MauiReactor app and enable hot reload.",
+    "Remarks":  "Install the template, create a new project, and use EnableMauiReactorHotReload in Debug to iterate quickly. Alternatively, convert an existing MAUI app by switching to UseMauiReactorApp in Program.cs.",
+    "Example":  "# Install template\r\ndotnet new install Reactor.Maui.TemplatePack\r\n\r\n# New project\r\ndotnet new mauireactor -n QuickStart\r\n\r\n# Enable hot reload (Program.cs)\r\n#if DEBUG\r\n    builder.EnableMauiReactorHotReload();\r\n#endif\r\n\r\n# Run\r\ndotnet build QuickStart\r\ndotnet run --project QuickStart\r"
+}

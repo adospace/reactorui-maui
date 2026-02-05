@@ -1,0 +1,12 @@
+{
+  "Name": "StyleableElement",
+  "Description": "Element supporting style resources and CSS-like classes.",
+  "Base": "Element",
+  "Properties": [
+    { "Name": "StyleClass", "Type": "IList<string>?", "Description": "Style classes." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

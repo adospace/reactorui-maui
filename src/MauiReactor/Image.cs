@@ -66,8 +66,22 @@ public static partial class ImageExtensions
         return image;
     }
 
+    public static T ImageSource<T>(this T image, Microsoft.Maui.Controls.ImageSource source)
+        where T : Component
+    {
+        image.SetProperty(Microsoft.Maui.Controls.Image.SourceProperty, source);
+        return image;
+    }
+
     public static T Source<T>(this T image, Func<Microsoft.Maui.Controls.ImageSource> sourceFunc, IComponentWithState? componentWithState = null)
         where T : IImage
+    {
+        image.SetProperty(Microsoft.Maui.Controls.Image.SourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(sourceFunc, componentWithState));
+        return image;
+    }
+
+    public static T ImageSource<T>(this T image, Func<Microsoft.Maui.Controls.ImageSource> sourceFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         image.SetProperty(Microsoft.Maui.Controls.Image.SourceProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(sourceFunc, componentWithState));
         return image;
@@ -141,8 +155,22 @@ public static partial class ImageExtensions
         return image;
     }
 
+    public static T ImageAspect<T>(this T image, Microsoft.Maui.Aspect aspect)
+        where T : Component
+    {
+        image.SetProperty(Microsoft.Maui.Controls.Image.AspectProperty, aspect);
+        return image;
+    }
+
     public static T Aspect<T>(this T image, Func<Microsoft.Maui.Aspect> aspectFunc, IComponentWithState? componentWithState = null)
         where T : IImage
+    {
+        image.SetProperty(Microsoft.Maui.Controls.Image.AspectProperty, new PropertyValue<Microsoft.Maui.Aspect>(aspectFunc, componentWithState));
+        return image;
+    }
+
+    public static T ImageAspect<T>(this T image, Func<Microsoft.Maui.Aspect> aspectFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         image.SetProperty(Microsoft.Maui.Controls.Image.AspectProperty, new PropertyValue<Microsoft.Maui.Aspect>(aspectFunc, componentWithState));
         return image;
@@ -156,8 +184,22 @@ public static partial class ImageExtensions
         return image;
     }
 
+    public static T ImageIsOpaque<T>(this T image, bool isOpaque)
+        where T : Component
+    {
+        image.SetProperty(Microsoft.Maui.Controls.Image.IsOpaqueProperty, isOpaque);
+        return image;
+    }
+
     public static T IsOpaque<T>(this T image, Func<bool> isOpaqueFunc, IComponentWithState? componentWithState = null)
         where T : IImage
+    {
+        image.SetProperty(Microsoft.Maui.Controls.Image.IsOpaqueProperty, new PropertyValue<bool>(isOpaqueFunc, componentWithState));
+        return image;
+    }
+
+    public static T ImageIsOpaque<T>(this T image, Func<bool> isOpaqueFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         image.SetProperty(Microsoft.Maui.Controls.Image.IsOpaqueProperty, new PropertyValue<bool>(isOpaqueFunc, componentWithState));
         return image;
@@ -171,8 +213,22 @@ public static partial class ImageExtensions
         return image;
     }
 
+    public static T ImageIsAnimationPlaying<T>(this T image, bool isAnimationPlaying)
+        where T : Component
+    {
+        image.SetProperty(Microsoft.Maui.Controls.Image.IsAnimationPlayingProperty, isAnimationPlaying);
+        return image;
+    }
+
     public static T IsAnimationPlaying<T>(this T image, Func<bool> isAnimationPlayingFunc, IComponentWithState? componentWithState = null)
         where T : IImage
+    {
+        image.SetProperty(Microsoft.Maui.Controls.Image.IsAnimationPlayingProperty, new PropertyValue<bool>(isAnimationPlayingFunc, componentWithState));
+        return image;
+    }
+
+    public static T ImageIsAnimationPlaying<T>(this T image, Func<bool> isAnimationPlayingFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         image.SetProperty(Microsoft.Maui.Controls.Image.IsAnimationPlayingProperty, new PropertyValue<bool>(isAnimationPlayingFunc, componentWithState));
         return image;

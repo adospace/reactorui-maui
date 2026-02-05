@@ -1,22 +1,19 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Text;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
+using System.Collections.Immutable;
 using System.Linq;
-using System.Xml;
 
 
 namespace MauiReactor.ScaffoldGenerator;
 
 [Generator]
-public class ScaffoldSourceGenerator : ISourceGenerator
+public class ScaffoldSourceGenerator : IIncrementalGenerator
 {
-    public void Initialize(GeneratorInitializationContext context)
+    public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        context.RegisterForPostInitialization((i) => i.AddSource("ScaffoldAttribute.g.cs", @"using System;
+        // Register the ScaffoldAttribute source
+        context.RegisterPostInitializationOutput(ctx => ctx.AddSource("ScaffoldAttribute.g.cs", @"using System;
 
 namespace MauiReactor
 {
@@ -27,17 +24,20 @@ namespace MauiReactor
         {
             NativeControlType = nativeControlType;
             ImplementItemTemplate = implementItemTemplate;
+            BaseTypeNamespace = baseTypeNamespace;
         }
 
         public ScaffoldAttribute(string nativeControlTypeName, bool implementItemTemplate = false, string baseTypeNamespace = null) 
         {
             NativeControlTypeName = nativeControlTypeName;
             ImplementItemTemplate = implementItemTemplate;
+            BaseTypeNamespace = baseTypeNamespace;
         }
 
         public Type NativeControlType { get; }
         public bool ImplementItemTemplate { get; }
         public string NativeControlTypeName { get; }
+        public string BaseTypeNamespace { get; }
     }
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
@@ -55,82 +55,129 @@ namespace MauiReactor
 }
 "));
 
+        // Create a provider for classes with ScaffoldAttribute
+        var classDeclarations = context.SyntaxProvider
+            .CreateSyntaxProvider(
+                predicate: static (s, _) => IsSyntaxTargetForGeneration(s),
+                transform: static (ctx, _) => GetSemanticTargetForGeneration(ctx))
+            .Where(static m => m is not null);
 
-        context.RegisterForSyntaxNotifications(() => new ScaffoldSyntaxReceiver());
+        // Combine with compilation
+        var compilationAndClasses = context.CompilationProvider.Combine(classDeclarations.Collect());
+
+        // Register source output
+        context.RegisterSourceOutput(compilationAndClasses,
+            static (spc, source) => Execute(source.Left, source.Right, spc));
     }
 
-
-    public void Execute(GeneratorExecutionContext context)
+    static bool IsSyntaxTargetForGeneration(SyntaxNode node)
     {
-        foreach (var classToScaffold in ((ScaffoldSyntaxReceiver)context.SyntaxReceiver.EnsureNotNull()).ClassesToScaffold)
+        return node is ClassDeclarationSyntax classDeclaration
+            && classDeclaration.AttributeLists.Count > 0;
+    }
+
+    static string? GetSemanticTargetForGeneration(GeneratorSyntaxContext context)
+    {
+        var classDeclaration = (ClassDeclarationSyntax)context.Node;
+        
+        var hasScaffoldAttribute = classDeclaration.AttributeLists
+            .SelectMany(attrList => attrList.Attributes)
+            .Any(attr => attr.Name is IdentifierNameSyntax nameSyntax && 
+                (nameSyntax.Identifier.Text == "Scaffold" || nameSyntax.Identifier.Text == "ScaffoldAttribute"));
+
+        if (hasScaffoldAttribute)
         {
-            INamedTypeSymbol generatorTypeSymbol = context.Compilation.GetTypeByMetadataName(classToScaffold).EnsureNotNull();
+            return classDeclaration.GetFullyQualifiedName();
+        }
+
+        return null;
+    }
+
+    static void Execute(Compilation compilation, ImmutableArray<string?> classesToScaffold, SourceProductionContext context)
+    {
+        foreach (var classToScaffold in classesToScaffold.Where(x => x is not null))
+        {
+            if (classToScaffold is null) continue;
+
+            var generatorTypeSymbol = compilation.GetTypeByMetadataName(classToScaffold);
+            if (generatorTypeSymbol is null) continue;
 
             var scaffoldAttribute = generatorTypeSymbol.GetAttributes()
-                .First(_ => _.AttributeClass.EnsureNotNull().Name == "ScaffoldAttribute" || _.AttributeClass.EnsureNotNull().Name == "Scaffold");
+                .FirstOrDefault(attr => attr.AttributeClass?.Name == "ScaffoldAttribute" || 
+                                       attr.AttributeClass?.Name == "Scaffold");
 
-            if (scaffoldAttribute.ConstructorArguments.Length == 0)
+            if (scaffoldAttribute?.ConstructorArguments.Length == 0)
             {
-                throw new InvalidOperationException("Invalid ScaffoldAttribute arguments");
+                continue; // Skip instead of throwing
             }
 
-            var firstArgument = scaffoldAttribute.ConstructorArguments[0].Value.EnsureNotNull();
-            var typeMetadataName = firstArgument is ISymbol symbol ? symbol.GetFullyQualifiedName() : firstArgument.ToString();
+            if (scaffoldAttribute is null) continue;
 
-            var implementItemTemplateFlag = (bool)scaffoldAttribute.ConstructorArguments[1].Value.EnsureNotNull();
+            var firstArgument = scaffoldAttribute.ConstructorArguments[0].Value;
+            if (firstArgument is null) continue;
 
-            var baseTypeNamespace = (string?)scaffoldAttribute.ConstructorArguments[2].Value;
+            var typeMetadataName = firstArgument is ISymbol symbol ? 
+                symbol.GetFullyQualifiedName() : firstArgument.ToString();
 
-            var typeToScaffold = context.Compilation.FindNamedType(typeMetadataName).EnsureNotNull();
+            if (string.IsNullOrEmpty(typeMetadataName)) continue;
 
-            var listOfChildTypes = new List<(INamedTypeSymbol TypeSymbol, string ChildPropertyName)>();
+            var implementItemTemplateFlag = scaffoldAttribute.ConstructorArguments.Length > 1 ? 
+                (bool)(scaffoldAttribute.ConstructorArguments[1].Value ?? false) : false;
+
+            var baseTypeNamespace = scaffoldAttribute.ConstructorArguments.Length > 2 ? 
+                (string?)scaffoldAttribute.ConstructorArguments[2].Value : null;
+
+            var typeToScaffold = compilation.FindNamedType(typeMetadataName);
+            if (typeToScaffold is null) continue;
+
+            var listOfChildTypes = new System.Collections.Generic.List<(INamedTypeSymbol TypeSymbol, string ChildPropertyName)>();
 
             var scaffoldChildAttributes = generatorTypeSymbol.GetAttributes()
-                .Where(_ => _.AttributeClass.EnsureNotNull().Name == "ScaffoldChildrenAttribute" || _.AttributeClass.EnsureNotNull().Name == "ScaffoldChildren");
+                .Where(attr => attr.AttributeClass?.Name == "ScaffoldChildrenAttribute" || 
+                              attr.AttributeClass?.Name == "ScaffoldChildren");
 
             foreach (var scaffoldChildAttribute in scaffoldChildAttributes)
             {
-                if (scaffoldAttribute.ConstructorArguments.Length == 0)
+                if (scaffoldChildAttribute.ConstructorArguments.Length < 2) continue;
+
+                var childTypeArg = scaffoldChildAttribute.ConstructorArguments[0].Value;
+                if (childTypeArg is not ISymbol childSymbol) continue;
+
+                var childTypeMetadataName = childSymbol.GetFullyQualifiedName();
+                var childrenPropertyName = scaffoldChildAttribute.ConstructorArguments[1].Value?.ToString();
+
+                if (string.IsNullOrEmpty(childrenPropertyName)) continue;
+
+                var childTypeToScaffold = compilation.FindNamedType(childTypeMetadataName);
+                if (childTypeToScaffold is not null && childrenPropertyName is not null)
                 {
-                    throw new InvalidOperationException("Invalid ScaffoldChildrenAttribute arguments");
+                    listOfChildTypes.Add((childTypeToScaffold, childrenPropertyName));
                 }
-
-                var childTypeMetadataName = ((ISymbol)scaffoldChildAttribute.ConstructorArguments[0].Value.EnsureNotNull())
-                    .GetFullyQualifiedName();
-
-                var childrenPropertyName = scaffoldChildAttribute.ConstructorArguments[1].Value.EnsureNotNull().ToString();
-
-                var childTypeToScaffold = context.Compilation.FindNamedType(childTypeMetadataName).EnsureNotNull();
-
-                listOfChildTypes.Add((childTypeToScaffold, childrenPropertyName));
             }
 
-            var scaffoldedType = new ScaffoldTypeGenerator(context.Compilation, generatorTypeSymbol, typeToScaffold, listOfChildTypes.ToArray(), implementItemTemplateFlag, baseTypeNamespace);
-
-            var source = scaffoldedType.TransformAndPrettify();
-
-            context.AddSource($"{classToScaffold}.g.cs", source);
-        }   
-    }
-}
-
-class ScaffoldSyntaxReceiver : ISyntaxReceiver
-{
-    public List<string> ClassesToScaffold { get; } = new();
-
-    public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
-    {
-        if (syntaxNode is ClassDeclarationSyntax cds)
-        {
-            var scaffoldAttribute = cds.AttributeLists
-                .Where(_ => _.Attributes.Any(attr => attr.Name is IdentifierNameSyntax nameSyntax && (nameSyntax.Identifier.Text == "Scaffold" ||
-                    nameSyntax.Identifier.Text == "ScaffoldAttribute")))
-                .Select(_ => _.Attributes.First())
-                .FirstOrDefault();
-
-            if (scaffoldAttribute != null)
+            try
             {
-                ClassesToScaffold.Add(cds.GetFullyQualifiedName().EnsureNotNull());
+                var scaffoldedType = new ScaffoldTypeGenerator(compilation, generatorTypeSymbol, typeToScaffold, 
+                    listOfChildTypes.ToArray(), implementItemTemplateFlag, baseTypeNamespace);
+
+                var source = scaffoldedType.TransformAndPrettify();
+
+                context.AddSource($"{classToScaffold}.g.cs", source);
+            }
+            catch (Exception ex)
+            {
+                // Report diagnostic instead of throwing
+                context.ReportDiagnostic(Diagnostic.Create(
+                    new DiagnosticDescriptor(
+                        "SG0001",
+                        "Scaffold generation failed",
+                        "Failed to generate scaffold for {0}: {1}",
+                        "ScaffoldGenerator",
+                        DiagnosticSeverity.Error,
+                        isEnabledByDefault: true),
+                    Location.None,
+                    classToScaffold,
+                    ex.Message));
             }
         }
     }

@@ -166,8 +166,22 @@ public static partial class WebViewExtensions
         return webView;
     }
 
+    public static T WebViewSource<T>(this T webView, Microsoft.Maui.Controls.WebViewSource source)
+        where T : Component
+    {
+        webView.SetProperty(Microsoft.Maui.Controls.WebView.SourceProperty, source);
+        return webView;
+    }
+
     public static T Source<T>(this T webView, Func<Microsoft.Maui.Controls.WebViewSource> sourceFunc, IComponentWithState? componentWithState = null)
         where T : IWebView
+    {
+        webView.SetProperty(Microsoft.Maui.Controls.WebView.SourceProperty, new PropertyValue<Microsoft.Maui.Controls.WebViewSource>(sourceFunc, componentWithState));
+        return webView;
+    }
+
+    public static T WebViewSource<T>(this T webView, Func<Microsoft.Maui.Controls.WebViewSource> sourceFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         webView.SetProperty(Microsoft.Maui.Controls.WebView.SourceProperty, new PropertyValue<Microsoft.Maui.Controls.WebViewSource>(sourceFunc, componentWithState));
         return webView;
@@ -181,8 +195,22 @@ public static partial class WebViewExtensions
         return webView;
     }
 
+    public static T WebViewUserAgent<T>(this T webView, string userAgent)
+        where T : Component
+    {
+        webView.SetProperty(Microsoft.Maui.Controls.WebView.UserAgentProperty, userAgent);
+        return webView;
+    }
+
     public static T UserAgent<T>(this T webView, Func<string> userAgentFunc, IComponentWithState? componentWithState = null)
         where T : IWebView
+    {
+        webView.SetProperty(Microsoft.Maui.Controls.WebView.UserAgentProperty, new PropertyValue<string>(userAgentFunc, componentWithState));
+        return webView;
+    }
+
+    public static T WebViewUserAgent<T>(this T webView, Func<string> userAgentFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         webView.SetProperty(Microsoft.Maui.Controls.WebView.UserAgentProperty, new PropertyValue<string>(userAgentFunc, componentWithState));
         return webView;
@@ -196,8 +224,22 @@ public static partial class WebViewExtensions
         return webView;
     }
 
+    public static T WebViewCookies<T>(this T webView, System.Net.CookieContainer cookies)
+        where T : Component
+    {
+        webView.SetProperty(Microsoft.Maui.Controls.WebView.CookiesProperty, cookies);
+        return webView;
+    }
+
     public static T Cookies<T>(this T webView, Func<System.Net.CookieContainer> cookiesFunc, IComponentWithState? componentWithState = null)
         where T : IWebView
+    {
+        webView.SetProperty(Microsoft.Maui.Controls.WebView.CookiesProperty, new PropertyValue<System.Net.CookieContainer>(cookiesFunc, componentWithState));
+        return webView;
+    }
+
+    public static T WebViewCookies<T>(this T webView, Func<System.Net.CookieContainer> cookiesFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         webView.SetProperty(Microsoft.Maui.Controls.WebView.CookiesProperty, new PropertyValue<System.Net.CookieContainer>(cookiesFunc, componentWithState));
         return webView;

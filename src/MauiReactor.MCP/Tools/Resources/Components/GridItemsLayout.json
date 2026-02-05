@@ -1,0 +1,21 @@
+{
+  "Name": "GridItemsLayout",
+  "Description": "Items arranged in a grid with span and spacing.",
+  "Base": "ItemsLayout",
+  "Properties": [
+    { "Name": "Span", "Type": "int", "Description": "Number of columns (horizontal) or rows (vertical)." },
+    { "Name": "VerticalItemSpacing", "Type": "double", "Description": "Vertical spacing between items (animatable)." },
+    { "Name": "HorizontalItemSpacing", "Type": "double", "Description": "Horizontal spacing between items (animatable)." },
+    { "Name": "SnapPointsAlignment", "Type": "Microsoft.Maui.Controls.SnapPointsAlignment", "Description": "Snap alignment for items." },
+    { "Name": "SnapPointsType", "Type": "Microsoft.Maui.Controls.SnapPointsType", "Description": "Snap points behavior." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "GridItemsLayout()", "Description": "Default constructor." },
+    { "Signature": "VerticalGridItemsLayout()", "Description": "Vertical grid items layout." },
+    { "Signature": "VerticalGridItemsLayout(int span)", "Description": "Vertical grid with span." },
+    { "Signature": "HorizontalGridItemsLayout()", "Description": "Horizontal grid items layout." },
+    { "Signature": "HorizontalGridItemsLayout(int span)", "Description": "Horizontal grid with span." }
+  ]
+}

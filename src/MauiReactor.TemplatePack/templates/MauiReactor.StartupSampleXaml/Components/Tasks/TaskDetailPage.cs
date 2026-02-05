@@ -115,7 +115,7 @@ partial class TaskDetailPage : Component<TaskDetailPageState, TaskDetailPageProp
         if (Props.TaskId == null)
             return;
 
-        if (!await ContainerPage.DisplayAlert("Delete task", "Are you sure you want to delete this task?", "Yes", "No"))
+        if (!await ContainerPage.DisplayAlertAsync("Delete task", "Are you sure you want to delete this task?", "Yes", "No"))
             return;
 
         await _taskRepository.DeleteItemAsync(Props.TaskId.Value);

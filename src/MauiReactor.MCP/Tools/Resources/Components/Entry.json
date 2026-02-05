@@ -1,0 +1,18 @@
+{
+  "Name": "Entry",
+  "Description": "Single-line text input control.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "ReturnType", "Type": "Microsoft.Maui.ReturnType", "Description": "The type of return key to display on the keyboard." },
+    { "Name": "IsPassword", "Type": "bool", "Description": "Whether the entry masks the input for passwords." },
+    { "Name": "HorizontalTextAlignment", "Type": "Microsoft.Maui.TextAlignment", "Description": "Horizontal alignment of the text." },
+    { "Name": "VerticalTextAlignment", "Type": "Microsoft.Maui.TextAlignment", "Description": "Vertical alignment of the text." },
+    { "Name": "ClearButtonVisibility", "Type": "Microsoft.Maui.ClearButtonVisibility", "Description": "Visibility behavior for the clear button on supported platforms." }
+  ],
+  "Events": [
+    { "Name": "Completed", "EventArgsType": "System.EventArgs", "Description": "Raised when the user finishes text entry (e.g., presses return)." }
+  ],
+  "Constructors": [
+    { "Signature": "Entry()", "Description": "Default constructor." }
+  ]
+}

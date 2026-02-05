@@ -106,7 +106,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
 
         private VisualNode RenderFavoriteItem(Location location)
         {
-            return new Frame
+            return new Border
             {
                 new Grid("42,40,*", "*")
                 {
@@ -162,8 +162,7 @@ namespace MauiReactor.WeatherTwentyOne.Pages
                 .Padding(20)
             }
             .Padding(0)
-            .CornerRadius(20)
-            .HasShadow(false)
+            .StrokeCornerRadius(20)
             .BackgroundColor(Application.Current?.UserAppTheme == AppTheme.Dark ? ThemeColors.DarkGray : ThemeColors.LightGray);
         }
 

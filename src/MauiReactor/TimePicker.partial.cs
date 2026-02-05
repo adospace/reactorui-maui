@@ -58,13 +58,13 @@ public partial class TimePicker<T>
 
 public partial class TimePickerExtensions
 {
-    public static T OnTimeSelected<T>(this T inputView, Action<TimeSpan>? action) where T : ITimePicker
+    public static T OnTimeSelected<T>(this T inputView, Action<TimeSpan?>? action) where T : ITimePicker
     {
         inputView.TimeSelectedEvent = new SyncEventCommand<TimeChangedEventArgs>((s, args) => action?.Invoke(args.NewTime));
         return inputView;
     }
 
-    public static T OnTimeSelected<T>(this T timePicker, Func<TimeSpan, Task>? timeSelectedAction, bool runInBackground = false)
+    public static T OnTimeSelected<T>(this T timePicker, Func<TimeSpan?, Task>? timeSelectedAction, bool runInBackground = false)
         where T : ITimePicker
     {
         if (timeSelectedAction != null)

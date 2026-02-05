@@ -1,0 +1,28 @@
+{
+  "Name": "CarouselView",
+  "Description": "A horizontally or vertically scrolling items presenter with snapping and paging.",
+  "Base": "ItemsView",
+  "Properties": [
+    { "Name": "ItemsSource", "Type": "IEnumerable", "Description": "Items to display." },
+    { "Name": "ItemTemplate", "Type": "Template", "Description": "Template for item content." },
+    { "Name": "ItemsLayout", "Type": "IItemsLayout", "Description": "Layout used to present items (typically LinearItemsLayout)." },
+    { "Name": "Loop", "Type": "bool", "Description": "Whether the carousel wraps from last to first." },
+    { "Name": "PeekAreaInsets", "Type": "Thickness", "Description": "Amount of adjacent items peeking into view.", "Animatable": true }
+  ],
+  "Events": [
+    { "Name": "CurrentItemChanged", "EventArgsType": "CurrentItemChangedEventArgs" },
+    { "Name": "PositionChanged", "EventArgsType": "PositionChangedEventArgs" }
+  ],
+  "Constructors": [
+    { "Signature": "CarouselView(Action<CarouselView?> componentRefAction)" },
+    { "Signature": "CarouselView(IEnumerable<VisualNode?> children)" }
+  ],
+  "AttachedProperties": [],
+  "Helpers": [
+    { "Signature": "ItemsLayout(IItemsLayout itemsLayout)", "Description": "Assigns the items layout child (e.g., LinearItemsLayout)." },
+    { "Signature": "Loop(bool loop)", "Description": "Enables looping behavior." },
+    { "Signature": "PeekAreaInsets(Thickness insets)", "Description": "Sets peeking insets with animation support." },
+    { "Signature": "PeekAreaInsets(double uniformSize)", "Description": "Convenience overload for uniform thickness." },
+    { "Signature": "PeekAreaInsets(double leftRight, double topBottom)", "Description": "Convenience overload for independent values." }
+  ]
+}

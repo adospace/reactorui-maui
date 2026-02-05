@@ -1,0 +1,10 @@
+{
+  "Name": "MenuFlyoutSeparator",
+  "Description": "A separator between flyout items.",
+  "Base": "MenuFlyoutItem",
+  "Properties": [],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

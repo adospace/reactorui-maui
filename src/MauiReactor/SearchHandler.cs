@@ -132,8 +132,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerKeyboard<T>(this T searchHandler, Microsoft.Maui.Keyboard keyboard)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.KeyboardProperty, keyboard);
+        return searchHandler;
+    }
+
     public static T Keyboard<T>(this T searchHandler, Func<Microsoft.Maui.Keyboard> keyboardFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.KeyboardProperty, new PropertyValue<Microsoft.Maui.Keyboard>(keyboardFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerKeyboard<T>(this T searchHandler, Func<Microsoft.Maui.Keyboard> keyboardFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.KeyboardProperty, new PropertyValue<Microsoft.Maui.Keyboard>(keyboardFunc, componentWithState));
         return searchHandler;
@@ -147,8 +161,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerHorizontalTextAlignment<T>(this T searchHandler, Microsoft.Maui.TextAlignment horizontalTextAlignment)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.HorizontalTextAlignmentProperty, horizontalTextAlignment);
+        return searchHandler;
+    }
+
     public static T HorizontalTextAlignment<T>(this T searchHandler, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerHorizontalTextAlignment<T>(this T searchHandler, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc, componentWithState));
         return searchHandler;
@@ -162,8 +190,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerVerticalTextAlignment<T>(this T searchHandler, Microsoft.Maui.TextAlignment verticalTextAlignment)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.VerticalTextAlignmentProperty, verticalTextAlignment);
+        return searchHandler;
+    }
+
     public static T VerticalTextAlignment<T>(this T searchHandler, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerVerticalTextAlignment<T>(this T searchHandler, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc, componentWithState));
         return searchHandler;
@@ -177,8 +219,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerTextColor<T>(this T searchHandler, Microsoft.Maui.Graphics.Color textColor)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.TextColorProperty, textColor);
+        return searchHandler;
+    }
+
     public static T TextColor<T>(this T searchHandler, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerTextColor<T>(this T searchHandler, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
         return searchHandler;
@@ -193,8 +249,23 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerCharacterSpacing<T>(this T searchHandler, double characterSpacing, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.CharacterSpacingProperty, characterSpacing);
+        searchHandler.AppendAnimatable(Microsoft.Maui.Controls.SearchHandler.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing));
+        return searchHandler;
+    }
+
     public static T CharacterSpacing<T>(this T searchHandler, Func<double> characterSpacingFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerCharacterSpacing<T>(this T searchHandler, Func<double> characterSpacingFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc, componentWithState));
         return searchHandler;
@@ -208,8 +279,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerCancelButtonColor<T>(this T searchHandler, Microsoft.Maui.Graphics.Color cancelButtonColor)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.CancelButtonColorProperty, cancelButtonColor);
+        return searchHandler;
+    }
+
     public static T CancelButtonColor<T>(this T searchHandler, Func<Microsoft.Maui.Graphics.Color> cancelButtonColorFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.CancelButtonColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(cancelButtonColorFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerCancelButtonColor<T>(this T searchHandler, Func<Microsoft.Maui.Graphics.Color> cancelButtonColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.CancelButtonColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(cancelButtonColorFunc, componentWithState));
         return searchHandler;
@@ -223,8 +308,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerFontFamily<T>(this T searchHandler, string fontFamily)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontFamilyProperty, fontFamily);
+        return searchHandler;
+    }
+
     public static T FontFamily<T>(this T searchHandler, Func<string> fontFamilyFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerFontFamily<T>(this T searchHandler, Func<string> fontFamilyFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc, componentWithState));
         return searchHandler;
@@ -239,8 +338,23 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerFontSize<T>(this T searchHandler, double fontSize, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontSizeProperty, fontSize);
+        searchHandler.AppendAnimatable(Microsoft.Maui.Controls.SearchHandler.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize));
+        return searchHandler;
+    }
+
     public static T FontSize<T>(this T searchHandler, Func<double> fontSizeFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontSizeProperty, new PropertyValue<double>(fontSizeFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerFontSize<T>(this T searchHandler, Func<double> fontSizeFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontSizeProperty, new PropertyValue<double>(fontSizeFunc, componentWithState));
         return searchHandler;
@@ -254,8 +368,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerFontAttributes<T>(this T searchHandler, Microsoft.Maui.Controls.FontAttributes fontAttributes)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontAttributesProperty, fontAttributes);
+        return searchHandler;
+    }
+
     public static T FontAttributes<T>(this T searchHandler, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerFontAttributes<T>(this T searchHandler, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc, componentWithState));
         return searchHandler;
@@ -269,8 +397,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerFontAutoScalingEnabled<T>(this T searchHandler, bool fontAutoScalingEnabled)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontAutoScalingEnabledProperty, fontAutoScalingEnabled);
+        return searchHandler;
+    }
+
     public static T FontAutoScalingEnabled<T>(this T searchHandler, Func<bool> fontAutoScalingEnabledFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerFontAutoScalingEnabled<T>(this T searchHandler, Func<bool> fontAutoScalingEnabledFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc, componentWithState));
         return searchHandler;
@@ -284,8 +426,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerPlaceholder<T>(this T searchHandler, string placeholder)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.PlaceholderProperty, placeholder);
+        return searchHandler;
+    }
+
     public static T Placeholder<T>(this T searchHandler, Func<string> placeholderFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.PlaceholderProperty, new PropertyValue<string>(placeholderFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerPlaceholder<T>(this T searchHandler, Func<string> placeholderFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.PlaceholderProperty, new PropertyValue<string>(placeholderFunc, componentWithState));
         return searchHandler;
@@ -299,8 +455,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerPlaceholderColor<T>(this T searchHandler, Microsoft.Maui.Graphics.Color placeholderColor)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.PlaceholderColorProperty, placeholderColor);
+        return searchHandler;
+    }
+
     public static T PlaceholderColor<T>(this T searchHandler, Func<Microsoft.Maui.Graphics.Color> placeholderColorFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.PlaceholderColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(placeholderColorFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerPlaceholderColor<T>(this T searchHandler, Func<Microsoft.Maui.Graphics.Color> placeholderColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.PlaceholderColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(placeholderColorFunc, componentWithState));
         return searchHandler;
@@ -314,8 +484,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerTextTransform<T>(this T searchHandler, Microsoft.Maui.TextTransform textTransform)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.TextTransformProperty, textTransform);
+        return searchHandler;
+    }
+
     public static T TextTransform<T>(this T searchHandler, Func<Microsoft.Maui.TextTransform> textTransformFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.TextTransformProperty, new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerTextTransform<T>(this T searchHandler, Func<Microsoft.Maui.TextTransform> textTransformFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.TextTransformProperty, new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc, componentWithState));
         return searchHandler;
@@ -329,8 +513,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerBackgroundColor<T>(this T searchHandler, Microsoft.Maui.Graphics.Color backgroundColor)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.BackgroundColorProperty, backgroundColor);
+        return searchHandler;
+    }
+
     public static T BackgroundColor<T>(this T searchHandler, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.BackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerBackgroundColor<T>(this T searchHandler, Func<Microsoft.Maui.Graphics.Color> backgroundColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.BackgroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(backgroundColorFunc, componentWithState));
         return searchHandler;
@@ -344,8 +542,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerAutomationId<T>(this T searchHandler, string automationId)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.AutomationIdProperty, automationId);
+        return searchHandler;
+    }
+
     public static T AutomationId<T>(this T searchHandler, Func<string> automationIdFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.AutomationIdProperty, new PropertyValue<string>(automationIdFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerAutomationId<T>(this T searchHandler, Func<string> automationIdFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.AutomationIdProperty, new PropertyValue<string>(automationIdFunc, componentWithState));
         return searchHandler;
@@ -359,8 +571,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerClearIconHelpText<T>(this T searchHandler, string clearIconHelpText)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconHelpTextProperty, clearIconHelpText);
+        return searchHandler;
+    }
+
     public static T ClearIconHelpText<T>(this T searchHandler, Func<string> clearIconHelpTextFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconHelpTextProperty, new PropertyValue<string>(clearIconHelpTextFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerClearIconHelpText<T>(this T searchHandler, Func<string> clearIconHelpTextFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconHelpTextProperty, new PropertyValue<string>(clearIconHelpTextFunc, componentWithState));
         return searchHandler;
@@ -374,8 +600,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerClearIconName<T>(this T searchHandler, string clearIconName)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconNameProperty, clearIconName);
+        return searchHandler;
+    }
+
     public static T ClearIconName<T>(this T searchHandler, Func<string> clearIconNameFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconNameProperty, new PropertyValue<string>(clearIconNameFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerClearIconName<T>(this T searchHandler, Func<string> clearIconNameFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconNameProperty, new PropertyValue<string>(clearIconNameFunc, componentWithState));
         return searchHandler;
@@ -389,8 +629,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerClearIcon<T>(this T searchHandler, Microsoft.Maui.Controls.ImageSource clearIcon)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconProperty, clearIcon);
+        return searchHandler;
+    }
+
     public static T ClearIcon<T>(this T searchHandler, Func<Microsoft.Maui.Controls.ImageSource> clearIconFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(clearIconFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerClearIcon<T>(this T searchHandler, Func<Microsoft.Maui.Controls.ImageSource> clearIconFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(clearIconFunc, componentWithState));
         return searchHandler;
@@ -464,8 +718,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerClearPlaceholderEnabled<T>(this T searchHandler, bool clearPlaceholderEnabled)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderEnabledProperty, clearPlaceholderEnabled);
+        return searchHandler;
+    }
+
     public static T ClearPlaceholderEnabled<T>(this T searchHandler, Func<bool> clearPlaceholderEnabledFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderEnabledProperty, new PropertyValue<bool>(clearPlaceholderEnabledFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerClearPlaceholderEnabled<T>(this T searchHandler, Func<bool> clearPlaceholderEnabledFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderEnabledProperty, new PropertyValue<bool>(clearPlaceholderEnabledFunc, componentWithState));
         return searchHandler;
@@ -479,8 +747,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerClearPlaceholderHelpText<T>(this T searchHandler, string clearPlaceholderHelpText)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderHelpTextProperty, clearPlaceholderHelpText);
+        return searchHandler;
+    }
+
     public static T ClearPlaceholderHelpText<T>(this T searchHandler, Func<string> clearPlaceholderHelpTextFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderHelpTextProperty, new PropertyValue<string>(clearPlaceholderHelpTextFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerClearPlaceholderHelpText<T>(this T searchHandler, Func<string> clearPlaceholderHelpTextFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderHelpTextProperty, new PropertyValue<string>(clearPlaceholderHelpTextFunc, componentWithState));
         return searchHandler;
@@ -494,8 +776,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerClearPlaceholderIcon<T>(this T searchHandler, Microsoft.Maui.Controls.ImageSource clearPlaceholderIcon)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderIconProperty, clearPlaceholderIcon);
+        return searchHandler;
+    }
+
     public static T ClearPlaceholderIcon<T>(this T searchHandler, Func<Microsoft.Maui.Controls.ImageSource> clearPlaceholderIconFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(clearPlaceholderIconFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerClearPlaceholderIcon<T>(this T searchHandler, Func<Microsoft.Maui.Controls.ImageSource> clearPlaceholderIconFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(clearPlaceholderIconFunc, componentWithState));
         return searchHandler;
@@ -569,6 +865,13 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerClearPlaceholderName<T>(this T searchHandler, string clearPlaceholderName)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderNameProperty, clearPlaceholderName);
+        return searchHandler;
+    }
+
     public static T ClearPlaceholderName<T>(this T searchHandler, Func<string> clearPlaceholderNameFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
     {
@@ -576,6 +879,14 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerClearPlaceholderName<T>(this T searchHandler, Func<string> clearPlaceholderNameFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ClearPlaceholderNameProperty, new PropertyValue<string>(clearPlaceholderNameFunc, componentWithState));
+        return searchHandler;
+    }
+
+    [Obsolete("Use ItemTemplate instead.")]
     public static T DisplayMemberName<T>(this T searchHandler, string displayMemberName)
         where T : ISearchHandler
     {
@@ -584,8 +895,25 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    [Obsolete("Use ItemTemplate instead.")]
+    public static T SearchHandlerDisplayMemberName<T>(this T searchHandler, string displayMemberName)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.DisplayMemberNameProperty, displayMemberName);
+        return searchHandler;
+    }
+
+    [Obsolete("Use ItemTemplate instead.")]
     public static T DisplayMemberName<T>(this T searchHandler, Func<string> displayMemberNameFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.DisplayMemberNameProperty, new PropertyValue<string>(displayMemberNameFunc, componentWithState));
+        return searchHandler;
+    }
+
+    [Obsolete("Use ItemTemplate instead.")]
+    public static T SearchHandlerDisplayMemberName<T>(this T searchHandler, Func<string> displayMemberNameFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.DisplayMemberNameProperty, new PropertyValue<string>(displayMemberNameFunc, componentWithState));
         return searchHandler;
@@ -599,8 +927,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerIsSearchEnabled<T>(this T searchHandler, bool isSearchEnabled)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.IsSearchEnabledProperty, isSearchEnabled);
+        return searchHandler;
+    }
+
     public static T IsSearchEnabled<T>(this T searchHandler, Func<bool> isSearchEnabledFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.IsSearchEnabledProperty, new PropertyValue<bool>(isSearchEnabledFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerIsSearchEnabled<T>(this T searchHandler, Func<bool> isSearchEnabledFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.IsSearchEnabledProperty, new PropertyValue<bool>(isSearchEnabledFunc, componentWithState));
         return searchHandler;
@@ -614,8 +956,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerQueryIconHelpText<T>(this T searchHandler, string queryIconHelpText)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconHelpTextProperty, queryIconHelpText);
+        return searchHandler;
+    }
+
     public static T QueryIconHelpText<T>(this T searchHandler, Func<string> queryIconHelpTextFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconHelpTextProperty, new PropertyValue<string>(queryIconHelpTextFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerQueryIconHelpText<T>(this T searchHandler, Func<string> queryIconHelpTextFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconHelpTextProperty, new PropertyValue<string>(queryIconHelpTextFunc, componentWithState));
         return searchHandler;
@@ -629,8 +985,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerQueryIconName<T>(this T searchHandler, string queryIconName)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconNameProperty, queryIconName);
+        return searchHandler;
+    }
+
     public static T QueryIconName<T>(this T searchHandler, Func<string> queryIconNameFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconNameProperty, new PropertyValue<string>(queryIconNameFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerQueryIconName<T>(this T searchHandler, Func<string> queryIconNameFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconNameProperty, new PropertyValue<string>(queryIconNameFunc, componentWithState));
         return searchHandler;
@@ -644,8 +1014,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerQueryIcon<T>(this T searchHandler, Microsoft.Maui.Controls.ImageSource queryIcon)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconProperty, queryIcon);
+        return searchHandler;
+    }
+
     public static T QueryIcon<T>(this T searchHandler, Func<Microsoft.Maui.Controls.ImageSource> queryIconFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(queryIconFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerQueryIcon<T>(this T searchHandler, Func<Microsoft.Maui.Controls.ImageSource> queryIconFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryIconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(queryIconFunc, componentWithState));
         return searchHandler;
@@ -719,8 +1103,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerQuery<T>(this T searchHandler, string query)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryProperty, query);
+        return searchHandler;
+    }
+
     public static T Query<T>(this T searchHandler, Func<string> queryFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryProperty, new PropertyValue<string>(queryFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerQuery<T>(this T searchHandler, Func<string> queryFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.QueryProperty, new PropertyValue<string>(queryFunc, componentWithState));
         return searchHandler;
@@ -734,8 +1132,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerSearchBoxVisibility<T>(this T searchHandler, Microsoft.Maui.Controls.SearchBoxVisibility searchBoxVisibility)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.SearchBoxVisibilityProperty, searchBoxVisibility);
+        return searchHandler;
+    }
+
     public static T SearchBoxVisibility<T>(this T searchHandler, Func<Microsoft.Maui.Controls.SearchBoxVisibility> searchBoxVisibilityFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.SearchBoxVisibilityProperty, new PropertyValue<Microsoft.Maui.Controls.SearchBoxVisibility>(searchBoxVisibilityFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerSearchBoxVisibility<T>(this T searchHandler, Func<Microsoft.Maui.Controls.SearchBoxVisibility> searchBoxVisibilityFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.SearchBoxVisibilityProperty, new PropertyValue<Microsoft.Maui.Controls.SearchBoxVisibility>(searchBoxVisibilityFunc, componentWithState));
         return searchHandler;
@@ -749,8 +1161,22 @@ public static partial class SearchHandlerExtensions
         return searchHandler;
     }
 
+    public static T SearchHandlerShowsResults<T>(this T searchHandler, bool showsResults)
+        where T : Component
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ShowsResultsProperty, showsResults);
+        return searchHandler;
+    }
+
     public static T ShowsResults<T>(this T searchHandler, Func<bool> showsResultsFunc, IComponentWithState? componentWithState = null)
         where T : ISearchHandler
+    {
+        searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ShowsResultsProperty, new PropertyValue<bool>(showsResultsFunc, componentWithState));
+        return searchHandler;
+    }
+
+    public static T SearchHandlerShowsResults<T>(this T searchHandler, Func<bool> showsResultsFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         searchHandler.SetProperty(Microsoft.Maui.Controls.SearchHandler.ShowsResultsProperty, new PropertyValue<bool>(showsResultsFunc, componentWithState));
         return searchHandler;

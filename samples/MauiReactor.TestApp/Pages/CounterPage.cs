@@ -8,27 +8,29 @@ using System.Threading.Tasks;
 
 namespace MauiReactor.TestApp.Pages;
 
-class CounterPageState
+public class CounterPageState
 {
     public int Counter { get; set; }
 }
 
-class CounterPage : Component<CounterPageState>
+public class CounterPage : Component<CounterPageState>
 {
     public override VisualNode Render()
         => ContentPage("Counter Sample",
-            VStack(
+            VStack(                
                 Label($"Counter: {State.Counter}")
                     .AutomationId("Counter_Label"),
                 Button("Click To Increment")
                     .OnClicked(() => SetState(s => s.Counter++))
-                    .AutomationId("Counter_Button")
+                    .AutomationId("Counter_Button"),
+                Label(() => $"Counter no render: {State.Counter}"),
+                Button("Click To Increment counter without re-render")
+                    .OnClicked(() => SetState(s => s.Counter++, invalidateComponent: false))
             )
             .Spacing(10)
             .Center()
         )
-        .TitleView(RenderTitleView)
-        ;
+        .TitleView(RenderTitleView);
 
     Grid RenderTitleView()
     {
@@ -41,7 +43,7 @@ class CounterPage : Component<CounterPageState>
                 .GridColumn(0),
             Button("Increment")
                 .VCenter()
-                .OnClicked(() => SetState(s => s.Counter++))
+                .OnClicked(() => SetState(s => s.Counter ++))
                 .GridColumn(1)
         );
     }
@@ -52,7 +54,7 @@ partial class CounterWithServicePage : Component<CounterPageState>
     [Inject]
     IncrementService _incrementService;
 
-    public override VisualNode Render() 
+    public override VisualNode Render()
         => ContentPage("Counter Sample",
             VStack(spacing: 10,
                 Label($"Counter: {State.Counter}")

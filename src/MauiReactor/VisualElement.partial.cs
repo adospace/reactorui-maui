@@ -207,6 +207,12 @@ public static class VisualElementNativeExtensions
 
         return visualElement.Bounds;
     }
+
+    //public static T IsVisible<T>(this T component, bool isVisible) where T : VisualNode
+    //{
+    //    component.SetProperty(Microsoft.Maui.Controls.VisualElement.IsVisibleProperty, isVisible);
+    //    return component;
+    //}
 }
 
 public class VisualStateGroupList : Dictionary<string, VisualStateGroup>
@@ -295,3 +301,5 @@ public class VisualStatePropertySetter(BindableProperty? property, object? value
     public object? Value { get; set; } = value;
     public string? TargetName { get; set; } = targetName;
 }
+
+

@@ -1,0 +1,19 @@
+{
+  "Name": "FlexLayout",
+  "Description": "Flexible box layout supporting direction, wrap, alignment and justification.",
+  "Base": "Layout",
+  "Properties": [
+    { "Name": "Direction", "Type": "Microsoft.Maui.Layouts.FlexDirection", "Description": "Main axis direction (row/column)." },
+    { "Name": "JustifyContent", "Type": "Microsoft.Maui.Layouts.FlexJustify", "Description": "Distribution of items along main axis." },
+    { "Name": "AlignContent", "Type": "Microsoft.Maui.Layouts.FlexAlignContent", "Description": "Distribution of lines on cross axis." },
+    { "Name": "AlignItems", "Type": "Microsoft.Maui.Layouts.FlexAlignItems", "Description": "Alignment of items on cross axis." },
+    { "Name": "Position", "Type": "Microsoft.Maui.Layouts.FlexPosition", "Description": "Positioning strategy for children." },
+    { "Name": "Wrap", "Type": "Microsoft.Maui.Layouts.FlexWrap", "Description": "Wrapping behavior of items." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "FlexLayout()", "Description": "Default constructor." },
+    { "Signature": "FlexLayout(IEnumerable<VisualNode?>? children)", "Description": "Creates a FlexLayout and adds children." }
+  ]
+}

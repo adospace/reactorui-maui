@@ -66,8 +66,22 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelHorizontalTextAlignment<T>(this T label, Microsoft.Maui.TextAlignment horizontalTextAlignment)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.HorizontalTextAlignmentProperty, horizontalTextAlignment);
+        return label;
+    }
+
     public static T HorizontalTextAlignment<T>(this T label, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelHorizontalTextAlignment<T>(this T label, Func<Microsoft.Maui.TextAlignment> horizontalTextAlignmentFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.HorizontalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(horizontalTextAlignmentFunc, componentWithState));
         return label;
@@ -81,8 +95,22 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelVerticalTextAlignment<T>(this T label, Microsoft.Maui.TextAlignment verticalTextAlignment)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.VerticalTextAlignmentProperty, verticalTextAlignment);
+        return label;
+    }
+
     public static T VerticalTextAlignment<T>(this T label, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelVerticalTextAlignment<T>(this T label, Func<Microsoft.Maui.TextAlignment> verticalTextAlignmentFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.VerticalTextAlignmentProperty, new PropertyValue<Microsoft.Maui.TextAlignment>(verticalTextAlignmentFunc, componentWithState));
         return label;
@@ -96,8 +124,22 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelTextColor<T>(this T label, Microsoft.Maui.Graphics.Color textColor)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.TextColorProperty, textColor);
+        return label;
+    }
+
     public static T TextColor<T>(this T label, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelTextColor<T>(this T label, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
         return label;
@@ -112,8 +154,23 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelCharacterSpacing<T>(this T label, double characterSpacing, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.CharacterSpacingProperty, characterSpacing);
+        label.AppendAnimatable(Microsoft.Maui.Controls.Label.CharacterSpacingProperty, customAnimation ?? new RxDoubleAnimation(characterSpacing));
+        return label;
+    }
+
     public static T CharacterSpacing<T>(this T label, Func<double> characterSpacingFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelCharacterSpacing<T>(this T label, Func<double> characterSpacingFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.CharacterSpacingProperty, new PropertyValue<double>(characterSpacingFunc, componentWithState));
         return label;
@@ -127,8 +184,22 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelText<T>(this T label, string text)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.TextProperty, text);
+        return label;
+    }
+
     public static T Text<T>(this T label, Func<string> textFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.TextProperty, new PropertyValue<string>(textFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelText<T>(this T label, Func<string> textFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.TextProperty, new PropertyValue<string>(textFunc, componentWithState));
         return label;
@@ -142,8 +213,22 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelFontFamily<T>(this T label, string fontFamily)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.FontFamilyProperty, fontFamily);
+        return label;
+    }
+
     public static T FontFamily<T>(this T label, Func<string> fontFamilyFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelFontFamily<T>(this T label, Func<string> fontFamilyFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.FontFamilyProperty, new PropertyValue<string>(fontFamilyFunc, componentWithState));
         return label;
@@ -158,8 +243,23 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelFontSize<T>(this T label, double fontSize, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.FontSizeProperty, fontSize);
+        label.AppendAnimatable(Microsoft.Maui.Controls.Label.FontSizeProperty, customAnimation ?? new RxDoubleAnimation(fontSize));
+        return label;
+    }
+
     public static T FontSize<T>(this T label, Func<double> fontSizeFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.FontSizeProperty, new PropertyValue<double>(fontSizeFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelFontSize<T>(this T label, Func<double> fontSizeFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.FontSizeProperty, new PropertyValue<double>(fontSizeFunc, componentWithState));
         return label;
@@ -173,8 +273,22 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelFontAttributes<T>(this T label, Microsoft.Maui.Controls.FontAttributes fontAttributes)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.FontAttributesProperty, fontAttributes);
+        return label;
+    }
+
     public static T FontAttributes<T>(this T label, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelFontAttributes<T>(this T label, Func<Microsoft.Maui.Controls.FontAttributes> fontAttributesFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.FontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(fontAttributesFunc, componentWithState));
         return label;
@@ -188,8 +302,22 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelFontAutoScalingEnabled<T>(this T label, bool fontAutoScalingEnabled)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.FontAutoScalingEnabledProperty, fontAutoScalingEnabled);
+        return label;
+    }
+
     public static T FontAutoScalingEnabled<T>(this T label, Func<bool> fontAutoScalingEnabledFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelFontAutoScalingEnabled<T>(this T label, Func<bool> fontAutoScalingEnabledFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.FontAutoScalingEnabledProperty, new PropertyValue<bool>(fontAutoScalingEnabledFunc, componentWithState));
         return label;
@@ -203,8 +331,22 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelTextTransform<T>(this T label, Microsoft.Maui.TextTransform textTransform)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.TextTransformProperty, textTransform);
+        return label;
+    }
+
     public static T TextTransform<T>(this T label, Func<Microsoft.Maui.TextTransform> textTransformFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.TextTransformProperty, new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelTextTransform<T>(this T label, Func<Microsoft.Maui.TextTransform> textTransformFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.TextTransformProperty, new PropertyValue<Microsoft.Maui.TextTransform>(textTransformFunc, componentWithState));
         return label;
@@ -218,8 +360,22 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelTextDecorations<T>(this T label, Microsoft.Maui.TextDecorations textDecorations)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.TextDecorationsProperty, textDecorations);
+        return label;
+    }
+
     public static T TextDecorations<T>(this T label, Func<Microsoft.Maui.TextDecorations> textDecorationsFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.TextDecorationsProperty, new PropertyValue<Microsoft.Maui.TextDecorations>(textDecorationsFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelTextDecorations<T>(this T label, Func<Microsoft.Maui.TextDecorations> textDecorationsFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.TextDecorationsProperty, new PropertyValue<Microsoft.Maui.TextDecorations>(textDecorationsFunc, componentWithState));
         return label;
@@ -233,8 +389,22 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelFormattedText<T>(this T label, Microsoft.Maui.Controls.FormattedString formattedText)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.FormattedTextProperty, formattedText);
+        return label;
+    }
+
     public static T FormattedText<T>(this T label, Func<Microsoft.Maui.Controls.FormattedString> formattedTextFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.FormattedTextProperty, new PropertyValue<Microsoft.Maui.Controls.FormattedString>(formattedTextFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelFormattedText<T>(this T label, Func<Microsoft.Maui.Controls.FormattedString> formattedTextFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.FormattedTextProperty, new PropertyValue<Microsoft.Maui.Controls.FormattedString>(formattedTextFunc, componentWithState));
         return label;
@@ -248,8 +418,22 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelLineBreakMode<T>(this T label, Microsoft.Maui.LineBreakMode lineBreakMode)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.LineBreakModeProperty, lineBreakMode);
+        return label;
+    }
+
     public static T LineBreakMode<T>(this T label, Func<Microsoft.Maui.LineBreakMode> lineBreakModeFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.LineBreakModeProperty, new PropertyValue<Microsoft.Maui.LineBreakMode>(lineBreakModeFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelLineBreakMode<T>(this T label, Func<Microsoft.Maui.LineBreakMode> lineBreakModeFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.LineBreakModeProperty, new PropertyValue<Microsoft.Maui.LineBreakMode>(lineBreakModeFunc, componentWithState));
         return label;
@@ -264,8 +448,23 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelLineHeight<T>(this T label, double lineHeight, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.LineHeightProperty, lineHeight);
+        label.AppendAnimatable(Microsoft.Maui.Controls.Label.LineHeightProperty, customAnimation ?? new RxDoubleAnimation(lineHeight));
+        return label;
+    }
+
     public static T LineHeight<T>(this T label, Func<double> lineHeightFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.LineHeightProperty, new PropertyValue<double>(lineHeightFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelLineHeight<T>(this T label, Func<double> lineHeightFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.LineHeightProperty, new PropertyValue<double>(lineHeightFunc, componentWithState));
         return label;
@@ -279,8 +478,22 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelMaxLines<T>(this T label, int maxLines)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.MaxLinesProperty, maxLines);
+        return label;
+    }
+
     public static T MaxLines<T>(this T label, Func<int> maxLinesFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.MaxLinesProperty, new PropertyValue<int>(maxLinesFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelMaxLines<T>(this T label, Func<int> maxLinesFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.MaxLinesProperty, new PropertyValue<int>(maxLinesFunc, componentWithState));
         return label;
@@ -295,8 +508,23 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelPadding<T>(this T label, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.PaddingProperty, padding);
+        label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding));
+        return label;
+    }
+
     public static T Padding<T>(this T label, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelPadding<T>(this T label, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
         return label;
@@ -311,10 +539,26 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelPadding<T>(this T label, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.PaddingProperty, new Thickness(leftRight, topBottom));
+        label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)));
+        return label;
+    }
+
     public static T Padding<T>(this T label, double uniformSize, RxThicknessAnimation? customAnimation = null)
         where T : ILabel
     {
         //label.Padding = new Thickness(uniformSize);
+        label.SetProperty(Microsoft.Maui.Controls.Label.PaddingProperty, new Thickness(uniformSize));
+        label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)));
+        return label;
+    }
+
+    public static T LabelPadding<T>(this T label, double uniformSize, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
         label.SetProperty(Microsoft.Maui.Controls.Label.PaddingProperty, new Thickness(uniformSize));
         label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)));
         return label;
@@ -329,6 +573,14 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelPadding<T>(this T label, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.PaddingProperty, new Thickness(left, top, right, bottom));
+        label.AppendAnimatable(Microsoft.Maui.Controls.Label.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)));
+        return label;
+    }
+
     public static T TextType<T>(this T label, Microsoft.Maui.TextType textType)
         where T : ILabel
     {
@@ -337,8 +589,22 @@ public static partial class LabelExtensions
         return label;
     }
 
+    public static T LabelTextType<T>(this T label, Microsoft.Maui.TextType textType)
+        where T : Component
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.TextTypeProperty, textType);
+        return label;
+    }
+
     public static T TextType<T>(this T label, Func<Microsoft.Maui.TextType> textTypeFunc, IComponentWithState? componentWithState = null)
         where T : ILabel
+    {
+        label.SetProperty(Microsoft.Maui.Controls.Label.TextTypeProperty, new PropertyValue<Microsoft.Maui.TextType>(textTypeFunc, componentWithState));
+        return label;
+    }
+
+    public static T LabelTextType<T>(this T label, Func<Microsoft.Maui.TextType> textTypeFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         label.SetProperty(Microsoft.Maui.Controls.Label.TextTypeProperty, new PropertyValue<Microsoft.Maui.TextType>(textTypeFunc, componentWithState));
         return label;

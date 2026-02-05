@@ -66,8 +66,22 @@ public static partial class TitleBarExtensions
         return titleBar;
     }
 
+    public static T TitleBarIcon<T>(this T titleBar, Microsoft.Maui.Controls.ImageSource icon)
+        where T : Component
+    {
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.IconProperty, icon);
+        return titleBar;
+    }
+
     public static T Icon<T>(this T titleBar, Func<Microsoft.Maui.Controls.ImageSource> iconFunc, IComponentWithState? componentWithState = null)
         where T : ITitleBar
+    {
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.IconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc, componentWithState));
+        return titleBar;
+    }
+
+    public static T TitleBarIcon<T>(this T titleBar, Func<Microsoft.Maui.Controls.ImageSource> iconFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.IconProperty, new PropertyValue<Microsoft.Maui.Controls.ImageSource>(iconFunc, componentWithState));
         return titleBar;
@@ -141,8 +155,22 @@ public static partial class TitleBarExtensions
         return titleBar;
     }
 
+    public static T TitleBarTitle<T>(this T titleBar, string title)
+        where T : Component
+    {
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.TitleProperty, title);
+        return titleBar;
+    }
+
     public static T Title<T>(this T titleBar, Func<string> titleFunc, IComponentWithState? componentWithState = null)
         where T : ITitleBar
+    {
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.TitleProperty, new PropertyValue<string>(titleFunc, componentWithState));
+        return titleBar;
+    }
+
+    public static T TitleBarTitle<T>(this T titleBar, Func<string> titleFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.TitleProperty, new PropertyValue<string>(titleFunc, componentWithState));
         return titleBar;
@@ -156,8 +184,22 @@ public static partial class TitleBarExtensions
         return titleBar;
     }
 
+    public static T TitleBarSubtitle<T>(this T titleBar, string subtitle)
+        where T : Component
+    {
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.SubtitleProperty, subtitle);
+        return titleBar;
+    }
+
     public static T Subtitle<T>(this T titleBar, Func<string> subtitleFunc, IComponentWithState? componentWithState = null)
         where T : ITitleBar
+    {
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.SubtitleProperty, new PropertyValue<string>(subtitleFunc, componentWithState));
+        return titleBar;
+    }
+
+    public static T TitleBarSubtitle<T>(this T titleBar, Func<string> subtitleFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.SubtitleProperty, new PropertyValue<string>(subtitleFunc, componentWithState));
         return titleBar;
@@ -171,8 +213,22 @@ public static partial class TitleBarExtensions
         return titleBar;
     }
 
+    public static T TitleBarForegroundColor<T>(this T titleBar, Microsoft.Maui.Graphics.Color foregroundColor)
+        where T : Component
+    {
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.ForegroundColorProperty, foregroundColor);
+        return titleBar;
+    }
+
     public static T ForegroundColor<T>(this T titleBar, Func<Microsoft.Maui.Graphics.Color> foregroundColorFunc, IComponentWithState? componentWithState = null)
         where T : ITitleBar
+    {
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.ForegroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(foregroundColorFunc, componentWithState));
+        return titleBar;
+    }
+
+    public static T TitleBarForegroundColor<T>(this T titleBar, Func<Microsoft.Maui.Graphics.Color> foregroundColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.ForegroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(foregroundColorFunc, componentWithState));
         return titleBar;

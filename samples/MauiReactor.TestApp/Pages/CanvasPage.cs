@@ -150,6 +150,6 @@ class CanvasPage : Component<CanvasPageState>
     //        return;
     //    }
 
-    //    await ContainerPage.DisplayAlert("Test Message", "Tap event", "OK");
+    //    await ContainerPage.DisplayAlertAsync("Test Message", "Tap event", "OK");
     //}
 }

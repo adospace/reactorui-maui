@@ -116,13 +116,6 @@ class ApplicationTheme : Theme
             .MinimumWidthRequest(44)
             .VisualState("CommonStates", "Disable", MauiControls.Entry.TextColorProperty, IsLightTheme ? Gray300 : Gray600);
 
-
-        FrameStyles.Default = _ => _
-            .HasShadow(false)
-            .BorderColor(IsLightTheme ? Gray200 : Gray950)
-            .CornerRadius(8)
-            .BackgroundColor(IsLightTheme ? White : Black);
-
         ImageButtonStyles.Default = _ => _
             .Opacity(1)
             .BorderColor(Colors.Transparent)
@@ -150,10 +143,6 @@ class ApplicationTheme : Theme
             .FontSize(24)
             .HorizontalOptions(LayoutOptions.Center)
             .HorizontalTextAlignment(TextAlignment.Center);
-
-        ListViewStyles.Default = _ => _
-            .SeparatorColor(IsLightTheme ? Gray200 : Gray500)
-            .RefreshControlColor(IsLightTheme ? Gray900 : Gray200);
 
         PickerStyles.Default = _ => _
             .TextColor(IsLightTheme ? Gray900 : White)

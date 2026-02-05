@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "MauiReactor.MCP": {
+      "type": "stdio",
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "MauiReactor.MCP.csproj"
+      ]
+    }
+  }
+}

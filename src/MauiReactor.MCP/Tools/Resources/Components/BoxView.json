@@ -1,0 +1,14 @@
+{
+  "Name": "BoxView",
+  "Description": "Simple rectangular colored box.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "Color", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Fill color of the box." },
+    { "Name": "CornerRadius", "Type": "Microsoft.Maui.CornerRadius", "Description": "Corner radius of the rectangle (supports uniform or per-corner)." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "BoxView()", "Description": "Default constructor." }
+  ]
+}

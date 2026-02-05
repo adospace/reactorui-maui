@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "deep-dives/working-with-the-graphicsview",
+    "Summary":  "Immediate-mode drawing with ICanvas; render custom visuals and overlays.",
+    "Remarks":  "Use GraphicsView with .OnDraw((canvas, rect) => ...) to issue drawing commands (lines, shapes, text). Drive visuals from component state and call Invalidate() to refresh when state changes. Coordinate system uses device-independent pixels; keep drawing code fast for smooth updates.",
+    "Example":  "class GraphicsViewPage : Component\r\n{\r\n    public override VisualNode Render()\r\n    {\r\n        return new ContentPage(\"GraphicsView Sample\")\r\n        {\r\n            new GraphicsView()\r\n                .OnDraw(OnDraw)\r\n        };\r\n    }\r\n\r\n    private void OnDraw(ICanvas canvas, RectF dirtyRect)\r\n    {\r\n        canvas.FontColor = Colors.Red;\r\n        canvas.FontSize = 24;\r\n        canvas.DrawString(\"GraphicsView\", dirtyRect, HorizontalAlignment.Center, VerticalAlignment.Center);\r\n    }\r\n}\r"
+}

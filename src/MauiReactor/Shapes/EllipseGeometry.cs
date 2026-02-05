@@ -59,8 +59,23 @@ public static partial class EllipseGeometryExtensions
         return ellipseGeometry;
     }
 
+    public static T EllipseGeometryCenter<T>(this T ellipseGeometry, Microsoft.Maui.Graphics.Point center, RxPointAnimation? customAnimation = null)
+        where T : Component
+    {
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, center);
+        ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, customAnimation ?? new RxSimplePointAnimation(center));
+        return ellipseGeometry;
+    }
+
     public static T Center<T>(this T ellipseGeometry, Func<Microsoft.Maui.Graphics.Point> centerFunc, IComponentWithState? componentWithState = null)
         where T : IEllipseGeometry
+    {
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, new PropertyValue<Microsoft.Maui.Graphics.Point>(centerFunc, componentWithState));
+        return ellipseGeometry;
+    }
+
+    public static T EllipseGeometryCenter<T>(this T ellipseGeometry, Func<Microsoft.Maui.Graphics.Point> centerFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.CenterProperty, new PropertyValue<Microsoft.Maui.Graphics.Point>(centerFunc, componentWithState));
         return ellipseGeometry;
@@ -83,8 +98,23 @@ public static partial class EllipseGeometryExtensions
         return ellipseGeometry;
     }
 
+    public static T EllipseGeometryRadiusX<T>(this T ellipseGeometry, double radiusX, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, radiusX);
+        ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, customAnimation ?? new RxDoubleAnimation(radiusX));
+        return ellipseGeometry;
+    }
+
     public static T RadiusX<T>(this T ellipseGeometry, Func<double> radiusXFunc, IComponentWithState? componentWithState = null)
         where T : IEllipseGeometry
+    {
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, new PropertyValue<double>(radiusXFunc, componentWithState));
+        return ellipseGeometry;
+    }
+
+    public static T EllipseGeometryRadiusX<T>(this T ellipseGeometry, Func<double> radiusXFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusXProperty, new PropertyValue<double>(radiusXFunc, componentWithState));
         return ellipseGeometry;
@@ -99,8 +129,23 @@ public static partial class EllipseGeometryExtensions
         return ellipseGeometry;
     }
 
+    public static T EllipseGeometryRadiusY<T>(this T ellipseGeometry, double radiusY, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, radiusY);
+        ellipseGeometry.AppendAnimatable(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, customAnimation ?? new RxDoubleAnimation(radiusY));
+        return ellipseGeometry;
+    }
+
     public static T RadiusY<T>(this T ellipseGeometry, Func<double> radiusYFunc, IComponentWithState? componentWithState = null)
         where T : IEllipseGeometry
+    {
+        ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, new PropertyValue<double>(radiusYFunc, componentWithState));
+        return ellipseGeometry;
+    }
+
+    public static T EllipseGeometryRadiusY<T>(this T ellipseGeometry, Func<double> radiusYFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         ellipseGeometry.SetProperty(Microsoft.Maui.Controls.Shapes.EllipseGeometry.RadiusYProperty, new PropertyValue<double>(radiusYFunc, componentWithState));
         return ellipseGeometry;

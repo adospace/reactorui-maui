@@ -66,8 +66,22 @@ public static partial class ProgressBarExtensions
         return progressBar;
     }
 
+    public static T ProgressBarProgressColor<T>(this T progressBar, Microsoft.Maui.Graphics.Color progressColor)
+        where T : Component
+    {
+        progressBar.SetProperty(Microsoft.Maui.Controls.ProgressBar.ProgressColorProperty, progressColor);
+        return progressBar;
+    }
+
     public static T ProgressColor<T>(this T progressBar, Func<Microsoft.Maui.Graphics.Color> progressColorFunc, IComponentWithState? componentWithState = null)
         where T : IProgressBar
+    {
+        progressBar.SetProperty(Microsoft.Maui.Controls.ProgressBar.ProgressColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(progressColorFunc, componentWithState));
+        return progressBar;
+    }
+
+    public static T ProgressBarProgressColor<T>(this T progressBar, Func<Microsoft.Maui.Graphics.Color> progressColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         progressBar.SetProperty(Microsoft.Maui.Controls.ProgressBar.ProgressColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(progressColorFunc, componentWithState));
         return progressBar;
@@ -82,8 +96,23 @@ public static partial class ProgressBarExtensions
         return progressBar;
     }
 
+    public static T ProgressBarProgress<T>(this T progressBar, double progress, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        progressBar.SetProperty(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, progress);
+        progressBar.AppendAnimatable(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, customAnimation ?? new RxDoubleAnimation(progress));
+        return progressBar;
+    }
+
     public static T Progress<T>(this T progressBar, Func<double> progressFunc, IComponentWithState? componentWithState = null)
         where T : IProgressBar
+    {
+        progressBar.SetProperty(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, new PropertyValue<double>(progressFunc, componentWithState));
+        return progressBar;
+    }
+
+    public static T ProgressBarProgress<T>(this T progressBar, Func<double> progressFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         progressBar.SetProperty(Microsoft.Maui.Controls.ProgressBar.ProgressProperty, new PropertyValue<double>(progressFunc, componentWithState));
         return progressBar;

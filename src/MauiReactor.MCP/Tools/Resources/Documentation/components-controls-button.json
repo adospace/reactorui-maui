@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "components/controls/button",
+    "Summary":  "Button",
+    "Remarks":  "\u003e The .NET Multi-platform App UI (.NET MAUI) [Button](https://learn.microsoft.com/en-us/dotnet/api/microsoft.maui.controls.button) displays text and responds to a tap or click that directs the app to carry out a task.",
+    "Example":  "Button(\"Button\")\r\n    .OnClicked(...)\r"
+}

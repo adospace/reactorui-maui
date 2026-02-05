@@ -18,6 +18,13 @@ namespace MauiReactor
         IComponentWithState? GetContainerComponent();
 
         string? ThemeKey { get; set; }
+
+        void SetProperty(BindableProperty property, object? value);
+        
+        void SetProperty(BindableProperty property, IPropertyValue? value);
+
+        bool HasPropertySet(BindableProperty property);
+
     }
 
     public static class VisualNodeExtensions
@@ -32,6 +39,12 @@ namespace MauiReactor
         {
             element.PropertyChangingAction = action;
             return element;
+        }
+
+        public static T Set<T>(this T node, BindableProperty property, object? value) where T : IVisualNode
+        {
+            node.SetProperty(property, value);
+            return node;
         }
 
         public static T When<T>(this T node, bool flag, Action<T> actionToApplyWhenFlagIsTrue) where T : IVisualNode
@@ -215,28 +228,62 @@ namespace MauiReactor
                 {
                     var renderedChildrenList = RenderChildren();
 
+                    List<VisualNode> listOfChildren;
+
+                    //try to reduce the number of allocations and iterations
+
                     if (renderedChildrenList is List<VisualNode> renderedChildren)
                     {
-                        renderedChildren.RemoveAll(_ => _ == null);
-                        _children = renderedChildren;
+                        var childIndex = 0;
+                        List<int>? listOfChildrenToRemove = null;
+                        for (int i = 0; i < renderedChildren.Count; i++)
+                        {
+                            if (renderedChildren[i] != null)
+                            {
+                                if (renderedChildren[i].SupportChildIndexing)
+                                {
+                                    renderedChildren[i].ChildIndex = childIndex;
+                                    childIndex++;
+                                }
+                                renderedChildren[i].Parent = this;
+                            }
+                            else
+                            {
+                                listOfChildrenToRemove ??= [];
+                                listOfChildrenToRemove.Add(i);
+                            }
+                        }
+
+                        if (listOfChildrenToRemove != null)
+                        {
+                            for (int i = listOfChildrenToRemove.Count - 1; i >= 0; i--)
+                            {
+                                renderedChildren.RemoveAt(listOfChildrenToRemove[i]);
+                            }
+                        }
+
+                        listOfChildren = renderedChildren;
                     }
                     else
                     {
-                        _children = renderedChildrenList
-                            .Where(_ => _ != null)
-                            .ToList()!;
+                        listOfChildren = [];
+                        var childIndex = 0;
+                        foreach (var child in renderedChildrenList)
+                        {
+                            if (child != null)
+                            {
+                                listOfChildren.Add(child);
+                                if (child.SupportChildIndexing)
+                                {
+                                    child.ChildIndex = childIndex;
+                                    childIndex++;
+                                }
+                                child.Parent = this;
+                            }
+                        }
                     }
 
-                    var childIndex = 0;
-                    for (int i = 0; i < _children.Count; i++)
-                    {
-                        if (_children[i].SupportChildIndexing)
-                        {
-                            _children[i].ChildIndex = childIndex;
-                            childIndex++;
-                        }
-                        _children[i].Parent = this;
-                    }
+                    _children = listOfChildren;
                 }
                 return _children;
             }
@@ -305,20 +352,6 @@ namespace MauiReactor
         {
             OnAddChild(widget, childNativeControl);
         }
-
-        //internal abstract bool Animate();
-        //{
-        //    if (_isMounted)
-        //    {
-        //      var animated = AnimateThis();
-
-        //      OnAnimate();
-
-        //      return animated;
-        //    }
-
-        //    return false;
-        //}
 
         internal void DisableCurrentAnimatableProperties()
         {
@@ -431,6 +464,10 @@ namespace MauiReactor
                     {
                         oldChildren[i].MergeWith(Children[i]);
                     }
+                    else
+                    {
+                        break;
+                    }
                 }
 
                 for (int i = Children.Count; i < oldChildren.Count; i++)
@@ -451,6 +488,10 @@ namespace MauiReactor
                 if (newNode.Children.Count > i)
                 {
                     Children[i].MergeWith(newNode.Children[i]);
+                }
+                else
+                {
+                    break;
                 }
             }
 
@@ -510,14 +551,14 @@ namespace MauiReactor
         {
             if (propertyValueAsObject != null)
             {
-                if (propertyValueAsObject is IPropertyValue propertyValue)
-                {
-                    SetPropertyValue(dependencyObject, property, propertyValue);
-                }
-                else
-                {
+                //if (propertyValueAsObject is IPropertyValue propertyValue)
+                //{
+                //    SetPropertyValue(dependencyObject, property, propertyValue);
+                //}
+                //else
+                //{
                     dependencyObject.SetPropertyValue(property, propertyValueAsObject);
-                }
+                //}
             }
             else
             {
@@ -565,16 +606,11 @@ namespace MauiReactor
             RequireLayoutCycle();
 
             OnInvalidated();
-            //System.Diagnostics.Debug.WriteLine($"{this}->Invalidated()");
         }
 
         protected virtual void OnAddChild(VisualNode widget, BindableObject childNativeControl)
         {
         }
-
-        //protected virtual void OnAnimate()
-        //{
-        //}
 
         protected virtual void OnInvalidated()
         {
@@ -650,25 +686,6 @@ namespace MauiReactor
             yield break;
         }
 
-        //private bool AnimateThis()
-        //{
-        //    bool animated = false;
-        //    if (_animatables != null)
-        //    {
-        //        foreach (var animatable in _animatables)
-        //        {
-        //            if (animatable.Value.IsEnabled.GetValueOrDefault() && 
-        //                !animatable.Value.Animation.IsCompleted())
-        //            {
-        //                animatable.Value.Animate(this);
-        //                animated = true;
-        //            }
-        //        }
-        //    }
-
-        //    return animated;
-        //}
-
         private void RequireLayoutCycle()
         {
             if (IsLayoutCycleRequired)
@@ -716,31 +733,31 @@ namespace MauiReactor
             }
         }
 
-        //static readonly Dictionary<Type, VisualNodePool> _nodePools = [];
+        protected Dictionary<BindableProperty, object?>? _propertiesToSet;
+        protected Dictionary<BindableProperty, IPropertyValue?>? _propertyValuesToSet;
 
-        //protected internal static T GetNodeFromPool<T>() where T : VisualNode, new()
-        //{
-        //    if (!_nodePools.TryGetValue(typeof(T), out var nodePool))
-        //    {
-        //        _nodePools[typeof(T)] = nodePool = new VisualNodePool();
-        //    }
+        public void SetProperty(BindableProperty property, object? value)
+        {
+            _propertiesToSet ??= [];
+            _propertiesToSet[property] = value;
+        }
 
-        //    return nodePool.GetObject<T>();
-        //}
+        public void SetProperty(BindableProperty property, IPropertyValue? value)
+        {
+            _propertyValuesToSet ??= [];
+            _propertyValuesToSet[property] = value;
+        }
 
-
-        //protected internal static void ReleaseNodeToPool(VisualNode node)
-        //{
-        //    if (!_nodePools.TryGetValue(node.GetType(), out var nodePool))
-        //    {
-        //        return;
-        //    }
-
-        //    nodePool.ReleaseObject(node);
-        //}
+        public bool HasPropertySet(BindableProperty property)
+        {
+            if (_propertiesToSet == null && _propertyValuesToSet == null)
+                return false;
+            return _propertiesToSet?.ContainsKey(property) == true ||
+                _propertyValuesToSet?.ContainsKey(property) == true;
+        }
     }
 
-    public interface IVisualNodeWithNativeControl : IVisualNodeWithAttachedProperties
+    public interface IVisualNodeWithNativeControl : IVisualNode
     {
         TResult? GetNativeControl<TResult>() where TResult : BindableObject;
 
@@ -749,27 +766,9 @@ namespace MauiReactor
         bool Animate();
     }
 
-    public interface IVisualNodeWithAttachedProperties : IVisualNode
+    public abstract class VisualNode<T> : VisualNode, IVisualNodeWithNativeControl where T : BindableObject, new()
     {
-        void SetProperty(BindableProperty property, object? value);
-
-        bool HasPropertySet(BindableProperty property);
-    }
-
-    public static class VisualNodeWithAttachedPropertiesExtensions
-    {
-        public static T Set<T>(this T element, BindableProperty property, object value) where T : IVisualNodeWithAttachedProperties
-        {
-            element.SetProperty(property, value);
-            return element;
-        }
-    }
-
-    public abstract class VisualNode<T> : VisualNode, IVisualNodeWithNativeControl, IVisualNodeWithAttachedProperties where T : BindableObject, new()
-    {
-        protected BindableObject? _nativeControl;
-
-        private readonly Dictionary<BindableProperty, object?> _propertiesToSet = [];
+        protected T? _nativeControl;
 
         private Action<T?>? _componentRefAction;
 
@@ -778,13 +777,7 @@ namespace MauiReactor
             _componentRefAction = componentRefAction;
         }
 
-        protected T? NativeControl { get => (T?)_nativeControl; }
-
-        public void SetProperty(BindableProperty property, object? value)
-            => _propertiesToSet[property] = value;
-
-        public bool HasPropertySet(BindableProperty property)
-            => _propertiesToSet.ContainsKey(property);
+        protected T? NativeControl { get => _nativeControl; }
 
         internal Action<T?> ComponentRefAction
         {
@@ -821,11 +814,24 @@ namespace MauiReactor
             {
                 OnDetachNativeEvents();
 
-                if (newNode is IVisualNodeWithAttachedProperties newNodeAsNodeWithAttachedProperties)
+                if (_propertiesToSet != null)
                 {
                     foreach (var attachedProperty in _propertiesToSet)
                     {
-                        if (newNodeAsNodeWithAttachedProperties.HasPropertySet(attachedProperty.Key))
+                        if (newNode.HasPropertySet(attachedProperty.Key))
+                        {
+                            continue;
+                        }
+
+                        NativeControl.ResetValue(attachedProperty.Key);
+                    }
+                }
+
+                if (_propertyValuesToSet != null)
+                {
+                    foreach (var attachedProperty in _propertyValuesToSet)
+                    {
+                        if (newNode.HasPropertySet(attachedProperty.Key))
                         {
                             continue;
                         }
@@ -835,10 +841,10 @@ namespace MauiReactor
                 }
             }
 
-            _propertiesToSet.Clear();
+            _propertiesToSet?.Clear();
+            _propertyValuesToSet?.Clear();
 
             base.OnMigrated(newNode);
-
         }
 
         internal override void OnLayout(IComponentWithState? containerComponent = null)
@@ -885,9 +891,20 @@ namespace MauiReactor
                 throw new InvalidOperationException();
             }
 
-            foreach (var property in _propertiesToSet)
+            if (_propertiesToSet != null)
             {
-                SetPropertyValue(NativeControl, property.Key, property.Value);
+                foreach (var property in _propertiesToSet)
+                {
+                    SetPropertyValue(NativeControl, property.Key, property.Value);
+                }
+            }
+
+            if (_propertyValuesToSet != null)
+            {
+                foreach (var property in _propertyValuesToSet)
+                {
+                    SetPropertyValue(NativeControl, property.Key, property.Value);
+                }
             }
 
             OnAttachNativeEvents();
@@ -941,7 +958,7 @@ namespace MauiReactor
 
         void IVisualNodeWithNativeControl.Attach(BindableObject nativeControl)
         {
-            _nativeControl = nativeControl;
+            _nativeControl = (T?)nativeControl;
         }
 
         bool IVisualNodeWithNativeControl.Animate()
@@ -997,6 +1014,7 @@ namespace MauiReactor
                 ((IVisualNodeWithNativeControl)this).Animate();
             }
         }
+
         Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
         {
             if (_nativeControl is Microsoft.Maui.Controls.Page containerPage)

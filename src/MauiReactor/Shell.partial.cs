@@ -1,4 +1,5 @@
-﻿using MauiReactor.Internals;
+﻿using MauiReactor.HotReload;
+using MauiReactor.Internals;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Platform;
 using System.Collections;
@@ -452,17 +453,19 @@ public static class MauiControlsShellExtensions
                 else
                 {
                     var convertedProps = new P();
-                                
-                    if (MauiReactorFeatures.HotReloadIsEnabled)
-                    {
-                        CopyObjectExtensions.CopyProperties(props, convertedProps);
-                    }
-                    else
-                    {
-                        var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Shell>>();
-                        logger?.LogWarning("Unable to forward component Props from type {Props}", 
-                            props.GetType().FullName);
-                    }    
+
+                    TypeLoader.Instance.CopyProperties(props, convertedProps);
+
+                    //if (MauiReactorFeatures.HotReloadIsEnabled)
+                    //{
+                    //    CopyObjectExtensions.CopyProperties(props, convertedProps);
+                    //}
+                    //else
+                    //{
+                    //    var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Shell>>();
+                    //    logger?.LogWarning("Unable to forward component Props from type {Props}", 
+                    //        props.GetType().FullName);
+                    //}    
                     
                     propsInitializer(convertedProps);
                 }
@@ -498,16 +501,18 @@ public static class MauiControlsShellExtensions
                     var convertedProps = new P();
                     propsInitializer(convertedProps);
 
-                    if (MauiReactorFeatures.HotReloadIsEnabled)
-                    {
-                        CopyObjectExtensions.CopyProperties(convertedProps, props);
-                    }
-                    else
-                    {
-                        var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Shell>>();
-                        logger?.LogWarning("Unable to forward component Props from type {Props}", 
-                            props.GetType().FullName);
-                    }    
+                    TypeLoader.Instance.CopyProperties(convertedProps, props);
+
+                    //if (MauiReactorFeatures.HotReloadIsEnabled)
+                    //{
+                    //    CopyObjectExtensions.CopyProperties(convertedProps, props);
+                    //}
+                    //else
+                    //{
+                    //    var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Shell>>();
+                    //    logger?.LogWarning("Unable to forward component Props from type {Props}", 
+                    //        props.GetType().FullName);
+                    //}    
                 }
             }), shell));
 

@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "q-and-a/do-we-need-to-add-states-to-create-simple-animations-such-as-scaleto-fadeto-etc-on-tap",
+    "Summary":  "Do we need to add states to create simple animations such as ScaleTo, FadeTo, etc on tap?",
+    "Remarks":  "Even if RxAnimations or AnimationController class are the primary way to create animations in MauiReactor, aren\u0027t strictly required.",
+    "Example":  "class AnimatedComponent: Component\r\n{\r\n    private Func\u003cTask\u003e? _action;\r\n    private MauiControls.Grid? _containerGrid;\r\n\r\n    public AnimatedComponent OnTapped(Func\u003cTask\u003e action)\r\n    {\r\n        _action = action;\r\n        return this;\r\n    }\r\n\r\n    public override VisualNode Render()\r\n    {\r\n        return new Grid(grid =\u003e _containerGrid = grid)\r\n        {\r\n            Children()\r\n        }\r\n        .OnTapped(async () =\u003e\r\n        {\r\n            if (_containerGrid != null \u0026\u0026 _action != null)\r\n            {\r\n                await MauiControls.ViewExtensions.ScaleTo(_containerGrid, 0.7);\r\n                await _action.Invoke();\r\n                await MauiControls.ViewExtensions.ScaleTo(_containerGrid, 1.0);\r\n            }\r\n        });\r\n    }\r\n}\r"
+}

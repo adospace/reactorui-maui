@@ -13,6 +13,12 @@ namespace MauiReactor;
 public partial interface IHybridWebView : IView
 {
     EventCommand<HybridWebViewRawMessageReceivedEventArgs>? RawMessageReceivedEvent { get; set; }
+
+    EventCommand<WebViewInitializingEventArgs>? WebViewInitializingEvent { get; set; }
+
+    EventCommand<WebViewInitializedEventArgs>? WebViewInitializedEvent { get; set; }
+
+    EventCommand<WebViewWebResourceRequestedEventArgs>? WebResourceRequestedEvent { get; set; }
 }
 
 public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Microsoft.Maui.Controls.HybridWebView, new()
@@ -23,6 +29,12 @@ public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Micros
     }
 
     EventCommand<HybridWebViewRawMessageReceivedEventArgs>? IHybridWebView.RawMessageReceivedEvent { get; set; }
+
+    EventCommand<WebViewInitializingEventArgs>? IHybridWebView.WebViewInitializingEvent { get; set; }
+
+    EventCommand<WebViewInitializedEventArgs>? IHybridWebView.WebViewInitializedEvent { get; set; }
+
+    EventCommand<WebViewWebResourceRequestedEventArgs>? IHybridWebView.WebResourceRequestedEvent { get; set; }
 
     partial void OnBeginAnimate();
     partial void OnEndAnimate();
@@ -39,6 +51,9 @@ public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Micros
     partial void OnAttachingNativeEvents();
     partial void OnDetachingNativeEvents();
     private EventCommand<HybridWebViewRawMessageReceivedEventArgs>? _executingRawMessageReceivedEvent;
+    private EventCommand<WebViewInitializingEventArgs>? _executingWebViewInitializingEvent;
+    private EventCommand<WebViewInitializedEventArgs>? _executingWebViewInitializedEvent;
+    private EventCommand<WebViewWebResourceRequestedEventArgs>? _executingWebResourceRequestedEvent;
     protected override void OnAttachNativeEvents()
     {
         Validate.EnsureNotNull(NativeControl);
@@ -46,6 +61,21 @@ public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Micros
         if (thisAsIHybridWebView.RawMessageReceivedEvent != null)
         {
             NativeControl.RawMessageReceived += NativeControl_RawMessageReceived;
+        }
+
+        if (thisAsIHybridWebView.WebViewInitializingEvent != null)
+        {
+            NativeControl.WebViewInitializing += NativeControl_WebViewInitializing;
+        }
+
+        if (thisAsIHybridWebView.WebViewInitializedEvent != null)
+        {
+            NativeControl.WebViewInitialized += NativeControl_WebViewInitialized;
+        }
+
+        if (thisAsIHybridWebView.WebResourceRequestedEvent != null)
+        {
+            NativeControl.WebResourceRequested += NativeControl_WebResourceRequested;
         }
 
         OnAttachingNativeEvents();
@@ -62,11 +92,44 @@ public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Micros
         }
     }
 
+    private void NativeControl_WebViewInitializing(object? sender, WebViewInitializingEventArgs e)
+    {
+        var thisAsIHybridWebView = (IHybridWebView)this;
+        if (_executingWebViewInitializingEvent == null || _executingWebViewInitializingEvent.IsCompleted)
+        {
+            _executingWebViewInitializingEvent = thisAsIHybridWebView.WebViewInitializingEvent;
+            _executingWebViewInitializingEvent?.Execute(sender, e);
+        }
+    }
+
+    private void NativeControl_WebViewInitialized(object? sender, WebViewInitializedEventArgs e)
+    {
+        var thisAsIHybridWebView = (IHybridWebView)this;
+        if (_executingWebViewInitializedEvent == null || _executingWebViewInitializedEvent.IsCompleted)
+        {
+            _executingWebViewInitializedEvent = thisAsIHybridWebView.WebViewInitializedEvent;
+            _executingWebViewInitializedEvent?.Execute(sender, e);
+        }
+    }
+
+    private void NativeControl_WebResourceRequested(object? sender, WebViewWebResourceRequestedEventArgs e)
+    {
+        var thisAsIHybridWebView = (IHybridWebView)this;
+        if (_executingWebResourceRequestedEvent == null || _executingWebResourceRequestedEvent.IsCompleted)
+        {
+            _executingWebResourceRequestedEvent = thisAsIHybridWebView.WebResourceRequestedEvent;
+            _executingWebResourceRequestedEvent?.Execute(sender, e);
+        }
+    }
+
     protected override void OnDetachNativeEvents()
     {
         if (NativeControl != null)
         {
             NativeControl.RawMessageReceived -= NativeControl_RawMessageReceived;
+            NativeControl.WebViewInitializing -= NativeControl_WebViewInitializing;
+            NativeControl.WebViewInitialized -= NativeControl_WebViewInitialized;
+            NativeControl.WebResourceRequested -= NativeControl_WebResourceRequested;
         }
 
         OnDetachingNativeEvents();
@@ -81,6 +144,21 @@ public partial class HybridWebView<T> : View<T>, IHybridWebView where T : Micros
             if (_executingRawMessageReceivedEvent != null && !_executingRawMessageReceivedEvent.IsCompleted)
             {
                 @hybridwebview._executingRawMessageReceivedEvent = _executingRawMessageReceivedEvent;
+            }
+
+            if (_executingWebViewInitializingEvent != null && !_executingWebViewInitializingEvent.IsCompleted)
+            {
+                @hybridwebview._executingWebViewInitializingEvent = _executingWebViewInitializingEvent;
+            }
+
+            if (_executingWebViewInitializedEvent != null && !_executingWebViewInitializedEvent.IsCompleted)
+            {
+                @hybridwebview._executingWebViewInitializedEvent = _executingWebViewInitializedEvent;
+            }
+
+            if (_executingWebResourceRequestedEvent != null && !_executingWebResourceRequestedEvent.IsCompleted)
+            {
+                @hybridwebview._executingWebResourceRequestedEvent = _executingWebResourceRequestedEvent;
             }
         }
 
@@ -114,8 +192,22 @@ public static partial class HybridWebViewExtensions
         return hybridWebView;
     }
 
+    public static T HybridWebViewDefaultFile<T>(this T hybridWebView, string defaultFile)
+        where T : Component
+    {
+        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.DefaultFileProperty, defaultFile);
+        return hybridWebView;
+    }
+
     public static T DefaultFile<T>(this T hybridWebView, Func<string> defaultFileFunc, IComponentWithState? componentWithState = null)
         where T : IHybridWebView
+    {
+        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.DefaultFileProperty, new PropertyValue<string>(defaultFileFunc, componentWithState));
+        return hybridWebView;
+    }
+
+    public static T HybridWebViewDefaultFile<T>(this T hybridWebView, Func<string> defaultFileFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.DefaultFileProperty, new PropertyValue<string>(defaultFileFunc, componentWithState));
         return hybridWebView;
@@ -129,8 +221,22 @@ public static partial class HybridWebViewExtensions
         return hybridWebView;
     }
 
+    public static T HybridWebViewHybridRoot<T>(this T hybridWebView, string hybridRoot)
+        where T : Component
+    {
+        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.HybridRootProperty, hybridRoot);
+        return hybridWebView;
+    }
+
     public static T HybridRoot<T>(this T hybridWebView, Func<string> hybridRootFunc, IComponentWithState? componentWithState = null)
         where T : IHybridWebView
+    {
+        hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.HybridRootProperty, new PropertyValue<string>(hybridRootFunc, componentWithState));
+        return hybridWebView;
+    }
+
+    public static T HybridWebViewHybridRoot<T>(this T hybridWebView, Func<string> hybridRootFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         hybridWebView.SetProperty(Microsoft.Maui.Controls.HybridWebView.HybridRootProperty, new PropertyValue<string>(hybridRootFunc, componentWithState));
         return hybridWebView;
@@ -175,6 +281,132 @@ public static partial class HybridWebViewExtensions
         where T : IHybridWebView
     {
         hybridWebView.RawMessageReceivedEvent = new AsyncEventCommand<HybridWebViewRawMessageReceivedEventArgs>(executeWithFullArgs: rawMessageReceivedAction, runInBackground);
+        return hybridWebView;
+    }
+
+    public static T OnWebViewInitializing<T>(this T hybridWebView, Action? webViewInitializingAction)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebViewInitializingEvent = new SyncEventCommand<WebViewInitializingEventArgs>(execute: webViewInitializingAction);
+        return hybridWebView;
+    }
+
+    public static T OnWebViewInitializing<T>(this T hybridWebView, Action<WebViewInitializingEventArgs>? webViewInitializingAction)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebViewInitializingEvent = new SyncEventCommand<WebViewInitializingEventArgs>(executeWithArgs: webViewInitializingAction);
+        return hybridWebView;
+    }
+
+    public static T OnWebViewInitializing<T>(this T hybridWebView, Action<object?, WebViewInitializingEventArgs>? webViewInitializingAction)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebViewInitializingEvent = new SyncEventCommand<WebViewInitializingEventArgs>(executeWithFullArgs: webViewInitializingAction);
+        return hybridWebView;
+    }
+
+    public static T OnWebViewInitializing<T>(this T hybridWebView, Func<Task>? webViewInitializingAction, bool runInBackground = false)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebViewInitializingEvent = new AsyncEventCommand<WebViewInitializingEventArgs>(execute: webViewInitializingAction, runInBackground);
+        return hybridWebView;
+    }
+
+    public static T OnWebViewInitializing<T>(this T hybridWebView, Func<WebViewInitializingEventArgs, Task>? webViewInitializingAction, bool runInBackground = false)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebViewInitializingEvent = new AsyncEventCommand<WebViewInitializingEventArgs>(executeWithArgs: webViewInitializingAction, runInBackground);
+        return hybridWebView;
+    }
+
+    public static T OnWebViewInitializing<T>(this T hybridWebView, Func<object?, WebViewInitializingEventArgs, Task>? webViewInitializingAction, bool runInBackground = false)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebViewInitializingEvent = new AsyncEventCommand<WebViewInitializingEventArgs>(executeWithFullArgs: webViewInitializingAction, runInBackground);
+        return hybridWebView;
+    }
+
+    public static T OnWebViewInitialized<T>(this T hybridWebView, Action? webViewInitializedAction)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebViewInitializedEvent = new SyncEventCommand<WebViewInitializedEventArgs>(execute: webViewInitializedAction);
+        return hybridWebView;
+    }
+
+    public static T OnWebViewInitialized<T>(this T hybridWebView, Action<WebViewInitializedEventArgs>? webViewInitializedAction)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebViewInitializedEvent = new SyncEventCommand<WebViewInitializedEventArgs>(executeWithArgs: webViewInitializedAction);
+        return hybridWebView;
+    }
+
+    public static T OnWebViewInitialized<T>(this T hybridWebView, Action<object?, WebViewInitializedEventArgs>? webViewInitializedAction)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebViewInitializedEvent = new SyncEventCommand<WebViewInitializedEventArgs>(executeWithFullArgs: webViewInitializedAction);
+        return hybridWebView;
+    }
+
+    public static T OnWebViewInitialized<T>(this T hybridWebView, Func<Task>? webViewInitializedAction, bool runInBackground = false)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebViewInitializedEvent = new AsyncEventCommand<WebViewInitializedEventArgs>(execute: webViewInitializedAction, runInBackground);
+        return hybridWebView;
+    }
+
+    public static T OnWebViewInitialized<T>(this T hybridWebView, Func<WebViewInitializedEventArgs, Task>? webViewInitializedAction, bool runInBackground = false)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebViewInitializedEvent = new AsyncEventCommand<WebViewInitializedEventArgs>(executeWithArgs: webViewInitializedAction, runInBackground);
+        return hybridWebView;
+    }
+
+    public static T OnWebViewInitialized<T>(this T hybridWebView, Func<object?, WebViewInitializedEventArgs, Task>? webViewInitializedAction, bool runInBackground = false)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebViewInitializedEvent = new AsyncEventCommand<WebViewInitializedEventArgs>(executeWithFullArgs: webViewInitializedAction, runInBackground);
+        return hybridWebView;
+    }
+
+    public static T OnWebResourceRequested<T>(this T hybridWebView, Action? webResourceRequestedAction)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebResourceRequestedEvent = new SyncEventCommand<WebViewWebResourceRequestedEventArgs>(execute: webResourceRequestedAction);
+        return hybridWebView;
+    }
+
+    public static T OnWebResourceRequested<T>(this T hybridWebView, Action<WebViewWebResourceRequestedEventArgs>? webResourceRequestedAction)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebResourceRequestedEvent = new SyncEventCommand<WebViewWebResourceRequestedEventArgs>(executeWithArgs: webResourceRequestedAction);
+        return hybridWebView;
+    }
+
+    public static T OnWebResourceRequested<T>(this T hybridWebView, Action<object?, WebViewWebResourceRequestedEventArgs>? webResourceRequestedAction)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebResourceRequestedEvent = new SyncEventCommand<WebViewWebResourceRequestedEventArgs>(executeWithFullArgs: webResourceRequestedAction);
+        return hybridWebView;
+    }
+
+    public static T OnWebResourceRequested<T>(this T hybridWebView, Func<Task>? webResourceRequestedAction, bool runInBackground = false)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebResourceRequestedEvent = new AsyncEventCommand<WebViewWebResourceRequestedEventArgs>(execute: webResourceRequestedAction, runInBackground);
+        return hybridWebView;
+    }
+
+    public static T OnWebResourceRequested<T>(this T hybridWebView, Func<WebViewWebResourceRequestedEventArgs, Task>? webResourceRequestedAction, bool runInBackground = false)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebResourceRequestedEvent = new AsyncEventCommand<WebViewWebResourceRequestedEventArgs>(executeWithArgs: webResourceRequestedAction, runInBackground);
+        return hybridWebView;
+    }
+
+    public static T OnWebResourceRequested<T>(this T hybridWebView, Func<object?, WebViewWebResourceRequestedEventArgs, Task>? webResourceRequestedAction, bool runInBackground = false)
+        where T : IHybridWebView
+    {
+        hybridWebView.WebResourceRequestedEvent = new AsyncEventCommand<WebViewWebResourceRequestedEventArgs>(executeWithFullArgs: webResourceRequestedAction, runInBackground);
         return hybridWebView;
     }
 }

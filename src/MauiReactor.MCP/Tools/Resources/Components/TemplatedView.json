@@ -1,0 +1,12 @@
+{
+  "Name": "TemplatedView",
+  "Description": "View whose content is defined by a ControlTemplate.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "ControlTemplate", "Type": "ControlTemplate?", "Description": "Defines template for view content." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

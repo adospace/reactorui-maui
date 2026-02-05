@@ -1,5 +1,4 @@
 ﻿using MauiReactor.Internals;
-using Microsoft.Maui.Controls;
 
 namespace MauiReactor;
 
@@ -124,7 +123,7 @@ internal static class RowColumnDefinitionExtensions
 
 public static partial class GridExtensions
 {
-    private static readonly GridLengthTypeConverter _gridLengthTypeConverter = new GridLengthTypeConverter();
+    private static readonly Microsoft.Maui.Converters.GridLengthTypeConverter _gridLengthTypeConverter = new Microsoft.Maui.Converters.GridLengthTypeConverter();
 
     internal static void SetRowDefinitions(this Microsoft.Maui.Controls.Grid grid, string? rowDefinitions)
     {
@@ -207,28 +206,28 @@ public static partial class GridExtensions
     }
 
 
-    public static T GridRow<T>(this T visualNodeWithAttachedProperties, int rowIndex) where T : IVisualNodeWithAttachedProperties
+    public static T GridRow<T>(this T visualNodeWithAttachedProperties, int rowIndex) where T : VisualNode
     {
         visualNodeWithAttachedProperties.SetProperty(Microsoft.Maui.Controls.Grid.RowProperty, rowIndex);
 
         return visualNodeWithAttachedProperties;
     }
 
-    public static T GridRowSpan<T>(this T visualNodeWithAttachedProperties, int rowSpan) where T : IVisualNodeWithAttachedProperties
+    public static T GridRowSpan<T>(this T visualNodeWithAttachedProperties, int rowSpan) where T : IVisualNode
     {
         visualNodeWithAttachedProperties.SetProperty(Microsoft.Maui.Controls.Grid.RowSpanProperty, rowSpan);
 
         return visualNodeWithAttachedProperties;
     }
 
-    public static T GridColumn<T>(this T visualNodeWithAttachedProperties, int columnIndex) where T : IVisualNodeWithAttachedProperties
+    public static T GridColumn<T>(this T visualNodeWithAttachedProperties, int columnIndex) where T : IVisualNode
     {
         visualNodeWithAttachedProperties.SetProperty(Microsoft.Maui.Controls.Grid.ColumnProperty, columnIndex);
 
         return visualNodeWithAttachedProperties;
     }
 
-    public static T GridColumnSpan<T>(this T visualNodeWithAttachedProperties, int columnSpan) where T : IVisualNodeWithAttachedProperties
+    public static T GridColumnSpan<T>(this T visualNodeWithAttachedProperties, int columnSpan) where T : IVisualNode
     {
         visualNodeWithAttachedProperties.SetProperty(Microsoft.Maui.Controls.Grid.ColumnSpanProperty, columnSpan);
 

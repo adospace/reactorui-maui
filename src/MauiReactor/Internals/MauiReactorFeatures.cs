@@ -9,9 +9,9 @@ namespace MauiReactor.Internals;
 
 internal static class MauiReactorFeatures
 {
-    [FeatureSwitchDefinition("MauiReactor.HotReload")]
-    public static bool HotReloadIsEnabled
-        => AppContext.TryGetSwitch("MauiReactor.HotReload", out var isEnabled) && isEnabled;
+    //[FeatureSwitchDefinition("MauiReactor.HotReload")]
+    //public static bool HotReloadIsEnabled
+    //    => AppContext.TryGetSwitch("MauiReactor.HotReload", out var isEnabled) && isEnabled;
 
     [FeatureSwitchDefinition("MauiReactor.FrameRate")]
     public static bool FrameRateIsEnabled

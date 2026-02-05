@@ -1,0 +1,13 @@
+{
+  "Name": "Element",
+  "Description": "Base for navigable elements; parent/child hierarchy and resources.",
+  "Base": null,
+  "Properties": [
+    { "Name": "Parent", "Type": "Element?", "Description": "Parent element in the hierarchy." },
+    { "Name": "Resources", "Type": "ResourceDictionary?", "Description": "Merged resource dictionary." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

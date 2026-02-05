@@ -1,0 +1,10 @@
+{
+  "Name": "MenuFlyoutItem",
+  "Description": "A menu item inside a flyout.",
+  "Base": "MenuItem",
+  "Properties": [],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": []
+}

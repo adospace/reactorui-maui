@@ -270,8 +270,22 @@ public static partial class GraphicsViewExtensions
         return graphicsView;
     }
 
+    public static T GraphicsViewDrawable<T>(this T graphicsView, Microsoft.Maui.Graphics.IDrawable drawable)
+        where T : Component
+    {
+        graphicsView.SetProperty(Microsoft.Maui.Controls.GraphicsView.DrawableProperty, drawable);
+        return graphicsView;
+    }
+
     public static T Drawable<T>(this T graphicsView, Func<Microsoft.Maui.Graphics.IDrawable> drawableFunc, IComponentWithState? componentWithState = null)
         where T : IGraphicsView
+    {
+        graphicsView.SetProperty(Microsoft.Maui.Controls.GraphicsView.DrawableProperty, new PropertyValue<Microsoft.Maui.Graphics.IDrawable>(drawableFunc, componentWithState));
+        return graphicsView;
+    }
+
+    public static T GraphicsViewDrawable<T>(this T graphicsView, Func<Microsoft.Maui.Graphics.IDrawable> drawableFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         graphicsView.SetProperty(Microsoft.Maui.Controls.GraphicsView.DrawableProperty, new PropertyValue<Microsoft.Maui.Graphics.IDrawable>(drawableFunc, componentWithState));
         return graphicsView;

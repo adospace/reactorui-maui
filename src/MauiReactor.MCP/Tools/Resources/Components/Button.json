@@ -1,0 +1,32 @@
+{
+  "Name": "Button",
+  "Description": "Interactive clickable control with text or image and click/press/release events.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "ContentLayout", "Type": "Microsoft.Maui.Controls.Button.ButtonContentLayout", "Description": "Controls the layout of the button's image and text." },
+    { "Name": "Text", "Type": "string", "Description": "The text displayed on the button." },
+    { "Name": "TextColor", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Color of the text." },
+    { "Name": "CharacterSpacing", "Type": "double", "Description": "Spacing between characters in the button text." },
+    { "Name": "FontFamily", "Type": "string", "Description": "Font family for the button text." },
+    { "Name": "FontSize", "Type": "double", "Description": "Font size for the button text." },
+    { "Name": "TextTransform", "Type": "Microsoft.Maui.TextTransform", "Description": "Transform applied to the button text (None, Uppercase, Lowercase)." },
+    { "Name": "FontAttributes", "Type": "Microsoft.Maui.Controls.FontAttributes", "Description": "Font style attributes (None, Bold, Italic)." },
+    { "Name": "FontAutoScalingEnabled", "Type": "bool", "Description": "Enables automatic font scaling according to accessibility settings." },
+    { "Name": "BorderWidth", "Type": "double", "Description": "Width of the button border." },
+    { "Name": "BorderColor", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Color of the button border." },
+    { "Name": "CornerRadius", "Type": "int", "Description": "Corner radius applied to the button." },
+    { "Name": "ImageSource", "Type": "Microsoft.Maui.Controls.ImageSource", "Description": "Image displayed within the button." },
+    { "Name": "Padding", "Type": "Microsoft.Maui.Thickness", "Description": "Inner padding of the button content." },
+    { "Name": "LineBreakMode", "Type": "Microsoft.Maui.LineBreakMode", "Description": "How text wraps or truncates within the button." }
+  ],
+  "Events": [
+    { "Name": "Clicked", "EventArgsType": "System.EventArgs", "Description": "Raised when the button is clicked." },
+    { "Name": "Pressed", "EventArgsType": "System.EventArgs", "Description": "Raised when the button is pressed." },
+    { "Name": "Released", "EventArgsType": "System.EventArgs", "Description": "Raised when the button is released." }
+  ],
+  "Constructors": [
+    { "Signature": "Button()", "Description": "Default constructor." },
+    { "Signature": "Button(string text)", "Description": "Creates a Button and sets its text." },
+    { "Signature": "Button(string text, System.Action onClick)", "Description": "Creates a Button, sets text and registers a click handler." }
+  ]
+}

@@ -21,7 +21,7 @@ namespace MauiReactor.Scaffold
 
             var propertiesMap = _typeToScaffold.GetProperties()
                 .Where(p => p.DeclaringType == _typeToScaffold)
-                .Where(_ => !_.PropertyType.IsGenericType)
+                .Where(_ => !_.PropertyType.IsGenericType || Nullable.GetUnderlyingType(_.PropertyType) != null)
                 .Distinct(new PropertyInfoEqualityComparer())
                 .ToDictionary(_ => _.Name, _ => _);
 
@@ -30,7 +30,6 @@ namespace MauiReactor.Scaffold
                 .Select(_ => _.Name.Substring(0, _.Name.Length - "Property".Length))
                 .Where(_ => propertiesMap.ContainsKey(_))
                 .Select(_ => propertiesMap[_])
-                .Where(_ => !_.PropertyType.IsGenericType)
                 .Where(_ => (_.GetSetMethod()?.IsPublic).GetValueOrDefault())
                 //Microsoft.Maui.Controls.LayoutOptions doesn't support ==
                 //.Where(_ => _.PropertyType.FullName != "Microsoft.Maui.Controls.LayoutOptions")
@@ -65,15 +64,16 @@ namespace MauiReactor.Scaffold
 
             Events = _typeToScaffold.GetEvents(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly)
                 .Where(_ => _.GetCustomAttribute<EditorBrowsableAttribute>() == null)
+                .Where(_ => _.GetCustomAttribute<ObsoleteAttribute>() == null)
                 .Distinct(new EventInfoEqualityComparer())
                 .ToArray();
         }
 
-        public string Namespace() => Validate.EnsureNotNull(_typeToScaffold.Namespace).Replace("Microsoft.Maui.Controls", "MauiReactor");
+        private string Namespace() => Validate.EnsureNotNull(_typeToScaffold.Namespace).Replace("Microsoft.Maui.Controls", "MauiReactor");
 
-        public string TypeName() => _typeToScaffold.Name.Replace("`1", string.Empty);
+        private string TypeName() => _typeToScaffold.Name.Replace("`1", string.Empty);
 
-        public string TypeNameWithGenericArguments()
+        private string TypeNameWithGenericArguments()
         {
             if (IsBaseGenericType())
             {
@@ -97,32 +97,32 @@ namespace MauiReactor.Scaffold
             }    
         }
 
-        public string FullTypeName() => Validate.EnsureNotNull(_typeToScaffold.FullName)
+        private string FullTypeName() => Validate.EnsureNotNull(_typeToScaffold.FullName)
             .Replace('+', '.').Replace("`1", string.Empty);
 
-        public bool IsGenericType() => 
+        private bool IsGenericType() => 
             _typeToScaffold.IsGenericType;
 
-        public bool IsBaseGenericType() =>
+        private bool IsBaseGenericType() =>
             Validate.EnsureNotNull(_typeToScaffold.BaseType).IsGenericType;
 
-        public string InterfaceName()
+        private string InterfaceName()
             => IsGenericType() ? $"IGeneric{TypeName()}" : $"I{TypeName()}";
 
-        public string GenericArgumentBaseFullTypeName()
+        private string GenericArgumentBaseFullTypeName()
             => _typeToScaffold
             .GetGenericArguments()[0]
             .BaseType.EnsureNotNull()
             .FullName.EnsureNotNull()
             .Replace('+', '.');
 
-        public string GenericArgumentBaseFullBaseTypeName()
+        private string GenericArgumentBaseFullBaseTypeName()
             => Validate.EnsureNotNull(_typeToScaffold.BaseType)
             .GetGenericArguments()[0]
             .FullName.EnsureNotNull()
             .Replace('+', '.');
 
-        public string BaseTypeName()
+        private string BaseTypeName()
         {
             var baseType = Validate.EnsureNotNull(_typeToScaffold.BaseType);
             if (baseType.Name == "BindableObject")
@@ -142,7 +142,7 @@ namespace MauiReactor.Scaffold
                 .Replace("Microsoft.Maui.Controls.", string.Empty);
         }
 
-        public string BaseInterfaceName()
+        private string BaseInterfaceName()
         {
             var baseTypeName = BaseTypeName();
             if (baseTypeName == "VisualNode")
@@ -152,23 +152,39 @@ namespace MauiReactor.Scaffold
             return baseTypeName.Insert(baseTypeName.LastIndexOf('.') + 1, "I");
         }
 
-        public bool IsTypeNotAbstractWithEmptyConstructor() 
+        private bool IsTypeNotAbstractWithEmptyConstructor() 
             => !_typeToScaffold.IsAbstract && _typeToScaffold.GetConstructor([]) != null;
 
-        public bool IsTypeSealed()
+        private bool IsTypeSealed()
             => _typeToScaffold.IsSealed;
 
-        public PropertyInfo[] Properties { get; }
+        private PropertyInfo[] Properties { get; }
 
-        public PropertyInfo[] AnimatableProperties => Properties.Where(_ =>
+        private PropertyInfo[] AnimatableProperties => Properties.Where(_ =>
             _.PropertyType == typeof(double) ||
             _.PropertyType == typeof(Rect) ||
             _.PropertyType == typeof(Thickness) ||
             _.PropertyType == typeof(CornerRadius) ||
             _.PropertyType == typeof(Point)
             )
-
             .ToArray();
+
+        private static string GetObsoleteAttribute(PropertyInfo propertyInfo)
+        {
+            var obsoleteAttribute = propertyInfo.GetCustomAttribute<ObsoleteAttribute>();
+            if (obsoleteAttribute != null)
+            {
+                if (!string.IsNullOrEmpty(obsoleteAttribute.Message))
+                {
+                    return $"[Obsolete(\"{obsoleteAttribute.Message}\")]";
+                }
+                else
+                {
+                    return "[Obsolete]";
+                }
+            }
+            return string.Empty;
+        }
 
         public EventInfo[] Events { get; }
 

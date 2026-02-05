@@ -1,0 +1,30 @@
+{
+  "Name": "SwipeView",
+  "Description": "A container that reveals contextual actions when swiped from edges.",
+  "Base": "ContentView",
+  "Properties": [
+    { "Name": "Content", "Type": "VisualNode", "Description": "Child content." },
+    { "Name": "Threshold", "Type": "double", "Description": "Swipe travel required to trigger items.", "Animatable": true },
+    { "Name": "LeftItems", "Type": "SwipeItems", "Description": "Swipe actions shown when swiping from the left." },
+    { "Name": "RightItems", "Type": "SwipeItems", "Description": "Swipe actions shown when swiping from the right." },
+    { "Name": "TopItems", "Type": "SwipeItems", "Description": "Swipe actions shown when swiping from the top." },
+    { "Name": "BottomItems", "Type": "SwipeItems", "Description": "Swipe actions shown when swiping from the bottom." }
+  ],
+  "Events": [
+    { "Name": "SwipeStarted", "EventArgsType": "SwipeStartedEventArgs" },
+    { "Name": "SwipeChanging", "EventArgsType": "SwipeChangingEventArgs" },
+    { "Name": "SwipeEnded", "EventArgsType": "SwipeEndedEventArgs" }
+  ],
+  "Constructors": [
+    { "Signature": "SwipeView(Action<SwipeView?> componentRefAction)" },
+    { "Signature": "SwipeView(IEnumerable<VisualNode?> children)" }
+  ],
+  "AttachedProperties": [],
+  "Helpers": [
+    { "Signature": "Threshold(double value)", "Description": "Sets the swipe threshold with animation support." },
+    { "Signature": "LeftItems(SwipeItems items)", "Description": "Assigns left swipe items." },
+    { "Signature": "RightItems(SwipeItems items)", "Description": "Assigns right swipe items." },
+    { "Signature": "TopItems(SwipeItems items)", "Description": "Assigns top swipe items." },
+    { "Signature": "BottomItems(SwipeItems items)", "Description": "Assigns bottom swipe items." }
+  ]
+}

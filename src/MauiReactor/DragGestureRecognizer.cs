@@ -140,8 +140,22 @@ public static partial class DragGestureRecognizerExtensions
         return dragGestureRecognizer;
     }
 
+    public static T DragGestureRecognizerCanDrag<T>(this T dragGestureRecognizer, bool canDrag)
+        where T : Component
+    {
+        dragGestureRecognizer.SetProperty(Microsoft.Maui.Controls.DragGestureRecognizer.CanDragProperty, canDrag);
+        return dragGestureRecognizer;
+    }
+
     public static T CanDrag<T>(this T dragGestureRecognizer, Func<bool> canDragFunc, IComponentWithState? componentWithState = null)
         where T : IDragGestureRecognizer
+    {
+        dragGestureRecognizer.SetProperty(Microsoft.Maui.Controls.DragGestureRecognizer.CanDragProperty, new PropertyValue<bool>(canDragFunc, componentWithState));
+        return dragGestureRecognizer;
+    }
+
+    public static T DragGestureRecognizerCanDrag<T>(this T dragGestureRecognizer, Func<bool> canDragFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         dragGestureRecognizer.SetProperty(Microsoft.Maui.Controls.DragGestureRecognizer.CanDragProperty, new PropertyValue<bool>(canDragFunc, componentWithState));
         return dragGestureRecognizer;

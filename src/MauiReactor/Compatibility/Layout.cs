@@ -125,48 +125,48 @@ public static partial class LayoutExtensions
         return layout;
     }
 
-    public static T Padding<T>(this T layout, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
-        where T : ILayout
-    {
-        //layout.Padding = padding;
-        layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, padding);
-        layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding));
-        return layout;
-    }
+    //public static T Padding<T>(this T layout, Microsoft.Maui.Thickness padding, RxThicknessAnimation? customAnimation = null)
+    //    where T : ILayout
+    //{
+    //    //layout.Padding = padding;
+    //    layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, padding);
+    //    layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(padding));
+    //    return layout;
+    //}
 
-    public static T Padding<T>(this T layout, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
-        where T : ILayout
-    {
-        layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
-        return layout;
-    }
+    //public static T Padding<T>(this T layout, Func<Microsoft.Maui.Thickness> paddingFunc, IComponentWithState? componentWithState = null)
+    //    where T : ILayout
+    //{
+    //    layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, new PropertyValue<Microsoft.Maui.Thickness>(paddingFunc, componentWithState));
+    //    return layout;
+    //}
 
-    public static T Padding<T>(this T layout, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
-        where T : ILayout
-    {
-        //layout.Padding = new Thickness(leftRight, topBottom);
-        layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, new Thickness(leftRight, topBottom));
-        layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)));
-        return layout;
-    }
+    //public static T Padding<T>(this T layout, double leftRight, double topBottom, RxThicknessAnimation? customAnimation = null)
+    //    where T : ILayout
+    //{
+    //    //layout.Padding = new Thickness(leftRight, topBottom);
+    //    layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, new Thickness(leftRight, topBottom));
+    //    layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(leftRight, topBottom)));
+    //    return layout;
+    //}
 
-    public static T Padding<T>(this T layout, double uniformSize, RxThicknessAnimation? customAnimation = null)
-        where T : ILayout
-    {
-        //layout.Padding = new Thickness(uniformSize);
-        layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, new Thickness(uniformSize));
-        layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)));
-        return layout;
-    }
+    //public static T Padding<T>(this T layout, double uniformSize, RxThicknessAnimation? customAnimation = null)
+    //    where T : ILayout
+    //{
+    //    //layout.Padding = new Thickness(uniformSize);
+    //    layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, new Thickness(uniformSize));
+    //    layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(uniformSize)));
+    //    return layout;
+    //}
 
-    public static T Padding<T>(this T layout, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
-        where T : ILayout
-    {
-        //layout.Padding = new Thickness(left, top, right, bottom);
-        layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, new Thickness(left, top, right, bottom));
-        layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)));
-        return layout;
-    }
+    //public static T Padding<T>(this T layout, double left, double top, double right, double bottom, RxThicknessAnimation? customAnimation = null)
+    //    where T : ILayout
+    //{
+    //    //layout.Padding = new Thickness(left, top, right, bottom);
+    //    layout.SetProperty(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, new Thickness(left, top, right, bottom));
+    //    layout.AppendAnimatable(Microsoft.Maui.Controls.Compatibility.Layout.PaddingProperty, customAnimation ?? new RxSimpleThicknessAnimation(new Thickness(left, top, right, bottom)));
+    //    return layout;
+    //}
 
     public static T OnLayoutChanged<T>(this T layout, Action? layoutChangedAction)
         where T : ILayout

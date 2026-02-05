@@ -46,7 +46,7 @@ partial class TestBug329 : Component
             TitleBar()
                 .Title("Random Generator")
                 .TrailingContent(
-                    Button("Settings", async () => await _shellRef!.DisplayAlert("Test App", "Open Settings page!", "OK"))
+                    Button("Settings", async () => await _shellRef!.DisplayAlertAsync("Test App", "Open Settings page!", "OK"))
                         .BackgroundColor(Colors.Transparent)
                         .BorderWidth(0)
                         .VerticalOptions(LayoutOptions.Center)

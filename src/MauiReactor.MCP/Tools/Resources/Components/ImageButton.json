@@ -1,0 +1,25 @@
+{
+  "Name": "ImageButton",
+  "Description": "Button that displays an image with click events.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "CornerRadius", "Type": "int", "Description": "Corner radius applied to the button." },
+    { "Name": "BorderWidth", "Type": "double", "Description": "Width of the button border." },
+    { "Name": "BorderColor", "Type": "Microsoft.Maui.Graphics.Color", "Description": "Color of the button border." },
+    { "Name": "Source", "Type": "Microsoft.Maui.Controls.ImageSource", "Description": "Image source for the button." },
+    { "Name": "Aspect", "Type": "Microsoft.Maui.Aspect", "Description": "How the image is scaled within its bounds." },
+    { "Name": "IsOpaque", "Type": "bool", "Description": "Whether the image is fully opaque." },
+    { "Name": "Padding", "Type": "Microsoft.Maui.Thickness", "Description": "Inner padding of the button content." }
+  ],
+  "Events": [
+    { "Name": "Clicked", "EventArgsType": "System.EventArgs", "Description": "Raised when the button is clicked." },
+    { "Name": "Pressed", "EventArgsType": "System.EventArgs", "Description": "Raised when the button is pressed." },
+    { "Name": "Released", "EventArgsType": "System.EventArgs", "Description": "Raised when the button is released." }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "ImageButton()", "Description": "Default constructor." },
+    { "Signature": "ImageButton(string imageSource)", "Description": "Creates an ImageButton and sets its image source from a file/resource path." },
+    { "Signature": "ImageButton(Uri imageSource)", "Description": "Creates an ImageButton and sets its image source from a URI." }
+  ]
+}

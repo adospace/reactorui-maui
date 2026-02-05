@@ -17,10 +17,10 @@ public class HomePage : Component
             {
                 new CounterPage()
             },
-            new FlyoutItem("Counter with service")
-            {
-                new CounterWithServicePage()
-            },
+            //new FlyoutItem("Counter with service")
+            //{
+            //    new CounterWithServicePage()
+            //},
             new FlyoutItem("Parameters")
             {
                 new ParametersPage()
@@ -33,14 +33,14 @@ public class HomePage : Component
             {
                 new EditableCollectionView()
             },
-            new FlyoutItem("ListView")
-            {
-                new ListViewPage()
-            },
-            new FlyoutItem("ListView Extended Test")
-            {
-                new ListViewExtendedTestPage()
-            },
+            //new FlyoutItem("ListView")
+            //{
+            //    new ListViewPage()
+            //},
+            //new FlyoutItem("ListView Extended Test")
+            //{
+            //    new ListViewExtendedTestPage()
+            //},
             new FlyoutItem("AnimationBasics")
             {
                 new AnimationBasics()
@@ -101,10 +101,10 @@ public class HomePage : Component
             {
                 new BorderCornerRadiusPage()
             },
-            new FlyoutItem("Show Popup Test")
-            {
-                new ShowPopupTestPage()
-            },
+            //new FlyoutItem("Show Popup Test")
+            //{
+            //    new ShowPopupTestPage()
+            //},
             new FlyoutItem("Carousel Test")
             {
                 new CarouselTestPage()

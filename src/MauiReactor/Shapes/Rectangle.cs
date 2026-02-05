@@ -52,8 +52,23 @@ public static partial class RectangleExtensions
         return rectangle;
     }
 
+    public static T RectangleRadiusX<T>(this T rectangle, double radiusX, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        rectangle.SetProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusXProperty, radiusX);
+        rectangle.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusXProperty, customAnimation ?? new RxDoubleAnimation(radiusX));
+        return rectangle;
+    }
+
     public static T RadiusX<T>(this T rectangle, Func<double> radiusXFunc, IComponentWithState? componentWithState = null)
         where T : IRectangle
+    {
+        rectangle.SetProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusXProperty, new PropertyValue<double>(radiusXFunc, componentWithState));
+        return rectangle;
+    }
+
+    public static T RectangleRadiusX<T>(this T rectangle, Func<double> radiusXFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         rectangle.SetProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusXProperty, new PropertyValue<double>(radiusXFunc, componentWithState));
         return rectangle;
@@ -68,8 +83,23 @@ public static partial class RectangleExtensions
         return rectangle;
     }
 
+    public static T RectangleRadiusY<T>(this T rectangle, double radiusY, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        rectangle.SetProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusYProperty, radiusY);
+        rectangle.AppendAnimatable(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusYProperty, customAnimation ?? new RxDoubleAnimation(radiusY));
+        return rectangle;
+    }
+
     public static T RadiusY<T>(this T rectangle, Func<double> radiusYFunc, IComponentWithState? componentWithState = null)
         where T : IRectangle
+    {
+        rectangle.SetProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusYProperty, new PropertyValue<double>(radiusYFunc, componentWithState));
+        return rectangle;
+    }
+
+    public static T RectangleRadiusY<T>(this T rectangle, Func<double> radiusYFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         rectangle.SetProperty(Microsoft.Maui.Controls.Shapes.Rectangle.RadiusYProperty, new PropertyValue<double>(radiusYFunc, componentWithState));
         return rectangle;

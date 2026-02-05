@@ -1,0 +1,6 @@
+﻿{
+    "Key":  "components/animation/property-base-animation",
+    "Summary":  "Animate component properties between states with WithAnimation(). Simple, declarative transitions for opacity, scale, position, and more.",
+    "Remarks":  "Property-based animation (RxAnimation) animates changes to component properties when state toggles. Call WithAnimation() on the component to tween previously-set animatable properties (e.g., .Opacity(...), .Scale(...)). Customize duration and easing by parameters to WithAnimation. You can still use standard .NET MAUI animations by getting a native control reference, but WithAnimation is the simplest MVU-friendly option.",
+    "Example":  "class MainPageState\r\n{\r\n    public bool Toggle { get; set; }\r\n}\r\n\r\nclass MainPage : Component<MainPageState>\r\n{\r\n    public override VisualNode Render()\r\n    {\r\n        return ContentPage(\r\n            Image()\r\n                .HCenter()\r\n                .VCenter()\r\n                .Source(\"city.jpg\")\r\n                .OnTap(() => SetState(s => s.Toggle = !s.Toggle))\r\n                .Opacity(State.Toggle ? 1.0 : 0.0)\r\n                .Scale(State.Toggle ? 1.0 : 0.5)\r\n                .Margin(10)\r\n                .WithAnimation()\r\n        );\r\n    }\r\n}\r"
+}

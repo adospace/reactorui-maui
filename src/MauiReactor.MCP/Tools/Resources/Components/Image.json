@@ -1,0 +1,18 @@
+{
+  "Name": "Image",
+  "Description": "Displays an image from file, resource or URI.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "Source", "Type": "Microsoft.Maui.Controls.ImageSource", "Description": "Image source (file, resource, URI, stream)." },
+    { "Name": "Aspect", "Type": "Microsoft.Maui.Aspect", "Description": "How the image is scaled within its bounds." },
+    { "Name": "IsOpaque", "Type": "bool", "Description": "Whether the image is fully opaque." },
+    { "Name": "IsAnimationPlaying", "Type": "bool", "Description": "Whether an animated image is currently playing (e.g., GIF)." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "Image()", "Description": "Default constructor." },
+    { "Signature": "Image(string imageSource)", "Description": "Creates an Image and sets its source from a file/resource path." },
+    { "Signature": "Image(Uri imageSource)", "Description": "Creates an Image and sets its source from a URI." }
+  ]
+}

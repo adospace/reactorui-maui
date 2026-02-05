@@ -66,10 +66,53 @@ public static partial class ContentPageExtensions
         return contentPage;
     }
 
+    public static T ContentPageHideSoftInputOnTapped<T>(this T contentPage, bool hideSoftInputOnTapped)
+        where T : Component
+    {
+        contentPage.SetProperty(Microsoft.Maui.Controls.ContentPage.HideSoftInputOnTappedProperty, hideSoftInputOnTapped);
+        return contentPage;
+    }
+
     public static T HideSoftInputOnTapped<T>(this T contentPage, Func<bool> hideSoftInputOnTappedFunc, IComponentWithState? componentWithState = null)
         where T : IContentPage
     {
         contentPage.SetProperty(Microsoft.Maui.Controls.ContentPage.HideSoftInputOnTappedProperty, new PropertyValue<bool>(hideSoftInputOnTappedFunc, componentWithState));
+        return contentPage;
+    }
+
+    public static T ContentPageHideSoftInputOnTapped<T>(this T contentPage, Func<bool> hideSoftInputOnTappedFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        contentPage.SetProperty(Microsoft.Maui.Controls.ContentPage.HideSoftInputOnTappedProperty, new PropertyValue<bool>(hideSoftInputOnTappedFunc, componentWithState));
+        return contentPage;
+    }
+
+    public static T SafeAreaEdges<T>(this T contentPage, Microsoft.Maui.SafeAreaEdges safeAreaEdges)
+        where T : IContentPage
+    {
+        //contentPage.SafeAreaEdges = safeAreaEdges;
+        contentPage.SetProperty(Microsoft.Maui.Controls.ContentPage.SafeAreaEdgesProperty, safeAreaEdges);
+        return contentPage;
+    }
+
+    public static T ContentPageSafeAreaEdges<T>(this T contentPage, Microsoft.Maui.SafeAreaEdges safeAreaEdges)
+        where T : Component
+    {
+        contentPage.SetProperty(Microsoft.Maui.Controls.ContentPage.SafeAreaEdgesProperty, safeAreaEdges);
+        return contentPage;
+    }
+
+    public static T SafeAreaEdges<T>(this T contentPage, Func<Microsoft.Maui.SafeAreaEdges> safeAreaEdgesFunc, IComponentWithState? componentWithState = null)
+        where T : IContentPage
+    {
+        contentPage.SetProperty(Microsoft.Maui.Controls.ContentPage.SafeAreaEdgesProperty, new PropertyValue<Microsoft.Maui.SafeAreaEdges>(safeAreaEdgesFunc, componentWithState));
+        return contentPage;
+    }
+
+    public static T ContentPageSafeAreaEdges<T>(this T contentPage, Func<Microsoft.Maui.SafeAreaEdges> safeAreaEdgesFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        contentPage.SetProperty(Microsoft.Maui.Controls.ContentPage.SafeAreaEdgesProperty, new PropertyValue<Microsoft.Maui.SafeAreaEdges>(safeAreaEdgesFunc, componentWithState));
         return contentPage;
     }
 }

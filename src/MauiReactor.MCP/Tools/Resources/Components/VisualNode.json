@@ -1,0 +1,21 @@
+{
+  "Name": "VisualNode",
+  "Description": "Base class for all reactor nodes; manages lifecycle, properties, children, and rendering.",
+  "Base": null,
+  "Properties": [
+    { "Name": "Key", "Type": "string?", "Description": "Logical key used for diffing/migration." },
+    { "Name": "ThemeKey", "Type": "string?", "Description": "Optional theme key to apply styles." },
+    { "Name": "IsVisible", "Type": "bool", "Description": "Logical visibility for rendering pipeline." }
+  ],
+  "Events": [
+    { "Name": "Mounted", "EventArgsType": "EventArgs" },
+    { "Name": "Unmounted", "EventArgsType": "EventArgs" }
+  ],
+  "AttachedProperties": [],
+  "Constructors": [],
+  "Helpers": [
+    { "Signature": "SetProperty(BindableProperty, object?)", "Description": "Assigns a value to a bindable property on the native control." },
+    { "Signature": "AppendAnimatable(BindableProperty, Animation)", "Description": "Adds an animation associated with a property." },
+    { "Signature": "AddChildren(IEnumerable<VisualNode?>)", "Description": "Adds child nodes for rendering." }
+  ]
+}

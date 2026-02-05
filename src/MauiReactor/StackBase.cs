@@ -52,8 +52,23 @@ public static partial class StackBaseExtensions
         return stackBase;
     }
 
+    public static T StackBaseSpacing<T>(this T stackBase, double spacing, RxDoubleAnimation? customAnimation = null)
+        where T : Component
+    {
+        stackBase.SetProperty(Microsoft.Maui.Controls.StackBase.SpacingProperty, spacing);
+        stackBase.AppendAnimatable(Microsoft.Maui.Controls.StackBase.SpacingProperty, customAnimation ?? new RxDoubleAnimation(spacing));
+        return stackBase;
+    }
+
     public static T Spacing<T>(this T stackBase, Func<double> spacingFunc, IComponentWithState? componentWithState = null)
         where T : IStackBase
+    {
+        stackBase.SetProperty(Microsoft.Maui.Controls.StackBase.SpacingProperty, new PropertyValue<double>(spacingFunc, componentWithState));
+        return stackBase;
+    }
+
+    public static T StackBaseSpacing<T>(this T stackBase, Func<double> spacingFunc, IComponentWithState? componentWithState = null)
+        where T : Component
     {
         stackBase.SetProperty(Microsoft.Maui.Controls.StackBase.SpacingProperty, new PropertyValue<double>(spacingFunc, componentWithState));
         return stackBase;

@@ -95,7 +95,7 @@ class Calendar : Component<CalendarState>
 
     public override VisualNode Render()
     {
-        return new Frame
+        return new Border
         {
             new Grid("Auto * Auto", "334")
             {
@@ -146,7 +146,7 @@ class Calendar : Component<CalendarState>
         }
         .HeightRequest(416)
         .WidthRequest(334)
-        .CornerRadius(8)
+        .StrokeCornerRadius(8)
         .VCenter()
         .HCenter()
         .BackgroundColor(Theme.WhiteColor)

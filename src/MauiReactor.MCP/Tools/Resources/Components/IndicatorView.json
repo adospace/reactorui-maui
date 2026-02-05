@@ -1,0 +1,15 @@
+{
+  "Name": "IndicatorView",
+  "Description": "Page indicators for a connected ItemsView/Carousel.",
+  "Base": "View",
+  "Properties": [
+    { "Name": "ItemsSource", "Type": "IEnumerable?", "Description": "Optional items source for indicators." },
+    { "Name": "IndicatorTemplate", "Type": "DataTemplate?", "Description": "Template for individual indicator visuals." },
+    { "Name": "IndicatorVisualStateGroups", "Type": "VisualStateGroupList", "Description": "Visual states applied to the indicator template root." }
+  ],
+  "Events": [],
+  "AttachedProperties": [],
+  "Constructors": [
+    { "Signature": "IndicatorView()", "Description": "Default constructor." }
+  ]
+}

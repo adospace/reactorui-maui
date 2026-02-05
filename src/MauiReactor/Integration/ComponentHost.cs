@@ -45,17 +45,17 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
 
         public void OnAssemblyChanged()
         {
-            if (!MauiReactorFeatures.HotReloadIsEnabled)
-            {
-                throw new InvalidOperationException();
-            }            
+            //if (!MauiReactorFeatures.HotReloadIsEnabled)
+            //{
+            //    throw new InvalidOperationException();
+            //}            
             
             Validate.EnsureNotNull(_component);
 
 
             try
             {
-                var newComponent = HotReloadTypeLoader.Instance.LoadObject<Component>(_component.GetType());
+                var newComponent = TypeLoader.Instance.LoadObject<Component>(_component.GetType());
                 if (newComponent != null)
                 {
                     _component = newComponent;
@@ -186,10 +186,10 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
         {
             _sleeping = false;
 
-            if (MauiReactorFeatures.HotReloadIsEnabled)
-            { 
-                HotReloadTypeLoader.Instance.Run();
-                HotReloadTypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
+            //if (MauiReactorFeatures.HotReloadIsEnabled)
+            {
+                TypeLoader.Instance.Run();
+                TypeLoader.Instance.AssemblyChangedEvent?.AddListener(this);
             }
 
             OnLayout();
@@ -199,9 +199,9 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
 
         void IHostElement.Stop()
         {
-            if (MauiReactorFeatures.HotReloadIsEnabled)
+            //if (MauiReactorFeatures.HotReloadIsEnabled)
             {
-                HotReloadTypeLoader.Instance.AssemblyChangedEvent?.RemoveListener(this);
+                TypeLoader.Instance.AssemblyChangedEvent?.RemoveListener(this);
             }
             _sleeping = true;
         }
