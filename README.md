@@ -57,11 +57,11 @@ cd .\my-new-project\
 
 4. Build & run the project (emulator or device must be running and configured)
 ```
-dotnet build -t:Run -f net9.0-android
+dotnet build -t:Run -f net10.0-android
 ```
 Under Mac, to target an iOS device/emulator, issue a command like this:
 ```
-dotnet build -t:Run /p:_DeviceName=:v2:udid=<device_id> -f net9.0-ios
+dotnet build -t:Run /p:_DeviceName=:v2:udid=<device_id> -f net10.0-ios
 ```
 where the device id comes from this list:
 ```
@@ -70,7 +70,7 @@ xcrun simctl list
 
 5. Hot-reload console (in a different shell)
 ```
-dotnet-maui-reactor -f [net9.0-android|net9.0-ios|...]
+dotnet-maui-reactor -f [net10.0-android|net10.0-ios|...]
 ```
 
 6. Edits to code should be hot-reloaded by the application --> Enjoy!
