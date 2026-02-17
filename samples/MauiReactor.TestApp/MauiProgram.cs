@@ -19,7 +19,7 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
 #if DEBUG
-            .UseMauiReactorHotReload()
+            //.UseMauiReactorHotReload()
 #endif
             .UseSegoeFluentMauiIcons()
             .ConfigureFonts(fonts =>

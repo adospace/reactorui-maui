@@ -25,7 +25,9 @@ public class CounterPage : Component<CounterPageState>
                     .AutomationId("Counter_Button"),
                 Label(() => $"Counter no render: {State.Counter}"),
                 Button("Click To Increment counter without re-render")
-                    .OnClicked(() => SetState(s => s.Counter++, invalidateComponent: false))
+                    .OnClicked(() => SetState(s => s.Counter++, invalidateComponent: false)),
+
+                ((State.Counter % 2) == 0 ? (VisualNode)new ErrorComponent() : new SuccessComponent())
             )
             .Spacing(10)
             .Center()
@@ -93,4 +95,50 @@ partial class CounterWithTaskAwaiting : Component<CounterPageState>
         //that is the IncrementCounter() is not called again while the previous call is still running
         await Task.Delay(10000);
     }
+}
+
+internal class ErrorComponentState
+{
+}
+
+internal partial class ErrorComponent : Component<ErrorComponentState>
+{
+    public override VisualNode Render()
+        => Border(
+                VStack(
+                    Label("Something went wrong")
+                        .FontSize(18)
+                        .TextColor(Colors.White),
+
+                    Label("Please try again")
+                        .FontSize(14)
+                        .TextColor(Colors.White)
+                )
+                .Spacing(4)
+                .Padding(16)
+            )
+            .BackgroundColor(Colors.IndianRed);
+}
+
+internal class SuccessComponentState
+{
+}
+
+internal partial class SuccessComponent : Component<SuccessComponentState>
+{
+    public override VisualNode Render()
+        => Border(
+                VStack(
+                    Label("All set")
+                        .FontSize(18)
+                        .TextColor(Colors.White),
+
+                    Label("Everything looks good")
+                        .FontSize(14)
+                        .TextColor(Colors.White)
+                )
+                .Spacing(4)
+                .Padding(16)
+            )
+            .BackgroundColor(Colors.SeaGreen);
 }
