@@ -16,7 +16,7 @@
 		<PackageTags>maui mvu components reactjs flutter</PackageTags>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<PackageId>Reactor.Maui.HotReload</PackageId>
+		<PackageId>Reactor.Maui.HotReloadConsole</PackageId>
 		<LangVersion>latest</LangVersion>
 
 		<PackAsTool>true</PackAsTool>

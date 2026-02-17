@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
@@ -58,18 +58,11 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(Configuration)'=='Debug'">
-		<RuntimeHostConfigurationOption Include="MauiReactor.HotReload" Value="true" Trim="false" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net10.0-ios'">
-		<RuntimeHostConfigurationOption Include="MauiReactor.HotReload" Value="false" Trim="true" />
-	</ItemGroup>
-
-
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
-		<PackageReference Include="Reactor.Maui" Version="4.0.8-beta" />
+		<PackageReference Include="Reactor.Maui" Version="4.0.14" />
+		<!-- Reactor.Maui.HotReload 4.0.14 is incorrectly packaged as DotnetTool. Use ProjectReference or wait for a fixed version. -->
 	</ItemGroup>
 
 </Project>

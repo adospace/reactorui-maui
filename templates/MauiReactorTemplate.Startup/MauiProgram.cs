@@ -13,13 +13,16 @@ namespace MauiReactorTemplate.Startup
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiReactorApp<HomePage>(app =>
-                {
-                    app.UseTheme<ApplicationTheme>();
-                },
-                unhandledExceptionAction: e => 
-                {
-                    System.Diagnostics.Debug.WriteLine(e.ExceptionObject);
-                })
+                    {
+                        app.UseTheme<ApplicationTheme>();
+                    },
+                    unhandledExceptionAction: e => 
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.ExceptionObject);
+                    })
+#if DEBUG
+                //.EnableMauiReactorHotReload()
+#endif
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
