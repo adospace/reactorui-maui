@@ -37,13 +37,13 @@ class CounterPage : Component<CounterPageState>
 dotnet new install Reactor.Maui.TemplatePack
 ```
 
-2. Install MauiReactor hot reload console command
+2. Install MauiReactor hot reload console command (NOTE: this has changed from version 3 to version 4)
 ```
-dotnet tool install -g Reactor.Maui.HotReload
+dotnet tool install -g Reactor.Maui.HotReloadConsole
 ```
-If you already installed an old version of Reactor.Maui.HotReload you can update it to the latest using this command:
+If you already installed an old version of Reactor.Maui.HotReload, you can update it to the latest using this command  (NOTE: this has changed from version 3 to version 4):
 ```
-dotnet tool update -g Reactor.Maui.HotReload
+dotnet tool update -g Reactor.Maui.HotReloadConsole
 ```
 
 3. Create a sample project
