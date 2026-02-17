@@ -61,8 +61,11 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.10" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
-		<PackageReference Include="Reactor.Maui" Version="4.0.14" />
-		<!-- Reactor.Maui.HotReload 4.0.14 is incorrectly packaged as DotnetTool. Use ProjectReference or wait for a fixed version. -->
+		<PackageReference Include="Reactor.Maui" Version="4.0.15" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)'=='Debug'">
+		<PackageReference Include="Reactor.Maui.HotReload" Version="4.0.15" />
 	</ItemGroup>
 
 </Project>

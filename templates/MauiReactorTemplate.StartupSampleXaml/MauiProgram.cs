@@ -30,6 +30,11 @@ public static class MauiProgram
             });
 
 #if DEBUG
+        builder.UseMauiReactorHotReload();
+#endif
+
+
+#if DEBUG
         builder.Logging.AddDebug();
 #endif
 

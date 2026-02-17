@@ -1,4 +1,5 @@
 ﻿using MauiReactor;
+using MauiReactor.HotReload;
 using MauiReactorTemplate.Startup.Components;
 using MauiReactorTemplate.Startup.Resources.Styles;
 using Microsoft.Extensions.Logging;
@@ -21,7 +22,7 @@ namespace MauiReactorTemplate.Startup
                         System.Diagnostics.Debug.WriteLine(e.ExceptionObject);
                     })
 #if DEBUG
-                //.EnableMauiReactorHotReload()
+                .UseMauiReactorHotReload()
 #endif
                 .ConfigureFonts(fonts =>
                 {

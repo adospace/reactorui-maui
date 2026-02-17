@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using MauiReactor.HotReload;
+using Microsoft.Extensions.Logging;
 
 namespace MauiReactorTemplate.StartupXaml;
 
@@ -14,6 +15,10 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
+
+#if DEBUG
+        builder.UseMauiReactorHotReload();
+#endif
 
 #if DEBUG
         builder.Logging.AddDebug();
