@@ -39,6 +39,5 @@ internal class TypeLoader
     public virtual void CopyProperties(object source, object dest)
     {
         //this is not intended to called directly (only via HotReloadTypeLoader)
-        throw new NotSupportedException();
     }
 }
