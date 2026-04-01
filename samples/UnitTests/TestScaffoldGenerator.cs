@@ -638,6 +638,68 @@ class TestScaffoldGenerator
     }
 
 
+    [Test]
+    public void TestPropAttributeGeneratorsForSameClassNameNestedInDifferentTypes()
+    {
+        // Create the 'input' compilation that the generator will act on
+        // This tests that nested classes with the same name inside different containing types
+        // in the same namespace do not collide (issue #363)
+        Compilation inputCompilation = CreateCompilation("""
+            using MauiReactor;
+
+            namespace MyApp
+            {
+                partial class Container1
+                {
+                    public partial class SettingsPanel
+                    {
+                        [Prop]
+                        int _value;
+                    }
+                }
+                partial class Container2
+                {
+                    public partial class SettingsPanel
+                    {
+                        [Prop]
+                        string _name;
+                    }
+                }
+            }
+            """);
+
+        var generator = new ComponentPartialClassSourceGenerator();
+
+        GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
+
+        driver = driver.RunGeneratorsAndUpdateCompilation(inputCompilation, out var outputCompilation, out var diagnostics);
+
+        Debug.Assert(diagnostics.IsEmpty);
+        Debug.Assert(outputCompilation.SyntaxTrees.Count() == 4);
+
+        GeneratorDriverRunResult runResult = driver.GetRunResult();
+
+        Debug.Assert(runResult.GeneratedTrees.Length == 3);
+        Debug.Assert(runResult.Diagnostics.IsEmpty);
+
+        GeneratorRunResult generatorResult = runResult.Results[0];
+        Debug.Assert(generatorResult.Diagnostics.IsEmpty);
+        Debug.Assert(generatorResult.GeneratedSources.Length == 3);
+        Debug.Assert(generatorResult.Exception is null);
+
+        // Verify both generated sources exist and are distinct
+        var generatedTexts = generatorResult.GeneratedSources
+            .Skip(1) // skip the attributes source
+            .Select(s => s.SourceText.ToString())
+            .ToList();
+
+        generatedTexts.Count.ShouldBe(2);
+
+        // One should contain Container1.SettingsPanel, the other Container2.SettingsPanel
+        generatedTexts.ShouldContain(s => s.Contains("partial class SettingsPanel") && s.Contains("Value(int propValue)"));
+        generatedTexts.ShouldContain(s => s.Contains("partial class SettingsPanel") && s.Contains("Name(string propValue)"));
+    }
+
     private static Compilation CreateCompilation(string source)
         => CSharpCompilation.Create("compilation",
             new[] { CSharpSyntaxTree.ParseText(source) },
