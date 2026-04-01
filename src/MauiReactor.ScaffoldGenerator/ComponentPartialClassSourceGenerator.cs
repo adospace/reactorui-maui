@@ -260,13 +260,18 @@ namespace MauiReactor
                 generateClassItem(parameterFieldToGenerate, FieldAttributeType.Parameter);
         }
 
-        foreach (var generatingClassItem in generatingClassItems.OrderBy(_=>_.Key)) 
+        foreach (var generatingClassItem in generatingClassItems.OrderBy(_=>_.Key))
         {
             try
             {
                 var textGenerator = new ComponentPartialClassGenerator(generatingClassItem.Value);
                 var source = textGenerator.TransformAndPrettify();
-                context.AddSource($"{generatingClassItem.Value.Namespace}.{generatingClassItem.Value.GeneratingClassName}.g.cs", source);
+                var safeHintName = generatingClassItem.Key
+                    .Replace("<", "_")
+                    .Replace(">", "_")
+                    .Replace(",", "_")
+                    .Replace(" ", "");
+                context.AddSource($"{safeHintName}.g.cs", source);
             }
             catch (Exception ex)
             {
