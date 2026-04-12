@@ -420,8 +420,8 @@ namespace MauiReactor
 
                 var oldChildren = Children;
                 _children = null;
-                MergeChildrenFrom(oldChildren);
                 _invalidated = false;
+                MergeChildrenFrom(oldChildren);
             }
 
             OnLayout(containerComponent);
