@@ -420,8 +420,22 @@ namespace MauiReactor
 
                 var oldChildren = Children;
                 _children = null;
-                _invalidated = false;
                 MergeChildrenFrom(oldChildren);
+                _invalidated = false;
+                // Note: clearing _invalidated AFTER MergeChildrenFrom is intentional.
+                // If a native control fires a synchronous event during the merge (e.g. CarouselView's
+                // CurrentItemChanged firing while ItemsSource is being set) and that handler calls
+                // SetState()/Invalidate(), the re-set flag is wiped here. That is a known trade-off:
+                // clearing BEFORE the merge (as attempted in #369) preserves such invalidations but
+                // opens the door to deterministic feedback loops where a side-effect of merging
+                // (a setter, OnMount, or a self-triggering native event) re-invalidates on every
+                // pump tick, pegging CPU at 100% (#372). The recommended workaround for the
+                // synchronous-event scenario is to defer the SetState with a small delay:
+                //     SetState(s => s.SomeProperty = newValue, 1);
+                // The underlying issue is that the native control should not raise a selection
+                // event synchronously while its ItemsSource is being assigned.
+                // See: https://github.com/adospace/reactorui-maui/issues/369
+                //      https://github.com/adospace/reactorui-maui/issues/372
             }
 
             OnLayout(containerComponent);
