@@ -153,6 +153,8 @@ namespace <#= Namespace #>
         {
             Validate.EnsureNotNull(NativeControl);
 
+            _loadedForciblyChildren = new();
+
             var nativeControlItemsSource = NativeControl.ItemsSource as IEnumerable;
 
             if (nativeControlItemsSource == null)
@@ -166,8 +168,6 @@ namespace <#= Namespace #>
             }
 
             var itemsSource = nativeControlItemsSource.Cast<object>().ToArray();
-
-            _loadedForciblyChildren = new();
 
             foreach (var item in itemsSource)
             {
@@ -242,33 +242,45 @@ namespace <#= Namespace #>
             <#}#>
             
             <# if (SupportItemTemplate) { #>
-            
+
             _loadedForciblyChildren = null;
 
-            if (thisAs<#= InterfaceName #>.ItemsSource != null &&
-                NativeControl.ItemsSource == thisAs<#= InterfaceName #>.ItemsSource)
+            try
             {
-                Validate.EnsureNotNull(_customDataTemplate);
+                if (thisAs<#= InterfaceName #>.ItemsSource != null &&
+                    NativeControl.ItemsSource == thisAs<#= InterfaceName #>.ItemsSource)
+                {
+                    Validate.EnsureNotNull(_customDataTemplate);
 
-                _customDataTemplate.Owner = this;
+                    _customDataTemplate.Owner = this;
 
-                _customDataTemplate.Update();
+                    _customDataTemplate.Update();
+                }
+                else if (thisAs<#= InterfaceName #>.ItemsSource != null)
+                {
+                    _customDataTemplate = new CustomDataTemplate(this);
+                    NativeControl.ItemsSource = (<#= ItemsSourceFullyQualifiedName #>)thisAs<#= InterfaceName #>.ItemsSource;
+                    NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
+                }
+                else
+                {
+                    <# if (IsGenericType) { #>
+                    NativeControl.ClearValue(global::<#= FullTypeName #><TChild>.ItemsSourceProperty);
+                    NativeControl.ClearValue(global::<#= FullTypeName #><TChild>.ItemTemplateProperty);
+                    <# } else { #>
+                    NativeControl.ClearValue(global::<#= FullTypeName #>.ItemsSourceProperty);
+                    NativeControl.ClearValue(global::<#= FullTypeName #>.ItemTemplateProperty);
+                    <# } #>
+                }
             }
-            else if (thisAs<#= InterfaceName #>.ItemsSource != null)
+            catch (Exception ex)
             {
-                _customDataTemplate = new CustomDataTemplate(this);
-                NativeControl.ItemsSource = (<#= ItemsSourceFullyQualifiedName #>)thisAs<#= InterfaceName #>.ItemsSource;
-                NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
-            }
-            else
-            {
-                <# if (IsGenericType) { #>
-                NativeControl.ClearValue(global::<#= FullTypeName #><TChild>.ItemsSourceProperty);
-                NativeControl.ClearValue(global::<#= FullTypeName #><TChild>.ItemTemplateProperty);
-                <# } else { #>
-                NativeControl.ClearValue(global::<#= FullTypeName #>.ItemsSourceProperty);
-                NativeControl.ClearValue(global::<#= FullTypeName #>.ItemTemplateProperty);
-                <# } #>
+                // Some controls (e.g. PanCardView.CardsView) perform internal processing
+                // when ItemsSource or ItemTemplate is set that requires MAUI platform handlers.
+                // In the headless test host (TemplateHost), handlers are not available, so this
+                // processing can throw. Catching here ensures base.OnUpdate() still runs so that
+                // queued properties like AutomationId are applied to the native control.
+                System.Diagnostics.Debug.WriteLine($"Scaffold template setup failed for <#= FullTypeName #>: {ex.Message}");
             }
             <# } #>
 

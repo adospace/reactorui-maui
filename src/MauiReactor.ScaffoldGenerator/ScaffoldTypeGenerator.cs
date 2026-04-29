@@ -582,12 +582,13 @@ namespace ");
                     "scendants<TChild>())\r\n                    {\r\n                        yield retur" +
                     "n childChildT;\r\n                    }\r\n                }\r\n            }\r\n       " +
                     " }\r\n\r\n        private void ForceItemsLoad()\r\n        {\r\n            Validate.Ens" +
-                    "ureNotNull(NativeControl);\r\n\r\n            var nativeControlItemsSource = NativeC" +
+                    "ureNotNull(NativeControl);\r\n\r\n            _loadedForciblyChildren = new();\r\n\r\n  " +
+                    "          var nativeControlItemsSource = NativeC" +
                     "ontrol.ItemsSource as IEnumerable;\r\n\r\n            if (nativeControlItemsSource =" +
                     "= null)\r\n            {\r\n                return;\r\n            }\r\n\r\n            if" +
                     " (NativeControl.ItemTemplate == null)\r\n            {\r\n                return;\r\n " +
                     "           }\r\n\r\n            var itemsSource = nativeControlItemsSource.Cast<obje" +
-                    "ct>().ToArray();\r\n\r\n            _loadedForciblyChildren = new();\r\n\r\n            " +
+                    "ct>().ToArray();\r\n\r\n            " +
                     "foreach (var item in itemsSource)\r\n            {\r\n                var itemConten" +
                     "t = (Microsoft.Maui.Controls.BindableObject)NativeControl.ItemTemplate.CreateCon" +
                     "tent();\r\n\r\n                itemContent.BindingContext = item;\r\n            }\r\n  " +
@@ -932,7 +933,8 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("            \r\n            _loadedForciblyChildren = null;\r\n\r\n            if (this" +
+            this.Write("            \r\n            _loadedForciblyChildren = null;\r\n\r\n            try\r\n  " +
+                    "          {\r\n                if (this" +
                     "As");
             
             #line 248 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
@@ -1022,10 +1024,20 @@ namespace ");
             
             #line default
             #line hidden
-            this.Write("            }\r\n            ");
-            
+            this.Write("            }\r\n            }\r\n            catch (Exception ex)\r\n            {\r\n" +
+                    "                // Some controls (e.g. PanCardView.CardsView) perform internal p" +
+                    "rocessing\r\n                // when ItemsSource or ItemTemplate is set that requi" +
+                    "res MAUI platform handlers.\r\n                // In the headless test host (Templ" +
+                    "ateHost), handlers are not available, so this\r\n                // processing can" +
+                    " throw. Catching here ensures base.OnUpdate() still runs so that\r\n             " +
+                    "   // queued properties like AutomationId are applied to the native control.\r\n  " +
+                    "              System.Diagnostics.Debug.WriteLine($\"Scaffold template setup fai" +
+                    "led for ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(FullTypeName));
+            this.Write(": {ex.Message}\");\r\n            }\r\n            ");
+
             #line 273 "C:\Source\github\reactorui-maui\src\MauiReactor.ScaffoldGenerator\ScaffoldTypeGenerator.tt"
- } 
+ }
             
             #line default
             #line hidden
