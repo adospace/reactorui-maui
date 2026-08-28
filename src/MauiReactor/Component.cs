@@ -15,6 +15,16 @@ namespace MauiReactor
 
         public abstract VisualNode Render();
 
+        /// <summary>
+        /// Called immediately before <see cref="Render"/>. Internal so that adding it
+        /// cannot collide with a method of the same name on a user's own component base
+        /// (which would be CS0114, or CS0508 on a differing return type).
+        /// </summary>
+        internal virtual void OnBeforeRender() { }
+
+        /// <summary>Called immediately after <see cref="Render"/> returns. See <see cref="OnBeforeRender"/>.</summary>
+        internal virtual void OnAfterRender() { }
+
         //private readonly Dictionary<BindableProperty, object?> _attachedProperties = [];
 
         //public void SetProperty(BindableProperty property, object? value)
@@ -81,7 +91,11 @@ namespace MauiReactor
                 logger.LogDebug("Rendering {Type}", GetType());
             }
                 
+            OnBeforeRender();
+
             var children = Render();
+
+            OnAfterRender();
 
             if (_propertiesToSet != null)
             {
