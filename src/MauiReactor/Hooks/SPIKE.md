@@ -91,10 +91,37 @@ Covered by `TestHooksHotReload`. Note these tests drive the generation counter d
 they pin the policy, not the reload plumbing underneath it, which still wants a real
 device-level check with `dotnet-maui-reactor`.
 
-**No analyzer.** Nothing stops a hook inside an `if`, a loop, or a nested function. The
-runtime type check in `HookSlots.Next` catches some of it as a `HookOrderException`, late and
-with a worse message than a squiggle. Four rules are planned: outside-render, conditional,
-loop, nested-function.
+**Analyzer - implemented.** Four rules in `MauiReactor.ScaffoldGenerator`, which is the
+assembly already packed to `analyzers/dotnet/cs`:
+
+| | |
+|---|---|
+| MRH001 | hook called outside `Render()` or a `Use*` method |
+| MRH002 | hook called conditionally |
+| MRH003 | hook called in a loop |
+| MRH004 | hook called inside a lambda or local function |
+
+All four are errors, since every one of them corrupts the cell table rather than merely
+looking odd. A hook is any `Use*` method declared on `HookComponent` or a type deriving
+from it, so custom hooks a user writes on their own component are covered without
+registration, and calls inside them are allowed.
+
+The conditional rule distinguishes position within the construct rather than flagging the
+whole thing: a hook in an `if` condition, a `switch` governing expression, or the left side
+of `&&`/`||`/`??` always executes and is left alone; only the branches and short-circuited
+operands are reported. Flagging the safe cases would be the fastest way to teach people to
+suppress the analyzer. `TestHookRulesAnalyzer` pins both directions, including that the
+`UseEffect(() => ..., deps)` shape the samples use stays clean.
+
+**Packaging is still open, and it is not the one-line fix it looks like.** `MauiReactor.csproj`
+packs the generator DLL by globbing a sibling `bin/` path with no `ProjectReference`, so a
+build that has not built the generator first ships `Reactor.Maui` with no generator and no
+analyzer inside. Adding the obvious `ProjectReference ... OutputItemType="Analyzer"` was
+tried and reverted: it makes the generator run on MauiReactor's own compilation, whose
+`RegisterPostInitializationOutput` then emits `MauiReactor.InjectAttribute` into
+MauiReactor.dll, colliding (CS0433) with the copy in every consumer assembly. Fixing it
+properly means declaring those attributes as real types in MauiReactor.dll instead of
+generator output - a separate change with its own compatibility question.
 
 **`State` is public.** `Component<S>.State` is `public` (`Component.cs:337`), so
 `((Component<HookSlots>)page).State.Cells` reaches the raw table from anywhere. `HookSlots`
