@@ -160,22 +160,28 @@ public class TestKeyedReconciliation
         // to whichever path happened to run first.
         MeasureMerges(useKeys: false, items, iterations);
         MeasureMerges(useKeys: true, items, iterations);
+        MeasureMerges(useKeys: true, items, iterations, reorder: 1);
+        MeasureMerges(useKeys: true, items, iterations, reorder: 2);
 
         var unkeyed = MeasureMerges(useKeys: false, items, iterations);
         var keyed = MeasureMerges(useKeys: true, items, iterations);
+        var shiftAll = MeasureMerges(useKeys: true, items, iterations, reorder: 1);
+        var swapTwo = MeasureMerges(useKeys: true, items, iterations, reorder: 2);
 
-        TestContext.Out.WriteLine($"unkeyed: {unkeyed.TotalMilliseconds:F1} ms / {iterations} merges of {items} children");
-        TestContext.Out.WriteLine($"keyed:   {keyed.TotalMilliseconds:F1} ms / {iterations} merges of {items} children");
-        TestContext.Out.WriteLine($"ratio:   {keyed.TotalMilliseconds / unkeyed.TotalMilliseconds:F2}x");
+        TestContext.Out.WriteLine($"unkeyed:          {unkeyed.TotalMilliseconds:F1} ms / {iterations} merges of {items} children");
+        TestContext.Out.WriteLine($"keyed, stable:    {keyed.TotalMilliseconds:F1} ms  ({keyed.TotalMilliseconds / unkeyed.TotalMilliseconds:F2}x)");
+        TestContext.Out.WriteLine($"keyed, swap two:  {swapTwo.TotalMilliseconds:F1} ms  ({swapTwo.TotalMilliseconds / unkeyed.TotalMilliseconds:F2}x)");
+        TestContext.Out.WriteLine($"keyed, shift all: {shiftAll.TotalMilliseconds:F1} ms  ({shiftAll.TotalMilliseconds / unkeyed.TotalMilliseconds:F2}x)");
 
         // Generous bound - this guards against an accidental O(n^2) or a per-merge
         // allocation storm, not against normal variance on a shared CI box.
         (keyed.TotalMilliseconds / unkeyed.TotalMilliseconds).ShouldBeLessThan(4.0);
+        (shiftAll.TotalMilliseconds / unkeyed.TotalMilliseconds).ShouldBeLessThan(15.0);
     }
 
-    private static TimeSpan MeasureMerges(bool useKeys, int items, int iterations)
+    private static TimeSpan MeasureMerges(bool useKeys, int items, int iterations, int reorder = 0)
     {
-        var page = new BenchPage { UseKeys = useKeys, Count = items };
+        var page = new BenchPage { UseKeys = useKeys, Count = items, ReorderKind = reorder };
         var host = TemplateHost.Create(page);
 
         // warm up
@@ -207,6 +213,8 @@ class BenchPage : Component<BenchPageState>
 
     public int Count { get; set; }
 
+    public int ReorderKind { get; set; }
+
     public override VisualNode Render()
         => ContentPage(
             VStack(
@@ -220,9 +228,19 @@ class BenchPage : Component<BenchPageState>
             )
         );
 
-    VisualNode RenderRow(int index)
+    VisualNode RenderRow(int position)
     {
-        var row = Label($"row {index} r{State.Revision}");
+        // When reordering, every row shifts by one on each revision, so the keyed path
+        // has to reposition all of them - the worst case for the move pass.
+        var index = ReorderKind switch
+        {
+            // every row shifts by one each revision - worst case for the move pass
+            1 => (position + State.Revision) % Count,
+            // two adjacent rows swap - what a drag-and-drop or a sort tweak looks like
+            2 => position == 0 ? 1 : position == 1 ? 0 : position,
+            _ => position
+        };
+        var row = Label($"row {index}");
         return UseKeys ? row.WithKey(index) : row;
     }
 }

@@ -29,6 +29,40 @@ public abstract partial class Layout<T>
         base.OnAddChild(widget, childControl);
     }
 
+    protected override void OnMoveChild(VisualNode widget, BindableObject childControl)
+    {
+        Validate.EnsureNotNull(NativeControl);
+
+        if (childControl is Microsoft.Maui.IView control)
+        {
+            var targetIndex = widget.ChildIndex;
+
+            // Fast path: already where it belongs. Reordering a list usually moves a few
+            // items and leaves the rest in place, and this keeps those at O(1) instead of
+            // an IndexOf scan each.
+            if (targetIndex >= 0 &&
+                targetIndex < NativeControl.Children.Count &&
+                ReferenceEquals(NativeControl.Children[targetIndex], control))
+            {
+                base.OnMoveChild(widget, childControl);
+                return;
+            }
+
+            var currentIndex = NativeControl.Children.IndexOf(control);
+
+            if (currentIndex >= 0 &&
+                targetIndex >= 0 &&
+                targetIndex != currentIndex &&
+                targetIndex < NativeControl.Children.Count)
+            {
+                NativeControl.Children.RemoveAt(currentIndex);
+                NativeControl.Children.Insert(targetIndex, control);
+            }
+        }
+
+        base.OnMoveChild(widget, childControl);
+    }
+
     protected override void OnRemoveChild(VisualNode widget, BindableObject childControl)
     {
         Validate.EnsureNotNull(NativeControl);

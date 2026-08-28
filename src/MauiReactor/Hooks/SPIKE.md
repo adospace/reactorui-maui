@@ -23,10 +23,27 @@ so an unkeyed tree pays two field reads and nothing else. Covered by
 `TestKeyedReconciliation`: insert-at-top, reorder and remove all keep state with its item,
 and the unkeyed shift is pinned by a test that documents it.
 
-Not yet verified: whether native controls *physically reorder* when keyed items move. The
-tests assert that each item's state and text are correct, not that the visual order of the
-underlying MAUI controls follows. Check this before using keys on a reordering list in a
-real app.
+Native controls reorder too. Merging transfers a native control but never re-parents it,
+so keyed pairing alone moved the state and left the pixels behind - verified failing, then
+fixed with a `MoveChild` / `OnMoveChild` protocol symmetric to the existing add/remove one.
+After a keyed merge that changed any position, each child repositions its own native control
+under its parent, in ascending order. `Keyed_Reorder_MovesStateAndPixelsTogether` pins state
+and visual order together.
+
+Cost, 300 merges of a 200-child list (same machine, ~20% run-to-run variance, so treat these
+as shapes not constants):
+
+| | |
+|---|---|
+| unkeyed | baseline |
+| keyed, order unchanged | ~1x - within noise |
+| keyed, two items swapped | ~1x - within noise |
+| keyed, every item shifts | ~2.6-3.1x |
+
+The move pass uses `IndexOf` on the native children collection, so a merge in which *every*
+child moves is O(n^2). An O(1) check skips children already in place, which is why a normal
+reorder (a drag, a sort tweak) costs nothing measurable - only a wholesale shuffle pays.
+Worth revisiting with a single-pass reorder if anyone shuffles a large non-virtualized list.
 
 **Effect flush timing is approximate.** `OnAfterRender` dispatches the flush rather than
 running it after `Layout` returns, because `Component.RenderChildren` is `sealed`

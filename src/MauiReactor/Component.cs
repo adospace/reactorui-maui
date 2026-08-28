@@ -209,6 +209,14 @@ namespace MauiReactor
         public static IServiceProvider Services
             => ServiceCollectionProvider.ServiceProvider ?? throw new InvalidOperationException("Services not available");
 
+        internal override void RepositionNativeChild()
+        {
+            if (_nativeControl != null)
+            {
+                Parent?.MoveChild(this, _nativeControl);
+            }
+        }
+
         internal void InvalidateComponent() => Invalidate();
 
         protected new void Invalidate()

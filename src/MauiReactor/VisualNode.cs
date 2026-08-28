@@ -362,6 +362,29 @@ namespace MauiReactor
             OnAddChild(widget, childNativeControl);
         }
 
+        internal void MoveChild(VisualNode widget, BindableObject childNativeControl)
+        {
+            if (_isMounted)
+            {
+                OnMoveChild(widget, childNativeControl);
+            }
+        }
+
+        /// <summary>
+        /// Asks this node to move an already-parented native child to the position its
+        /// widget now occupies. Only reached after a keyed merge reordered children:
+        /// merging transfers the native control but never re-parents it, so without this
+        /// the state follows the key while the pixels stay where they were.
+        /// </summary>
+        protected virtual void OnMoveChild(VisualNode widget, BindableObject childNativeControl)
+        {
+        }
+
+        /// <summary>Asks this node to reposition its own native control under its parent.</summary>
+        internal virtual void RepositionNativeChild()
+        {
+        }
+
         internal void DisableCurrentAnimatableProperties()
         {
             if (_animatables != null)
@@ -548,6 +571,7 @@ namespace MauiReactor
                 Array.Clear(consumed, 0, oldCount);
 
                 var unkeyedCursor = 0;
+                var reordered = false;
 
                 for (int i = 0; i < newCount; i++)
                 {
@@ -581,7 +605,18 @@ namespace MauiReactor
                     if (matchIndex >= 0)
                     {
                         consumed[matchIndex] = true;
+                        reordered |= matchIndex != i;
                         oldChildren[matchIndex].MergeWith(newChild);
+                    }
+                }
+
+                // Ascending order matters: once index 0 holds the right control, placing
+                // index 1 cannot disturb it, and so on.
+                if (reordered)
+                {
+                    for (int i = 0; i < newCount; i++)
+                    {
+                        newChildren[i].RepositionNativeChild();
                     }
                 }
 
@@ -968,6 +1003,14 @@ namespace MauiReactor
             {
                 Parent?.AddChild(this, _nativeControl);
             }            
+        }
+
+        internal override void RepositionNativeChild()
+        {
+            if (_nativeControl != null)
+            {
+                Parent?.MoveChild(this, _nativeControl);
+            }
         }
 
         protected override void OnMount()
