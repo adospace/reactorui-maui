@@ -18,11 +18,13 @@ public abstract class HookComponent : Component<HookSlots>
 {
     internal override void OnBeforeRender()
     {
-        State.BeginRender();
+        State.BeginRender(HotReloadGeneration.Current);
     }
 
     internal override void OnAfterRender()
     {
+        State.EndRender();
+
         if (!State.HasPendingEffects())
         {
             return;

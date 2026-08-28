@@ -550,14 +550,25 @@ namespace MauiReactor
                 }
                 else if (/*MauiReactorFeatures.HotReloadIsEnabled && */newNode.GetType().FullName == this.GetType().FullName)
                 {
-                    var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
-                    if (logger != null && logger.IsEnabled(LogLevel.Warning))
+                    if (State is IHotReloadTransferable)
                     {
-                        logger.LogWarning("State {State} copied to new instance of component {Component}", 
-                            State.GetType().FullName, newNode.GetType().FullName);
+                        // The component type changed (its assembly was reloaded) but this
+                        // state object's type did not - it lives in MauiReactor.dll, which
+                        // is loaded once. Hand it over whole: the reflective copy below
+                        // only moves public properties and would transfer nothing.
+                        newComponentWithState.State = State;
                     }
-                    //CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
-                    TypeLoader.Instance.CopyProperties(State, newComponentWithState.State);
+                    else
+                    {
+                        var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
+                        if (logger != null && logger.IsEnabled(LogLevel.Warning))
+                        {
+                            logger.LogWarning("State {State} copied to new instance of component {Component}", 
+                                State.GetType().FullName, newNode.GetType().FullName);
+                        }
+                        //CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
+                        TypeLoader.Instance.CopyProperties(State, newComponentWithState.State);
+                    }
                 }
                 else
                 {

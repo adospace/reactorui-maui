@@ -7,7 +7,7 @@ namespace MauiReactor;
 /// merge into the next component generation for free.
 /// Nothing here is public on purpose - see SPIKE.md.
 /// </summary>
-public sealed class HookSlots
+public sealed class HookSlots : IHotReloadTransferable
 {
     internal List<HookCell> Cells { get; } = [];
 
@@ -15,7 +15,65 @@ public sealed class HookSlots
 
     internal bool CleanupsRun { get; set; }
 
-    internal void BeginRender() => Cursor = 0;
+    private int _generation = HotReloadGeneration.Current;
+
+    private bool _toleratingReload;
+
+    internal void BeginRender(int hotReloadGeneration)
+    {
+        Cursor = 0;
+
+        if (hotReloadGeneration == _generation)
+        {
+            return;
+        }
+
+        _generation = hotReloadGeneration;
+
+        // The code behind this table was just replaced. Values in UseState/UseRef are data
+        // and survive; memoized results and effect bodies close over IL that no longer
+        // exists, so they are recomputed and re-run once rather than trusted.
+        _toleratingReload = true;
+
+        foreach (var cell in Cells)
+        {
+            cell.OnHotReload();
+        }
+    }
+
+    /// <summary>
+    /// Ends a render pass. After a reload, any cells the new code no longer reaches are
+    /// cleaned up and dropped.
+    /// </summary>
+    internal void EndRender()
+    {
+        if (!_toleratingReload)
+        {
+            return;
+        }
+
+        _toleratingReload = false;
+
+        if (Cursor < Cells.Count)
+        {
+            TruncateFrom(Cursor);
+        }
+    }
+
+    /// <summary>Runs cleanups for every cell from <paramref name="index"/> on, then drops them.</summary>
+    private void TruncateFrom(int index)
+    {
+        for (var i = index; i < Cells.Count; i++)
+        {
+            if (Cells[i] is EffectCell { HasRunBody: true, Cleanup: not null } effect)
+            {
+                effect.Cleanup.Invoke();
+                effect.Cleanup = null;
+            }
+        }
+
+        Cells.RemoveRange(index, Cells.Count - index);
+    }
 
     /// <summary>
     /// Returns the cell at the cursor, creating it on first render. Throws if the
@@ -30,23 +88,27 @@ public sealed class HookSlots
         {
             Cells.Add(factory());
         }
-        else if (index > Cells.Count)
+        else if (Cells[index] is not TCell)
         {
-            throw new HookOrderException(
-                $"Hook cursor {index} is past the end of the cell table ({Cells.Count}).");
+            if (!_toleratingReload)
+            {
+                throw new HookOrderException(
+                    $"Hook at index {index} is {Cells[index].GetType().Name}, expected {typeof(TCell).Name}. " +
+                    "Hooks must be called in the same order on every render - no hooks inside " +
+                    "conditionals, loops or nested functions.");
+            }
+
+            // Hot reload: the edit changed the hook sequence at this point. Everything from
+            // here on refers to hooks that may no longer be the same ones, and there is no
+            // sound way to re-key them, so clean them up and start fresh from this index.
+            // Cells before it are untouched, so appending a hook keeps all existing state.
+            TruncateFrom(index);
+            Cells.Add(factory());
         }
 
         Cursor = index + 1;
 
-        if (Cells[index] is not TCell cell)
-        {
-            throw new HookOrderException(
-                $"Hook at index {index} is {Cells[index].GetType().Name}, expected {typeof(TCell).Name}. " +
-                "Hooks must be called in the same order on every render - no hooks inside " +
-                "conditionals, loops or nested functions.");
-        }
-
-        return cell;
+        return (TCell)Cells[index];
     }
 
     internal bool HasPendingEffects()
@@ -103,17 +165,24 @@ public sealed class HookSlots
         }
     }
 
-    /// <summary>Hot reload: reset on shape change, matching Microsoft.UI.Reactor's ResetForHotReload().</summary>
+    /// <summary>Drops every cell, running cleanups first.</summary>
     internal void ResetForHotReload()
     {
-        RunCleanups();
-        Cells.Clear();
+        TruncateFrom(0);
         Cursor = 0;
-        CleanupsRun = false;
     }
 }
 
-internal abstract class HookCell;
+internal abstract class HookCell
+{
+    /// <summary>
+    /// Called on every cell once per hot-reload pass. Cells holding data survive; cells
+    /// holding compiled behaviour invalidate themselves.
+    /// </summary>
+    internal virtual void OnHotReload()
+    {
+    }
+}
 
 internal sealed class ValueCell<T> : HookCell
 {
@@ -129,6 +198,8 @@ internal sealed class MemoCell<T> : HookCell
 {
     public object?[]? Deps;
     public T Value = default!;
+
+    internal override void OnHotReload() => Deps = null;
 }
 
 internal sealed class EffectCell : HookCell
@@ -137,6 +208,8 @@ internal sealed class EffectCell : HookCell
     public Func<Action>? Pending;
     public Action? Cleanup;
     public bool HasRunBody;
+
+    internal override void OnHotReload() => Deps = null;
 }
 
 /// <summary>

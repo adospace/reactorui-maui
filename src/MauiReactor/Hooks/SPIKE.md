@@ -59,11 +59,37 @@ item's subtree into another's. A `UseState` cell inside an item template will sh
 previous item's value. `ItemControlTemplateNode` has the same shape. Do not use hooks inside
 item templates yet.
 
-**Hot reload is unimplemented.** `HookSlots.ResetForHotReload()` exists and is not wired up.
-The intended policy, matching Microsoft's: reset the table on hook *order* change, migrate
-values on *shape* change. Adding a `UseState` line mid-session currently does whatever the
-positional table happens to do — which is the single most common edit, so this needs to be
-real before anyone iterates with it.
+**Hot reload — implemented.** Two things were wrong, not one.
+
+The first was a silent data-loss bug that had nothing to do with shape. Under a full
+assembly reload the component's `Type` changes, so `Component<S,P>.MergeWith` takes its
+`FullName`-match branch and hands state over with `TypeLoader.CopyProperties`, a reflective
+copy of *public properties*. `HookSlots` has none - every member is internal - so hook state
+was being dropped on every reload regardless of what was edited. `HookSlots` now implements
+`IHotReloadTransferable` and is handed over whole, which is sound because it lives in
+MauiReactor.dll and its type identity is stable across an app-assembly reload.
+
+The second is the shape policy. `PageHost.OnAssemblyChanged` - the single funnel for both
+the `dotnet watch` and `dotnet-maui-reactor` regimes - bumps a generation counter. On the
+first render afterwards each table: keeps `UseState`/`UseRef` values, since those are data;
+invalidates `UseMemo` and `UseEffect` dependencies, since those close over IL that no longer
+exists; and tolerates a changed hook sequence instead of throwing.
+
+Where the sequence diverges, cells before that point are kept and everything from it on is
+cleaned up and rebuilt. So appending a hook keeps all existing state, dropping a trailing
+hook runs its cleanup, and inserting a hook at the top resets the component - the same
+outcome Microsoft.UI.Reactor documents, for the same stated reason: surviving values cannot
+be re-keyed to a shape that may have changed. `[CallerLineNumber]` would not help, since it
+shifts on exactly the edit in question.
+
+Outside a reload pass the tolerance is off, so a hook in a conditional is still a
+`HookOrderException`. `TemplateHost` catches render exceptions and surfaces them through
+`ReactorApplicationHost.UnhandledException` rather than crashing, so that is where a
+rules-of-hooks violation appears until the analyzer exists.
+
+Covered by `TestHooksHotReload`. Note these tests drive the generation counter directly:
+they pin the policy, not the reload plumbing underneath it, which still wants a real
+device-level check with `dotnet-maui-reactor`.
 
 **No analyzer.** Nothing stops a hook inside an `if`, a loop, or a nested function. The
 runtime type check in `HookSlots.Next` catches some of it as a `HookOrderException`, late and
