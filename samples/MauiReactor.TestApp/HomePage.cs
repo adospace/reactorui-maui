@@ -13,6 +13,14 @@ public class HomePage : Component
     {
         return new Shell
         {
+            new FlyoutItem("Hooks - Timer")
+            {
+                new HooksTimerPage()
+            },
+            new FlyoutItem("Hooks - Counter")
+            {
+                new HooksCounterPage()
+            },
             new FlyoutItem("Counter")
             {
                 new CounterPage()

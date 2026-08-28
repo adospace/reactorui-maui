@@ -36,6 +36,20 @@ internal class TypeLoader
         //this is not intended to called directly (only via HotReloadTypeLoader)
     }
 
+    /// <summary>
+    /// Announces a hot-reload pass to every host. Bumps the generation first, so that any
+    /// re-render triggered by a consumer already sees the new generation and refreshes
+    /// memoized values and effects instead of trusting last render's dependencies.
+    /// There are four ITypeLoaderEventConsumer hosts (PageHost, ReactorApplicationHost and
+    /// its generic override, ComponentHost); this is the one place they all funnel through.
+    /// </summary>
+    protected void RaiseAssemblyChanged()
+    {
+        HotReloadGeneration.Bump();
+
+        AssemblyChangedEvent?.Raise(consumer => consumer.OnAssemblyChanged());
+    }
+
     public virtual void CopyProperties(object source, object dest)
     {
         //this is not intended to called directly (only via HotReloadTypeLoader)

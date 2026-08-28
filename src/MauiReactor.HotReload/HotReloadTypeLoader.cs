@@ -65,7 +65,7 @@ internal class HotReloadTypeLoader : TypeLoader
     private void ReceivedAssemblyFromHost(Assembly? newAssembly)
     {
         _assembly = newAssembly;
-        AssemblyChangedEvent?.Raise(consumer => consumer.OnAssemblyChanged());
+        RaiseAssemblyChanged();
         OnHotReloadCompleted?.Invoke();
     }
 

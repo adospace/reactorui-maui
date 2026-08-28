@@ -80,8 +80,12 @@ was being dropped on every reload regardless of what was edited. `HookSlots` now
 `IHotReloadTransferable` and is handed over whole, which is sound because it lives in
 MauiReactor.dll and its type identity is stable across an app-assembly reload.
 
-The second is the shape policy. `PageHost.OnAssemblyChanged` - the single funnel for both
-the `dotnet watch` and `dotnet-maui-reactor` regimes - bumps a generation counter. On the
+The second is the shape policy. `TypeLoader.RaiseAssemblyChanged()` bumps a generation
+counter and then raises the event. It has to live there rather than in a host: there are
+**four** `ITypeLoaderEventConsumer` hosts - `PageHost`, `ReactorApplicationHost` and its
+generic override, and `ComponentHost` - and which one an app uses depends on how it was
+started. Bumping in `PageHost` alone silently did nothing for any app built on
+`ReactorApplication<T>`, which is the template default. Found on device, not in tests. On the
 first render afterwards each table: keeps `UseState`/`UseRef` values, since those are data;
 invalidates `UseMemo` and `UseEffect` dependencies, since those close over IL that no longer
 exists; and tolerates a changed hook sequence instead of throwing.
@@ -98,9 +102,14 @@ Outside a reload pass the tolerance is off, so a hook in a conditional is still 
 `ReactorApplicationHost.UnhandledException` rather than crashing, so that is where a
 rules-of-hooks violation appears until the analyzer exists.
 
-Covered by `TestHooksHotReload`. Note these tests drive the generation counter directly:
-they pin the policy, not the reload plumbing underneath it, which still wants a real
-device-level check with `dotnet-maui-reactor`.
+Covered by `TestHooksHotReload`, and verified end to end on an Android device with
+`dotnet-maui-reactor -m Full`: a markup edit kept the counter and refreshed the memoized
+string; inserting a hook at the top of `Render` reset the component to its initial state and
+the app kept running, with no `HookOrderException` reaching logcat. Reload round trip was
+11-17s.
+
+Note the unit tests drive the generation counter directly, so they pin the policy but not
+the plumbing that raises it - which is exactly how the four-hosts bug survived them.
 
 **Analyzer - implemented.** Four rules in `MauiReactor.ScaffoldGenerator`, which is the
 assembly already packed to `analyzers/dotnet/cs`:

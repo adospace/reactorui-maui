@@ -304,11 +304,6 @@ namespace MauiReactor
         {
             try
             {
-                // Signals every live hook table that the code behind it has just been
-                // replaced, so memoized values and effect bodies are recomputed rather
-                // than trusted, and a changed hook sequence resets instead of throwing.
-                HotReloadGeneration.Bump();
-
                 var newComponent = TypeLoader.Instance.LoadObject<Component>(typeof(T));
                 if (newComponent != null)
                 {
