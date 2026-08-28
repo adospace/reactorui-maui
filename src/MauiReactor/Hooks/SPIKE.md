@@ -15,12 +15,18 @@ solved here.
 
 ## Known gaps
 
-**Component identity is positional.** `VisualNode.MergeChildrenFrom` (`VisualNode.cs:471`)
-pairs children by ordinal, and `WithKey` (`VisualNode.cs:102`) writes a `Key` that
-reconciliation never reads. Same-type siblings whose position shifts therefore swap cell
-tables. This already affects `Component<S>` today; hooks widen the blast radius from one
-typed POCO to every cell. **Keyed reconciliation lands before hooks ship** — it is the
-blocker, not a follow-up.
+**Component identity — fixed.** `WithKey` is now honoured. `MergeChildrenFrom` and
+`VisualNode.MergeWith` share one pairing implementation: ordinal when no child on either
+side carries a `Key`, identity-based when any does. Whether a list is keyed is computed
+once while the children list is built (inside the existing loop in the `Children` getter),
+so an unkeyed tree pays two field reads and nothing else. Covered by
+`TestKeyedReconciliation`: insert-at-top, reorder and remove all keep state with its item,
+and the unkeyed shift is pinned by a test that documents it.
+
+Not yet verified: whether native controls *physically reorder* when keyed items move. The
+tests assert that each item's state and text are correct, not that the visual order of the
+underlying MAUI controls follows. Check this before using keys on a reordering list in a
+real app.
 
 **Effect flush timing is approximate.** `OnAfterRender` dispatches the flush rather than
 running it after `Layout` returns, because `Component.RenderChildren` is `sealed`

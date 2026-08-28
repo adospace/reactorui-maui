@@ -3,6 +3,7 @@ using MauiReactor.Internals;
 using Microsoft.Extensions.Logging;
 using System.Collections;
 using System.Collections.Generic;
+using System.Buffers;
 using System.ComponentModel;
 
 namespace MauiReactor
@@ -149,6 +150,10 @@ namespace MauiReactor
 
         private IReadOnlyList<VisualNode>? _children = null;
 
+        // Whether any direct child carries a Key. Computed once while the children list is
+        // built (no extra pass) so the merge can pick its strategy from a field read.
+        private bool _hasKeyedChildren;
+
         internal protected bool _invalidated = false;
 
         private IComponentWithState? _containerComponent;
@@ -229,6 +234,7 @@ namespace MauiReactor
                     var renderedChildrenList = RenderChildren();
 
                     List<VisualNode> listOfChildren;
+                    var hasKeyedChildren = false;
 
                     //try to reduce the number of allocations and iterations
 
@@ -246,6 +252,7 @@ namespace MauiReactor
                                     childIndex++;
                                 }
                                 renderedChildren[i].Parent = this;
+                                hasKeyedChildren |= renderedChildren[i].Key != null;
                             }
                             else
                             {
@@ -279,11 +286,13 @@ namespace MauiReactor
                                     childIndex++;
                                 }
                                 child.Parent = this;
+                                hasKeyedChildren |= child.Key != null;
                             }
                         }
                     }
 
                     _children = listOfChildren;
+                    _hasKeyedChildren = hasKeyedChildren;
                 }
                 return _children;
             }
@@ -419,8 +428,9 @@ namespace MauiReactor
                 }
 
                 var oldChildren = Children;
+                var oldHasKeyedChildren = _hasKeyedChildren;
                 _children = null;
-                MergeChildrenFrom(oldChildren);
+                MergeChildrenFrom(oldChildren, oldHasKeyedChildren);
                 _invalidated = false;
                 // Note: clearing _invalidated AFTER MergeChildrenFrom is intentional.
                 // If a native control fires a synchronous event during the merge (e.g. CarouselView's
@@ -468,27 +478,125 @@ namespace MauiReactor
 
         internal virtual void CommitAnimations() { }
 
-        internal virtual void MergeChildrenFrom(IReadOnlyList<VisualNode> oldChildren)
+        internal virtual void MergeChildrenFrom(IReadOnlyList<VisualNode> oldChildren, bool oldHasKeyedChildren = false)
         {
-            if (oldChildren != Children)
+            var newChildren = Children;
+
+            if (oldChildren != newChildren)
             {
-                for (int i = 0; i < Children.Count; i++)
+                MergeChildren(oldChildren, newChildren, oldHasKeyedChildren || _hasKeyedChildren);
+            }
+        }
+
+        /// <summary>
+        /// Pairs an old child list with a new one and merges each pair.
+        /// <para>
+        /// When no child on either side carries a <see cref="Key"/> - the overwhelmingly
+        /// common case - this is the original ordinal pairing, with the per-iteration
+        /// <c>Children</c> property access hoisted out of the loop.
+        /// </para>
+        /// </summary>
+        private static void MergeChildren(IReadOnlyList<VisualNode> oldChildren, IReadOnlyList<VisualNode> newChildren, bool anyKeyed)
+        {
+            var oldCount = oldChildren.Count;
+            var newCount = newChildren.Count;
+
+            if (anyKeyed)
+            {
+                MergeChildrenKeyed(oldChildren, oldCount, newChildren, newCount);
+                return;
+            }
+
+            var pairs = newCount < oldCount ? newCount : oldCount;
+
+            for (int i = 0; i < pairs; i++)
+            {
+                oldChildren[i].MergeWith(newChildren[i]);
+            }
+
+            for (int i = newCount; i < oldCount; i++)
+            {
+                oldChildren[i].Unmount();
+                oldChildren[i].Parent = null;
+            }
+        }
+
+        /// <summary>
+        /// Identity-based pairing: a keyed new child merges with the old child carrying the
+        /// same key wherever it moved to; unkeyed children pair with the next unconsumed
+        /// unkeyed old child, preserving ordinal behaviour for partially keyed lists.
+        /// Old children left unpaired are unmounted.
+        /// </summary>
+        private static void MergeChildrenKeyed(IReadOnlyList<VisualNode> oldChildren, int oldCount, IReadOnlyList<VisualNode> newChildren, int newCount)
+        {
+            Dictionary<object, int>? keyedOld = null;
+
+            for (int i = 0; i < oldCount; i++)
+            {
+                var key = oldChildren[i].Key;
+                if (key != null)
                 {
-                    if (oldChildren.Count > i)
+                    keyedOld ??= new Dictionary<object, int>(oldCount);
+                    keyedOld[key] = i;
+                }
+            }
+
+            var consumed = ArrayPool<bool>.Shared.Rent(oldCount);
+
+            try
+            {
+                Array.Clear(consumed, 0, oldCount);
+
+                var unkeyedCursor = 0;
+
+                for (int i = 0; i < newCount; i++)
+                {
+                    var newChild = newChildren[i];
+                    var matchIndex = -1;
+                    var key = newChild.Key;
+
+                    if (key != null)
                     {
-                        oldChildren[i].MergeWith(Children[i]);
+                        if (keyedOld != null &&
+                            keyedOld.TryGetValue(key, out var keyedIndex) &&
+                            !consumed[keyedIndex])
+                        {
+                            matchIndex = keyedIndex;
+                        }
                     }
                     else
                     {
-                        break;
+                        while (unkeyedCursor < oldCount &&
+                               (consumed[unkeyedCursor] || oldChildren[unkeyedCursor].Key != null))
+                        {
+                            unkeyedCursor++;
+                        }
+
+                        if (unkeyedCursor < oldCount)
+                        {
+                            matchIndex = unkeyedCursor;
+                        }
+                    }
+
+                    if (matchIndex >= 0)
+                    {
+                        consumed[matchIndex] = true;
+                        oldChildren[matchIndex].MergeWith(newChild);
                     }
                 }
 
-                for (int i = Children.Count; i < oldChildren.Count; i++)
+                for (int i = 0; i < oldCount; i++)
                 {
-                    oldChildren[i].Unmount();
-                    oldChildren[i].Parent = null;
+                    if (!consumed[i])
+                    {
+                        oldChildren[i].Unmount();
+                        oldChildren[i].Parent = null;
+                    }
                 }
+            }
+            finally
+            {
+                ArrayPool<bool>.Shared.Return(consumed);
             }
         }
 
@@ -497,23 +605,10 @@ namespace MauiReactor
             if (newNode == this)
                 return;
 
-            for (int i = 0; i < Children.Count; i++)
-            {
-                if (newNode.Children.Count > i)
-                {
-                    Children[i].MergeWith(newNode.Children[i]);
-                }
-                else
-                {
-                    break;
-                }
-            }
+            var oldChildren = Children;
+            var newChildren = newNode.Children;
 
-            for (int i = newNode.Children.Count; i < Children.Count; i++)
-            {
-                Children[i].Unmount();
-                Children[i].Parent = null;
-            }
+            MergeChildren(oldChildren, newChildren, _hasKeyedChildren || newNode._hasKeyedChildren);
 
             Parent = null;
             _isMounted = false;
