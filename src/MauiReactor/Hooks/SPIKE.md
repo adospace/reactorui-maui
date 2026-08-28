@@ -133,6 +133,22 @@ operands are reported. Flagging the safe cases would be the fastest way to teach
 suppress the analyzer. `TestHookRulesAnalyzer` pins both directions, including that the
 `UseEffect(() => ..., deps)` shape the samples use stays clean.
 
+**Memory.** `TestHooksMemory` covers the retention question directly. Over 301 child
+generations only one component instance survives a forced collect, so the never-cleared
+`_newComponent` chain does not pile up in practice; the cell table is the same object across
+every generation (it rides the state transfer rather than being rebuilt), and `Cells.Count`
+stays at the hook count, so the cursor is resetting. Tearing the tree down releases the
+table.
+
+Two fixes came out of writing those tests. `FlushEffects` is dispatched, so it can land
+after unmount - it now returns early once cleanups have run, because otherwise an effect
+body would install a cleanup that nothing will ever call. And the item-template nodes now
+release `_boundItem` on unmount rather than holding the last displayed item.
+
+Note the teardown test builds and tears down inside a separate `[MethodImpl(NoInlining)]`
+frame. Without that, Debug locals stay rooted for the enclosing method and the test fails
+for a reason that has nothing to do with the code.
+
 **Packaging is still open, and it is not the one-line fix it looks like.** `MauiReactor.csproj`
 packs the generator DLL by globbing a sibling `bin/` path with no `ProjectReference`, so a
 build that has not built the generator first ships `Reactor.Maui` with no generator and no

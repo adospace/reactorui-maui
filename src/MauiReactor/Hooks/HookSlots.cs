@@ -126,6 +126,14 @@ public sealed class HookSlots : IHotReloadTransferable
 
     internal void FlushEffects()
     {
+        // The flush is dispatched, so it can land after the component was unmounted. Running
+        // effect bodies then would install cleanups that nothing will ever call - a resource
+        // leak from a component that no longer exists.
+        if (CleanupsRun)
+        {
+            return;
+        }
+
         foreach (var cell in Cells)
         {
             if (cell is not EffectCell { Pending: not null } effect)

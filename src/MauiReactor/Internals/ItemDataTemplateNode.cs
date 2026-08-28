@@ -113,6 +113,9 @@ internal class ItemDataTemplateNode<T> : Element<T>, IVisualNode where T : Micro
         Validate.EnsureNotNull(NativeControl);
         NativeControl.BindingContextChanged -= NativeControl_BindingContextChanged;
 
+        // Don't keep the last bound item alive past the cell that displayed it.
+        _boundItem = null;
+
         base.OnUnmount();
     }
 
@@ -276,6 +279,9 @@ internal class ItemControlTemplateNode : ContentView<Microsoft.Maui.Controls.Con
     {
         Validate.EnsureNotNull(NativeControl);
         NativeControl.BindingContextChanged -= NativeControl_BindingContextChanged;
+
+        // Don't keep the last bound item alive past the cell that displayed it.
+        _boundItem = null;
 
         base.OnUnmount();
     }
