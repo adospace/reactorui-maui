@@ -53,11 +53,22 @@ observe a tree one dispatch older than it should, and a component whose
 is a post-`Layout` hook, plus a `PendingDeps` staging slot so deps are recorded at acquire
 time rather than flush time.
 
-**Item templates are not handled.** `ItemDataTemplateNode` reassigns `Root` on every update
-and calls `Layout()` synchronously, so a recycled `CollectionView` cell index-merges one
-item's subtree into another's. A `UseState` cell inside an item template will show the
-previous item's value. `ItemControlTemplateNode` has the same shape. Do not use hooks inside
-item templates yet.
+**Item templates - fixed.** A `CollectionView` cell that scrolls out and is rebound to a
+different item used to *merge* the previous item's subtree into the new one, because
+`ItemDataTemplateNode.Root` reassignment invalidates and `Layout()` runs synchronously
+straight into the positional merge. For plain views that only overwrote properties; for a
+stateful component it handed item A's state to item B, and for a hook table it handed over
+every cell.
+
+Both `ItemDataTemplateNode<T>` and `ItemControlTemplateNode` now track which item their
+subtree was built for. A rebind to a different item marks the subtree for teardown, and
+their `MergeChildrenFrom` override unmounts it rather than merging, so the new item mounts
+fresh and effect cleanups run. A rebind to the *same* item - a re-render, which is what
+`Update()` does - still merges, which is both correct and what keeps list updates cheap.
+
+Item identity is reference-based deliberately: two equal-but-distinct items are still two
+items, and treating them as one is the bug this prevents. `TestItemTemplateRecycling` covers
+recycle-resets, same-item-keeps, and the hook-cell case.
 
 **Hot reload — implemented.** Two things were wrong, not one.
 

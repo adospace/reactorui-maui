@@ -10,6 +10,11 @@ namespace MauiReactor.Internals;
 internal class ItemDataTemplateNode<T> : Element<T>, IVisualNode where T : Microsoft.Maui.Controls.Element, Microsoft.Maui.IContentView, new()
 {
     private VisualNode? _root;
+
+    // The item this cell's subtree was built for, and whether the next layout must tear
+    // that subtree down instead of merging into it.
+    private object? _boundItem;
+    private bool _remountRoot;
     private readonly WeakReference<CustomDataTemplate<T>> _dataTemplateRef;
 
     public ItemDataTemplateNode(CustomDataTemplate<T> dataTemplate)
@@ -50,20 +55,57 @@ internal class ItemDataTemplateNode<T> : Element<T>, IVisualNode where T : Micro
         NativeControl.BindingContextChanged += NativeControl_BindingContextChanged;
     }
 
-    private void NativeControl_BindingContextChanged(object? sender, EventArgs e)
+    private void NativeControl_BindingContextChanged(object? sender, EventArgs e) => BindRoot();
+
+    /// <summary>
+    /// Rebuilds the cell's subtree for whatever item it is currently bound to. When that
+    /// item is a different one - which is what a recycled list cell looks like - the
+    /// existing subtree is marked for teardown, because merging would hand the previous
+    /// item's component state, and its hook cells, to the new item's tree.
+    /// Identity is reference-based on purpose: two equal-but-distinct items are still two
+    /// items, and sharing state between them is the bug this prevents.
+    /// </summary>
+    private void BindRoot()
     {
         Validate.EnsureNotNull(NativeControl);
 
-        if (NativeControl.BindingContext == null)
+        var item = NativeControl.BindingContext;
+
+        if (item == null)
         {
+            _boundItem = null;
             Root = null;
             return;
         }
 
+        if (!ReferenceEquals(item, _boundItem))
+        {
+            _boundItem = item;
+            _remountRoot = true;
+        }
+
         if (_dataTemplateRef.TryGetTarget(out var dataTemplate))
         {
-            Root = dataTemplate.GetVisualNodeForItem(NativeControl.BindingContext);
+            Root = dataTemplate.GetVisualNodeForItem(item);
         }
+    }
+
+    internal override void MergeChildrenFrom(IReadOnlyList<VisualNode> oldChildren, bool oldHasKeyedChildren = false)
+    {
+        if (_remountRoot)
+        {
+            _remountRoot = false;
+
+            foreach (var oldChild in oldChildren)
+            {
+                oldChild.Unmount();
+                oldChild.Parent = null;
+            }
+
+            return;
+        }
+
+        base.MergeChildrenFrom(oldChildren, oldHasKeyedChildren);
     }
 
     protected override void OnUnmount()
@@ -128,13 +170,9 @@ internal class ItemDataTemplateNode<T> : Element<T>, IVisualNode where T : Micro
 
     public new void Update()
     {
-        if (NativeControl != null &&
-            NativeControl.BindingContext != null)
+        if (NativeControl?.BindingContext != null)
         {
-            if (_dataTemplateRef.TryGetTarget(out var dataTemplate))
-            {
-                Root = dataTemplate.GetVisualNodeForItem(NativeControl.BindingContext);
-            }
+            BindRoot();
         }
     }
 }
@@ -142,6 +180,11 @@ internal class ItemDataTemplateNode<T> : Element<T>, IVisualNode where T : Micro
 internal class ItemControlTemplateNode : ContentView<Microsoft.Maui.Controls.ContentView>, IVisualNode
 {
     private VisualNode? _root;
+
+    // The item this cell's subtree was built for, and whether the next layout must tear
+    // that subtree down instead of merging into it.
+    private object? _boundItem;
+    private bool _remountRoot;
     private readonly WeakReference<CustomControlTemplate> _controlTemplateRef;
 
     public ItemControlTemplateNode(CustomControlTemplate dataTemplate)
@@ -182,20 +225,51 @@ internal class ItemControlTemplateNode : ContentView<Microsoft.Maui.Controls.Con
         NativeControl.BindingContextChanged += NativeControl_BindingContextChanged;
     }
 
-    private void NativeControl_BindingContextChanged(object? sender, EventArgs e)
+    private void NativeControl_BindingContextChanged(object? sender, EventArgs e) => BindRoot();
+
+    /// <summary>See the note on <see cref="ItemDataTemplateNode{T}"/>: a rebind to a
+    /// different item tears the subtree down rather than merging into it.</summary>
+    private void BindRoot()
     {
         Validate.EnsureNotNull(NativeControl);
 
-        if (NativeControl.BindingContext == null)
+        var item = NativeControl.BindingContext;
+
+        if (item == null)
         {
+            _boundItem = null;
             Root = null;
             return;
         }
 
+        if (!ReferenceEquals(item, _boundItem))
+        {
+            _boundItem = item;
+            _remountRoot = true;
+        }
+
         if (_controlTemplateRef.TryGetTarget(out var dataTemplate))
         {
-            Root = dataTemplate.GetVisualNodeForItem(NativeControl.BindingContext);
+            Root = dataTemplate.GetVisualNodeForItem(item);
         }
+    }
+
+    internal override void MergeChildrenFrom(IReadOnlyList<VisualNode> oldChildren, bool oldHasKeyedChildren = false)
+    {
+        if (_remountRoot)
+        {
+            _remountRoot = false;
+
+            foreach (var oldChild in oldChildren)
+            {
+                oldChild.Unmount();
+                oldChild.Parent = null;
+            }
+
+            return;
+        }
+
+        base.MergeChildrenFrom(oldChildren, oldHasKeyedChildren);
     }
 
     protected override void OnUnmount()
@@ -251,13 +325,9 @@ internal class ItemControlTemplateNode : ContentView<Microsoft.Maui.Controls.Con
 
     public new void Update()
     {
-        if (NativeControl != null &&
-            NativeControl.BindingContext != null)
+        if (NativeControl?.BindingContext != null)
         {
-            if (_controlTemplateRef.TryGetTarget(out var dataTemplate))
-            {
-                Root = dataTemplate.GetVisualNodeForItem(NativeControl.BindingContext);
-            }
+            BindRoot();
         }
     }
 }
