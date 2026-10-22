@@ -63,13 +63,13 @@ public partial class Shell<T> : IEnumerable
     private class ItemTemplateNode : VisualNode, IVisualNode
     {
         private readonly ItemTemplatePresenter? _presenter = null;
-        private readonly VisualNode _owner;
+        private readonly CustomDataTemplate _template;
 
-        public ItemTemplateNode(VisualNode root, ItemTemplatePresenter presenter, VisualNode owner)
+        public ItemTemplateNode(VisualNode root, ItemTemplatePresenter presenter, CustomDataTemplate template)
         {
             _root = root;
             _presenter = presenter;
-            _owner = owner;
+            _template = template;
 
             Invalidate();
         }
@@ -89,12 +89,12 @@ public partial class Shell<T> : IEnumerable
 
         Microsoft.Maui.Controls.Page? IVisualNode.GetContainerPage()
         {
-            return ((IVisualNode)_owner).GetContainerPage();
+            return ((IVisualNode)_template.Owner).GetContainerPage();
         }
 
         IHostElement? IVisualNode.GetPageHost()
         {
-            return ((IVisualNode)_owner).GetPageHost();
+            return ((IVisualNode)_template.Owner).GetPageHost();
         }
 
         protected sealed override void OnAddChild(VisualNode widget, BindableObject nativeControl)
@@ -170,7 +170,7 @@ public partial class Shell<T> : IEnumerable
             {
                 if (_itemTemplateNode == null)
                 {
-                    _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template.Owner);
+                    _itemTemplateNode = new ItemTemplateNode(newRoot, this, _template);
                 }
                 else
                 {
@@ -187,7 +187,8 @@ public partial class Shell<T> : IEnumerable
         public DataTemplate DataTemplate { get; }
         public Shell<T> Owner { get; set; }
 
-        public List<ItemTemplatePresenter> ItemTemplatePresenters { get; } = [];
+        // Weak, so that a presenter the flyout no longer uses, and the item it is bound to, can be collected.
+        private readonly List<WeakReference<ItemTemplatePresenter>> _itemTemplatePresenterRefs = [];
 
         public CustomDataTemplate(Shell<T> owner, bool useMenuItemTemplate)
         {
@@ -195,16 +196,20 @@ public partial class Shell<T> : IEnumerable
             DataTemplate = new DataTemplate(() =>
             {
                 var presenter = new ItemTemplatePresenter(this, useMenuItemTemplate);
-                ItemTemplatePresenters.Add(presenter);
+                _itemTemplatePresenterRefs.RemoveAll(presenterRef => !presenterRef.TryGetTarget(out _));
+                _itemTemplatePresenterRefs.Add(new WeakReference<ItemTemplatePresenter>(presenter));
                 return presenter;
             });
         }
 
         internal void UpdateLayout()
         {
-            foreach (var presenter in ItemTemplatePresenters)
+            foreach (var presenterRef in _itemTemplatePresenterRefs)
             {
-                presenter.UpdateLayout();
+                if (presenterRef.TryGetTarget(out var presenter))
+                {
+                    presenter.UpdateLayout();
+                }
             }
         }
     }
@@ -334,13 +339,13 @@ public partial class Shell<T> : IEnumerable
         newNodeAsShell._customDataTemplate = _customDataTemplate;
         if (newNodeAsShell._customDataTemplate != null)
         {
-            newNodeAsShell._customDataTemplate.Owner = this;
+            newNodeAsShell._customDataTemplate.Owner = newNodeAsShell;
         }
 
         newNodeAsShell._customMenuItemDataTemplate = _customMenuItemDataTemplate;
         if (newNodeAsShell._customMenuItemDataTemplate != null)
         {
-            newNodeAsShell._customMenuItemDataTemplate.Owner = this;
+            newNodeAsShell._customMenuItemDataTemplate.Owner = newNodeAsShell;
         }
     }
 }
