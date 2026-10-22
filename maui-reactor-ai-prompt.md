@@ -25,7 +25,10 @@ MauiReactor implements the MVU pattern similar to React Native and Flutter:
 - Must implement `Render()` method returning a `VisualNode`
 - Supports both stateless and stateful components
 - Stateful components use generic type parameters: `Component<StateType, PropsType>`
-- Provides lifecycle methods: `OnMounted()`, `OnWillUnmount()`, `OnPropsChanged()`
+- Provides lifecycle methods: `OnMounted()`, `OnWillUnmount()`, `OnPropsChanged()`, `OnMountedOrPropsChanged()`, `OnMigrating()`
+- When the parent renders again, a component is migrated to a new instance: `OnMounted()` and `OnWillUnmount()` do not run, and `State` and `Props` move to the new instance while private fields do not
+  - Keep resources (timers, controllers, subscription tokens) in `State`, not in private fields
+  - Subscribe to external events in `OnMountedOrPropsChanged()` and unsubscribe in both `OnMigrating()` and `OnWillUnmount()`
 - Includes dependency injection support through `Services` property
 - Navigation support through `Navigation` and `CurrentShell` properties
 
@@ -303,16 +306,17 @@ For more complex, timeline-based animations:
 class AnimationControllerState
 {
     public double Progress { get; set; } = 0.0;
+
+    // Kept in State, not in a field, so it moves to the new instance when the component is migrated
+    public AnimationController? AnimationController { get; set; }
 }
 
 class AnimationControllerExample : Component<AnimationControllerState>
 {
-    private AnimationController? _animationController;
-    
     protected override void OnMounted()
     {
-        _animationController = new AnimationController();
-        _animationController.AddAnimation(0, 1, new RxTweenAnimation<double>(
+        State.AnimationController = new AnimationController();
+        State.AnimationController.AddAnimation(0, 1, new RxTweenAnimation<double>(
             startValue: 0.0,
             endValue: 1.0,
             propertySetter: (value) => SetState(s => s.Progress = value)
@@ -345,12 +349,12 @@ class AnimationControllerExample : Component<AnimationControllerState>
     
     private void OnStartAnimation()
     {
-        _animationController?.Start();
+        State.AnimationController?.Start();
     }
     
     private void OnStopAnimation()
     {
-        _animationController?.Stop();
+        State.AnimationController?.Stop();
     }
 }
 ```
@@ -491,23 +495,24 @@ class TimerAnimationState
 {
     public double Angle { get; set; } = 0;
     public bool IsRunning { get; set; }
+
+    // Kept in State, not in a field, so OnWillUnmount disposes it even after the component is migrated
+    public Timer? AnimationTimer { get; set; }
 }
 
 class TimerAnimationExample : Component<TimerAnimationState>
 {
-    private Timer? _animationTimer;
-    
     protected override void OnMounted()
     {
-        _animationTimer = new Timer(16); // ~60 FPS
-        _animationTimer.Tick += OnTimerTick;
+        State.AnimationTimer = new Timer(16); // ~60 FPS
+        State.AnimationTimer.Tick += OnTimerTick;
         base.OnMounted();
     }
     
     protected override void OnWillUnmount()
     {
-        _animationTimer?.Stop();
-        _animationTimer?.Dispose();
+        State.AnimationTimer?.Stop();
+        State.AnimationTimer?.Dispose();
         base.OnWillUnmount();
     }
     
@@ -541,11 +546,11 @@ class TimerAnimationExample : Component<TimerAnimationState>
         
         if (State.IsRunning)
         {
-            _animationTimer?.Start();
+            State.AnimationTimer?.Start();
         }
         else
         {
-            _animationTimer?.Stop();
+            State.AnimationTimer?.Stop();
         }
     }
 }
@@ -555,7 +560,7 @@ class TimerAnimationExample : Component<TimerAnimationState>
 1. **Choose the right approach**: Use property-based for simple UI changes, AnimationController for complex timelines, imperative for standard MAUI animations
 2. **Performance**: Property-based animations are most efficient for frequent updates
 3. **Easing functions**: Use appropriate easing (Easing.CubicInOut, Easing.BounceOut, etc.)
-4. **Cleanup**: Always dispose timers and stop animations in OnWillUnmount
+4. **Cleanup**: Keep timers and animation controllers in State and dispose them in OnWillUnmount; a private field is lost when the component is migrated to a new instance
 5. **State management**: Keep animation state in component state for re-render consistency
 
 ### 6. Theming

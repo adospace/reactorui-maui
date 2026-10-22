@@ -25,15 +25,23 @@ class LandscapePage : Component<LandscapePageState>
 {
     private bool Landscape() => DeviceDisplay.MainDisplayInfo.Orientation == DisplayOrientation.Landscape;
 
-    protected override void OnMounted()
+    // When the parent renders again, this component is migrated to a new instance without
+    // OnMounted/OnWillUnmount: the handler is attached to whichever instance is current.
+    protected override void OnMountedOrPropsChanged()
     {
         DeviceDisplay.MainDisplayInfoChanged += DeviceDisplay_MainDisplayInfoChanged;
-        base.OnMounted();
+        base.OnMountedOrPropsChanged();
     }
 
     private void DeviceDisplay_MainDisplayInfoChanged(object? sender, DisplayInfoChangedEventArgs e)
     {
-        Invalidate(); 
+        Invalidate();
+    }
+
+    protected override void OnMigrating(VisualNode newNode)
+    {
+        DeviceDisplay.MainDisplayInfoChanged -= DeviceDisplay_MainDisplayInfoChanged;
+        base.OnMigrating(newNode);
     }
 
     protected override void OnWillUnmount()
