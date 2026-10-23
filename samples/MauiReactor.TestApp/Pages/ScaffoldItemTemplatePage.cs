@@ -7,26 +7,29 @@ public sealed class ScaffoldItemTemplatePage : Component
     public override VisualNode Render() =>
         ContentPage(
             "Scaffold ItemTemplate Test",
-            VStack(
-                Label("Above the scaffold control").AutomationId("TopLabel"),
-                new ScaffoldedTestItemsControl()
-                    .AutomationId("TestItems")
-                    .ItemsSource(
-                        ["Item1", "Item2", "Item3"],
-                        item => Label(item).AutomationId($"ItemLabel_{item}")
-                    )
+            new ScaffoldedTestItemsControl().ItemsSource(
+                ["Item1", "Item2", "Item3"],
+                item => Label(item)
             )
         );
 }
 
-public sealed class ScaffoldItemTemplateEmptyPage : Component
+public sealed class ScaffoldItemTemplateFailingPage : Component
 {
     public override VisualNode Render() =>
         ContentPage(
-            "Scaffold ItemTemplate Empty Test",
-            VStack(
-                new ScaffoldedTestItemsControl().AutomationId("EmptyTestItems"),
-                Label("Below the scaffold control").AutomationId("BottomLabel")
-            )
+            "Scaffold ItemTemplate Failing Test",
+            new ScaffoldedTestItemsControl(native => native?.SimulateHandlerDependency = true)
+                .AutomationId("TestItems")
+                .ItemsSource(["Item1"], item => Label(item))
+        );
+}
+
+public sealed class ScaffoldItemTemplateWithoutItemsSourcePage : Component
+{
+    public override VisualNode Render() =>
+        ContentPage(
+            "Scaffold ItemTemplate Without ItemsSource Test",
+            new ScaffoldedTestItemsControl()
         );
 }

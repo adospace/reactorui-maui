@@ -10,13 +10,15 @@ namespace MauiReactor.TestApp.Controls.Native;
 /// </summary>
 public class TestItemsControl : Microsoft.Maui.Controls.View
 {
+    /// <summary>The message of the exception <see cref="SimulateHandlerDependency"/> causes.</summary>
+    public const string SimulatedFailureMessage =
+        "TestItemsControl: simulated handler-dependent failure.";
+
     /// <summary>
-    /// When true, setting <see cref="ItemTemplate"/> throws to simulate controls
-    /// that require MAUI handlers for template processing (e.g., PanCardView.CardsView).
-    /// This reproduces the crash path where <c>OnUpdate</c> fails before
-    /// <c>base.OnUpdate()</c> can apply queued properties like AutomationId.
+    /// When true, setting a non-null <see cref="ItemTemplate"/> throws, as controls that need a
+    /// MAUI handler for template processing (e.g., PanCardView.CardsView) do when none is attached.
     /// </summary>
-    public static bool SimulateHandlerDependency { get; set; }
+    public bool SimulateHandlerDependency { get; set; }
 
     public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
         nameof(ItemsSource),
@@ -49,13 +51,9 @@ public class TestItemsControl : Microsoft.Maui.Controls.View
         object? newValue
     )
     {
-        if (SimulateHandlerDependency && newValue != null)
+        if (((TestItemsControl)bindable).SimulateHandlerDependency && newValue != null)
         {
-            throw new InvalidOperationException(
-                "TestItemsControl: simulated handler-dependent failure. "
-                    + "Real controls like CardsView fail here because they require "
-                    + "MAUI handlers for internal template processing."
-            );
+            throw new InvalidOperationException(SimulatedFailureMessage);
         }
     }
 }
