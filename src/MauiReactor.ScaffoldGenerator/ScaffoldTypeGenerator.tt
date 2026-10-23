@@ -153,6 +153,8 @@ namespace <#= Namespace #>
         {
             Validate.EnsureNotNull(NativeControl);
 
+            _loadedForciblyChildren = new();
+
             var nativeControlItemsSource = NativeControl.ItemsSource as IEnumerable;
 
             if (nativeControlItemsSource == null)
@@ -166,8 +168,6 @@ namespace <#= Namespace #>
             }
 
             var itemsSource = nativeControlItemsSource.Cast<object>().ToArray();
-
-            _loadedForciblyChildren = new();
 
             foreach (var item in itemsSource)
             {
@@ -240,49 +240,54 @@ namespace <#= Namespace #>
             Validate.EnsureNotNull(NativeControl);
             var thisAs<#= InterfaceName #> = (<#= InterfaceName #>)this;
             <#}#>
-            
-            <# if (SupportItemTemplate) { #>
-            
-            _loadedForciblyChildren = null;
 
-            if (thisAs<#= InterfaceName #>.ItemsSource != null &&
-                NativeControl.ItemsSource == thisAs<#= InterfaceName #>.ItemsSource)
+            try
             {
-                Validate.EnsureNotNull(_customDataTemplate);
+                <# if (SupportItemTemplate) { #>
 
-                _customDataTemplate.Owner = this;
+                _loadedForciblyChildren = null;
 
-                _customDataTemplate.Update();
-            }
-            else if (thisAs<#= InterfaceName #>.ItemsSource != null)
-            {
-                _customDataTemplate = new CustomDataTemplate(this);
-                NativeControl.ItemsSource = (<#= ItemsSourceFullyQualifiedName #>)thisAs<#= InterfaceName #>.ItemsSource;
-                NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
-            }
-            else
-            {
+                if (thisAs<#= InterfaceName #>.ItemsSource != null &&
+                    NativeControl.ItemsSource == thisAs<#= InterfaceName #>.ItemsSource)
+                {
+                    Validate.EnsureNotNull(_customDataTemplate);
+
+                    _customDataTemplate.Owner = this;
+
+                    _customDataTemplate.Update();
+                }
+                else if (thisAs<#= InterfaceName #>.ItemsSource != null)
+                {
+                    _customDataTemplate = new CustomDataTemplate(this);
+                    NativeControl.ItemsSource = (<#= ItemsSourceFullyQualifiedName #>)thisAs<#= InterfaceName #>.ItemsSource;
+                    NativeControl.ItemTemplate = _customDataTemplate.DataTemplate;
+                }
+                else
+                {
+                    <# if (IsGenericType) { #>
+                    NativeControl.ClearValue(global::<#= FullTypeName #><TChild>.ItemsSourceProperty);
+                    NativeControl.ClearValue(global::<#= FullTypeName #><TChild>.ItemTemplateProperty);
+                    <# } else { #>
+                    NativeControl.ClearValue(global::<#= FullTypeName #>.ItemsSourceProperty);
+                    NativeControl.ClearValue(global::<#= FullTypeName #>.ItemTemplateProperty);
+                    <# } #>
+                }
+                <# } #>
+
+
+                <# if (Properties.Any()) { #>
+                <# foreach (var property in Properties) { #>
                 <# if (IsGenericType) { #>
-                NativeControl.ClearValue(global::<#= FullTypeName #><TChild>.ItemsSourceProperty);
-                NativeControl.ClearValue(global::<#= FullTypeName #><TChild>.ItemTemplateProperty);
-                <# } else { #>
-                NativeControl.ClearValue(global::<#= FullTypeName #>.ItemsSourceProperty);
-                NativeControl.ClearValue(global::<#= FullTypeName #>.ItemTemplateProperty);
+                SetPropertyValue(NativeControl, global::<#= FullTypeName #><TChild>.<#= property.Name #>Property, thisAs<#= InterfaceName #>.<#= property.Name #>);
+                <# } #>
+                <# } #>
+
                 <# } #>
             }
-            <# } #>
-
-
-            <# if (Properties.Any()) { #>
-            <# foreach (var property in Properties) { #>
-            <# if (IsGenericType) { #>
-            SetPropertyValue(NativeControl, global::<#= FullTypeName #><TChild>.<#= property.Name #>Property, thisAs<#= InterfaceName #>.<#= property.Name #>);
-            <# } #>
-            <# } #>
-
-            <# } #>
-
-            base.OnUpdate();
+            finally
+            {
+                base.OnUpdate();
+            }
 
             OnEndUpdate();
         }
