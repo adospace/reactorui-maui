@@ -236,7 +236,7 @@ public partial class Shell<T> : IEnumerable
         {
             if (NativeControl.MenuItemTemplate == null || _customMenuItemDataTemplate == null)
             {
-                _customMenuItemDataTemplate = new CustomDataTemplate(this, false);
+                _customMenuItemDataTemplate = new CustomDataTemplate(this, true);
                 NativeControl.MenuItemTemplate = _customMenuItemDataTemplate.DataTemplate;
             }
             else
