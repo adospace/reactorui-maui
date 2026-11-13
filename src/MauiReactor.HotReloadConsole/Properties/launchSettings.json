@@ -2,7 +2,7 @@
   "profiles": {
     "MauiReactor.HotReloadConsole": {
       "commandName": "Project",
-      "commandLineArgs": "--dir C:\\Source\\github\\reactorui-maui\\samples\\MauiReactor.TestApp -f \"net10.0-android\" -m Full"
+      "commandLineArgs": "--dir C:\\Source\\github\\reactorui-maui\\samples\\MauiReactor.TestApp -f \"net11.0-android\" -m Full"
     }
   }
 }

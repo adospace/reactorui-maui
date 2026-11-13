@@ -100,7 +100,7 @@ public partial class ShellContent<T> : IAutomationItemContainer
     {
         if (_contentTemplate != null)
         {
-            return [_contentTemplate];
+            return new VisualNode[] { _contentTemplate };
         }
 
         return base.RenderChildren();

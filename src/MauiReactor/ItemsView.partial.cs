@@ -165,7 +165,7 @@ public partial class ItemsView<T> : ICustomDataTemplateOwner, IAutomationItemCon
 
         if (thisAsIItemsView.EmptyView is VisualNode emptyViewNode)
         {
-            children = children.Concat([emptyViewNode]);
+            children = children.Append(emptyViewNode);
         }
 
         return children;

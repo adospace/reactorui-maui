@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MauiReactor.TestApp.Pages;
-using System.Reflection;
 
 namespace UnitTests;
 
@@ -43,10 +42,8 @@ internal class TestBug220Page
         // how to tap the stack??
         var tapGestureRecognizer = stack.GestureRecognizers.OfType<MauiControls.TapGestureRecognizer>().Single();
 
-        tapGestureRecognizer
-            .GetType()
-            .GetMethod("SendTapped", BindingFlags.Instance | BindingFlags.NonPublic)
-            .ShouldNotBeNull().Invoke(tapGestureRecognizer, new[] { stack, null });
+        // SendTapped is public since MAUI 11 (it was internal before, and reached via reflection).
+        tapGestureRecognizer.SendTapped(stack, null);
 
         // get ModelPage and get the label
         var label = await mainPage.Find<MauiControls.Label>("m2", TimeSpan.FromSeconds(30));

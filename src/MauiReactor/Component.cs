@@ -112,7 +112,7 @@ namespace MauiReactor
                 }
             }
 
-            return children == null ? [] : [ children ];
+            return children == null ? Array.Empty<VisualNode>() : new VisualNode[] { children };
         }
 
         //protected sealed override void OnUpdate()

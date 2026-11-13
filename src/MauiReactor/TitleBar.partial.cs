@@ -31,15 +31,15 @@ public abstract partial class TitleBar<T>
 
         if (thisAsITitleBar.LeadingContent != null)
         {
-            children = children.Concat([thisAsITitleBar.LeadingContent]);
+            children = children.Append(thisAsITitleBar.LeadingContent);
         }
         if (thisAsITitleBar.TrailingContent != null)
         {
-            children = children.Concat([thisAsITitleBar.TrailingContent]);
+            children = children.Append(thisAsITitleBar.TrailingContent);
         }
         if (thisAsITitleBar.Content != null)
         {
-            children = children.Concat([thisAsITitleBar.Content]);
+            children = children.Append(thisAsITitleBar.Content);
         }
 
         return children;

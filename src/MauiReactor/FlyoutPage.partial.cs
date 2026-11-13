@@ -25,7 +25,7 @@ public partial class FlyoutPage<T> : IEnumerable
 
         if (thisAsIFlyoutPage.Flyout != null)
         {
-            children = children.Concat([thisAsIFlyoutPage.Flyout]);
+            children = children.Append(thisAsIFlyoutPage.Flyout);
         }
 
         return children;
