@@ -70,6 +70,14 @@ jobs:
     - name: Install MAUI workload
       run: dotnet workload install maui
 
+    # A new .NET major usually targets an Android API level the runner image does not ship yet
+    # (.NET 11 -> API 37). The Android TFM is read from the project so this works on every branch.
+    - name: Install Android SDK dependencies
+      shell: pwsh
+      run: |
+        $tfm = (dotnet msbuild src/MauiReactor/MauiReactor.csproj -getProperty:TargetFrameworks).Split(';') | Where-Object { $_ -like '*-android*' } | Select-Object -First 1
+        dotnet build src/MauiReactor/MauiReactor.csproj -t:InstallAndroidDependencies -f $tfm "-p:AndroidSdkDirectory=$env:ANDROID_SDK_ROOT" -p:AcceptAndroidSDKLicenses=true
+
     - name: Test
       run: dotnet test $env:Test_Project
 
