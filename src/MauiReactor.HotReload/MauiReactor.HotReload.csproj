@@ -4,7 +4,6 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 
-		<Version>0.0.1-beta</Version>
 		<Authors>adospace</Authors>
 		<Description>MauiReactor.HotReload is the hot-reload plugin library for MauiReactor which is an MVU library (heavily inspired to ReactJS and Flutter) written on top of Microsoft Maui Controls.</Description>
 		<Copyright>Adolfo Marinucci</Copyright>

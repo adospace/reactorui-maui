@@ -21,7 +21,6 @@
 		<PublishSingleFile>true</PublishSingleFile>
 
 		<!-- Set recommended package metadata -->
-		<Version>0.0.1-beta</Version>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageId>Reactor.Maui.MCP</PackageId>
 		<PackageTags>MauiReactor; MCP; server; stdio</PackageTags>
