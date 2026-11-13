@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>0.0.1</PackageVersion>  
 
     <PackageId>Reactor.Maui.TemplatePack</PackageId>
     <Title>MauiReactor Templates</Title>
@@ -47,6 +46,19 @@
 
   <Target Name="CopyTemplates3" BeforeTargets="Build">
     <Copy SourceFiles="@(TemplateFilesSampleXaml)" DestinationFiles="@(TemplateFilesSampleXaml->'$(MSBuildThisFileDirectory)templates\MauiReactor.StartupSampleXaml\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <!--
+    Point every template at the Reactor.Maui version being published, so `dotnet new` never
+    references a stale package. Opt-in (the release workflow passes /p:StampTemplateVersion=true)
+    because it rewrites the tracked template copies in place.
+  -->
+  <Target Name="StampTemplateReactorVersion" AfterTargets="CopyTemplates1;CopyTemplates2;CopyTemplates3" BeforeTargets="Build" Condition="'$(StampTemplateVersion)' == 'true'">
+    <ItemGroup>
+      <_TemplateProject Include="templates\**\*.csproj" Exclude="templates\**\bin\**;templates\**\obj\**" />
+    </ItemGroup>
+    <WriteLinesToFile File="%(_TemplateProject.FullPath)" Overwrite="true" Lines="$([MSBuild]::Escape($([System.Text.RegularExpressions.Regex]::Replace($([System.IO.File]::ReadAllText('%(_TemplateProject.FullPath)')), '(Include=&quot;Reactor\.Maui(\.HotReload)?&quot;\s+Version=&quot;)[^&quot;]*', '${1}$(Version)'))))" />
+    <Message Importance="high" Text="Templates now reference Reactor.Maui $(Version)" />
   </Target>
   
 </Project>

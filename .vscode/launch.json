@@ -22,7 +22,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build-hotreload-console",
-            "program": "${workspaceFolder}/src/MauiReactor.HotReloadConsole/bin/Debug/net10.0/MauiReactor.HotReloadConsole.dll",
+            "program": "${workspaceFolder}/src/MauiReactor.HotReloadConsole/bin/Debug/net11.0/MauiReactor.HotReloadConsole.dll",
             "args": [
                 "-f", "${input:targetFramework}",
                 "-p", "${input:projectPath}",
@@ -37,7 +37,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build-hotreload-console",
-            "program": "${workspaceFolder}/src/MauiReactor.HotReloadConsole/bin/Debug/net10.0/MauiReactor.HotReloadConsole.dll",
+            "program": "${workspaceFolder}/src/MauiReactor.HotReloadConsole/bin/Debug/net11.0/MauiReactor.HotReloadConsole.dll",
             "args": [
                 "-f", "${input:targetFramework}",
                 "-p", "${input:projectPath}",
@@ -60,12 +60,12 @@
             "type": "pickString",
             "description": "Select target framework",
             "options": [
-                "net10.0-android",
-                "net10.0-ios",
-                "net10.0-maccatalyst",
-                "net10.0-windows10.0.19041.0"
+                "net11.0-android",
+                "net11.0-ios",
+                "net11.0-maccatalyst",
+                "net11.0-windows10.0.19041.0"
             ],
-            "default": "net10.0-maccatalyst"
+            "default": "net11.0-maccatalyst"
         }
     ]
 }

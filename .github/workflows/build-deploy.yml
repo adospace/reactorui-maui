@@ -1,9 +1,27 @@
-
 name: MauiReactor
+
+# Releasing is a tag push - no file edits:
+#
+#   git tag v5.0.0-preview.1 && git push origin v5.0.0-preview.1   -> prerelease on NuGet
+#   git tag v5.0.0           && git push origin v5.0.0             -> stable on NuGet
+#
+# The version is the tag minus the leading "v". Anything after a "-" makes it a NuGet prerelease.
+# The SDK comes from global.json at the tagged commit, so a v4.x tag cut from the version-4
+# branch builds with .NET 10 and a v5.x tag cut from main builds with .NET 11 - same workflow.
+#
+# Branch pushes and pull requests only build and test; their packages are uploaded as a
+# workflow artifact (version 0.0.0-ci.<run>) and never pushed to NuGet.
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "version-4" ]
+    tags: [ "v*" ]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_type != 'tag' }}
 
 jobs:
 
@@ -13,49 +31,77 @@ jobs:
       contents: read
       id-token: write  # NuGet Trusted Publishing exchanges the GitHub OIDC token for a short-lived API key
 
-    runs-on: windows-latest  # For a list of available runner types, refer to
-                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
+    runs-on: windows-latest
 
     env:
       Solution_Name: ./src/MauiReactor.Build.sln
       Test_Project: ./samples/UnitTests/UnitTests.csproj
-      TemplatePack_Name: ./src/MauiReactor.TemplatePack/MauiReactor.TemplatePack.csproj
-      Version: 4.0.19
+      Package_Output: ${{ github.workspace }}/artifacts
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-        
-    # Install the .NET Core workload
-    - name: Install .NET Core
+
+    - name: Compute version
+      id: version
+      shell: pwsh
+      run: |
+        if ($env:GITHUB_REF_TYPE -eq 'tag') {
+          $version = $env:GITHUB_REF_NAME -replace '^v', ''
+          if ($version -notmatch '^\d+\.\d+\.\d+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$') {
+            throw "Tag '$env:GITHUB_REF_NAME' is not a release tag. Expected v<major>.<minor>.<patch>[-prerelease], e.g. v5.0.0 or v5.0.0-preview.1"
+          }
+          $publish = 'true'
+        } else {
+          $version = "0.0.0-ci.$env:GITHUB_RUN_NUMBER"
+          $publish = 'false'
+        }
+        "version=$version" >> $env:GITHUB_OUTPUT
+        "publish=$publish" >> $env:GITHUB_OUTPUT
+        Write-Host "Version: $version (publish: $publish)"
+
+    - name: Install .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 10.0.100
+        global-json-file: global.json
 
     - name: Install MAUI workload
       run: dotnet workload install maui
 
-    - name: Clean output directory
-      run: dotnet clean $env:Solution_Name -c Release
-    
-    - name: Test the project
+    # A new .NET major usually targets an Android API level the runner image does not ship yet
+    # (.NET 11 -> API 37). The Android TFM is read from the project so this works on every branch.
+    - name: Install Android SDK dependencies
+      shell: pwsh
+      run: |
+        $tfm = (dotnet msbuild src/MauiReactor/MauiReactor.csproj -getProperty:TargetFrameworks).Split(';') | Where-Object { $_ -like '*-android*' } | Select-Object -First 1
+        dotnet build src/MauiReactor/MauiReactor.csproj -t:InstallAndroidDependencies -f $tfm "-p:AndroidSdkDirectory=$env:ANDROID_SDK_ROOT" -p:AcceptAndroidSDKLicenses=true
+
+    - name: Test
       run: dotnet test $env:Test_Project
-    
-    - name: Build the packages
-      run: dotnet build $env:Solution_Name -c Release /p:Version=$env:Version
-  
-    - name: Build the MauiReactor.TemplatePack package
-      run: dotnet pack --no-build $env:TemplatePack_Name -c Release /p:PackageVersion=$env:Version
+
+    - name: Build and pack
+      run: >
+        dotnet build $env:Solution_Name -c Release
+        /p:Version=${{ steps.version.outputs.version }}
+        /p:StampTemplateVersion=true
+        /p:PackageOutputPath=$env:Package_Output
+        /p:ContinuousIntegrationBuild=true
+
+    - name: Upload packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: packages-${{ steps.version.outputs.version }}
+        path: artifacts/*.nupkg
 
     - name: NuGet login (Trusted Publishing)
+      if: steps.version.outputs.publish == 'true'
       uses: NuGet/login@v1
       id: nuget-login
       with:
         user: adospace
 
-    - name: Push Package to NuGet.org
-      run: dotnet nuget push **/*.nupkg -k ${{ steps.nuget-login.outputs.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
-
-      
+    - name: Push packages to NuGet.org
+      if: steps.version.outputs.publish == 'true'
+      run: dotnet nuget push "$env:Package_Output/*.nupkg" -k ${{ steps.nuget-login.outputs.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate

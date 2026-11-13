@@ -19,7 +19,7 @@ public partial class ContentPage<T> : TemplatedPage<T>, IContentPage where T : M
 
         if (thisAsIVisualElement.TitleView != null)
         {
-            children = children.Concat([thisAsIVisualElement.TitleView]);
+            children = children.Append(thisAsIVisualElement.TitleView);
         }
 
         return children;

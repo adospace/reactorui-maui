@@ -1,0 +1,14 @@
+<Project>
+
+  <!--
+    Single source of truth for the package version of every project under src/.
+
+    Local builds get the placeholder below. Release builds never edit this file:
+    the GitHub workflow derives the version from the pushed tag (v5.0.0, v5.0.0-preview.1, ...)
+    and passes it as /p:Version=..., which overrides this default.
+  -->
+  <PropertyGroup>
+    <Version Condition="'$(Version)' == ''">0.0.1-dev</Version>
+  </PropertyGroup>
+
+</Project>

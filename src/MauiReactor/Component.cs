@@ -15,6 +15,16 @@ namespace MauiReactor
 
         public abstract VisualNode Render();
 
+        /// <summary>
+        /// Called immediately before <see cref="Render"/>. Internal so that adding it
+        /// cannot collide with a method of the same name on a user's own component base
+        /// (which would be CS0114, or CS0508 on a differing return type).
+        /// </summary>
+        internal virtual void OnBeforeRender() { }
+
+        /// <summary>Called immediately after <see cref="Render"/> returns. See <see cref="OnBeforeRender"/>.</summary>
+        internal virtual void OnAfterRender() { }
+
         //private readonly Dictionary<BindableProperty, object?> _attachedProperties = [];
 
         //public void SetProperty(BindableProperty property, object? value)
@@ -81,7 +91,11 @@ namespace MauiReactor
                 logger.LogDebug("Rendering {Type}", GetType());
             }
                 
+            OnBeforeRender();
+
             var children = Render();
+
+            OnAfterRender();
 
             if (_propertiesToSet != null)
             {
@@ -98,7 +112,7 @@ namespace MauiReactor
                 }
             }
 
-            return children == null ? [] : [ children ];
+            return children == null ? Array.Empty<VisualNode>() : new VisualNode[] { children };
         }
 
         //protected sealed override void OnUpdate()
@@ -194,6 +208,14 @@ namespace MauiReactor
 
         public static IServiceProvider Services
             => ServiceCollectionProvider.ServiceProvider ?? throw new InvalidOperationException("Services not available");
+
+        internal override void RepositionNativeChild()
+        {
+            if (_nativeControl != null)
+            {
+                Parent?.MoveChild(this, _nativeControl);
+            }
+        }
 
         internal void InvalidateComponent() => Invalidate();
 
@@ -528,14 +550,25 @@ namespace MauiReactor
                 }
                 else if (/*MauiReactorFeatures.HotReloadIsEnabled && */newNode.GetType().FullName == this.GetType().FullName)
                 {
-                    var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
-                    if (logger != null && logger.IsEnabled(LogLevel.Warning))
+                    if (State is IHotReloadTransferable)
                     {
-                        logger.LogWarning("State {State} copied to new instance of component {Component}", 
-                            State.GetType().FullName, newNode.GetType().FullName);
+                        // The component type changed (its assembly was reloaded) but this
+                        // state object's type did not - it lives in MauiReactor.dll, which
+                        // is loaded once. Hand it over whole: the reflective copy below
+                        // only moves public properties and would transfer nothing.
+                        newComponentWithState.State = State;
                     }
-                    //CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
-                    TypeLoader.Instance.CopyProperties(State, newComponentWithState.State);
+                    else
+                    {
+                        var logger = ServiceCollectionProvider.ServiceProvider?.GetService<ILogger<Component>>();
+                        if (logger != null && logger.IsEnabled(LogLevel.Warning))
+                        {
+                            logger.LogWarning("State {State} copied to new instance of component {Component}", 
+                                State.GetType().FullName, newNode.GetType().FullName);
+                        }
+                        //CopyObjectExtensions.CopyProperties(State, newComponentWithState.State);
+                        TypeLoader.Instance.CopyProperties(State, newComponentWithState.State);
+                    }
                 }
                 else
                 {

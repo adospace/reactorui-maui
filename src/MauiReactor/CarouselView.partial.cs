@@ -25,7 +25,7 @@ public partial class CarouselView<T>
 
         if (thisAsICarouselView.ItemsLayout != null)
         {
-            children = children.Concat([(VisualNode)thisAsICarouselView.ItemsLayout]);
+            children = children.Append((VisualNode)thisAsICarouselView.ItemsLayout);
         }
 
         return children;

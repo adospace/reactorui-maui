@@ -15,7 +15,7 @@ namespace MauiReactor.Internals
         public ComponentNavigationStack(INavigation nativeNavigation)
         {
             _nativeNavigation = nativeNavigation;
-            _pages = [.. nativeNavigation.ModalStack.Concat(nativeNavigation.NavigationStack).Distinct()];
+            _pages = nativeNavigation.ModalStack.Concat(nativeNavigation.NavigationStack).Distinct().ToArray();
         }
 
         public void RegisterEventHandler(IComponentNavigationStackEventHandler eventHandler)
@@ -37,7 +37,7 @@ namespace MauiReactor.Internals
 
         public void Refresh()
         {
-            var currentPages = new List<Microsoft.Maui.Controls.Page>([.. _nativeNavigation.ModalStack, .. _nativeNavigation.NavigationStack]);
+            var currentPages = new List<Microsoft.Maui.Controls.Page>(_nativeNavigation.ModalStack.Concat(_nativeNavigation.NavigationStack));
             // Check for pushed pages
             foreach (var page in currentPages)
             {
