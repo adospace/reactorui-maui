@@ -1734,6 +1734,48 @@ public partial class Component
         return @swipegesturerecognizer;
     }
 
+    public static LongPressGestureRecognizer LongPressGestureRecognizer() => new LongPressGestureRecognizer();
+    public static LongPressGestureRecognizer LongPressGestureRecognizer(params IEnumerable<VisualNode?>? children)
+    {
+        var @longpressgesturerecognizer = new LongPressGestureRecognizer();
+        if (children != null)
+        {
+            @longpressgesturerecognizer.AddChildren(children);
+        }
+
+        return @longpressgesturerecognizer;
+    }
+
+    public static LongPressGestureRecognizer LongPressGestureRecognizer(params IEnumerable<object?>? children)
+    {
+        var @longpressgesturerecognizer = new LongPressGestureRecognizer();
+        if (children != null)
+        {
+            @longpressgesturerecognizer.AddChildren(children);
+        }
+
+        return @longpressgesturerecognizer;
+    }
+
+    public static LongPressGestureRecognizer LongPressGestureRecognizer(Action<Microsoft.Maui.Controls.LongPressGestureRecognizer?> componentRefAction)
+    {
+        var @longpressgesturerecognizer = new LongPressGestureRecognizer();
+        @longpressgesturerecognizer.ComponentRefAction = componentRefAction;
+        return @longpressgesturerecognizer;
+    }
+
+    public static LongPressGestureRecognizer LongPressGestureRecognizer(Action<Microsoft.Maui.Controls.LongPressGestureRecognizer?> componentRefAction, params IEnumerable<VisualNode?>? children)
+    {
+        var @longpressgesturerecognizer = new LongPressGestureRecognizer();
+        @longpressgesturerecognizer.ComponentRefAction = componentRefAction;
+        if (children != null)
+        {
+            @longpressgesturerecognizer.AddChildren(children);
+        }
+
+        return @longpressgesturerecognizer;
+    }
+
     public static Shapes.EllipseGeometry EllipseGeometry() => new Shapes.EllipseGeometry();
     public static Shapes.EllipseGeometry EllipseGeometry(Action<Microsoft.Maui.Controls.Shapes.EllipseGeometry?> componentRefAction)
     {

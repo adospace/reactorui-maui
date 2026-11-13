@@ -63,6 +63,7 @@ Microsoft.Maui.Controls.PanGestureRecognizer
 Microsoft.Maui.Controls.PinchGestureRecognizer
 Microsoft.Maui.Controls.PointerGestureRecognizer
 Microsoft.Maui.Controls.SwipeGestureRecognizer
+Microsoft.Maui.Controls.LongPressGestureRecognizer
 
 Microsoft.Maui.Controls.Shapes.Shape
 Microsoft.Maui.Controls.Shapes.Geometry

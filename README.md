@@ -30,20 +30,57 @@ class CounterPage : Component<CounterPageState>
 }
 ```
 
+### Versions
+
+| Version | .NET / MAUI | Status | Branch |
+|---|---|---|---|
+| **MauiReactor 5** | .NET 11 / MAUI 11 | Beta | [`main`](https://github.com/adospace/reactorui-maui/tree/main) |
+| **MauiReactor 4** | .NET 10 / MAUI 10 | Stable, maintained | [`version-4`](https://github.com/adospace/reactorui-maui/tree/version-4) |
+
+#### What's new in MauiReactor 5 (beta)
+
+- **.NET 11 / MAUI 11**: apps run on CoreCLR on Android, iOS and Mac Catalyst. The minimum Android version is now API 24 (Android 7.0), as required by .NET 11.
+- **Hooks**: a new, lighter way to write components. There's no state class and no `SetState` round trip:
+  ```csharp
+  class CounterPage : HookComponent
+  {
+      public override VisualNode Render()
+      {
+          var (counter, setCounter) = UseState(0);
+
+          return ContentPage("Counter Sample",
+              VStack(
+                  Label($"Counter: {counter}"),
+                  Button("Click To Increment", () => setCounter(counter + 1))
+              )
+              .Spacing(10)
+              .Center()
+          );
+      }
+  }
+  ```
+  Also available: `UseReducer`, `UseRef`, `UseEffect` and `UseMemo`. Hook state is preserved across hot reload, and a built-in analyzer reports hooks that are called conditionally, in loops or outside `Render()`. `Component<TState>` still works as before.
+- **New MAUI 11 features**: `LongPressGestureRecognizer`, badges on Shell items and toolbar items, `BoxView.Fill`, `Window.StatusBarTheme`, `SwipeItem` text/icon colors, and the new Maps clustering, styling and click events.
+- **Keyed children**: `WithKey(...)` is now honoured when a list is reordered, so component state and native controls move with their item.
+
+> ⚠️ **iOS / Mac Catalyst navigation needs testing.** MAUI 11 moved `NavigationPage`, `TabbedPage` and `FlyoutPage` to a new handler architecture on iOS and Mac Catalyst, and `Appearing` now fires *before* a page is pushed. MauiReactor's navigation relies on these events, so please test push/pop, modal navigation and Shell navigation on iOS and [open an issue](https://github.com/adospace/reactorui-maui/issues) if anything behaves differently from MauiReactor 4.
+
 ### Setting up MauiReactor from CLI
+
+The steps below use MauiReactor 5 (beta). For MauiReactor 4, omit the version/`--prerelease` options and use `net10.0-*` target frameworks.
 
 1. Install MauiReactor templates
 ```
-dotnet new install Reactor.Maui.TemplatePack
+dotnet new install Reactor.Maui.TemplatePack::5.0.0-beta.1
 ```
 
-2. Install MauiReactor hot reload console command (NOTE: this has changed from version 3 to version 4)
+2. Install the MauiReactor hot reload console command (its version should match the Reactor.Maui package used by your app)
 ```
-dotnet tool install -g Reactor.Maui.HotReloadConsole
+dotnet tool install -g Reactor.Maui.HotReloadConsole --prerelease
 ```
-If you already installed an old version of Reactor.Maui.HotReload, you can update it to the latest using this command  (NOTE: this has changed from version 3 to version 4):
+If you already have it installed, update it with:
 ```
-dotnet tool update -g Reactor.Maui.HotReloadConsole
+dotnet tool update -g Reactor.Maui.HotReloadConsole --prerelease
 ```
 
 3. Create a sample project

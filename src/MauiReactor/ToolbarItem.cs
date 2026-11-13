@@ -58,6 +58,92 @@ public partial class ToolbarItem : ToolbarItem<Microsoft.Maui.Controls.ToolbarIt
 
 public static partial class ToolbarItemExtensions
 {
+    public static T BadgeText<T>(this T toolbarItem, string badgeText)
+        where T : IToolbarItem
+    {
+        //toolbarItem.BadgeText = badgeText;
+        toolbarItem.SetProperty(Microsoft.Maui.Controls.ToolbarItem.BadgeTextProperty, badgeText);
+        return toolbarItem;
+    }
+
+    public static T ToolbarItemBadgeText<T>(this T toolbarItem, string badgeText)
+        where T : Component
+    {
+        toolbarItem.SetProperty(Microsoft.Maui.Controls.ToolbarItem.BadgeTextProperty, badgeText);
+        return toolbarItem;
+    }
+
+    public static T BadgeText<T>(this T toolbarItem, Func<string> badgeTextFunc, IComponentWithState? componentWithState = null)
+        where T : IToolbarItem
+    {
+        toolbarItem.SetProperty(Microsoft.Maui.Controls.ToolbarItem.BadgeTextProperty, new PropertyValue<string>(badgeTextFunc, componentWithState));
+        return toolbarItem;
+    }
+
+    public static T ToolbarItemBadgeText<T>(this T toolbarItem, Func<string> badgeTextFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        toolbarItem.SetProperty(Microsoft.Maui.Controls.ToolbarItem.BadgeTextProperty, new PropertyValue<string>(badgeTextFunc, componentWithState));
+        return toolbarItem;
+    }
+
+    public static T BadgeColor<T>(this T toolbarItem, Microsoft.Maui.Graphics.Color badgeColor)
+        where T : IToolbarItem
+    {
+        //toolbarItem.BadgeColor = badgeColor;
+        toolbarItem.SetProperty(Microsoft.Maui.Controls.ToolbarItem.BadgeColorProperty, badgeColor);
+        return toolbarItem;
+    }
+
+    public static T ToolbarItemBadgeColor<T>(this T toolbarItem, Microsoft.Maui.Graphics.Color badgeColor)
+        where T : Component
+    {
+        toolbarItem.SetProperty(Microsoft.Maui.Controls.ToolbarItem.BadgeColorProperty, badgeColor);
+        return toolbarItem;
+    }
+
+    public static T BadgeColor<T>(this T toolbarItem, Func<Microsoft.Maui.Graphics.Color> badgeColorFunc, IComponentWithState? componentWithState = null)
+        where T : IToolbarItem
+    {
+        toolbarItem.SetProperty(Microsoft.Maui.Controls.ToolbarItem.BadgeColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(badgeColorFunc, componentWithState));
+        return toolbarItem;
+    }
+
+    public static T ToolbarItemBadgeColor<T>(this T toolbarItem, Func<Microsoft.Maui.Graphics.Color> badgeColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        toolbarItem.SetProperty(Microsoft.Maui.Controls.ToolbarItem.BadgeColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(badgeColorFunc, componentWithState));
+        return toolbarItem;
+    }
+
+    public static T BadgeTextColor<T>(this T toolbarItem, Microsoft.Maui.Graphics.Color badgeTextColor)
+        where T : IToolbarItem
+    {
+        //toolbarItem.BadgeTextColor = badgeTextColor;
+        toolbarItem.SetProperty(Microsoft.Maui.Controls.ToolbarItem.BadgeTextColorProperty, badgeTextColor);
+        return toolbarItem;
+    }
+
+    public static T ToolbarItemBadgeTextColor<T>(this T toolbarItem, Microsoft.Maui.Graphics.Color badgeTextColor)
+        where T : Component
+    {
+        toolbarItem.SetProperty(Microsoft.Maui.Controls.ToolbarItem.BadgeTextColorProperty, badgeTextColor);
+        return toolbarItem;
+    }
+
+    public static T BadgeTextColor<T>(this T toolbarItem, Func<Microsoft.Maui.Graphics.Color> badgeTextColorFunc, IComponentWithState? componentWithState = null)
+        where T : IToolbarItem
+    {
+        toolbarItem.SetProperty(Microsoft.Maui.Controls.ToolbarItem.BadgeTextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(badgeTextColorFunc, componentWithState));
+        return toolbarItem;
+    }
+
+    public static T ToolbarItemBadgeTextColor<T>(this T toolbarItem, Func<Microsoft.Maui.Graphics.Color> badgeTextColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        toolbarItem.SetProperty(Microsoft.Maui.Controls.ToolbarItem.BadgeTextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(badgeTextColorFunc, componentWithState));
+        return toolbarItem;
+    }
 }
 
 public static partial class ToolbarItemStyles

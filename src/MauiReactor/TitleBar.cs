@@ -233,6 +233,35 @@ public static partial class TitleBarExtensions
         titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.ForegroundColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(foregroundColorFunc, componentWithState));
         return titleBar;
     }
+
+    public static T TitleFontAttributes<T>(this T titleBar, Microsoft.Maui.Controls.FontAttributes titleFontAttributes)
+        where T : ITitleBar
+    {
+        //titleBar.TitleFontAttributes = titleFontAttributes;
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.TitleFontAttributesProperty, titleFontAttributes);
+        return titleBar;
+    }
+
+    public static T TitleBarTitleFontAttributes<T>(this T titleBar, Microsoft.Maui.Controls.FontAttributes titleFontAttributes)
+        where T : Component
+    {
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.TitleFontAttributesProperty, titleFontAttributes);
+        return titleBar;
+    }
+
+    public static T TitleFontAttributes<T>(this T titleBar, Func<Microsoft.Maui.Controls.FontAttributes> titleFontAttributesFunc, IComponentWithState? componentWithState = null)
+        where T : ITitleBar
+    {
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.TitleFontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(titleFontAttributesFunc, componentWithState));
+        return titleBar;
+    }
+
+    public static T TitleBarTitleFontAttributes<T>(this T titleBar, Func<Microsoft.Maui.Controls.FontAttributes> titleFontAttributesFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        titleBar.SetProperty(Microsoft.Maui.Controls.TitleBar.TitleFontAttributesProperty, new PropertyValue<Microsoft.Maui.Controls.FontAttributes>(titleFontAttributesFunc, componentWithState));
+        return titleBar;
+    }
 }
 
 public static partial class TitleBarStyles

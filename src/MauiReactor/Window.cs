@@ -837,6 +837,35 @@ public static partial class WindowExtensions
         return window;
     }
 
+    public static T StatusBarTheme<T>(this T window, Microsoft.Maui.StatusBarTheme statusBarTheme)
+        where T : IWindow
+    {
+        //window.StatusBarTheme = statusBarTheme;
+        window.SetProperty(Microsoft.Maui.Controls.Window.StatusBarThemeProperty, statusBarTheme);
+        return window;
+    }
+
+    public static T WindowStatusBarTheme<T>(this T window, Microsoft.Maui.StatusBarTheme statusBarTheme)
+        where T : Component
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.StatusBarThemeProperty, statusBarTheme);
+        return window;
+    }
+
+    public static T StatusBarTheme<T>(this T window, Func<Microsoft.Maui.StatusBarTheme> statusBarThemeFunc, IComponentWithState? componentWithState = null)
+        where T : IWindow
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.StatusBarThemeProperty, new PropertyValue<Microsoft.Maui.StatusBarTheme>(statusBarThemeFunc, componentWithState));
+        return window;
+    }
+
+    public static T WindowStatusBarTheme<T>(this T window, Func<Microsoft.Maui.StatusBarTheme> statusBarThemeFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        window.SetProperty(Microsoft.Maui.Controls.Window.StatusBarThemeProperty, new PropertyValue<Microsoft.Maui.StatusBarTheme>(statusBarThemeFunc, componentWithState));
+        return window;
+    }
+
     public static T OnSizeChanged<T>(this T window, Action? sizeChangedAction)
         where T : IWindow
     {
