@@ -1,7 +1,8 @@
 # MauiReactor
 ## Component-based UI Library built on top of .NET MAUI
 
-[![Nuget](https://img.shields.io/nuget/v/Reactor.Maui)](https://www.nuget.org/packages/Reactor.Maui) 
+[![MauiReactor 5 (beta)](https://img.shields.io/nuget/vpre/Reactor.Maui?label=MauiReactor%205&color=orange)](https://www.nuget.org/packages/Reactor.Maui/absoluteLatest)
+[![MauiReactor 4](https://img.shields.io/nuget/v/Reactor.Maui)](https://www.nuget.org/packages/Reactor.Maui) 
 
 MauiReactor is .NET library written on top of .NET MAUI that allows you to write applications in pure C# using an MVU approach.
 
