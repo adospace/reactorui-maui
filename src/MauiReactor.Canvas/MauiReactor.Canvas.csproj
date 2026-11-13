@@ -20,7 +20,6 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 
 
-		<Version>0.0.1-beta</Version>
 		<Authors>adospace</Authors>
 		<Description>MauiReactor.CanvasKit is MauiReactor plugin that let you author custom controls using drawing commands in a declarative approach (similar to react-native-skia).</Description>
 		<Copyright>Adolfo Marinucci</Copyright>

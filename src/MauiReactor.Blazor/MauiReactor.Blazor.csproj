@@ -20,7 +20,6 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 
 
-    <Version>0.0.1-beta</Version>
     <Authors>adospace</Authors>
     <Description>MauiReactor.Blazor is MauiReactor plugin that let you add BlazorWebView in your MauiReactor application.</Description>
     <Copyright>Adolfo Marinucci</Copyright>
