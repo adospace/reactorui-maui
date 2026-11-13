@@ -102,6 +102,17 @@ jobs:
       with:
         user: adospace
 
+    # Push each package by full path: `dotnet nuget push` does not expand a wildcard in an absolute
+    # Windows path (it reported "File does not exist (...artifacts/*.nupkg)" and pushed nothing).
     - name: Push packages to NuGet.org
       if: steps.version.outputs.publish == 'true'
-      run: dotnet nuget push "$env:Package_Output/*.nupkg" -k ${{ steps.nuget-login.outputs.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
+      shell: pwsh
+      env:
+        NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+      run: |
+        $packages = Get-ChildItem -Path $env:Package_Output -Filter *.nupkg
+        if ($packages.Count -eq 0) { throw "No packages found in $env:Package_Output" }
+        foreach ($package in $packages) {
+          dotnet nuget push $package.FullName -k $env:NUGET_API_KEY -s https://api.nuget.org/v3/index.json --skip-duplicate
+          if ($LASTEXITCODE -ne 0) { throw "Failed to push $($package.Name)" }
+        }
