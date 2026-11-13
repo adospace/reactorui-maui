@@ -136,6 +136,35 @@ public static partial class BoxViewExtensions
         boxView.AppendAnimatable(Microsoft.Maui.Controls.BoxView.CornerRadiusProperty, customAnimation ?? new RxSimpleCornerRadiusAnimation(new CornerRadius(topLeft, topRight, bottomLeft, bottomRight)));
         return boxView;
     }
+
+    public static T Fill<T>(this T boxView, Microsoft.Maui.Controls.Brush fill)
+        where T : IBoxView
+    {
+        //boxView.Fill = fill;
+        boxView.SetProperty(Microsoft.Maui.Controls.BoxView.FillProperty, fill);
+        return boxView;
+    }
+
+    public static T BoxViewFill<T>(this T boxView, Microsoft.Maui.Controls.Brush fill)
+        where T : Component
+    {
+        boxView.SetProperty(Microsoft.Maui.Controls.BoxView.FillProperty, fill);
+        return boxView;
+    }
+
+    public static T Fill<T>(this T boxView, Func<Microsoft.Maui.Controls.Brush> fillFunc, IComponentWithState? componentWithState = null)
+        where T : IBoxView
+    {
+        boxView.SetProperty(Microsoft.Maui.Controls.BoxView.FillProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(fillFunc, componentWithState));
+        return boxView;
+    }
+
+    public static T BoxViewFill<T>(this T boxView, Func<Microsoft.Maui.Controls.Brush> fillFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        boxView.SetProperty(Microsoft.Maui.Controls.BoxView.FillProperty, new PropertyValue<Microsoft.Maui.Controls.Brush>(fillFunc, componentWithState));
+        return boxView;
+    }
 }
 
 public static partial class BoxViewStyles

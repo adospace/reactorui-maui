@@ -164,6 +164,64 @@ public static partial class SwipeItemExtensions
         return swipeItem;
     }
 
+    public static T IconColor<T>(this T swipeItem, Microsoft.Maui.Graphics.Color iconColor)
+        where T : ISwipeItem
+    {
+        //swipeItem.IconColor = iconColor;
+        swipeItem.SetProperty(Microsoft.Maui.Controls.SwipeItem.IconColorProperty, iconColor);
+        return swipeItem;
+    }
+
+    public static T SwipeItemIconColor<T>(this T swipeItem, Microsoft.Maui.Graphics.Color iconColor)
+        where T : Component
+    {
+        swipeItem.SetProperty(Microsoft.Maui.Controls.SwipeItem.IconColorProperty, iconColor);
+        return swipeItem;
+    }
+
+    public static T IconColor<T>(this T swipeItem, Func<Microsoft.Maui.Graphics.Color> iconColorFunc, IComponentWithState? componentWithState = null)
+        where T : ISwipeItem
+    {
+        swipeItem.SetProperty(Microsoft.Maui.Controls.SwipeItem.IconColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(iconColorFunc, componentWithState));
+        return swipeItem;
+    }
+
+    public static T SwipeItemIconColor<T>(this T swipeItem, Func<Microsoft.Maui.Graphics.Color> iconColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        swipeItem.SetProperty(Microsoft.Maui.Controls.SwipeItem.IconColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(iconColorFunc, componentWithState));
+        return swipeItem;
+    }
+
+    public static T TextColor<T>(this T swipeItem, Microsoft.Maui.Graphics.Color textColor)
+        where T : ISwipeItem
+    {
+        //swipeItem.TextColor = textColor;
+        swipeItem.SetProperty(Microsoft.Maui.Controls.SwipeItem.TextColorProperty, textColor);
+        return swipeItem;
+    }
+
+    public static T SwipeItemTextColor<T>(this T swipeItem, Microsoft.Maui.Graphics.Color textColor)
+        where T : Component
+    {
+        swipeItem.SetProperty(Microsoft.Maui.Controls.SwipeItem.TextColorProperty, textColor);
+        return swipeItem;
+    }
+
+    public static T TextColor<T>(this T swipeItem, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
+        where T : ISwipeItem
+    {
+        swipeItem.SetProperty(Microsoft.Maui.Controls.SwipeItem.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
+        return swipeItem;
+    }
+
+    public static T SwipeItemTextColor<T>(this T swipeItem, Func<Microsoft.Maui.Graphics.Color> textColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        swipeItem.SetProperty(Microsoft.Maui.Controls.SwipeItem.TextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(textColorFunc, componentWithState));
+        return swipeItem;
+    }
+
     public static T OnInvoked<T>(this T swipeItem, Action? invokedAction)
         where T : ISwipeItem
     {

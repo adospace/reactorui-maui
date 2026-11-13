@@ -299,7 +299,7 @@ public static partial class PageExtensions
         return page;
     }
 
-    [Obsolete("Page.IsBusy has been deprecated and will be removed in .NET 11")]
+    [Obsolete("Page.IsBusy is obsolete and has no replacement. Remove usage. This property will be removed in a future release.")]
     public static T IsBusy<T>(this T page, bool isBusy)
         where T : IPage
     {
@@ -308,7 +308,7 @@ public static partial class PageExtensions
         return page;
     }
 
-    [Obsolete("Page.IsBusy has been deprecated and will be removed in .NET 11")]
+    [Obsolete("Page.IsBusy is obsolete and has no replacement. Remove usage. This property will be removed in a future release.")]
     public static T PageIsBusy<T>(this T page, bool isBusy)
         where T : Component
     {
@@ -316,7 +316,7 @@ public static partial class PageExtensions
         return page;
     }
 
-    [Obsolete("Page.IsBusy has been deprecated and will be removed in .NET 11")]
+    [Obsolete("Page.IsBusy is obsolete and has no replacement. Remove usage. This property will be removed in a future release.")]
     public static T IsBusy<T>(this T page, Func<bool> isBusyFunc, IComponentWithState? componentWithState = null)
         where T : IPage
     {
@@ -324,7 +324,7 @@ public static partial class PageExtensions
         return page;
     }
 
-    [Obsolete("Page.IsBusy has been deprecated and will be removed in .NET 11")]
+    [Obsolete("Page.IsBusy is obsolete and has no replacement. Remove usage. This property will be removed in a future release.")]
     public static T PageIsBusy<T>(this T page, Func<bool> isBusyFunc, IComponentWithState? componentWithState = null)
         where T : Component
     {

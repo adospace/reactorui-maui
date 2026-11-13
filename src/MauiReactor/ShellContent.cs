@@ -58,6 +58,34 @@ public partial class ShellContent : ShellContent<Microsoft.Maui.Controls.ShellCo
 
 public static partial class ShellContentExtensions
 {
+    public static T QueryString<T>(this T shellContent, string queryString)
+        where T : IShellContent
+    {
+        //shellContent.QueryString = queryString;
+        shellContent.SetProperty(Microsoft.Maui.Controls.ShellContent.QueryStringProperty, queryString);
+        return shellContent;
+    }
+
+    public static T ShellContentQueryString<T>(this T shellContent, string queryString)
+        where T : Component
+    {
+        shellContent.SetProperty(Microsoft.Maui.Controls.ShellContent.QueryStringProperty, queryString);
+        return shellContent;
+    }
+
+    public static T QueryString<T>(this T shellContent, Func<string> queryStringFunc, IComponentWithState? componentWithState = null)
+        where T : IShellContent
+    {
+        shellContent.SetProperty(Microsoft.Maui.Controls.ShellContent.QueryStringProperty, new PropertyValue<string>(queryStringFunc, componentWithState));
+        return shellContent;
+    }
+
+    public static T ShellContentQueryString<T>(this T shellContent, Func<string> queryStringFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        shellContent.SetProperty(Microsoft.Maui.Controls.ShellContent.QueryStringProperty, new PropertyValue<string>(queryStringFunc, componentWithState));
+        return shellContent;
+    }
 }
 
 public static partial class ShellContentStyles

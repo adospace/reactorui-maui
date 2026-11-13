@@ -426,6 +426,93 @@ public static partial class BaseShellItemExtensions
         return baseShellItem;
     }
 
+    public static T BadgeText<T>(this T baseShellItem, string badgeText)
+        where T : IBaseShellItem
+    {
+        //baseShellItem.BadgeText = badgeText;
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.BadgeTextProperty, badgeText);
+        return baseShellItem;
+    }
+
+    public static T BaseShellItemBadgeText<T>(this T baseShellItem, string badgeText)
+        where T : Component
+    {
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.BadgeTextProperty, badgeText);
+        return baseShellItem;
+    }
+
+    public static T BadgeText<T>(this T baseShellItem, Func<string> badgeTextFunc, IComponentWithState? componentWithState = null)
+        where T : IBaseShellItem
+    {
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.BadgeTextProperty, new PropertyValue<string>(badgeTextFunc, componentWithState));
+        return baseShellItem;
+    }
+
+    public static T BaseShellItemBadgeText<T>(this T baseShellItem, Func<string> badgeTextFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.BadgeTextProperty, new PropertyValue<string>(badgeTextFunc, componentWithState));
+        return baseShellItem;
+    }
+
+    public static T BadgeColor<T>(this T baseShellItem, Microsoft.Maui.Graphics.Color badgeColor)
+        where T : IBaseShellItem
+    {
+        //baseShellItem.BadgeColor = badgeColor;
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.BadgeColorProperty, badgeColor);
+        return baseShellItem;
+    }
+
+    public static T BaseShellItemBadgeColor<T>(this T baseShellItem, Microsoft.Maui.Graphics.Color badgeColor)
+        where T : Component
+    {
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.BadgeColorProperty, badgeColor);
+        return baseShellItem;
+    }
+
+    public static T BadgeColor<T>(this T baseShellItem, Func<Microsoft.Maui.Graphics.Color> badgeColorFunc, IComponentWithState? componentWithState = null)
+        where T : IBaseShellItem
+    {
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.BadgeColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(badgeColorFunc, componentWithState));
+        return baseShellItem;
+    }
+
+    public static T BaseShellItemBadgeColor<T>(this T baseShellItem, Func<Microsoft.Maui.Graphics.Color> badgeColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.BadgeColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(badgeColorFunc, componentWithState));
+        return baseShellItem;
+    }
+
+    public static T BadgeTextColor<T>(this T baseShellItem, Microsoft.Maui.Graphics.Color badgeTextColor)
+        where T : IBaseShellItem
+    {
+        //baseShellItem.BadgeTextColor = badgeTextColor;
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.BadgeTextColorProperty, badgeTextColor);
+        return baseShellItem;
+    }
+
+    public static T BaseShellItemBadgeTextColor<T>(this T baseShellItem, Microsoft.Maui.Graphics.Color badgeTextColor)
+        where T : Component
+    {
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.BadgeTextColorProperty, badgeTextColor);
+        return baseShellItem;
+    }
+
+    public static T BadgeTextColor<T>(this T baseShellItem, Func<Microsoft.Maui.Graphics.Color> badgeTextColorFunc, IComponentWithState? componentWithState = null)
+        where T : IBaseShellItem
+    {
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.BadgeTextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(badgeTextColorFunc, componentWithState));
+        return baseShellItem;
+    }
+
+    public static T BaseShellItemBadgeTextColor<T>(this T baseShellItem, Func<Microsoft.Maui.Graphics.Color> badgeTextColorFunc, IComponentWithState? componentWithState = null)
+        where T : Component
+    {
+        baseShellItem.SetProperty(Microsoft.Maui.Controls.BaseShellItem.BadgeTextColorProperty, new PropertyValue<Microsoft.Maui.Graphics.Color>(badgeTextColorFunc, componentWithState));
+        return baseShellItem;
+    }
+
     public static T OnAppearing<T>(this T baseShellItem, Action? appearingAction)
         where T : IBaseShellItem
     {
