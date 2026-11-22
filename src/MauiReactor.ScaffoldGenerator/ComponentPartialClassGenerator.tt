@@ -11,6 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace <#= _classItem.Namespace #>
 {
+	<# foreach (var containerDeclaration in _classItem.ContainingTypeDeclarations) { #>
+	<#= containerDeclaration #>
+	{
+	<# } #>
+
 	partial class <#= _classItem.FullyQualifiedClassName #>
 	{
 		<# if (GetInjectFields().Any() || GetParameterFields().Any()) { #>
@@ -38,4 +43,7 @@ namespace <#= _classItem.Namespace #>
 		}
 		<# } #>
 	}
+	<# foreach (var containerDeclaration in _classItem.ContainingTypeDeclarations) { #>
+	}
+	<# } #>
 }
