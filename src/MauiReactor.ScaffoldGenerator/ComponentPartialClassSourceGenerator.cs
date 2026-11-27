@@ -299,12 +299,14 @@ public class GeneratorClassItem
         Namespace = @namespace;
         ClassName = symbol.Name;
         FullyQualifiedClassName = symbol.GetFullyQualifiedTypeName();
+        ContainingTypeDeclarations = symbol.GetContainingTypeDeclarations();
         GeneratingClassName = generatingClassName;
     }
 
     public string Namespace { get; }
     public string ClassName { get; }
     public string FullyQualifiedClassName { get; }
+    public IReadOnlyList<string> ContainingTypeDeclarations { get; }
     public Dictionary<string, GeneratorFieldItem> FieldItems { get; } = new();
     public string GeneratingClassName { get; }
 }

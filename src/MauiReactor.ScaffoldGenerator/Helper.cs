@@ -83,8 +83,9 @@ static class Helper
         // Get the name of the class
         string className = namedTypeSymbol.Name;
 
-        // Check if the class is generic
-        if (namedTypeSymbol.IsGenericType)
+        // A type nested inside a generic type reports IsGenericType, but declares no type
+        // parameters of its own; only the ones it actually declares belong on its name.
+        if (namedTypeSymbol.TypeParameters.Length > 0)
         {
             // Construct the generic type parameter list (e.g., "<T>")
             string typeParameters = string.Join(", ", namedTypeSymbol.TypeParameters.Select(p => p.Name));
@@ -95,6 +96,45 @@ static class Helper
             // If it's not a generic type, just return the class name
             return className;
         }
+    }
+
+    /// <summary>
+    /// Partial declarations that re-open every type containing
+    /// <paramref name="namedTypeSymbol"/>, outermost first.
+    /// A component declared inside another type must have its generated half declared inside
+    /// that same type too: emitted at namespace level it becomes a different, unrelated class,
+    /// so the fields the generated code assigns are not the ones the user declared.
+    /// </summary>
+    public static IReadOnlyList<string> GetContainingTypeDeclarations(this INamedTypeSymbol namedTypeSymbol)
+    {
+        var declarations = new List<string>();
+
+        for (var containingType = namedTypeSymbol.ContainingType; containingType is not null; containingType = containingType.ContainingType)
+        {
+            declarations.Insert(0, containingType.GetPartialDeclaration());
+        }
+
+        return declarations;
+    }
+
+    private static string GetPartialDeclaration(this INamedTypeSymbol namedTypeSymbol)
+    {
+        // Only the kind has to match: accessibility, static/abstract/sealed and constraints
+        // may differ between partial declarations of the same type.
+        var kind = namedTypeSymbol.TypeKind switch
+        {
+            TypeKind.Interface => "interface",
+            TypeKind.Struct when namedTypeSymbol.IsRecord => "record struct",
+            TypeKind.Struct => "struct",
+            _ when namedTypeSymbol.IsRecord => "record",
+            _ => "class",
+        };
+
+        var typeParameters = namedTypeSymbol.TypeParameters.Length == 0
+            ? string.Empty
+            : $"<{string.Join(", ", namedTypeSymbol.TypeParameters.Select(_ => _.Name))}>";
+
+        return $"partial {kind} {namedTypeSymbol.Name}{typeParameters}";
     }
 
     public static bool IsNewModifierUsed(this IFieldSymbol fieldSymbol)
