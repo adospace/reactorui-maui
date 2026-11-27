@@ -3,6 +3,7 @@ using MauiReactor.Internals;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Platform;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MauiReactor;
 
@@ -149,6 +150,12 @@ public partial class Shell<T> : IEnumerable
             base.OnBindingContextChanged();
         }
 
+        // A Shell MenuItem reaches the template wrapped in MAUI's internal MenuShellItem, whose public
+        // MenuItem property is the only way back to it. Keep that property through trimming and NativeAOT;
+        // TestTrimmingContracts checks the type and property still exist in the referenced MAUI version.
+        [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, "Microsoft.Maui.Controls.MenuShellItem", "Microsoft.Maui.Controls")]
+        [UnconditionalSuppressMessage("Trimming", "IL2075",
+            Justification = "MenuShellItem.MenuItem is preserved by the DynamicDependency above.")]
         internal void UpdateLayout()
         {
             var item = BindingContext;

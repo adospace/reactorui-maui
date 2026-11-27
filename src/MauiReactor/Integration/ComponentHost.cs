@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.InteropServices.JavaScript;
 using System.Text;
@@ -211,7 +212,7 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
             _listOfVisualsToAnimate.AddFirst(visualNode);
         }
 
-        public void SetupComponent(Type? componentType)
+        public void SetupComponent([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] Type? componentType)
         {
             var thisAsHostElement = (IHostElement)this;
             thisAsHostElement.Stop();
@@ -240,11 +241,19 @@ public class ComponentHost : Microsoft.Maui.Controls.ContentView
     private readonly ComponentHostNode _componentHostNode;
 
     public static readonly BindableProperty ComponentProperty = BindableProperty.Create(nameof(Component), typeof(Type), typeof(ComponentHost), null,
-            propertyChanged: new BindableProperty.BindingPropertyChangedDelegate((bindableObject, oldValue, newValue) =>
-            {
-                var componentHost = (ComponentHost)bindableObject;
-                componentHost._componentHostNode.SetupComponent((Type?)newValue);
-            }));
+            propertyChanged: OnComponentChanged);
+
+    // The component type arrives as object through a BindableProperty (typically from XAML:
+    // Component="{x:Type local:MyComponent}"), and trim annotations cannot flow through BindableProperty
+    // values. The type itself is referenced by the app, but under full trimming or NativeAOT its
+    // parameterless constructor is only guaranteed if the app keeps it - see the ComponentHost docs.
+    [UnconditionalSuppressMessage("Trimming", "IL2067",
+        Justification = "Hosted component types are supplied by the app; annotations cannot flow through BindableProperty values.")]
+    private static void OnComponentChanged(BindableObject bindableObject, object? oldValue, object? newValue)
+    {
+        var componentHost = (ComponentHost)bindableObject;
+        componentHost._componentHostNode.SetupComponent((Type?)newValue);
+    }
 
     public ComponentHost()
     {

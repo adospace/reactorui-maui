@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,8 @@ public partial interface IGenericMultiPage
 }
 
 
-public abstract partial class MultiPage<T, TChild> : Page<T>, ICustomDataTemplateOwner, IGenericMultiPage where T : Microsoft.Maui.Controls.MultiPage<TChild>, new()
+// Microsoft.Maui.Controls.MultiPage<T> requires these members on its page type; declare the same requirement so it flows to callers.
+public abstract partial class MultiPage<T, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor | DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.PublicProperties)] TChild> : Page<T>, ICustomDataTemplateOwner, IGenericMultiPage where T : Microsoft.Maui.Controls.MultiPage<TChild>, new()
     where TChild : Microsoft.Maui.Controls.Page
 {
     private List<WeakReference<VisualNode>>? _loadedForciblyChildren;

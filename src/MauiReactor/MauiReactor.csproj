@@ -30,6 +30,23 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
+	<!--
+		Reactor.Maui is trim- and NativeAOT-compatible: apps that opt into full trimming or NativeAOT get no
+		warnings from it. With TreatWarningsAsErrors any new trim/AOT-unsafe code fails the build.
+
+		Microsoft.Maui.Controls.Common.targets (buildTransitive in Microsoft.Maui.Controls.Build.Tasks) forces
+		EnableTrimAnalyzer=false / SuppressTrimAnalysisWarnings=true for any project that is not a NativeAOT or
+		TrimMode=full publish, overriding the values below. _MauiDoNotConfigureTrimAnalyzer is the opt-out
+		those targets check; without it the analyzer silently reports nothing.
+	-->
+	<PropertyGroup>
+		<_MauiDoNotConfigureTrimAnalyzer>true</_MauiDoNotConfigureTrimAnalyzer>
+		<IsTrimmable>true</IsTrimmable>
+		<IsAotCompatible>true</IsAotCompatible>
+		<EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+		<SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="11.0.10" />
 	</ItemGroup>
