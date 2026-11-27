@@ -1,5 +1,6 @@
 ﻿using MauiReactor.Internals;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace MauiReactor;
 
-public partial class NavigationPage<T>
+// T is created with Activator.CreateInstance(typeof(T), rootPage) in OnAddChild, so its constructors must survive trimming.
+public partial class NavigationPage<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>
 {
     public NavigationPage(VisualNode content)
     {

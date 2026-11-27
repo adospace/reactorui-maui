@@ -8,14 +8,16 @@ namespace MauiReactor.Internals
     {
         private INavigation _nativeNavigation;
 
-        private IEnumerable<Microsoft.Maui.Controls.Page> _pages;
+        // A concrete List (not an array behind IEnumerable<T>): on Windows, CsWinRT's AOT analyzer flags
+        // arrays converted to generic collection interfaces (CsWinRT1030).
+        private List<Microsoft.Maui.Controls.Page> _pages;
 
         private readonly List<WeakReference<IComponentNavigationStackEventHandler>> _eventHandlers = [];
 
         public ComponentNavigationStack(INavigation nativeNavigation)
         {
             _nativeNavigation = nativeNavigation;
-            _pages = nativeNavigation.ModalStack.Concat(nativeNavigation.NavigationStack).Distinct().ToArray();
+            _pages = new List<Microsoft.Maui.Controls.Page>(nativeNavigation.ModalStack.Concat(nativeNavigation.NavigationStack).Distinct());
         }
 
         public void RegisterEventHandler(IComponentNavigationStackEventHandler eventHandler)
@@ -54,8 +56,9 @@ namespace MauiReactor.Internals
                 }
             }
             // Check for popped pages
-            foreach (var page in _pages.Reverse())
+            for (var i = _pages.Count - 1; i >= 0; i--)
             {
+                var page = _pages[i];
                 if (!currentPages.Contains(page))
                 {
                     // Page popped
